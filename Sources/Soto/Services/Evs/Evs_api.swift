@@ -117,7 +117,48 @@ public struct Evs: AWSService {
         return try await self.associateEipToVlan(input, logger: logger)
     }
 
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs.  When creating a new environment, the default ESX version for the selected VCF version will be used, you cannot choose a specific ESX version in CreateEnvironment action. When a host has been added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
+    /// Creates a Windows Server License entitlement for virtual machines in an Amazon EVS environment using the provided vCenter Server connector. This is an asynchronous operation. Amazon EVS validates the specified virtual machines before starting usage tracking.
+    @Sendable
+    @inlinable
+    public func createEntitlement(_ input: CreateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEntitlementResponse {
+        try await self.client.execute(
+            operation: "CreateEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Windows Server License entitlement for virtual machines in an Amazon EVS environment using the provided vCenter Server connector. This is an asynchronous operation. Amazon EVS validates the specified virtual machines before starting usage tracking.
+    ///
+    /// Parameters:
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - connectorId: A unique ID for the connector associated with the entitlement.
+    ///   - entitlementType: The type of entitlement to create.
+    ///   - environmentId: A unique ID for the environment to create the entitlement in.
+    ///   - vmIds: The list of VMware vSphere virtual machine managed object IDs to create entitlements for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEntitlement(
+        clientToken: String? = CreateEntitlementRequest.idempotencyToken(),
+        connectorId: String,
+        entitlementType: EntitlementType,
+        environmentId: String,
+        vmIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEntitlementResponse {
+        let input = CreateEntitlementRequest(
+            clientToken: clientToken, 
+            connectorId: connectorId, 
+            entitlementType: entitlementType, 
+            environmentId: environmentId, 
+            vmIds: vmIds
+        )
+        return try await self.createEntitlement(input, logger: logger)
+    }
+
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server.  When you specify SELF_DEPLOYED for vcfVersion, Amazon EVS provisions only the VLAN subnets; no hosts are added and no VCF installation is performed. After the environment is created, you can add hosts with CreateEnvironmentHost and install VCF yourself. The licenseInfo, hosts, vcfHostnames, siteId, and connectivityInfo parameters are not supported in this mode.  When you specify any other VCF version, Amazon EVS installs and configures VCF for you. For more information, see Self-deployed mode in the Amazon EVS User Guide.  When Amazon EVS installs VCF, the default ESX version for the selected VCF version will be used. After a host is added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     @Sendable
     @inlinable
     public func createEnvironment(_ input: CreateEnvironmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentResponse {
@@ -130,40 +171,40 @@ public struct Evs: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs.  When creating a new environment, the default ESX version for the selected VCF version will be used, you cannot choose a specific ESX version in CreateEnvironment action. When a host has been added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server.  When you specify SELF_DEPLOYED for vcfVersion, Amazon EVS provisions only the VLAN subnets; no hosts are added and no VCF installation is performed. After the environment is created, you can add hosts with CreateEnvironmentHost and install VCF yourself. The licenseInfo, hosts, vcfHostnames, siteId, and connectivityInfo parameters are not supported in this mode.  When you specify any other VCF version, Amazon EVS installs and configures VCF for you. For more information, see Self-deployed mode in the Amazon EVS User Guide.  When Amazon EVS installs VCF, the default ESX version for the selected VCF version will be used. After a host is added with a specific ESX version, it can only be upgraded using vCenter Lifecycle Manager.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
     /// Parameters:
     ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
-    ///   - connectivityInfo:  The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
+    ///   - connectivityInfo: The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.  Not supported when vcfVersion is SELF_DEPLOYED.
     ///   - environmentName: The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
-    ///   - hosts: The ESX hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+    ///   - hosts: The ESX hosts to add to the environment. For each host, provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, provide a partition or cluster placement group, or use Amazon EC2 Dedicated Hosts.  Not supported when vcfVersion is SELF_DEPLOYED. In that case, you can add hosts using CreateEnvironmentHost after the environment is created.
     ///   - initialVlans: The initial VLAN subnets for the Amazon EVS environment.  For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     ///   - kmsKeyId: A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
-    ///   - licenseInfo: The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
+    ///   - licenseInfo: The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must meet minimum core requirements, and the vSAN license key must meet minimum capacity requirements for your selected instance type. For information about minimum license requirements, see the VCF subscriptions section in the Amazon EVS User Guide. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.  Not supported when vcfVersion is SELF_DEPLOYED.
     ///   - serviceAccessSecurityGroups: The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.   TCP/UDP access to the DNS servers   HTTPS/SSH access to the host management VLAN subnet   HTTPS/SSH access to the Management VM VLAN subnet   You should avoid modifying the security group rules after deployment, as this can break the persistent connection between the Amazon EVS control plane and VPC. This can cause future environment actions like adding or removing hosts to fail.
-    ///   - serviceAccessSubnetId: The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. Amazon EVS uses this subnet to validate mandatory DNS records for your VCF appliances and hosts and create the environment.
-    ///   - siteId: The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.
+    ///   - serviceAccessSubnetId: The subnet that is used to establish connectivity between the Amazon EVS control plane and VPC. The Amazon EVS control plane uses this subnet to interface with your environment. This includes validating DNS records and enabling Amazon EVS Connectors.
+    ///   - siteId: The Broadcom Site ID that is allocated to you as part of your electronic software delivery. This ID allows customer access to the Broadcom portal, and is provided to you by Broadcom at the close of your software contract or contract renewal. Amazon EVS uses the Broadcom Site ID that you provide to meet Broadcom VCF license usage reporting requirements for Amazon EVS.  Not supported when vcfVersion is SELF_DEPLOYED.
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
-    ///   - termsAccepted: Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
-    ///   - vcfHostnames: The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
-    ///   - vcfVersion:  The VCF version to use for the environment.
+    ///   - termsAccepted: Confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
+    ///   - vcfHostnames: The DNS hostnames for the virtual machines that host the VCF management appliances. Provide hostnames for vCenter, NSX Manager, SDDC Manager, and Cloud Builder.  Not supported when vcfVersion is SELF_DEPLOYED.
+    ///   - vcfVersion: The VCF version to use for the environment.    SELF_DEPLOYED: You install VCF yourself. The licenseInfo, hosts, vcfHostnames, siteId, and connectivityInfo parameters are not supported.   Any other valid value: Amazon EVS installs and configures VCF for you in the version you specify.
     ///   - vpcId: A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the Amazon EVS subnets.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEnvironment(
         clientToken: String? = CreateEnvironmentRequest.idempotencyToken(),
-        connectivityInfo: ConnectivityInfo,
+        connectivityInfo: ConnectivityInfo? = nil,
         environmentName: String? = nil,
-        hosts: [HostInfoForCreate],
+        hosts: [HostInfoForCreate]? = nil,
         initialVlans: InitialVlans,
         kmsKeyId: String? = nil,
-        licenseInfo: [LicenseInfo],
+        licenseInfo: [LicenseInfo]? = nil,
         serviceAccessSecurityGroups: ServiceAccessSecurityGroups? = nil,
         serviceAccessSubnetId: String,
-        siteId: String,
+        siteId: String? = nil,
         tags: [String: String]? = nil,
         termsAccepted: Bool,
-        vcfHostnames: VcfHostnames,
+        vcfHostnames: VcfHostnames? = nil,
         vcfVersion: VcfVersion,
         vpcId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -188,7 +229,48 @@ public struct Evs: AWSService {
         return try await self.createEnvironment(input, logger: logger)
     }
 
-    /// Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the default ESX version associated with your environment's VCF version. To find the default ESX version for a particular VCF version, use the GetVersions action.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
+    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For environments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically.  Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance.
+    @Sendable
+    @inlinable
+    public func createEnvironmentConnector(_ input: CreateEnvironmentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentConnectorResponse {
+        try await self.client.execute(
+            operation: "CreateEnvironmentConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connector for an Amazon EVS environment. A connector allows the Amazon EVS control plane to interface with VCF appliances using a fully qualified domain name. You can create only one connector of each type per environment. For environments where Amazon EVS installs VCF, the SDDC_MANAGER connector is created automatically.  Amazon EVS requires an active connector to SDDC Manager or VCF Operations Manager to monitor environment health and license compliance.
+    ///
+    /// Parameters:
+    ///   - applianceFqdn: The fully qualified domain name (FQDN) of the VCF appliance that the connector targets.
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - environmentId: A unique ID for the environment to create the connector in.
+    ///   - secretIdentifier: The ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance. SDDC_MANAGER requires an apiKey field; OPERATIONS_MANAGER and VCENTER require username and password fields.  Do not use credentials with Administrator privileges. We recommend using a service account with read-only permissions.
+    ///   - type: The type of connector to create.    OPERATIONS_MANAGER: Connector to an Operations Manager appliance. Required for VCF 9x environments.    SDDC_MANAGER: Connector to an SDDC Manager appliance. Required for VCF 5.x environments.    VCENTER: Connector to a vCenter Server appliance. Required for features that depend on vCenter, such as Windows Server license-included.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEnvironmentConnector(
+        applianceFqdn: String,
+        clientToken: String? = CreateEnvironmentConnectorRequest.idempotencyToken(),
+        environmentId: String,
+        secretIdentifier: String,
+        type: ConnectorType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEnvironmentConnectorResponse {
+        let input = CreateEnvironmentConnectorRequest(
+            applianceFqdn: applianceFqdn, 
+            clientToken: clientToken, 
+            environmentId: environmentId, 
+            secretIdentifier: secretIdentifier, 
+            type: type
+        )
+        return try await self.createEnvironmentConnector(input, logger: logger)
+    }
+
+    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the default ESX version for your environment's VCF version. To find the available ESX versions for a particular VCF version, use the GetVersions action. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     @Sendable
     @inlinable
     public func createEnvironmentHost(_ input: CreateEnvironmentHostRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnvironmentHostResponse {
@@ -201,7 +283,7 @@ public struct Evs: AWSService {
             logger: logger
         )
     }
-    /// Creates an ESX host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the default ESX version associated with your environment's VCF version. To find the default ESX version for a particular VCF version, use the GetVersions action.   You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
+    /// Creates an ESX host and adds it to an Amazon EVS environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESX host creation.  You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into.  If you don't specify an ESX version when adding hosts using CreateEnvironmentHost action, Amazon EVS automatically uses the default ESX version for your environment's VCF version. To find the available ESX versions for a particular VCF version, use the GetVersions action. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
     /// Parameters:
     ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the host creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -224,6 +306,47 @@ public struct Evs: AWSService {
             host: host
         )
         return try await self.createEnvironmentHost(input, logger: logger)
+    }
+
+    /// Deletes a Windows Server License entitlement for virtual machines in an Amazon EVS environment. Deleting an entitlement stops usage tracking for the specified virtual machines.
+    @Sendable
+    @inlinable
+    public func deleteEntitlement(_ input: DeleteEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEntitlementResponse {
+        try await self.client.execute(
+            operation: "DeleteEntitlement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Windows Server License entitlement for virtual machines in an Amazon EVS environment. Deleting an entitlement stops usage tracking for the specified virtual machines.
+    ///
+    /// Parameters:
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the entitlement deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - connectorId: A unique ID for the connector associated with the entitlement.
+    ///   - entitlementType: The type of entitlement to delete.
+    ///   - environmentId: A unique ID for the environment that the entitlement belongs to.
+    ///   - vmIds: The list of VMware vSphere virtual machine managed object IDs to delete entitlements for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEntitlement(
+        clientToken: String? = DeleteEntitlementRequest.idempotencyToken(),
+        connectorId: String,
+        entitlementType: EntitlementType,
+        environmentId: String,
+        vmIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteEntitlementResponse {
+        let input = DeleteEntitlementRequest(
+            clientToken: clientToken, 
+            connectorId: connectorId, 
+            entitlementType: entitlementType, 
+            environmentId: environmentId, 
+            vmIds: vmIds
+        )
+        return try await self.deleteEntitlement(input, logger: logger)
     }
 
     /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
@@ -256,6 +379,41 @@ public struct Evs: AWSService {
             environmentId: environmentId
         )
         return try await self.deleteEnvironment(input, logger: logger)
+    }
+
+    /// Deletes a connector from an Amazon EVS environment.  Before deleting a connector, you must remove all entitlements that are associated with the same vCenter.
+    @Sendable
+    @inlinable
+    public func deleteEnvironmentConnector(_ input: DeleteEnvironmentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnvironmentConnectorResponse {
+        try await self.client.execute(
+            operation: "DeleteEnvironmentConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a connector from an Amazon EVS environment.  Before deleting a connector, you must remove all entitlements that are associated with the same vCenter.
+    ///
+    /// Parameters:
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector deletion request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - connectorId: A unique ID for the connector to be deleted.
+    ///   - environmentId: A unique ID for the environment that the connector belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEnvironmentConnector(
+        clientToken: String? = DeleteEnvironmentConnectorRequest.idempotencyToken(),
+        connectorId: String,
+        environmentId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteEnvironmentConnectorResponse {
+        let input = DeleteEnvironmentConnectorRequest(
+            clientToken: clientToken, 
+            connectorId: connectorId, 
+            environmentId: environmentId
+        )
+        return try await self.deleteEnvironmentConnector(input, logger: logger)
     }
 
     /// Deletes a host from an Amazon EVS environment.  Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
@@ -331,6 +489,38 @@ public struct Evs: AWSService {
         return try await self.disassociateEipFromVlan(input, logger: logger)
     }
 
+    /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true.
+    @Sendable
+    @inlinable
+    public func getDepotUrl(_ input: GetDepotUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDepotUrlResponse {
+        try await self.client.execute(
+            operation: "GetDepotUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a URL and authentication token for accessing the Amazon EVS Custom Addon depot. Configure the depot URL as a download source in vSphere Lifecycle Manager (vLCM) to sync and install the Amazon EVS Custom Addon. The depot URL remains active until you rotate the authentication token by calling this action with rotate set to true.
+    ///
+    /// Parameters:
+    ///   - environmentId: The unique ID of the Amazon EVS environment to get the depot URL for.
+    ///   - rotate: Revokes the current authentication token and returns a new depot URL with a new token. Previously issued depot URLs will stop working within 5 minutes of rotation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDepotUrl(
+        environmentId: String,
+        rotate: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDepotUrlResponse {
+        let input = GetDepotUrlRequest(
+            environmentId: environmentId, 
+            rotate: rotate
+        )
+        return try await self.getDepotUrl(input, logger: logger)
+    }
+
     /// Returns a description of the specified environment.
     @Sendable
     @inlinable
@@ -384,6 +574,41 @@ public struct Evs: AWSService {
         let input = GetVersionsRequest(
         )
         return try await self.getVersions(input, logger: logger)
+    }
+
+    /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details.
+    @Sendable
+    @inlinable
+    public func listEnvironmentConnectors(_ input: ListEnvironmentConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnvironmentConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListEnvironmentConnectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the connectors within an environment. Returns the status of each connector and its applicable checks, among other connector details.
+    ///
+    /// Parameters:
+    ///   - environmentId: A unique ID for the environment.
+    ///   - maxResults: The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    ///   - nextToken: A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEnvironmentConnectors(
+        environmentId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEnvironmentConnectorsResponse {
+        let input = ListEnvironmentConnectorsRequest(
+            environmentId: environmentId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listEnvironmentConnectors(input, logger: logger)
     }
 
     /// List the hosts within an environment.
@@ -520,6 +745,47 @@ public struct Evs: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Lists the Windows Server License entitlements for virtual machines in an Amazon EVS environment. Returns existing entitlements for virtual machines associated with the specified environment and connector.
+    @Sendable
+    @inlinable
+    public func listVmEntitlements(_ input: ListVmEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVmEntitlementsResponse {
+        try await self.client.execute(
+            operation: "ListVmEntitlements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the Windows Server License entitlements for virtual machines in an Amazon EVS environment. Returns existing entitlements for virtual machines associated with the specified environment and connector.
+    ///
+    /// Parameters:
+    ///   - connectorId: A unique ID for the connector.
+    ///   - entitlementType: The type of entitlement to list.
+    ///   - environmentId: A unique ID for the environment.
+    ///   - maxResults: The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    ///   - nextToken: A unique pagination token for each page. If nextToken is returned, there are more results available. Make the call again using the returned token with all other arguments unchanged to retrieve the next page. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVmEntitlements(
+        connectorId: String,
+        entitlementType: EntitlementType,
+        environmentId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVmEntitlementsResponse {
+        let input = ListVmEntitlementsRequest(
+            connectorId: connectorId, 
+            entitlementType: entitlementType, 
+            environmentId: environmentId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listVmEntitlements(input, logger: logger)
+    }
+
     /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
     @Sendable
     @inlinable
@@ -583,6 +849,47 @@ public struct Evs: AWSService {
         )
         return try await self.untagResource(input, logger: logger)
     }
+
+    /// Updates a connector for an Amazon EVS environment. You can update the Amazon Web Services Secrets Manager secret ARN or the appliance FQDN to reconfigure the connector metadata.  You cannot update both the secret and the FQDN in the same request.
+    @Sendable
+    @inlinable
+    public func updateEnvironmentConnector(_ input: UpdateEnvironmentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnvironmentConnectorResponse {
+        try await self.client.execute(
+            operation: "UpdateEnvironmentConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a connector for an Amazon EVS environment. You can update the Amazon Web Services Secrets Manager secret ARN or the appliance FQDN to reconfigure the connector metadata.  You cannot update both the secret and the FQDN in the same request.
+    ///
+    /// Parameters:
+    ///   - applianceFqdn: The new fully qualified domain name (FQDN) of the VCF appliance that the connector connects to.
+    ///   - clientToken:  This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect.  A unique, case-sensitive identifier that you provide to ensure the idempotency of the connector update request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+    ///   - connectorId: A unique ID for the connector to update.
+    ///   - environmentId: A unique ID for the environment that the connector belongs to.
+    ///   - secretIdentifier: The new ARN or name of the Amazon Web Services Secrets Manager secret that stores the credentials for the VCF appliance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEnvironmentConnector(
+        applianceFqdn: String? = nil,
+        clientToken: String? = UpdateEnvironmentConnectorRequest.idempotencyToken(),
+        connectorId: String,
+        environmentId: String,
+        secretIdentifier: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEnvironmentConnectorResponse {
+        let input = UpdateEnvironmentConnectorRequest(
+            applianceFqdn: applianceFqdn, 
+            clientToken: clientToken, 
+            connectorId: connectorId, 
+            environmentId: environmentId, 
+            secretIdentifier: secretIdentifier
+        )
+        return try await self.updateEnvironmentConnector(input, logger: logger)
+    }
 }
 
 extension Evs {
@@ -598,6 +905,43 @@ extension Evs {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Evs {
+    /// Return PaginatorSequence for operation ``listEnvironmentConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnvironmentConnectorsPaginator(
+        _ input: ListEnvironmentConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentConnectorsRequest, ListEnvironmentConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listEnvironmentConnectors,
+            inputKey: \ListEnvironmentConnectorsRequest.nextToken,
+            outputKey: \ListEnvironmentConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEnvironmentConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - environmentId: A unique ID for the environment.
+    ///   - maxResults: The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnvironmentConnectorsPaginator(
+        environmentId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentConnectorsRequest, ListEnvironmentConnectorsResponse> {
+        let input = ListEnvironmentConnectorsRequest(
+            environmentId: environmentId, 
+            maxResults: maxResults
+        )
+        return self.listEnvironmentConnectorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEnvironmentHosts(_:logger:)``.
     ///
     /// - Parameters:
@@ -708,6 +1052,60 @@ extension Evs {
         )
         return self.listEnvironmentsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listVmEntitlements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVmEntitlementsPaginator(
+        _ input: ListVmEntitlementsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVmEntitlementsRequest, ListVmEntitlementsResponse> {
+        return .init(
+            input: input,
+            command: self.listVmEntitlements,
+            inputKey: \ListVmEntitlementsRequest.nextToken,
+            outputKey: \ListVmEntitlementsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listVmEntitlements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectorId: A unique ID for the connector.
+    ///   - entitlementType: The type of entitlement to list.
+    ///   - environmentId: A unique ID for the environment.
+    ///   - maxResults: The maximum number of results to return. If you specify MaxResults in the request, the response includes information up to the limit specified.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVmEntitlementsPaginator(
+        connectorId: String,
+        entitlementType: EntitlementType,
+        environmentId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListVmEntitlementsRequest, ListVmEntitlementsResponse> {
+        let input = ListVmEntitlementsRequest(
+            connectorId: connectorId, 
+            entitlementType: entitlementType, 
+            environmentId: environmentId, 
+            maxResults: maxResults
+        )
+        return self.listVmEntitlementsPaginator(input, logger: logger)
+    }
+}
+
+extension Evs.ListEnvironmentConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Evs.ListEnvironmentConnectorsRequest {
+        return .init(
+            environmentId: self.environmentId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
 }
 
 extension Evs.ListEnvironmentHostsRequest: AWSPaginateToken {
@@ -739,6 +1137,19 @@ extension Evs.ListEnvironmentsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             state: self.state
+        )
+    }
+}
+
+extension Evs.ListVmEntitlementsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Evs.ListVmEntitlementsRequest {
+        return .init(
+            connectorId: self.connectorId,
+            entitlementType: self.entitlementType,
+            environmentId: self.environmentId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

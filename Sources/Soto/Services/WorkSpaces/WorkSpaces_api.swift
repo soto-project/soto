@@ -326,7 +326,7 @@ public struct WorkSpaces: AWSService {
         return try await self.createAccountLinkInvitation(input, logger: logger)
     }
 
-    /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
+    /// Creates a client-add-in for Connect Customer within a directory. You can create only one Connect Customer client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer.
     @Sendable
     @inlinable
     public func createConnectClientAddIn(_ input: CreateConnectClientAddInRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectClientAddInResult {
@@ -339,12 +339,12 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
+    /// Creates a client-add-in for Connect Customer within a directory. You can create only one Connect Customer client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Connect Customer.
     ///
     /// Parameters:
     ///   - name: The name of the client add-in.
     ///   - resourceId: The directory identifier for which to configure the client add-in.
-    ///   - url: The endpoint URL of the Amazon Connect client add-in.
+    ///   - url: The endpoint URL of the Connect Customer client add-in.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConnectClientAddIn(
@@ -764,7 +764,7 @@ public struct WorkSpaces: AWSService {
         return try await self.deleteClientBranding(input, logger: logger)
     }
 
-    /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
+    /// Deletes a client-add-in for Connect Customer that is configured within a directory.
     @Sendable
     @inlinable
     public func deleteConnectClientAddIn(_ input: DeleteConnectClientAddInRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectClientAddInResult {
@@ -777,7 +777,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
+    /// Deletes a client-add-in for Connect Customer that is configured within a directory.
     ///
     /// Parameters:
     ///   - addInId: The identifier of the client add-in to delete.
@@ -1235,7 +1235,7 @@ public struct WorkSpaces: AWSService {
         return try await self.describeClientProperties(input, logger: logger)
     }
 
-    /// Retrieves a list of Amazon Connect client add-ins that have been created.
+    /// Retrieves a list of Connect Customer client add-ins that have been created.
     @Sendable
     @inlinable
     public func describeConnectClientAddIns(_ input: DescribeConnectClientAddInsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectClientAddInsResult {
@@ -1248,7 +1248,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of Amazon Connect client add-ins that have been created.
+    /// Retrieves a list of Connect Customer client add-ins that have been created.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return.
@@ -2981,7 +2981,7 @@ public struct WorkSpaces: AWSService {
         return try await self.terminateWorkspacesPoolSession(input, logger: logger)
     }
 
-    /// Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.
+    /// Updates a Connect Customer client add-in. Use this action to update the name and endpoint URL of a Connect Customer client add-in.
     @Sendable
     @inlinable
     public func updateConnectClientAddIn(_ input: UpdateConnectClientAddInRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectClientAddInResult {
@@ -2994,13 +2994,13 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.
+    /// Updates a Connect Customer client add-in. Use this action to update the name and endpoint URL of a Connect Customer client add-in.
     ///
     /// Parameters:
     ///   - addInId: The identifier of the client add-in to update.
     ///   - name: The name of the client add-in.
     ///   - resourceId: The directory identifier for which the client add-in is configured.
-    ///   - url: The endpoint URL of the Amazon Connect client add-in.
+    ///   - url: The endpoint URL of the Connect Customer client add-in.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConnectClientAddIn(

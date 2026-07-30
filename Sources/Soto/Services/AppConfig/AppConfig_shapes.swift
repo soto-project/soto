@@ -47,6 +47,12 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeleteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archive = "ARCHIVE"
+        case destroy = "DESTROY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeletionProtectionCheck: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDefault = "ACCOUNT_DEFAULT"
         case apply = "APPLY"
@@ -76,12 +82,39 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case managed = "MANAGED"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnvironmentState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deploying = "DEPLOYING"
         case readyForDeployment = "READY_FOR_DEPLOYMENT"
         case reverted = "REVERTED"
         case rolledBack = "ROLLED_BACK"
         case rollingBack = "ROLLING_BACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExperimentDefinitionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        case idle = "IDLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExperimentRunEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exposureUpdated = "EXPOSURE_UPDATED"
+        case overridesUpdated = "OVERRIDES_UPDATED"
+        case runStarted = "RUN_STARTED"
+        case runStopped = "RUN_STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExperimentRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case done = "DONE"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -111,19 +144,104 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttributeValue: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A Boolean value for the attribute.
+        case booleanValue(Bool)
+        /// An array of numeric values for the attribute.
+        case numberArray([Double])
+        /// A numeric value for the attribute.
+        case numberValue(Double)
+        /// An array of string values for the attribute.
+        case stringArray([String])
+        /// A string value for the attribute.
+        case stringValue(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .booleanValue:
+                let value = try container.decode(Bool.self, forKey: .booleanValue)
+                self = .booleanValue(value)
+            case .numberArray:
+                let value = try container.decode([Double].self, forKey: .numberArray)
+                self = .numberArray(value)
+            case .numberValue:
+                let value = try container.decode(Double.self, forKey: .numberValue)
+                self = .numberValue(value)
+            case .stringArray:
+                let value = try container.decode([String].self, forKey: .stringArray)
+                self = .stringArray(value)
+            case .stringValue:
+                let value = try container.decode(String.self, forKey: .stringValue)
+                self = .stringValue(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .booleanValue(let value):
+                try container.encode(value, forKey: .booleanValue)
+            case .numberArray(let value):
+                try container.encode(value, forKey: .numberArray)
+            case .numberValue(let value):
+                try container.encode(value, forKey: .numberValue)
+            case .stringArray(let value):
+                try container.encode(value, forKey: .stringArray)
+            case .stringValue(let value):
+                try container.encode(value, forKey: .stringValue)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .numberArray(let value):
+                try self.validate(value, name: "numberArray", parent: name, max: 25)
+            case .stringArray(let value):
+                try value.forEach {
+                    try validate($0, name: "stringArray[]", parent: name, max: 1024)
+                }
+                try self.validate(value, name: "stringArray", parent: name, max: 25)
+            case .stringValue(let value):
+                try self.validate(value, name: "stringValue", parent: name, max: 1024)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "BooleanValue"
+            case numberArray = "NumberArray"
+            case numberValue = "NumberValue"
+            case stringArray = "StringArray"
+            case stringValue = "StringValue"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
         /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
+        /// The configuration for vended metrics in the account.
+        public let vendedMetrics: VendedMetricsSettings?
 
         @inlinable
-        public init(deletionProtection: DeletionProtectionSettings? = nil) {
+        public init(deletionProtection: DeletionProtectionSettings? = nil, vendedMetrics: VendedMetricsSettings? = nil) {
             self.deletionProtection = deletionProtection
+            self.vendedMetrics = vendedMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
+            case vendedMetrics = "VendedMetrics"
         }
     }
 
@@ -498,7 +616,8 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
@@ -515,7 +634,7 @@ extension AppConfig {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z\\.]+$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z0-9\\.\\-]+$")
             try self.validators?.forEach {
                 try $0.validate(name: "\(name).validators[]")
             }
@@ -535,7 +654,7 @@ extension AppConfig {
     }
 
     public struct CreateDeploymentStrategyRequest: AWSEncodableShape {
-        /// Total amount of time for a deployment to last.
+        /// Total amount of time for a deployment to last.  AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
         public let deploymentDurationInMinutes: Int
         /// A description of the deployment strategy.
         public let description: String?
@@ -626,7 +745,8 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.monitors?.forEach {
                 try $0.validate(name: "\(name).monitors[]")
@@ -647,6 +767,108 @@ extension AppConfig {
             case monitors = "Monitors"
             case name = "Name"
             case tags = "Tags"
+        }
+    }
+
+    public struct CreateExperimentDefinitionRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// A description of the intended audience for the experiment.
+        public let audienceDescription: String?
+        /// A rule that defines which users are eligible to be assigned to treatments during the experiment.
+        public let audienceRule: String
+        /// The configuration profile ID or name that stores the feature flag.
+        public let configurationProfileIdentifier: String
+        /// The control treatment that represents the baseline experience for comparison.
+        public let control: TreatmentInput
+        /// The environment ID or name where the experiment will run.
+        public let environmentIdentifier: String
+        /// The key of the existing feature flag to use with the experiment.
+        public let flagKey: String
+        /// A description of the goal or hypothesis the experiment is designed to validate.
+        public let hypothesis: String?
+        /// Information about the conditions under which you would launch the winning treatment.
+        public let launchCriteria: String?
+        /// A name for the experiment definition.
+        public let name: String
+        /// The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources.
+        public let tags: [String: String]?
+        /// A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
+        public let treatments: [TreatmentInput]
+
+        @inlinable
+        public init(applicationIdentifier: String, audienceDescription: String? = nil, audienceRule: String, configurationProfileIdentifier: String, control: TreatmentInput, environmentIdentifier: String, flagKey: String, hypothesis: String? = nil, launchCriteria: String? = nil, name: String, tags: [String: String]? = nil, treatments: [TreatmentInput]) {
+            self.applicationIdentifier = applicationIdentifier
+            self.audienceDescription = audienceDescription
+            self.audienceRule = audienceRule
+            self.configurationProfileIdentifier = configurationProfileIdentifier
+            self.control = control
+            self.environmentIdentifier = environmentIdentifier
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.launchCriteria = launchCriteria
+            self.name = name
+            self.tags = tags
+            self.treatments = treatments
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.audienceDescription, forKey: .audienceDescription)
+            try container.encode(self.audienceRule, forKey: .audienceRule)
+            try container.encode(self.configurationProfileIdentifier, forKey: .configurationProfileIdentifier)
+            try container.encode(self.control, forKey: .control)
+            try container.encode(self.environmentIdentifier, forKey: .environmentIdentifier)
+            try container.encode(self.flagKey, forKey: .flagKey)
+            try container.encodeIfPresent(self.hypothesis, forKey: .hypothesis)
+            try container.encodeIfPresent(self.launchCriteria, forKey: .launchCriteria)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.treatments, forKey: .treatments)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.audienceDescription, name: "audienceDescription", parent: name, max: 1024)
+            try self.validate(self.audienceRule, name: "audienceRule", parent: name, max: 16384)
+            try self.validate(self.audienceRule, name: "audienceRule", parent: name, min: 1)
+            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, max: 2048)
+            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, min: 1)
+            try self.control.validate(name: "\(name).control")
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, max: 2048)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, min: 1)
+            try self.validate(self.flagKey, name: "flagKey", parent: name, pattern: "^[a-z][a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.hypothesis, name: "hypothesis", parent: name, max: 1024)
+            try self.validate(self.launchCriteria, name: "launchCriteria", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!AWS\\.).{1,64}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.treatments.forEach {
+                try $0.validate(name: "\(name).treatments[]")
+            }
+            try self.validate(self.treatments, name: "treatments", parent: name, max: 5)
+            try self.validate(self.treatments, name: "treatments", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audienceDescription = "AudienceDescription"
+            case audienceRule = "AudienceRule"
+            case configurationProfileIdentifier = "ConfigurationProfileIdentifier"
+            case control = "Control"
+            case environmentIdentifier = "EnvironmentIdentifier"
+            case flagKey = "FlagKey"
+            case hypothesis = "Hypothesis"
+            case launchCriteria = "LaunchCriteria"
+            case name = "Name"
+            case tags = "Tags"
+            case treatments = "Treatments"
         }
     }
 
@@ -775,7 +997,7 @@ extension AppConfig {
         public let content: AWSHTTPBody
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String
-        /// A description of the configuration.
+        /// A description of the configuration.  Due to HTTP limitations, this field only supports ASCII characters.
         public let description: String?
         /// An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
         public let latestVersionNumber: Int?
@@ -806,8 +1028,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 255)
             try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
@@ -835,7 +1059,8 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -865,8 +1090,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -918,8 +1145,43 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteExperimentDefinitionRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The type of deletion to perform. Valid values include archive (hide but preserve) and permanent (delete permanently).
+        public let deleteType: DeleteType?
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+
+        @inlinable
+        public init(applicationIdentifier: String, deleteType: DeleteType? = nil, experimentDefinitionIdentifier: String) {
+            self.applicationIdentifier = applicationIdentifier
+            self.deleteType = deleteType
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodeQuery(self.deleteType, key: "delete_type")
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -998,8 +1260,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1159,6 +1423,40 @@ extension AppConfig {
         }
     }
 
+    public struct DeploymentParameters: AWSEncodableShape {
+        /// A map of extension parameters for the deployment.
+        public let dynamicExtensionParameters: [String: String]?
+        /// The tags to assign to the deployment.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(dynamicExtensionParameters: [String: String]? = nil, tags: [String: String]? = nil) {
+            self.dynamicExtensionParameters = dynamicExtensionParameters
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.dynamicExtensionParameters?.forEach {
+                try validate($0.key, name: "dynamicExtensionParameters.key", parent: name, pattern: "^([^#\\n]{1,96})#([^\\/#\\n]{1,64})$")
+                try validate($0.value, name: "dynamicExtensionParameters[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "dynamicExtensionParameters[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.dynamicExtensionParameters, name: "dynamicExtensionParameters", parent: name, max: 10)
+            try self.validate(self.dynamicExtensionParameters, name: "dynamicExtensionParameters", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dynamicExtensionParameters = "DynamicExtensionParameters"
+            case tags = "Tags"
+        }
+    }
+
     public struct DeploymentStrategies: AWSDecodableShape {
         /// The elements from this collection.
         public let items: [DeploymentStrategy]?
@@ -1225,6 +1523,8 @@ extension AppConfig {
         public var completedAt: Date?
         /// The name of the configuration.
         public let configurationName: String?
+        /// The ID of the configuration profile that was deployed.
+        public let configurationProfileId: String?
         /// The version of the configuration.
         public let configurationVersion: String?
         /// Total amount of time the deployment lasted.
@@ -1244,13 +1544,16 @@ extension AppConfig {
         public var startedAt: Date?
         /// The state of the deployment.
         public let state: DeploymentState?
+        /// The type of deployment.
+        public let type: DeploymentType?
         /// A user-defined label for an AppConfig hosted configuration version.
         public let versionLabel: String?
 
         @inlinable
-        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, versionLabel: String? = nil) {
+        public init(completedAt: Date? = nil, configurationName: String? = nil, configurationProfileId: String? = nil, configurationVersion: String? = nil, deploymentDurationInMinutes: Int? = nil, deploymentNumber: Int? = nil, finalBakeTimeInMinutes: Int? = nil, growthFactor: Float? = nil, growthType: GrowthType? = nil, percentageComplete: Float? = nil, startedAt: Date? = nil, state: DeploymentState? = nil, type: DeploymentType? = nil, versionLabel: String? = nil) {
             self.completedAt = completedAt
             self.configurationName = configurationName
+            self.configurationProfileId = configurationProfileId
             self.configurationVersion = configurationVersion
             self.deploymentDurationInMinutes = deploymentDurationInMinutes
             self.deploymentNumber = deploymentNumber
@@ -1260,12 +1563,14 @@ extension AppConfig {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.type = type
             self.versionLabel = versionLabel
         }
 
         private enum CodingKeys: String, CodingKey {
             case completedAt = "CompletedAt"
             case configurationName = "ConfigurationName"
+            case configurationProfileId = "ConfigurationProfileId"
             case configurationVersion = "ConfigurationVersion"
             case deploymentDurationInMinutes = "DeploymentDurationInMinutes"
             case deploymentNumber = "DeploymentNumber"
@@ -1275,6 +1580,7 @@ extension AppConfig {
             case percentageComplete = "PercentageComplete"
             case startedAt = "StartedAt"
             case state = "State"
+            case type = "Type"
             case versionLabel = "VersionLabel"
         }
     }
@@ -1339,6 +1645,415 @@ extension AppConfig {
 
         @inlinable
         public init(items: [Environment]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExperimentDefinition: AWSDecodableShape {
+        /// The application ID.
+        public let applicationId: String?
+        /// A description of the intended audience for the experiment.
+        public let audienceDescription: String?
+        /// The rule that defines which users are eligible to be assigned to treatments.
+        public let audienceRule: String?
+        /// The configuration profile ID associated with the experiment.
+        public let configurationProfileId: String?
+        /// The control treatment used as the baseline for comparison.
+        public let control: Treatment?
+        /// The date and time the experiment definition was created, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The environment ID where the experiment runs.
+        public let environmentId: String?
+        /// The key of the feature flag used by the experiment.
+        public let flagKey: String?
+        /// The hypothesis that the experiment is designed to validate.
+        public let hypothesis: String?
+        /// The experiment definition ID.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt experiment data.
+        public let kmsKeyIdentifier: String?
+        /// The conditions under which the winning treatment should be launched.
+        public let launchCriteria: String?
+        /// The name of the experiment definition.
+        public let name: String?
+        /// The current status of the experiment definition. Valid values: ACTIVE, IDLE, ARCHIVED.
+        public let status: ExperimentDefinitionStatus?
+        /// The list of treatments defined for the experiment.
+        public let treatments: [Treatment]?
+        /// The date and time the experiment definition was last updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(applicationId: String? = nil, audienceDescription: String? = nil, audienceRule: String? = nil, configurationProfileId: String? = nil, control: Treatment? = nil, createdAt: Date? = nil, environmentId: String? = nil, flagKey: String? = nil, hypothesis: String? = nil, id: String? = nil, kmsKeyIdentifier: String? = nil, launchCriteria: String? = nil, name: String? = nil, status: ExperimentDefinitionStatus? = nil, treatments: [Treatment]? = nil, updatedAt: Date? = nil) {
+            self.applicationId = applicationId
+            self.audienceDescription = audienceDescription
+            self.audienceRule = audienceRule
+            self.configurationProfileId = configurationProfileId
+            self.control = control
+            self.createdAt = createdAt
+            self.environmentId = environmentId
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.id = id
+            self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.launchCriteria = launchCriteria
+            self.name = name
+            self.status = status
+            self.treatments = treatments
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case audienceDescription = "AudienceDescription"
+            case audienceRule = "AudienceRule"
+            case configurationProfileId = "ConfigurationProfileId"
+            case control = "Control"
+            case createdAt = "CreatedAt"
+            case environmentId = "EnvironmentId"
+            case flagKey = "FlagKey"
+            case hypothesis = "Hypothesis"
+            case id = "Id"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case launchCriteria = "LaunchCriteria"
+            case name = "Name"
+            case status = "Status"
+            case treatments = "Treatments"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ExperimentDefinitionSnapshot: AWSDecodableShape {
+        /// The application ID at the time the run was started.
+        public let applicationId: String?
+        /// The audience description at the time the run was started.
+        public let audienceDescription: String?
+        /// The audience rule at the time the run was started.
+        public let audienceRule: String?
+        /// The configuration profile ID at the time the run was started.
+        public let configurationProfileId: String?
+        /// The control treatment at the time the run was started.
+        public let control: Treatment?
+        /// The environment ID at the time the run was started.
+        public let environmentId: String?
+        /// The feature flag key at the time the run was started.
+        public let flagKey: String?
+        /// The hypothesis at the time the run was started.
+        public let hypothesis: String?
+        /// The experiment definition ID.
+        public let id: String?
+        /// The launch criteria at the time the run was started.
+        public let launchCriteria: String?
+        /// The name of the experiment definition at the time the run was started.
+        public let name: String?
+        /// The treatments at the time the run was started.
+        public let treatments: [Treatment]?
+
+        @inlinable
+        public init(applicationId: String? = nil, audienceDescription: String? = nil, audienceRule: String? = nil, configurationProfileId: String? = nil, control: Treatment? = nil, environmentId: String? = nil, flagKey: String? = nil, hypothesis: String? = nil, id: String? = nil, launchCriteria: String? = nil, name: String? = nil, treatments: [Treatment]? = nil) {
+            self.applicationId = applicationId
+            self.audienceDescription = audienceDescription
+            self.audienceRule = audienceRule
+            self.configurationProfileId = configurationProfileId
+            self.control = control
+            self.environmentId = environmentId
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.id = id
+            self.launchCriteria = launchCriteria
+            self.name = name
+            self.treatments = treatments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case audienceDescription = "AudienceDescription"
+            case audienceRule = "AudienceRule"
+            case configurationProfileId = "ConfigurationProfileId"
+            case control = "Control"
+            case environmentId = "EnvironmentId"
+            case flagKey = "FlagKey"
+            case hypothesis = "Hypothesis"
+            case id = "Id"
+            case launchCriteria = "LaunchCriteria"
+            case name = "Name"
+            case treatments = "Treatments"
+        }
+    }
+
+    public struct ExperimentDefinitionSummary: AWSDecodableShape {
+        /// The application ID.
+        public let applicationId: String?
+        /// The configuration profile ID associated with the experiment.
+        public let configurationProfileId: String?
+        /// The date and time the experiment definition was created, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The environment ID where the experiment runs.
+        public let environmentId: String?
+        /// The key of the feature flag used by the experiment.
+        public let flagKey: String?
+        /// The hypothesis that the experiment is designed to validate.
+        public let hypothesis: String?
+        /// The experiment definition ID.
+        public let id: String?
+        /// The name of the experiment definition.
+        public let name: String?
+        /// The current status of the experiment definition.
+        public let status: ExperimentDefinitionStatus?
+        /// The date and time the experiment definition was last updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(applicationId: String? = nil, configurationProfileId: String? = nil, createdAt: Date? = nil, environmentId: String? = nil, flagKey: String? = nil, hypothesis: String? = nil, id: String? = nil, name: String? = nil, status: ExperimentDefinitionStatus? = nil, updatedAt: Date? = nil) {
+            self.applicationId = applicationId
+            self.configurationProfileId = configurationProfileId
+            self.createdAt = createdAt
+            self.environmentId = environmentId
+            self.flagKey = flagKey
+            self.hypothesis = hypothesis
+            self.id = id
+            self.name = name
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case configurationProfileId = "ConfigurationProfileId"
+            case createdAt = "CreatedAt"
+            case environmentId = "EnvironmentId"
+            case flagKey = "FlagKey"
+            case hypothesis = "Hypothesis"
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ExperimentDefinitions: AWSDecodableShape {
+        /// The list of experiment definitions.
+        public let items: [ExperimentDefinitionSummary]?
+        /// A token to use for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ExperimentDefinitionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExperimentRun: AWSDecodableShape {
+        /// The application ID.
+        public let applicationId: String?
+        /// A description of the experiment run.
+        public let description: String?
+        /// The date and time the experiment run ended, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The experiment definition ID.
+        public let experimentDefinitionId: String?
+        /// A snapshot of the experiment definition at the time the run was started.
+        public let experimentDefinitionSnapshot: ExperimentDefinitionSnapshot?
+        /// The percentage of the target audience exposed to treatments.
+        public let exposurePercentage: Float?
+        /// The result of the experiment run, including the executive summary and launch decision rationale.
+        public let result: ExperimentRunResult?
+        /// The experiment run number.
+        public let run: Int?
+        /// The date and time the experiment run started, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The current status of the experiment run. Valid values: RUNNING, DONE.
+        public let status: ExperimentRunStatus?
+        /// Treatment assignment overrides that assign specific entity IDs to treatments.
+        public let treatmentOverrides: TreatmentOverrides?
+        /// The date and time the experiment run was last updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(applicationId: String? = nil, description: String? = nil, endedAt: Date? = nil, experimentDefinitionId: String? = nil, experimentDefinitionSnapshot: ExperimentDefinitionSnapshot? = nil, exposurePercentage: Float? = nil, result: ExperimentRunResult? = nil, run: Int? = nil, startedAt: Date? = nil, status: ExperimentRunStatus? = nil, treatmentOverrides: TreatmentOverrides? = nil, updatedAt: Date? = nil) {
+            self.applicationId = applicationId
+            self.description = description
+            self.endedAt = endedAt
+            self.experimentDefinitionId = experimentDefinitionId
+            self.experimentDefinitionSnapshot = experimentDefinitionSnapshot
+            self.exposurePercentage = exposurePercentage
+            self.result = result
+            self.run = run
+            self.startedAt = startedAt
+            self.status = status
+            self.treatmentOverrides = treatmentOverrides
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "ApplicationId"
+            case description = "Description"
+            case endedAt = "EndedAt"
+            case experimentDefinitionId = "ExperimentDefinitionId"
+            case experimentDefinitionSnapshot = "ExperimentDefinitionSnapshot"
+            case exposurePercentage = "ExposurePercentage"
+            case result = "Result"
+            case run = "Run"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case treatmentOverrides = "TreatmentOverrides"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ExperimentRunEvent: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deployment associated with this event.
+        public let associatedDeployment: String?
+        /// A description of the event.
+        public let description: String?
+        /// The type of event. Valid values: RUN_STARTED, EXPOSURE_UPDATED, OVERRIDES_UPDATED, RUN_STOPPED.
+        public let eventType: ExperimentRunEventType?
+        /// The exposure percentage at the time of the event.
+        public let exposurePercentage: Float?
+        /// The date and time the event occurred, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var occurredAt: Date?
+        /// The treatment overrides at the time of the event.
+        public let treatmentOverrides: TreatmentOverrides?
+        /// The principal that triggered the event.
+        public let triggeredBy: TriggeredBy?
+
+        @inlinable
+        public init(associatedDeployment: String? = nil, description: String? = nil, eventType: ExperimentRunEventType? = nil, exposurePercentage: Float? = nil, occurredAt: Date? = nil, treatmentOverrides: TreatmentOverrides? = nil, triggeredBy: TriggeredBy? = nil) {
+            self.associatedDeployment = associatedDeployment
+            self.description = description
+            self.eventType = eventType
+            self.exposurePercentage = exposurePercentage
+            self.occurredAt = occurredAt
+            self.treatmentOverrides = treatmentOverrides
+            self.triggeredBy = triggeredBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedDeployment = "AssociatedDeployment"
+            case description = "Description"
+            case eventType = "EventType"
+            case exposurePercentage = "ExposurePercentage"
+            case occurredAt = "OccurredAt"
+            case treatmentOverrides = "TreatmentOverrides"
+            case triggeredBy = "TriggeredBy"
+        }
+    }
+
+    public struct ExperimentRunEvents: AWSDecodableShape {
+        /// The list of experiment run events.
+        public let items: [ExperimentRunEvent]?
+        /// A token to use for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ExperimentRunEvent]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ExperimentRunResult: AWSEncodableShape & AWSDecodableShape {
+        /// A summary of the experiment outcome and key findings.
+        public let executiveSummary: String?
+        /// Evidence against launching the treatment.
+        public let reasonsNotToLaunch: String?
+        /// Evidence in favor of launching the winning treatment.
+        public let reasonsToLaunch: String?
+
+        @inlinable
+        public init(executiveSummary: String? = nil, reasonsNotToLaunch: String? = nil, reasonsToLaunch: String? = nil) {
+            self.executiveSummary = executiveSummary
+            self.reasonsNotToLaunch = reasonsNotToLaunch
+            self.reasonsToLaunch = reasonsToLaunch
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.executiveSummary, name: "executiveSummary", parent: name, max: 1024)
+            try self.validate(self.reasonsNotToLaunch, name: "reasonsNotToLaunch", parent: name, max: 1024)
+            try self.validate(self.reasonsToLaunch, name: "reasonsToLaunch", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executiveSummary = "ExecutiveSummary"
+            case reasonsNotToLaunch = "ReasonsNotToLaunch"
+            case reasonsToLaunch = "ReasonsToLaunch"
+        }
+    }
+
+    public struct ExperimentRunSummary: AWSDecodableShape {
+        /// A description of the experiment run.
+        public let description: String?
+        /// The date and time the experiment run ended, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The experiment definition ID.
+        public let experimentDefinitionId: String?
+        /// The experiment run number.
+        public let run: Int?
+        /// The date and time the experiment run started, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The current status of the experiment run.
+        public let status: ExperimentRunStatus?
+        /// The date and time the experiment run was last updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(description: String? = nil, endedAt: Date? = nil, experimentDefinitionId: String? = nil, run: Int? = nil, startedAt: Date? = nil, status: ExperimentRunStatus? = nil, updatedAt: Date? = nil) {
+            self.description = description
+            self.endedAt = endedAt
+            self.experimentDefinitionId = experimentDefinitionId
+            self.run = run
+            self.startedAt = startedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endedAt = "EndedAt"
+            case experimentDefinitionId = "ExperimentDefinitionId"
+            case run = "Run"
+            case startedAt = "StartedAt"
+            case status = "Status"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ExperimentRuns: AWSDecodableShape {
+        /// The list of experiment runs.
+        public let items: [ExperimentRunSummary]?
+        /// A token to use for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ExperimentRunSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1509,6 +2224,32 @@ extension AppConfig {
         }
     }
 
+    public struct FlagValue: AWSEncodableShape & AWSDecodableShape {
+        /// The attribute values associated with this flag value.
+        public let attributeValues: [String: AttributeValue]?
+        /// Specifies whether the feature flag is enabled for this treatment.
+        public let enabled: Bool
+
+        @inlinable
+        public init(attributeValues: [String: AttributeValue]? = nil, enabled: Bool) {
+            self.attributeValues = attributeValues
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeValues?.forEach {
+                try validate($0.key, name: "attributeValues.key", parent: name, pattern: "^(?!enabled$)[a-z][a-zA-Z0-9_-]{0,63}$")
+                try $0.value.validate(name: "\(name).attributeValues[\"\($0.key)\"]")
+            }
+            try self.validate(self.attributeValues, name: "attributeValues", parent: name, max: 25)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeValues = "AttributeValues"
+            case enabled = "Enabled"
+        }
+    }
+
     public struct GetApplicationRequest: AWSEncodableShape {
         /// The ID of the application you want to get.
         public let applicationId: String
@@ -1525,7 +2266,8 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1551,8 +2293,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1629,8 +2373,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1678,8 +2424,73 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExperimentDefinitionRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+
+        @inlinable
+        public init(applicationIdentifier: String, experimentDefinitionIdentifier: String) {
+            self.applicationIdentifier = applicationIdentifier
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetExperimentRunRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The run number to retrieve.
+        public let run: Int
+
+        @inlinable
+        public init(applicationIdentifier: String, experimentDefinitionIdentifier: String, run: Int) {
+            self.applicationIdentifier = applicationIdentifier
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.run = run
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            request.encodePath(self.run, key: "Run")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.validate(self.run, name: "run", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1758,8 +2569,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1955,12 +2768,13 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z\\.]+$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z0-9\\.\\-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2023,8 +2837,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2058,7 +2874,150 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExperimentDefinitionsRequest: AWSEncodableShape {
+        /// The application ID or name to filter results.
+        public let applicationIdentifier: String?
+        /// The configuration profile ID or name to filter results.
+        public let configurationProfileIdentifier: String?
+        /// The environment ID or name to filter results.
+        public let environmentIdentifier: String?
+        /// The maximum number of items to return for this call.
+        public let maxResults: Int?
+        /// A token to start the list from a previously truncated response.
+        public let nextToken: String?
+        /// A filter for the experiment definition status.
+        public let status: ExperimentDefinitionStatus?
+
+        @inlinable
+        public init(applicationIdentifier: String? = nil, configurationProfileIdentifier: String? = nil, environmentIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ExperimentDefinitionStatus? = nil) {
+            self.applicationIdentifier = applicationIdentifier
+            self.configurationProfileIdentifier = configurationProfileIdentifier
+            self.environmentIdentifier = environmentIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.applicationIdentifier, key: "application_identifier")
+            request.encodeQuery(self.configurationProfileIdentifier, key: "configuration_profile_identifier")
+            request.encodeQuery(self.environmentIdentifier, key: "environment_identifier")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, max: 2048)
+            try self.validate(self.configurationProfileIdentifier, name: "configurationProfileIdentifier", parent: name, min: 1)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, max: 2048)
+            try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExperimentRunEventsRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// A token to start the list from a previously truncated response.
+        public let nextToken: String?
+        /// The run number.
+        public let run: Int
+
+        @inlinable
+        public init(applicationIdentifier: String, experimentDefinitionIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, run: Int) {
+            self.applicationIdentifier = applicationIdentifier
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.run = run
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodePath(self.run, key: "Run")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.run, name: "run", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListExperimentRunsRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// A token to start the list from a previously truncated response.
+        public let nextToken: String?
+        /// A filter for the experiment run status.
+        public let status: ExperimentRunStatus?
+
+        @inlinable
+        public init(applicationIdentifier: String, experimentDefinitionIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: ExperimentRunStatus? = nil) {
+            self.applicationIdentifier = applicationIdentifier
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2181,8 +3140,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -2339,11 +3300,13 @@ extension AppConfig {
         public let environmentId: String
         /// The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
         public let kmsKeyIdentifier: String?
+        /// The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent conflicting updates.
+        public let latestDeploymentNumber: Int?
         /// Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationId: String, configurationProfileId: String, configurationVersion: String, deploymentStrategyId: String, description: String? = nil, dynamicExtensionParameters: [String: String]? = nil, environmentId: String, kmsKeyIdentifier: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationId: String, configurationProfileId: String, configurationVersion: String, deploymentStrategyId: String, description: String? = nil, dynamicExtensionParameters: [String: String]? = nil, environmentId: String, kmsKeyIdentifier: String? = nil, latestDeploymentNumber: Int? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.configurationProfileId = configurationProfileId
             self.configurationVersion = configurationVersion
@@ -2352,6 +3315,7 @@ extension AppConfig {
             self.dynamicExtensionParameters = dynamicExtensionParameters
             self.environmentId = environmentId
             self.kmsKeyIdentifier = kmsKeyIdentifier
+            self.latestDeploymentNumber = latestDeploymentNumber
             self.tags = tags
         }
 
@@ -2366,12 +3330,15 @@ extension AppConfig {
             try container.encodeIfPresent(self.dynamicExtensionParameters, forKey: .dynamicExtensionParameters)
             request.encodePath(self.environmentId, key: "EnvironmentId")
             try container.encodeIfPresent(self.kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
+            try container.encodeIfPresent(self.latestDeploymentNumber, forKey: .latestDeploymentNumber)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, max: 1024)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, min: 1)
             try self.validate(self.deploymentStrategyId, name: "deploymentStrategyId", parent: name, pattern: "^(^[a-z0-9]{4,7}$|^AppConfig\\.[A-Za-z0-9]{9,40}$)$")
@@ -2383,7 +3350,8 @@ extension AppConfig {
             }
             try self.validate(self.dynamicExtensionParameters, name: "dynamicExtensionParameters", parent: name, max: 10)
             try self.validate(self.dynamicExtensionParameters, name: "dynamicExtensionParameters", parent: name, min: 1)
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, min: 1)
             try self.tags?.forEach {
@@ -2401,7 +3369,74 @@ extension AppConfig {
             case description = "Description"
             case dynamicExtensionParameters = "DynamicExtensionParameters"
             case kmsKeyIdentifier = "KmsKeyIdentifier"
+            case latestDeploymentNumber = "LatestDeploymentNumber"
             case tags = "Tags"
+        }
+    }
+
+    public struct StartExperimentRunRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The deployment parameters for the experiment run, including a KMS key identifier for encryption.
+        public let deploymentParameters: DeploymentParameters?
+        /// A description of this experiment run.
+        public let description: String?
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users.
+        public let exposurePercentage: Float?
+        /// The tags to assign to the experiment run.
+        public let tags: [String: String]?
+        /// Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment.
+        public let treatmentOverrides: TreatmentOverrides?
+
+        @inlinable
+        public init(applicationIdentifier: String, deploymentParameters: DeploymentParameters? = nil, description: String? = nil, experimentDefinitionIdentifier: String, exposurePercentage: Float? = nil, tags: [String: String]? = nil, treatmentOverrides: TreatmentOverrides? = nil) {
+            self.applicationIdentifier = applicationIdentifier
+            self.deploymentParameters = deploymentParameters
+            self.description = description
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.exposurePercentage = exposurePercentage
+            self.tags = tags
+            self.treatmentOverrides = treatmentOverrides
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.deploymentParameters, forKey: .deploymentParameters)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            try container.encodeIfPresent(self.exposurePercentage, forKey: .exposurePercentage)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.treatmentOverrides, forKey: .treatmentOverrides)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.deploymentParameters?.validate(name: "\(name).deploymentParameters")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.validate(self.exposurePercentage, name: "exposurePercentage", parent: name, max: 100.0)
+            try self.validate(self.exposurePercentage, name: "exposurePercentage", parent: name, min: 0.0)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.treatmentOverrides?.validate(name: "\(name).treatmentOverrides")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentParameters = "DeploymentParameters"
+            case description = "Description"
+            case exposurePercentage = "ExposurePercentage"
+            case tags = "Tags"
+            case treatmentOverrides = "TreatmentOverrides"
         }
     }
 
@@ -2433,11 +3468,60 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopExperimentRunRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The deployment parameters for the stop operation.
+        public let deploymentParameters: DeploymentParameters?
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The result of the experiment run, including an executive summary and reasons for or against launching.
+        public let result: ExperimentRunResult?
+        /// The run number to stop.
+        public let run: Int
+
+        @inlinable
+        public init(applicationIdentifier: String, deploymentParameters: DeploymentParameters? = nil, experimentDefinitionIdentifier: String, result: ExperimentRunResult? = nil, run: Int) {
+            self.applicationIdentifier = applicationIdentifier
+            self.deploymentParameters = deploymentParameters
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.result = result
+            self.run = run
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.deploymentParameters, forKey: .deploymentParameters)
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            try container.encodeIfPresent(self.result, forKey: .result)
+            request.encodePath(self.run, key: "Run")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.deploymentParameters?.validate(name: "\(name).deploymentParameters")
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.result?.validate(name: "\(name).result")
+            try self.validate(self.run, name: "run", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentParameters = "DeploymentParameters"
+            case result = "Result"
+        }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -2473,6 +3557,60 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct Treatment: AWSDecodableShape {
+        /// A description of the treatment.
+        public let description: String?
+        /// The feature flag value served to users assigned to this treatment.
+        public let flagValue: FlagValue
+        /// The unique key that identifies this treatment.
+        public let key: String?
+        /// The traffic allocation weight for this treatment.
+        public let weight: Float
+
+        @inlinable
+        public init(description: String? = nil, flagValue: FlagValue, key: String? = nil, weight: Float) {
+            self.description = description
+            self.flagValue = flagValue
+            self.key = key
+            self.weight = weight
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case flagValue = "FlagValue"
+            case key = "Key"
+            case weight = "Weight"
+        }
+    }
+
+    public struct TreatmentInput: AWSEncodableShape {
+        /// A description of the treatment.
+        public let description: String?
+        /// The feature flag value to serve to users assigned to this treatment.
+        public let flagValue: FlagValue
+        /// The traffic allocation weight for this treatment.
+        public let weight: Float
+
+        @inlinable
+        public init(description: String? = nil, flagValue: FlagValue, weight: Float = 0) {
+            self.description = description
+            self.flagValue = flagValue
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.flagValue.validate(name: "\(name).flagValue")
+            try self.validate(self.weight, name: "weight", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case flagValue = "FlagValue"
+            case weight = "Weight"
         }
     }
 
@@ -2512,10 +3650,13 @@ extension AppConfig {
     public struct UpdateAccountSettingsRequest: AWSEncodableShape {
         /// A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
         public let deletionProtection: DeletionProtectionSettings?
+        /// The configuration for vended metrics in the account.
+        public let vendedMetrics: VendedMetricsSettings?
 
         @inlinable
-        public init(deletionProtection: DeletionProtectionSettings? = nil) {
+        public init(deletionProtection: DeletionProtectionSettings? = nil, vendedMetrics: VendedMetricsSettings? = nil) {
             self.deletionProtection = deletionProtection
+            self.vendedMetrics = vendedMetrics
         }
 
         public func validate(name: String) throws {
@@ -2524,6 +3665,7 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case deletionProtection = "DeletionProtection"
+            case vendedMetrics = "VendedMetrics"
         }
     }
 
@@ -2551,7 +3693,8 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -2603,8 +3746,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
             try self.validate(self.name, name: "name", parent: name, max: 128)
@@ -2714,9 +3859,11 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, max: 64)
+            try self.validate(self.environmentId, name: "environmentId", parent: name, min: 1)
             try self.monitors?.forEach {
                 try $0.validate(name: "\(name).monitors[]")
             }
@@ -2729,6 +3876,137 @@ extension AppConfig {
             case description = "Description"
             case monitors = "Monitors"
             case name = "Name"
+        }
+    }
+
+    public struct UpdateExperimentDefinitionRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// An updated audience description.
+        public let audienceDescription: String?
+        /// An updated audience rule.
+        public let audienceRule: String?
+        /// An updated control treatment.
+        public let control: TreatmentInput?
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// An updated hypothesis.
+        public let hypothesis: String?
+        /// Updated launch criteria.
+        public let launchCriteria: String?
+        /// The updated list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
+        public let treatments: [TreatmentInput]?
+
+        @inlinable
+        public init(applicationIdentifier: String, audienceDescription: String? = nil, audienceRule: String? = nil, control: TreatmentInput? = nil, experimentDefinitionIdentifier: String, hypothesis: String? = nil, launchCriteria: String? = nil, treatments: [TreatmentInput]? = nil) {
+            self.applicationIdentifier = applicationIdentifier
+            self.audienceDescription = audienceDescription
+            self.audienceRule = audienceRule
+            self.control = control
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.hypothesis = hypothesis
+            self.launchCriteria = launchCriteria
+            self.treatments = treatments
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.audienceDescription, forKey: .audienceDescription)
+            try container.encodeIfPresent(self.audienceRule, forKey: .audienceRule)
+            try container.encodeIfPresent(self.control, forKey: .control)
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            try container.encodeIfPresent(self.hypothesis, forKey: .hypothesis)
+            try container.encodeIfPresent(self.launchCriteria, forKey: .launchCriteria)
+            try container.encodeIfPresent(self.treatments, forKey: .treatments)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.audienceDescription, name: "audienceDescription", parent: name, max: 1024)
+            try self.validate(self.audienceRule, name: "audienceRule", parent: name, max: 16384)
+            try self.validate(self.audienceRule, name: "audienceRule", parent: name, min: 1)
+            try self.control?.validate(name: "\(name).control")
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.validate(self.hypothesis, name: "hypothesis", parent: name, max: 1024)
+            try self.validate(self.launchCriteria, name: "launchCriteria", parent: name, max: 1024)
+            try self.treatments?.forEach {
+                try $0.validate(name: "\(name).treatments[]")
+            }
+            try self.validate(self.treatments, name: "treatments", parent: name, max: 5)
+            try self.validate(self.treatments, name: "treatments", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audienceDescription = "AudienceDescription"
+            case audienceRule = "AudienceRule"
+            case control = "Control"
+            case hypothesis = "Hypothesis"
+            case launchCriteria = "LaunchCriteria"
+            case treatments = "Treatments"
+        }
+    }
+
+    public struct UpdateExperimentRunRequest: AWSEncodableShape {
+        /// The application ID or name.
+        public let applicationIdentifier: String
+        /// The updated deployment parameters for the experiment run.
+        public let deploymentParameters: DeploymentParameters?
+        /// An updated description for the experiment run.
+        public let description: String?
+        /// The experiment definition ID or name.
+        public let experimentDefinitionIdentifier: String
+        /// The new exposure percentage. This value can only be increased from the current setting.
+        public let exposurePercentage: Float?
+        /// The run number to update.
+        public let run: Int
+        /// The updated treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.
+        public let treatmentOverrides: TreatmentOverrides?
+
+        @inlinable
+        public init(applicationIdentifier: String, deploymentParameters: DeploymentParameters? = nil, description: String? = nil, experimentDefinitionIdentifier: String, exposurePercentage: Float? = nil, run: Int, treatmentOverrides: TreatmentOverrides? = nil) {
+            self.applicationIdentifier = applicationIdentifier
+            self.deploymentParameters = deploymentParameters
+            self.description = description
+            self.experimentDefinitionIdentifier = experimentDefinitionIdentifier
+            self.exposurePercentage = exposurePercentage
+            self.run = run
+            self.treatmentOverrides = treatmentOverrides
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationIdentifier, key: "ApplicationIdentifier")
+            try container.encodeIfPresent(self.deploymentParameters, forKey: .deploymentParameters)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.experimentDefinitionIdentifier, key: "ExperimentDefinitionIdentifier")
+            try container.encodeIfPresent(self.exposurePercentage, forKey: .exposurePercentage)
+            request.encodePath(self.run, key: "Run")
+            try container.encodeIfPresent(self.treatmentOverrides, forKey: .treatmentOverrides)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 2048)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.deploymentParameters?.validate(name: "\(name).deploymentParameters")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, max: 2048)
+            try self.validate(self.experimentDefinitionIdentifier, name: "experimentDefinitionIdentifier", parent: name, min: 1)
+            try self.validate(self.exposurePercentage, name: "exposurePercentage", parent: name, max: 100.0)
+            try self.validate(self.exposurePercentage, name: "exposurePercentage", parent: name, min: 0.0)
+            try self.validate(self.run, name: "run", parent: name, min: 1)
+            try self.treatmentOverrides?.validate(name: "\(name).treatmentOverrides")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentParameters = "DeploymentParameters"
+            case description = "Description"
+            case exposurePercentage = "ExposurePercentage"
+            case treatmentOverrides = "TreatmentOverrides"
         }
     }
 
@@ -2847,8 +4125,10 @@ extension AppConfig {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{4,7}$")
-            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, pattern: "^[a-z0-9]{4,7}$")
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 64)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, max: 128)
+            try self.validate(self.configurationProfileId, name: "configurationProfileId", parent: name, min: 1)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, max: 1024)
             try self.validate(self.configurationVersion, name: "configurationVersion", parent: name, min: 1)
         }
@@ -2878,6 +4158,20 @@ extension AppConfig {
         }
     }
 
+    public struct VendedMetricsSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether vended metrics are enabled for the account.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct BadRequestDetails: AWSDecodableShape {
         /// Detailed information about the bad request exception error when creating a hosted configuration version.
         public let invalidConfiguration: [InvalidConfigurationDetail]?
@@ -2889,6 +4183,29 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case invalidConfiguration = "InvalidConfiguration"
+        }
+    }
+
+    public struct TreatmentOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// A map of entity IDs to treatment keys. Each entry assigns the specified entity to the specified treatment, bypassing random assignment.
+        public let inline: [String: String]?
+
+        @inlinable
+        public init(inline: [String: String]? = nil) {
+            self.inline = inline
+        }
+
+        public func validate(name: String) throws {
+            try self.inline?.forEach {
+                try validate($0.key, name: "inline.key", parent: name, max: 2048)
+                try validate($0.key, name: "inline.key", parent: name, min: 1)
+                try validate($0.value, name: "inline[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9]{1,8}$")
+            }
+            try self.validate(self.inline, name: "inline", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inline = "Inline"
         }
     }
 }
@@ -2934,7 +4251,7 @@ public struct AppConfigErrorType: AWSErrorType {
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
     /// The requested resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see Service quotas for AppConfig in the Amazon Web Services General Reference.
+    /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see Service quotas for AppConfig in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 

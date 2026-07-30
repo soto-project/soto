@@ -62,7 +62,9 @@ extension Batch {
     public enum CRAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestFit = "BEST_FIT"
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
+        case bestFitProgressiveOrdered = "BEST_FIT_PROGRESSIVE_ORDERED"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
+        case spotCapacityOptimizedPrioritized = "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
         case spotPriceCapacityOptimized = "SPOT_PRICE_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
@@ -77,7 +79,9 @@ extension Batch {
 
     public enum CRUpdateAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bestFitProgressive = "BEST_FIT_PROGRESSIVE"
+        case bestFitProgressiveOrdered = "BEST_FIT_PROGRESSIVE_ORDERED"
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
+        case spotCapacityOptimizedPrioritized = "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
         case spotPriceCapacityOptimized = "SPOT_PRICE_CAPACITY_OPTIMIZED"
         public var description: String { return self.rawValue }
     }
@@ -180,6 +184,39 @@ extension Batch {
     public enum PlatformCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaShareIdleResourceAssignmentStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fifo = "FIFO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaShareInSharePreemptionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaShareResourceSharingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lend = "LEND"
+        case lendAndBorrow = "LEND_AND_BORROW"
+        case reserve = "RESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaShareState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaShareStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case invalid = "INVALID"
+        case updating = "UPDATING"
+        case valid = "VALID"
         public var description: String { return self.rawValue }
     }
 
@@ -458,9 +495,9 @@ extension Batch {
     }
 
     public struct CapacityLimit: AWSEncodableShape & AWSDecodableShape {
-        /// The unit of measure for the capacity limit. This defines how the maxCapacity value should be interpreted. For SAGEMAKER_TRAINING jobs, use NUM_INSTANCES.
+        /// The unit of measure for the capacity limit, which defines how maxCapacity is interpreted. For SAGEMAKER_TRAINING jobs in a quota management enabled service environment, specify the instance type (for example, ml.m5.large). Otherwise, use NUM_INSTANCES.
         public let capacityUnit: String?
-        /// The maximum capacity available for the service environment. This value represents the maximum amount of resources that can be allocated to service jobs. For example, maxCapacity=50, capacityUnit=NUM_INSTANCES. This indicates that the maximum number of instances that can be run on this service environment is 50. You could then run 5 SageMaker Training jobs that each use 10 instances. However, if you submit another job that requires 10 instances, it will wait in the queue.
+        /// The maximum capacity available for the service environment. For a quota management enabled service environment, this value represents the maximum quantity of a particular resource type (specified by capacityUnit) that can be allocated to service jobs. For other service environments, this value represents the maximum quantity of all resources that can be allocated to service jobs. For example, if maxCapacity=50 and capacityUnit=NUM_INSTANCES, you can run up to 50 instances concurrently. If you run 5 SageMaker Training jobs that each use 10 instances, a subsequent job requiring 10 instances waits in the queue until capacity is available. In a quota management enabled service environment with capacityUnit=ml.m5.large, only ml.m5.large instances count against this limit, and jobs requiring other instance types wait until a matching capacity limit is configured.
         public let maxCapacity: Int?
 
         @inlinable
@@ -492,7 +529,7 @@ extension Batch {
         public let eksConfiguration: EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see Batch service IAM role in the Batch User Guide.
         public let serviceRole: String?
-        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+        /// The state of the compute environment. The valid values are ENABLED or DISABLED. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public let state: CEState?
         /// The current status of the compute environment (for example, CREATING or VALID).
         public let status: CEStatus?
@@ -568,25 +605,25 @@ extension Batch {
     }
 
     public struct ComputeResource: AWSEncodableShape & AWSDecodableShape {
-        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT (default)  Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching Amazon EC2 service limits, additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see Updating compute environments in the Batch User Guide.  BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.   With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot  Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to  exceed maxvCpus to meet your capacity requirements. In this event, Batch never  exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   This parameter is required for Amazon EKS compute environments. For Amazon ECS compute environments, if this parameter isn't specified, the BEST_FIT allocation strategy is used by default.   BEST_FIT (default)  Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching Amazon EC2 service limits, additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see Updating compute environments in the Batch User Guide.  BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  BEST_FIT_PROGRESSIVE_ORDERED   This is an advanced allocation strategy only for customers who want to control which instance types are preferred during scaling. Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus.  Batch selects instance types in the order they appear in the instanceTypes list. When an instance family is specified, sizes within that family are expanded using BEST_FIT_PROGRESSIVE logic—preferring sizes that best fit the jobs, with larger sizes as fallback. Instance types that cannot meet the resource requirements of the jobs are skipped. This strategy is only available for On-Demand Instance (EC2) compute resources. If an instance family and an explicit instance type from that family both appear in instanceTypes, the explicit type takes its listed position and is excluded from the family expansion. For example, in ["m7a.4xlarge", "m7a", "m6a"], m7a.4xlarge is always placed first and is excluded from the m7a family expansion.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.  SPOT_CAPACITY_OPTIMIZED_PRIORITIZED   This is an advanced allocation strategy for customers who want to influence instance type selection during scaling. This strategy optimizes for capacity first, and honors instance type priorities on a best-effort basis (priorities are honored when they do not significantly reduce available Spot capacity). Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus.  Batch selects instance types in the order they appear in the instanceTypes list, but optimizes for capacity first. The customer-defined priority is honored on a best-effort basis. When Spot Instance capacity pools are similarly available, priority order is respected. When capacity is constrained, Batch selects from the most available pools regardless of priority to minimize the likelihood of Spot Instance interruptions. This strategy is only available for Spot Instance compute resources.   With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let allocationStrategy: CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between  the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let desiredvCpus: Int?
-        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2Configuration: [Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2KeyPair: String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2 AMI in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2023 AMI in the Amazon Elastic Container Service Developer Guide.
         public let imageId: String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see Amazon ECS instance role in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let instanceRole: String?
-        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge).  Batch can select the instance type for you if you choose one of the following:    optimal to select instance types (from the c4, m4, r4, c5, m5, and r5 instance families) that match the demand of your job queues.     default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.    default_arm64 to choose ARM based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.    Starting on 11/01/2025 the behavior of optimal is going to be changed to match default_x86_64.  During the change your instance families could be updated to a newer generation. You do not need to perform any actions for the upgrade to happen. For more information about change, see Optimal instance type configuration to receive automatic instance family updates.   Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see Instance type compute table in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption    This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
+        /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). Batch can select the instance type for you if you choose one of the following:    default_x86_64 to choose x86 based instance types (from the m6i, c6i, r6i, and c7i instance families) that matches the resource demands of the job queue.    default_arm64 to choose ARM based instance types (from the m6g, c6g, r6g, and c7g instance families) that matches the resource demands of the job queue.    optimal Semantically equivalent to default_x86_64, see Optimal instance type configuration to receive automatic instance family updates for details.    Instance family availability varies by Amazon Web Services Region. For example, some Amazon Web Services Regions may not have any fourth generation instance families but have fifth and sixth generation instance families. When using default_x86_64 or default_arm64 instance bundles, Batch selects instance families based on a balance of cost-effectiveness and performance. While newer generation instances often provide better price-performance, Batch may choose an earlier generation instance family if it provides the optimal combination of availability, cost, and performance for your workload. For example, in an Amazon Web Services Region where both c6i and c7i instances are available, Batch might select c6i instances if they offer better cost-effectiveness for your specific job requirements. For more information on Batch instance types and Amazon Web Services Region availability, see Instance type compute table in the Batch User Guide. Batch periodically updates your instances in default bundles to newer, more cost-effective options. Updates happen automatically without requiring any action from you. Your workloads continue running during updates with no interruption    This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment.
         public let instanceTypes: [String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum number of vCPUs that a compute environment can support.  With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances,  and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The maximum number of vCPUs that a compute environment can support.  With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let maxvCpus: Int?
         /// The minimum number of vCPUs that a compute environment should maintain (even if the compute  environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let minvCpus: Int?
@@ -598,7 +635,7 @@ extension Batch {
         public let securityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. This role is required if the allocation strategy set to BEST_FIT or if the allocation strategy isn't specified. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   To tag your Spot Instances on creation, the Spot Fleet IAM role specified here must use the newer AmazonEC2SpotFleetTaggingRole managed policy. The previously recommended AmazonEC2SpotFleetRole managed policy doesn't have the required permissions to tag Spot Instances. For more information, see Spot instances not tagged on creation in the Batch User Guide.
         public let spotIamFleetRole: String?
-        /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see VPCs and subnets in the Amazon VPC User Guide.  Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see  Local Zones in the Amazon EC2 User Guide for Linux Instances, Amazon EKS and Amazon Web Services Local Zones in the Amazon EKS User Guide and  Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
+        /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see VPCs and subnets in the Amazon VPC User Guide. This parameter is required for compute environments using EC2, SPOT, FARGATE, or FARGATE_SPOT compute resources.  Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see  Local Zones in the Amazon EC2 User Guide for Linux Instances, Amazon EKS and Amazon Web Services Local Zones in the Amazon EKS User Guide and  Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
         public let subnets: [String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see Updating compute environments in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let tags: [String: String]?
@@ -679,17 +716,17 @@ extension Batch {
     }
 
     public struct ComputeResourceUpdate: AWSEncodableShape {
-        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.   With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances,  and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or Amazon EC2 service limits. For more information, see Allocation strategies in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   BEST_FIT_PROGRESSIVE  Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types.  BEST_FIT_PROGRESSIVE_ORDERED   This is an advanced allocation strategy only for customers who want to control which instance types are preferred during scaling. Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus.  Batch selects instance types in the order they appear in the instanceTypes list. When an instance family is specified, sizes within that family are expanded using BEST_FIT_PROGRESSIVE logic—preferring sizes that best fit the jobs, with larger sizes as fallback. Instance types that cannot meet the resource requirements of the jobs are skipped. This strategy is only available for On-Demand Instance (EC2) compute resources. If an instance family and an explicit instance type from that family both appear in instanceTypes, the explicit type takes its listed position and is excluded from the family expansion. For example, in ["m7a.4xlarge", "m7a", "m6a"], m7a.4xlarge is always placed first and is excluded from the m7a family expansion.  SPOT_CAPACITY_OPTIMIZED  Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources.  SPOT_PRICE_CAPACITY_OPTIMIZED  The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources.  SPOT_CAPACITY_OPTIMIZED_PRIORITIZED   This is an advanced allocation strategy for customers who want to influence instance type selection during scaling. This strategy optimizes for capacity first, and honors instance type priorities on a best-effort basis (priorities are honored when they do not significantly reduce available Spot capacity). Placing large instance types at the top of the list may result in over-provisioning for small jobs. Placing small instance types at the top may cause the compute environment to reach Amazon EC2 instance count limits before reaching maxvCpus.  Batch selects instance types in the order they appear in the instanceTypes list, but optimizes for capacity first. The customer-defined priority is honored on a best-effort basis. When Spot Instance capacity pools are similarly available, priority order is respected. When capacity is constrained, Batch selects from the most available pools regardless of priority to minimize the likelihood of Spot Instance interruptions. This strategy is only available for Spot Instance compute resources.   With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let allocationStrategy: CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between  the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters.   When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values.  Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see Troubleshooting Batch in the Batch User Guide.
         public let desiredvCpus: Int?
-        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2Configuration: [Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the Amazon EC2 key pair requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let ec2KeyPair: String?
-        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2 AMI in the Amazon Elastic Container Service Developer Guide.
+        /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2023 AMI in the Amazon Elastic Container Service Developer Guide.
         public let imageId: String?
         /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see Amazon ECS instance role in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let instanceRole: String?
@@ -697,7 +734,7 @@ extension Batch {
         public let instanceTypes: [String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
-        /// The maximum number of Amazon EC2 vCPUs that an environment can reach.  With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot  Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to  exceed maxvCpus to meet your capacity requirements. In this event, Batch never  exceeds maxvCpus by more than a single instance.
+        /// The maximum number of Amazon EC2 vCPUs that an environment can reach.  With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let maxvCpus: Int?
         /// The minimum number of vCPUs that an environment should maintain (even if the compute environment  is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let minvCpus: Int?
@@ -767,7 +804,7 @@ extension Batch {
     }
 
     public struct ComputeScalingPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The minimum time (in minutes) that Batch keeps instances running in the compute environment  after their jobs complete. For each instance, the delay period begins when the last job finishes.  If no new jobs are placed on the instance during this delay, Batch terminates the instance once  the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay.  The scale down delay does not apply to:   Instances being replaced during infrastructure updates   Newly launched instances that have not yet run any jobs   Spot instances reclaimed due to interruption
+        /// The minimum time (in minutes) that Batch keeps instances running in the compute environment  after their jobs complete. For each instance, the delay period begins when the last job finishes.  If no new jobs are placed on the instance during this delay, Batch terminates the instance once  the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay.  Idle instances retained during the scale-down delay period are billable at standard EC2 pricing.   The scale down delay does not apply to:   Instances being replaced during infrastructure updates   Newly launched instances that have not yet run any jobs   Spot instances reclaimed due to interruption
         public let minScaleDownDelayMinutes: Int?
 
         @inlinable
@@ -1179,9 +1216,9 @@ extension Batch {
         public let context: String?
         /// The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
         public let eksConfiguration: EksConfiguration?
-        /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
+        /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
-        /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+        /// The state of the compute environment. A compute environment must be created in the ENABLED state. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public let state: CEState?
         /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags don't propagate to the underlying compute resources.
         public let tags: [String: String]?
@@ -1373,18 +1410,87 @@ extension Batch {
         }
     }
 
+    public struct CreateQuotaShareRequest: AWSEncodableShape {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public let capacityLimits: [QuotaShareCapacityLimit]?
+        /// The Batch job queue associated with the quota share. This can be the job queue name or ARN. A job queue must be in the VALID state before you can associate it with a quota share.
+        public let jobQueue: String?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public let preemptionConfiguration: QuotaSharePreemptionConfiguration?
+        /// The name of the quota share. It can be up to 128 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+        public let quotaShareName: String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public let resourceSharingConfiguration: QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish. The default state is ENABLED.
+        public let state: QuotaShareState?
+        /// The tags that you apply to the quota share to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources in Batch User Guide.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(capacityLimits: [QuotaShareCapacityLimit]? = nil, jobQueue: String? = nil, preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil, quotaShareName: String? = nil, resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil, state: QuotaShareState? = nil, tags: [String: String]? = nil) {
+            self.capacityLimits = capacityLimits
+            self.jobQueue = jobQueue
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareName = quotaShareName
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case jobQueue = "jobQueue"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case quotaShareName = "quotaShareName"
+            case resourceSharingConfiguration = "resourceSharingConfiguration"
+            case state = "state"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateQuotaShareResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+        /// The name of the quota share.
+        public let quotaShareName: String?
+
+        @inlinable
+        public init(quotaShareArn: String? = nil, quotaShareName: String? = nil) {
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quotaShareArn = "quotaShareArn"
+            case quotaShareName = "quotaShareName"
+        }
+    }
+
     public struct CreateSchedulingPolicyRequest: AWSEncodableShape {
-        /// The fair-share scheduling policy details.
+        /// The fair-share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a quotaSharePolicy.
         public let fairsharePolicy: FairsharePolicy?
         /// The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let name: String?
+        /// The quota share scheduling policy details. Only one of fairsharePolicy or quotaSharePolicy can be set. Once set, this policy type cannot be removed or changed to a fairSharePolicy.
+        public let quotaSharePolicy: QuotaSharePolicy?
         /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations.
         public let tags: [String: String]?
 
         @inlinable
-        public init(fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, quotaSharePolicy: QuotaSharePolicy? = nil, tags: [String: String]? = nil) {
             self.fairsharePolicy = fairsharePolicy
             self.name = name
+            self.quotaSharePolicy = quotaSharePolicy
             self.tags = tags
         }
 
@@ -1401,6 +1507,7 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case fairsharePolicy = "fairsharePolicy"
             case name = "name"
+            case quotaSharePolicy = "quotaSharePolicy"
             case tags = "tags"
         }
     }
@@ -1532,6 +1639,24 @@ extension Batch {
     }
 
     public struct DeleteJobQueueResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteQuotaShareRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+
+        @inlinable
+        public init(quotaShareArn: String? = nil) {
+            self.quotaShareArn = quotaShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quotaShareArn = "quotaShareArn"
+        }
+    }
+
+    public struct DeleteQuotaShareResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1801,6 +1926,66 @@ extension Batch {
         }
     }
 
+    public struct DescribeQuotaShareRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+
+        @inlinable
+        public init(quotaShareArn: String? = nil) {
+            self.quotaShareArn = quotaShareArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quotaShareArn = "quotaShareArn"
+        }
+    }
+
+    public struct DescribeQuotaShareResponse: AWSDecodableShape {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public let capacityLimits: [QuotaShareCapacityLimit]?
+        /// The ARN of the job queue associated with the quota share.
+        public let jobQueueArn: String?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public let preemptionConfiguration: QuotaSharePreemptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+        /// The name of the quota share.
+        public let quotaShareName: String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public let resourceSharingConfiguration: QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share.
+        public let state: QuotaShareState?
+        /// The current status of the quota share.
+        public let status: QuotaShareStatus?
+        /// The tags applied to the quota share.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(capacityLimits: [QuotaShareCapacityLimit]? = nil, jobQueueArn: String? = nil, preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil, quotaShareArn: String? = nil, quotaShareName: String? = nil, resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil, state: QuotaShareState? = nil, status: QuotaShareStatus? = nil, tags: [String: String]? = nil) {
+            self.capacityLimits = capacityLimits
+            self.jobQueueArn = jobQueueArn
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case jobQueueArn = "jobQueueArn"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case quotaShareArn = "quotaShareArn"
+            case quotaShareName = "quotaShareName"
+            case resourceSharingConfiguration = "resourceSharingConfiguration"
+            case state = "state"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct DescribeSchedulingPoliciesRequest: AWSEncodableShape {
         /// A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
         public let arns: [String]?
@@ -1902,6 +2087,12 @@ extension Batch {
         public let jobQueue: String?
         /// The latest attempt associated with the service job.
         public let latestAttempt: LatestServiceJobAttempt?
+        /// Specifies the service job behavior when preempted.
+        public let preemptionConfiguration: ServiceJobPreemptionConfiguration?
+        /// Summarizes the preemptions of the service job. This field appears on a service job when it has been preempted.
+        public let preemptionSummary: ServiceJobPreemptionSummary?
+        /// The name of the quota share that the service job is associated with.
+        public let quotaShareName: String?
         /// The retry strategy to use for failed service jobs that are submitted with this service job.
         public let retryStrategy: ServiceJobRetryStrategy?
         /// The Unix timestamp (in milliseconds) for when the service job was scheduled. This represents when the service job was dispatched to SageMaker and the service job transitioned to the SCHEDULED state.
@@ -1928,7 +2119,7 @@ extension Batch {
         public let timeoutConfig: ServiceJobTimeout?
 
         @inlinable
-        public init(attempts: [ServiceJobAttemptDetail]? = nil, capacityUsage: [ServiceJobCapacityUsageDetail]? = nil, createdAt: Int64? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, scheduledAt: Int64? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
+        public init(attempts: [ServiceJobAttemptDetail]? = nil, capacityUsage: [ServiceJobCapacityUsageDetail]? = nil, createdAt: Int64? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, preemptionConfiguration: ServiceJobPreemptionConfiguration? = nil, preemptionSummary: ServiceJobPreemptionSummary? = nil, quotaShareName: String? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, scheduledAt: Int64? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
             self.attempts = attempts
             self.capacityUsage = capacityUsage
             self.createdAt = createdAt
@@ -1938,6 +2129,9 @@ extension Batch {
             self.jobName = jobName
             self.jobQueue = jobQueue
             self.latestAttempt = latestAttempt
+            self.preemptionConfiguration = preemptionConfiguration
+            self.preemptionSummary = preemptionSummary
+            self.quotaShareName = quotaShareName
             self.retryStrategy = retryStrategy
             self.scheduledAt = scheduledAt
             self.schedulingPriority = schedulingPriority
@@ -1962,6 +2156,9 @@ extension Batch {
             case jobName = "jobName"
             case jobQueue = "jobQueue"
             case latestAttempt = "latestAttempt"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case preemptionSummary = "preemptionSummary"
+            case quotaShareName = "quotaShareName"
             case retryStrategy = "retryStrategy"
             case scheduledAt = "scheduledAt"
             case schedulingPriority = "schedulingPriority"
@@ -2048,15 +2245,18 @@ extension Batch {
     }
 
     public struct Ec2Configuration: AWSEncodableShape & AWSDecodableShape {
-        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object.  The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2 AMI in the Amazon Elastic Container Service Developer Guide.
+        /// The status of the Batch-provided default AMIs associated with the imageType. The field only appears after the compute environment has begun scaling instances using the imageType. The field is not present when an image is specified in ComputeResources.imageId (deprecated), the default launch template, or Ec2Configuration.imageIdOverride. The field is also not present when the compute environment has a launch template override.   For more information on image selection, see AMI selection order.  This field is read-only and only appears in the DescribeComputeEnvironments response.     LATEST − Using the most recent AMI supported    UPDATE_AVAILABLE − An updated AMI is available   If a compute environment has multiple AMIs for the imageType and any one AMI has UPDATE_AVAILABLE, the status shows UPDATE_AVAILABLE.   For compute environments that use BEST_FIT as their allocation strategy, you can perform a blue/green update to update the AMI.   For all other compute environments, you can perform an AMI version update to update the AMI to the latest version.
+        public let batchImageStatus: String?
+        /// The AMI ID used for instances launched in the compute environment that match the image type. This setting overrides the imageId set in the computeResource object.  The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2023 AMI. For more information, see Amazon ECS-optimized Amazon Linux 2023 AMI in the Amazon Elastic Container Service Developer Guide.
         public let imageIdOverride: String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public let imageKubernetesVersion: String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2 AMI (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  Amazon Web Services will end support for Amazon ECS optimized AL2-optimized and AL2-accelerated AMIs. Starting in January 2026, Batch will change the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. We recommend migrating Batch Amazon ECS compute environments to Amazon Linux 2023 to maintain optimal performance and security. For more information on upgrading from AL2 to AL2023, see How to migrate from ECS AL2 to ECS AL2023 in the Batch User Guide.   ECS_AL2   Amazon Linux 2: Default for all non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Batch supports Amazon Linux 2023.  Amazon Linux 2023 does not support A1 instances.   ECS_AL2023_NVIDIA   Amazon Linux 2023 (GPU): For all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types.     EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux 2023 AMI (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services will end support for Amazon EKS AL2-optimized and AL2-accelerated AMIs, starting 11/26/25. You can continue using Batch-provided Amazon EKS optimized Amazon Linux 2 AMIs on your Amazon EKS compute environments beyond the 11/26/25 end-of-support date, these compute environments will no longer receive any new software updates, security patches, or bug fixes from Amazon Web Services. For more information on upgrading from AL2 to AL2023, see How to upgrade from EKS AL2 to EKS AL2023 in the Batch User Guide.   EKS_AL2   Amazon Linux 2: Used for non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  EKS_AL2023   Amazon Linux 2023: Default for non-GPU instance families.  Amazon Linux 2023 does not support A1 instances.   EKS_AL2023_NVIDIA   Amazon Linux 2023 (accelerated): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources.  ECS  If the imageIdOverride parameter isn't specified, then a recent Amazon ECS-optimized Amazon Linux 2023 AMI (ECS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used.  Amazon Web Services is ending support for Amazon ECS Amazon Linux 2-optimized and accelerated AMIs on June 30, 2026. On January 12, 2026, Batch changed the default AMI for new Amazon ECS compute environments from Amazon Linux 2 to Amazon Linux 2023. Effective June 30, 2026, Batch will block creation of new Amazon ECS compute environments using Batch-provided Amazon Linux 2 AMIs. We strongly recommend migrating your existing Batch Amazon ECS compute environments to Amazon Linux 2023 prior to June 30, 2026. For more information on upgrading from AL2 to AL2023, see How to migrate from ECS AL2 to ECS AL2023 in the Batch User Guide.   ECS_AL2   Amazon Linux 2: Used for non-GPU instance families.  ECS_AL2_NVIDIA   Amazon Linux 2 (GPU): Used for GPU instance families (for example P4 and G4) and non Amazon Web Services Graviton-based instance types.  ECS_AL2023   Amazon Linux 2023: Default  for all non-GPU instance families.  Amazon Linux 2023 does not support A1 instances.   ECS_AL2023_NVIDIA   Amazon Linux 2023 (GPU): Default for all GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.  ECS_AL2023_NVIDIA doesn't support p3 and g3 instance types.     EKS  If the imageIdOverride parameter isn't specified, then a recent Amazon EKS-optimized Amazon Linux 2023 AMI (EKS_AL2023) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used.  Amazon Linux 2023 AMIs are the default on Batch for Amazon EKS. Amazon Web Services ended support for Amazon EKS AL2-optimized and AL2-accelerated AMIs on November 26, 2025. Batch Amazon EKS compute environments using Amazon Linux 2 will no longer receive software updates, security patches, or bug fixes from Amazon Web Services. We recommend migrating to Amazon Linux 2023. For more information on upgrading from AL2 to AL2023, see How to upgrade from EKS AL2 to EKS AL2023 in the Batch User Guide.   EKS_AL2   Amazon Linux 2: Used for non-GPU instance families.  EKS_AL2_NVIDIA   Amazon Linux 2 (accelerated): Used for GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.  EKS_AL2023   Amazon Linux 2023: Default for non-GPU instance families.  Amazon Linux 2023 does not support A1 instances.   EKS_AL2023_NVIDIA   Amazon Linux 2023 (accelerated): Default for GPU instance families and can be used for all non Amazon Web Services Graviton-based instance types.
         public let imageType: String?
 
         @inlinable
-        public init(imageIdOverride: String? = nil, imageKubernetesVersion: String? = nil, imageType: String? = nil) {
+        public init(batchImageStatus: String? = nil, imageIdOverride: String? = nil, imageKubernetesVersion: String? = nil, imageType: String? = nil) {
+            self.batchImageStatus = batchImageStatus
             self.imageIdOverride = imageIdOverride
             self.imageKubernetesVersion = imageKubernetesVersion
             self.imageType = imageType
@@ -2072,6 +2272,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchImageStatus = "batchImageStatus"
             case imageIdOverride = "imageIdOverride"
             case imageKubernetesVersion = "imageKubernetesVersion"
             case imageType = "imageType"
@@ -3081,6 +3282,42 @@ extension Batch {
         }
     }
 
+    public struct FrontOfQuotaShareJobSummary: AWSDecodableShape {
+        /// The Unix timestamp (in milliseconds) for when the job transitioned to its current position in the quota share.
+        public let earliestTimeAtPosition: Int64?
+        /// The ARN for a job in a named quota share.
+        public let jobArn: String?
+
+        @inlinable
+        public init(earliestTimeAtPosition: Int64? = nil, jobArn: String? = nil) {
+            self.earliestTimeAtPosition = earliestTimeAtPosition
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earliestTimeAtPosition = "earliestTimeAtPosition"
+            case jobArn = "jobArn"
+        }
+    }
+
+    public struct FrontOfQuotaSharesDetail: AWSDecodableShape {
+        /// The Unix timestamp (in milliseconds) for when the first RUNNABLE job per quota share were all last updated.
+        public let lastUpdatedAt: Int64?
+        /// Contains a list of the first RUNNABLE job in each named quota share.
+        public let quotaShares: [String: [FrontOfQuotaShareJobSummary]]?
+
+        @inlinable
+        public init(lastUpdatedAt: Int64? = nil, quotaShares: [String: [FrontOfQuotaShareJobSummary]]? = nil) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShares = quotaShares
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "lastUpdatedAt"
+            case quotaShares = "quotaShares"
+        }
+    }
+
     public struct GetJobQueueSnapshotRequest: AWSEncodableShape {
         /// The job queue’s name or full queue Amazon Resource Name (ARN).
         public let jobQueue: String?
@@ -3096,19 +3333,23 @@ extension Batch {
     }
 
     public struct GetJobQueueSnapshotResponse: AWSDecodableShape {
-        /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For job queues with an attached fair-share scheduling (FSS) or quota-share policy, jobs are ordered based on their job priority and share usage.
         public let frontOfQueue: FrontOfQueueDetail?
-        /// The job queue's capacity utilization, including total usage and breakdown by fairshare scheduling queue.
+        /// The first RUNNABLE job in each quota share. Jobs are ordered based on their job priority and share usage.
+        public let frontOfQuotaShares: FrontOfQuotaSharesDetail?
+        /// The job queue's capacity utilization, including total usage and breakdown per given share.
         public let queueUtilization: QueueSnapshotUtilizationDetail?
 
         @inlinable
-        public init(frontOfQueue: FrontOfQueueDetail? = nil, queueUtilization: QueueSnapshotUtilizationDetail? = nil) {
+        public init(frontOfQueue: FrontOfQueueDetail? = nil, frontOfQuotaShares: FrontOfQuotaSharesDetail? = nil, queueUtilization: QueueSnapshotUtilizationDetail? = nil) {
             self.frontOfQueue = frontOfQueue
+            self.frontOfQuotaShares = frontOfQuotaShares
             self.queueUtilization = queueUtilization
         }
 
         private enum CodingKeys: String, CodingKey {
             case frontOfQueue = "frontOfQueue"
+            case frontOfQuotaShares = "frontOfQuotaShares"
             case queueUtilization = "queueUtilization"
         }
     }
@@ -3448,7 +3689,7 @@ extension Batch {
     }
 
     public struct JobStateTimeLimitAction: AWSEncodableShape & AWSDecodableShape {
-        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is CANCEL, which will cancel the job.
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. For job queues connected to a ECS, FARGATE or EKS compute environment, the only supported value is CANCEL, which will cancel the job.  For job queues connected to a SAGEMAKER_TRAINING service environment, the only supported value is TERMINATE, which will terminate the job.
         public let action: JobStateTimeLimitActionsAction?
         /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
         public let maxTimeSeconds: Int?
@@ -3895,6 +4136,46 @@ extension Batch {
         }
     }
 
+    public struct ListQuotaSharesRequest: AWSEncodableShape {
+        /// The name or full Amazon Resource Name (ARN) of the job queue used to list quota shares.
+        public let jobQueue: String?
+        /// The maximum number of results returned by ListQuotaShares in paginated output. When this parameter is used, ListQuotaShares only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListQuotaShares request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListQuotaShares returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value that's returned from a previous paginated ListQuotaShares request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobQueue: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.jobQueue = jobQueue
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobQueue = "jobQueue"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListQuotaSharesResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future ListQuotaShares request. When the results of a ListQuotaShares request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// A list of quota shares that match the request.
+        public let quotaShares: [QuotaShareDetail]?
+
+        @inlinable
+        public init(nextToken: String? = nil, quotaShares: [QuotaShareDetail]? = nil) {
+            self.nextToken = nextToken
+            self.quotaShares = quotaShares
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case quotaShares = "quotaShares"
+        }
+    }
+
     public struct ListSchedulingPoliciesRequest: AWSEncodableShape {
         /// The maximum number of results that's returned by ListSchedulingPolicies in paginated output. When this parameter is used, ListSchedulingPolicies only returns maxResults results in a single page and a nextToken response element. You can see the remaining results of the initial request by sending another ListSchedulingPolicies request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, ListSchedulingPolicies returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -3933,15 +4214,15 @@ extension Batch {
 
     public struct ListServiceJobsRequest: AWSEncodableShape {
         /// The filter to apply to the query. Only one filter can be used at a time. When the
-        /// 	            filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The results are sorted by the
-        /// 	                createdAt field, with the most recent jobs being first.  The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.   JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  SHARE_IDENTIFIER  The value for the filter is the fairshare scheduling share identifier.
+        /// 	            filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER or QUOTA_SHARE_NAME and jobStatus can be used together. The results are sorted by the
+        /// 	                createdAt field, with the most recent jobs being first.  The SHARE_IDENTIFIER or QUOTA_SHARE_NAME filter and the jobStatus field can be used together to filter results.   JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  SHARE_IDENTIFIER  The value for the filter is the fairshare scheduling share identifier.  QUOTA_SHARE_NAME  The value for the filter is the quota management share name.
         public let filters: [KeyValuesPair]?
         /// The name or ARN of the job queue with which to list service jobs.
         public let jobQueue: String?
         /// The job status used to filter service jobs in the specified queue. If the filters
         /// 	            parameter is specified, the jobStatus parameter is ignored and jobs with any
-        /// 	            status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are
-        /// 	            returned.  The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.
+        /// 	            status are returned. The exceptions are the SHARE_IDENTIFIER filter and QUOTA_SHARE_NAME filter, which can be used with jobStatus. If you don't specify a status, only RUNNING jobs are
+        /// 	            returned.  The SHARE_IDENTIFIER filter or QUOTA_SHARE_NAME filter can be used with the jobStatus field to filter results.
         public let jobStatus: ServiceJobStatus?
         /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -4287,20 +4568,180 @@ extension Batch {
         public let fairshareUtilization: FairshareUtilizationDetail?
         /// The Unix timestamp (in milliseconds) for when the queue utilization information was last updated.
         public let lastUpdatedAt: Int64?
-        /// The total capacity usage for the entire job queue, for both first-in, first-out (FIFO) and fairshare scheduling job queue.
+        /// The utilization information for a job queue with a quota share scheduling policy.
+        public let quotaShareUtilization: QuotaShareUtilizationDetail?
+        /// The total capacity usage for the entire job queue.
         public let totalCapacityUsage: [QueueSnapshotCapacityUsage]?
 
         @inlinable
-        public init(fairshareUtilization: FairshareUtilizationDetail? = nil, lastUpdatedAt: Int64? = nil, totalCapacityUsage: [QueueSnapshotCapacityUsage]? = nil) {
+        public init(fairshareUtilization: FairshareUtilizationDetail? = nil, lastUpdatedAt: Int64? = nil, quotaShareUtilization: QuotaShareUtilizationDetail? = nil, totalCapacityUsage: [QueueSnapshotCapacityUsage]? = nil) {
             self.fairshareUtilization = fairshareUtilization
             self.lastUpdatedAt = lastUpdatedAt
+            self.quotaShareUtilization = quotaShareUtilization
             self.totalCapacityUsage = totalCapacityUsage
         }
 
         private enum CodingKeys: String, CodingKey {
             case fairshareUtilization = "fairshareUtilization"
             case lastUpdatedAt = "lastUpdatedAt"
+            case quotaShareUtilization = "quotaShareUtilization"
             case totalCapacityUsage = "totalCapacityUsage"
+        }
+    }
+
+    public struct QuotaShareCapacityLimit: AWSEncodableShape & AWSDecodableShape {
+        /// The unit of compute capacity for the capacityLimit. For example, ml.m5.large.
+        public let capacityUnit: String?
+        /// The maximum capacity available for the quota share. This value represents the maximum quantity of a resource that can be allocated to jobs in the quota share without borrowing.
+        public let maxCapacity: Int?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, maxCapacity: Int? = nil) {
+            self.capacityUnit = capacityUnit
+            self.maxCapacity = maxCapacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case maxCapacity = "maxCapacity"
+        }
+    }
+
+    public struct QuotaShareCapacityUsage: AWSDecodableShape {
+        /// The unit of compute capacity for the capacity usage.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct QuotaShareCapacityUtilization: AWSDecodableShape {
+        /// The capacity usage information for this quota share, including the units of compute capacity and quantity being used.
+        public let capacityUsage: [QuotaShareCapacityUsage]?
+        /// The name of the quota share.
+        public let quotaShareName: String?
+
+        @inlinable
+        public init(capacityUsage: [QuotaShareCapacityUsage]? = nil, quotaShareName: String? = nil) {
+            self.capacityUsage = capacityUsage
+            self.quotaShareName = quotaShareName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUsage = "capacityUsage"
+            case quotaShareName = "quotaShareName"
+        }
+    }
+
+    public struct QuotaShareDetail: AWSDecodableShape {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public let capacityLimits: [QuotaShareCapacityLimit]?
+        /// The Amazon Resource Name (ARN) of the job queue associated with the quota share.
+        public let jobQueueArn: String?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public let preemptionConfiguration: QuotaSharePreemptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+        /// The name of the quota share.
+        public let quotaShareName: String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public let resourceSharingConfiguration: QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share.
+        public let state: QuotaShareState?
+        /// The current status of the quota share.
+        public let status: QuotaShareStatus?
+
+        @inlinable
+        public init(capacityLimits: [QuotaShareCapacityLimit]? = nil, jobQueueArn: String? = nil, preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil, quotaShareArn: String? = nil, quotaShareName: String? = nil, resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil, state: QuotaShareState? = nil, status: QuotaShareStatus? = nil) {
+            self.capacityLimits = capacityLimits
+            self.jobQueueArn = jobQueueArn
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case jobQueueArn = "jobQueueArn"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case quotaShareArn = "quotaShareArn"
+            case quotaShareName = "quotaShareName"
+            case resourceSharingConfiguration = "resourceSharingConfiguration"
+            case state = "state"
+            case status = "status"
+        }
+    }
+
+    public struct QuotaSharePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The strategy that determines how idle resources are assigned to quota shares that are borrowing capacity. Currently, only FIFO is supported.
+        public let idleResourceAssignmentStrategy: QuotaShareIdleResourceAssignmentStrategy?
+
+        @inlinable
+        public init(idleResourceAssignmentStrategy: QuotaShareIdleResourceAssignmentStrategy? = nil) {
+            self.idleResourceAssignmentStrategy = idleResourceAssignmentStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleResourceAssignmentStrategy = "idleResourceAssignmentStrategy"
+        }
+    }
+
+    public struct QuotaSharePreemptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether jobs within a quota share can be preempted by another, higher priority job in the same quota share.
+        public let inSharePreemption: QuotaShareInSharePreemptionState?
+
+        @inlinable
+        public init(inSharePreemption: QuotaShareInSharePreemptionState? = nil) {
+            self.inSharePreemption = inSharePreemption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inSharePreemption = "inSharePreemption"
+        }
+    }
+
+    public struct QuotaShareResourceSharingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum percentage of additional capacity that the quota share can borrow from other shares. borrowLimit can only be applied to quota shares with a strategy of LEND_AND_BORROW. This value is expressed as a percentage of the quota share's configured CapacityLimits. The borrowLimit is applied uniformly across all capacity units.  For example, if the borrowLimit is 200, the quota  share can borrow up to 200% of its configured maxCapacity for each capacity unit. The default borrowLimit is -1, which indicates unlimited borrowing.
+        public let borrowLimit: Int?
+        /// The resource sharing strategy for the quota share. The RESERVE strategy allows a quota share to reserve idle capacity for itself. LEND configures the share to lend its idle capacity to another share in need of capacity. The LEND_AND_BORROW strategy configures the share to borrow idle capacity from an underutilized share, as well as lend to another share.
+        public let strategy: QuotaShareResourceSharingStrategy?
+
+        @inlinable
+        public init(borrowLimit: Int? = nil, strategy: QuotaShareResourceSharingStrategy? = nil) {
+            self.borrowLimit = borrowLimit
+            self.strategy = strategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case borrowLimit = "borrowLimit"
+            case strategy = "strategy"
+        }
+    }
+
+    public struct QuotaShareUtilizationDetail: AWSDecodableShape {
+        /// A list of the top capacity utilizations across quota shares associated with a job queue.
+        public let topCapacityUtilization: [QuotaShareCapacityUtilization]?
+
+        @inlinable
+        public init(topCapacityUtilization: [QuotaShareCapacityUtilization]? = nil) {
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topCapacityUtilization = "topCapacityUtilization"
         }
     }
 
@@ -4474,6 +4915,32 @@ extension Batch {
         }
     }
 
+    public struct S3FilesVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3Files access point to use.
+        public let accessPointArn: String?
+        /// The Amazon Resource Name (ARN) of the S3Files file system to use.
+        public let fileSystemArn: String?
+        /// The directory within the S3Files file system to mount as the root directory.
+        public let rootDirectory: String?
+        /// The port to use when sending encrypted data between the Amazon ECS host and the S3Files file system server.
+        public let transitEncryptionPort: Int?
+
+        @inlinable
+        public init(accessPointArn: String? = nil, fileSystemArn: String? = nil, rootDirectory: String? = nil, transitEncryptionPort: Int? = nil) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.rootDirectory = rootDirectory
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "accessPointArn"
+            case fileSystemArn = "fileSystemArn"
+            case rootDirectory = "rootDirectory"
+            case transitEncryptionPort = "transitEncryptionPort"
+        }
+    }
+
     public struct SchedulingPolicyDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy. An example is arn:aws:batch:us-east-1:123456789012:scheduling-policy/HighPriority .
         public let arn: String?
@@ -4481,14 +4948,17 @@ extension Batch {
         public let fairsharePolicy: FairsharePolicy?
         /// The name of the fair-share scheduling policy.
         public let name: String?
+        /// The quota share scheduling policy details.
+        public let quotaSharePolicy: QuotaSharePolicy?
         /// The tags that you apply to the fair-share scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil, name: String? = nil, quotaSharePolicy: QuotaSharePolicy? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
             self.name = name
+            self.quotaSharePolicy = quotaSharePolicy
             self.tags = tags
         }
 
@@ -4496,6 +4966,7 @@ extension Batch {
             case arn = "arn"
             case fairsharePolicy = "fairsharePolicy"
             case name = "name"
+            case quotaSharePolicy = "quotaSharePolicy"
             case tags = "tags"
         }
     }
@@ -4668,6 +5139,64 @@ extension Batch {
         }
     }
 
+    public struct ServiceJobPreemptedAttempt: AWSDecodableShape {
+        /// The service resource identifier associated with the service job attempt.
+        public let serviceResourceId: ServiceResourceId?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt was started.
+        public let startedAt: Int64?
+        /// A string that provides additional details for the current status of the service job attempt.
+        public let statusReason: String?
+        /// The Unix timestamp (in milliseconds) for when the service job attempt stopped running.
+        public let stoppedAt: Int64?
+
+        @inlinable
+        public init(serviceResourceId: ServiceResourceId? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+            self.serviceResourceId = serviceResourceId
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceResourceId = "serviceResourceId"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+        }
+    }
+
+    public struct ServiceJobPreemptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of times a service job can be retried after it is preempted.  A job will be terminated when preemption retries have been exhausted. If this field is unset, preempted jobs will be requeued an unlimited number of times.
+        public let preemptionRetriesBeforeTermination: Int?
+
+        @inlinable
+        public init(preemptionRetriesBeforeTermination: Int? = nil) {
+            self.preemptionRetriesBeforeTermination = preemptionRetriesBeforeTermination
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preemptionRetriesBeforeTermination = "preemptionRetriesBeforeTermination"
+        }
+    }
+
+    public struct ServiceJobPreemptionSummary: AWSDecodableShape {
+        /// The total number of times the service job has been preempted.
+        public let preemptedAttemptCount: Int?
+        /// A list of the most recent preemption attempts for the service job.
+        public let recentPreemptedAttempts: [ServiceJobPreemptedAttempt]?
+
+        @inlinable
+        public init(preemptedAttemptCount: Int? = nil, recentPreemptedAttempts: [ServiceJobPreemptedAttempt]? = nil) {
+            self.preemptedAttemptCount = preemptedAttemptCount
+            self.recentPreemptedAttempts = recentPreemptedAttempts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preemptedAttemptCount = "preemptedAttemptCount"
+            case recentPreemptedAttempts = "recentPreemptedAttempts"
+        }
+    }
+
     public struct ServiceJobRetryStrategy: AWSEncodableShape & AWSDecodableShape {
         /// The number of times to move a service job to RUNNABLE status. You can specify between 1 and 10 attempts.
         public let attempts: Int?
@@ -4699,6 +5228,8 @@ extension Batch {
         public let jobName: String?
         /// Information about the latest attempt for the service job.
         public let latestAttempt: LatestServiceJobAttempt?
+        /// The quota share for the service job.
+        public let quotaShareName: String?
         /// The Unix timestamp (in milliseconds) for when the service job was scheduled for execution.
         public let scheduledAt: Int64?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
@@ -4715,13 +5246,14 @@ extension Batch {
         public let stoppedAt: Int64?
 
         @inlinable
-        public init(capacityUsage: [ServiceJobCapacityUsageSummary]? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, scheduledAt: Int64? = nil, serviceJobType: ServiceJobType? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(capacityUsage: [ServiceJobCapacityUsageSummary]? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, quotaShareName: String? = nil, scheduledAt: Int64? = nil, serviceJobType: ServiceJobType? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.capacityUsage = capacityUsage
             self.createdAt = createdAt
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.latestAttempt = latestAttempt
+            self.quotaShareName = quotaShareName
             self.scheduledAt = scheduledAt
             self.serviceJobType = serviceJobType
             self.shareIdentifier = shareIdentifier
@@ -4738,6 +5270,7 @@ extension Batch {
             case jobId = "jobId"
             case jobName = "jobName"
             case latestAttempt = "latestAttempt"
+            case quotaShareName = "quotaShareName"
             case scheduledAt = "scheduledAt"
             case serviceJobType = "serviceJobType"
             case shareIdentifier = "shareIdentifier"
@@ -4917,6 +5450,10 @@ extension Batch {
         public let jobName: String?
         /// The job queue into which the service job is submitted. You can specify either the name or the ARN of the queue. The job queue must have the type SAGEMAKER_TRAINING.
         public let jobQueue: String?
+        /// Specifies the service job behavior when preempted.
+        public let preemptionConfiguration: ServiceJobPreemptionConfiguration?
+        /// The quota share for the service job. Don't specify this parameter if the job queue doesn't have a quota share scheduling policy. If the job queue has a quota share scheduling policy, then this parameter must be specified.
+        public let quotaShareName: String?
         /// The retry strategy to use for failed service jobs that are submitted with this service job request.
         public let retryStrategy: ServiceJobRetryStrategy?
         /// The scheduling priority of the service job.  Valid values are integers between 0 and 9999.
@@ -4933,10 +5470,12 @@ extension Batch {
         public let timeoutConfig: ServiceJobTimeout?
 
         @inlinable
-        public init(clientToken: String? = SubmitServiceJobRequest.idempotencyToken(), jobName: String? = nil, jobQueue: String? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
+        public init(clientToken: String? = SubmitServiceJobRequest.idempotencyToken(), jobName: String? = nil, jobQueue: String? = nil, preemptionConfiguration: ServiceJobPreemptionConfiguration? = nil, quotaShareName: String? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
             self.clientToken = clientToken
             self.jobName = jobName
             self.jobQueue = jobQueue
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareName = quotaShareName
             self.retryStrategy = retryStrategy
             self.schedulingPriority = schedulingPriority
             self.serviceJobType = serviceJobType
@@ -4962,6 +5501,8 @@ extension Batch {
             case clientToken = "clientToken"
             case jobName = "jobName"
             case jobQueue = "jobQueue"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case quotaShareName = "quotaShareName"
             case retryStrategy = "retryStrategy"
             case schedulingPriority = "schedulingPriority"
             case serviceJobType = "serviceJobType"
@@ -5089,13 +5630,17 @@ extension Batch {
         public let resourceRequirements: [ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secrets: [Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public let startTimeout: Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public let stopTimeout: Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers.
         public let ulimits: [Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.  When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security.  You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gi     uid:group          This parameter is not supported for Windows containers.
         public let user: String?
 
         @inlinable
-        public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, exitCode: Int? = nil, firelensConfiguration: FirelensConfiguration? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
+        public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, exitCode: Int? = nil, firelensConfiguration: FirelensConfiguration? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
             self.command = command
             self.dependsOn = dependsOn
             self.environment = environment
@@ -5115,6 +5660,8 @@ extension Batch {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -5139,6 +5686,8 @@ extension Batch {
             case repositoryCredentials = "repositoryCredentials"
             case resourceRequirements = "resourceRequirements"
             case secrets = "secrets"
+            case startTimeout = "startTimeout"
+            case stopTimeout = "stopTimeout"
             case ulimits = "ulimits"
             case user = "user"
         }
@@ -5201,13 +5750,17 @@ extension Batch {
         public let resourceRequirements: [ResourceRequirement]?
         /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
         public let secrets: [Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds.
+        public let startTimeout: Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own. The minimum value is 2 seconds and the maximum value for Fargate is 120 seconds. If the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter nor the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default value of 30 seconds is used.
+        public let stopTimeout: Int?
         /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'   This parameter is not supported for Windows containers.
         public let ulimits: [Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.  When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security.  You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.    user     user:group     uid     uid:gid     user:gi     uid:group     This parameter is not supported for Windows containers.
         public let user: String?
 
         @inlinable
-        public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, firelensConfiguration: FirelensConfiguration? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
+        public init(command: [String]? = nil, dependsOn: [TaskContainerDependency]? = nil, environment: [KeyValuePair]? = nil, essential: Bool? = nil, firelensConfiguration: FirelensConfiguration? = nil, image: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, ulimits: [Ulimit]? = nil, user: String? = nil) {
             self.command = command
             self.dependsOn = dependsOn
             self.environment = environment
@@ -5223,6 +5776,8 @@ extension Batch {
             self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
             self.ulimits = ulimits
             self.user = user
         }
@@ -5243,6 +5798,8 @@ extension Batch {
             case repositoryCredentials = "repositoryCredentials"
             case resourceRequirements = "resourceRequirements"
             case secrets = "secrets"
+            case startTimeout = "startTimeout"
+            case stopTimeout = "stopTimeout"
             case ulimits = "ulimits"
             case user = "user"
         }
@@ -5394,7 +5951,7 @@ extension Batch {
         public let context: String?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
-        /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
+        /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public let state: CEState?
         /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
         public let unmanagedvCpus: Int?
@@ -5556,7 +6113,7 @@ extension Batch {
     }
 
     public struct UpdatePolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30.
+        /// Specifies the job timeout (in minutes) when the compute environment infrastructure is updated. The default value is 30. The maximum value is 7200.  Increasing jobExecutionTimeoutMinutes during infrastructure updates delays  the replacement of instances with new instances that include updates such as security patches,  but provides more time for jobs to execute. Consider the security implications of this tradeoff  when setting timeout values.
         public let jobExecutionTimeoutMinutes: Int64?
         /// Specifies whether jobs are automatically terminated when the compute environment infrastructure is updated. The default value is false.
         public let terminateJobsOnUpdate: Bool?
@@ -5568,7 +6125,7 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.jobExecutionTimeoutMinutes, name: "jobExecutionTimeoutMinutes", parent: name, max: 360)
+            try self.validate(self.jobExecutionTimeoutMinutes, name: "jobExecutionTimeoutMinutes", parent: name, max: 7200)
             try self.validate(self.jobExecutionTimeoutMinutes, name: "jobExecutionTimeoutMinutes", parent: name, min: 1)
         }
 
@@ -5578,21 +6135,73 @@ extension Batch {
         }
     }
 
+    public struct UpdateQuotaShareRequest: AWSEncodableShape {
+        /// A list that specifies the quantity and type of compute capacity allocated to the quota share.
+        public let capacityLimits: [QuotaShareCapacityLimit]?
+        /// Specifies the preemption behavior for jobs in a quota share.
+        public let preemptionConfiguration: QuotaSharePreemptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the quota share to update.
+        public let quotaShareArn: String?
+        /// Specifies whether a quota share reserves, lends, or both lends and borrows idle compute capacity.
+        public let resourceSharingConfiguration: QuotaShareResourceSharingConfiguration?
+        /// The state of the quota share. If the quota share is ENABLED, it is able to accept jobs. If the quota share is DISABLED, new jobs won't be accepted but jobs already submitted can finish.
+        public let state: QuotaShareState?
+
+        @inlinable
+        public init(capacityLimits: [QuotaShareCapacityLimit]? = nil, preemptionConfiguration: QuotaSharePreemptionConfiguration? = nil, quotaShareArn: String? = nil, resourceSharingConfiguration: QuotaShareResourceSharingConfiguration? = nil, state: QuotaShareState? = nil) {
+            self.capacityLimits = capacityLimits
+            self.preemptionConfiguration = preemptionConfiguration
+            self.quotaShareArn = quotaShareArn
+            self.resourceSharingConfiguration = resourceSharingConfiguration
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityLimits = "capacityLimits"
+            case preemptionConfiguration = "preemptionConfiguration"
+            case quotaShareArn = "quotaShareArn"
+            case resourceSharingConfiguration = "resourceSharingConfiguration"
+            case state = "state"
+        }
+    }
+
+    public struct UpdateQuotaShareResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the quota share.
+        public let quotaShareArn: String?
+        /// The name of the quota share.
+        public let quotaShareName: String?
+
+        @inlinable
+        public init(quotaShareArn: String? = nil, quotaShareName: String? = nil) {
+            self.quotaShareArn = quotaShareArn
+            self.quotaShareName = quotaShareName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quotaShareArn = "quotaShareArn"
+            case quotaShareName = "quotaShareName"
+        }
+    }
+
     public struct UpdateSchedulingPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy to update.
         public let arn: String?
-        /// The fair-share policy scheduling details.
+        /// The fair-share policy scheduling details. Once set during creation, a fairsharePolicy cannot be removed or changed to a quotaSharePolicy.
         public let fairsharePolicy: FairsharePolicy?
+        /// The quota share scheduling policy details. Once set during creation, a quotaSharePolicy cannot be removed or changed to a fairsharePolicy.
+        public let quotaSharePolicy: QuotaSharePolicy?
 
         @inlinable
-        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil) {
+        public init(arn: String? = nil, fairsharePolicy: FairsharePolicy? = nil, quotaSharePolicy: QuotaSharePolicy? = nil) {
             self.arn = arn
             self.fairsharePolicy = fairsharePolicy
+            self.quotaSharePolicy = quotaSharePolicy
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case fairsharePolicy = "fairsharePolicy"
+            case quotaSharePolicy = "quotaSharePolicy"
         }
     }
 
@@ -5640,6 +6249,46 @@ extension Batch {
         }
     }
 
+    public struct UpdateServiceJobRequest: AWSEncodableShape {
+        /// The Batch job ID of the job to update.
+        public let jobId: String?
+        /// The scheduling priority for the job. This only affects jobs in job queues with a quota-share or fair-share scheduling policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority within a share. The minimum supported value is 0 and the maximum supported value is 9999.
+        public let schedulingPriority: Int?
+
+        @inlinable
+        public init(jobId: String? = nil, schedulingPriority: Int? = nil) {
+            self.jobId = jobId
+            self.schedulingPriority = schedulingPriority
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+            case schedulingPriority = "schedulingPriority"
+        }
+    }
+
+    public struct UpdateServiceJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the job.
+        public let jobArn: String?
+        /// The unique identifier for the job.
+        public let jobId: String?
+        /// The name of the job.
+        public let jobName: String?
+
+        @inlinable
+        public init(jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil) {
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+            case jobId = "jobId"
+            case jobName = "jobName"
+        }
+    }
+
     public struct Volume: AWSEncodableShape & AWSDecodableShape {
         /// This parameter is specified when you're using an Amazon Elastic File System file system for job storage. Jobs that are running on Fargate resources must specify a platformVersion of at least 1.4.0.
         public let efsVolumeConfiguration: EFSVolumeConfiguration?
@@ -5647,18 +6296,22 @@ extension Batch {
         public let host: Host?
         /// The name of the volume. It can be up to 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_). This name is referenced in the sourceVolume parameter of container definition mountPoints.
         public let name: String?
+        /// This parameter is specified when you're using an S3Files file system for job storage.
+        public let s3filesVolumeConfiguration: S3FilesVolumeConfiguration?
 
         @inlinable
-        public init(efsVolumeConfiguration: EFSVolumeConfiguration? = nil, host: Host? = nil, name: String? = nil) {
+        public init(efsVolumeConfiguration: EFSVolumeConfiguration? = nil, host: Host? = nil, name: String? = nil, s3filesVolumeConfiguration: S3FilesVolumeConfiguration? = nil) {
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.host = host
             self.name = name
+            self.s3filesVolumeConfiguration = s3filesVolumeConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case efsVolumeConfiguration = "efsVolumeConfiguration"
             case host = "host"
             case name = "name"
+            case s3filesVolumeConfiguration = "s3filesVolumeConfiguration"
         }
     }
 }

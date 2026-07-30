@@ -363,6 +363,24 @@ extension DataExchange {
         }
     }
 
+    public struct AssetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The tags to be applied to assets created by the job.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct AssetDestinationEntry: AWSEncodableShape & AWSDecodableShape {
         /// The unique identifier for the asset.
         public let assetId: String
@@ -838,22 +856,27 @@ extension DataExchange {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
+        /// The configuration for the asset, including tags to be applied to assets created by the job.
+        public let assetConfiguration: AssetConfiguration?
         /// The details for the CreateJob request.
         public let details: RequestDetails
         /// The type of job to be created.
         public let type: `Type`
 
         @inlinable
-        public init(details: RequestDetails, type: `Type`) {
+        public init(assetConfiguration: AssetConfiguration? = nil, details: RequestDetails, type: `Type`) {
+            self.assetConfiguration = assetConfiguration
             self.details = details
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.assetConfiguration?.validate(name: "\(name).assetConfiguration")
             try self.details.validate(name: "\(name).details")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetConfiguration = "AssetConfiguration"
             case details = "Details"
             case type = "Type"
         }
@@ -862,6 +885,8 @@ extension DataExchange {
     public struct CreateJobResponse: AWSDecodableShape {
         /// The ARN for the job.
         public let arn: String?
+        /// The configuration for the asset, including tags applied to assets created by the job.
+        public let assetConfiguration: AssetConfiguration?
         /// The date and time that the job was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -880,8 +905,9 @@ extension DataExchange {
         public var updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, assetConfiguration: AssetConfiguration? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
+            self.assetConfiguration = assetConfiguration
             self.createdAt = createdAt
             self.details = details
             self.errors = errors
@@ -893,6 +919,7 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case assetConfiguration = "AssetConfiguration"
             case createdAt = "CreatedAt"
             case details = "Details"
             case errors = "Errors"
@@ -1661,12 +1688,14 @@ extension DataExchange {
         public let revisionId: String?
         /// The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.
         public let sourceId: String?
+        /// The tags for the asset.
+        public let tags: [String: String]?
         /// The date and time that the asset was last updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, assetDetails: AssetDetails? = nil, assetType: AssetType? = nil, createdAt: Date? = nil, dataSetId: String? = nil, id: String? = nil, name: String? = nil, revisionId: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.assetDetails = assetDetails
             self.assetType = assetType
@@ -1676,6 +1705,7 @@ extension DataExchange {
             self.name = name
             self.revisionId = revisionId
             self.sourceId = sourceId
+            self.tags = tags
             self.updatedAt = updatedAt
         }
 
@@ -1689,6 +1719,7 @@ extension DataExchange {
             case name = "Name"
             case revisionId = "RevisionId"
             case sourceId = "SourceId"
+            case tags = "Tags"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -1950,6 +1981,8 @@ extension DataExchange {
     public struct GetJobResponse: AWSDecodableShape {
         /// The ARN for the job.
         public let arn: String?
+        /// The configuration for the asset, including tags applied to assets created by the job.
+        public let assetConfiguration: AssetConfiguration?
         /// The date and time that the job was created, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -1968,8 +2001,9 @@ extension DataExchange {
         public var updatedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, assetConfiguration: AssetConfiguration? = nil, createdAt: Date? = nil, details: ResponseDetails? = nil, errors: [JobError]? = nil, id: String? = nil, state: State? = nil, type: `Type`? = nil, updatedAt: Date? = nil) {
             self.arn = arn
+            self.assetConfiguration = assetConfiguration
             self.createdAt = createdAt
             self.details = details
             self.errors = errors
@@ -1981,6 +2015,7 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case assetConfiguration = "AssetConfiguration"
             case createdAt = "CreatedAt"
             case details = "Details"
             case errors = "Errors"
@@ -2537,6 +2572,8 @@ extension DataExchange {
     public struct JobEntry: AWSDecodableShape {
         /// The ARN for the job.
         public let arn: String
+        /// The configuration for the asset, including tags applied to assets created by the job.
+        public let assetConfiguration: AssetConfiguration?
         /// The date and time that the job was created, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -2555,8 +2592,9 @@ extension DataExchange {
         public var updatedAt: Date
 
         @inlinable
-        public init(arn: String, createdAt: Date, details: ResponseDetails, errors: [JobError]? = nil, id: String, state: State, type: `Type`, updatedAt: Date) {
+        public init(arn: String, assetConfiguration: AssetConfiguration? = nil, createdAt: Date, details: ResponseDetails, errors: [JobError]? = nil, id: String, state: State, type: `Type`, updatedAt: Date) {
             self.arn = arn
+            self.assetConfiguration = assetConfiguration
             self.createdAt = createdAt
             self.details = details
             self.errors = errors
@@ -2568,6 +2606,7 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case assetConfiguration = "AssetConfiguration"
             case createdAt = "CreatedAt"
             case details = "Details"
             case errors = "Errors"
@@ -3779,7 +3818,7 @@ extension DataExchange {
         /// Asset ID value for the API request.
         public let assetId: String
         /// The request body.
-        public let body: String?
+        public let body: AWSHTTPBody?
         /// Data set ID value for the API request.
         public let dataSetId: String
         /// HTTP method value for the API request. Alternatively, you can use the appropriate verb in your request.
@@ -3794,7 +3833,7 @@ extension DataExchange {
         public let revisionId: String
 
         @inlinable
-        public init(assetId: String, body: String? = nil, dataSetId: String, method: String? = nil, path: String? = nil, queryStringParameters: [String: String]? = nil, requestHeaders: [String: String]? = nil, revisionId: String) {
+        public init(assetId: String, body: AWSHTTPBody? = nil, dataSetId: String, method: String? = nil, path: String? = nil, queryStringParameters: [String: String]? = nil, requestHeaders: [String: String]? = nil, revisionId: String) {
             self.assetId = assetId
             self.body = body
             self.dataSetId = dataSetId
@@ -3823,12 +3862,12 @@ extension DataExchange {
 
     public struct SendApiAssetResponse: AWSDecodableShape {
         /// The response body from the underlying API tracked by the API asset.
-        public let body: String
+        public let body: AWSHTTPBody
         /// The response headers from the underlying API tracked by the API asset.
         public let responseHeaders: [String: String]?
 
         @inlinable
-        public init(body: String, responseHeaders: [String: String]? = nil) {
+        public init(body: AWSHTTPBody, responseHeaders: [String: String]? = nil) {
             self.body = body
             self.responseHeaders = responseHeaders
         }
@@ -3836,7 +3875,7 @@ extension DataExchange {
         public init(from decoder: Decoder) throws {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.singleValueContainer()
-            self.body = try container.decode(String.self)
+            self.body = try container.decode(AWSHTTPBody.self)
             self.responseHeaders = try response.decodeHeaderIfPresent([String: String].self, key: "")
         }
 
@@ -3976,6 +4015,24 @@ extension DataExchange {
         private enum CodingKeys: String, CodingKey {
             case expression = "Expression"
             case permissions = "Permissions"
+        }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the tag.
+        public let key: String
+        /// The value of the tag.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
         }
     }
 

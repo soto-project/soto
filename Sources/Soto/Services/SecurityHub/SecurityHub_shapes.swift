@@ -92,6 +92,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum CloudProviderName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case azure = "Azure"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case notAvailable = "NOT_AVAILABLE"
@@ -120,6 +126,7 @@ extension SecurityHub {
     }
 
     public enum ConnectorProviderName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azure = "AZURE"
         case jiraCloud = "JIRA_CLOUD"
         case servicenow = "SERVICENOW"
         public var description: String { return self.rawValue }
@@ -127,9 +134,11 @@ extension SecurityHub {
 
     public enum ConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connected = "CONNECTED"
+        case degraded = "DEGRADED"
         case failedToConnect = "FAILED_TO_CONNECT"
         case pendingAuthorization = "PENDING_AUTHORIZATION"
         case pendingConfiguration = "PENDING_CONFIGURATION"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -145,8 +154,63 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum CspmConnectorProviderName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azure = "AZURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CspmConnectorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case degraded = "DEGRADED"
+        case failedToConnect = "FAILED_TO_CONNECT"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CspmEnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enabled = "ENABLED"
+        case pendingDeletion = "PENDING_DELETION"
+        case pendingEnablement = "PENDING_ENABLEMENT"
+        case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DateRangeComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case olderThan = "OLDER_THAN"
+        case within = "WITHIN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DateRangeUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiscoveryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case managed = "Managed"
+        case selfHosted = "SelfHosted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enabled = "ENABLED"
+        case failedToDelete = "FAILED_TO_DELETE"
+        case failedToEnable = "FAILED_TO_ENABLE"
+        case failedToUpdate = "FAILED_TO_UPDATE"
+        case pendingDeletion = "PENDING_DELETION"
+        case pendingEnablement = "PENDING_ENABLEMENT"
+        case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case networkScanning = "NETWORK_SCANNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -167,6 +231,10 @@ extension SecurityHub {
         case findingType = "finding_types"
         case providerName = "finding_provider"
         case region = "region"
+        case resourceCloudProviders = "resource_cloud_providers"
+        case resourceOwnerIds = "resource_owner_ids"
+        case resourceOwnerOrganizationIds = "resource_owner_organization_ids"
+        case resourceRegions = "resource_regions"
         public var description: String { return self.rawValue }
     }
 
@@ -195,6 +263,13 @@ extension SecurityHub {
         case metadataProductName = "metadata.product.name"
         case metadataProductUid = "metadata.product.uid"
         case metadataProductVendorName = "metadata.product.vendor_name"
+        case resourcesCloudPartition = "resources.cloud_partition"
+        case resourcesName = "resources.name"
+        case resourcesOwnerAccountName = "resources.owner.account.name"
+        case resourcesOwnerAccountUid = "resources.owner.account.uid"
+        case resourcesOwnerOrgUid = "resources.owner.org.uid"
+        case resourcesProvider = "resources.provider"
+        case resourcesRegion = "resources.region"
         case resourcesType = "resources.type"
         case resourcesUid = "resources.uid"
         case severity = "severity"
@@ -202,6 +277,17 @@ extension SecurityHub {
         case vendorAttributesSeverity = "vendor_attributes.severity"
         case vulnerabilitiesAffectedPackagesName = "vulnerabilities.affected_packages.name"
         case vulnerabilitiesFixCoverage = "vulnerabilities.fix_coverage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HealthIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authenticationFailure = "AUTHENTICATION_FAILURE"
+        case discoveryFailure = "DISCOVERY_FAILURE"
+        case noHealthData = "NO_HEALTH_DATA"
+        case recordingFailure = "RECORDING_FAILURE"
+        case streamAuthorizationFailure = "STREAM_AUTHORIZATION_FAILURE"
+        case streamDisconnected = "STREAM_DISCONNECTED"
+        case streamLimitExceeded = "STREAM_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -368,6 +454,11 @@ extension SecurityHub {
         case resourcesImageRegistryUid = "resources.image.registry_uid"
         case resourcesImageRepositoryName = "resources.image.repository_name"
         case resourcesImageUid = "resources.image.uid"
+        case resourcesName = "resources.name"
+        case resourcesOwnerAccountName = "resources.owner.account.name"
+        case resourcesOwnerAccountUid = "resources.owner.account.uid"
+        case resourcesOwnerOrgUid = "resources.owner.org.uid"
+        case resourcesProvider = "resources.provider"
         case resourcesRegion = "resources.region"
         case resourcesSubnetInfoUid = "resources.subnet_info.uid"
         case resourcesType = "resources.type"
@@ -408,6 +499,21 @@ extension SecurityHub {
         case aws = "aws"
         case awsCn = "aws-cn"
         case awsUsGov = "aws-us-gov"
+        case awsUsIso = "aws-us-iso"
+        case awsUsIsoB = "aws-us-iso-b"
+        case azureCloud = "AzureCloud"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case unusedPermissionRecommendation = "UNUSED_PERMISSION_RECOMMENDATION"
         public var description: String { return self.rawValue }
     }
 
@@ -429,6 +535,7 @@ extension SecurityHub {
         case compute = "Compute"
         case database = "Database"
         case identity = "Identity"
+        case messaging = "Messaging"
         case network = "Network"
         case other = "Other"
         case storage = "Storage"
@@ -437,11 +544,36 @@ extension SecurityHub {
 
     public enum ResourceGroupByField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
+        case accountName = "AccountName"
+        case canonicalId = "ResourceInfo.AIDetails.CanonicalId"
+        case discoveryType = "DiscoveryType"
         case findingType = "FindingsSummary.FindingType"
+        case hostResourceType = "ResourceInfo.AIDetails.HostResourceType"
         case region = "Region"
         case resourceCategory = "ResourceCategory"
+        case resourceCloudPartition = "ResourceCloudPartition"
         case resourceName = "ResourceName"
+        case resourceOwnerAccountId = "ResourceOwnerAccountId"
+        case resourceOwnerOrgId = "ResourceOwnerOrgId"
+        case resourceProvider = "ResourceProvider"
+        case resourceRegion = "ResourceRegion"
+        case resourceSubCategory = "ResourceSubCategory"
         case resourceType = "ResourceType"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceSubCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agent = "Agent"
+        case agentFramework = "AgentFramework"
+        case agentToolsAndIdentity = "AgentToolsAndIdentity"
+        case development = "Development"
+        case externalEndpoint = "ExternalEndpoint"
+        case knowledgeAndData = "KnowledgeAndData"
+        case model = "Model"
+        case modelServing = "ModelServing"
+        case orchestrationAndPipeline = "OrchestrationAndPipeline"
+        case other = "Other"
+        case safetyAndGuardrail = "SafetyAndGuardrail"
         public var description: String { return self.rawValue }
     }
 
@@ -457,6 +589,14 @@ extension SecurityHub {
     }
 
     public enum ResourcesNumberField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case selfHostedAiAgentFrameworkResourceCount = "ResourceInfo.AIDetails.SelfHostedAIAgentFrameworkResourceCount"
+        case selfHostedAiAgentResourceCount = "ResourceInfo.AIDetails.SelfHostedAIAgentResourceCount"
+        case selfHostedAiAgentToolsAndIdentityResourceCount = "ResourceInfo.AIDetails.SelfHostedAIAgentToolsAndIdentityResourceCount"
+        case selfHostedAiDevelopmentResourceCount = "ResourceInfo.AIDetails.SelfHostedAIDevelopmentResourceCount"
+        case selfHostedAiExternalEndpointResourceCount = "ResourceInfo.AIDetails.SelfHostedAIExternalEndpointResourceCount"
+        case selfHostedAiModelResourceCount = "ResourceInfo.AIDetails.SelfHostedAIModelResourceCount"
+        case selfHostedAiModelServingResourceCount = "ResourceInfo.AIDetails.SelfHostedAIModelServingResourceCount"
+        case selfHostedTotalAiResourceCount = "ResourceInfo.AIDetails.SelfHostedTotalAIResourceCount"
         case severityCritical = "FindingsSummary.Severities.Critical"
         case severityFatal = "FindingsSummary.Severities.Fatal"
         case severityHigh = "FindingsSummary.Severities.High"
@@ -471,13 +611,24 @@ extension SecurityHub {
 
     public enum ResourcesStringField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "AccountId"
+        case accountName = "AccountName"
+        case canonicalId = "ResourceInfo.AIDetails.CanonicalId"
+        case discoveryType = "DiscoveryType"
         case findingType = "FindingsSummary.FindingType"
+        case hostResourceGuid = "ResourceInfo.AIDetails.HostResourceGuid"
+        case hostResourceType = "ResourceInfo.AIDetails.HostResourceType"
         case productName = "FindingsSummary.ProductName"
         case region = "Region"
         case resourceCategory = "ResourceCategory"
+        case resourceCloudPartition = "ResourceCloudPartition"
         case resourceGuid = "ResourceGuid"
         case resourceId = "ResourceId"
         case resourceName = "ResourceName"
+        case resourceOwnerAccountId = "ResourceOwnerAccountId"
+        case resourceOwnerOrgId = "ResourceOwnerOrgId"
+        case resourceProvider = "ResourceProvider"
+        case resourceRegion = "ResourceRegion"
+        case resourceSubCategory = "ResourceSubCategory"
         case resourceType = "ResourceType"
         public var description: String { return self.rawValue }
     }
@@ -486,6 +637,10 @@ extension SecurityHub {
         case accountId = "account_id"
         case region = "region"
         case resourceCategory = "resource_category"
+        case resourceCloudProvider = "resource_cloud_provider"
+        case resourceOwnerId = "resource_owner_id"
+        case resourceOwnerOrganizationId = "resource_owner_organization_id"
+        case resourceRegion = "resource_region"
         case resourceType = "resource_type"
         public var description: String { return self.rawValue }
     }
@@ -502,8 +657,20 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case subscription = "SUBSCRIPTION"
+        case tenant = "TENANT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SecurityControlProperty: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case parameters = "Parameters"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityControlsProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case azure = "Azure"
         public var description: String { return self.rawValue }
     }
 
@@ -542,6 +709,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum StandardsProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case azure = "Azure"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StandardsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -555,6 +728,7 @@ extension SecurityHub {
         case internalError = "INTERNAL_ERROR"
         case maximumNumberOfConfigRulesExceeded = "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
         case noAvailableConfigurationRecorder = "NO_AVAILABLE_CONFIGURATION_RECORDER"
+        case noAvailableMulticloudConnector = "NO_AVAILABLE_MULTICLOUD_CONNECTOR"
         public var description: String { return self.rawValue }
     }
 
@@ -835,6 +1009,8 @@ extension SecurityHub {
     }
 
     public enum ProviderConfiguration: AWSEncodableShape, Sendable {
+        /// The configuration settings required to establish a CSPM integration with Microsoft Azure.
+        case azure(AzureProviderConfiguration)
         /// The configuration settings required to establish an integration with Jira Cloud.
         case jiraCloud(JiraCloudProviderConfiguration)
         /// The configuration settings required to establish an integration with ServiceNow ITSM.
@@ -843,6 +1019,8 @@ extension SecurityHub {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azure(let value):
+                try container.encode(value, forKey: .azure)
             case .jiraCloud(let value):
                 try container.encode(value, forKey: .jiraCloud)
             case .serviceNow(let value):
@@ -852,6 +1030,8 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             switch self {
+            case .azure(let value):
+                try value.validate(name: "\(name).azure")
             case .jiraCloud(let value):
                 try value.validate(name: "\(name).jiraCloud")
             case .serviceNow(let value):
@@ -860,12 +1040,15 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
             case jiraCloud = "JiraCloud"
             case serviceNow = "ServiceNow"
         }
     }
 
     public enum ProviderDetail: AWSDecodableShape, Sendable {
+        /// Details about a Microsoft Azure CSPM integration.
+        case azure(AzureDetail)
         /// Details about a Jira Cloud integration.
         case jiraCloud(JiraCloudDetail)
         /// Details about a ServiceNow ITSM integration.
@@ -881,6 +1064,9 @@ extension SecurityHub {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .azure:
+                let value = try container.decode(AzureDetail.self, forKey: .azure)
+                self = .azure(value)
             case .jiraCloud:
                 let value = try container.decode(JiraCloudDetail.self, forKey: .jiraCloud)
                 self = .jiraCloud(value)
@@ -891,12 +1077,15 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
             case jiraCloud = "JiraCloud"
             case serviceNow = "ServiceNow"
         }
     }
 
     public enum ProviderUpdateConfiguration: AWSEncodableShape, Sendable {
+        /// The parameters required to update the configuration for a Microsoft Azure CSPM integration.
+        case azure(AzureUpdateConfiguration)
         /// The parameters required to update the configuration for a Jira Cloud integration.
         case jiraCloud(JiraCloudUpdateConfiguration)
         /// The parameters required to update the configuration for a ServiceNow integration.
@@ -905,6 +1094,8 @@ extension SecurityHub {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azure(let value):
+                try container.encode(value, forKey: .azure)
             case .jiraCloud(let value):
                 try container.encode(value, forKey: .jiraCloud)
             case .serviceNow(let value):
@@ -914,6 +1105,8 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             switch self {
+            case .azure(let value):
+                try value.validate(name: "\(name).azure")
             case .jiraCloud(let value):
                 try value.validate(name: "\(name).jiraCloud")
             case .serviceNow(let value):
@@ -922,6 +1115,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
             case jiraCloud = "JiraCloud"
             case serviceNow = "ServiceNow"
         }
@@ -988,6 +1182,60 @@ extension SecurityHub {
     }
 
     // MARK: Shapes
+
+    public struct AIDetails: AWSDecodableShape {
+        /// The canonical identifier for the AI resource, independent of where it is deployed. Multiple occurrences of the same resource on different hosts share the same CanonicalId. For model resources, the value follows the format model/, such as model/pkg:huggingface/meta-llama/llama-3-8b. Present only on self-hosted AI resources.
+        public let canonicalId: String?
+        /// The identifier of the host resource that hosts the self-hosted AI resource. Present only on self-hosted AI resources.
+        public let hostResourceGuid: String?
+        /// The ResourceType of the host resource that hosts the self-hosted AI resource, such as AWS::EC2::Instance. Present only on self-hosted AI resources.
+        public let hostResourceType: String?
+        /// The number of self-hosted AI resources of ResourceSubCategory AgentFramework detected on the host resource. Present only on host resources.
+        public let selfHostedAIAgentFrameworkResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory Agent detected on the host resource. Present only on host resources.
+        public let selfHostedAIAgentResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory AgentToolsAndIdentity detected on the host resource. Present only on host resources.
+        public let selfHostedAIAgentToolsAndIdentityResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory Development detected on the host resource. Present only on host resources.
+        public let selfHostedAIDevelopmentResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory ExternalEndpoint detected on the host resource. Present only on host resources.
+        public let selfHostedAIExternalEndpointResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory Model detected on the host resource. Present only on host resources.
+        public let selfHostedAIModelResourceCount: Int?
+        /// The number of self-hosted AI resources of ResourceSubCategory ModelServing detected on the host resource. Present only on host resources.
+        public let selfHostedAIModelServingResourceCount: Int?
+        /// The total number of all self-hosted AI resources detected on the host resource. Present only on host resources.
+        public let selfHostedTotalAIResourceCount: Int?
+
+        @inlinable
+        public init(canonicalId: String? = nil, hostResourceGuid: String? = nil, hostResourceType: String? = nil, selfHostedAIAgentFrameworkResourceCount: Int? = nil, selfHostedAIAgentResourceCount: Int? = nil, selfHostedAIAgentToolsAndIdentityResourceCount: Int? = nil, selfHostedAIDevelopmentResourceCount: Int? = nil, selfHostedAIExternalEndpointResourceCount: Int? = nil, selfHostedAIModelResourceCount: Int? = nil, selfHostedAIModelServingResourceCount: Int? = nil, selfHostedTotalAIResourceCount: Int? = nil) {
+            self.canonicalId = canonicalId
+            self.hostResourceGuid = hostResourceGuid
+            self.hostResourceType = hostResourceType
+            self.selfHostedAIAgentFrameworkResourceCount = selfHostedAIAgentFrameworkResourceCount
+            self.selfHostedAIAgentResourceCount = selfHostedAIAgentResourceCount
+            self.selfHostedAIAgentToolsAndIdentityResourceCount = selfHostedAIAgentToolsAndIdentityResourceCount
+            self.selfHostedAIDevelopmentResourceCount = selfHostedAIDevelopmentResourceCount
+            self.selfHostedAIExternalEndpointResourceCount = selfHostedAIExternalEndpointResourceCount
+            self.selfHostedAIModelResourceCount = selfHostedAIModelResourceCount
+            self.selfHostedAIModelServingResourceCount = selfHostedAIModelServingResourceCount
+            self.selfHostedTotalAIResourceCount = selfHostedTotalAIResourceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canonicalId = "CanonicalId"
+            case hostResourceGuid = "HostResourceGuid"
+            case hostResourceType = "HostResourceType"
+            case selfHostedAIAgentFrameworkResourceCount = "SelfHostedAIAgentFrameworkResourceCount"
+            case selfHostedAIAgentResourceCount = "SelfHostedAIAgentResourceCount"
+            case selfHostedAIAgentToolsAndIdentityResourceCount = "SelfHostedAIAgentToolsAndIdentityResourceCount"
+            case selfHostedAIDevelopmentResourceCount = "SelfHostedAIDevelopmentResourceCount"
+            case selfHostedAIExternalEndpointResourceCount = "SelfHostedAIExternalEndpointResourceCount"
+            case selfHostedAIModelResourceCount = "SelfHostedAIModelResourceCount"
+            case selfHostedAIModelServingResourceCount = "SelfHostedAIModelServingResourceCount"
+            case selfHostedTotalAIResourceCount = "SelfHostedTotalAIResourceCount"
+        }
+    }
 
     public struct AcceptAdministratorInvitationRequest: AWSEncodableShape {
         /// The account ID of the Security Hub CSPM administrator account that sent the invitation.
@@ -1761,8 +2009,14 @@ extension SecurityHub {
         public let resourceDetailsOther: [MapFilter]?
         ///  The identifier for the given resource type. For Amazon Web Services resources that are identified by Amazon Resource Names (ARNs), this is the ARN. For Amazon Web Services resources that lack ARNs, this is the identifier as defined by the Amazon Web Services service that created the resource. For non-Amazon Web Services resources, this is a unique identifier that is associated with the resource.   		Array Members: Minimum number of 1 item. Maximum number of 100 items.
         public let resourceId: [StringFilter]?
+        /// The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id
+        public let resourceOwnerAccountId: [StringFilter]?
+        /// The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id
+        public let resourceOwnerOrgId: [StringFilter]?
         ///  The partition in which the resource that the finding pertains to is located. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourcePartition: [StringFilter]?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public let resourceProvider: [StringFilter]?
         ///  The Amazon Web Services Region where the resource that a finding pertains to is located.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
         public let resourceRegion: [StringFilter]?
         ///  A list of Amazon Web Services tags associated with a resource at the time the finding was processed.   		Array Members: Minimum number of 1 item. Maximum number of 20 items.
@@ -1787,7 +2041,7 @@ extension SecurityHub {
         public let workflowStatus: [StringFilter]?
 
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, productArn: [StringFilter]? = nil, productName: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, productArn: [StringFilter]? = nil, productName: [StringFilter]? = nil, recordState: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourceOwnerAccountId: [StringFilter]? = nil, resourceOwnerOrgId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceProvider: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
             self.companyName = companyName
@@ -1814,7 +2068,10 @@ extension SecurityHub {
             self.resourceApplicationName = resourceApplicationName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourcePartition = resourcePartition
+            self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -1901,8 +2158,17 @@ extension SecurityHub {
             try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
+            try self.resourceOwnerAccountId?.forEach {
+                try $0.validate(name: "\(name).resourceOwnerAccountId[]")
+            }
+            try self.resourceOwnerOrgId?.forEach {
+                try $0.validate(name: "\(name).resourceOwnerOrgId[]")
+            }
             try self.resourcePartition?.forEach {
                 try $0.validate(name: "\(name).resourcePartition[]")
+            }
+            try self.resourceProvider?.forEach {
+                try $0.validate(name: "\(name).resourceProvider[]")
             }
             try self.resourceRegion?.forEach {
                 try $0.validate(name: "\(name).resourceRegion[]")
@@ -1966,7 +2232,10 @@ extension SecurityHub {
             case resourceApplicationName = "ResourceApplicationName"
             case resourceDetailsOther = "ResourceDetailsOther"
             case resourceId = "ResourceId"
+            case resourceOwnerAccountId = "ResourceOwnerAccountId"
+            case resourceOwnerOrgId = "ResourceOwnerOrgId"
             case resourcePartition = "ResourcePartition"
+            case resourceProvider = "ResourceProvider"
             case resourceRegion = "ResourceRegion"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
@@ -15082,6 +15351,29 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsOrganizationScope: AWSEncodableShape {
+        /// The unique identifier (ID) of the organizational unit (OU) (for example, ou-ab12-cd345678). The OU must exist within the delegated administrator's own organization. When specified, the results include only data from accounts in this OU.
+        public let organizationalUnitId: String?
+        /// The unique identifier (ID) of the organization (for example, o-abcd1234567890). The organization must be the delegated administrator's own organization. If you omit this value and provide OrganizationalUnitId, Security Hub uses the caller's organization ID.
+        public let organizationId: String?
+
+        @inlinable
+        public init(organizationalUnitId: String? = nil, organizationId: String? = nil) {
+            self.organizationalUnitId = organizationalUnitId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationalUnitId, name: "organizationalUnitId", parent: name, pattern: "\\S")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationalUnitId = "OrganizationalUnitId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
     public struct AwsRdsDbClusterAssociatedRole: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role.
         public let roleArn: String?
@@ -18904,8 +19196,14 @@ extension SecurityHub {
         public let resourceDetailsOther: [MapFilter]?
         /// The canonical identifier for the given resource type.
         public let resourceId: [StringFilter]?
+        /// The unique identifier of the account that owns the resource that the finding applies to, for example, Azure Subscription Id or Amazon Web Services Account Id
+        public let resourceOwnerAccountId: [StringFilter]?
+        /// The unique identifier of the organization that owns the resource that the finding applies to, for example, Azure Tenant Id
+        public let resourceOwnerOrgId: [StringFilter]?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public let resourcePartition: [StringFilter]?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public let resourceProvider: [StringFilter]?
         /// The canonical Amazon Web Services external Region name where this resource is located.
         public let resourceRegion: [StringFilter]?
         /// A list of Amazon Web Services tags associated with a resource at the time the finding was processed.
@@ -18955,7 +19253,7 @@ extension SecurityHub {
         public let workflowStatus: [StringFilter]?
 
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourceOwnerAccountId: [StringFilter]? = nil, resourceOwnerOrgId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceProvider: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
             self.companyName = companyName
@@ -19036,7 +19334,10 @@ extension SecurityHub {
             self.resourceContainerName = resourceContainerName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourcePartition = resourcePartition
+            self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -19064,7 +19365,7 @@ extension SecurityHub {
 
         @available(*, deprecated, message: "Members keyword, resourceAwsIamAccessKeyUserName, severityNormalized, severityProduct have been deprecated")
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, awsAccountName: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceAssociatedStandardsId: [StringFilter]? = nil, complianceSecurityControlId: [StringFilter]? = nil, complianceSecurityControlParametersName: [StringFilter]? = nil, complianceSecurityControlParametersValue: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, keyword: [KeywordFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceApplicationArn: [StringFilter]? = nil, resourceApplicationName: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamAccessKeyUserName: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourceOwnerAccountId: [StringFilter]? = nil, resourceOwnerOrgId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceProvider: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, sample: [BooleanFilter]? = nil, severityLabel: [StringFilter]? = nil, severityNormalized: [NumberFilter]? = nil, severityProduct: [NumberFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, vulnerabilitiesExploitAvailable: [StringFilter]? = nil, vulnerabilitiesFixAvailable: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountName = awsAccountName
             self.companyName = companyName
@@ -19145,7 +19446,10 @@ extension SecurityHub {
             self.resourceContainerName = resourceContainerName
             self.resourceDetailsOther = resourceDetailsOther
             self.resourceId = resourceId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
             self.resourcePartition = resourcePartition
+            self.resourceProvider = resourceProvider
             self.resourceRegion = resourceRegion
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -19388,8 +19692,17 @@ extension SecurityHub {
             try self.resourceId?.forEach {
                 try $0.validate(name: "\(name).resourceId[]")
             }
+            try self.resourceOwnerAccountId?.forEach {
+                try $0.validate(name: "\(name).resourceOwnerAccountId[]")
+            }
+            try self.resourceOwnerOrgId?.forEach {
+                try $0.validate(name: "\(name).resourceOwnerOrgId[]")
+            }
             try self.resourcePartition?.forEach {
                 try $0.validate(name: "\(name).resourcePartition[]")
+            }
+            try self.resourceProvider?.forEach {
+                try $0.validate(name: "\(name).resourceProvider[]")
             }
             try self.resourceRegion?.forEach {
                 try $0.validate(name: "\(name).resourceRegion[]")
@@ -19534,7 +19847,10 @@ extension SecurityHub {
             case resourceContainerName = "ResourceContainerName"
             case resourceDetailsOther = "ResourceDetailsOther"
             case resourceId = "ResourceId"
+            case resourceOwnerAccountId = "ResourceOwnerAccountId"
+            case resourceOwnerOrgId = "ResourceOwnerOrgId"
             case resourcePartition = "ResourcePartition"
+            case resourceProvider = "ResourceProvider"
             case resourceRegion = "ResourceRegion"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
@@ -21035,6 +21351,112 @@ extension SecurityHub {
         }
     }
 
+    public struct AzureDetail: AWSDecodableShape {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to Azure.
+        public let awsConfigConnectorArn: String?
+        /// The list of Azure regions being monitored.
+        public let azureRegions: [String]?
+        /// The scope configuration that defines which Azure resources are monitored.
+        public let scopeConfiguration: AzureScopeConfiguration?
+
+        @inlinable
+        public init(awsConfigConnectorArn: String? = nil, azureRegions: [String]? = nil, scopeConfiguration: AzureScopeConfiguration? = nil) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsConfigConnectorArn = "AWSConfigConnectorArn"
+            case azureRegions = "AzureRegions"
+            case scopeConfiguration = "ScopeConfiguration"
+        }
+    }
+
+    public struct AzureProviderConfiguration: AWSEncodableShape {
+        /// The ARN of the multi-cloud configuration connector used to establish the connection to Azure.
+        public let awsConfigConnectorArn: String?
+        /// The list of Azure regions to monitor.
+        public let azureRegions: [String]?
+        /// The scope configuration that defines which Azure resources are monitored.
+        public let scopeConfiguration: AzureScopeConfiguration?
+
+        @inlinable
+        public init(awsConfigConnectorArn: String? = nil, azureRegions: [String]? = nil, scopeConfiguration: AzureScopeConfiguration? = nil) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, pattern: "\\S")
+            try self.azureRegions?.forEach {
+                try validate($0, name: "azureRegions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, max: 100)
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, min: 1)
+            try self.scopeConfiguration?.validate(name: "\(name).scopeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsConfigConnectorArn = "AWSConfigConnectorArn"
+            case azureRegions = "AzureRegions"
+            case scopeConfiguration = "ScopeConfiguration"
+        }
+    }
+
+    public struct AzureScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of scope. Valid values are tenant and subscription.
+        public let scopeType: ScopeType?
+        /// The list of scope values, such as subscription IDs, when the scope type is subscription.
+        public let scopeValues: [String]?
+
+        @inlinable
+        public init(scopeType: ScopeType? = nil, scopeValues: [String]? = nil) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+
+        public func validate(name: String) throws {
+            try self.scopeValues?.forEach {
+                try validate($0, name: "scopeValues[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.scopeValues, name: "scopeValues", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopeType = "ScopeType"
+            case scopeValues = "ScopeValues"
+        }
+    }
+
+    public struct AzureUpdateConfiguration: AWSEncodableShape {
+        /// The updated list of Azure regions to monitor.
+        public let azureRegions: [String]?
+        /// The updated scope configuration.
+        public let scopeConfiguration: AzureScopeConfiguration?
+
+        @inlinable
+        public init(azureRegions: [String]? = nil, scopeConfiguration: AzureScopeConfiguration? = nil) {
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.azureRegions?.forEach {
+                try validate($0, name: "azureRegions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, max: 100)
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, min: 1)
+            try self.scopeConfiguration?.validate(name: "\(name).scopeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azureRegions = "AzureRegions"
+            case scopeConfiguration = "ScopeConfiguration"
+        }
+    }
+
     public struct BatchDeleteAutomationRulesRequest: AWSEncodableShape {
         ///  A list of Amazon Resource Names (ARNs) for the rules that are to be deleted.
         public let automationRulesArns: [String]?
@@ -21523,9 +21945,9 @@ extension SecurityHub {
         public let findingIdentifiers: [OcsfFindingIdentifier]?
         /// The list of finding metadata.uid to indicate findings to update. Finding metadata.uid is a globally unique identifier associated with the finding. Customers cannot use MetadataUids together with FindingIdentifiers.
         public let metadataUids: [String]?
-        /// The updated value for the normalized severity identifier. The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+        /// The updated value for the normalized severity identifier. The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
         public let severityId: Int?
-        /// The updated value for the normalized status identifier. The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+        /// The updated value for the normalized status identifier. The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
         public let statusId: Int?
 
         @inlinable
@@ -22122,17 +22544,23 @@ extension SecurityHub {
         public var createdAt: Date?
         /// The description of the connectorV2.
         public let description: String?
+        /// The enablement status of the connector.
+        public let enablementStatus: EnablementStatus?
+        /// The reason for the current enablement status. Provides additional context when the connector is in a failed state.
+        public let enablementStatusReason: String?
         /// The Name field contains the user-defined name assigned to the integration connector. This helps identify and manage multiple connectors within Security Hub.
         public let name: String?
         /// The connectorV2 third party provider configuration summary.
         public let providerSummary: ProviderSummary?
 
         @inlinable
-        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, name: String? = nil, providerSummary: ProviderSummary? = nil) {
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, enablementStatus: EnablementStatus? = nil, enablementStatusReason: String? = nil, name: String? = nil, providerSummary: ProviderSummary? = nil) {
             self.connectorArn = connectorArn
             self.connectorId = connectorId
             self.createdAt = createdAt
             self.description = description
+            self.enablementStatus = enablementStatus
+            self.enablementStatusReason = enablementStatusReason
             self.name = name
             self.providerSummary = providerSummary
         }
@@ -22142,6 +22570,8 @@ extension SecurityHub {
             case connectorId = "ConnectorId"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case enablementStatus = "EnablementStatus"
+            case enablementStatusReason = "EnablementStatusReason"
             case name = "Name"
             case providerSummary = "ProviderSummary"
         }
@@ -22573,6 +23003,79 @@ extension SecurityHub {
         }
     }
 
+    public struct CreateConnectorRequest: AWSEncodableShape {
+        /// A unique identifier used to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The description of the connector.
+        public let description: String?
+        /// The name of the connector. Must be unique within the account.
+        public let name: String?
+        /// The configuration for the cloud provider to connect to. Currently supports Azure.
+        public let provider: CspmProviderConfiguration?
+        /// The tags to add to the connector resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateConnectorRequest.idempotencyToken(), description: String? = nil, name: String? = nil, provider: CspmProviderConfiguration? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.provider = provider
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 63)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]{1,64}$")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.provider?.validate(name: "\(name).provider")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case provider = "Provider"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The unique identifier of the connector.
+        public let connectorId: String?
+        /// The connectivity status of the connector.
+        public let connectorStatus: CspmConnectorStatus?
+        /// The enablement status of the connector.
+        public let enablementStatus: CspmEnablementStatus?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil, connectorStatus: CspmConnectorStatus? = nil, enablementStatus: CspmEnablementStatus? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+            case connectorStatus = "ConnectorStatus"
+            case enablementStatus = "EnablementStatus"
+        }
+    }
+
     public struct CreateConnectorV2Request: AWSEncodableShape {
         /// A unique identifier used to ensure idempotency.
         public let clientToken: String?
@@ -22634,13 +23137,16 @@ extension SecurityHub {
         public let connectorId: String?
         /// The current status of the connectorV2.
         public let connectorStatus: ConnectorStatus?
+        /// The enablement status of the connector after creation.
+        public let enablementStatus: EnablementStatus?
 
         @inlinable
-        public init(authUrl: String? = nil, connectorArn: String? = nil, connectorId: String? = nil, connectorStatus: ConnectorStatus? = nil) {
+        public init(authUrl: String? = nil, connectorArn: String? = nil, connectorId: String? = nil, connectorStatus: ConnectorStatus? = nil, enablementStatus: EnablementStatus? = nil) {
             self.authUrl = authUrl
             self.connectorArn = connectorArn
             self.connectorId = connectorId
             self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -22648,6 +23154,7 @@ extension SecurityHub {
             case connectorArn = "ConnectorArn"
             case connectorId = "ConnectorId"
             case connectorStatus = "ConnectorStatus"
+            case enablementStatus = "EnablementStatus"
         }
     }
 
@@ -22832,6 +23339,98 @@ extension SecurityHub {
         }
     }
 
+    public struct CspmConnectorSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The unique identifier of the connector.
+        public let connectorId: String?
+        /// The ISO 8601 UTC timestamp indicating when the connector was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The service principal that created the connector.
+        public let createdBy: String?
+        /// The description of the connector.
+        public let description: String?
+        /// The enablement status of the connector.
+        public let enablementStatus: CspmEnablementStatus?
+        /// The name of the connector.
+        public let name: String?
+        /// A summary of the cloud provider configuration for the connector.
+        public let providerSummary: CspmProviderSummary?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, enablementStatus: CspmEnablementStatus? = nil, name: String? = nil, providerSummary: CspmProviderSummary? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.enablementStatus = enablementStatus
+            self.name = name
+            self.providerSummary = providerSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+            case createdAt = "CreatedAt"
+            case createdBy = "CreatedBy"
+            case description = "Description"
+            case enablementStatus = "EnablementStatus"
+            case name = "Name"
+            case providerSummary = "ProviderSummary"
+        }
+    }
+
+    public struct CspmHealthCheck: AWSDecodableShape {
+        /// The connectivity status of the connector.
+        public let connectorStatus: CspmConnectorStatus?
+        /// A list of health issues associated with the connector.
+        public let issues: [HealthIssue]?
+        /// The ISO 8601 UTC timestamp indicating when the health status was last checked.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastCheckedAt: Date?
+        /// A message describing the reason for the current connector status.
+        public let message: String?
+
+        @inlinable
+        public init(connectorStatus: CspmConnectorStatus? = nil, issues: [HealthIssue]? = nil, lastCheckedAt: Date? = nil, message: String? = nil) {
+            self.connectorStatus = connectorStatus
+            self.issues = issues
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case issues = "Issues"
+            case lastCheckedAt = "LastCheckedAt"
+            case message = "Message"
+        }
+    }
+
+    public struct CspmProviderSummary: AWSDecodableShape {
+        /// The connectivity status of the connector.
+        public let connectorStatus: CspmConnectorStatus?
+        /// The provider configuration details.
+        public let providerConfiguration: CspmProviderDetail?
+        /// The name of the cloud provider.
+        public let providerName: CspmConnectorProviderName?
+
+        @inlinable
+        public init(connectorStatus: CspmConnectorStatus? = nil, providerConfiguration: CspmProviderDetail? = nil, providerName: CspmConnectorProviderName? = nil) {
+            self.connectorStatus = connectorStatus
+            self.providerConfiguration = providerConfiguration
+            self.providerName = providerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case providerConfiguration = "ProviderConfiguration"
+            case providerName = "ProviderName"
+        }
+    }
+
     public struct CustomDataIdentifiersDetections: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the custom identifier that was used to detect the sensitive data.
         public let arn: String?
@@ -22978,18 +23577,22 @@ extension SecurityHub {
     }
 
     public struct DateRange: AWSEncodableShape & AWSDecodableShape {
+        /// The condition to apply to a date range filter. If you specify WITHIN, Security Hub filters for dates within the specified date range. If you specify OLDER_THAN, Security Hub filters for dates before the specified date range. If you don't specify a value, the default is WITHIN.
+        public let comparison: DateRangeComparison?
         /// A date range unit for the date filter.
         public let unit: DateRangeUnit?
         /// A date range value for the date filter.
         public let value: Int?
 
         @inlinable
-        public init(unit: DateRangeUnit? = nil, value: Int? = nil) {
+        public init(comparison: DateRangeComparison? = nil, unit: DateRangeUnit? = nil, value: Int? = nil) {
+            self.comparison = comparison
             self.unit = unit
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case comparison = "Comparison"
             case unit = "Unit"
             case value = "Value"
         }
@@ -23143,6 +23746,42 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct DeleteConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the connector to delete.
+        public let connectorId: String
+
+        @inlinable
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectorResponse: AWSDecodableShape {
+        /// The enablement status of the connector after the delete request.
+        public let enablementStatus: CspmEnablementStatus?
+
+        @inlinable
+        public init(enablementStatus: CspmEnablementStatus? = nil) {
+            self.enablementStatus = enablementStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enablementStatus = "EnablementStatus"
+        }
+    }
+
     public struct DeleteConnectorV2Request: AWSEncodableShape {
         /// The UUID of the connectorV2 to identify connectorV2 resource.
         public let connectorId: String
@@ -23166,7 +23805,17 @@ extension SecurityHub {
     }
 
     public struct DeleteConnectorV2Response: AWSDecodableShape {
-        public init() {}
+        /// The enablement status of the connector after deletion.
+        public let enablementStatus: EnablementStatus?
+
+        @inlinable
+        public init(enablementStatus: EnablementStatus? = nil) {
+            self.enablementStatus = enablementStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enablementStatus = "EnablementStatus"
+        }
     }
 
     public struct DeleteFindingAggregatorRequest: AWSEncodableShape {
@@ -23524,18 +24173,22 @@ extension SecurityHub {
     }
 
     public struct DescribeSecurityHubV2Response: AWSDecodableShape {
+        /// A map of opt-in features and their current status and metadata for the account in the current Region.
+        public let features: [String: FeatureDetail]?
         /// The ARN of the service resource.
         public let hubV2Arn: String?
         /// The date and time when the service was enabled in the account.
         public let subscribedAt: String?
 
         @inlinable
-        public init(hubV2Arn: String? = nil, subscribedAt: String? = nil) {
+        public init(features: [String: FeatureDetail]? = nil, hubV2Arn: String? = nil, subscribedAt: String? = nil) {
+            self.features = features
             self.hubV2Arn = hubV2Arn
             self.subscribedAt = subscribedAt
         }
 
         private enum CodingKeys: String, CodingKey {
+            case features = "Features"
             case hubV2Arn = "HubV2Arn"
             case subscribedAt = "SubscribedAt"
         }
@@ -23596,11 +24249,14 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
+        /// A list of cloud providers to filter the standards by. For example, specify Azure to return only standards that evaluate Azure resources.
+        public let providers: [StandardsProvider]?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, providers: [StandardsProvider]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.providers = providers
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -23608,6 +24264,7 @@ extension SecurityHub {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.providers, key: "Providers")
         }
 
         public func validate(name: String) throws {
@@ -23703,6 +24360,28 @@ extension SecurityHub {
     }
 
     public struct DisableOrganizationAdminAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DisableSecurityHubFeatureV2Request: AWSEncodableShape {
+        /// The name of the feature to disable.
+        public let featureName: FeatureName
+
+        @inlinable
+        public init(featureName: FeatureName) {
+            self.featureName = featureName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureName, key: "FeatureName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisableSecurityHubFeatureV2Response: AWSDecodableShape {
         public init() {}
     }
 
@@ -23883,6 +24562,28 @@ extension SecurityHub {
         }
     }
 
+    public struct EnableSecurityHubFeatureV2Request: AWSEncodableShape {
+        /// The name of the feature to enable.
+        public let featureName: FeatureName
+
+        @inlinable
+        public init(featureName: FeatureName) {
+            self.featureName = featureName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.featureName, key: "FeatureName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct EnableSecurityHubFeatureV2Response: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct EnableSecurityHubRequest: AWSEncodableShape {
         /// This field, used when enabling Security Hub CSPM, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023.
         public let controlFindingGenerator: ControlFindingGenerator?
@@ -24014,6 +24715,25 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case connectorArn = "ConnectorArn"
+        }
+    }
+
+    public struct FeatureDetail: AWSDecodableShape {
+        /// The current enablement status of the feature. Valid values: ENABLED | DISABLED.
+        public let featureStatus: FeatureStatus?
+        /// The date and time when the feature status was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(featureStatus: FeatureStatus? = nil, updatedAt: Date? = nil) {
+            self.featureStatus = featureStatus
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureStatus = "FeatureStatus"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -24208,6 +24928,26 @@ extension SecurityHub {
         }
     }
 
+    public struct FindingScopes: AWSEncodableShape {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public let awsOrganizations: [AwsOrganizationScope]?
+
+        @inlinable
+        public init(awsOrganizations: [AwsOrganizationScope]? = nil) {
+            self.awsOrganizations = awsOrganizations
+        }
+
+        public func validate(name: String) throws {
+            try self.awsOrganizations?.forEach {
+                try $0.validate(name: "\(name).awsOrganizations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOrganizations = "AwsOrganizations"
+        }
+    }
+
     public struct FindingsTrendsCompositeFilter: AWSEncodableShape {
         /// A list of nested composite filters that you can use to create complex filter conditions for findings trend data.
         public let nestedCompositeFilters: [FindingsTrendsCompositeFilter]?
@@ -24264,7 +25004,7 @@ extension SecurityHub {
     }
 
     public struct FindingsTrendsStringFilter: AWSEncodableShape {
-        /// The name of the findings field to filter on.
+        /// The name of the findings field to filter on. You can specify one of the following fields.    account_id – The Amazon Web Services account ID associated with the finding.    region – The Amazon Web Services Region associated with the finding.    finding_types – The finding types associated with the finding.    finding_status – The status of the finding.    finding_cve_ids – The Common Vulnerabilities and Exposures (CVE) identifiers associated with the finding.    finding_compliance_status – The compliance status of the finding.    finding_control_id – The identifier of the security control associated with the finding.    finding_class_name – The finding class, such as Compliance Finding.    finding_provider – The name of the product that generated the finding.    finding_activity_name – The activity name associated with the finding.    resource_cloud_providers – The cloud providers of the resources that the finding is associated with. Valid values are AWS and Azure.    resource_regions – The Regions of the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as eastus.    resource_owner_ids – The identifiers of the accounts that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.    resource_owner_organization_ids – The identifiers of the organizations that own the associated resources. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.
         public let fieldName: FindingsTrendsStringField?
         public let filter: StringFilter?
 
@@ -24393,6 +25133,32 @@ extension SecurityHub {
             case priority = "Priority"
             case resourceArn = "ResourceArn"
         }
+    }
+
+    public struct GenerateRecommendedPolicyV2Request: AWSEncodableShape {
+        /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding.
+        public let metadataUid: String
+
+        @inlinable
+        public init(metadataUid: String) {
+            self.metadataUid = metadataUid
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.metadataUid, key: "MetadataUid")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataUid, name: "metadataUid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GenerateRecommendedPolicyV2Response: AWSDecodableShape {
+        public init() {}
     }
 
     public struct GeneratorDetails: AWSEncodableShape & AWSDecodableShape {
@@ -24701,6 +25467,80 @@ extension SecurityHub {
         }
     }
 
+    public struct GetConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the connector to retrieve.
+        public let connectorId: String
+
+        @inlinable
+        public init(connectorId: String) {
+            self.connectorId = connectorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The unique identifier of the connector.
+        public let connectorId: String?
+        /// The ISO 8601 UTC timestamp indicating when the connector was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The service principal that created the connector.
+        public let createdBy: String?
+        /// The description of the connector.
+        public let description: String?
+        /// The enablement status of the connector.
+        public let enablementStatus: CspmEnablementStatus?
+        /// The health status of the connector, including connectivity status and last check time.
+        public let health: CspmHealthCheck?
+        /// The ISO 8601 UTC timestamp indicating when the connector was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+        /// The name of the connector.
+        public let name: String?
+        /// The cloud provider configuration details for the connector.
+        public let providerDetail: CspmProviderDetail?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, enablementStatus: CspmEnablementStatus? = nil, health: CspmHealthCheck? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, providerDetail: CspmProviderDetail? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.enablementStatus = enablementStatus
+            self.health = health
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.providerDetail = providerDetail
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "ConnectorArn"
+            case connectorId = "ConnectorId"
+            case createdAt = "CreatedAt"
+            case createdBy = "CreatedBy"
+            case description = "Description"
+            case enablementStatus = "EnablementStatus"
+            case health = "Health"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case name = "Name"
+            case providerDetail = "ProviderDetail"
+        }
+    }
+
     public struct GetConnectorV2Request: AWSEncodableShape {
         /// The UUID of the connectorV2 to identify connectorV2 resource.
         public let connectorId: String
@@ -24733,6 +25573,10 @@ extension SecurityHub {
         public var createdAt: Date?
         /// The description of the connectorV2.
         public let description: String?
+        /// The enablement status of the connector.
+        public let enablementStatus: EnablementStatus?
+        /// The reason for the current enablement status. Provides additional context when the connector is in a failed state.
+        public let enablementStatusReason: String?
         /// The current health status for connectorV2
         public let health: HealthCheck?
         /// The Amazon Resource Name (ARN) of KMS key used for the connectorV2.
@@ -24746,11 +25590,13 @@ extension SecurityHub {
         public let providerDetail: ProviderDetail?
 
         @inlinable
-        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, health: HealthCheck? = nil, kmsKeyArn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, providerDetail: ProviderDetail? = nil) {
+        public init(connectorArn: String? = nil, connectorId: String? = nil, createdAt: Date? = nil, description: String? = nil, enablementStatus: EnablementStatus? = nil, enablementStatusReason: String? = nil, health: HealthCheck? = nil, kmsKeyArn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, providerDetail: ProviderDetail? = nil) {
             self.connectorArn = connectorArn
             self.connectorId = connectorId
             self.createdAt = createdAt
             self.description = description
+            self.enablementStatus = enablementStatus
+            self.enablementStatusReason = enablementStatusReason
             self.health = health
             self.kmsKeyArn = kmsKeyArn
             self.lastUpdatedAt = lastUpdatedAt
@@ -24763,6 +25609,8 @@ extension SecurityHub {
             case connectorId = "ConnectorId"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case enablementStatus = "EnablementStatus"
+            case enablementStatusReason = "EnablementStatusReason"
             case health = "Health"
             case kmsKeyArn = "KmsKeyArn"
             case lastUpdatedAt = "LastUpdatedAt"
@@ -24776,13 +25624,16 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
         public let nextToken: String?
+        /// A list of cloud providers to filter the enabled standards by. For example, specify Azure to return only enabled standards that evaluate Azure resources.
+        public let providers: [StandardsProvider]?
         /// The list of the standards subscription ARNs for the standards to retrieve.
         public let standardsSubscriptionArns: [String]?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, standardsSubscriptionArns: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, providers: [StandardsProvider]? = nil, standardsSubscriptionArns: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.providers = providers
             self.standardsSubscriptionArns = standardsSubscriptionArns
         }
 
@@ -24799,6 +25650,7 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case providers = "Providers"
             case standardsSubscriptionArns = "StandardsSubscriptionArns"
         }
     }
@@ -24929,13 +25781,16 @@ extension SecurityHub {
         public let groupByRules: [GroupByRule]?
         /// The maximum number of results to be returned.
         public let maxStatisticResults: Int?
+        /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+        public let scopes: FindingScopes?
         /// Orders the aggregation count in descending or ascending order. Descending order is the default.
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(groupByRules: [GroupByRule]? = nil, maxStatisticResults: Int? = nil, sortOrder: SortOrder? = nil) {
+        public init(groupByRules: [GroupByRule]? = nil, maxStatisticResults: Int? = nil, scopes: FindingScopes? = nil, sortOrder: SortOrder? = nil) {
             self.groupByRules = groupByRules
             self.maxStatisticResults = maxStatisticResults
+            self.scopes = scopes
             self.sortOrder = sortOrder
         }
 
@@ -24945,11 +25800,13 @@ extension SecurityHub {
             }
             try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, max: 400)
             try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, min: 1)
+            try self.scopes?.validate(name: "\(name).scopes")
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupByRules = "GroupByRules"
             case maxStatisticResults = "MaxStatisticResults"
+            case scopes = "Scopes"
             case sortOrder = "SortOrder"
         }
     }
@@ -25088,14 +25945,17 @@ extension SecurityHub {
         public let maxResults: Int?
         ///  The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
         public let nextToken: String?
+        /// Limits the results to findings from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees findings from all accounts across the entire organization. Other accounts see only their own findings. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+        public let scopes: FindingScopes?
         /// The finding attributes used to sort the list of returned findings.
         public let sortCriteria: [SortCriterion]?
 
         @inlinable
-        public init(filters: OcsfFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+        public init(filters: OcsfFindingFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, scopes: FindingScopes? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scopes = scopes
             self.sortCriteria = sortCriteria
         }
 
@@ -25103,6 +25963,7 @@ extension SecurityHub {
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.scopes?.validate(name: "\(name).scopes")
             try self.sortCriteria?.forEach {
                 try $0.validate(name: "\(name).sortCriteria[]")
             }
@@ -25112,6 +25973,7 @@ extension SecurityHub {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case scopes = "Scopes"
             case sortCriteria = "SortCriteria"
         }
     }
@@ -25292,18 +26154,87 @@ extension SecurityHub {
         }
     }
 
+    public struct GetRecommendedPolicyV2Request: AWSEncodableShape {
+        /// The maximum number of recommendation steps to return.
+        public let maxResults: Int?
+        /// The unique identifier (ID) of Security Hub OCSF findings found under the metadata.uid field of the finding.
+        public let metadataUid: String
+        /// The token used to paginate the RecommendationSteps list returned. On your first call to GetRecommendedPolicyV2, omit this parameter or set it to NULL. For subsequent calls, use the NextToken value returned in the previous response to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, metadataUid: String, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.metadataUid = metadataUid
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodePath(self.metadataUid, key: "MetadataUid")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metadataUid, name: "metadataUid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRecommendedPolicyV2Response: AWSDecodableShape {
+        /// Detailed information for a FAILED retrieval status.
+        public let error: RecommendationError?
+        /// The pagination token to use to request the next page of results.
+        public let nextToken: String?
+        /// The recommended steps to take to resolve the finding.
+        public let recommendationSteps: [RecommendationStep]?
+        /// The type of recommendation for the finding.
+        public let recommendationType: RecommendationType?
+        /// The ARN of the resource of the finding.
+        public let resourceArn: String?
+        /// The current status of the recommended policy retrieval.
+        public let status: RecommendationStatus?
+
+        @inlinable
+        public init(error: RecommendationError? = nil, nextToken: String? = nil, recommendationSteps: [RecommendationStep]? = nil, recommendationType: RecommendationType? = nil, resourceArn: String? = nil, status: RecommendationStatus? = nil) {
+            self.error = error
+            self.nextToken = nextToken
+            self.recommendationSteps = recommendationSteps
+            self.recommendationType = recommendationType
+            self.resourceArn = resourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case nextToken = "NextToken"
+            case recommendationSteps = "RecommendationSteps"
+            case recommendationType = "RecommendationType"
+            case resourceArn = "ResourceArn"
+            case status = "Status"
+        }
+    }
+
     public struct GetResourcesStatisticsV2Request: AWSEncodableShape {
         /// How resource statistics should be aggregated and organized in the response.
         public let groupByRules: [ResourceGroupByRule]?
         /// The maximum number of results to be returned.
         public let maxStatisticResults: Int?
+        /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees statistics from all accounts across the entire organization. Other accounts see only statistics for their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+        public let scopes: ResourceScopes?
         /// Sorts aggregated statistics.
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(groupByRules: [ResourceGroupByRule]? = nil, maxStatisticResults: Int? = nil, sortOrder: SortOrder? = nil) {
+        public init(groupByRules: [ResourceGroupByRule]? = nil, maxStatisticResults: Int? = nil, scopes: ResourceScopes? = nil, sortOrder: SortOrder? = nil) {
             self.groupByRules = groupByRules
             self.maxStatisticResults = maxStatisticResults
+            self.scopes = scopes
             self.sortOrder = sortOrder
         }
 
@@ -25313,11 +26244,13 @@ extension SecurityHub {
             }
             try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, max: 400)
             try self.validate(self.maxStatisticResults, name: "maxStatisticResults", parent: name, min: 1)
+            try self.scopes?.validate(name: "\(name).scopes")
         }
 
         private enum CodingKeys: String, CodingKey {
             case groupByRules = "GroupByRules"
             case maxStatisticResults = "MaxStatisticResults"
+            case scopes = "Scopes"
             case sortOrder = "SortOrder"
         }
     }
@@ -25403,14 +26336,17 @@ extension SecurityHub {
         public let maxResults: Int?
         /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
         public let nextToken: String?
-        /// The finding attributes used to sort the list of returned findings.
+        /// Limits the results to resources from specific organizational units or from the delegated administrator's organization. Only the delegated administrator account can use this parameter. Other accounts receive an AccessDeniedException. This parameter is optional. If you omit it, the delegated administrator sees resources from all accounts across the entire organization. Other accounts see only their own resources. You can specify up to 10 entries in Scopes.AwsOrganizations. If multiple entries are specified, the entries are combined using OR logic.
+        public let scopes: ResourceScopes?
+        /// The resource attributes used to sort the list of returned resources.
         public let sortCriteria: [SortCriterion]?
 
         @inlinable
-        public init(filters: ResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortCriteria: [SortCriterion]? = nil) {
+        public init(filters: ResourcesFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, scopes: ResourceScopes? = nil, sortCriteria: [SortCriterion]? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scopes = scopes
             self.sortCriteria = sortCriteria
         }
 
@@ -25418,6 +26354,7 @@ extension SecurityHub {
             try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.scopes?.validate(name: "\(name).scopes")
             try self.sortCriteria?.forEach {
                 try $0.validate(name: "\(name).sortCriteria[]")
             }
@@ -25427,6 +26364,7 @@ extension SecurityHub {
             case filters = "Filters"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case scopes = "Scopes"
             case sortCriteria = "SortCriteria"
         }
     }
@@ -25434,7 +26372,7 @@ extension SecurityHub {
     public struct GetResourcesV2Response: AWSDecodableShape {
         /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
         public let nextToken: String?
-        /// Filters resources based on a set of criteria.
+        /// An array of resources returned by the operation.
         public let resources: [ResourceResult]?
 
         @inlinable
@@ -25545,6 +26483,8 @@ extension SecurityHub {
     public struct HealthCheck: AWSDecodableShape {
         /// The status of the connectorV2.
         public let connectorStatus: ConnectorStatus?
+        /// A list of health issues associated with the connector, including error codes and messages.
+        public let issues: [HealthIssue]?
         /// ISO 8601 UTC timestamp for the time check the health status of the connectorV2.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastCheckedAt: Date?
@@ -25552,15 +26492,35 @@ extension SecurityHub {
         public let message: String?
 
         @inlinable
-        public init(connectorStatus: ConnectorStatus? = nil, lastCheckedAt: Date? = nil, message: String? = nil) {
+        public init(connectorStatus: ConnectorStatus? = nil, issues: [HealthIssue]? = nil, lastCheckedAt: Date? = nil, message: String? = nil) {
             self.connectorStatus = connectorStatus
+            self.issues = issues
             self.lastCheckedAt = lastCheckedAt
             self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorStatus = "ConnectorStatus"
+            case issues = "Issues"
             case lastCheckedAt = "LastCheckedAt"
+            case message = "Message"
+        }
+    }
+
+    public struct HealthIssue: AWSDecodableShape {
+        /// The error code that identifies the type of health issue.
+        public let code: HealthIssueCode?
+        /// A human-readable message that describes the health issue.
+        public let message: String?
+
+        @inlinable
+        public init(code: HealthIssueCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
             case message = "Message"
         }
     }
@@ -26283,19 +27243,22 @@ extension SecurityHub {
         }
     }
 
-    public struct ListConnectorsV2Request: AWSEncodableShape {
-        /// The status for the connectorV2.
-        public let connectorStatus: ConnectorStatus?
-        /// The maximum number of results to be returned.
+    public struct ListConnectorsRequest: AWSEncodableShape {
+        /// The connectivity status to filter connectors by.
+        public let connectorStatus: CspmConnectorStatus?
+        /// The enablement status to filter connectors by.
+        public let enablementStatus: CspmEnablementStatus?
+        /// The maximum number of results to return.
         public let maxResults: Int?
-        /// The pagination token per the Amazon Web Services Pagination standard
+        /// The pagination token to request the next page of results.
         public let nextToken: String?
-        /// The name of the third-party provider.
-        public let providerName: ConnectorProviderName?
+        /// The name of the cloud provider to filter connectors by.
+        public let providerName: CspmConnectorProviderName?
 
         @inlinable
-        public init(connectorStatus: ConnectorStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerName: ConnectorProviderName? = nil) {
+        public init(connectorStatus: CspmConnectorStatus? = nil, enablementStatus: CspmEnablementStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerName: CspmConnectorProviderName? = nil) {
             self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.providerName = providerName
@@ -26305,6 +27268,64 @@ extension SecurityHub {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.connectorStatus, key: "ConnectorStatus")
+            request.encodeQuery(self.enablementStatus, key: "EnablementStatus")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.providerName, key: "ProviderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectorsResponse: AWSDecodableShape {
+        /// An array of connector summaries.
+        public let connectors: [CspmConnectorSummary]?
+        /// The pagination token to use to request the next page of results. If there are no additional results, this value is null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectors: [CspmConnectorSummary]? = nil, nextToken: String? = nil) {
+            self.connectors = connectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectors = "Connectors"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectorsV2Request: AWSEncodableShape {
+        /// The status for the connectorV2.
+        public let connectorStatus: ConnectorStatus?
+        /// The enablement status to filter connectors by.
+        public let enablementStatus: EnablementStatus?
+        /// The maximum number of results to be returned.
+        public let maxResults: Int?
+        /// The pagination token per the Amazon Web Services Pagination standard
+        public let nextToken: String?
+        /// The name of the third-party provider.
+        public let providerName: ConnectorProviderName?
+
+        @inlinable
+        public init(connectorStatus: ConnectorStatus? = nil, enablementStatus: EnablementStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, providerName: ConnectorProviderName? = nil) {
+            self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.providerName = providerName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.connectorStatus, key: "ConnectorStatus")
+            request.encodeQuery(self.enablementStatus, key: "EnablementStatus")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.providerName, key: "ProviderName")
@@ -26578,13 +27599,16 @@ extension SecurityHub {
         public let maxResults: Int?
         ///  Optional pagination parameter.
         public let nextToken: String?
+        /// A list of cloud providers to filter the security control definitions by. For example, specify Azure to return only controls that evaluate Azure resources.
+        public let providers: [SecurityControlsProvider]?
         ///  The Amazon Resource Name (ARN) of the standard that you want to view controls for.
         public let standardsArn: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, standardsArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, providers: [SecurityControlsProvider]? = nil, standardsArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.providers = providers
             self.standardsArn = standardsArn
         }
 
@@ -26593,6 +27617,7 @@ extension SecurityHub {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.providers, key: "Providers")
             request.encodeQuery(self.standardsArn, key: "StandardsArn")
         }
 
@@ -27467,6 +28492,38 @@ extension SecurityHub {
         }
     }
 
+    public struct OrganizationNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct OrganizationalUnitNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct Page: AWSEncodableShape & AWSDecodableShape {
         /// An occurrence of sensitive data detected in a non-binary text file or a Microsoft Word file. Non-binary text files include files such as HTML, XML, JSON, and TXT files.
         public let lineRange: Range?
@@ -27777,7 +28834,7 @@ extension SecurityHub {
         public let description: String?
         /// The type of integration.
         public let integrationV2Types: [IntegrationV2Type]?
-        /// The identifier for the AWS Marketplace product associated with this integration.
+        /// The identifier for the Amazon Web Services Marketplace product associated with this integration.
         public let marketplaceProductId: String?
         /// The console URL where you can purchase or subscribe to products.
         public let marketplaceUrl: String?
@@ -27829,17 +28886,20 @@ extension SecurityHub {
     public struct ProviderSummary: AWSDecodableShape {
         /// The status for the connectorV2.
         public let connectorStatus: ConnectorStatus?
+        public let providerConfiguration: ProviderDetail?
         /// The name of the provider.
         public let providerName: ConnectorProviderName?
 
         @inlinable
-        public init(connectorStatus: ConnectorStatus? = nil, providerName: ConnectorProviderName? = nil) {
+        public init(connectorStatus: ConnectorStatus? = nil, providerConfiguration: ProviderDetail? = nil, providerName: ConnectorProviderName? = nil) {
             self.connectorStatus = connectorStatus
+            self.providerConfiguration = providerConfiguration
             self.providerName = providerName
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorStatus = "ConnectorStatus"
+            case providerConfiguration = "ProviderConfiguration"
             case providerName = "ProviderName"
         }
     }
@@ -27886,6 +28946,24 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case text = "Text"
             case url = "Url"
+        }
+    }
+
+    public struct RecommendationError: AWSDecodableShape {
+        /// The error code for a failed retrieval of a recommended policy for a finding.
+        public let code: String?
+        /// The error message for a failed retrieval of a recommended policy for a finding.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -28004,8 +29082,12 @@ extension SecurityHub {
         public let details: ResourceDetails?
         /// The canonical identifier for the given resource type.
         public let id: String?
+        /// Information about the account and organization that own the resource.
+        public let owner: ResourceOwner?
         /// The canonical Amazon Web Services partition name that the Region is assigned to.
         public let partition: Partition?
+        /// The cloud provider that the resource belongs to. Valid values are AWS and Azure.
+        public let provider: CloudProviderName?
         /// The canonical Amazon Web Services external Region name where this resource is located. Length Constraints: Minimum length of 1. Maximum length of 16.
         public let region: String?
         /// Identifies the role of the resource in the finding. A resource is either the actor or target of the finding activity,
@@ -28016,13 +29098,15 @@ extension SecurityHub {
         public let type: String?
 
         @inlinable
-        public init(applicationArn: String? = nil, applicationName: String? = nil, dataClassification: DataClassificationDetails? = nil, details: ResourceDetails? = nil, id: String? = nil, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
+        public init(applicationArn: String? = nil, applicationName: String? = nil, dataClassification: DataClassificationDetails? = nil, details: ResourceDetails? = nil, id: String? = nil, owner: ResourceOwner? = nil, partition: Partition? = nil, provider: CloudProviderName? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.applicationArn = applicationArn
             self.applicationName = applicationName
             self.dataClassification = dataClassification
             self.details = details
             self.id = id
+            self.owner = owner
             self.partition = partition
+            self.provider = provider
             self.region = region
             self.resourceRole = resourceRole
             self.tags = tags
@@ -28035,6 +29119,7 @@ extension SecurityHub {
             try self.dataClassification?.validate(name: "\(name).dataClassification")
             try self.details?.validate(name: "\(name).details")
             try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.owner?.validate(name: "\(name).owner")
             try self.validate(self.region, name: "region", parent: name, pattern: "\\S")
             try self.validate(self.resourceRole, name: "resourceRole", parent: name, pattern: "\\S")
             try self.tags?.forEach {
@@ -28050,7 +29135,9 @@ extension SecurityHub {
             case dataClassification = "DataClassification"
             case details = "Details"
             case id = "Id"
+            case owner = "Owner"
             case partition = "Partition"
+            case provider = "Provider"
             case region = "Region"
             case resourceRole = "ResourceRole"
             case tags = "Tags"
@@ -28272,6 +29359,8 @@ extension SecurityHub {
         public let awsWafWebAcl: AwsWafWebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public let awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails?
+        /// Details about an Azure resource that is related to a finding.
+        public let azureResource: AWSDocument?
         ///  Details about an external code repository with which you can connect your Amazon Web Services resources. The connection is established through Amazon Inspector.
         public let codeRepository: CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
@@ -28280,7 +29369,7 @@ extension SecurityHub {
         public let other: [String: String]?
 
         @inlinable
-        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDmsEndpoint: AwsDmsEndpointDetails? = nil, awsDmsReplicationInstance: AwsDmsReplicationInstanceDetails? = nil, awsDmsReplicationTask: AwsDmsReplicationTaskDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2ClientVpnEndpoint: AwsEc2ClientVpnEndpointDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsEventsEndpoint: AwsEventsEndpointDetails? = nil, awsEventsEventbus: AwsEventsEventbusDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsMskCluster: AwsMskClusterDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsRoute53HostedZone: AwsRoute53HostedZoneDetails? = nil, awsS3AccessPoint: AwsS3AccessPointDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, codeRepository: CodeRepositoryDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsAmazonMqBroker: AwsAmazonMqBrokerDetails? = nil, awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAppSyncGraphQlApi: AwsAppSyncGraphQlApiDetails? = nil, awsAthenaWorkGroup: AwsAthenaWorkGroupDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsBackupBackupPlan: AwsBackupBackupPlanDetails? = nil, awsBackupBackupVault: AwsBackupBackupVaultDetails? = nil, awsBackupRecoveryPoint: AwsBackupRecoveryPointDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDmsEndpoint: AwsDmsEndpointDetails? = nil, awsDmsReplicationInstance: AwsDmsReplicationInstanceDetails? = nil, awsDmsReplicationTask: AwsDmsReplicationTaskDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2ClientVpnEndpoint: AwsEc2ClientVpnEndpointDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2LaunchTemplate: AwsEc2LaunchTemplateDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2RouteTable: AwsEc2RouteTableDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsEventSchemasRegistry: AwsEventSchemasRegistryDetails? = nil, awsEventsEndpoint: AwsEventsEndpointDetails? = nil, awsEventsEventbus: AwsEventsEventbusDetails? = nil, awsGuardDutyDetector: AwsGuardDutyDetectorDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsMskCluster: AwsMskClusterDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsRoute53HostedZone: AwsRoute53HostedZoneDetails? = nil, awsS3AccessPoint: AwsS3AccessPointDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSageMakerNotebookInstance: AwsSageMakerNotebookInstanceDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsStepFunctionStateMachine: AwsStepFunctionStateMachineDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafv2RuleGroup: AwsWafv2RuleGroupDetails? = nil, awsWafv2WebAcl: AwsWafv2WebAclDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, azureResource: AWSDocument? = nil, codeRepository: CodeRepositoryDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsAmazonMqBroker = awsAmazonMqBroker
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
@@ -28378,6 +29467,7 @@ extension SecurityHub {
             self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsWafWebAcl = awsWafWebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
+            self.azureResource = azureResource
             self.codeRepository = codeRepository
             self.container = container
             self.other = other
@@ -28586,6 +29676,7 @@ extension SecurityHub {
             case awsWafv2WebAcl = "AwsWafv2WebAcl"
             case awsWafWebAcl = "AwsWafWebAcl"
             case awsXrayEncryptionConfig = "AwsXrayEncryptionConfig"
+            case azureResource = "AzureResource"
             case codeRepository = "CodeRepository"
             case container = "Container"
             case other = "Other"
@@ -28656,6 +29747,20 @@ extension SecurityHub {
         }
     }
 
+    public struct ResourceInfo: AWSDecodableShape {
+        /// Details that are specific to self-hosted AI resources and their host resources.
+        public let aiDetails: AIDetails?
+
+        @inlinable
+        public init(aiDetails: AIDetails? = nil) {
+            self.aiDetails = aiDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiDetails = "AIDetails"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         public let code: String?
         public let message: String?
@@ -28672,15 +29777,80 @@ extension SecurityHub {
         }
     }
 
+    public struct ResourceOwner: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the account that owns the resource, for example, an Azure Subscription or Amazon Web Services Account.
+        public let account: ResourceOwnerAccount?
+        /// Information about the organization that owns the resource, for example, an Azure Tenant.
+        public let org: ResourceOwnerOrg?
+
+        @inlinable
+        public init(account: ResourceOwnerAccount? = nil, org: ResourceOwnerOrg? = nil) {
+            self.account = account
+            self.org = org
+        }
+
+        public func validate(name: String) throws {
+            try self.account?.validate(name: "\(name).account")
+            try self.org?.validate(name: "\(name).org")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "Account"
+            case org = "Org"
+        }
+    }
+
+    public struct ResourceOwnerAccount: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the account that owns the resource, for example, Azure Subscription Id or Amazon Web Services Account Id.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct ResourceOwnerOrg: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the organization that owns the resource, for example, Azure Tenant Id.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct ResourceResult: AWSDecodableShape {
-        /// The Amazon Web Services account that owns the resource.
+        /// The Amazon Web Services account that recorded the resource data in Security Hub.
         public let accountId: String?
+        /// The name of the Amazon Web Services account that's associated with the resource.
+        public let accountName: String?
+        /// Specifies how the resource was discovered. If the value is Managed, the resource is natively provided by a cloud service provider. If the value is SelfHosted, the resource is hosted on customer-managed infrastructure, such as a compute instance or container image.
+        public let discoveryType: DiscoveryType?
         /// An aggregated view of security findings associated with a resource.
         public let findingsSummary: [ResourceFindingsSummary]?
-        /// The Amazon Web Services Region where the resource is located.
+        /// The Amazon Web Services Region that recorded the resource data in Security Hub.
         public let region: String?
         /// The grouping where the resource belongs.
         public let resourceCategory: ResourceCategory?
+        /// The cloud partition where the resource exists. For Amazon Web Services, valid values include aws, aws-cn, and aws-us-gov. This field isn't returned for cloud providers that don't use partitions.
+        public let resourceCloudPartition: String?
         /// The configuration details of a resource.
         public let resourceConfig: AWSDocument?
         /// The time when the resource was created.
@@ -28691,42 +29861,92 @@ extension SecurityHub {
         public let resourceGuid: String?
         /// The unique identifier for a resource.
         public let resourceId: String?
+        /// Additional resource-type-specific details. For self-hosted AI resources and their host resources, contains an AIDetails structure.
+        public let resourceInfo: ResourceInfo?
         /// The name of the resource.
         public let resourceName: String?
+        /// The identifier of the cloud account that owns the resource. For Amazon Web Services resources, this is the Amazon Web Services account ID. For Azure resources, this is the Azure subscription ID.
+        public let resourceOwnerAccountId: String?
+        /// The identifier of the cloud organization that owns the resource. For Amazon Web Services resources, this is the Organizations ID. For Azure resources, this is the Azure tenant ID.
+        public let resourceOwnerOrgId: String?
+        /// The cloud provider where the resource exists. Valid values are AWS and Azure. This field is always included.
+        public let resourceProvider: String?
+        /// The native cloud region where the resource is located. For Amazon Web Services, this is an Amazon Web Services Region (for example, us-east-1). For Azure resources, this is the Azure region (for example, westus2). This field is always included.
+        public let resourceRegion: String?
+        /// The AI/ML sub-grouping of the resource. Present only when ResourceCategory is AI/ML.
+        public let resourceSubCategory: ResourceSubCategory?
         /// The key-value pairs associated with a resource.
         public let resourceTags: [ResourceTag]?
         /// The type of resource.
         public let resourceType: String?
 
         @inlinable
-        public init(accountId: String? = nil, findingsSummary: [ResourceFindingsSummary]? = nil, region: String? = nil, resourceCategory: ResourceCategory? = nil, resourceConfig: AWSDocument? = nil, resourceCreationTimeDt: String? = nil, resourceDetailCaptureTimeDt: String? = nil, resourceGuid: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String? = nil) {
+        public init(accountId: String? = nil, accountName: String? = nil, discoveryType: DiscoveryType? = nil, findingsSummary: [ResourceFindingsSummary]? = nil, region: String? = nil, resourceCategory: ResourceCategory? = nil, resourceCloudPartition: String? = nil, resourceConfig: AWSDocument? = nil, resourceCreationTimeDt: String? = nil, resourceDetailCaptureTimeDt: String? = nil, resourceGuid: String? = nil, resourceId: String? = nil, resourceInfo: ResourceInfo? = nil, resourceName: String? = nil, resourceOwnerAccountId: String? = nil, resourceOwnerOrgId: String? = nil, resourceProvider: String? = nil, resourceRegion: String? = nil, resourceSubCategory: ResourceSubCategory? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String? = nil) {
             self.accountId = accountId
+            self.accountName = accountName
+            self.discoveryType = discoveryType
             self.findingsSummary = findingsSummary
             self.region = region
             self.resourceCategory = resourceCategory
+            self.resourceCloudPartition = resourceCloudPartition
             self.resourceConfig = resourceConfig
             self.resourceCreationTimeDt = resourceCreationTimeDt
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
             self.resourceGuid = resourceGuid
             self.resourceId = resourceId
+            self.resourceInfo = resourceInfo
             self.resourceName = resourceName
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+            self.resourceOwnerOrgId = resourceOwnerOrgId
+            self.resourceProvider = resourceProvider
+            self.resourceRegion = resourceRegion
+            self.resourceSubCategory = resourceSubCategory
             self.resourceTags = resourceTags
             self.resourceType = resourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+            case accountName = "AccountName"
+            case discoveryType = "DiscoveryType"
             case findingsSummary = "FindingsSummary"
             case region = "Region"
             case resourceCategory = "ResourceCategory"
+            case resourceCloudPartition = "ResourceCloudPartition"
             case resourceConfig = "ResourceConfig"
             case resourceCreationTimeDt = "ResourceCreationTimeDt"
             case resourceDetailCaptureTimeDt = "ResourceDetailCaptureTimeDt"
             case resourceGuid = "ResourceGuid"
             case resourceId = "ResourceId"
+            case resourceInfo = "ResourceInfo"
             case resourceName = "ResourceName"
+            case resourceOwnerAccountId = "ResourceOwnerAccountId"
+            case resourceOwnerOrgId = "ResourceOwnerOrgId"
+            case resourceProvider = "ResourceProvider"
+            case resourceRegion = "ResourceRegion"
+            case resourceSubCategory = "ResourceSubCategory"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceScopes: AWSEncodableShape {
+        /// A list of Organizations scopes to include in the query results. Each entry in the list specifies an organization or organizational unit to include for the delegated administrator's account. If the list specifies multiple entries, the entries are combined using OR logic.
+        public let awsOrganizations: [AwsOrganizationScope]?
+
+        @inlinable
+        public init(awsOrganizations: [AwsOrganizationScope]? = nil) {
+            self.awsOrganizations = awsOrganizations
+        }
+
+        public func validate(name: String) throws {
+            try self.awsOrganizations?.forEach {
+                try $0.validate(name: "\(name).awsOrganizations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsOrganizations = "AwsOrganizations"
         }
     }
 
@@ -29032,7 +30252,7 @@ extension SecurityHub {
     }
 
     public struct ResourcesTrendsStringFilter: AWSEncodableShape {
-        /// The name of the resources field to filter on, such as resourceType, accountId, or region.
+        /// The name of the resources field to filter on. You can specify one of the following fields.    account_id – The Amazon Web Services account ID that owns the resource.    region – The Amazon Web Services Region of the resource.    resource_type – The type of the resource.    resource_category – The category of the resource.    resource_cloud_provider – The cloud provider of the resource. Valid values are AWS and Azure.    resource_region – The Region of the resource. For an Amazon Web Services resource, this is the Amazon Web Services Region. For an Azure resource, this is the Azure Region, such as eastus.    resource_owner_id – The identifier of the account that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services account ID. For an Azure resource, this is the Azure subscription ID.    resource_owner_organization_id – The identifier of the organization that owns the resource. For an Amazon Web Services resource, this is the Amazon Web Services organization ID. For an Azure resource, this is the Azure tenant ID.
         public let fieldName: ResourcesTrendsStringField?
         public let filter: StringFilter?
 
@@ -29677,6 +30897,8 @@ extension SecurityHub {
         public let lastUpdateReason: String?
         ///  An object that identifies the name of a control parameter, its current value, and whether it has been customized.
         public let parameters: [String: ParameterConfiguration]?
+        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        public let provider: SecurityControlsProvider?
         ///  A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         public let remediationUrl: String?
         ///  The Amazon Resource Name (ARN) for a security control across standards, such as arn:aws:securityhub:eu-central-1:123456789012:security-control/S3.1. This parameter doesn't mention a specific standard.
@@ -29695,10 +30917,11 @@ extension SecurityHub {
         public let updateStatus: UpdateStatus?
 
         @inlinable
-        public init(description: String? = nil, lastUpdateReason: String? = nil, parameters: [String: ParameterConfiguration]? = nil, remediationUrl: String? = nil, securityControlArn: String? = nil, securityControlId: String? = nil, securityControlStatus: ControlStatus? = nil, severityRating: SeverityRating? = nil, title: String? = nil, updateStatus: UpdateStatus? = nil) {
+        public init(description: String? = nil, lastUpdateReason: String? = nil, parameters: [String: ParameterConfiguration]? = nil, provider: SecurityControlsProvider? = nil, remediationUrl: String? = nil, securityControlArn: String? = nil, securityControlId: String? = nil, securityControlStatus: ControlStatus? = nil, severityRating: SeverityRating? = nil, title: String? = nil, updateStatus: UpdateStatus? = nil) {
             self.description = description
             self.lastUpdateReason = lastUpdateReason
             self.parameters = parameters
+            self.provider = provider
             self.remediationUrl = remediationUrl
             self.securityControlArn = securityControlArn
             self.securityControlId = securityControlId
@@ -29712,6 +30935,7 @@ extension SecurityHub {
             case description = "Description"
             case lastUpdateReason = "LastUpdateReason"
             case parameters = "Parameters"
+            case provider = "Provider"
             case remediationUrl = "RemediationUrl"
             case securityControlArn = "SecurityControlArn"
             case securityControlId = "SecurityControlId"
@@ -29758,6 +30982,8 @@ extension SecurityHub {
         ///  An object that provides a security control parameter name, description, and the options for customizing it. This
         /// object is excluded for a control that doesn't support custom parameters.
         public let parameterDefinitions: [String: ParameterDefinition]?
+        /// The cloud provider whose resources the security control evaluates. For example, AWS or Azure.
+        public let provider: SecurityControlsProvider?
         ///  A link to Security Hub CSPM documentation that explains how to remediate a failed finding for a security control.
         public let remediationUrl: String?
         ///  The unique identifier of a security control across standards. Values for this field typically consist of an Amazon Web Services service name and a number (for example, APIGateway.3). This parameter differs from SecurityControlArn, which is a unique Amazon Resource Name (ARN) assigned to a control. The ARN references the security control ID (for example, arn:aws:securityhub:eu-central-1:123456789012:security-control/APIGateway.3).
@@ -29768,11 +30994,12 @@ extension SecurityHub {
         public let title: String?
 
         @inlinable
-        public init(currentRegionAvailability: RegionAvailabilityStatus? = nil, customizableProperties: [SecurityControlProperty]? = nil, description: String? = nil, parameterDefinitions: [String: ParameterDefinition]? = nil, remediationUrl: String? = nil, securityControlId: String? = nil, severityRating: SeverityRating? = nil, title: String? = nil) {
+        public init(currentRegionAvailability: RegionAvailabilityStatus? = nil, customizableProperties: [SecurityControlProperty]? = nil, description: String? = nil, parameterDefinitions: [String: ParameterDefinition]? = nil, provider: SecurityControlsProvider? = nil, remediationUrl: String? = nil, securityControlId: String? = nil, severityRating: SeverityRating? = nil, title: String? = nil) {
             self.currentRegionAvailability = currentRegionAvailability
             self.customizableProperties = customizableProperties
             self.description = description
             self.parameterDefinitions = parameterDefinitions
+            self.provider = provider
             self.remediationUrl = remediationUrl
             self.securityControlId = securityControlId
             self.severityRating = severityRating
@@ -29784,6 +31011,7 @@ extension SecurityHub {
             case customizableProperties = "CustomizableProperties"
             case description = "Description"
             case parameterDefinitions = "ParameterDefinitions"
+            case provider = "Provider"
             case remediationUrl = "RemediationUrl"
             case securityControlId = "SecurityControlId"
             case severityRating = "SeverityRating"
@@ -30352,16 +31580,19 @@ extension SecurityHub {
         public let enabledByDefault: Bool?
         /// The name of the standard.
         public let name: String?
+        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        public let provider: StandardsProvider?
         /// The ARN of the standard.
         public let standardsArn: String?
         /// Provides details about the management of a standard.
         public let standardsManagedBy: StandardsManagedBy?
 
         @inlinable
-        public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, standardsArn: String? = nil, standardsManagedBy: StandardsManagedBy? = nil) {
+        public init(description: String? = nil, enabledByDefault: Bool? = nil, name: String? = nil, provider: StandardsProvider? = nil, standardsArn: String? = nil, standardsManagedBy: StandardsManagedBy? = nil) {
             self.description = description
             self.enabledByDefault = enabledByDefault
             self.name = name
+            self.provider = provider
             self.standardsArn = standardsArn
             self.standardsManagedBy = standardsManagedBy
         }
@@ -30370,6 +31601,7 @@ extension SecurityHub {
             case description = "Description"
             case enabledByDefault = "EnabledByDefault"
             case name = "Name"
+            case provider = "Provider"
             case standardsArn = "StandardsArn"
             case standardsManagedBy = "StandardsManagedBy"
         }
@@ -30612,6 +31844,8 @@ extension SecurityHub {
     }
 
     public struct StandardsSubscription: AWSDecodableShape {
+        /// The cloud provider whose resources the standard evaluates. For example, AWS or Azure.
+        public let provider: StandardsProvider?
         /// The ARN of the standard.
         public let standardsArn: String?
         /// Specifies whether you can retrieve information about and configure individual controls that apply to the standard. Possible values are:    READY_FOR_UPDATES - Controls in the standard can be retrieved and configured.    NOT_READY_FOR_UPDATES - Controls in the standard cannot be retrieved or configured.
@@ -30626,7 +31860,8 @@ extension SecurityHub {
         public let standardsSubscriptionArn: String?
 
         @inlinable
-        public init(standardsArn: String? = nil, standardsControlsUpdatable: StandardsControlsUpdatable? = nil, standardsInput: [String: String]? = nil, standardsStatus: StandardsStatus? = nil, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String? = nil) {
+        public init(provider: StandardsProvider? = nil, standardsArn: String? = nil, standardsControlsUpdatable: StandardsControlsUpdatable? = nil, standardsInput: [String: String]? = nil, standardsStatus: StandardsStatus? = nil, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String? = nil) {
+            self.provider = provider
             self.standardsArn = standardsArn
             self.standardsControlsUpdatable = standardsControlsUpdatable
             self.standardsInput = standardsInput
@@ -30636,6 +31871,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case provider = "Provider"
             case standardsArn = "StandardsArn"
             case standardsControlsUpdatable = "StandardsControlsUpdatable"
             case standardsInput = "StandardsInput"
@@ -30862,7 +32098,7 @@ extension SecurityHub {
     }
 
     public struct StringFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.   To search for values that start with the filter value, use PREFIX. For example, the filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts with us. A ResourceRegion that starts with a different value, such as af, ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR Title CONTAINS CloudWatch match a finding that includes either CloudFront, CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the filter Title NOT_CONTAINS CloudFront matches findings that have a Title that excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub CSPM first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub CSPM first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface     CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs. For more information, see Automation rules in the Security Hub CSPM User Guide.
+        /// The condition to apply to a string value when filtering Security Hub CSPM findings. To search for values that have the filter value, use one of the following comparison operators:   To search for values that include the filter value, use CONTAINS. For example, the filter Title CONTAINS CloudFront matches findings that have a Title that includes the string CloudFront.   To search for values that exactly match the filter value, use EQUALS. For example, the filter AwsAccountId EQUALS 123456789012 only matches findings that have an account ID of 123456789012.   To search for values that start with the filter value, use PREFIX. For example, the filter ResourceRegion PREFIX us matches findings that have a ResourceRegion that starts with us. A ResourceRegion that starts with a different value, such as af, ap, or ca, doesn't match.    CONTAINS, EQUALS, and PREFIX filters on the same field are joined by OR. A finding matches if it matches any one of those filters. For example, the filters Title CONTAINS CloudFront OR Title CONTAINS CloudWatch match a finding that includes either CloudFront, CloudWatch, or both strings in the title. To search for values that don’t have the filter value, use one of the following comparison operators:   To search for values that exclude the filter value, use NOT_CONTAINS. For example, the filter Title NOT_CONTAINS CloudFront matches findings that have a Title that excludes the string CloudFront.   To search for values other than the filter value, use NOT_EQUALS. For example, the filter AwsAccountId NOT_EQUALS 123456789012 only matches findings that have an account ID other than 123456789012.   To search for values that don't start with the filter value, use PREFIX_NOT_EQUALS. For example, the filter ResourceRegion PREFIX_NOT_EQUALS us matches findings with a ResourceRegion that starts with a value other than us.    NOT_CONTAINS, NOT_EQUALS, and PREFIX_NOT_EQUALS filters on the same field are joined by AND. A finding matches only if it matches all of those filters. For example, the filters Title NOT_CONTAINS CloudFront AND Title NOT_CONTAINS CloudWatch match a finding that excludes both CloudFront and CloudWatch in the title. You can’t have both a CONTAINS filter and a NOT_CONTAINS filter on the same field. Similarly, you can't provide both an EQUALS filter and a NOT_EQUALS or PREFIX_NOT_EQUALS filter on the same field. Combining filters in this way returns an error. CONTAINS filters can only be used with other CONTAINS filters. NOT_CONTAINS filters can only be used with other NOT_CONTAINS filters.  You can combine PREFIX filters with NOT_EQUALS or PREFIX_NOT_EQUALS filters for the same field. Security Hub CSPM first processes the PREFIX filters, and then the NOT_EQUALS or PREFIX_NOT_EQUALS filters. For example, for the following filters, Security Hub CSPM first identifies findings that have resource types that start with either AwsIam or AwsEc2. It then excludes findings that have a resource type of AwsIamPolicy and findings that have a resource type of AwsEc2NetworkInterface.    ResourceType PREFIX AwsIam     ResourceType PREFIX AwsEc2     ResourceType NOT_EQUALS AwsIamPolicy     ResourceType NOT_EQUALS AwsEc2NetworkInterface    The CONTAINS operator works with automation rules V1 and V2. The NOT_CONTAINS operator works only with automation rules V1. The CONTAINS_WORD operator works only in the GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourcesStatisticsV2 APIs. For more information, see Automation rules in the Security Hub CSPM User Guide.
         public let comparison: StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub CSPM. If you provide security hub as the filter value, there's no match.
         public let value: String?
@@ -31224,6 +32460,37 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct UnusedPermissionsRecommendationStep: AWSDecodableShape {
+        /// The contents of the existing policy identified by ExistingPolicyId which needs to be replaced, when the RecommendedAction is CREATE_POLICY.
+        public let existingPolicy: String?
+        /// The ID of an existing policy to be replaced or detached.
+        public let existingPolicyId: String?
+        /// The time at which the existing policy for the unused permissions finding was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var policyUpdatedAt: Date?
+        /// A recommendation of whether to create or detach a policy for an unused permissions finding.
+        public let recommendedAction: String?
+        /// The contents of the least-privileged recommended replacement for ExistingPolicyId, when the RecommendedAction is CREATE_POLICY.
+        public let recommendedPolicy: String?
+
+        @inlinable
+        public init(existingPolicy: String? = nil, existingPolicyId: String? = nil, policyUpdatedAt: Date? = nil, recommendedAction: String? = nil, recommendedPolicy: String? = nil) {
+            self.existingPolicy = existingPolicy
+            self.existingPolicyId = existingPolicyId
+            self.policyUpdatedAt = policyUpdatedAt
+            self.recommendedAction = recommendedAction
+            self.recommendedPolicy = recommendedPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingPolicy = "ExistingPolicy"
+            case existingPolicyId = "ExistingPolicyId"
+            case policyUpdatedAt = "PolicyUpdatedAt"
+            case recommendedAction = "RecommendedAction"
+            case recommendedPolicy = "RecommendedPolicy"
+        }
+    }
+
     public struct UpdateActionTargetRequest: AWSEncodableShape {
         /// The ARN of the custom action target to update.
         public let actionTargetArn: String
@@ -31536,6 +32803,59 @@ extension SecurityHub {
         }
     }
 
+    public struct UpdateConnectorRequest: AWSEncodableShape {
+        /// The unique identifier of the connector to update.
+        public let connectorId: String
+        /// The updated description of the connector.
+        public let description: String?
+        /// The updated cloud provider configuration for the connector.
+        public let provider: CspmProviderUpdateConfiguration?
+
+        @inlinable
+        public init(connectorId: String, description: String? = nil, provider: CspmProviderUpdateConfiguration? = nil) {
+            self.connectorId = connectorId
+            self.description = description
+            self.provider = provider
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorId, key: "ConnectorId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.provider, forKey: .provider)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorId, name: "connectorId", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.provider?.validate(name: "\(name).provider")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case provider = "Provider"
+        }
+    }
+
+    public struct UpdateConnectorResponse: AWSDecodableShape {
+        /// The connectivity status of the connector after the update.
+        public let connectorStatus: CspmConnectorStatus?
+        /// The enablement status of the connector after the update.
+        public let enablementStatus: CspmEnablementStatus?
+
+        @inlinable
+        public init(connectorStatus: CspmConnectorStatus? = nil, enablementStatus: CspmEnablementStatus? = nil) {
+            self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case enablementStatus = "EnablementStatus"
+        }
+    }
+
     public struct UpdateConnectorV2Request: AWSEncodableShape {
         /// The UUID of the connectorV2 to identify connectorV2 resource.
         public let connectorId: String
@@ -31572,7 +32892,21 @@ extension SecurityHub {
     }
 
     public struct UpdateConnectorV2Response: AWSDecodableShape {
-        public init() {}
+        /// The status of the connector after the update.
+        public let connectorStatus: ConnectorStatus?
+        /// The enablement status of the connector after the update.
+        public let enablementStatus: EnablementStatus?
+
+        @inlinable
+        public init(connectorStatus: ConnectorStatus? = nil, enablementStatus: EnablementStatus? = nil) {
+            self.connectorStatus = connectorStatus
+            self.enablementStatus = enablementStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "ConnectorStatus"
+            case enablementStatus = "EnablementStatus"
+        }
     }
 
     public struct UpdateFindingAggregatorRequest: AWSEncodableShape {
@@ -32201,6 +33535,56 @@ extension SecurityHub {
         }
     }
 
+    public struct CspmProviderConfiguration: AWSEncodableShape {
+        /// The Azure provider configuration.
+        public let azure: AzureProviderConfiguration?
+
+        @inlinable
+        public init(azure: AzureProviderConfiguration? = nil) {
+            self.azure = azure
+        }
+
+        public func validate(name: String) throws {
+            try self.azure?.validate(name: "\(name).azure")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
+        }
+    }
+
+    public struct CspmProviderDetail: AWSDecodableShape {
+        /// The Azure provider detail.
+        public let azure: AzureDetail?
+
+        @inlinable
+        public init(azure: AzureDetail? = nil) {
+            self.azure = azure
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
+        }
+    }
+
+    public struct CspmProviderUpdateConfiguration: AWSEncodableShape {
+        /// The Azure update configuration.
+        public let azure: AzureUpdateConfiguration?
+
+        @inlinable
+        public init(azure: AzureUpdateConfiguration? = nil) {
+            self.azure = azure
+        }
+
+        public func validate(name: String) throws {
+            try self.azure?.validate(name: "\(name).azure")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "Azure"
+        }
+    }
+
     public struct Policy: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Web Services service that the configuration policy applies to.
         public let securityHub: SecurityHubPolicy?
@@ -32218,6 +33602,20 @@ extension SecurityHub {
             case securityHub = "SecurityHub"
         }
     }
+
+    public struct RecommendationStep: AWSDecodableShape {
+        /// A recommended step to remediate an unused permissions finding.
+        public let unusedPermissions: UnusedPermissionsRecommendationStep?
+
+        @inlinable
+        public init(unusedPermissions: UnusedPermissionsRecommendationStep? = nil) {
+            self.unusedPermissions = unusedPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unusedPermissions = "UnusedPermissions"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -32232,6 +33630,8 @@ public struct SecurityHubErrorType: AWSErrorType {
         case invalidAccessException = "InvalidAccessException"
         case invalidInputException = "InvalidInputException"
         case limitExceededException = "LimitExceededException"
+        case organizationNotFoundException = "OrganizationNotFoundException"
+        case organizationalUnitNotFoundException = "OrganizationalUnitNotFoundException"
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -32272,6 +33672,10 @@ public struct SecurityHubErrorType: AWSErrorType {
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request failed because one or more organizations specified in the request don't exist or don't belong to the caller's organization.
+    public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
+    /// The request failed because one or more organizational units specified in the request don't exist within the caller's organization.
+    public static var organizationalUnitNotFoundException: Self { .init(.organizationalUnitNotFoundException) }
     /// The resource specified in the request conflicts with an existing resource.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
     ///  The request was rejected because it conflicts with the resource's availability. For example, you tried to update a security control that's currently in the UPDATING state.
@@ -32295,6 +33699,8 @@ extension SecurityHubErrorType: AWSServiceErrorType {
         "InvalidAccessException": SecurityHub.InvalidAccessException.self,
         "InvalidInputException": SecurityHub.InvalidInputException.self,
         "LimitExceededException": SecurityHub.LimitExceededException.self,
+        "OrganizationNotFoundException": SecurityHub.OrganizationNotFoundException.self,
+        "OrganizationalUnitNotFoundException": SecurityHub.OrganizationalUnitNotFoundException.self,
         "ResourceConflictException": SecurityHub.ResourceConflictException.self,
         "ResourceInUseException": SecurityHub.ResourceInUseException.self,
         "ResourceNotFoundException": SecurityHub.ResourceNotFoundException.self,

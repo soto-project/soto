@@ -103,6 +103,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - deploymentType: Specifies the type of cluster to create.
     ///   - failoverMode: Specifies the behavior of failure recovery when the primary node of the cluster fails.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
+    ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
     ///   - name: The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region.
     ///   - networkType: Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
@@ -124,6 +125,7 @@ public struct TimestreamInfluxDB: AWSService {
         deploymentType: ClusterDeploymentType? = nil,
         failoverMode: FailoverMode? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: MaintenanceSchedule? = nil,
         name: String,
         networkType: NetworkType? = nil,
         organization: String? = nil,
@@ -145,6 +147,7 @@ public struct TimestreamInfluxDB: AWSService {
             deploymentType: deploymentType, 
             failoverMode: failoverMode, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
+            maintenanceSchedule: maintenanceSchedule, 
             name: name, 
             networkType: networkType, 
             organization: organization, 
@@ -182,6 +185,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - dbStorageType: The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between 3 different types of provisioned Influx IOPS included storage according to your workloads requirements:   Influx IO Included 3000 IOPS   Influx IO Included 12000 IOPS   Influx IO Included 16000 IOPS
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
+    ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
     ///   - name: The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
     ///   - networkType: Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
     ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
@@ -202,6 +206,7 @@ public struct TimestreamInfluxDB: AWSService {
         dbStorageType: DbStorageType? = nil,
         deploymentType: DeploymentType? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: MaintenanceSchedule? = nil,
         name: String,
         networkType: NetworkType? = nil,
         organization: String? = nil,
@@ -222,6 +227,7 @@ public struct TimestreamInfluxDB: AWSService {
             dbStorageType: dbStorageType, 
             deploymentType: deploymentType, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
+            maintenanceSchedule: maintenanceSchedule, 
             name: name, 
             networkType: networkType, 
             organization: organization, 
@@ -725,6 +731,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - dbParameterGroupIdentifier: Update the DB cluster to use the specified DB parameter group.
     ///   - failoverMode: Update the DB cluster's failover behavior.
     ///   - logDeliveryConfiguration: The log delivery configuration to apply to the DB cluster.
+    ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
     ///   - port: Update the DB cluster to use the specified port.
     ///   - logger: Logger use during operation
     @inlinable
@@ -734,6 +741,7 @@ public struct TimestreamInfluxDB: AWSService {
         dbParameterGroupIdentifier: String? = nil,
         failoverMode: FailoverMode? = nil,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: MaintenanceSchedule? = nil,
         port: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDbClusterOutput {
@@ -743,6 +751,7 @@ public struct TimestreamInfluxDB: AWSService {
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
             failoverMode: failoverMode, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
+            maintenanceSchedule: maintenanceSchedule, 
             port: port
         )
         return try await self.updateDbCluster(input, logger: logger)
@@ -771,6 +780,7 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     ///   - identifier: The id of the DB instance.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
+    ///   - maintenanceSchedule: Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
     ///   - port: The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     ///   - logger: Logger use during operation
     @inlinable
@@ -782,6 +792,7 @@ public struct TimestreamInfluxDB: AWSService {
         deploymentType: DeploymentType? = nil,
         identifier: String,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        maintenanceSchedule: MaintenanceSchedule? = nil,
         port: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDbInstanceOutput {
@@ -793,6 +804,7 @@ public struct TimestreamInfluxDB: AWSService {
             deploymentType: deploymentType, 
             identifier: identifier, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
+            maintenanceSchedule: maintenanceSchedule, 
             port: port
         )
         return try await self.updateDbInstance(input, logger: logger)

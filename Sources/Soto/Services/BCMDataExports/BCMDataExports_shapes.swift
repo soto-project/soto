@@ -28,6 +28,7 @@ extension BCMDataExports {
     public enum CompressionOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "GZIP"
         case parquet = "PARQUET"
+        case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
@@ -44,6 +45,7 @@ extension BCMDataExports {
 
     public enum ExecutionStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billOwnerChanged = "BILL_OWNER_CHANGED"
+        case deprecated = "DEPRECATED"
         case insufficientPermission = "INSUFFICIENT_PERMISSION"
         case internalFailure = "INTERNAL_FAILURE"
         public var description: String { return self.rawValue }
@@ -73,7 +75,9 @@ extension BCMDataExports {
     }
 
     public enum S3OutputType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case athena = "ATHENA"
         case custom = "CUSTOM"
+        case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
     }
 
@@ -765,6 +769,8 @@ extension BCMDataExports {
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
         /// The name of the Amazon S3 bucket used as the destination of a data export file.
         public let s3Bucket: String
+        /// The Amazon Web Services account ID that owns the S3 bucket used as the destination for the data export.
+        public let s3BucketOwner: String?
         /// The output configuration for the data export.
         public let s3OutputConfigurations: S3OutputConfigurations
         /// The S3 path prefix you want prepended to the name of your data export.
@@ -773,8 +779,9 @@ extension BCMDataExports {
         public let s3Region: String
 
         @inlinable
-        public init(s3Bucket: String, s3OutputConfigurations: S3OutputConfigurations, s3Prefix: String, s3Region: String) {
+        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3OutputConfigurations: S3OutputConfigurations, s3Prefix: String, s3Region: String) {
             self.s3Bucket = s3Bucket
+            self.s3BucketOwner = s3BucketOwner
             self.s3OutputConfigurations = s3OutputConfigurations
             self.s3Prefix = s3Prefix
             self.s3Region = s3Region
@@ -783,6 +790,9 @@ extension BCMDataExports {
         public func validate(name: String) throws {
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, max: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
+            try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
             try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.s3Region, name: "s3Region", parent: name, max: 1024)
@@ -791,6 +801,7 @@ extension BCMDataExports {
 
         private enum CodingKeys: String, CodingKey {
             case s3Bucket = "S3Bucket"
+            case s3BucketOwner = "S3BucketOwner"
             case s3OutputConfigurations = "S3OutputConfigurations"
             case s3Prefix = "S3Prefix"
             case s3Region = "S3Region"

@@ -25,6 +25,58 @@ import Foundation
 extension MarketplaceAgreement {
     // MARK: Enums
 
+    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deniedByPrivateMarketplacePolicy = "DENIED_BY_PRIVATE_MARKETPLACE_POLICY"
+        case failedKycCompliance = "FAILED_KYC_COMPLIANCE"
+        case invalidAccess = "INVALID_ACCESS"
+        case invalidAccountState = "INVALID_ACCOUNT_STATE"
+        case missingMfa = "MISSING_MFA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgreementCancellationRequestReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alternativeProcurementChannel = "ALTERNATIVE_PROCUREMENT_CHANNEL"
+        case buyerDissatisfaction = "BUYER_DISSATISFACTION"
+        case incorrectTermsAccepted = "INCORRECT_TERMS_ACCEPTED"
+        case other = "OTHER"
+        case productDiscontinued = "PRODUCT_DISCONTINUED"
+        case replacingAgreement = "REPLACING_AGREEMENT"
+        case testAgreement = "TEST_AGREEMENT"
+        case unintendedRenewal = "UNINTENDED_RENEWAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgreementCancellationRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case cancelled = "CANCELLED"
+        case pendingApproval = "PENDING_APPROVAL"
+        case rejected = "REJECTED"
+        case validationFailed = "VALIDATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgreementEntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deprovisioned = "DEPROVISIONED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case provisioned = "PROVISIONED"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgreementEntitlementStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountSuspended = "ACCOUNT_SUSPENDED"
+        case agreementActive = "AGREEMENT_ACTIVE"
+        case agreementInactive = "AGREEMENT_INACTIVE"
+        case futureStartDate = "FUTURE_START_DATE"
+        case incompatibleCurrency = "INCOMPATIBLE_CURRENCY"
+        case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
+        case productRestricted = "PRODUCT_RESTRICTED"
+        case provisioningInProgress = "PROVISIONING_IN_PROGRESS"
+        case unsupportedOperation = "UNSUPPORTED_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgreementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -38,14 +90,75 @@ extension MarketplaceAgreement {
         public var description: String { return self.rawValue }
     }
 
+    public enum BillingAdjustmentErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conflictException = "CONFLICT_EXCEPTION"
+        case internalFailure = "INTERNAL_FAILURE"
+        case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
+        case validationException = "VALIDATION_EXCEPTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingAdjustmentReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alternativeProcurementChannel = "ALTERNATIVE_PROCUREMENT_CHANNEL"
+        case buyerDissatisfaction = "BUYER_DISSATISFACTION"
+        case incorrectMetering = "INCORRECT_METERING"
+        case incorrectTermsAccepted = "INCORRECT_TERMS_ACCEPTED"
+        case other = "OTHER"
+        case testEnvironmentCharges = "TEST_ENVIRONMENT_CHARGES"
+        case unintendedRenewal = "UNINTENDED_RENEWAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingAdjustmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case pending = "PENDING"
+        case validationFailed = "VALIDATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Intent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amend = "AMEND"
+        case new = "NEW"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvoiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creditMemo = "CREDIT_MEMO"
+        case invoice = "INVOICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LineItemGroupBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invoiceId = "INVOICE_ID"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PaymentRequestApprovalStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoApproveOnExpiration = "AUTO_APPROVE_ON_EXPIRATION"
         case waitForApproval = "WAIT_FOR_APPROVAL"
         public var description: String { return self.rawValue }
     }
 
+    public enum PaymentRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case cancelled = "CANCELLED"
+        case pendingApproval = "PENDING_APPROVAL"
+        case rejected = "REJECTED"
+        case validating = "VALIDATING"
+        case validationFailed = "VALIDATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agreement = "Agreement"
+        case agreementCancellationRequest = "AgreementCancellationRequest"
+        case agreementProposal = "AgreementProposal"
+        case agreementRequest = "AgreementRequest"
+        case billingAdjustmentRequest = "BillingAdjustmentRequest"
+        case charge = "Charge"
+        case invoice = "Invoice"
+        case paymentRequest = "PaymentRequest"
         public var description: String { return self.rawValue }
     }
 
@@ -55,17 +168,101 @@ extension MarketplaceAgreement {
         public var description: String { return self.rawValue }
     }
 
+    public enum TaxEstimation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Timing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billingPeriod = "BILLING_PERIOD"
+        case onAcceptance = "ON_ACCEPTANCE"
+        case scheduled = "SCHEDULED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billingAdjustmentsLimitExceeded = "BILLING_ADJUSTMENTS_LIMIT_EXCEEDED"
+        case duplicateAgreementInOrganization = "DUPLICATE_AGREEMENT_IN_ORGANIZATION"
+        case duplicateCharges = "DUPLICATE_CHARGES"
+        case exceededMaximumAdjustmentAmount = "EXCEEDED_MAXIMUM_ADJUSTMENT_AMOUNT"
+        case expiredAgreementProposal = "EXPIRED_AGREEMENT_PROPOSAL"
+        case inactiveAgreement = "INACTIVE_AGREEMENT"
+        case incompatibleTerms = "INCOMPATIBLE_TERMS"
+        case invalidAdjustmentAmount = "INVALID_ADJUSTMENT_AMOUNT"
+        case invalidAgreementCancellationRequestId = "INVALID_AGREEMENT_CANCELLATION_REQUEST_ID"
         case invalidAgreementId = "INVALID_AGREEMENT_ID"
+        case invalidAgreementProposalIdentifier = "INVALID_AGREEMENT_PROPOSAL_IDENTIFIER"
+        case invalidAgreementRequestId = "INVALID_AGREEMENT_REQUEST_ID"
+        case invalidAgreementType = "INVALID_AGREEMENT_TYPE"
         case invalidCatalog = "INVALID_CATALOG"
+        case invalidChargeAmount = "INVALID_CHARGE_AMOUNT"
+        case invalidChargeId = "INVALID_CHARGE_ID"
+        case invalidChargeRevision = "INVALID_CHARGE_REVISION"
+        case invalidClientToken = "INVALID_CLIENT_TOKEN"
+        case invalidCurrencyCode = "INVALID_CURRENCY_CODE"
+        case invalidDescription = "INVALID_DESCRIPTION"
         case invalidFilterName = "INVALID_FILTER_NAME"
         case invalidFilterValues = "INVALID_FILTER_VALUES"
+        case invalidFilters = "INVALID_FILTERS"
+        case invalidIncrementalCharge = "INVALID_INCREMENTAL_CHARGE"
+        case invalidIntent = "INVALID_INTENT"
+        case invalidInvoiceAdjustmentPeriod = "INVALID_INVOICE_ADJUSTMENT_PERIOD"
         case invalidMaxResults = "INVALID_MAX_RESULTS"
+        case invalidName = "INVALID_NAME"
         case invalidNextToken = "INVALID_NEXT_TOKEN"
+        case invalidPartyType = "INVALID_PARTY_TYPE"
+        case invalidPaymentRequestId = "INVALID_PAYMENT_REQUEST_ID"
+        case invalidPaymentRequestStatus = "INVALID_PAYMENT_REQUEST_STATUS"
+        case invalidPurchaseOrderReference = "INVALID_PURCHASE_ORDER_REFERENCE"
+        case invalidPurchaseOrders = "INVALID_PURCHASE_ORDERS"
+        case invalidReason = "INVALID_REASON"
+        case invalidReasonCode = "INVALID_REASON_CODE"
+        case invalidRejectionReason = "INVALID_REJECTION_REASON"
+        case invalidRequestedTermConfiguration = "INVALID_REQUESTED_TERM_CONFIGURATION"
+        case invalidRequestedTermId = "INVALID_REQUESTED_TERM_ID"
+        case invalidRequestedTerms = "INVALID_REQUESTED_TERMS"
         case invalidSortBy = "INVALID_SORT_BY"
         case invalidSortOrder = "INVALID_SORT_ORDER"
+        case invalidSourceAgreementIdentifier = "INVALID_SOURCE_AGREEMENT_IDENTIFIER"
+        case invalidStatus = "INVALID_STATUS"
+        case invalidTermId = "INVALID_TERM_ID"
+        case missingAccountAddress = "MISSING_ACCOUNT_ADDRESS"
+        case missingAdjustmentAmount = "MISSING_ADJUSTMENT_AMOUNT"
+        case missingAgreementCancellationRequestId = "MISSING_AGREEMENT_CANCELLATION_REQUEST_ID"
         case missingAgreementId = "MISSING_AGREEMENT_ID"
+        case missingAgreementProposalIdentifier = "MISSING_AGREEMENT_PROPOSAL_IDENTIFIER"
+        case missingAgreementRequestId = "MISSING_AGREEMENT_REQUEST_ID"
+        case missingBillingAdjustmentRequestEntry = "MISSING_BILLING_ADJUSTMENT_REQUEST_ENTRY"
+        case missingBillingAdjustments = "MISSING_BILLING_ADJUSTMENTS"
+        case missingChargeAmount = "MISSING_CHARGE_AMOUNT"
+        case missingChargeId = "MISSING_CHARGE_ID"
+        case missingChargeRevision = "MISSING_CHARGE_REVISION"
+        case missingCurrencyCode = "MISSING_CURRENCY_CODE"
+        case missingDescription = "MISSING_DESCRIPTION"
+        case missingFilterName = "MISSING_FILTER_NAME"
+        case missingFilterValues = "MISSING_FILTER_VALUES"
+        case missingIntent = "MISSING_INTENT"
+        case missingInvoiceId = "MISSING_INVOICE_ID"
+        case missingMandatoryTerms = "MISSING_MANDATORY_TERMS"
+        case missingName = "MISSING_NAME"
+        case missingPartyType = "MISSING_PARTY_TYPE"
+        case missingPaymentRequestId = "MISSING_PAYMENT_REQUEST_ID"
+        case missingPurchaseOrderReference = "MISSING_PURCHASE_ORDER_REFERENCE"
+        case missingPurchaseOrders = "MISSING_PURCHASE_ORDERS"
+        case missingReason = "MISSING_REASON"
+        case missingReasonCode = "MISSING_REASON_CODE"
+        case missingRequestedTermConfiguration = "MISSING_REQUESTED_TERM_CONFIGURATION"
+        case missingRequestedTermId = "MISSING_REQUESTED_TERM_ID"
+        case missingRequestedTerms = "MISSING_REQUESTED_TERMS"
+        case missingSourceAgreementIdentifier = "MISSING_SOURCE_AGREEMENT_IDENTIFIER"
+        case missingTermId = "MISSING_TERM_ID"
+        case missingUsageAgreement = "MISSING_USAGE_AGREEMENT"
+        case multipleAgreementIds = "MULTIPLE_AGREEMENT_IDS"
         case other = "OTHER"
+        case supersededAgreementProposal = "SUPERSEDED_AGREEMENT_PROPOSAL"
+        case unsupportedAccountPlan = "UNSUPPORTED_ACCOUNT_PLAN"
+        case unsupportedAction = "UNSUPPORTED_ACTION"
         case unsupportedFilters = "UNSUPPORTED_FILTERS"
         public var description: String { return self.rawValue }
     }
@@ -161,7 +358,228 @@ extension MarketplaceAgreement {
         }
     }
 
+    public enum RequestedTermConfiguration: AWSEncodableShape, Sendable {
+        case configurableUpfrontPricingTermConfiguration(ConfigurableUpfrontPricingTermConfiguration)
+        case renewalTermConfiguration(RenewalTermConfiguration)
+        case variablePaymentTermConfiguration(VariablePaymentTermConfiguration)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .configurableUpfrontPricingTermConfiguration(let value):
+                try container.encode(value, forKey: .configurableUpfrontPricingTermConfiguration)
+            case .renewalTermConfiguration(let value):
+                try container.encode(value, forKey: .renewalTermConfiguration)
+            case .variablePaymentTermConfiguration(let value):
+                try container.encode(value, forKey: .variablePaymentTermConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .configurableUpfrontPricingTermConfiguration(let value):
+                try value.validate(name: "\(name).configurableUpfrontPricingTermConfiguration")
+            case .variablePaymentTermConfiguration(let value):
+                try value.validate(name: "\(name).variablePaymentTermConfiguration")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurableUpfrontPricingTermConfiguration = "configurableUpfrontPricingTermConfiguration"
+            case renewalTermConfiguration = "renewalTermConfiguration"
+            case variablePaymentTermConfiguration = "variablePaymentTermConfiguration"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AcceptAgreementCancellationRequestInput: AWSEncodableShape {
+        /// The unique identifier of the cancellation request to accept.
+        public let agreementCancellationRequestId: String
+        /// The unique identifier of the agreement associated with the cancellation request.
+        public let agreementId: String
+
+        @inlinable
+        public init(agreementCancellationRequestId: String, agreementId: String) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, max: 64)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, min: 1)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, pattern: "^acr-[a-zA-Z0-9]+$")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+        }
+    }
+
+    public struct AcceptAgreementCancellationRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the accepted cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement associated with this cancellation request.
+        public let agreementId: String?
+        /// The date and time when the cancellation request was originally created.
+        public let createdAt: Date?
+        /// The detailed description of the cancellation reason, if provided.
+        public let description: String?
+        /// The original reason code provided when the cancellation request was created.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The updated status of the cancellation request, which is APPROVED.
+        public let status: AgreementCancellationRequestStatus?
+        /// The date and time when the cancellation request was accepted.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, createdAt: Date? = nil, description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.createdAt = createdAt
+            self.description = description
+            self.reasonCode = reasonCode
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AcceptAgreementPaymentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with the payment request.
+        public let agreementId: String
+        /// The unique identifier of the payment request to accept.
+        public let paymentRequestId: String
+        /// An optional purchase order reference that buyers can provide to associate the payment request with their internal purchase order system.
+        public let purchaseOrderReference: String?
+
+        @inlinable
+        public init(agreementId: String, paymentRequestId: String, purchaseOrderReference: String? = nil) {
+            self.agreementId = agreementId
+            self.paymentRequestId = paymentRequestId
+            self.purchaseOrderReference = purchaseOrderReference
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, max: 64)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, min: 1)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, pattern: "^pr-[a-zA-Z0-9]+$")
+            try self.validate(self.purchaseOrderReference, name: "purchaseOrderReference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case paymentRequestId = "paymentRequestId"
+            case purchaseOrderReference = "purchaseOrderReference"
+        }
+    }
+
+    public struct AcceptAgreementPaymentRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement associated with this payment request.
+        public let agreementId: String?
+        /// The amount that was approved to be charged.
+        public let chargeAmount: String?
+        /// The date and time when the payment request was originally created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The detailed description of the payment request, if provided.
+        public let description: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier of the accepted payment request.
+        public let paymentRequestId: String?
+        /// The updated status of the payment request, which is APPROVED.
+        public let status: PaymentRequestStatus?
+        /// The date and time when the payment request was accepted.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, description: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AcceptAgreementRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement request.
+        public let agreementRequestId: String
+        /// A list of purchase orders associated with accepting a marketplace agreement request.
+        public let purchaseOrders: [PurchaseOrder]?
+
+        @inlinable
+        public init(agreementRequestId: String, purchaseOrders: [PurchaseOrder]? = nil) {
+            self.agreementRequestId = agreementRequestId
+            self.purchaseOrders = purchaseOrders
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementRequestId, name: "agreementRequestId", parent: name, max: 64)
+            try self.validate(self.agreementRequestId, name: "agreementRequestId", parent: name, min: 1)
+            try self.validate(self.agreementRequestId, name: "agreementRequestId", parent: name, pattern: "^ar-[A-Za-z0-9]+$")
+            try self.purchaseOrders?.forEach {
+                try $0.validate(name: "\(name).purchaseOrders[]")
+            }
+            try self.validate(self.purchaseOrders, name: "purchaseOrders", parent: name, max: 86)
+            try self.validate(self.purchaseOrders, name: "purchaseOrders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementRequestId = "agreementRequestId"
+            case purchaseOrders = "purchaseOrders"
+        }
+    }
+
+    public struct AcceptAgreementRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement created or modified by accepting the agreement request.
+        public let agreementId: String?
+
+        @inlinable
+        public init(agreementId: String? = nil) {
+            self.agreementId = agreementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+        }
+    }
 
     public struct Acceptor: AWSDecodableShape {
         /// The AWS account ID of the acceptor.
@@ -178,19 +596,138 @@ extension MarketplaceAgreement {
     }
 
     public struct AccessDeniedException: AWSErrorShape {
+        /// Description of the error.
         public let message: String?
+        /// The reason for the access denied exception.
+        public let reason: AccessDeniedExceptionReason?
         /// The unique identifier for the error.
         public let requestId: String?
 
         @inlinable
-        public init(message: String? = nil, requestId: String? = nil) {
+        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil, requestId: String? = nil) {
             self.message = message
+            self.reason = reason
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+            case reason = "reason"
             case requestId = "requestId"
+        }
+    }
+
+    public struct AgreementCancellationRequestSummary: AWSDecodableShape {
+        /// The unique identifier of the cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement associated with this cancellation request.
+        public let agreementId: String?
+        /// The type of agreement.
+        public let agreementType: String?
+        /// The catalog in which the agreement was created.
+        public let catalog: String?
+        /// The date and time when the cancellation request was created.
+        public let createdAt: Date?
+        /// The reason code provided for the cancellation.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The current status of the cancellation request. Possible values include PENDING_APPROVAL, APPROVED, REJECTED, CANCELLED, and VALIDATION_FAILED.
+        public let status: AgreementCancellationRequestStatus?
+        /// The date and time when the cancellation request was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, agreementType: String? = nil, catalog: String? = nil, createdAt: Date? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.createdAt = createdAt
+            self.reasonCode = reasonCode
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case catalog = "catalog"
+            case createdAt = "createdAt"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AgreementEntitlement: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS License Manager license associated with the entitlement.
+        public let licenseArn: String?
+        /// A short-lived token required by acceptors to register their account with the product provider. The token is only valid for 30 minutes after creation and is only applicable for purchase agreements.
+        public let registrationToken: String?
+        /// The resource that the entitlement is provisioned to, such as a product.
+        public let resource: Resource?
+        /// The current state of an entitlement.
+        public let status: AgreementEntitlementStatus?
+        /// Provides more information about the status of an entitlement.
+        public let statusReasonCode: AgreementEntitlementStatusReasonCode?
+        /// The type of entitlement.
+        public let type: String?
+
+        @inlinable
+        public init(licenseArn: String? = nil, registrationToken: String? = nil, resource: Resource? = nil, status: AgreementEntitlementStatus? = nil, statusReasonCode: AgreementEntitlementStatusReasonCode? = nil, type: String? = nil) {
+            self.licenseArn = licenseArn
+            self.registrationToken = registrationToken
+            self.resource = resource
+            self.status = status
+            self.statusReasonCode = statusReasonCode
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseArn = "licenseArn"
+            case registrationToken = "registrationToken"
+            case resource = "resource"
+            case status = "status"
+            case statusReasonCode = "statusReasonCode"
+            case type = "type"
+        }
+    }
+
+    public struct AgreementInvoiceLineItemGroupSummary: AWSDecodableShape {
+        /// The unique identifier of the agreement.
+        public let agreementId: String?
+        /// The billing period associated with this group.
+        public let invoiceBillingPeriod: InvoiceBillingPeriod?
+        /// The identifier of the invoice for this group.
+        public let invoiceId: String?
+        /// The type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+        public let invoiceType: InvoiceType?
+        /// The entity that issues the invoice.
+        public let invoicingEntity: InvoicingEntity?
+        /// The timestamp when the invoice containing this group was created.
+        public let issuedTime: Date?
+        /// Monetary amounts for this invoice group.
+        public let pricingCurrencyAmount: PricingCurrencyAmount?
+
+        @inlinable
+        public init(agreementId: String? = nil, invoiceBillingPeriod: InvoiceBillingPeriod? = nil, invoiceId: String? = nil, invoiceType: InvoiceType? = nil, invoicingEntity: InvoicingEntity? = nil, issuedTime: Date? = nil, pricingCurrencyAmount: PricingCurrencyAmount? = nil) {
+            self.agreementId = agreementId
+            self.invoiceBillingPeriod = invoiceBillingPeriod
+            self.invoiceId = invoiceId
+            self.invoiceType = invoiceType
+            self.invoicingEntity = invoicingEntity
+            self.issuedTime = issuedTime
+            self.pricingCurrencyAmount = pricingCurrencyAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case invoiceBillingPeriod = "invoiceBillingPeriod"
+            case invoiceId = "invoiceId"
+            case invoiceType = "invoiceType"
+            case invoicingEntity = "invoicingEntity"
+            case issuedTime = "issuedTime"
+            case pricingCurrencyAmount = "pricingCurrencyAmount"
         }
     }
 
@@ -201,10 +738,12 @@ extension MarketplaceAgreement {
         public let acceptor: Acceptor?
         /// The unique identifier of the agreement.
         public let agreementId: String?
-        /// The type of agreement. Value is PurchaseAgreement.
+        /// The type of agreement.
         public let agreementType: String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public let endTime: Date?
+        /// A list of entitlements associated with the agreement.
+        public let entitlements: [Entitlement]?
         /// A summary of the proposal
         public let proposalSummary: ProposalSummary?
         /// Details of the party proposing the agreement terms, most commonly the seller for PurchaseAgreement.
@@ -215,12 +754,13 @@ extension MarketplaceAgreement {
         public let status: AgreementStatus?
 
         @inlinable
-        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
+        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, entitlements: [Entitlement]? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
             self.agreementId = agreementId
             self.agreementType = agreementType
             self.endTime = endTime
+            self.entitlements = entitlements
             self.proposalSummary = proposalSummary
             self.proposer = proposer
             self.startTime = startTime
@@ -233,6 +773,7 @@ extension MarketplaceAgreement {
             case agreementId = "agreementId"
             case agreementType = "agreementType"
             case endTime = "endTime"
+            case entitlements = "entitlements"
             case proposalSummary = "proposalSummary"
             case proposer = "proposer"
             case startTime = "startTime"
@@ -240,17 +781,456 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct BatchCreateBillingAdjustmentError: AWSDecodableShape {
+        /// The client token of the request entry that failed.
+        public let clientToken: String
+        /// The error code indicating the reason for failure.
+        public let code: BillingAdjustmentErrorCode
+        /// A human-readable message describing the error.
+        public let message: String
+
+        @inlinable
+        public init(clientToken: String, code: BillingAdjustmentErrorCode, message: String) {
+            self.clientToken = clientToken
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct BatchCreateBillingAdjustmentItem: AWSDecodableShape {
+        /// The unique identifier of the created billing adjustment request.
+        public let billingAdjustmentRequestId: String
+        /// The client token provided in the corresponding request entry.
+        public let clientToken: String
+
+        @inlinable
+        public init(billingAdjustmentRequestId: String, clientToken: String) {
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+            self.clientToken = clientToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingAdjustmentRequestId = "billingAdjustmentRequestId"
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct BatchCreateBillingAdjustmentRequestEntry: AWSEncodableShape {
+        /// The adjustment amount as a string representation of a decimal number in the currency of the invoice.
+        public let adjustmentAmount: String
+        /// The reason code for the billing adjustment.
+        public let adjustmentReasonCode: BillingAdjustmentReasonCode
+        /// The unique identifier of the agreement associated with the invoice.
+        public let agreementId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// The 3-letter ISO 4217 currency code for the adjustment amount. Must match the currency code of the offer associated with the agreement (e.g., USD).
+        public let currencyCode: String
+        /// An optional detailed description of the adjustment reason.
+        public let description: String?
+        /// The identifier of the original invoice to adjust.
+        public let originalInvoiceId: String
+
+        @inlinable
+        public init(adjustmentAmount: String, adjustmentReasonCode: BillingAdjustmentReasonCode, agreementId: String, clientToken: String, currencyCode: String, description: String? = nil, originalInvoiceId: String) {
+            self.adjustmentAmount = adjustmentAmount
+            self.adjustmentReasonCode = adjustmentReasonCode
+            self.agreementId = agreementId
+            self.clientToken = clientToken
+            self.currencyCode = currencyCode
+            self.description = description
+            self.originalInvoiceId = originalInvoiceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.adjustmentAmount, name: "adjustmentAmount", parent: name, pattern: "^[0-9]*(\\.[0-9]{0,8})?$")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.currencyCode, name: "currencyCode", parent: name, max: 3)
+            try self.validate(self.currencyCode, name: "currencyCode", parent: name, min: 3)
+            try self.validate(self.currencyCode, name: "currencyCode", parent: name, pattern: "^[A-Z]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.originalInvoiceId, name: "originalInvoiceId", parent: name, max: 255)
+            try self.validate(self.originalInvoiceId, name: "originalInvoiceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentAmount = "adjustmentAmount"
+            case adjustmentReasonCode = "adjustmentReasonCode"
+            case agreementId = "agreementId"
+            case clientToken = "clientToken"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case originalInvoiceId = "originalInvoiceId"
+        }
+    }
+
+    public struct BatchCreateBillingAdjustmentRequestInput: AWSEncodableShape {
+        /// A list of billing adjustment request entries. Each entry specifies the invoice and adjustment details.
+        public let billingAdjustmentRequestEntries: [BatchCreateBillingAdjustmentRequestEntry]
+
+        @inlinable
+        public init(billingAdjustmentRequestEntries: [BatchCreateBillingAdjustmentRequestEntry]) {
+            self.billingAdjustmentRequestEntries = billingAdjustmentRequestEntries
+        }
+
+        public func validate(name: String) throws {
+            try self.billingAdjustmentRequestEntries.forEach {
+                try $0.validate(name: "\(name).billingAdjustmentRequestEntries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingAdjustmentRequestEntries = "billingAdjustmentRequestEntries"
+        }
+    }
+
+    public struct BatchCreateBillingAdjustmentRequestOutput: AWSDecodableShape {
+        /// A list of errors for entries that failed validation, each containing the clientToken, error code, and message.
+        public let errors: [BatchCreateBillingAdjustmentError]
+        /// A list of successfully created billing adjustment items, each containing the billingAdjustmentRequestId and clientToken.
+        public let items: [BatchCreateBillingAdjustmentItem]
+
+        @inlinable
+        public init(errors: [BatchCreateBillingAdjustmentError], items: [BatchCreateBillingAdjustmentItem]) {
+            self.errors = errors
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case items = "items"
+        }
+    }
+
+    public struct BillingAdjustmentSummary: AWSDecodableShape {
+        /// The adjustment amount as a string representation of a decimal number.
+        public let adjustmentAmount: String
+        /// The unique identifier of the agreement associated with this billing adjustment request.
+        public let agreementId: String
+        /// The type of agreement.
+        public let agreementType: String
+        /// The unique identifier of the billing adjustment request.
+        public let billingAdjustmentRequestId: String
+        /// The catalog in which the agreement was created.
+        public let catalog: String
+        /// The date and time when the billing adjustment request was created.
+        public let createdAt: Date
+        /// The currency code for the adjustment amount.
+        public let currencyCode: String
+        /// The identifier of the original invoice being adjusted.
+        public let originalInvoiceId: String
+        /// The current status of the billing adjustment request.
+        public let status: BillingAdjustmentStatus
+        /// The date and time when the billing adjustment request was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(adjustmentAmount: String, agreementId: String, agreementType: String, billingAdjustmentRequestId: String, catalog: String, createdAt: Date, currencyCode: String, originalInvoiceId: String, status: BillingAdjustmentStatus, updatedAt: Date) {
+            self.adjustmentAmount = adjustmentAmount
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+            self.catalog = catalog
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.originalInvoiceId = originalInvoiceId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentAmount = "adjustmentAmount"
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case billingAdjustmentRequestId = "billingAdjustmentRequestId"
+            case catalog = "catalog"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case originalInvoiceId = "originalInvoiceId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct ByolPricingTerm: AWSDecodableShape {
+        /// The unique identifier for the term.
+        public let id: String?
         /// Type of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(type: String? = nil) {
+        public init(id: String? = nil, type: String? = nil) {
+            self.id = id
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
             case type = "type"
+        }
+    }
+
+    public struct CancelAgreementCancellationRequestInput: AWSEncodableShape {
+        /// The unique identifier of the cancellation request to cancel.
+        public let agreementCancellationRequestId: String
+        /// The unique identifier of the agreement associated with the cancellation request.
+        public let agreementId: String
+        /// A required message explaining why the cancellation request is being withdrawn (1-2000 characters).
+        public let cancellationReason: String
+
+        @inlinable
+        public init(agreementCancellationRequestId: String, agreementId: String, cancellationReason: String) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.cancellationReason = cancellationReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, max: 64)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, min: 1)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, pattern: "^acr-[a-zA-Z0-9]+$")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.cancellationReason, name: "cancellationReason", parent: name, max: 2000)
+            try self.validate(self.cancellationReason, name: "cancellationReason", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case cancellationReason = "cancellationReason"
+        }
+    }
+
+    public struct CancelAgreementCancellationRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the cancelled cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement associated with this cancellation request.
+        public let agreementId: String?
+        /// The date and time when the cancellation request was originally created.
+        public let createdAt: Date?
+        /// The detailed description of the original cancellation reason, if provided.
+        public let description: String?
+        /// The original reason code provided when the cancellation request was created.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The updated status of the cancellation request, which is CANCELLED.
+        public let status: AgreementCancellationRequestStatus?
+        /// A message providing additional context about the cancellation request status.
+        public let statusMessage: String?
+        /// The date and time when the cancellation request was cancelled.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, createdAt: Date? = nil, description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.createdAt = createdAt
+            self.description = description
+            self.reasonCode = reasonCode
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct CancelAgreementInput: AWSEncodableShape {
+        /// The unique identifier of the agreement.
+        public let agreementId: String
+
+        @inlinable
+        public init(agreementId: String) {
+            self.agreementId = agreementId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+        }
+    }
+
+    public struct CancelAgreementOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CancelAgreementPaymentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with the payment request.
+        public let agreementId: String
+        /// The unique identifier of the payment request to cancel.
+        public let paymentRequestId: String
+
+        @inlinable
+        public init(agreementId: String, paymentRequestId: String) {
+            self.agreementId = agreementId
+            self.paymentRequestId = paymentRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, max: 64)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, min: 1)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, pattern: "^pr-[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case paymentRequestId = "paymentRequestId"
+        }
+    }
+
+    public struct CancelAgreementPaymentRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement associated with this payment request.
+        public let agreementId: String?
+        /// The amount that was requested to be charged.
+        public let chargeAmount: String?
+        /// The date and time when the payment request was originally created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The detailed description of the payment request, if provided.
+        public let description: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier of the cancelled payment request.
+        public let paymentRequestId: String?
+        /// The updated status of the payment request, which is CANCELLED.
+        public let status: PaymentRequestStatus?
+        /// The date and time when the payment request was cancelled.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, description: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct Charge: AWSDecodableShape {
+        /// The unique identifier of the agreement that resulted in this charge.
+        public let agreementId: String?
+        /// The type of agreement that resulted in this charge (for example, PurchaseAgreement).
+        public let agreementType: String?
+        /// The amount of the charge.
+        public let amount: String?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The unique identifier of the charge.
+        public let id: String?
+        /// The purchase order reference associated with the charge, if any.
+        public let purchaseOrderReference: String?
+        /// The revision number of the charge.
+        public let revision: Int64?
+        /// The date and time when the charge will be incurred. This is available only when the charge date is known.
+        public let time: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, agreementType: String? = nil, amount: String? = nil, currencyCode: String? = nil, id: String? = nil, purchaseOrderReference: String? = nil, revision: Int64? = nil, time: Date? = nil) {
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.amount = amount
+            self.currencyCode = currencyCode
+            self.id = id
+            self.purchaseOrderReference = purchaseOrderReference
+            self.revision = revision
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case amount = "amount"
+            case currencyCode = "currencyCode"
+            case id = "id"
+            case purchaseOrderReference = "purchaseOrderReference"
+            case revision = "revision"
+            case time = "time"
+        }
+    }
+
+    public struct ChargeSummary: AWSDecodableShape {
+        /// The three-letter currency code for all charges (e.g., USD).
+        public let currencyCode: String?
+        /// Provides an aggregated view of estimated tax information for the agreement.
+        public let estimatedTaxes: EstimatedTaxes?
+        /// A list of expected charges for the agreement request.
+        public let expectedCharges: [ExpectedCharge]?
+        /// The entity responsible for issuing the invoice.
+        public let invoicingEntity: InvoicingEntity?
+        /// An itemized list of charges for the agreement request.
+        public let itemizedCharges: [ItemizedCharge]?
+        /// The total value of the agreement, which includes any amendments.
+        public let newAgreementValue: String?
+        /// Expected new agreement value after estimated taxes are applied.
+        public let newAgreementValueAfterTax: String?
+
+        @inlinable
+        public init(currencyCode: String? = nil, estimatedTaxes: EstimatedTaxes? = nil, expectedCharges: [ExpectedCharge]? = nil, invoicingEntity: InvoicingEntity? = nil, itemizedCharges: [ItemizedCharge]? = nil, newAgreementValue: String? = nil, newAgreementValueAfterTax: String? = nil) {
+            self.currencyCode = currencyCode
+            self.estimatedTaxes = estimatedTaxes
+            self.expectedCharges = expectedCharges
+            self.invoicingEntity = invoicingEntity
+            self.itemizedCharges = itemizedCharges
+            self.newAgreementValue = newAgreementValue
+            self.newAgreementValueAfterTax = newAgreementValueAfterTax
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "currencyCode"
+            case estimatedTaxes = "estimatedTaxes"
+            case expectedCharges = "expectedCharges"
+            case invoicingEntity = "invoicingEntity"
+            case itemizedCharges = "itemizedCharges"
+            case newAgreementValue = "newAgreementValue"
+            case newAgreementValueAfterTax = "newAgreementValueAfterTax"
         }
     }
 
@@ -259,15 +1239,18 @@ extension MarketplaceAgreement {
         public let configuration: ConfigurableUpfrontPricingTermConfiguration?
         /// Defines the currency for the prices mentioned in the term.
         public let currencyCode: String?
+        /// The unique identifier of the term.
+        public let id: String?
         /// A rate card defines the per unit rates for product dimensions.
         public let rateCards: [ConfigurableUpfrontRateCardItem]?
         /// Category of selector.
         public let type: String?
 
         @inlinable
-        public init(configuration: ConfigurableUpfrontPricingTermConfiguration? = nil, currencyCode: String? = nil, rateCards: [ConfigurableUpfrontRateCardItem]? = nil, type: String? = nil) {
+        public init(configuration: ConfigurableUpfrontPricingTermConfiguration? = nil, currencyCode: String? = nil, id: String? = nil, rateCards: [ConfigurableUpfrontRateCardItem]? = nil, type: String? = nil) {
             self.configuration = configuration
             self.currencyCode = currencyCode
+            self.id = id
             self.rateCards = rateCards
             self.type = type
         }
@@ -275,12 +1258,13 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
             case currencyCode = "currencyCode"
+            case id = "id"
             case rateCards = "rateCards"
             case type = "type"
         }
     }
 
-    public struct ConfigurableUpfrontPricingTermConfiguration: AWSDecodableShape {
+    public struct ConfigurableUpfrontPricingTermConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines the dimensions that the acceptor has purchased from the overall set of dimensions presented in the rate card.
         public let dimensions: [Dimension]
         /// Defines the length of time for which the particular pricing/dimension is being purchased by the acceptor.
@@ -290,6 +1274,16 @@ extension MarketplaceAgreement {
         public init(dimensions: [Dimension], selectorValue: String) {
             self.dimensions = dimensions
             self.selectorValue = selectorValue
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.selectorValue, name: "selectorValue", parent: name, max: 4096)
+            try self.validate(self.selectorValue, name: "selectorValue", parent: name, min: 1)
+            try self.validate(self.selectorValue, name: "selectorValue", parent: name, pattern: "^(.)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -320,6 +1314,32 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        /// Description of the error.
+        public let message: String?
+        /// The unique identifier for the error.
+        public let requestId: String?
+        /// The unique identifier of the resource involved in the conflict.
+        public let resourceId: String?
+        /// The type of the resource involved in the conflict.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.requestId = requestId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case requestId = "requestId"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Constraints: AWSDecodableShape {
         /// Determines if buyers are allowed to select multiple dimensions in the rate card. The possible values are Allowed and Disallowed. The default value is Allowed.
         public let multipleDimensionSelection: String?
@@ -335,6 +1355,75 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case multipleDimensionSelection = "multipleDimensionSelection"
             case quantityConfiguration = "quantityConfiguration"
+        }
+    }
+
+    public struct CreateAgreementRequestInput: AWSEncodableShape {
+        /// The agreement proposal signed by the proposer. The proposal includes the requested resources and the terms that outline an agreement outcome.   This parameter is required if the intent is not AMEND.
+        public let agreementProposalIdentifier: String?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The purpose and desired outcome of the agreement request. This is a required parameter that determines how the agreement request is processed.    NEW – Creates a new agreement for terms in the request.    AMEND – Modifies an existing agreement with terms that are accepted in the request.    REPLACE – Creates a new agreement with accepted terms and replaces the existing agreement.
+        public let intent: Intent
+        /// A list of terms that define what is being accepted as part of the agreement. Some terms require configuration.
+        public let requestedTerms: [RequestedTerm]
+        /// The agreement's identifier that the request acts upon.   This parameter is required for all non-NEW intents (i.e., AMEND or REPLACE). Don't provide this parameter if the intent is NEW.
+        public let sourceAgreementIdentifier: String?
+        /// Configuration for tax estimation in the agreement request response.
+        public let taxConfiguration: TaxConfiguration?
+
+        @inlinable
+        public init(agreementProposalIdentifier: String? = nil, clientToken: String? = CreateAgreementRequestInput.idempotencyToken(), intent: Intent, requestedTerms: [RequestedTerm], sourceAgreementIdentifier: String? = nil, taxConfiguration: TaxConfiguration? = nil) {
+            self.agreementProposalIdentifier = agreementProposalIdentifier
+            self.clientToken = clientToken
+            self.intent = intent
+            self.requestedTerms = requestedTerms
+            self.sourceAgreementIdentifier = sourceAgreementIdentifier
+            self.taxConfiguration = taxConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementProposalIdentifier, name: "agreementProposalIdentifier", parent: name, max: 64)
+            try self.validate(self.agreementProposalIdentifier, name: "agreementProposalIdentifier", parent: name, min: 1)
+            try self.validate(self.agreementProposalIdentifier, name: "agreementProposalIdentifier", parent: name, pattern: "^(at-|ap-)[A-Za-z0-9]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.requestedTerms.forEach {
+                try $0.validate(name: "\(name).requestedTerms[]")
+            }
+            try self.validate(self.requestedTerms, name: "requestedTerms", parent: name, max: 30)
+            try self.validate(self.requestedTerms, name: "requestedTerms", parent: name, min: 1)
+            try self.validate(self.sourceAgreementIdentifier, name: "sourceAgreementIdentifier", parent: name, max: 64)
+            try self.validate(self.sourceAgreementIdentifier, name: "sourceAgreementIdentifier", parent: name, min: 1)
+            try self.validate(self.sourceAgreementIdentifier, name: "sourceAgreementIdentifier", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementProposalIdentifier = "agreementProposalIdentifier"
+            case clientToken = "clientToken"
+            case intent = "intent"
+            case requestedTerms = "requestedTerms"
+            case sourceAgreementIdentifier = "sourceAgreementIdentifier"
+            case taxConfiguration = "taxConfiguration"
+        }
+    }
+
+    public struct CreateAgreementRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement request created. Use this identifier with AcceptAgreementRequest to accept the agreement.
+        public let agreementRequestId: String?
+        /// Provides details of the charges associated with the agreement request. This is only applicable when a request is created for PurchaseAgreement.
+        public let chargeSummary: ChargeSummary?
+
+        @inlinable
+        public init(agreementRequestId: String? = nil, chargeSummary: ChargeSummary? = nil) {
+            self.agreementRequestId = agreementRequestId
+            self.chargeSummary = chargeSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementRequestId = "agreementRequestId"
+            case chargeSummary = "chargeSummary"
         }
     }
 
@@ -408,7 +1497,7 @@ extension MarketplaceAgreement {
         }
     }
 
-    public struct Dimension: AWSDecodableShape {
+    public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The name of key value of the dimension.
         public let dimensionKey: String
         /// The number of units of the dimension the acceptor has purchased.  For Agreements with ConfigurableUpfrontPricingTerm, the RateCard section will define the prices and dimensions defined by the seller (proposer), whereas the Configuration section will define the actual dimensions, prices, and units the buyer has chosen to accept.
@@ -418,6 +1507,13 @@ extension MarketplaceAgreement {
         public init(dimensionKey: String, dimensionValue: Int) {
             self.dimensionKey = dimensionKey
             self.dimensionValue = dimensionValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, max: 4096)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, min: 1)
+            try self.validate(self.dimensionKey, name: "dimensionKey", parent: name, pattern: "^(.)+$")
+            try self.validate(self.dimensionValue, name: "dimensionValue", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,6 +1544,20 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct Entitlement: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS License Manager license associated with the entitlement.
+        public let licenseArn: String?
+
+        @inlinable
+        public init(licenseArn: String? = nil) {
+            self.licenseArn = licenseArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseArn = "licenseArn"
+        }
+    }
+
     public struct EstimatedCharges: AWSDecodableShape {
         /// The total known amount customer has to pay across the lifecycle of the agreement.  This is the total contract value if accepted terms contain ConfigurableUpfrontPricingTerm or FixedUpfrontPricingTerm. In the case of pure contract pricing, this will be the total value of the contract. In the case of contracts with consumption pricing, this will only include the committed value and not include any overages that occur. If the accepted terms contain PaymentScheduleTerm, it will be the total payment schedule amount. This occurs when flexible payment schedule is used, and is the sum of all invoice charges in the payment schedule. In case a customer has amended an agreement, by purchasing more units of any dimension, this will include both the original cost as well as the added cost incurred due to addition of new units.  This is 0 if the accepted terms contain UsageBasedPricingTerm without ConfigurableUpfrontPricingTerm or RecurringPaymentTerm. This occurs for usage-based pricing (such as SaaS metered or AMI/container hourly or monthly), because the exact usage is not known upfront.
         public let agreementValue: String?
@@ -463,6 +1573,58 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case agreementValue = "agreementValue"
             case currencyCode = "currencyCode"
+        }
+    }
+
+    public struct EstimatedTaxes: AWSDecodableShape {
+        /// A list of tax breakdown information.
+        public let breakdown: [TaxBreakdownItem]?
+        /// The total amount of tax aggregated from the tax breakdown.
+        public let totalAmount: String?
+
+        @inlinable
+        public init(breakdown: [TaxBreakdownItem]? = nil, totalAmount: String? = nil) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case breakdown = "breakdown"
+            case totalAmount = "totalAmount"
+        }
+    }
+
+    public struct ExpectedCharge: AWSDecodableShape {
+        /// The tax-exclusive amount of the charge. Only available when the charge amount is known.
+        public let amount: String?
+        /// The tax-inclusive amount the acceptor has to pay. The amount is only present for fixed charges.
+        public let amountAfterTax: String?
+        /// Provides an aggregated view of estimated tax information for this specific charge.
+        public let estimatedTaxes: EstimatedTaxes?
+        /// Unique identifier of the charge for a given agreement.
+        public let id: String?
+        /// The date and time when the charge is due to be invoiced. This is available only when the charge date is known.
+        public let time: Date?
+        /// Indicates when the charge amount will be incurred. Values include ON_ACCEPTANCE (charged immediately when the agreement request is accepted), BILLING_PERIOD (charged on each billing period), and SCHEDULED (charged at a predetermined future date).
+        public let timing: Timing?
+
+        @inlinable
+        public init(amount: String? = nil, amountAfterTax: String? = nil, estimatedTaxes: EstimatedTaxes? = nil, id: String? = nil, time: Date? = nil, timing: Timing? = nil) {
+            self.amount = amount
+            self.amountAfterTax = amountAfterTax
+            self.estimatedTaxes = estimatedTaxes
+            self.id = id
+            self.time = time
+            self.timing = timing
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case amountAfterTax = "amountAfterTax"
+            case estimatedTaxes = "estimatedTaxes"
+            case id = "id"
+            case time = "time"
+            case timing = "timing"
         }
     }
 
@@ -504,16 +1666,19 @@ extension MarketplaceAgreement {
         public let duration: String?
         /// Entitlements granted to the acceptor of fixed upfront as part of agreement execution.
         public let grants: [GrantItem]?
+        /// The unique identifier for the term.
+        public let id: String?
         /// Fixed amount to be charged to the customer when this term is accepted.
         public let price: String?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(currencyCode: String? = nil, duration: String? = nil, grants: [GrantItem]? = nil, price: String? = nil, type: String? = nil) {
+        public init(currencyCode: String? = nil, duration: String? = nil, grants: [GrantItem]? = nil, id: String? = nil, price: String? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
             self.duration = duration
             self.grants = grants
+            self.id = id
             self.price = price
             self.type = type
         }
@@ -522,6 +1687,7 @@ extension MarketplaceAgreement {
             case currencyCode = "currencyCode"
             case duration = "duration"
             case grants = "grants"
+            case id = "id"
             case price = "price"
             case type = "type"
         }
@@ -532,29 +1698,102 @@ extension MarketplaceAgreement {
         public let duration: String?
         /// Entitlements granted to the acceptor of a free trial as part of an agreement execution.
         public let grants: [GrantItem]?
+        /// The unique identifier for the terms.
+        public let id: String?
         /// Category of the term.
         public let type: String?
 
         @inlinable
-        public init(duration: String? = nil, grants: [GrantItem]? = nil, type: String? = nil) {
+        public init(duration: String? = nil, grants: [GrantItem]? = nil, id: String? = nil, type: String? = nil) {
             self.duration = duration
             self.grants = grants
+            self.id = id
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case duration = "duration"
             case grants = "grants"
+            case id = "id"
             case type = "type"
         }
     }
 
-    public struct GetAgreementTermsInput: AWSEncodableShape {
+    public struct GetAgreementCancellationRequestInput: AWSEncodableShape {
+        /// The unique identifier of the cancellation request.
+        public let agreementCancellationRequestId: String
+        /// The unique identifier of the agreement associated with the cancellation request.
+        public let agreementId: String
+
+        @inlinable
+        public init(agreementCancellationRequestId: String, agreementId: String) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, max: 64)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, min: 1)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, pattern: "^acr-[a-zA-Z0-9]+$")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+        }
+    }
+
+    public struct GetAgreementCancellationRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement associated with this cancellation request. Use DescribeAgreement to retrieve full agreement details.
+        public let agreementId: String?
+        /// The date and time when the cancellation request was created.
+        public let createdAt: Date?
+        /// The detailed description of the cancellation reason, if provided.
+        public let description: String?
+        /// The reason code provided for the cancellation.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The current status of the cancellation request.
+        public let status: AgreementCancellationRequestStatus?
+        /// A message providing additional context about the cancellation request status.
+        public let statusMessage: String?
+        /// The date and time when the cancellation request was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, createdAt: Date? = nil, description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.createdAt = createdAt
+            self.description = description
+            self.reasonCode = reasonCode
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAgreementEntitlementsInput: AWSEncodableShape {
         /// The unique identifier of the agreement.
         public let agreementId: String
-        /// The maximum number of agreements to return in the response.
+        /// The maximum number of agreement entitlements to return in the response.
         public let maxResults: Int?
-        /// A token to specify where to start pagination
+        /// A token to specify where to start pagination.
         public let nextToken: String?
 
         @inlinable
@@ -571,7 +1810,138 @@ extension MarketplaceAgreement {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetAgreementEntitlementsOutput: AWSDecodableShape {
+        /// A list of agreement entitlements which are part of the latest agreement.
+        public let agreementEntitlements: [AgreementEntitlement]?
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agreementEntitlements: [AgreementEntitlement]? = nil, nextToken: String? = nil) {
+            self.agreementEntitlements = agreementEntitlements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementEntitlements = "agreementEntitlements"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetAgreementPaymentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with the payment request.
+        public let agreementId: String
+        /// The identifier of the payment request.
+        public let paymentRequestId: String
+
+        @inlinable
+        public init(agreementId: String, paymentRequestId: String) {
+            self.agreementId = agreementId
+            self.paymentRequestId = paymentRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, max: 64)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, min: 1)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, pattern: "^pr-[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case paymentRequestId = "paymentRequestId"
+        }
+    }
+
+    public struct GetAgreementPaymentRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement associated with this payment request. Use DescribeAgreement to retrieve full agreement details.
+        public let agreementId: String?
+        /// The amount charged or to be charged to the buyer.
+        public let chargeAmount: String?
+        /// The unique identifier of the charge created after the payment request is approved. This field is only present for approved payment requests and follows the pattern ch-[a-zA-Z0-9]+.
+        public let chargeId: String?
+        /// The date and time when the payment request was created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The detailed description of the payment request, if provided.
+        public let description: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier of the payment request.
+        public let paymentRequestId: String?
+        /// The current status of the payment request. Possible values include:    VALIDATING – The payment request is being validated against agreement terms.    VALIDATION_FAILED – The payment request failed validation.    PENDING_APPROVAL – The payment request is awaiting buyer action.    APPROVED – The buyer has approved the payment request.    REJECTED – The buyer has rejected the payment request.    CANCELLED – The seller has cancelled the payment request.
+        public let status: PaymentRequestStatus?
+        /// An optional message providing additional context about the payment request status, such as a rejection reason or validation failure details.
+        public let statusMessage: String?
+        /// The date and time when the payment request was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, chargeId: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, description: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.chargeId = chargeId
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case chargeId = "chargeId"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAgreementTermsInput: AWSEncodableShape {
+        /// The unique identifier of the agreement.
+        public let agreementId: String
+        /// The maximum number of agreements to return in the response.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agreementId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.agreementId = agreementId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -584,7 +1954,7 @@ extension MarketplaceAgreement {
     public struct GetAgreementTermsOutput: AWSDecodableShape {
         /// A subset of terms proposed by the proposer that have been accepted by the acceptor as part of the agreement creation.
         public let acceptedTerms: [AcceptedTerm]?
-        /// A token to specify where to start pagination
+        /// The token used for pagination. The field is null if there are no more results.
         public let nextToken: String?
 
         @inlinable
@@ -596,6 +1966,87 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case acceptedTerms = "acceptedTerms"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetBillingAdjustmentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with the billing adjustment request.
+        public let agreementId: String
+        /// The unique identifier of the billing adjustment request.
+        public let billingAdjustmentRequestId: String
+
+        @inlinable
+        public init(agreementId: String, billingAdjustmentRequestId: String) {
+            self.agreementId = agreementId
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.billingAdjustmentRequestId, name: "billingAdjustmentRequestId", parent: name, max: 64)
+            try self.validate(self.billingAdjustmentRequestId, name: "billingAdjustmentRequestId", parent: name, min: 1)
+            try self.validate(self.billingAdjustmentRequestId, name: "billingAdjustmentRequestId", parent: name, pattern: "^ba-[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case billingAdjustmentRequestId = "billingAdjustmentRequestId"
+        }
+    }
+
+    public struct GetBillingAdjustmentRequestOutput: AWSDecodableShape {
+        /// The adjustment amount as a string representation of a decimal number.
+        public let adjustmentAmount: String
+        /// The reason code for the billing adjustment.
+        public let adjustmentReasonCode: BillingAdjustmentReasonCode
+        /// The unique identifier of the agreement associated with this billing adjustment request.
+        public let agreementId: String
+        /// The unique identifier of the billing adjustment request.
+        public let billingAdjustmentRequestId: String
+        /// The date and time when the billing adjustment request was created.
+        public let createdAt: Date
+        /// The currency code for the adjustment amount (e.g., USD).
+        public let currencyCode: String
+        /// The detailed description of the billing adjustment reason, if provided.
+        public let description: String?
+        /// The identifier of the original invoice being adjusted.
+        public let originalInvoiceId: String
+        /// The current status of the billing adjustment request.
+        public let status: BillingAdjustmentStatus
+        /// A message providing additional context about the billing adjustment request status. This field is populated only when the status is VALIDATION_FAILED.
+        public let statusMessage: String?
+        /// The date and time when the billing adjustment request was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(adjustmentAmount: String, adjustmentReasonCode: BillingAdjustmentReasonCode, agreementId: String, billingAdjustmentRequestId: String, createdAt: Date, currencyCode: String, description: String? = nil, originalInvoiceId: String, status: BillingAdjustmentStatus, statusMessage: String? = nil, updatedAt: Date) {
+            self.adjustmentAmount = adjustmentAmount
+            self.adjustmentReasonCode = adjustmentReasonCode
+            self.agreementId = agreementId
+            self.billingAdjustmentRequestId = billingAdjustmentRequestId
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.originalInvoiceId = originalInvoiceId
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustmentAmount = "adjustmentAmount"
+            case adjustmentReasonCode = "adjustmentReasonCode"
+            case agreementId = "agreementId"
+            case billingAdjustmentRequestId = "billingAdjustmentRequestId"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case originalInvoiceId = "originalInvoiceId"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -618,6 +2069,7 @@ extension MarketplaceAgreement {
     }
 
     public struct InternalServerException: AWSErrorShape {
+        /// Description of the error.
         public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
@@ -634,43 +2086,552 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct InvoiceBillingPeriod: AWSEncodableShape & AWSDecodableShape {
+        /// The billing period month. Valid range: 1-12.
+        public let month: Int
+        /// The billing period year.
+        public let year: Int
+
+        @inlinable
+        public init(month: Int, year: Int) {
+            self.month = month
+            self.year = year
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case month = "month"
+            case year = "year"
+        }
+    }
+
+    public struct InvoicingEntity: AWSDecodableShape {
+        /// The branch where the issuing entity is operating from.
+        public let branchName: String?
+        /// Legal name of the entity issuing the invoice.
+        public let legalName: String?
+
+        @inlinable
+        public init(branchName: String? = nil, legalName: String? = nil) {
+            self.branchName = branchName
+            self.legalName = legalName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branchName = "branchName"
+            case legalName = "legalName"
+        }
+    }
+
+    public struct ItemizedCharge: AWSDecodableShape {
+        /// The identifier of the expected charge that this itemized charge contributes to.
+        public let chargeReference: String?
+        /// The dimension key as specified in the accepted term.
+        public let dimensionKey: String?
+        /// The total incremental charge amount for this dimension.
+        public let incrementalChargeAmount: String?
+        /// The requested quantity for this dimension.
+        public let newQuantity: Int?
+        /// The existing quantity for this dimension from the source agreement. This value is 0 for NEW intent.
+        public let oldQuantity: Int?
+
+        @inlinable
+        public init(chargeReference: String? = nil, dimensionKey: String? = nil, incrementalChargeAmount: String? = nil, newQuantity: Int? = nil, oldQuantity: Int? = nil) {
+            self.chargeReference = chargeReference
+            self.dimensionKey = dimensionKey
+            self.incrementalChargeAmount = incrementalChargeAmount
+            self.newQuantity = newQuantity
+            self.oldQuantity = oldQuantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeReference = "chargeReference"
+            case dimensionKey = "dimensionKey"
+            case incrementalChargeAmount = "incrementalChargeAmount"
+            case newQuantity = "newQuantity"
+            case oldQuantity = "oldQuantity"
+        }
+    }
+
     public struct LegalTerm: AWSDecodableShape {
         /// List of references to legal resources proposed to the buyers. An example is the EULA.
         public let documents: [DocumentItem]?
+        /// The unique identifer for the term.
+        public let id: String?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(documents: [DocumentItem]? = nil, type: String? = nil) {
+        public init(documents: [DocumentItem]? = nil, id: String? = nil, type: String? = nil) {
             self.documents = documents
+            self.id = id
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case documents = "documents"
+            case id = "id"
             case type = "type"
+        }
+    }
+
+    public struct ListAgreementCancellationRequestsInput: AWSEncodableShape {
+        /// An optional parameter to filter cancellation requests for a specific agreement.
+        public let agreementId: String?
+        /// An optional parameter to filter cancellation requests by agreement type (e.g., PurchaseAgreement).
+        public let agreementType: String?
+        /// An optional parameter to filter cancellation requests by catalog (e.g., AWSMarketplace).
+        public let catalog: String?
+        /// The maximum number of cancellation requests to return in the response.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+        /// The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer.
+        public let partyType: String
+        /// An optional parameter to filter cancellation requests by status.
+        public let status: AgreementCancellationRequestStatus?
+
+        @inlinable
+        public init(agreementId: String? = nil, agreementType: String? = nil, catalog: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, partyType: String, status: AgreementCancellationRequestStatus? = nil) {
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.partyType = partyType
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.agreementType, name: "agreementType", parent: name, max: 64)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, min: 1)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, pattern: "^[A-Za-z]+$")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+            try self.validate(self.partyType, name: "partyType", parent: name, max: 32)
+            try self.validate(self.partyType, name: "partyType", parent: name, min: 1)
+            try self.validate(self.partyType, name: "partyType", parent: name, pattern: "^[A-Za-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case catalog = "catalog"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case partyType = "partyType"
+            case status = "status"
+        }
+    }
+
+    public struct ListAgreementCancellationRequestsOutput: AWSDecodableShape {
+        /// An array of AgreementCancellationRequestSummary objects containing summary information about each cancellation request.
+        public let items: [AgreementCancellationRequestSummary]?
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [AgreementCancellationRequestSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgreementChargesInput: AWSEncodableShape {
+        /// The unique identifier of the agreement.
+        public let agreementId: String?
+        /// Filter to retrieve charges of a specific agreement type (for example, PurchaseAgreement).
+        public let agreementType: String?
+        /// The catalog in which the charges were created.
+        public let catalog: String?
+        /// The maximum number of charges to return in the response.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agreementId: String? = nil, agreementType: String? = nil, catalog: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.agreementType, name: "agreementType", parent: name, max: 64)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, min: 1)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, pattern: "^[A-Za-z]+$")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case catalog = "catalog"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgreementChargesOutput: AWSDecodableShape {
+        /// A list of agreement charges.
+        public let items: [Charge]?
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [Charge]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgreementInvoiceLineItemsInput: AWSEncodableShape {
+        /// An optional filter for invoices issued after the specified timestamp.
+        public let afterIssuedTime: Date?
+        /// The unique identifier of the agreement.
+        public let agreementId: String
+        /// An optional filter for invoices issued before the specified timestamp.
+        public let beforeIssuedTime: Date?
+        /// Specifies a grouping strategy for line items. Currently supports INVOICE_ID.
+        public let groupBy: LineItemGroupBy
+        /// An optional filter for the billing period associated with the invoice.
+        public let invoiceBillingPeriod: InvoiceBillingPeriod?
+        /// An optional filter to retrieve invoice information for a specific invoice.
+        public let invoiceId: String?
+        /// An optional filter for the type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+        public let invoiceType: InvoiceType?
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+
+        @inlinable
+        public init(afterIssuedTime: Date? = nil, agreementId: String, beforeIssuedTime: Date? = nil, groupBy: LineItemGroupBy, invoiceBillingPeriod: InvoiceBillingPeriod? = nil, invoiceId: String? = nil, invoiceType: InvoiceType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.afterIssuedTime = afterIssuedTime
+            self.agreementId = agreementId
+            self.beforeIssuedTime = beforeIssuedTime
+            self.groupBy = groupBy
+            self.invoiceBillingPeriod = invoiceBillingPeriod
+            self.invoiceId = invoiceId
+            self.invoiceType = invoiceType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.invoiceId, name: "invoiceId", parent: name, max: 64)
+            try self.validate(self.invoiceId, name: "invoiceId", parent: name, min: 1)
+            try self.validate(self.invoiceId, name: "invoiceId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterIssuedTime = "afterIssuedTime"
+            case agreementId = "agreementId"
+            case beforeIssuedTime = "beforeIssuedTime"
+            case groupBy = "groupBy"
+            case invoiceBillingPeriod = "invoiceBillingPeriod"
+            case invoiceId = "invoiceId"
+            case invoiceType = "invoiceType"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgreementInvoiceLineItemsOutput: AWSDecodableShape {
+        /// A list of grouped billing data objects.
+        public let agreementInvoiceLineItemGroupSummaries: [AgreementInvoiceLineItemGroupSummary]?
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(agreementInvoiceLineItemGroupSummaries: [AgreementInvoiceLineItemGroupSummary]? = nil, nextToken: String? = nil) {
+            self.agreementInvoiceLineItemGroupSummaries = agreementInvoiceLineItemGroupSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementInvoiceLineItemGroupSummaries = "agreementInvoiceLineItemGroupSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListAgreementPaymentRequestsInput: AWSEncodableShape {
+        /// An optional parameter to list payment requests for a specific agreement.
+        public let agreementId: String?
+        /// An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement).
+        public let agreementType: String?
+        /// An optional parameter to list payment requests by catalog (e.g., AWSMarketplace).
+        public let catalog: String?
+        /// The maximum number of payment requests to return in a single response (1-50). Default is 50.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+        /// The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer.
+        public let partyType: String
+        /// An optional parameter to list payment requests by status. Valid values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+        public let status: PaymentRequestStatus?
+
+        @inlinable
+        public init(agreementId: String? = nil, agreementType: String? = nil, catalog: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, partyType: String, status: PaymentRequestStatus? = nil) {
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.partyType = partyType
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.agreementType, name: "agreementType", parent: name, max: 64)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, min: 1)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, pattern: "^[A-Za-z]+$")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+            try self.validate(self.partyType, name: "partyType", parent: name, max: 32)
+            try self.validate(self.partyType, name: "partyType", parent: name, min: 1)
+            try self.validate(self.partyType, name: "partyType", parent: name, pattern: "^[A-Za-z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case catalog = "catalog"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case partyType = "partyType"
+            case status = "status"
+        }
+    }
+
+    public struct ListAgreementPaymentRequestsOutput: AWSDecodableShape {
+        /// An array of PaymentRequestSummary objects containing summary information about each payment request.
+        public let items: [PaymentRequestSummary]
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [PaymentRequestSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBillingAdjustmentRequestsInput: AWSEncodableShape {
+        /// The unique identifier of the agreement to list billing adjustment requests for.
+        public let agreementId: String?
+        /// An optional filter to return billing adjustment requests by agreement type (e.g., PurchaseAgreement).
+        public let agreementType: String?
+        /// An optional filter to return billing adjustment requests by catalog (e.g., AWSMarketplace).
+        public let catalog: String?
+        /// An optional filter to return billing adjustment requests created after the specified timestamp.
+        public let createdAfter: Date?
+        /// An optional filter to return billing adjustment requests created before the specified timestamp.
+        public let createdBefore: Date?
+        /// The maximum number of billing adjustment requests to return in the response.
+        public let maxResults: Int?
+        /// A token to specify where to start pagination.
+        public let nextToken: String?
+        /// An optional filter to return billing adjustment requests with the specified status.
+        public let status: BillingAdjustmentStatus?
+
+        @inlinable
+        public init(agreementId: String? = nil, agreementType: String? = nil, catalog: String? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: BillingAdjustmentStatus? = nil) {
+            self.agreementId = agreementId
+            self.agreementType = agreementType
+            self.catalog = catalog
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.agreementType, name: "agreementType", parent: name, max: 64)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, min: 1)
+            try self.validate(self.agreementType, name: "agreementType", parent: name, pattern: "^[A-Za-z]+$")
+            try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
+            try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case agreementType = "agreementType"
+            case catalog = "catalog"
+            case createdAfter = "createdAfter"
+            case createdBefore = "createdBefore"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
+        }
+    }
+
+    public struct ListBillingAdjustmentRequestsOutput: AWSDecodableShape {
+        /// An array of BillingAdjustmentSummary objects containing summary information about each billing adjustment request.
+        public let items: [BillingAdjustmentSummary]
+        /// The token used for pagination. The field is null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [BillingAdjustmentSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct PaymentRequestSummary: AWSDecodableShape {
+        /// The unique identifier of the agreement associated with this payment request.
+        public let agreementId: String?
+        /// The amount charged or to be charged to the buyer.
+        public let chargeAmount: String?
+        /// The unique identifier of the charge created after the payment request is approved. This field is only present for approved payment requests.
+        public let chargeId: String?
+        /// The date and time when the payment request was created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier of the payment request.
+        public let paymentRequestId: String?
+        /// The current status of the payment request. Possible values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+        public let status: PaymentRequestStatus?
+        /// The date and time when the payment request was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, chargeId: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.chargeId = chargeId
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case chargeId = "chargeId"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct PaymentScheduleTerm: AWSDecodableShape {
         /// Defines the currency for the prices mentioned in the term.
         public let currencyCode: String?
+        /// The unique identifier for the term.
+        public let id: String?
         /// List of the payment schedule where each element defines one installment of payment. It contains the information necessary for calculating the price.
         public let schedule: [ScheduleItem]?
         /// Type of the term.
         public let type: String?
 
         @inlinable
-        public init(currencyCode: String? = nil, schedule: [ScheduleItem]? = nil, type: String? = nil) {
+        public init(currencyCode: String? = nil, id: String? = nil, schedule: [ScheduleItem]? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
+            self.id = id
             self.schedule = schedule
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "currencyCode"
+            case id = "id"
             case schedule = "schedule"
             case type = "type"
+        }
+    }
+
+    public struct PricingCurrencyAmount: AWSDecodableShape {
+        /// The monetary amount before tax.
+        public let amount: String?
+        /// The 3-letter ISO 4217 currency code (e.g., USD, EUR, JPY).
+        public let currencyCode: String?
+        /// The maximum refundable amount as a string representation of a decimal number.
+        public let maxAdjustmentAmount: String?
+
+        @inlinable
+        public init(amount: String? = nil, currencyCode: String? = nil, maxAdjustmentAmount: String? = nil) {
+            self.amount = amount
+            self.currencyCode = currencyCode
+            self.maxAdjustmentAmount = maxAdjustmentAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case currencyCode = "currencyCode"
+            case maxAdjustmentAmount = "maxAdjustmentAmount"
         }
     }
 
@@ -710,6 +2671,43 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct PurchaseOrder: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with this charge.
+        public let agreementId: String?
+        /// The unique identifier of the charge to associate the purchase order with.
+        public let chargeId: String
+        /// The revision of the charge.
+        public let chargeRevision: Int64?
+        /// The purchase order reference to associate with the charge.
+        public let purchaseOrderReference: String?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeId: String, chargeRevision: Int64? = nil, purchaseOrderReference: String? = nil) {
+            self.agreementId = agreementId
+            self.chargeId = chargeId
+            self.chargeRevision = chargeRevision
+            self.purchaseOrderReference = purchaseOrderReference
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.chargeId, name: "chargeId", parent: name, max: 64)
+            try self.validate(self.chargeId, name: "chargeId", parent: name, min: 1)
+            try self.validate(self.chargeId, name: "chargeId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.chargeRevision, name: "chargeRevision", parent: name, min: 1)
+            try self.validate(self.purchaseOrderReference, name: "purchaseOrderReference", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeId = "chargeId"
+            case chargeRevision = "chargeRevision"
+            case purchaseOrderReference = "purchaseOrderReference"
+        }
+    }
+
     public struct RateCardItem: AWSDecodableShape {
         /// Dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public let dimensionKey: String?
@@ -733,15 +2731,18 @@ extension MarketplaceAgreement {
         public let billingPeriod: String?
         /// Defines the currency for the prices mentioned in this term.
         public let currencyCode: String?
+        /// The unique identifier for the term.
+        public let id: String?
         /// Amount charged to the buyer every billing period.
         public let price: String?
         /// Type of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(billingPeriod: String? = nil, currencyCode: String? = nil, price: String? = nil, type: String? = nil) {
+        public init(billingPeriod: String? = nil, currencyCode: String? = nil, id: String? = nil, price: String? = nil, type: String? = nil) {
             self.billingPeriod = billingPeriod
             self.currencyCode = currencyCode
+            self.id = id
             self.price = price
             self.type = type
         }
@@ -749,30 +2750,193 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case billingPeriod = "billingPeriod"
             case currencyCode = "currencyCode"
+            case id = "id"
             case price = "price"
             case type = "type"
+        }
+    }
+
+    public struct RejectAgreementCancellationRequestInput: AWSEncodableShape {
+        /// The unique identifier of the cancellation request to reject.
+        public let agreementCancellationRequestId: String
+        /// The unique identifier of the agreement associated with the cancellation request.
+        public let agreementId: String
+        /// The reason for rejecting the cancellation request (1-2000 characters). This message is visible to the seller.
+        public let rejectionReason: String
+
+        @inlinable
+        public init(agreementCancellationRequestId: String, agreementId: String, rejectionReason: String) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.rejectionReason = rejectionReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, max: 64)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, min: 1)
+            try self.validate(self.agreementCancellationRequestId, name: "agreementCancellationRequestId", parent: name, pattern: "^acr-[a-zA-Z0-9]+$")
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.rejectionReason, name: "rejectionReason", parent: name, max: 2000)
+            try self.validate(self.rejectionReason, name: "rejectionReason", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case rejectionReason = "rejectionReason"
+        }
+    }
+
+    public struct RejectAgreementCancellationRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the rejected cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement associated with this cancellation request.
+        public let agreementId: String?
+        /// The date and time when the cancellation request was originally created.
+        public let createdAt: Date?
+        /// The detailed description of the cancellation reason, if provided.
+        public let description: String?
+        /// The original reason code provided when the cancellation request was created.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The updated status of the cancellation request, which is REJECTED.
+        public let status: AgreementCancellationRequestStatus?
+        /// The rejection reason provided by the buyer.
+        public let statusMessage: String?
+        /// The date and time when the cancellation request was rejected.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, createdAt: Date? = nil, description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.createdAt = createdAt
+            self.description = description
+            self.reasonCode = reasonCode
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RejectAgreementPaymentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement associated with the payment request.
+        public let agreementId: String
+        /// The unique identifier of the payment request to reject.
+        public let paymentRequestId: String
+        /// An optional reason for rejecting the payment request (1-250 characters). This message is visible to the seller.
+        public let rejectionReason: String?
+
+        @inlinable
+        public init(agreementId: String, paymentRequestId: String, rejectionReason: String? = nil) {
+            self.agreementId = agreementId
+            self.paymentRequestId = paymentRequestId
+            self.rejectionReason = rejectionReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, max: 64)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, min: 1)
+            try self.validate(self.paymentRequestId, name: "paymentRequestId", parent: name, pattern: "^pr-[a-zA-Z0-9]+$")
+            try self.validate(self.rejectionReason, name: "rejectionReason", parent: name, max: 250)
+            try self.validate(self.rejectionReason, name: "rejectionReason", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case paymentRequestId = "paymentRequestId"
+            case rejectionReason = "rejectionReason"
+        }
+    }
+
+    public struct RejectAgreementPaymentRequestOutput: AWSDecodableShape {
+        /// The unique identifier of the agreement associated with this payment request.
+        public let agreementId: String?
+        /// The amount that was requested to be charged.
+        public let chargeAmount: String?
+        /// The date and time when the payment request was originally created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount.
+        public let currencyCode: String?
+        /// The detailed description of the payment request, if provided.
+        public let description: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier of the rejected payment request.
+        public let paymentRequestId: String?
+        /// The updated status of the payment request, which is REJECTED.
+        public let status: PaymentRequestStatus?
+        /// The rejection reason provided by the buyer, if any.
+        public let statusMessage: String?
+        /// The date and time when the payment request was rejected.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, description: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil, statusMessage: String? = nil, updatedAt: Date? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct RenewalTerm: AWSDecodableShape {
         /// Additional parameters specified by the acceptor while accepting the term.
         public let configuration: RenewalTermConfiguration?
+        /// The unique identifier for the term.
+        public let id: String?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(configuration: RenewalTermConfiguration? = nil, type: String? = nil) {
+        public init(configuration: RenewalTermConfiguration? = nil, id: String? = nil, type: String? = nil) {
             self.configuration = configuration
+            self.id = id
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+            case id = "id"
             case type = "type"
         }
     }
 
-    public struct RenewalTermConfiguration: AWSDecodableShape {
+    public struct RenewalTermConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines whether the acceptor has chosen to auto-renew the agreement at the end of its lifecycle. Can be set to True or False.
         public let enableAutoRenew: Bool
 
@@ -786,10 +2950,35 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct RequestedTerm: AWSEncodableShape {
+        /// Additional configuration for the requested terms. This configuration is applicable only to the terms that accept a customer-provided configuration, such as ConfigurableUpfrontPricingTerm.
+        public let configuration: RequestedTermConfiguration?
+        /// The unique identifier of the term in the agreement proposal.
+        public let id: String
+
+        @inlinable
+        public init(configuration: RequestedTermConfiguration? = nil, id: String) {
+            self.configuration = configuration
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[A-Za-z0-9+=;,.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case id = "id"
+        }
+    }
+
     public struct Resource: AWSDecodableShape {
         /// The unique identifier of the resource.  We mention the term resource, which is most commonly a product, so a resourceId is also a productId.
         public let id: String?
-        /// Type of the resource, which is the product. Values include SaaSProduct or AmiProduct.
+        /// Type of the resource, which is the product (for example, SaaSProduct, AmiProduct, ContainerProduct).
         public let type: String?
 
         @inlinable
@@ -805,6 +2994,7 @@ extension MarketplaceAgreement {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
+        /// Description of the error.
         public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
@@ -850,7 +3040,7 @@ extension MarketplaceAgreement {
     public struct SearchAgreementsInput: AWSEncodableShape {
         /// The catalog in which the agreement was created.
         public let catalog: String?
-        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. For agreements where the caller is the proposer, use the Proposer filter.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. Use Proposer or Acceptor.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
         public let filters: [Filter]?
         /// The maximum number of agreements to return in the response.
         public let maxResults: Int?
@@ -871,7 +3061,7 @@ extension MarketplaceAgreement {
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, max: 64)
             try self.validate(self.catalog, name: "catalog", parent: name, min: 1)
-            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z0-9.-]+$")
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
             }
@@ -880,7 +3070,7 @@ extension MarketplaceAgreement {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9+/=_-]+$")
             try self.sort?.validate(name: "\(name).sort")
         }
 
@@ -929,6 +3119,209 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct SendAgreementCancellationRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement for which the cancellation request is being submitted.
+        public let agreementId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// An optional detailed description of the cancellation reason (1-2000 characters).
+        public let description: String?
+        /// The reason code for the cancellation request.
+        public let reasonCode: AgreementCancellationRequestReasonCode
+
+        @inlinable
+        public init(agreementId: String, clientToken: String? = SendAgreementCancellationRequestInput.idempotencyToken(), description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode) {
+            self.agreementId = agreementId
+            self.clientToken = clientToken
+            self.description = description
+            self.reasonCode = reasonCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case clientToken = "clientToken"
+            case description = "description"
+            case reasonCode = "reasonCode"
+        }
+    }
+
+    public struct SendAgreementCancellationRequestOutput: AWSDecodableShape {
+        /// The unique identifier for the created cancellation request.
+        public let agreementCancellationRequestId: String?
+        /// The unique identifier of the agreement.
+        public let agreementId: String?
+        /// The time when the cancellation request was created.
+        public let createdAt: Date?
+        /// The detailed description of the cancellation reason, if provided.
+        public let description: String?
+        /// The reason code provided for the cancellation.
+        public let reasonCode: AgreementCancellationRequestReasonCode?
+        /// The current status of the cancellation request. The initial status is PENDING_APPROVAL.
+        public let status: AgreementCancellationRequestStatus?
+        /// The time when the cancellation request was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(agreementCancellationRequestId: String? = nil, agreementId: String? = nil, createdAt: Date? = nil, description: String? = nil, reasonCode: AgreementCancellationRequestReasonCode? = nil, status: AgreementCancellationRequestStatus? = nil, updatedAt: Date? = nil) {
+            self.agreementCancellationRequestId = agreementCancellationRequestId
+            self.agreementId = agreementId
+            self.createdAt = createdAt
+            self.description = description
+            self.reasonCode = reasonCode
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementCancellationRequestId = "agreementCancellationRequestId"
+            case agreementId = "agreementId"
+            case createdAt = "createdAt"
+            case description = "description"
+            case reasonCode = "reasonCode"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct SendAgreementPaymentRequestInput: AWSEncodableShape {
+        /// The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details.
+        public let agreementId: String
+        /// The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term.  A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm, or if the termId is invalid.
+        public let chargeAmount: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// An optional detailed description of the payment request (1-2000 characters).
+        public let description: String?
+        /// A descriptive name for the payment request (5-64 characters).
+        public let name: String
+        /// The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for.
+        public let termId: String
+
+        @inlinable
+        public init(agreementId: String, chargeAmount: String, clientToken: String? = SendAgreementPaymentRequestInput.idempotencyToken(), description: String? = nil, name: String, termId: String) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.termId = termId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agreementId, name: "agreementId", parent: name, max: 64)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, min: 1)
+            try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^[A-Za-z0-9_/-]+$")
+            try self.validate(self.chargeAmount, name: "chargeAmount", parent: name, pattern: "^[0-9]*(\\.[0-9]{0,8})?$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 5)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.+$")
+            try self.validate(self.termId, name: "termId", parent: name, max: 256)
+            try self.validate(self.termId, name: "termId", parent: name, min: 1)
+            try self.validate(self.termId, name: "termId", parent: name, pattern: "^[A-Za-z0-9+=;,.@\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case termId = "termId"
+        }
+    }
+
+    public struct SendAgreementPaymentRequestOutput: AWSDecodableShape {
+        /// The agreement identifier for this payment request.
+        public let agreementId: String?
+        /// The amount being charged to the buyer.
+        public let chargeAmount: String?
+        /// The time when the payment request was created.
+        public let createdAt: Date?
+        /// The currency code for the charge amount (e.g., USD).
+        public let currencyCode: String?
+        /// The detailed description of the payment request, if provided.
+        public let description: String?
+        /// The descriptive name of the payment request.
+        public let name: String?
+        /// The unique identifier for the sent payment request.
+        public let paymentRequestId: String?
+        /// The current status of the payment request. The initial status is PENDING_APPROVAL.
+        public let status: PaymentRequestStatus?
+
+        @inlinable
+        public init(agreementId: String? = nil, chargeAmount: String? = nil, createdAt: Date? = nil, currencyCode: String? = nil, description: String? = nil, name: String? = nil, paymentRequestId: String? = nil, status: PaymentRequestStatus? = nil) {
+            self.agreementId = agreementId
+            self.chargeAmount = chargeAmount
+            self.createdAt = createdAt
+            self.currencyCode = currencyCode
+            self.description = description
+            self.name = name
+            self.paymentRequestId = paymentRequestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agreementId = "agreementId"
+            case chargeAmount = "chargeAmount"
+            case createdAt = "createdAt"
+            case currencyCode = "currencyCode"
+            case description = "description"
+            case name = "name"
+            case paymentRequestId = "paymentRequestId"
+            case status = "status"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// Description of the error.
+        public let message: String?
+        /// The code of the quota that was exceeded.
+        public let quotaCode: String?
+        /// The unique identifier for the error.
+        public let requestId: String?
+        /// The unique identifier of the resource that exceeded the quota.
+        public let resourceId: String?
+        /// The type of the resource that exceeded the quota.
+        public let resourceType: String?
+        /// The code of the service whose quota was exceeded.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, requestId: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.requestId = requestId
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case requestId = "requestId"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct Sort: AWSEncodableShape {
         /// The attribute on which the data is grouped, which can be by StartTime and EndTime. The default value is EndTime.
         public let sortBy: String?
@@ -954,24 +3347,65 @@ extension MarketplaceAgreement {
     }
 
     public struct SupportTerm: AWSDecodableShape {
+        /// The unique identifier for the term.
+        public let id: String?
         /// Free-text field about the refund policy description that will be shown to customers as is on the website and console.
         public let refundPolicy: String?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(refundPolicy: String? = nil, type: String? = nil) {
+        public init(id: String? = nil, refundPolicy: String? = nil, type: String? = nil) {
+            self.id = id
             self.refundPolicy = refundPolicy
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
             case refundPolicy = "refundPolicy"
             case type = "type"
         }
     }
 
+    public struct TaxBreakdownItem: AWSDecodableShape {
+        /// The estimated tax amount.
+        public let amount: String?
+        /// The tax rate, in decimals.
+        public let rate: String?
+        /// The type of tax (for example, VAT, ST, or GST).
+        public let type: String?
+
+        @inlinable
+        public init(amount: String? = nil, rate: String? = nil, type: String? = nil) {
+            self.amount = amount
+            self.rate = rate
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case rate = "rate"
+            case type = "type"
+        }
+    }
+
+    public struct TaxConfiguration: AWSEncodableShape {
+        /// Toggle to estimate tax as part of the response. Values include ENABLED and DISABLED. Default is DISABLED.
+        public let taxEstimation: TaxEstimation?
+
+        @inlinable
+        public init(taxEstimation: TaxEstimation? = nil) {
+            self.taxEstimation = taxEstimation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taxEstimation = "taxEstimation"
+        }
+    }
+
     public struct ThrottlingException: AWSErrorShape {
+        /// Description of the error.
         public let message: String?
         /// The unique identifier for the error.
         public let requestId: String?
@@ -988,23 +3422,53 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct UpdatePurchaseOrdersInput: AWSEncodableShape {
+        /// Contains information about purchase order associations.
+        public let purchaseOrders: [PurchaseOrder]
+
+        @inlinable
+        public init(purchaseOrders: [PurchaseOrder]) {
+            self.purchaseOrders = purchaseOrders
+        }
+
+        public func validate(name: String) throws {
+            try self.purchaseOrders.forEach {
+                try $0.validate(name: "\(name).purchaseOrders[]")
+            }
+            try self.validate(self.purchaseOrders, name: "purchaseOrders", parent: name, max: 86)
+            try self.validate(self.purchaseOrders, name: "purchaseOrders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case purchaseOrders = "purchaseOrders"
+        }
+    }
+
+    public struct UpdatePurchaseOrdersOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UsageBasedPricingTerm: AWSDecodableShape {
         /// Defines the currency for the prices mentioned in the term.
         public let currencyCode: String?
+        /// The unique identifier for the term.
+        public let id: String?
         /// List of rate cards.
         public let rateCards: [UsageBasedRateCardItem]?
         /// Category of the term.
         public let type: String?
 
         @inlinable
-        public init(currencyCode: String? = nil, rateCards: [UsageBasedRateCardItem]? = nil, type: String? = nil) {
+        public init(currencyCode: String? = nil, id: String? = nil, rateCards: [UsageBasedRateCardItem]? = nil, type: String? = nil) {
             self.currencyCode = currencyCode
+            self.id = id
             self.rateCards = rateCards
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "currencyCode"
+            case id = "id"
             case rateCards = "rateCards"
             case type = "type"
         }
@@ -1027,6 +3491,7 @@ extension MarketplaceAgreement {
     public struct ValidationException: AWSErrorShape {
         /// The fields associated with the error.
         public let fields: [ValidationExceptionField]?
+        /// Description of the error.
         public let message: String?
         /// The reason associated with the error.
         public let reason: ValidationExceptionReason?
@@ -1074,14 +3539,17 @@ extension MarketplaceAgreement {
         public let agreementEndDate: Date?
         /// Defines the date when agreement starts. The agreement starts at 00:00:00.000 UTC on the date provided. If AgreementStartDate isn’t provided, the agreement start date is determined based on agreement signature time.
         public let agreementStartDate: Date?
+        /// The unique identifier for the term.
+        public let id: String?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(agreementDuration: String? = nil, agreementEndDate: Date? = nil, agreementStartDate: Date? = nil, type: String? = nil) {
+        public init(agreementDuration: String? = nil, agreementEndDate: Date? = nil, agreementStartDate: Date? = nil, id: String? = nil, type: String? = nil) {
             self.agreementDuration = agreementDuration
             self.agreementEndDate = agreementEndDate
             self.agreementStartDate = agreementStartDate
+            self.id = id
             self.type = type
         }
 
@@ -1089,6 +3557,7 @@ extension MarketplaceAgreement {
             case agreementDuration = "agreementDuration"
             case agreementEndDate = "agreementEndDate"
             case agreementStartDate = "agreementStartDate"
+            case id = "id"
             case type = "type"
         }
     }
@@ -1098,15 +3567,18 @@ extension MarketplaceAgreement {
         public let configuration: VariablePaymentTermConfiguration?
         /// Defines the currency for the prices mentioned in the term.
         public let currencyCode: String?
+        /// The unique identifier for the term.
+        public let id: String?
         /// The maximum total amount that can be charged to the customer through variable payment requests under this term.
         public let maxTotalChargeAmount: String?
         /// Type of the term.
         public let type: String?
 
         @inlinable
-        public init(configuration: VariablePaymentTermConfiguration? = nil, currencyCode: String? = nil, maxTotalChargeAmount: String? = nil, type: String? = nil) {
+        public init(configuration: VariablePaymentTermConfiguration? = nil, currencyCode: String? = nil, id: String? = nil, maxTotalChargeAmount: String? = nil, type: String? = nil) {
             self.configuration = configuration
             self.currencyCode = currencyCode
+            self.id = id
             self.maxTotalChargeAmount = maxTotalChargeAmount
             self.type = type
         }
@@ -1114,12 +3586,13 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
             case currencyCode = "currencyCode"
+            case id = "id"
             case maxTotalChargeAmount = "maxTotalChargeAmount"
             case type = "type"
         }
     }
 
-    public struct VariablePaymentTermConfiguration: AWSDecodableShape {
+    public struct VariablePaymentTermConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION. The duration is represented in the ISO_8601 format (e.g., P10D for 10 days).
         public let expirationDuration: String?
         /// Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL
@@ -1129,6 +3602,10 @@ extension MarketplaceAgreement {
         public init(expirationDuration: String? = nil, paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy) {
             self.expirationDuration = expirationDuration
             self.paymentRequestApprovalStrategy = paymentRequestApprovalStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expirationDuration, name: "expirationDuration", parent: name, pattern: "^([-+]?)P(?:([-+]?[0-9]+)D)?(T(?:([-+]?[0-9]+)H)?(?:([-+]?[0-9]+)M)?(?:([-+]?[0-9]+)(?:[.,]([0-9]{0,9}))?S)?)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1144,8 +3621,10 @@ extension MarketplaceAgreement {
 public struct MarketplaceAgreementErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -1170,10 +3649,14 @@ public struct MarketplaceAgreementErrorType: AWSErrorType {
 
     /// User does not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Request was denied due to a resource conflict.
+    public static var conflictException: Self { .init(.conflictException) }
     /// Unexpected error during processing of request.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// Request references a resource which does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Request exceeded the maximum allowed limit (quota) for a specific resource or API operation.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by the service.
@@ -1183,8 +3666,10 @@ public struct MarketplaceAgreementErrorType: AWSErrorType {
 extension MarketplaceAgreementErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": MarketplaceAgreement.AccessDeniedException.self,
+        "ConflictException": MarketplaceAgreement.ConflictException.self,
         "InternalServerException": MarketplaceAgreement.InternalServerException.self,
         "ResourceNotFoundException": MarketplaceAgreement.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": MarketplaceAgreement.ServiceQuotaExceededException.self,
         "ThrottlingException": MarketplaceAgreement.ThrottlingException.self,
         "ValidationException": MarketplaceAgreement.ValidationException.self
     ]

@@ -25,6 +25,16 @@ import Foundation
 extension ApplicationSignals {
     // MARK: Enums
 
+    public enum BatchDeleteErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Insufficient permissions to delete the configuration.
+        case accessDenied = "AccessDeniedException"
+        /// Internal service error for this item.
+        case internalServiceError = "InternalServiceException"
+        /// Configuration already deleted or expired.
+        case resourceNotFound = "ResourceNotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case configuration = "CONFIGURATION"
         case deployment = "DEPLOYMENT"
@@ -51,16 +61,69 @@ extension ApplicationSignals {
         public var description: String { return self.rawValue }
     }
 
+    public enum DynamicInstrumentationDeletionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DynamicInstrumentationSignalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case snapshot = "SNAPSHOT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case periodBased = "PeriodBased"
         case requestBased = "RequestBased"
         public var description: String { return self.rawValue }
     }
 
+    public enum InstrumentationConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        case ready = "READY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstrumentationErrorCause: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fileNotFound = "FILE_NOT_FOUND"
+        case languageMismatch = "LANGUAGE_MISMATCH"
+        case lineNotExecutable = "LINE_NOT_EXECUTABLE"
+        case methodNotFound = "METHOD_NOT_FOUND"
+        case overloadedMethods = "OVERLOADED_METHODS"
+        case runtimeError = "RUNTIME_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstrumentationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Temporary instrumentation that expires automatically (default 24 hours)
+        case breakpoint = "BREAKPOINT"
+        /// Permanent instrumentation that persists until explicitly deleted
+        case probe = "PROBE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case appmonitor = "AppMonitor"
+        case canary = "Canary"
         case cloudwatchMetric = "CloudWatchMetric"
+        case service = "Service"
         case serviceDependency = "ServiceDependency"
         case serviceOperation = "ServiceOperation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProgrammingLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case java = "Java"
+        case javascript = "Javascript"
+        case python = "Python"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case explicit = "EXPLICIT"
+        case prefix = "PREFIX"
+        case regex = "REGEX"
         public var description: String { return self.rawValue }
     }
 
@@ -126,6 +189,13 @@ extension ApplicationSignals {
         public var description: String { return self.rawValue }
     }
 
+    public enum UnprocessedStatusEventFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalError = "INTERNAL_ERROR"
+        case throttled = "THROTTLED"
+        case validationError = "VALIDATION_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuditTargetEntity: AWSEncodableShape, Sendable {
         /// Canary entity information when the audit target is a CloudWatch Synthetics canary.
         case canary(CanaryEntity)
@@ -155,6 +225,37 @@ extension ApplicationSignals {
             case service = "Service"
             case serviceOperation = "ServiceOperation"
             case slo = "Slo"
+        }
+    }
+
+    public enum BatchDeleteDeletionTarget: AWSEncodableShape, Sendable {
+        /// Delete specific configurations by ARN list.
+        case resourceArns(BatchDeleteByResourceArns)
+        /// Delete all configurations matching the specified scope.
+        case scope(BatchDeleteScope)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .resourceArns(let value):
+                try container.encode(value, forKey: .resourceArns)
+            case .scope(let value):
+                try container.encode(value, forKey: .scope)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .resourceArns(let value):
+                try value.validate(name: "\(name).resourceArns")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "ResourceArns"
+            case scope = "Scope"
         }
     }
 
@@ -205,6 +306,28 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case calendarInterval = "CalendarInterval"
             case rollingInterval = "RollingInterval"
+        }
+    }
+
+    public enum LocationIdentifier: AWSEncodableShape, Sendable {
+        /// The full code location specification (will be hashed internally)
+        case codeLocation(CodeLocation)
+        /// The pre-computed location hash (16-character hex string)
+        case locationHash(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .codeLocation(let value):
+                try container.encode(value, forKey: .codeLocation)
+            case .locationHash(let value):
+                try container.encode(value, forKey: .locationHash)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeLocation = "CodeLocation"
+            case locationHash = "LocationHash"
         }
     }
 
@@ -365,6 +488,139 @@ extension ApplicationSignals {
             case data = "Data"
             case description = "Description"
             case severity = "Severity"
+        }
+    }
+
+    public struct BatchDeleteByResourceArns: AWSEncodableShape {
+        /// Instrumentation type: BREAKPOINT or PROBE.
+        public let instrumentationType: InstrumentationType
+        /// List of resource ARNs to delete.
+        public let resourceArns: [String]
+
+        @inlinable
+        public init(instrumentationType: InstrumentationType, resourceArns: [String]) {
+            self.instrumentationType = instrumentationType
+            self.resourceArns = resourceArns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 50)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instrumentationType = "InstrumentationType"
+            case resourceArns = "ResourceArns"
+        }
+    }
+
+    public struct BatchDeleteError: AWSDecodableShape {
+        /// Error code indicating the type of failure.
+        public let code: BatchDeleteErrorCode
+        /// Descriptive error message.
+        public let message: String
+        /// ARN of the configuration that failed to delete.
+        public let resourceArn: String
+
+        @inlinable
+        public init(code: BatchDeleteErrorCode, message: String, resourceArn: String) {
+            self.code = code
+            self.message = message
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct BatchDeleteInstrumentationConfigurationsRequest: AWSEncodableShape {
+        /// The deletion target - either bulk by scope or targeted by ARN list.
+        public let deletionTarget: BatchDeleteDeletionTarget
+
+        @inlinable
+        public init(deletionTarget: BatchDeleteDeletionTarget) {
+            self.deletionTarget = deletionTarget
+        }
+
+        public func validate(name: String) throws {
+            try self.deletionTarget.validate(name: "\(name).deletionTarget")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionTarget = "DeletionTarget"
+        }
+    }
+
+    public struct BatchDeleteInstrumentationConfigurationsResponse: AWSDecodableShape {
+        /// Number of configurations successfully deleted.
+        /// When deleting by scope, this is the total count of deleted items.
+        /// When deleting by ARN list, this equals the length of SuccessfulDeletions.
+        public let deletedCount: Int
+        /// List of configurations that failed to delete.
+        public let errors: [BatchDeleteError]
+        /// List of successfully deleted configurations.
+        /// Deleting by scope populates SignalType and LocationHash per item.
+        /// Deleting by ARN list populates ResourceArn per item.
+        public let successfulDeletions: [BatchDeleteSuccessfulDeletion]
+
+        @inlinable
+        public init(deletedCount: Int, errors: [BatchDeleteError], successfulDeletions: [BatchDeleteSuccessfulDeletion]) {
+            self.deletedCount = deletedCount
+            self.errors = errors
+            self.successfulDeletions = successfulDeletions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedCount = "DeletedCount"
+            case errors = "Errors"
+            case successfulDeletions = "SuccessfulDeletions"
+        }
+    }
+
+    public struct BatchDeleteScope: AWSEncodableShape {
+        /// Environment identifier for the instrumentation configurations.
+        public let environment: String
+        /// Instrumentation type: BREAKPOINT or PROBE.
+        public let instrumentationType: InstrumentationType
+        /// Service name for the instrumentation configurations.
+        public let service: String
+
+        @inlinable
+        public init(environment: String, instrumentationType: InstrumentationType, service: String) {
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case instrumentationType = "InstrumentationType"
+            case service = "Service"
+        }
+    }
+
+    public struct BatchDeleteSuccessfulDeletion: AWSDecodableShape {
+        /// Location hash of the deleted configuration (populated only when deleting by scope).
+        public let locationHash: String?
+        /// ARN of the deleted configuration (populated only when deleting by ARN list).
+        public let resourceArn: String?
+        /// Signal type of the deleted configuration (populated only when deleting by scope).
+        public let signalType: String?
+
+        @inlinable
+        public init(locationHash: String? = nil, resourceArn: String? = nil, signalType: String? = nil) {
+            self.locationHash = locationHash
+            self.resourceArn = resourceArn
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationHash = "LocationHash"
+            case resourceArn = "ResourceArn"
+            case signalType = "SignalType"
         }
     }
 
@@ -547,6 +803,48 @@ extension ApplicationSignals {
         }
     }
 
+    public struct CaptureLimitsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum nesting depth to traverse inside collections. Defaults to 3.
+        public let maxCollectionDepth: Int?
+        /// The maximum number of items to capture from any collection to prevent large payloads. Defaults to 10.
+        public let maxCollectionWidth: Int?
+        /// The maximum number of fields to capture for any object. Defaults to 10.
+        public let maxFieldsPerObject: Int?
+        /// The maximum number of times the instrumentation point can be hit before it is automatically disabled. Defaults to 100.
+        public let maxHits: Int?
+        /// The maximum depth for nested object traversal when capturing structured data. Defaults to 3.
+        public let maxObjectDepth: Int?
+        /// The maximum number of stack frames to capture in stack traces. Defaults to 2.
+        public let maxStackFrames: Int?
+        /// The maximum total size, in bytes, of a captured stack trace. Defaults to 1000.
+        public let maxStackTraceSize: Int?
+        /// The maximum length of captured string values in characters. Strings longer than this are truncated. Defaults to 128.
+        public let maxStringLength: Int?
+
+        @inlinable
+        public init(maxCollectionDepth: Int? = nil, maxCollectionWidth: Int? = nil, maxFieldsPerObject: Int? = nil, maxHits: Int? = nil, maxObjectDepth: Int? = nil, maxStackFrames: Int? = nil, maxStackTraceSize: Int? = nil, maxStringLength: Int? = nil) {
+            self.maxCollectionDepth = maxCollectionDepth
+            self.maxCollectionWidth = maxCollectionWidth
+            self.maxFieldsPerObject = maxFieldsPerObject
+            self.maxHits = maxHits
+            self.maxObjectDepth = maxObjectDepth
+            self.maxStackFrames = maxStackFrames
+            self.maxStackTraceSize = maxStackTraceSize
+            self.maxStringLength = maxStringLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxCollectionDepth = "MaxCollectionDepth"
+            case maxCollectionWidth = "MaxCollectionWidth"
+            case maxFieldsPerObject = "MaxFieldsPerObject"
+            case maxHits = "MaxHits"
+            case maxObjectDepth = "MaxObjectDepth"
+            case maxStackFrames = "MaxStackFrames"
+            case maxStackTraceSize = "MaxStackTraceSize"
+            case maxStringLength = "MaxStringLength"
+        }
+    }
+
     public struct ChangeEvent: AWSDecodableShape {
         /// The Amazon Web Services account ID where this change event occurred.
         public let accountId: String
@@ -589,9 +887,228 @@ extension ApplicationSignals {
         }
     }
 
+    public struct CodeCaptureConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The function arguments to capture. Omit to capture defaults, use an empty list to capture none, use ["*"] to capture all arguments, or specify argument names to capture selectively (up to 10 entries).
+        public let captureArguments: [String]?
+        /// Safety limits that bound what is captured, including hit counts, string length, collection depth, and stack trace size.
+        public let captureLimits: CaptureLimitsConfig
+        /// The local variables to capture by name. Omit or pass an empty list to capture none. You can specify up to 20 names.
+        public let captureLocals: [String]?
+        /// Whether to capture the return value. Defaults to false.
+        public let captureReturn: Bool?
+        /// Whether to capture a stack trace when the instrumentation point is hit. Defaults to true.
+        public let captureStackTrace: Bool?
+
+        @inlinable
+        public init(captureArguments: [String]? = nil, captureLimits: CaptureLimitsConfig, captureLocals: [String]? = nil, captureReturn: Bool? = nil, captureStackTrace: Bool? = nil) {
+            self.captureArguments = captureArguments
+            self.captureLimits = captureLimits
+            self.captureLocals = captureLocals
+            self.captureReturn = captureReturn
+            self.captureStackTrace = captureStackTrace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.captureArguments, name: "captureArguments", parent: name, max: 10)
+            try self.validate(self.captureLocals, name: "captureLocals", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captureArguments = "CaptureArguments"
+            case captureLimits = "CaptureLimits"
+            case captureLocals = "CaptureLocals"
+            case captureReturn = "CaptureReturn"
+            case captureStackTrace = "CaptureStackTrace"
+        }
+    }
+
+    public struct CodeLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The class or type name that contains the method. This is required for Java and optional for Python module-level functions.
+        public let className: String?
+        /// The package, module, or namespace that contains the target code, for example com.amazon.payment or payment_service.
+        public let codeUnit: String?
+        /// The source file path relative to the project or source root, such as src/payment/PaymentProcessor.java or src/payment/PaymentProcessor.py.
+        public let filePath: String
+        /// The programming language for this instrumentation point, such as Java, Python, or JavaScript.
+        public let language: ProgrammingLanguage
+        /// The line number to instrument. Provide this to disambiguate overloaded methods and to target a specific line when needed.
+        public let lineNumber: Int?
+        /// The method or function name to instrument, such as validateCreditCard or __init__.
+        public let methodName: String?
+
+        @inlinable
+        public init(className: String? = nil, codeUnit: String? = nil, filePath: String, language: ProgrammingLanguage, lineNumber: Int? = nil, methodName: String? = nil) {
+            self.className = className
+            self.codeUnit = codeUnit
+            self.filePath = filePath
+            self.language = language
+            self.lineNumber = lineNumber
+            self.methodName = methodName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "ClassName"
+            case codeUnit = "CodeUnit"
+            case filePath = "FilePath"
+            case language = "Language"
+            case lineNumber = "LineNumber"
+            case methodName = "MethodName"
+        }
+    }
+
+    public struct CompositeSliConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The list of operations included in this composite SLI. You must specify between 2 and 20 components. Each component is a CompositeSliComponent that identifies a single operation by its OperationName.
+        public let components: [CompositeSliComponent]?
+        /// Specifies how operations are selected for this service-level SLO. Operations can be selected explicitly by listing them, by specifying a prefix to match operation names, or by providing a regular expression pattern.
+        public let selectionConfig: SelectionConfig
+
+        @inlinable
+        public init(components: [CompositeSliComponent]? = nil, selectionConfig: SelectionConfig) {
+            self.components = components
+            self.selectionConfig = selectionConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.components?.forEach {
+                try $0.validate(name: "\(name).components[]")
+            }
+            try self.validate(self.components, name: "components", parent: name, max: 20)
+            try self.validate(self.components, name: "components", parent: name, min: 2)
+            try self.selectionConfig.validate(name: "\(name).selectionConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case components = "Components"
+            case selectionConfig = "SelectionConfig"
+        }
+    }
+
+    public struct CreateInstrumentationConfigurationRequest: AWSEncodableShape {
+        /// Client-side filters that target specific instances. Each object in the array is AND-matched on its keys, and multiple objects are OR-matched to decide where to apply the instrumentation.
+        public let attributeFilters: [[String: String]]?
+        /// Specifies what to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings.
+        public let captureConfiguration: CaptureConfiguration
+        /// An optional short description (up to 50 characters) that explains the purpose of this instrumentation.
+        public let description: String?
+        /// The environment that the service is running in, such as eks:cluster-prod/namespace or ec2:production.
+        public let environment: String
+        /// For BREAKPOINT: optional, defaults to 24 hours, must be between 5 min and 24 hours.
+        /// For PROBE: not supported. PROBE configurations are permanent and persist until explicitly deleted.
+        public let expiresAt: Date?
+        /// Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent)
+        public let instrumentationType: InstrumentationType
+        /// The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation.
+        public let location: Location
+        /// The name of the service to instrument. This should match the service.name resource attribute reported by the application.
+        public let service: String
+        /// The telemetry signal type to emit for this instrumentation. The supported value is SNAPSHOT.
+        public let signalType: DynamicInstrumentationSignalType
+        /// An optional list of key-value pairs to associate with the instrumentation configuration. Tags can help you organize and categorize your resources.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(attributeFilters: [[String: String]]? = nil, captureConfiguration: CaptureConfiguration, description: String? = nil, environment: String, expiresAt: Date? = nil, instrumentationType: InstrumentationType, location: Location, service: String, signalType: DynamicInstrumentationSignalType, tags: [Tag]? = nil) {
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.description = description
+            self.environment = environment
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.service = service
+            self.signalType = signalType
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeFilters, name: "attributeFilters", parent: name, max: 10)
+            try self.validate(self.attributeFilters, name: "attributeFilters", parent: name, min: 1)
+            try self.captureConfiguration.validate(name: "\(name).captureConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilters = "AttributeFilters"
+            case captureConfiguration = "CaptureConfiguration"
+            case description = "Description"
+            case environment = "Environment"
+            case expiresAt = "ExpiresAt"
+            case instrumentationType = "InstrumentationType"
+            case location = "Location"
+            case service = "Service"
+            case signalType = "SignalType"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateInstrumentationConfigurationResponse: AWSDecodableShape {
+        /// ARN for the created instrumentation configuration
+        public let arn: String
+        /// The attribute filters returned with the configuration so SDKs can perform client-side targeting.
+        public let attributeFilters: [[String: String]]?
+        /// The capture settings that were stored for this instrumentation configuration.
+        public let captureConfiguration: CaptureConfiguration
+        /// The server-generated creation timestamp for this instrumentation configuration.
+        public let createdAt: Date
+        /// The optional description that was stored with the instrumentation configuration.
+        public let description: String?
+        /// The environment for the instrumentation configuration, echoed from the request.
+        public let environment: String
+        /// The timestamp after which this configuration is no longer served to clients. Present only for BREAKPOINT configurations; PROBE configurations do not expire.
+        public let expiresAt: Date?
+        /// The type of instrumentation that was created, echoed from the request.
+        public let instrumentationType: InstrumentationType
+        /// The location where instrumentation is applied, echoed from the request.
+        public let location: Location
+        /// A stable hash computed from the location that uniquely identifies this instrumentation point within the service, environment, and signal type.
+        public let locationHash: String
+        /// The service name for the instrumentation configuration, echoed from the request.
+        public let service: String
+        /// The telemetry signal type for the instrumentation configuration, echoed from the request.
+        public let signalType: DynamicInstrumentationSignalType
+
+        @inlinable
+        public init(arn: String, attributeFilters: [[String: String]]? = nil, captureConfiguration: CaptureConfiguration, createdAt: Date, description: String? = nil, environment: String, expiresAt: Date? = nil, instrumentationType: InstrumentationType, location: Location, locationHash: String, service: String, signalType: DynamicInstrumentationSignalType) {
+            self.arn = arn
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.createdAt = createdAt
+            self.description = description
+            self.environment = environment
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.locationHash = locationHash
+            self.service = service
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case attributeFilters = "AttributeFilters"
+            case captureConfiguration = "CaptureConfiguration"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case environment = "Environment"
+            case expiresAt = "ExpiresAt"
+            case instrumentationType = "InstrumentationType"
+            case location = "Location"
+            case locationHash = "LocationHash"
+            case service = "Service"
+            case signalType = "SignalType"
+        }
+    }
+
     public struct CreateServiceLevelObjectiveInput: AWSEncodableShape {
+        /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+        public let autoInvestigationEnabled: Bool?
         /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
         public let burnRateConfigurations: [BurnRateConfiguration]?
+        /// Set this to true to create a recommended SLO out of the box. When set to true, you don't need to specify the MetricThreshold or ComparisonOperator in the SliConfig or RequestBasedSliConfig. The default value is false. This is supported for SLOs on a service, service operation, or a dependency.
+        public let createRecommendedSlo: Bool?
         /// An optional description for this SLO.
         public let description: String?
         /// This structure contains the attributes that determine the goal of the SLO.
@@ -606,8 +1123,10 @@ extension ApplicationSignals {
         public let tags: [Tag]?
 
         @inlinable
-        public init(burnRateConfigurations: [BurnRateConfiguration]? = nil, description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
+        public init(autoInvestigationEnabled: Bool? = nil, burnRateConfigurations: [BurnRateConfiguration]? = nil, createRecommendedSlo: Bool? = nil, description: String? = nil, goal: Goal? = nil, name: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil, tags: [Tag]? = nil) {
+            self.autoInvestigationEnabled = autoInvestigationEnabled
             self.burnRateConfigurations = burnRateConfigurations
+            self.createRecommendedSlo = createRecommendedSlo
             self.description = description
             self.goal = goal
             self.name = name
@@ -634,7 +1153,9 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoInvestigationEnabled = "AutoInvestigationEnabled"
             case burnRateConfigurations = "BurnRateConfigurations"
+            case createRecommendedSlo = "CreateRecommendedSlo"
             case description = "Description"
             case goal = "Goal"
             case name = "Name"
@@ -660,6 +1181,51 @@ extension ApplicationSignals {
 
     public struct DeleteGroupingConfigurationOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteInstrumentationConfigurationRequest: AWSEncodableShape {
+        /// Environment name for the instrumentation configuration.
+        public let environment: String
+        /// Type of instrumentation configuration (BREAKPOINT or PROBE).
+        /// Required to identify the configuration to delete.
+        public let instrumentationType: InstrumentationType
+        /// Location identifier - either full code location or a pre-computed hash.
+        public let locationIdentifier: LocationIdentifier
+        /// Service name for the instrumentation configuration.
+        public let service: String
+        /// Signal type for the instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+
+        @inlinable
+        public init(environment: String, instrumentationType: InstrumentationType, locationIdentifier: LocationIdentifier, service: String, signalType: DynamicInstrumentationSignalType) {
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.locationIdentifier = locationIdentifier
+            self.service = service
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case instrumentationType = "InstrumentationType"
+            case locationIdentifier = "LocationIdentifier"
+            case service = "Service"
+            case signalType = "SignalType"
+        }
+    }
+
+    public struct DeleteInstrumentationConfigurationResponse: AWSDecodableShape {
+        /// The result of the delete request. The value is DELETED when the configuration has been removed.
+        public let deletionStatus: DynamicInstrumentationDeletionStatus
+
+        @inlinable
+        public init(deletionStatus: DynamicInstrumentationDeletionStatus) {
+            self.deletionStatus = deletionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionStatus = "DeletionStatus"
+        }
     }
 
     public struct DeleteServiceLevelObjectiveInput: AWSEncodableShape {
@@ -818,6 +1384,140 @@ extension ApplicationSignals {
             case recurrenceRule = "RecurrenceRule"
             case startTime = "StartTime"
             case window = "Window"
+        }
+    }
+
+    public struct GetInstrumentationConfigurationRequest: AWSEncodableShape {
+        /// Environment name for the instrumentation configuration.
+        public let environment: String
+        /// Type of instrumentation configuration (BREAKPOINT or PROBE).
+        /// Required to identify the configuration to retrieve.
+        public let instrumentationType: InstrumentationType
+        /// Location identifier - either full code location or a pre-computed hash.
+        public let locationIdentifier: LocationIdentifier
+        /// Service name for the instrumentation configuration.
+        public let service: String
+        /// Signal type for the instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+
+        @inlinable
+        public init(environment: String, instrumentationType: InstrumentationType, locationIdentifier: LocationIdentifier, service: String, signalType: DynamicInstrumentationSignalType) {
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.locationIdentifier = locationIdentifier
+            self.service = service
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case instrumentationType = "InstrumentationType"
+            case locationIdentifier = "LocationIdentifier"
+            case service = "Service"
+            case signalType = "SignalType"
+        }
+    }
+
+    public struct GetInstrumentationConfigurationResponse: AWSDecodableShape {
+        /// The complete instrumentation configuration, including its location hash, capture settings, filters, expiration, and creation time.
+        public let configuration: InstrumentationConfiguration
+
+        @inlinable
+        public init(configuration: InstrumentationConfiguration) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct GetInstrumentationConfigurationStatusRequest: AWSEncodableShape {
+        /// The end of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+        public let endTime: Date?
+        /// Environment name for the instrumentation configuration.
+        public let environment: String
+        /// Type of instrumentation configuration (BREAKPOINT or PROBE).
+        /// Required to identify the configuration to retrieve.
+        public let instrumentationType: InstrumentationType
+        /// Location identifier - either full code location or a pre-computed hash.
+        public let locationIdentifier: LocationIdentifier
+        /// The maximum number of status events to return in one call. The default is 60.
+        public let maxResults: Int?
+        /// Use the token returned by a previous call to retrieve the next page of status events.
+        public let nextToken: String?
+        /// Service name for the instrumentation configuration.
+        public let service: String
+        /// Signal type for the instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+        /// The start of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+        public let startTime: Date?
+        /// The single status to query for. If omitted, only ACTIVE status events are returned.
+        public let status: InstrumentationConfigurationStatus?
+
+        @inlinable
+        public init(endTime: Date? = nil, environment: String, instrumentationType: InstrumentationType, locationIdentifier: LocationIdentifier, maxResults: Int? = nil, nextToken: String? = nil, service: String, signalType: DynamicInstrumentationSignalType, startTime: Date? = nil, status: InstrumentationConfigurationStatus? = nil) {
+            self.endTime = endTime
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.locationIdentifier = locationIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.service = service
+            self.signalType = signalType
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case environment = "Environment"
+            case instrumentationType = "InstrumentationType"
+            case locationIdentifier = "LocationIdentifier"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case service = "Service"
+            case signalType = "SignalType"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
+    public struct GetInstrumentationConfigurationStatusResponse: AWSDecodableShape {
+        /// The environment echoed from the request.
+        public let environment: String
+        /// The list of status events within the requested time window, sorted with the most recent first. Error events include an error cause.
+        public let events: [InstrumentationStatusEvent]
+        /// The code location echoed from the request.
+        public let location: Location
+        /// Pagination token to continue retrieving status events.
+        public let nextToken: String?
+        /// The service name echoed from the request.
+        public let service: String
+        /// The telemetry signal type echoed from the request.
+        public let signalType: DynamicInstrumentationSignalType
+        /// The status that was queried. If not specified in the request, this is ACTIVE.
+        public let status: InstrumentationConfigurationStatus
+
+        @inlinable
+        public init(environment: String, events: [InstrumentationStatusEvent], location: Location, nextToken: String? = nil, service: String, signalType: DynamicInstrumentationSignalType, status: InstrumentationConfigurationStatus) {
+            self.environment = environment
+            self.events = events
+            self.location = location
+            self.nextToken = nextToken
+            self.service = service
+            self.signalType = signalType
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case events = "Events"
+            case location = "Location"
+            case nextToken = "NextToken"
+            case service = "Service"
+            case signalType = "SignalType"
+            case status = "Status"
         }
     }
 
@@ -1002,8 +1702,206 @@ extension ApplicationSignals {
         }
     }
 
+    public struct InstrumentationConfiguration: AWSDecodableShape {
+        /// ARN for the instrumentation configuration
+        public let arn: String
+        /// Client-side filters that determine which instances apply this instrumentation.
+        public let attributeFilters: [[String: String]]?
+        /// The capture settings for this instrumentation configuration.
+        public let captureConfiguration: CaptureConfiguration
+        /// The timestamp when this instrumentation configuration was created.
+        public let createdAt: Date
+        /// An optional short description of the instrumentation configuration.
+        public let description: String?
+        /// The environment where the service is running.
+        public let environment: String
+        /// The timestamp when this configuration expires.
+        public let expiresAt: Date?
+        /// The type of instrumentation for this configuration.
+        public let instrumentationType: InstrumentationType
+        /// The location where this instrumentation is applied.
+        public let location: Location
+        /// The stable hash derived from the location that uniquely identifies this instrumentation point within the service and environment.
+        public let locationHash: String
+        /// The service that this instrumentation configuration targets.
+        public let service: String
+        /// The telemetry signal type for this instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+
+        @inlinable
+        public init(arn: String, attributeFilters: [[String: String]]? = nil, captureConfiguration: CaptureConfiguration, createdAt: Date, description: String? = nil, environment: String, expiresAt: Date? = nil, instrumentationType: InstrumentationType, location: Location, locationHash: String, service: String, signalType: DynamicInstrumentationSignalType) {
+            self.arn = arn
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.createdAt = createdAt
+            self.description = description
+            self.environment = environment
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.locationHash = locationHash
+            self.service = service
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case attributeFilters = "AttributeFilters"
+            case captureConfiguration = "CaptureConfiguration"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case environment = "Environment"
+            case expiresAt = "ExpiresAt"
+            case instrumentationType = "InstrumentationType"
+            case location = "Location"
+            case locationHash = "LocationHash"
+            case service = "Service"
+            case signalType = "SignalType"
+        }
+    }
+
+    public struct InstrumentationConfigurationStatusReport: AWSEncodableShape {
+        /// The error cause when the status is ERROR, such as the file or method not being found.
+        public let errorCause: InstrumentationErrorCause?
+        /// The type of instrumentation configuration being reported.
+        public let instrumentationType: InstrumentationType
+        /// The stable hash of the instrumentation location that identifies the configuration being reported.
+        public let locationHash: String
+        /// The telemetry signal type for this instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+        /// The status of the instrumentation configuration: READY, ERROR, ACTIVE, or DISABLED.
+        public let status: InstrumentationConfigurationStatus
+        /// The timestamp when the status event occurred.
+        public let time: Date
+
+        @inlinable
+        public init(errorCause: InstrumentationErrorCause? = nil, instrumentationType: InstrumentationType, locationHash: String, signalType: DynamicInstrumentationSignalType, status: InstrumentationConfigurationStatus, time: Date) {
+            self.errorCause = errorCause
+            self.instrumentationType = instrumentationType
+            self.locationHash = locationHash
+            self.signalType = signalType
+            self.status = status
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCause = "ErrorCause"
+            case instrumentationType = "InstrumentationType"
+            case locationHash = "LocationHash"
+            case signalType = "SignalType"
+            case status = "Status"
+            case time = "Time"
+        }
+    }
+
+    public struct InstrumentationConfigurationWithoutServiceEnv: AWSDecodableShape {
+        /// ARN for the instrumentation configuration
+        public let arn: String
+        /// Client-side filters that determine which instances apply this instrumentation.
+        public let attributeFilters: [[String: String]]?
+        /// The capture settings for this instrumentation configuration.
+        public let captureConfiguration: CaptureConfiguration
+        /// The timestamp when this instrumentation configuration was created.
+        public let createdAt: Date
+        /// An optional short description of the instrumentation configuration.
+        public let description: String?
+        /// The timestamp when this configuration expires.
+        public let expiresAt: Date?
+        /// The type of instrumentation for this configuration.
+        public let instrumentationType: InstrumentationType
+        /// The location where this instrumentation is applied.
+        public let location: Location
+        /// The stable hash derived from the location that identifies this instrumentation point.
+        public let locationHash: String
+        /// The telemetry signal type for this instrumentation configuration.
+        public let signalType: DynamicInstrumentationSignalType
+
+        @inlinable
+        public init(arn: String, attributeFilters: [[String: String]]? = nil, captureConfiguration: CaptureConfiguration, createdAt: Date, description: String? = nil, expiresAt: Date? = nil, instrumentationType: InstrumentationType, location: Location, locationHash: String, signalType: DynamicInstrumentationSignalType) {
+            self.arn = arn
+            self.attributeFilters = attributeFilters
+            self.captureConfiguration = captureConfiguration
+            self.createdAt = createdAt
+            self.description = description
+            self.expiresAt = expiresAt
+            self.instrumentationType = instrumentationType
+            self.location = location
+            self.locationHash = locationHash
+            self.signalType = signalType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "ARN"
+            case attributeFilters = "AttributeFilters"
+            case captureConfiguration = "CaptureConfiguration"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case expiresAt = "ExpiresAt"
+            case instrumentationType = "InstrumentationType"
+            case location = "Location"
+            case locationHash = "LocationHash"
+            case signalType = "SignalType"
+        }
+    }
+
+    public struct InstrumentationConfigurationsPage: AWSDecodableShape {
+        /// Indicates whether there are configuration changes since the provided SyncedAt timestamp.
+        public let changed: Bool
+        /// The environment associated with the returned configurations.
+        public let environment: String
+        /// The current set of active instrumentation configurations for the service and environment. Items omit service and environment because they are provided in the request.
+        public let latestConfigurations: [InstrumentationConfigurationWithoutServiceEnv]?
+        /// Pagination token to continue listing configurations when more results are available.
+        public let nextToken: String?
+        /// The service name associated with the returned configurations.
+        public let service: String
+        /// The server timestamp to supply on the next sync call.
+        public let syncedAt: Date
+        /// The suggested number of seconds to wait before the next sync request. This is at least 60 seconds to prevent excessive polling.
+        public let syncInterval: Int
+
+        @inlinable
+        public init(changed: Bool, environment: String, latestConfigurations: [InstrumentationConfigurationWithoutServiceEnv]? = nil, nextToken: String? = nil, service: String, syncedAt: Date, syncInterval: Int) {
+            self.changed = changed
+            self.environment = environment
+            self.latestConfigurations = latestConfigurations
+            self.nextToken = nextToken
+            self.service = service
+            self.syncedAt = syncedAt
+            self.syncInterval = syncInterval
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changed = "Changed"
+            case environment = "Environment"
+            case latestConfigurations = "LatestConfigurations"
+            case nextToken = "NextToken"
+            case service = "Service"
+            case syncedAt = "SyncedAt"
+            case syncInterval = "SyncInterval"
+        }
+    }
+
+    public struct InstrumentationStatusEvent: AWSDecodableShape {
+        /// The error cause when the status is ERROR.
+        public let errorCause: InstrumentationErrorCause?
+        /// The time when the status was reported, rounded to the nearest minute.
+        public let time: Date
+
+        @inlinable
+        public init(errorCause: InstrumentationErrorCause? = nil, time: Date) {
+            self.errorCause = errorCause
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCause = "ErrorCause"
+            case time = "Time"
+        }
+    }
+
     public struct ListAuditFindingsInput: AWSEncodableShape {
-        /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase  Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time period).     service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
+        /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase  Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time period).     service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase    change_indicator - ChangeIndicatorAuditor: Detects change events (deployments, configuration changes) that occurred within 10 minutes before and during a detected anomaly, and surfaces them as findings with deployment timestamps in the Analysis phase. When changes are detected, the top_contributor auditor skips its analysis to avoid redundancy.     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
         public let auditors: [String]?
         /// A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities.
         public let auditTargets: [AuditTarget]
@@ -1209,6 +2107,41 @@ extension ApplicationSignals {
             case groupingAttributeDefinitions = "GroupingAttributeDefinitions"
             case nextToken = "NextToken"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ListInstrumentationConfigurationsRequest: AWSEncodableShape {
+        /// The environment that the service is running in.
+        public let environment: String
+        /// Type of instrumentation configuration (BREAKPOINT or PROBE).
+        /// Required to determine which backing store to query.
+        public let instrumentationType: InstrumentationType
+        /// The maximum number of configurations to return in one call. The default is 50 and the maximum is 100.
+        public let maxResults: Int?
+        /// Use the token returned by a previous call to retrieve the next page of configurations.
+        public let nextToken: String?
+        /// The name of the service to retrieve instrumentation configurations for.
+        public let service: String
+        /// The timestamp from the last successful sync. When provided, the response returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
+        public let syncedAt: Date?
+
+        @inlinable
+        public init(environment: String, instrumentationType: InstrumentationType, maxResults: Int? = nil, nextToken: String? = nil, service: String, syncedAt: Date? = nil) {
+            self.environment = environment
+            self.instrumentationType = instrumentationType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.service = service
+            self.syncedAt = syncedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case instrumentationType = "InstrumentationType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case service = "Service"
+            case syncedAt = "SyncedAt"
         }
     }
 
@@ -1421,7 +2354,9 @@ extension ApplicationSignals {
         public let keyAttributes: [String: String]?
         /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
         public let maxResults: Int?
-        /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        /// Identifies the metric source to filter SLOs by.
+        public let metricSource: MetricSource?
+        /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   Service   CloudWatch metric   AppMonitor   Canary
         public let metricSourceTypes: [MetricSourceType]?
         /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
         public let nextToken: String?
@@ -1431,11 +2366,12 @@ extension ApplicationSignals {
         public let sloOwnerAwsAccountId: String?
 
         @inlinable
-        public init(dependencyConfig: DependencyConfig? = nil, includeLinkedAccounts: Bool? = nil, keyAttributes: [String: String]? = nil, maxResults: Int? = nil, metricSourceTypes: [MetricSourceType]? = nil, nextToken: String? = nil, operationName: String? = nil, sloOwnerAwsAccountId: String? = nil) {
+        public init(dependencyConfig: DependencyConfig? = nil, includeLinkedAccounts: Bool? = nil, keyAttributes: [String: String]? = nil, maxResults: Int? = nil, metricSource: MetricSource? = nil, metricSourceTypes: [MetricSourceType]? = nil, nextToken: String? = nil, operationName: String? = nil, sloOwnerAwsAccountId: String? = nil) {
             self.dependencyConfig = dependencyConfig
             self.includeLinkedAccounts = includeLinkedAccounts
             self.keyAttributes = keyAttributes
             self.maxResults = maxResults
+            self.metricSource = metricSource
             self.metricSourceTypes = metricSourceTypes
             self.nextToken = nextToken
             self.operationName = operationName
@@ -1449,6 +2385,7 @@ extension ApplicationSignals {
             request.encodeQuery(self.includeLinkedAccounts, key: "IncludeLinkedAccounts")
             try container.encodeIfPresent(self.keyAttributes, forKey: .keyAttributes)
             request.encodeQuery(self.maxResults, key: "MaxResults")
+            try container.encodeIfPresent(self.metricSource, forKey: .metricSource)
             try container.encodeIfPresent(self.metricSourceTypes, forKey: .metricSourceTypes)
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.operationName, key: "OperationName")
@@ -1467,6 +2404,7 @@ extension ApplicationSignals {
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.metricSource?.validate(name: "\(name).metricSource")
             try self.validate(self.metricSourceTypes, name: "metricSourceTypes", parent: name, max: 3)
             try self.validate(self.metricSourceTypes, name: "metricSourceTypes", parent: name, min: 1)
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
@@ -1477,6 +2415,7 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
+            case metricSource = "MetricSource"
             case metricSourceTypes = "MetricSourceTypes"
         }
     }
@@ -1889,6 +2828,43 @@ extension ApplicationSignals {
         }
     }
 
+    public struct MetricSource: AWSEncodableShape & AWSDecodableShape {
+        /// Additional attributes for the metric source.
+        public let metricSourceAttributes: [String: String]?
+        /// Key attributes that identify the metric source.
+        public let metricSourceKeyAttributes: [String: String]
+
+        @inlinable
+        public init(metricSourceAttributes: [String: String]? = nil, metricSourceKeyAttributes: [String: String]) {
+            self.metricSourceAttributes = metricSourceAttributes
+            self.metricSourceKeyAttributes = metricSourceKeyAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.metricSourceAttributes?.forEach {
+                try validate($0.key, name: "metricSourceAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
+                try validate($0.value, name: "metricSourceAttributes[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "metricSourceAttributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "metricSourceAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
+            }
+            try self.validate(self.metricSourceAttributes, name: "metricSourceAttributes", parent: name, max: 4)
+            try self.validate(self.metricSourceAttributes, name: "metricSourceAttributes", parent: name, min: 1)
+            try self.metricSourceKeyAttributes.forEach {
+                try validate($0.key, name: "metricSourceKeyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
+                try validate($0.value, name: "metricSourceKeyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "metricSourceKeyAttributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "metricSourceKeyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
+            }
+            try self.validate(self.metricSourceKeyAttributes, name: "metricSourceKeyAttributes", parent: name, max: 4)
+            try self.validate(self.metricSourceKeyAttributes, name: "metricSourceKeyAttributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSourceAttributes = "MetricSourceAttributes"
+            case metricSourceKeyAttributes = "MetricSourceKeyAttributes"
+        }
+    }
+
     public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
         /// The metric to use as the service level indicator, including the metric name, namespace, and dimensions.
         public let metric: Metric
@@ -2011,6 +2987,50 @@ extension ApplicationSignals {
         }
     }
 
+    public struct ReportInstrumentationConfigurationStatusRequest: AWSEncodableShape {
+        /// An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, timestamp, and optional error cause.
+        public let configurations: [InstrumentationConfigurationStatusReport]
+        /// The environment that the service is running in.
+        public let environment: String
+        /// The service that the reported configurations belong to.
+        public let service: String
+
+        @inlinable
+        public init(configurations: [InstrumentationConfigurationStatusReport], environment: String, service: String) {
+            self.configurations = configurations
+            self.environment = environment
+            self.service = service
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "Configurations"
+            case environment = "Environment"
+            case service = "Service"
+        }
+    }
+
+    public struct ReportInstrumentationConfigurationStatusResponse: AWSDecodableShape {
+        /// The environment echoed from the request.
+        public let environment: String
+        /// The service name echoed from the request.
+        public let service: String
+        /// Status events that failed to be processed. Each entry includes the configuration identifiers, status, timestamp, and a reason for the failure.
+        public let unprocessedStatusEvents: [UnprocessedStatusEvent]
+
+        @inlinable
+        public init(environment: String, service: String, unprocessedStatusEvents: [UnprocessedStatusEvent]) {
+            self.environment = environment
+            self.service = service
+            self.unprocessedStatusEvents = unprocessedStatusEvents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environment = "Environment"
+            case service = "Service"
+            case unprocessedStatusEvents = "UnprocessedStatusEvents"
+        }
+    }
+
     public struct RequestBasedServiceLevelIndicator: AWSDecodableShape {
         /// The arithmetic operation used when comparing the specified metric to the threshold.
         public let comparisonOperator: ServiceLevelIndicatorComparisonOperator?
@@ -2060,10 +3080,14 @@ extension ApplicationSignals {
     }
 
     public struct RequestBasedServiceLevelIndicatorMetric: AWSDecodableShape {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public let compositeSliConfig: CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public let dependencyConfig: DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.    Type designates the type of object that this SLO is related to.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public let metricSource: MetricSource?
         /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals collects, this field displays which of those metrics is used.
         public let metricType: ServiceLevelIndicatorMetricType?
         /// This structure defines the metric that is used as the "good request" or "bad request" value for a request-based SLO. This value observed for the metric defined in TotalRequestCountMetric is divided by the number found for MonitoredRequestCountMetric to determine the percentage of successful requests that this SLO tracks.
@@ -2074,9 +3098,11 @@ extension ApplicationSignals {
         public let totalRequestCountMetric: [MetricDataQuery]
 
         @inlinable
-        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
+        public init(compositeSliConfig: CompositeSliConfig? = nil, dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricSource: MetricSource? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
+            self.metricSource = metricSource
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
             self.operationName = operationName
@@ -2084,8 +3110,10 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compositeSliConfig = "CompositeSliConfig"
             case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
+            case metricSource = "MetricSource"
             case metricType = "MetricType"
             case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
             case operationName = "OperationName"
@@ -2094,10 +3122,16 @@ extension ApplicationSignals {
     }
 
     public struct RequestBasedServiceLevelIndicatorMetricConfig: AWSEncodableShape {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public let compositeSliConfig: CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public let dependencyConfig: DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
+        /// The name of the metric for SLOs on resources other than Application Signals services.
+        public let metricName: String?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public let metricSource: MetricSource?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals collects, use this field to specify which of those metrics is used.
         public let metricType: ServiceLevelIndicatorMetricType?
         /// Use this structure to define the metric that you want to use as the "good request" or "bad request" value for a request-based SLO. This value observed for the metric defined in TotalRequestCountMetric will be divided by the number found for MonitoredRequestCountMetric to determine the percentage of successful requests that this SLO tracks.
@@ -2108,9 +3142,12 @@ extension ApplicationSignals {
         public let totalRequestCountMetric: [MetricDataQuery]?
 
         @inlinable
-        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
+        public init(compositeSliConfig: CompositeSliConfig? = nil, dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricName: String? = nil, metricSource: MetricSource? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
+            self.metricName = metricName
+            self.metricSource = metricSource
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
             self.operationName = operationName
@@ -2118,6 +3155,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.compositeSliConfig?.validate(name: "\(name).compositeSliConfig")
             try self.dependencyConfig?.validate(name: "\(name).dependencyConfig")
             try self.keyAttributes?.forEach {
                 try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
@@ -2127,6 +3165,9 @@ extension ApplicationSignals {
             }
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.metricSource?.validate(name: "\(name).metricSource")
             try self.monitoredRequestCountMetric?.validate(name: "\(name).monitoredRequestCountMetric")
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
             try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
@@ -2136,8 +3177,11 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compositeSliConfig = "CompositeSliConfig"
             case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
+            case metricName = "MetricName"
+            case metricSource = "MetricSource"
             case metricType = "MetricType"
             case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
             case operationName = "OperationName"
@@ -2185,6 +3229,27 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case duration = "Duration"
             case durationUnit = "DurationUnit"
+        }
+    }
+
+    public struct SelectionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A prefix string or regular expression that specifies which operations to include in a service-level SLO. When SelectionType is PREFIX, this value is a prefix string that matches the beginning of operation names. When SelectionType is REGEX, this value is a regular expression that matches operation names.
+        public let pattern: String?
+        public let type: SelectionType
+
+        @inlinable
+        public init(pattern: String? = nil, type: SelectionType) {
+            self.pattern = pattern
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pattern, name: "pattern", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+            case type = "Type"
         }
     }
 
@@ -2345,15 +3410,15 @@ extension ApplicationSignals {
     }
 
     public struct ServiceLevelIndicatorConfig: AWSEncodableShape {
-        /// The arithmetic operation to use when comparing the specified metric to the threshold.
-        public let comparisonOperator: ServiceLevelIndicatorComparisonOperator
-        /// This parameter is used only when a request-based SLO tracks the Latency metric. Specify the threshold value that the observed Latency metric values are to be compared to.
-        public let metricThreshold: Double
+        /// The arithmetic operation to use when comparing the specified metric to the threshold. This is not required if CreateRecommendedSlo is set to true.
+        public let comparisonOperator: ServiceLevelIndicatorComparisonOperator?
+        /// This parameter is used only when a request-based SLO tracks the Latency metric. Specify the threshold value that the observed Latency metric values are to be compared to. This is not required if CreateRecommendedSlo is set to true.
+        public let metricThreshold: Double?
         /// Use this structure to specify the metric to be used for the SLO.
         public let sliMetricConfig: ServiceLevelIndicatorMetricConfig
 
         @inlinable
-        public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator, metricThreshold: Double, sliMetricConfig: ServiceLevelIndicatorMetricConfig) {
+        public init(comparisonOperator: ServiceLevelIndicatorComparisonOperator? = nil, metricThreshold: Double? = nil, sliMetricConfig: ServiceLevelIndicatorMetricConfig) {
             self.comparisonOperator = comparisonOperator
             self.metricThreshold = metricThreshold
             self.sliMetricConfig = sliMetricConfig
@@ -2371,36 +3436,46 @@ extension ApplicationSignals {
     }
 
     public struct ServiceLevelIndicatorMetric: AWSDecodableShape {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public let compositeSliConfig: CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public let dependencyConfig: DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.    Type designates the type of object that this SLO is related to.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch metric math expression, this structure includes the information about that metric or expression.
         public let metricDataQueries: [MetricDataQuery]
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public let metricSource: MetricSource?
         /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals collects, this field displays which of those metrics is used.
         public let metricType: ServiceLevelIndicatorMetricType?
         /// If the SLO monitors a specific operation of the service, this field displays that operation name.
         public let operationName: String?
 
         @inlinable
-        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery], metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil) {
+        public init(compositeSliConfig: CompositeSliConfig? = nil, dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery], metricSource: MetricSource? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
+            self.metricSource = metricSource
             self.metricType = metricType
             self.operationName = operationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compositeSliConfig = "CompositeSliConfig"
             case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricDataQueries = "MetricDataQueries"
+            case metricSource = "MetricSource"
             case metricType = "MetricType"
             case operationName = "OperationName"
         }
     }
 
     public struct ServiceLevelIndicatorMetricConfig: AWSEncodableShape {
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public let compositeSliConfig: CompositeSliConfig?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
         public let dependencyConfig: DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
@@ -2409,6 +3484,8 @@ extension ApplicationSignals {
         public let metricDataQueries: [MetricDataQuery]?
         /// The name of the CloudWatch metric to use for the SLO, when using a custom metric rather than Application Signals standard metrics.
         public let metricName: String?
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public let metricSource: MetricSource?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals collects, use this field to specify which of those metrics is used.
         public let metricType: ServiceLevelIndicatorMetricType?
         /// If the SLO is to monitor a specific operation of the service, use this field to specify the name of that operation.
@@ -2419,11 +3496,13 @@ extension ApplicationSignals {
         public let statistic: String?
 
         @inlinable
-        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery]? = nil, metricName: String? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil, periodSeconds: Int? = nil, statistic: String? = nil) {
+        public init(compositeSliConfig: CompositeSliConfig? = nil, dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery]? = nil, metricName: String? = nil, metricSource: MetricSource? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil, periodSeconds: Int? = nil, statistic: String? = nil) {
+            self.compositeSliConfig = compositeSliConfig
             self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricName = metricName
+            self.metricSource = metricSource
             self.metricType = metricType
             self.operationName = operationName
             self.periodSeconds = periodSeconds
@@ -2431,6 +3510,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.compositeSliConfig?.validate(name: "\(name).compositeSliConfig")
             try self.dependencyConfig?.validate(name: "\(name).dependencyConfig")
             try self.keyAttributes?.forEach {
                 try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
@@ -2445,6 +3525,7 @@ extension ApplicationSignals {
             }
             try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
             try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.metricSource?.validate(name: "\(name).metricSource")
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
             try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
             try self.validate(self.periodSeconds, name: "periodSeconds", parent: name, max: 900)
@@ -2455,10 +3536,12 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compositeSliConfig = "CompositeSliConfig"
             case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricDataQueries = "MetricDataQueries"
             case metricName = "MetricName"
+            case metricSource = "MetricSource"
             case metricType = "MetricType"
             case operationName = "OperationName"
             case periodSeconds = "PeriodSeconds"
@@ -2469,6 +3552,8 @@ extension ApplicationSignals {
     public struct ServiceLevelObjective: AWSDecodableShape {
         /// The ARN of this SLO.
         public let arn: String
+        /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+        public let autoInvestigationEnabled: Bool?
         /// Each object in this array defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
         public let burnRateConfigurations: [BurnRateConfiguration]?
         /// The date and time that this SLO was created. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
@@ -2480,7 +3565,7 @@ extension ApplicationSignals {
         public let goal: Goal
         /// The time that this SLO was most recently updated. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         public let lastUpdatedTime: Date
-        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   Service   CloudWatch metric   AppMonitor   Canary
         public let metricSourceType: MetricSourceType?
         /// The name of this SLO.
         public let name: String
@@ -2490,8 +3575,9 @@ extension ApplicationSignals {
         public let sli: ServiceLevelIndicator?
 
         @inlinable
-        public init(arn: String, burnRateConfigurations: [BurnRateConfiguration]? = nil, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, metricSourceType: MetricSourceType? = nil, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
+        public init(arn: String, autoInvestigationEnabled: Bool? = nil, burnRateConfigurations: [BurnRateConfiguration]? = nil, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, metricSourceType: MetricSourceType? = nil, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
             self.arn = arn
+            self.autoInvestigationEnabled = autoInvestigationEnabled
             self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
             self.description = description
@@ -2506,6 +3592,7 @@ extension ApplicationSignals {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case autoInvestigationEnabled = "AutoInvestigationEnabled"
             case burnRateConfigurations = "BurnRateConfigurations"
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -2622,6 +3709,8 @@ extension ApplicationSignals {
     public struct ServiceLevelObjectiveSummary: AWSDecodableShape {
         /// The ARN of this service level objective.
         public let arn: String
+        /// The composite SLI configuration for service-level SLOs that monitor multiple operations of a service.
+        public let compositeSliConfig: CompositeSliConfig?
         /// The date and time that this service level objective was created. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let createdTime: Date?
         /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
@@ -2630,7 +3719,9 @@ extension ApplicationSignals {
         public let evaluationType: EvaluationType?
         /// This is a string-to-string map. It can include the following fields.    Type designates the type of object this service level objective is for.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
-        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        /// Identifies the metric source for SLOs on resources other than Application Signals services.
+        public let metricSource: MetricSource?
+        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   Service   CloudWatch metric   AppMonitor   Canary
         public let metricSourceType: MetricSourceType?
         /// The name of the service level objective.
         public let name: String
@@ -2638,12 +3729,14 @@ extension ApplicationSignals {
         public let operationName: String?
 
         @inlinable
-        public init(arn: String, createdTime: Date? = nil, dependencyConfig: DependencyConfig? = nil, evaluationType: EvaluationType? = nil, keyAttributes: [String: String]? = nil, metricSourceType: MetricSourceType? = nil, name: String, operationName: String? = nil) {
+        public init(arn: String, compositeSliConfig: CompositeSliConfig? = nil, createdTime: Date? = nil, dependencyConfig: DependencyConfig? = nil, evaluationType: EvaluationType? = nil, keyAttributes: [String: String]? = nil, metricSource: MetricSource? = nil, metricSourceType: MetricSourceType? = nil, name: String, operationName: String? = nil) {
             self.arn = arn
+            self.compositeSliConfig = compositeSliConfig
             self.createdTime = createdTime
             self.dependencyConfig = dependencyConfig
             self.evaluationType = evaluationType
             self.keyAttributes = keyAttributes
+            self.metricSource = metricSource
             self.metricSourceType = metricSourceType
             self.name = name
             self.operationName = operationName
@@ -2651,10 +3744,12 @@ extension ApplicationSignals {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case compositeSliConfig = "CompositeSliConfig"
             case createdTime = "CreatedTime"
             case dependencyConfig = "DependencyConfig"
             case evaluationType = "EvaluationType"
             case keyAttributes = "KeyAttributes"
+            case metricSource = "MetricSource"
             case metricSourceType = "MetricSourceType"
             case name = "Name"
             case operationName = "OperationName"
@@ -2812,6 +3907,40 @@ extension ApplicationSignals {
         public init() {}
     }
 
+    public struct UnprocessedStatusEvent: AWSDecodableShape {
+        /// The reason why this status event could not be processed, such as throttling or validation errors.
+        public let failedReason: UnprocessedStatusEventFailureReason
+        /// The type of instrumentation configuration for the unprocessed status event.
+        public let instrumentationType: InstrumentationType
+        /// The stable hash of the instrumentation location for the unprocessed event.
+        public let locationHash: String
+        /// The telemetry signal type for the unprocessed status event.
+        public let signalType: DynamicInstrumentationSignalType
+        /// The status that failed to be processed.
+        public let status: InstrumentationConfigurationStatus
+        /// The timestamp of the status event that failed to be processed.
+        public let time: Date
+
+        @inlinable
+        public init(failedReason: UnprocessedStatusEventFailureReason, instrumentationType: InstrumentationType, locationHash: String, signalType: DynamicInstrumentationSignalType, status: InstrumentationConfigurationStatus, time: Date) {
+            self.failedReason = failedReason
+            self.instrumentationType = instrumentationType
+            self.locationHash = locationHash
+            self.signalType = signalType
+            self.status = status
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedReason = "FailedReason"
+            case instrumentationType = "InstrumentationType"
+            case locationHash = "LocationHash"
+            case signalType = "SignalType"
+            case status = "Status"
+            case time = "Time"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to delete tags from. The ARN format of an Application Signals SLO is arn:aws:cloudwatch:Region:account-id:slo:slo-name   For more information about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web Services General Reference.
         public let resourceArn: String
@@ -2845,6 +3974,8 @@ extension ApplicationSignals {
     }
 
     public struct UpdateServiceLevelObjectiveInput: AWSEncodableShape {
+        /// Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
+        public let autoInvestigationEnabled: Bool?
         /// Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
         public let burnRateConfigurations: [BurnRateConfiguration]?
         /// An optional description for the SLO.
@@ -2859,7 +3990,8 @@ extension ApplicationSignals {
         public let sliConfig: ServiceLevelIndicatorConfig?
 
         @inlinable
-        public init(burnRateConfigurations: [BurnRateConfiguration]? = nil, description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
+        public init(autoInvestigationEnabled: Bool? = nil, burnRateConfigurations: [BurnRateConfiguration]? = nil, description: String? = nil, goal: Goal? = nil, id: String, requestBasedSliConfig: RequestBasedServiceLevelIndicatorConfig? = nil, sliConfig: ServiceLevelIndicatorConfig? = nil) {
+            self.autoInvestigationEnabled = autoInvestigationEnabled
             self.burnRateConfigurations = burnRateConfigurations
             self.description = description
             self.goal = goal
@@ -2871,6 +4003,7 @@ extension ApplicationSignals {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.autoInvestigationEnabled, forKey: .autoInvestigationEnabled)
             try container.encodeIfPresent(self.burnRateConfigurations, forKey: .burnRateConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.goal, forKey: .goal)
@@ -2893,6 +4026,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoInvestigationEnabled = "AutoInvestigationEnabled"
             case burnRateConfigurations = "BurnRateConfigurations"
             case description = "Description"
             case goal = "Goal"
@@ -2934,6 +4068,57 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case duration = "Duration"
             case durationUnit = "DurationUnit"
+        }
+    }
+
+    public struct CaptureConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Capture settings for code-level instrumentation, including arguments, return values, stack traces, local variables, and safety limits.
+        public let codeCapture: CodeCaptureConfiguration?
+
+        @inlinable
+        public init(codeCapture: CodeCaptureConfiguration? = nil) {
+            self.codeCapture = codeCapture
+        }
+
+        public func validate(name: String) throws {
+            try self.codeCapture?.validate(name: "\(name).codeCapture")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeCapture = "CodeCapture"
+        }
+    }
+
+    public struct CompositeSliComponent: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the operation to include in the composite SLI.
+        public let operationName: String?
+
+        @inlinable
+        public init(operationName: String? = nil) {
+            self.operationName = operationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
+            try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationName = "OperationName"
+        }
+    }
+
+    public struct Location: AWSEncodableShape & AWSDecodableShape {
+        /// A code location for code-level instrumentation, including language, code unit, class, method, file path, and optional line number.
+        public let codeLocation: CodeLocation?
+
+        @inlinable
+        public init(codeLocation: CodeLocation? = nil) {
+            self.codeLocation = codeLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeLocation = "CodeLocation"
         }
     }
 }

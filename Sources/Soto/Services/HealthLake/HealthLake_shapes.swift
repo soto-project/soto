@@ -25,6 +25,33 @@ import Foundation
 extension HealthLake {
     // MARK: Enums
 
+    public enum AgentInputMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case normal = "normal"
+        case userConfirmationResponse = "confirmation_response"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentOutputMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case choices = "choices"
+        case complete = "complete"
+        case error = "error"
+        case initialGreeting = "INITIAL_GREETING"
+        case normal = "normal"
+        case options = "options"
+        case userConfirmationRequest = "confirmation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnalyticsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case paused = "PAUSED"
+        case pausing = "PAUSING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthorizationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAuth = "AWS_AUTH"
         case smartOnFhir = "SMART_ON_FHIR"
@@ -44,6 +71,8 @@ extension HealthLake {
         case creating = "CREATING"
         case deleted = "DELETED"
         case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -72,8 +101,37 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
+    public enum NlpStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PreloadDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case synthea = "SYNTHEA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ccda = "CCDA"
+        case csv = "CSV"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fhirR4 = "FHIR_R4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransformationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
@@ -84,9 +142,201 @@ extension HealthLake {
         public var description: String { return self.rawValue }
     }
 
+    public enum CreateDataTransformationProfileSource: AWSEncodableShape, Sendable {
+        /// Creates the profile by cloning an existing profile at a specific version.
+        case existingVersionedProfileId(ExistingVersionedProfileSource)
+        /// Creates the profile from raw profile content that you provide directly. Use this variant for continuous integration and continuous delivery (CI/CD) workflows.
+        case profileMapping(ProfileMappingSource)
+        /// Creates the profile from a sample data file stored in Amazon S3. Valid only when the source format is Comma-separated values (CSV).
+        case sampleData(SampleDataSource)
+        /// Creates the profile from a built-in starter profile. Valid only when the source format is Consolidated Clinical Document Architecture (C-CDA).
+        case starterProfile(StarterProfileSource)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .existingVersionedProfileId(let value):
+                try container.encode(value, forKey: .existingVersionedProfileId)
+            case .profileMapping(let value):
+                try container.encode(value, forKey: .profileMapping)
+            case .sampleData(let value):
+                try container.encode(value, forKey: .sampleData)
+            case .starterProfile(let value):
+                try container.encode(value, forKey: .starterProfile)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .sampleData(let value):
+                try value.validate(name: "\(name).sampleData")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingVersionedProfileId = "ExistingVersionedProfileId"
+            case profileMapping = "ProfileMapping"
+            case sampleData = "SampleData"
+            case starterProfile = "StarterProfile"
+        }
+    }
+
     // MARK: Shapes
 
+    public struct AgentInputMessage: AWSEncodableShape {
+        /// The text of your message to the agent.
+        public let body: String
+        /// The type of input message, which determines how the agent processes your request. Valid values:    normal: A regular message to the agent.    confirmation_response: A response to a confirmation request from the agent.
+        public let type: AgentInputMessageType
+
+        @inlinable
+        public init(body: String, type: AgentInputMessageType) {
+            self.body = body
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 40960)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case type = "Type"
+        }
+    }
+
+    public struct AgentOutputMessage: AWSDecodableShape {
+        /// The text of the agent's response.
+        public let body: String
+        /// A list of selectable options presented when the response type is options.
+        public let optionsList: [String]?
+        /// The type of output message, which indicates how to interpret the agent's response.
+        public let type: AgentOutputMessageType
+
+        @inlinable
+        public init(body: String, optionsList: [String]? = nil, type: AgentOutputMessageType) {
+            self.body = body
+            self.optionsList = optionsList
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case optionsList = "OptionsList"
+            case type = "Type"
+        }
+    }
+
+    public struct AnalyticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the analytics configuration.
+        public let status: AnalyticsStatus?
+
+        @inlinable
+        public init(status: AnalyticsStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct CreateDataTransformationProfileRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+        public let clientToken: String?
+        /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the profile content at rest.
+        public let kmsKeyId: String?
+        /// A human-readable description of the profile's purpose.
+        public let profileDescription: String?
+        /// A name for the data transformation profile.
+        public let profileName: String
+        /// The source for the initial profile content. Specify a built-in starter profile, an existing profile version to clone, raw profile content for CI/CD workflows, or a sample data file in Amazon S3.
+        public let source: CreateDataTransformationProfileSource
+        /// The source data format that this profile converts from (Consolidated Clinical Document Architecture (C-CDA) or Comma-separated values (CSV)).
+        public let sourceFormat: SourceFormat
+        /// The tags to associate with the profile at creation time.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateDataTransformationProfileRequest.idempotencyToken(), kmsKeyId: String? = nil, profileDescription: String? = nil, profileName: String, source: CreateDataTransformationProfileSource, sourceFormat: SourceFormat, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.kmsKeyId = kmsKeyId
+            self.profileDescription = profileDescription
+            self.profileName = profileName
+            self.source = source
+            self.sourceFormat = sourceFormat
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.profileDescription, name: "profileDescription", parent: name, max: 1000)
+            try self.validate(self.profileName, name: "profileName", parent: name, max: 256)
+            try self.validate(self.profileName, name: "profileName", parent: name, min: 1)
+            try self.source.validate(name: "\(name).source")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case kmsKeyId = "KmsKeyId"
+            case profileDescription = "ProfileDescription"
+            case profileName = "ProfileName"
+            case source = "Source"
+            case sourceFormat = "SourceFormat"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDataTransformationProfileResponse: AWSDecodableShape {
+        /// The timestamp when the profile was last updated.
+        public let lastUpdatedAt: Date
+        /// The unique identifier of the created profile.
+        public let profileId: String
+        /// The name of the created profile.
+        public let profileName: String
+        /// The source data format of the profile.
+        public let sourceFormat: SourceFormat
+        /// The target output format. Always FHIR_R4.
+        public let targetFormat: TargetFormat
+        /// The version number of the newly created profile. The starting version is always 0, which indicates the profile is in DRAFT state.
+        public let version: Int
+
+        @inlinable
+        public init(lastUpdatedAt: Date, profileId: String, profileName: String, sourceFormat: SourceFormat, targetFormat: TargetFormat, version: Int) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+            case version = "Version"
+        }
+    }
+
     public struct CreateFHIRDatastoreRequest: AWSEncodableShape {
+        /// The analytics configuration for the data store.
+        public let analyticsConfiguration: AnalyticsConfiguration?
         /// An optional user-provided token to ensure API idempotency.
         public let clientToken: String?
         /// The data store name (user-generated).
@@ -95,20 +345,27 @@ extension HealthLake {
         public let datastoreTypeVersion: FHIRVersion
         /// The identity provider configuration to use for the data store.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// The natural language processing (NLP) configuration for the data store.
+        public let nlpConfiguration: NlpConfiguration?
         /// An optional parameter to preload (import) open source Synthea FHIR data upon creation of the data store.
         public let preloadDataConfig: PreloadDataConfig?
+        /// The profile configuration for the data store.
+        public let profileConfiguration: ProfileConfiguration?
         /// The server-side encryption key configuration for a customer-provided encryption key specified for creating a data store.
         public let sseConfiguration: SseConfiguration?
         /// The resource tags applied to a data store when it is created.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, clientToken: String? = CreateFHIRDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, datastoreTypeVersion: FHIRVersion, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil, tags: [Tag]? = nil) {
+            self.analyticsConfiguration = analyticsConfiguration
             self.clientToken = clientToken
             self.datastoreName = datastoreName
             self.datastoreTypeVersion = datastoreTypeVersion
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.nlpConfiguration = nlpConfiguration
             self.preloadDataConfig = preloadDataConfig
+            self.profileConfiguration = profileConfiguration
             self.sseConfiguration = sseConfiguration
             self.tags = tags
         }
@@ -121,6 +378,7 @@ extension HealthLake {
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
             try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
+            try self.profileConfiguration?.validate(name: "\(name).profileConfiguration")
             try self.sseConfiguration?.validate(name: "\(name).sseConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -129,11 +387,14 @@ extension HealthLake {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
             case clientToken = "ClientToken"
             case datastoreName = "DatastoreName"
             case datastoreTypeVersion = "DatastoreTypeVersion"
             case identityProviderConfiguration = "IdentityProviderConfiguration"
+            case nlpConfiguration = "NlpConfiguration"
             case preloadDataConfig = "PreloadDataConfig"
+            case profileConfiguration = "ProfileConfiguration"
             case sseConfiguration = "SseConfiguration"
             case tags = "Tags"
         }
@@ -162,6 +423,108 @@ extension HealthLake {
             case datastoreEndpoint = "DatastoreEndpoint"
             case datastoreId = "DatastoreId"
             case datastoreStatus = "DatastoreStatus"
+        }
+    }
+
+    public struct DataTransformationProfileSummary: AWSDecodableShape {
+        /// The timestamp when the profile was last updated.
+        public let lastUpdatedAt: Date?
+        /// A description of the profile's purpose.
+        public let profileDescription: String?
+        /// The unique identifier of the profile.
+        public let profileId: String
+        /// The name of the profile.
+        public let profileName: String?
+        /// The source data format that this profile converts from.
+        public let sourceFormat: SourceFormat
+        /// The target output format of the profile.
+        public let targetFormat: TargetFormat
+        /// The latest version number of the profile.
+        public let version: Int
+
+        @inlinable
+        public init(lastUpdatedAt: Date? = nil, profileDescription: String? = nil, profileId: String, profileName: String? = nil, sourceFormat: SourceFormat, targetFormat: TargetFormat, version: Int) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileDescription = profileDescription
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileDescription = "ProfileDescription"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+            case version = "Version"
+        }
+    }
+
+    public struct DataTransformationProfileVersionSummary: AWSDecodableShape {
+        /// A description of what changed in this version.
+        public let changeDescription: String?
+        /// The timestamp when this version was last updated.
+        public let lastUpdatedAt: Date?
+        /// The unique identifier of the profile.
+        public let profileId: String
+        /// The name of the profile.
+        public let profileName: String?
+        /// The source data format that this profile converts from.
+        public let sourceFormat: SourceFormat
+        /// The target output format of the profile.
+        public let targetFormat: TargetFormat
+        /// The version number.
+        public let version: Int
+
+        @inlinable
+        public init(changeDescription: String? = nil, lastUpdatedAt: Date? = nil, profileId: String, profileName: String? = nil, sourceFormat: SourceFormat, targetFormat: TargetFormat, version: Int) {
+            self.changeDescription = changeDescription
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeDescription = "ChangeDescription"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+            case version = "Version"
+        }
+    }
+
+    public struct DataTransformationS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Key Management Service (AWS KMS) key identifier used to encrypt the transformation job output written to Amazon S3.
+        public let kmsKeyId: String
+        /// The Amazon S3 URI where AWS HealthLake writes the converted output files.
+        public let s3Uri: String
+
+        @inlinable
+        public init(kmsKeyId: String, s3Uri: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 8)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9](/.+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3Uri = "S3Uri"
         }
     }
 
@@ -198,6 +561,8 @@ extension HealthLake {
     }
 
     public struct DatastoreProperties: AWSDecodableShape {
+        /// The analytics configuration for the data store.
+        public let analyticsConfiguration: AnalyticsConfiguration?
         /// The time the data store was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) used in the creation of the data store.
@@ -216,13 +581,18 @@ extension HealthLake {
         public let errorCause: ErrorCause?
         /// The identity provider selected during data store creation.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// The natural language processing (NLP) configuration for the data store.
+        public let nlpConfiguration: NlpConfiguration?
         /// The preloaded Synthea data configuration for the data store.
         public let preloadDataConfig: PreloadDataConfig?
+        /// The profile configuration for the data store.
+        public let profileConfiguration: ProfileConfiguration?
         ///  The server-side encryption key configuration for a customer provided encryption key.
         public let sseConfiguration: SseConfiguration?
 
         @inlinable
-        public init(createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, sseConfiguration: SseConfiguration? = nil) {
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, createdAt: Date? = nil, datastoreArn: String, datastoreEndpoint: String, datastoreId: String, datastoreName: String? = nil, datastoreStatus: DatastoreStatus, datastoreTypeVersion: FHIRVersion, errorCause: ErrorCause? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, preloadDataConfig: PreloadDataConfig? = nil, profileConfiguration: ProfileConfiguration? = nil, sseConfiguration: SseConfiguration? = nil) {
+            self.analyticsConfiguration = analyticsConfiguration
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreEndpoint = datastoreEndpoint
@@ -232,11 +602,14 @@ extension HealthLake {
             self.datastoreTypeVersion = datastoreTypeVersion
             self.errorCause = errorCause
             self.identityProviderConfiguration = identityProviderConfiguration
+            self.nlpConfiguration = nlpConfiguration
             self.preloadDataConfig = preloadDataConfig
+            self.profileConfiguration = profileConfiguration
             self.sseConfiguration = sseConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
             case createdAt = "CreatedAt"
             case datastoreArn = "DatastoreArn"
             case datastoreEndpoint = "DatastoreEndpoint"
@@ -246,8 +619,56 @@ extension HealthLake {
             case datastoreTypeVersion = "DatastoreTypeVersion"
             case errorCause = "ErrorCause"
             case identityProviderConfiguration = "IdentityProviderConfiguration"
+            case nlpConfiguration = "NlpConfiguration"
             case preloadDataConfig = "PreloadDataConfig"
+            case profileConfiguration = "ProfileConfiguration"
             case sseConfiguration = "SseConfiguration"
+        }
+    }
+
+    public struct DeleteDataTransformationProfileRequest: AWSEncodableShape {
+        /// The unique identifier of the profile to delete.
+        public let profileId: String
+
+        @inlinable
+        public init(profileId: String) {
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileId, key: "ProfileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataTransformationProfileResponse: AWSDecodableShape {
+        /// The timestamp when the profile was deleted.
+        public let deletionTime: Date
+        /// The unique identifier of the deleted profile.
+        public let profileId: String
+        /// The name of the deleted profile.
+        public let profileName: String?
+
+        @inlinable
+        public init(deletionTime: Date, profileId: String, profileName: String? = nil) {
+            self.deletionTime = deletionTime
+            self.profileId = profileId
+            self.profileName = profileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionTime = "DeletionTime"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
         }
     }
 
@@ -294,6 +715,44 @@ extension HealthLake {
             case datastoreEndpoint = "DatastoreEndpoint"
             case datastoreId = "DatastoreId"
             case datastoreStatus = "DatastoreStatus"
+        }
+    }
+
+    public struct DescribeDataTransformationJobRequest: AWSEncodableShape {
+        /// The unique identifier of the data transformation job to describe.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDataTransformationJobResponse: AWSDecodableShape {
+        /// The properties of the data transformation job, including status, configuration, and progress information.
+        public let transformationJobProperties: TransformationJobProperties
+
+        @inlinable
+        public init(transformationJobProperties: TransformationJobProperties) {
+            self.transformationJobProperties = transformationJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transformationJobProperties = "TransformationJobProperties"
         }
     }
 
@@ -431,6 +890,24 @@ extension HealthLake {
         }
     }
 
+    public struct ExistingVersionedProfileSource: AWSEncodableShape {
+        /// The unique identifier of the existing profile to clone from.
+        public let profileId: String
+        /// The version number of the existing profile to clone from.
+        public let version: Int
+
+        @inlinable
+        public init(profileId: String, version: Int) {
+            self.profileId = profileId
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileId = "ProfileId"
+            case version = "Version"
+        }
+    }
+
     public struct ExportJobProperties: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) used during the initiation of the export job.
         public let dataAccessRoleArn: String?
@@ -474,6 +951,82 @@ extension HealthLake {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
+        }
+    }
+
+    public struct GetDataTransformationProfileRequest: AWSEncodableShape {
+        /// The unique identifier of the profile to retrieve.
+        public let profileId: String
+        /// The version number to retrieve. Specify 0 to retrieve the DRAFT version. If you omit this parameter, the service returns the latest published version.
+        public let profileVersion: Int?
+
+        @inlinable
+        public init(profileId: String, profileVersion: Int? = nil) {
+            self.profileId = profileId
+            self.profileVersion = profileVersion
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.profileId, key: "ProfileId")
+            request.encodeQuery(self.profileVersion, key: "version")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, max: 99)
+            try self.validate(self.profileVersion, name: "profileVersion", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataTransformationProfileResponse: AWSDecodableShape {
+        /// A description of what changed in this version.
+        public let changeDescription: String?
+        /// The timestamp when this version was last updated.
+        public let lastUpdatedAt: Date
+        /// The description of the profile.
+        public let profileDescription: String?
+        /// The unique identifier of the profile.
+        public let profileId: String
+        /// The profile content as a map of file paths to content strings.
+        public let profileMapping: [String: String]
+        /// The name of the profile.
+        public let profileName: String?
+        /// The source data format of the profile.
+        public let sourceFormat: SourceFormat
+        /// The target output format of the profile.
+        public let targetFormat: TargetFormat
+        /// The version number of the retrieved profile.
+        public let version: Int
+
+        @inlinable
+        public init(changeDescription: String? = nil, lastUpdatedAt: Date, profileDescription: String? = nil, profileId: String, profileMapping: [String: String], profileName: String? = nil, sourceFormat: SourceFormat, targetFormat: TargetFormat, version: Int) {
+            self.changeDescription = changeDescription
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileDescription = profileDescription
+            self.profileId = profileId
+            self.profileMapping = profileMapping
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeDescription = "ChangeDescription"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileDescription = "ProfileDescription"
+            case profileId = "ProfileId"
+            case profileMapping = "ProfileMapping"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+            case version = "Version"
         }
     }
 
@@ -569,10 +1122,25 @@ extension HealthLake {
     public struct JobProgressReport: AWSDecodableShape {
         /// The transaction rate the import job is processed at.
         public let throughput: Double?
+        /// Number of CCDA files successfully transformed during the import's
+        /// transformation phase. Populated only for import jobs that use the
+        /// two-Step-Function (transformation + ingestion) flow; null for legacy
+        /// single-SF imports and for pure FHIR imports that skip transformation.
+        public let totalFilesConverted: Int64?
         /// The number of files that failed to be read from the S3 input bucket due to customer error.
         public let totalNumberOfFilesReadWithCustomerError: Int64?
         /// The number of files imported.
         public let totalNumberOfImportedFiles: Int64?
+        /// The number of non-FHIR files imported.
+        public let totalNumberOfImportedNonFhirFiles: Int64?
+        /// The number of non-FHIR files that failed to be read from the S3 input bucket due to customer error.
+        public let totalNumberOfNonFhirFilesReadWithCustomerError: Int64?
+        /// The number of non-FHIR resources imported.
+        public let totalNumberOfNonFhirResourcesImported: Int64?
+        /// The number of non-FHIR resources scanned from the S3 input bucket.
+        public let totalNumberOfNonFhirResourcesScanned: Int64?
+        /// The number of non-FHIR resources that failed due to customer error.
+        public let totalNumberOfNonFhirResourcesWithCustomerError: Int64?
         /// The number of resources imported.
         public let totalNumberOfResourcesImported: Int64?
         /// The number of resources scanned from the S3 input bucket.
@@ -581,30 +1149,56 @@ extension HealthLake {
         public let totalNumberOfResourcesWithCustomerError: Int64?
         /// The number of files scanned from the S3 input bucket.
         public let totalNumberOfScannedFiles: Int64?
+        /// The number of non-FHIR files scanned from the S3 input bucket.
+        public let totalNumberOfScannedNonFhirFiles: Int64?
+        /// Number of FHIR resources produced by the transformation phase.
+        /// Populated only for import jobs that use the two-Step-Function flow;
+        /// null for legacy single-SF imports and for pure FHIR imports.
+        public let totalResourcesGenerated: Int64?
         /// The size (in MB) of files scanned from the S3 input bucket.
         public let totalSizeOfScannedFilesInMB: Double?
+        /// The size (in MB) of non-FHIR files scanned from the S3 input bucket.
+        public let totalSizeOfScannedNonFhirFilesInMB: Double?
 
         @inlinable
-        public init(throughput: Double? = nil, totalNumberOfFilesReadWithCustomerError: Int64? = nil, totalNumberOfImportedFiles: Int64? = nil, totalNumberOfResourcesImported: Int64? = nil, totalNumberOfResourcesScanned: Int64? = nil, totalNumberOfResourcesWithCustomerError: Int64? = nil, totalNumberOfScannedFiles: Int64? = nil, totalSizeOfScannedFilesInMB: Double? = nil) {
+        public init(throughput: Double? = nil, totalFilesConverted: Int64? = nil, totalNumberOfFilesReadWithCustomerError: Int64? = nil, totalNumberOfImportedFiles: Int64? = nil, totalNumberOfImportedNonFhirFiles: Int64? = nil, totalNumberOfNonFhirFilesReadWithCustomerError: Int64? = nil, totalNumberOfNonFhirResourcesImported: Int64? = nil, totalNumberOfNonFhirResourcesScanned: Int64? = nil, totalNumberOfNonFhirResourcesWithCustomerError: Int64? = nil, totalNumberOfResourcesImported: Int64? = nil, totalNumberOfResourcesScanned: Int64? = nil, totalNumberOfResourcesWithCustomerError: Int64? = nil, totalNumberOfScannedFiles: Int64? = nil, totalNumberOfScannedNonFhirFiles: Int64? = nil, totalResourcesGenerated: Int64? = nil, totalSizeOfScannedFilesInMB: Double? = nil, totalSizeOfScannedNonFhirFilesInMB: Double? = nil) {
             self.throughput = throughput
+            self.totalFilesConverted = totalFilesConverted
             self.totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerError
             self.totalNumberOfImportedFiles = totalNumberOfImportedFiles
+            self.totalNumberOfImportedNonFhirFiles = totalNumberOfImportedNonFhirFiles
+            self.totalNumberOfNonFhirFilesReadWithCustomerError = totalNumberOfNonFhirFilesReadWithCustomerError
+            self.totalNumberOfNonFhirResourcesImported = totalNumberOfNonFhirResourcesImported
+            self.totalNumberOfNonFhirResourcesScanned = totalNumberOfNonFhirResourcesScanned
+            self.totalNumberOfNonFhirResourcesWithCustomerError = totalNumberOfNonFhirResourcesWithCustomerError
             self.totalNumberOfResourcesImported = totalNumberOfResourcesImported
             self.totalNumberOfResourcesScanned = totalNumberOfResourcesScanned
             self.totalNumberOfResourcesWithCustomerError = totalNumberOfResourcesWithCustomerError
             self.totalNumberOfScannedFiles = totalNumberOfScannedFiles
+            self.totalNumberOfScannedNonFhirFiles = totalNumberOfScannedNonFhirFiles
+            self.totalResourcesGenerated = totalResourcesGenerated
             self.totalSizeOfScannedFilesInMB = totalSizeOfScannedFilesInMB
+            self.totalSizeOfScannedNonFhirFilesInMB = totalSizeOfScannedNonFhirFilesInMB
         }
 
         private enum CodingKeys: String, CodingKey {
             case throughput = "Throughput"
+            case totalFilesConverted = "TotalFilesConverted"
             case totalNumberOfFilesReadWithCustomerError = "TotalNumberOfFilesReadWithCustomerError"
             case totalNumberOfImportedFiles = "TotalNumberOfImportedFiles"
+            case totalNumberOfImportedNonFhirFiles = "TotalNumberOfImportedNonFhirFiles"
+            case totalNumberOfNonFhirFilesReadWithCustomerError = "TotalNumberOfNonFhirFilesReadWithCustomerError"
+            case totalNumberOfNonFhirResourcesImported = "TotalNumberOfNonFhirResourcesImported"
+            case totalNumberOfNonFhirResourcesScanned = "TotalNumberOfNonFhirResourcesScanned"
+            case totalNumberOfNonFhirResourcesWithCustomerError = "TotalNumberOfNonFhirResourcesWithCustomerError"
             case totalNumberOfResourcesImported = "TotalNumberOfResourcesImported"
             case totalNumberOfResourcesScanned = "TotalNumberOfResourcesScanned"
             case totalNumberOfResourcesWithCustomerError = "TotalNumberOfResourcesWithCustomerError"
             case totalNumberOfScannedFiles = "TotalNumberOfScannedFiles"
+            case totalNumberOfScannedNonFhirFiles = "TotalNumberOfScannedNonFhirFiles"
+            case totalResourcesGenerated = "TotalResourcesGenerated"
             case totalSizeOfScannedFilesInMB = "TotalSizeOfScannedFilesInMB"
+            case totalSizeOfScannedNonFhirFilesInMB = "TotalSizeOfScannedNonFhirFilesInMB"
         }
     }
 
@@ -629,6 +1223,177 @@ extension HealthLake {
         private enum CodingKeys: String, CodingKey {
             case cmkType = "CmkType"
             case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct ListDataTransformationJobsRequest: AWSEncodableShape {
+        /// Filters the results to include only jobs with the specified name.
+        public let jobName: String?
+        /// Filters the results to include only jobs with the specified status.
+        public let jobStatus: TransformationJobStatus?
+        /// The maximum number of jobs to return per page. If you don't specify a value, the service returns up to 100 results.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+        public let nextToken: String?
+        /// Filters the results to include only jobs submitted at or after this timestamp.
+        public let submittedAfter: Date?
+        /// Filters the results to include only jobs submitted at or before this timestamp.
+        public let submittedBefore: Date?
+
+        @inlinable
+        public init(jobName: String? = nil, jobStatus: TransformationJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, submittedAfter: Date? = nil, submittedBefore: Date? = nil) {
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.submittedAfter = submittedAfter
+            self.submittedBefore = submittedBefore
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.jobName, key: "jobName")
+            request.encodeQuery(self.jobStatus, key: "jobStatus")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.submittedAfter, key: "submittedAfter")
+            request.encodeQuery(self.submittedBefore, key: "submittedBefore")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataTransformationJobsResponse: AWSDecodableShape {
+        /// The list of data transformation job summaries.
+        public let items: [TransformationJobSummary]
+        /// The pagination token to use in the next request. If this value is null, there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [TransformationJobSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataTransformationProfileVersionsRequest: AWSEncodableShape {
+        /// The maximum number of profile versions to return per page. If you don't specify a value, the service returns up to 100 results.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+        public let nextToken: String?
+        /// The unique identifier of the profile whose versions to list.
+        public let profileId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, profileId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.profileId = profileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.profileId, key: "ProfileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataTransformationProfileVersionsResponse: AWSDecodableShape {
+        /// The list of data transformation profile version summaries.
+        public let items: [DataTransformationProfileVersionSummary]
+        /// The pagination token to use in the next request. If this value is null, there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DataTransformationProfileVersionSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataTransformationProfilesRequest: AWSEncodableShape {
+        /// The maximum number of profiles to return per page. If you don't specify a value, the service returns up to 100 results.
+        public let maxResults: Int?
+        /// The pagination token from a previous response. Pass this value to retrieve the next page of results.
+        public let nextToken: String?
+        /// Filters the results by source data format.
+        public let sourceFormat: SourceFormat
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceFormat: SourceFormat) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceFormat = sourceFormat
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sourceFormat, key: "sourceFormat")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataTransformationProfilesResponse: AWSDecodableShape {
+        /// The list of data transformation profile summaries.
+        public let items: [DataTransformationProfileSummary]
+        /// The pagination token to use in the next request. If this value is null, there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DataTransformationProfileSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -830,7 +1595,7 @@ extension HealthLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:(datastore\\/fhir\\/.{32}|dataTransformationProfile\\/[a-f0-9]{32})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -852,6 +1617,20 @@ extension HealthLake {
         }
     }
 
+    public struct NlpConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the NLP configuration.
+        public let status: NlpStatus?
+
+        @inlinable
+        public init(status: NlpStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct PreloadDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The type of preloaded data. Only Synthea preloaded data is supported.
         public let preloadDataType: PreloadDataType
@@ -863,6 +1642,117 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case preloadDataType = "PreloadDataType"
+        }
+    }
+
+    public struct ProfileConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of default profiles for the data store.
+        public let defaultProfiles: [String]?
+
+        @inlinable
+        public init(defaultProfiles: [String]? = nil) {
+            self.defaultProfiles = defaultProfiles
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultProfiles?.forEach {
+                try validate($0, name: "defaultProfiles[]", parent: name, max: 10000)
+                try validate($0, name: "defaultProfiles[]", parent: name, pattern: "^[\\P{M}\\p{M}]{0,10000}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultProfiles = "DefaultProfiles"
+        }
+    }
+
+    public struct ProfileMappingSource: AWSEncodableShape {
+        /// The content as a map of file paths to profile strings.
+        public let profileMapping: [String: String]
+
+        @inlinable
+        public init(profileMapping: [String: String]) {
+            self.profileMapping = profileMapping
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profileMapping = "ProfileMapping"
+        }
+    }
+
+    public struct PublishDataTransformationProfileRequest: AWSEncodableShape {
+        /// A description of what changed or why this version is being published.
+        public let changeDescription: String?
+        /// The version number of a previously published version to republish as the new latest version. Use this parameter for rollback scenarios. If you omit this parameter, the service publishes the current DRAFT version.
+        public let fromExistingVersion: Int?
+        /// The unique identifier of the profile to publish.
+        public let profileId: String
+        /// The source data format of the profile.
+        public let sourceFormat: SourceFormat
+
+        @inlinable
+        public init(changeDescription: String? = nil, fromExistingVersion: Int? = nil, profileId: String, sourceFormat: SourceFormat) {
+            self.changeDescription = changeDescription
+            self.fromExistingVersion = fromExistingVersion
+            self.profileId = profileId
+            self.sourceFormat = sourceFormat
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.changeDescription, forKey: .changeDescription)
+            try container.encodeIfPresent(self.fromExistingVersion, forKey: .fromExistingVersion)
+            request.encodePath(self.profileId, key: "ProfileId")
+            request.encodeQuery(self.sourceFormat, key: "sourceFormat")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1000)
+            try self.validate(self.fromExistingVersion, name: "fromExistingVersion", parent: name, max: 99)
+            try self.validate(self.fromExistingVersion, name: "fromExistingVersion", parent: name, min: 0)
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeDescription = "ChangeDescription"
+            case fromExistingVersion = "FromExistingVersion"
+        }
+    }
+
+    public struct PublishDataTransformationProfileResponse: AWSDecodableShape {
+        /// The timestamp when the profile was last updated.
+        public let lastUpdatedAt: Date
+        /// The unique identifier of the published profile.
+        public let profileId: String
+        /// The name of the published profile.
+        public let profileName: String?
+        /// The source data format of the profile.
+        public let sourceFormat: SourceFormat
+        /// The target output format of the profile.
+        public let targetFormat: TargetFormat
+        /// The new version number that was created.
+        public let version: Int
+
+        @inlinable
+        public init(lastUpdatedAt: Date, profileId: String, profileName: String? = nil, sourceFormat: SourceFormat, targetFormat: TargetFormat, version: Int) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+            case version = "Version"
         }
     }
 
@@ -892,6 +1782,26 @@ extension HealthLake {
         }
     }
 
+    public struct SampleDataSource: AWSEncodableShape {
+        /// The Amazon S3 URI of the sample data file.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+        }
+    }
+
     public struct SseConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Key Management Service (KMS) encryption configuration used to provide details for data encryption.
         public let kmsEncryptionConfig: KmsEncryptionConfig
@@ -907,6 +1817,83 @@ extension HealthLake {
 
         private enum CodingKeys: String, CodingKey {
             case kmsEncryptionConfig = "KmsEncryptionConfig"
+        }
+    }
+
+    public struct StartDataTransformationJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+        public let clientToken: String
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that AWS HealthLake assumes to read from and write to the specified Amazon S3 locations.
+        public let dataAccessRoleArn: String
+        /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+        public let driftDetectionEnabled: Bool?
+        /// The Amazon S3 location and format of the source files to transform.
+        public let inputDataConfig: TransformationInputDataConfig
+        /// A descriptive name for the data transformation job.
+        public let jobName: String?
+        /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+        public let outputDataConfig: TransformationOutputDataConfig
+        /// The unique identifier of the data transformation profile to use for conversion.
+        public let profileId: String
+        /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources. If you don't specify a value, the default is true. To disable provenance output, set this parameter to false.
+        public let provenanceEnabled: Bool?
+
+        @inlinable
+        public init(clientToken: String, dataAccessRoleArn: String, driftDetectionEnabled: Bool? = nil, inputDataConfig: TransformationInputDataConfig, jobName: String? = nil, outputDataConfig: TransformationOutputDataConfig, profileId: String, provenanceEnabled: Bool? = nil) {
+            self.clientToken = clientToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.driftDetectionEnabled = driftDetectionEnabled
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.outputDataConfig = outputDataConfig
+            self.profileId = profileId
+            self.provenanceEnabled = provenanceEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case driftDetectionEnabled = "DriftDetectionEnabled"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case outputDataConfig = "OutputDataConfig"
+            case profileId = "ProfileId"
+            case provenanceEnabled = "ProvenanceEnabled"
+        }
+    }
+
+    public struct StartDataTransformationJobResponse: AWSDecodableShape {
+        /// The unique identifier assigned to the data transformation job.
+        public let jobId: String
+        /// The initial status of the data transformation job.
+        public let jobStatus: TransformationJobStatus
+
+        @inlinable
+        public init(jobId: String, jobStatus: TransformationJobStatus) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
         }
     }
 
@@ -985,22 +1972,28 @@ extension HealthLake {
         public let dataAccessRoleArn: String
         /// The data store identifier.
         public let datastoreId: String
+        public let driftDetectionEnabled: Bool?
         /// The input properties for the import job request.
         public let inputDataConfig: InputDataConfig
+        public let inputFormat: String?
         /// The import job name.
         public let jobName: String?
         public let jobOutputDataConfig: OutputDataConfig
+        public let profileId: String?
         /// The validation level of the import job.
         public let validationLevel: ValidationLevel?
 
         @inlinable
-        public init(clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig, validationLevel: ValidationLevel? = nil) {
+        public init(clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, driftDetectionEnabled: Bool? = nil, inputDataConfig: InputDataConfig, inputFormat: String? = nil, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig, profileId: String? = nil, validationLevel: ValidationLevel? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
+            self.driftDetectionEnabled = driftDetectionEnabled
             self.inputDataConfig = inputDataConfig
+            self.inputFormat = inputFormat
             self.jobName = jobName
             self.jobOutputDataConfig = jobOutputDataConfig
+            self.profileId = profileId
             self.validationLevel = validationLevel
         }
 
@@ -1015,19 +2008,28 @@ extension HealthLake {
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.inputFormat, name: "inputFormat", parent: name, max: 5000)
+            try self.validate(self.inputFormat, name: "inputFormat", parent: name, min: 1)
+            try self.validate(self.inputFormat, name: "inputFormat", parent: name, pattern: "^[\\P{M}\\p{M}]{1,5000}$")
             try self.validate(self.jobName, name: "jobName", parent: name, max: 64)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
             try self.jobOutputDataConfig.validate(name: "\(name).jobOutputDataConfig")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 5000)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[\\P{M}\\p{M}]{1,5000}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case dataAccessRoleArn = "DataAccessRoleArn"
             case datastoreId = "DatastoreId"
+            case driftDetectionEnabled = "DriftDetectionEnabled"
             case inputDataConfig = "InputDataConfig"
+            case inputFormat = "InputFormat"
             case jobName = "JobName"
             case jobOutputDataConfig = "JobOutputDataConfig"
+            case profileId = "ProfileId"
             case validationLevel = "ValidationLevel"
         }
     }
@@ -1051,6 +2053,20 @@ extension HealthLake {
             case datastoreId = "DatastoreId"
             case jobId = "JobId"
             case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct StarterProfileSource: AWSEncodableShape {
+        /// The name of the built-in starter profile.
+        public let starterProfileName: String
+
+        @inlinable
+        public init(starterProfileName: String) {
+            self.starterProfileName = starterProfileName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case starterProfileName = "StarterProfileName"
         }
     }
 
@@ -1095,7 +2111,7 @@ extension HealthLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:(datastore\\/fhir\\/.{32}|dataTransformationProfile\\/[a-f0-9]{32})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1110,6 +2126,178 @@ extension HealthLake {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TransformationInputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 URI of the input data to transform.
+        public let s3Uri: String
+        /// The format of the source data files (C-CDA or CSV).
+        public let sourceFormat: SourceFormat?
+
+        @inlinable
+        public init(s3Uri: String, sourceFormat: SourceFormat? = nil) {
+            self.s3Uri = s3Uri
+            self.sourceFormat = sourceFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 2048)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 8)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.\\-]{1,61}[a-z0-9](/.+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+            case sourceFormat = "SourceFormat"
+        }
+    }
+
+    public struct TransformationJobProgressReport: AWSDecodableShape {
+        /// The total number of source files successfully converted.
+        public let totalFilesConverted: Int64
+        /// The total number of source files that failed conversion.
+        public let totalFilesFailed: Int64
+        /// The total number of source files scanned by the job.
+        public let totalFilesScanned: Int64
+        /// The total number of FHIR R4 resources generated across all converted files.
+        public let totalResourcesGenerated: Int64
+
+        @inlinable
+        public init(totalFilesConverted: Int64, totalFilesFailed: Int64, totalFilesScanned: Int64, totalResourcesGenerated: Int64) {
+            self.totalFilesConverted = totalFilesConverted
+            self.totalFilesFailed = totalFilesFailed
+            self.totalFilesScanned = totalFilesScanned
+            self.totalResourcesGenerated = totalResourcesGenerated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalFilesConverted = "TotalFilesConverted"
+            case totalFilesFailed = "TotalFilesFailed"
+            case totalFilesScanned = "TotalFilesScanned"
+            case totalResourcesGenerated = "TotalResourcesGenerated"
+        }
+    }
+
+    public struct TransformationJobProperties: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants AWS HealthLake access to the specified Amazon S3 locations. AWS HealthLake assumes this role to read input files and write output files.
+        public let dataAccessRoleArn: String
+        /// Specifies whether drift detection is enabled for this job. When enabled, AWS HealthLake writes a drift report to the output Amazon S3 location alongside the converted files.
+        public let driftDetectionEnabled: Bool?
+        /// The timestamp when the job completed or failed.
+        public let endTime: Date?
+        /// The Amazon S3 location and format of the source files for this job.
+        public let inputDataConfig: TransformationInputDataConfig
+        /// The unique identifier of the data transformation job.
+        public let jobId: String
+        /// The name of the data transformation job.
+        public let jobName: String?
+        /// The progress report for the data transformation job, including counts of files processed and resources generated.
+        public let jobProgressReport: TransformationJobProgressReport?
+        /// The current status of the data transformation job.
+        public let jobStatus: TransformationJobStatus
+        /// An informational message about the job, such as an error description if the job failed.
+        public let message: String?
+        /// The Amazon S3 location and encryption configuration for the converted output.
+        public let outputDataConfig: TransformationOutputDataConfig
+        /// The unique identifier of the data transformation profile used for this job.
+        public let profileId: String?
+        /// The name of the data transformation profile used for this job.
+        public let profileName: String?
+        /// The version number of the data transformation profile used for this job.
+        public let profileVersion: Int?
+        /// Specifies whether FHIR R4 Provenance resource generation is enabled for this transformation job. When provenance is enabled, the service also generates related DocumentReference and Device resources.
+        public let provenanceEnabled: Bool?
+        /// The timestamp when the job was submitted.
+        public let submitTime: Date
+
+        @inlinable
+        public init(dataAccessRoleArn: String, driftDetectionEnabled: Bool? = nil, endTime: Date? = nil, inputDataConfig: TransformationInputDataConfig, jobId: String, jobName: String? = nil, jobProgressReport: TransformationJobProgressReport? = nil, jobStatus: TransformationJobStatus, message: String? = nil, outputDataConfig: TransformationOutputDataConfig, profileId: String? = nil, profileName: String? = nil, profileVersion: Int? = nil, provenanceEnabled: Bool? = nil, submitTime: Date) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.driftDetectionEnabled = driftDetectionEnabled
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobProgressReport = jobProgressReport
+            self.jobStatus = jobStatus
+            self.message = message
+            self.outputDataConfig = outputDataConfig
+            self.profileId = profileId
+            self.profileName = profileName
+            self.profileVersion = profileVersion
+            self.provenanceEnabled = provenanceEnabled
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case driftDetectionEnabled = "DriftDetectionEnabled"
+            case endTime = "EndTime"
+            case inputDataConfig = "InputDataConfig"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobProgressReport = "JobProgressReport"
+            case jobStatus = "JobStatus"
+            case message = "Message"
+            case outputDataConfig = "OutputDataConfig"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case profileVersion = "ProfileVersion"
+            case provenanceEnabled = "ProvenanceEnabled"
+            case submitTime = "SubmitTime"
+        }
+    }
+
+    public struct TransformationJobSummary: AWSDecodableShape {
+        /// The timestamp when the job completed.
+        public let endTime: Date?
+        /// The unique identifier of the job.
+        public let jobId: String
+        /// The name of the job.
+        public let jobName: String?
+        /// The current status of the job.
+        public let jobStatus: TransformationJobStatus
+        /// The source data format for this job.
+        public let sourceFormat: SourceFormat?
+        /// The timestamp when the job was submitted.
+        public let submitTime: Date
+
+        @inlinable
+        public init(endTime: Date? = nil, jobId: String, jobName: String? = nil, jobStatus: TransformationJobStatus, sourceFormat: SourceFormat? = nil, submitTime: Date) {
+            self.endTime = endTime
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.sourceFormat = sourceFormat
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case sourceFormat = "SourceFormat"
+            case submitTime = "SubmitTime"
+        }
+    }
+
+    public struct TransformationOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 output location and AWS Key Management Service (AWS KMS) encryption configuration.
+        public let s3Configuration: DataTransformationS3Configuration
+
+        @inlinable
+        public init(s3Configuration: DataTransformationS3Configuration) {
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "S3Configuration"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -1127,7 +2315,7 @@ extension HealthLake {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:datastore\\/fhir\\/.{32}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws((-us-gov)|(-iso)|(-iso-b)|(-cn))?:healthlake:[a-z0-9-]+:\\d{12}:(datastore\\/fhir\\/.{32}|dataTransformationProfile\\/[a-f0-9]{32})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1144,6 +2332,191 @@ extension HealthLake {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateDataTransformationProfileRequest: AWSEncodableShape {
+        /// A description of what changed in this update.
+        public let changeDescription: String?
+        /// The unique identifier of the profile to update.
+        public let profileId: String
+        /// The new profile content for the DRAFT version. This is a full replacement of all profile files.
+        public let profileMapping: [String: String]
+
+        @inlinable
+        public init(changeDescription: String? = nil, profileId: String, profileMapping: [String: String]) {
+            self.changeDescription = changeDescription
+            self.profileId = profileId
+            self.profileMapping = profileMapping
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.changeDescription, forKey: .changeDescription)
+            request.encodePath(self.profileId, key: "ProfileId")
+            try container.encode(self.profileMapping, forKey: .profileMapping)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeDescription, name: "changeDescription", parent: name, max: 1000)
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.profileMapping.forEach {
+                try validate($0.key, name: "profileMapping.key", parent: name, max: 500)
+                try validate($0.key, name: "profileMapping.key", parent: name, min: 1)
+                try validate($0.value, name: "profileMapping[\"\($0.key)\"]", parent: name, max: 102400)
+            }
+            try self.validate(self.profileMapping, name: "profileMapping", parent: name, max: 500)
+            try self.validate(self.profileMapping, name: "profileMapping", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeDescription = "ChangeDescription"
+            case profileMapping = "ProfileMapping"
+        }
+    }
+
+    public struct UpdateDataTransformationProfileResponse: AWSDecodableShape {
+        /// The timestamp when the profile was last updated.
+        public let lastUpdatedAt: Date
+        /// The unique identifier of the updated profile.
+        public let profileId: String
+        /// The name of the updated profile.
+        public let profileName: String?
+        /// The source data format of the profile.
+        public let sourceFormat: SourceFormat
+        /// The target output format of the profile.
+        public let targetFormat: TargetFormat
+
+        @inlinable
+        public init(lastUpdatedAt: Date, profileId: String, profileName: String? = nil, sourceFormat: SourceFormat, targetFormat: TargetFormat) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.profileId = profileId
+            self.profileName = profileName
+            self.sourceFormat = sourceFormat
+            self.targetFormat = targetFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case profileId = "ProfileId"
+            case profileName = "ProfileName"
+            case sourceFormat = "SourceFormat"
+            case targetFormat = "TargetFormat"
+        }
+    }
+
+    public struct UpdateFHIRDatastoreRequest: AWSEncodableShape {
+        /// The analytics configuration for the data store.
+        public let analyticsConfiguration: AnalyticsConfiguration?
+        /// The data store identifier.
+        public let datastoreId: String
+        /// The data store name.
+        public let datastoreName: String?
+        /// The identity provider configuration for the data store.
+        public let identityProviderConfiguration: IdentityProviderConfiguration?
+        /// The natural language processing (NLP) configuration for the data store.
+        public let nlpConfiguration: NlpConfiguration?
+        /// The profile configuration for the data store.
+        public let profileConfiguration: ProfileConfiguration?
+
+        @inlinable
+        public init(analyticsConfiguration: AnalyticsConfiguration? = nil, datastoreId: String, datastoreName: String? = nil, identityProviderConfiguration: IdentityProviderConfiguration? = nil, nlpConfiguration: NlpConfiguration? = nil, profileConfiguration: ProfileConfiguration? = nil) {
+            self.analyticsConfiguration = analyticsConfiguration
+            self.datastoreId = datastoreId
+            self.datastoreName = datastoreName
+            self.identityProviderConfiguration = identityProviderConfiguration
+            self.nlpConfiguration = nlpConfiguration
+            self.profileConfiguration = profileConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, max: 32)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, min: 1)
+            try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, max: 256)
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, min: 1)
+            try self.validate(self.datastoreName, name: "datastoreName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.identityProviderConfiguration?.validate(name: "\(name).identityProviderConfiguration")
+            try self.profileConfiguration?.validate(name: "\(name).profileConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyticsConfiguration = "AnalyticsConfiguration"
+            case datastoreId = "DatastoreId"
+            case datastoreName = "DatastoreName"
+            case identityProviderConfiguration = "IdentityProviderConfiguration"
+            case nlpConfiguration = "NlpConfiguration"
+            case profileConfiguration = "ProfileConfiguration"
+        }
+    }
+
+    public struct UpdateFHIRDatastoreResponse: AWSDecodableShape {
+        /// The data store properties.
+        public let datastoreProperties: DatastoreProperties
+
+        @inlinable
+        public init(datastoreProperties: DatastoreProperties) {
+            self.datastoreProperties = datastoreProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datastoreProperties = "DatastoreProperties"
+        }
+    }
+
+    public struct UpdateProfileWithAgentRequest: AWSEncodableShape {
+        /// The conversation identifier for multi-turn interactions. Omit to start a new conversation.
+        public let conversationId: String?
+        /// The message to send to the agent.
+        public let inputMessage: AgentInputMessage
+        /// The unique identifier of the profile to update via the agent.
+        public let profileId: String
+        /// The source data format for the transformation.
+        public let sourceFormat: SourceFormat
+
+        @inlinable
+        public init(conversationId: String? = nil, inputMessage: AgentInputMessage, profileId: String, sourceFormat: SourceFormat) {
+            self.conversationId = conversationId
+            self.inputMessage = inputMessage
+            self.profileId = profileId
+            self.sourceFormat = sourceFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conversationId, name: "conversationId", parent: name, max: 36)
+            try self.validate(self.conversationId, name: "conversationId", parent: name, min: 1)
+            try self.inputMessage.validate(name: "\(name).inputMessage")
+            try self.validate(self.profileId, name: "profileId", parent: name, max: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, min: 32)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conversationId = "ConversationId"
+            case inputMessage = "InputMessage"
+            case profileId = "ProfileId"
+            case sourceFormat = "SourceFormat"
+        }
+    }
+
+    public struct UpdateProfileWithAgentResponse: AWSDecodableShape {
+        /// The response message from the agent.
+        public let agentResponse: AgentOutputMessage
+        /// The conversation identifier to use for follow-up messages in this conversation.
+        public let conversationId: String
+
+        @inlinable
+        public init(agentResponse: AgentOutputMessage, conversationId: String) {
+            self.agentResponse = agentResponse
+            self.conversationId = conversationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentResponse = "AgentResponse"
+            case conversationId = "ConversationId"
+        }
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
@@ -1190,10 +2563,17 @@ extension HealthLake {
 public struct HealthLakeErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case agentMessageOutOfContextException = "AgentMessageOutOfContextException"
         case conflictException = "ConflictException"
+        case conversationNotFoundException = "ConversationNotFoundException"
+        case failedDependencyException = "FailedDependencyException"
         case internalServerException = "InternalServerException"
+        case notImplementedOperationException = "NotImplementedOperationException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
+        case unauthorizedException = "UnauthorizedException"
+        case unsupportedMIMETypeException = "UnsupportedMIMETypeException"
         case validationException = "ValidationException"
     }
 
@@ -1217,14 +2597,28 @@ public struct HealthLakeErrorType: AWSErrorType {
 
     /// Access is denied. Your account is not authorized to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The agent message does not fit within the current conversation context. Start a new conversation or provide a message that relates to the current profile customization session.
+    public static var agentMessageOutOfContextException: Self { .init(.agentMessageOutOfContextException) }
     /// The data store is in a transition state and the user requested action cannot be performed.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The specified conversation identifier does not exist. Verify the conversation ID or omit it to start a new conversation.
+    public static var conversationNotFoundException: Self { .init(.conversationNotFoundException) }
+    /// A dependent service failed to fulfill the request.
+    public static var failedDependencyException: Self { .init(.failedDependencyException) }
     /// An unknown internal error occurred in the service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested operation is not yet available. Check the service documentation for a list of supported operations.
+    public static var notImplementedOperationException: Self { .init(.notImplementedOperationException) }
     /// The requested data store was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request exceeds the service quota.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The user has exceeded their maximum number of allowed calls to the given API.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You are not authorized to make this request. Verify that your AWS credentials are valid and that you have the required permissions.
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// The content type in your request is not supported. Use a supported content type for this operation.
+    public static var unsupportedMIMETypeException: Self { .init(.unsupportedMIMETypeException) }
     /// The user input parameter was invalid.
     public static var validationException: Self { .init(.validationException) }
 }

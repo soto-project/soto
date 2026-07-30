@@ -343,6 +343,105 @@ public struct EMRServerless: AWSService {
         return try await self.getJobRun(input, logger: logger)
     }
 
+    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
+    @Sendable
+    @inlinable
+    public func getResourceDashboard(_ input: GetResourceDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceDashboardResponse {
+        try await self.client.execute(
+            operation: "GetResourceDashboard", 
+            path: "/applications/{applicationId}/dashboard", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a URL that you can use to access the application UIs for a specified resource, such as a session. For resources in a running state, the application UI is a live user interface such as the Spark web UI. For terminated resources, the application UI is a persistent application user interface such as the Spark History Server.  The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application that the resource belongs to.
+    ///   - resourceId: The ID of the resource.
+    ///   - resourceType: The type of resource to access the dashboard for. Currently, only Session is supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceDashboard(
+        applicationId: String,
+        resourceId: String,
+        resourceType: ResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceDashboardResponse {
+        let input = GetResourceDashboardRequest(
+            applicationId: applicationId, 
+            resourceId: resourceId, 
+            resourceType: resourceType
+        )
+        return try await self.getResourceDashboard(input, logger: logger)
+    }
+
+    /// Displays detailed information about a session.
+    @Sendable
+    @inlinable
+    public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
+        try await self.client.execute(
+            operation: "GetSession", 
+            path: "/applications/{applicationId}/sessions/{sessionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Displays detailed information about a session.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application that the session belongs to.
+    ///   - sessionId: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSession(
+        applicationId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionResponse {
+        let input = GetSessionRequest(
+            applicationId: applicationId, 
+            sessionId: sessionId
+        )
+        return try await self.getSession(input, logger: logger)
+    }
+
+    /// Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token.
+    @Sendable
+    @inlinable
+    public func getSessionEndpoint(_ input: GetSessionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEndpointResponse {
+        try await self.client.execute(
+            operation: "GetSessionEndpoint", 
+            path: "/applications/{applicationId}/sessions/{sessionId}/endpoint", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the session endpoint URL and a time-limited authentication token for the specified session. Use the endpoint and token to connect a client to the session. Call this operation again when the authentication token expires to obtain a new token.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application that the session belongs to.
+    ///   - sessionId: The ID of the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSessionEndpoint(
+        applicationId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionEndpointResponse {
+        let input = GetSessionEndpointRequest(
+            applicationId: applicationId, 
+            sessionId: sessionId
+        )
+        return try await self.getSessionEndpoint(input, logger: logger)
+    }
+
     /// Lists applications based on a set of parameters.
     @Sendable
     @inlinable
@@ -463,6 +562,50 @@ public struct EMRServerless: AWSService {
         return try await self.listJobRuns(input, logger: logger)
     }
 
+    /// Lists sessions for the specified application. You can filter sessions by state and creation time.
+    @Sendable
+    @inlinable
+    public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
+        try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/applications/{applicationId}/sessions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists sessions for the specified application. You can filter sessions by state and creation time.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application to list sessions for.
+    ///   - createdAtAfter: The lower bound of the option to filter by creation date and time.
+    ///   - createdAtBefore: The upper bound of the option to filter by creation date and time.
+    ///   - maxResults: The maximum number of sessions to return in each page of results.
+    ///   - nextToken: The token for the next set of session results.
+    ///   - states: An optional filter for session states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSessions(
+        applicationId: String,
+        createdAtAfter: Date? = nil,
+        createdAtBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        states: [SessionState]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSessionsResponse {
+        let input = ListSessionsRequest(
+            applicationId: applicationId, 
+            createdAtAfter: createdAtAfter, 
+            createdAtBefore: createdAtBefore, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            states: states
+        )
+        return try await self.listSessions(input, logger: logger)
+    }
+
     /// Lists the tags assigned to the resources.
     @Sendable
     @inlinable
@@ -580,6 +723,53 @@ public struct EMRServerless: AWSService {
         return try await self.startJobRun(input, logger: logger)
     }
 
+    /// Creates and starts a new session on the specified application. The application must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later.
+    @Sendable
+    @inlinable
+    public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSessionResponse {
+        try await self.client.execute(
+            operation: "StartSession", 
+            path: "/applications/{applicationId}/sessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates and starts a new session on the specified application. The application must be in the STARTED state or have AutoStart enabled, and have interactive sessions enabled. This operation is supported for EMR release 7.13.0 and later.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application on which to start the session.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token, the server returns the successful response without performing the operation again.
+    ///   - configurationOverrides: The configuration overrides for the session. Only runtime configuration overrides are supported.
+    ///   - executionRoleArn: The execution role ARN for the session. Amazon EMR Serverless uses this role to access Amazon Web Services resources on your behalf during session execution.
+    ///   - idleTimeoutMinutes: The idle timeout in minutes for the session. After the session remains idle for this duration, Amazon EMR Serverless automatically terminates it.
+    ///   - name: The optional name for the session.
+    ///   - tags: The tags to assign to the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSession(
+        applicationId: String,
+        clientToken: String = StartSessionRequest.idempotencyToken(),
+        configurationOverrides: SessionConfigurationOverrides? = nil,
+        executionRoleArn: String,
+        idleTimeoutMinutes: Int64? = nil,
+        name: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSessionResponse {
+        let input = StartSessionRequest(
+            applicationId: applicationId, 
+            clientToken: clientToken, 
+            configurationOverrides: configurationOverrides, 
+            executionRoleArn: executionRoleArn, 
+            idleTimeoutMinutes: idleTimeoutMinutes, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.startSession(input, logger: logger)
+    }
+
     /// Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
     @Sendable
     @inlinable
@@ -639,6 +829,38 @@ public struct EMRServerless: AWSService {
             tags: tags
         )
         return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Terminates the specified session. After you terminate a session, it enters the TERMINATING state and then the TERMINATED state. You can still access the Spark History Server for a terminated session through the GetResourceDashboard operation.
+    @Sendable
+    @inlinable
+    public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateSessionResponse {
+        try await self.client.execute(
+            operation: "TerminateSession", 
+            path: "/applications/{applicationId}/sessions/{sessionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Terminates the specified session. After you terminate a session, it enters the TERMINATING state and then the TERMINATED state. You can still access the Spark History Server for a terminated session through the GetResourceDashboard operation.
+    ///
+    /// Parameters:
+    ///   - applicationId: The ID of the application that the session belongs to.
+    ///   - sessionId: The ID of the session to terminate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func terminateSession(
+        applicationId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TerminateSessionResponse {
+        let input = TerminateSessionRequest(
+            applicationId: applicationId, 
+            sessionId: sessionId
+        )
+        return try await self.terminateSession(input, logger: logger)
     }
 
     /// Removes tags from resources.
@@ -892,6 +1114,52 @@ extension EMRServerless {
         )
         return self.listJobRunsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationId: The ID of the application to list sessions for.
+    ///   - createdAtAfter: The lower bound of the option to filter by creation date and time.
+    ///   - createdAtBefore: The upper bound of the option to filter by creation date and time.
+    ///   - maxResults: The maximum number of sessions to return in each page of results.
+    ///   - states: An optional filter for session states. Note that if this filter contains multiple states, the resulting list will be grouped by the state.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        applicationId: String,
+        createdAtAfter: Date? = nil,
+        createdAtBefore: Date? = nil,
+        maxResults: Int? = nil,
+        states: [SessionState]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        let input = ListSessionsRequest(
+            applicationId: applicationId, 
+            createdAtAfter: createdAtAfter, 
+            createdAtBefore: createdAtBefore, 
+            maxResults: maxResults, 
+            states: states
+        )
+        return self.listSessionsPaginator(input, logger: logger)
+    }
 }
 
 extension EMRServerless.ListApplicationsRequest: AWSPaginateToken {
@@ -926,6 +1194,20 @@ extension EMRServerless.ListJobRunsRequest: AWSPaginateToken {
             createdAtBefore: self.createdAtBefore,
             maxResults: self.maxResults,
             mode: self.mode,
+            nextToken: token,
+            states: self.states
+        )
+    }
+}
+
+extension EMRServerless.ListSessionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EMRServerless.ListSessionsRequest {
+        return .init(
+            applicationId: self.applicationId,
+            createdAtAfter: self.createdAtAfter,
+            createdAtBefore: self.createdAtBefore,
+            maxResults: self.maxResults,
             nextToken: token,
             states: self.states
         )

@@ -72,6 +72,28 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preview = "PREVIEW"
+        case published = "PUBLISHED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentOwnershipFilterAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentName = "AGENT_NAME"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AggType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `var` = "VAR"
         case average = "AVERAGE"
@@ -255,6 +277,19 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case serviceAccount = "SERVICE_ACCOUNT"
+        case threeLeggedOauth = "THREE_LEGGED_OAUTH"
+        case twoLeggedOauth = "TWO_LEGGED_OAUTH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthenticationMethodOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activeDirectory = "ACTIVE_DIRECTORY"
         case iamAndQuicksight = "IAM_AND_QUICKSIGHT"
@@ -264,6 +299,7 @@ extension QuickSight {
     }
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case keypair = "KEYPAIR"
         case password = "PASSWORD"
         case token = "TOKEN"
         case x509 = "X509"
@@ -288,6 +324,15 @@ extension QuickSight {
 
     public enum AuthorizationCodeGrantCredentialsSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case plainCredentials = "PLAIN_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutomationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -341,6 +386,7 @@ extension QuickSight {
     }
 
     public enum CapabilityState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
         case deny = "DENY"
         public var description: String { return self.rawValue }
     }
@@ -456,6 +502,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case stringEquals = "StringEquals"
+        case stringLike = "StringLike"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConditionalFormattingIconDisplayOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iconOnly = "ICON_ONLY"
         public var description: String { return self.rawValue }
@@ -505,6 +557,20 @@ extension QuickSight {
         case contributionPercentage = "CONTRIBUTION_PERCENTAGE"
         case deviationFromExpected = "DEVIATION_FROM_EXPECTED"
         case percentageDifference = "PERCENTAGE_DIFFERENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ControlSortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        case userDefinedOrder = "USER_DEFINED_ORDER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CredentialStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authFailed = "AUTH_FAILED"
+        case connected = "CONNECTED"
+        case notVerified = "NOT_VERIFIED"
         public var description: String { return self.rawValue }
     }
 
@@ -644,6 +710,15 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataSetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataSetStringComparisonFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contains = "CONTAINS"
         case doesNotContain = "DOES_NOT_CONTAIN"
@@ -711,6 +786,7 @@ extension QuickSight {
         case redshift = "REDSHIFT"
         case s3 = "S3"
         case s3KnowledgeBase = "S3_KNOWLEDGE_BASE"
+        case s3Tables = "S3_TABLES"
         case salesforce = "SALESFORCE"
         case servicenow = "SERVICENOW"
         case sharepoint = "SHAREPOINT"
@@ -806,6 +882,11 @@ extension QuickSight {
         case stdevp = "STDEVP"
         case sum = "SUM"
         case varp = "VARP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DefaultCategoryEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case denyByDefault = "DENY_BY_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
@@ -1075,6 +1156,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IncludeFolderMembers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case oneLevel = "ONE_LEVEL"
@@ -1210,6 +1297,44 @@ extension QuickSight {
     public enum KPIVisualStandardLayoutType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case classic = "CLASSIC"
         case vertical = "VERTICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KbIngestionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case incomplete = "INCOMPLETE"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KnowledgeBaseSearchFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case datasourceArn = "DATASOURCE_ARN"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case knowledgeBaseId = "KNOWLEDGE_BASE_ID"
+        case knowledgeBaseName = "KNOWLEDGE_BASE_NAME"
+        case knowledgeBaseSizeBytes = "KNOWLEDGE_BASE_SIZE_BYTES"
+        case primaryOwner = "PRIMARY_OWNER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KnowledgeBaseSearchOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
+        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
+        case stringEquals = "STRING_EQUALS"
+        case stringLike = "STRING_LIKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KnowledgeBaseSortByField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createdAt = "CREATED_AT"
+        case knowledgeBaseSizeBytes = "KNOWLEDGE_BASE_SIZE_BYTES"
         public var description: String { return self.rawValue }
     }
 
@@ -1420,6 +1545,11 @@ extension QuickSight {
         case comma = "COMMA"
         case dot = "DOT"
         case space = "SPACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OAuthClientAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case token = "TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -1726,6 +1856,7 @@ extension QuickSight {
     public enum SelectedTooltipType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case detailed = "DETAILED"
+        case sheet = "SHEET"
         public var description: String { return self.rawValue }
     }
 
@@ -1753,6 +1884,7 @@ extension QuickSight {
 
     public enum ServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case athena = "ATHENA"
+        case glueDataCatalog = "GLUE_DATA_CATALOG"
         case qbusiness = "QBUSINESS"
         case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
@@ -1873,6 +2005,52 @@ extension QuickSight {
     public enum SortDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpaceQuickSightResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionConnector = "ACTION_CONNECTOR"
+        case dashboard = "DASHBOARD"
+        case dataSet = "DATA_SET"
+        case knowledgeBase = "KNOWLEDGE_BASE"
+        case topic = "TOPIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpaceQuickSightSearchFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case consumedSourceSize = "CONSUMED_SOURCE_SIZE"
+        case contributedBy = "CONTRIBUTED_BY"
+        case createdBy = "CREATED_BY"
+        case directQuicksightOwner = "DIRECT_QUICKSIGHT_OWNER"
+        case directQuicksightSoleOwner = "DIRECT_QUICKSIGHT_SOLE_OWNER"
+        case directQuicksightViewerOrOwner = "DIRECT_QUICKSIGHT_VIEWER_OR_OWNER"
+        case spaceId = "SPACE_ID"
+        case spaceName = "SPACE_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpaceSearchOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case numberRange = "NUMBER_RANGE"
+        case stringEquals = "STRING_EQUALS"
+        case stringLike = "STRING_LIKE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SparklineAxisBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case independent = "INDEPENDENT"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SparklineVisualType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case areaLine = "AREA_LINE"
+        case line = "LINE"
         public var description: String { return self.rawValue }
     }
 
@@ -2138,6 +2316,17 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum UserIndexCapacitySortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case totalCapacityBytes = "TOTAL_CAPACITY_BYTES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserIndexCapacitySortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case admin = "ADMIN"
         case adminPro = "ADMIN_PRO"
@@ -2187,6 +2376,18 @@ extension QuickSight {
         case bottom = "BOTTOM"
         case middle = "MIDDLE"
         case top = "TOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoExtractionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audioTranscriptionOnly = "AUDIO_TRANSCRIPTION_ONLY"
+        case visualContentAndAudioTranscription = "VISUAL_CONTENT_AND_AUDIO_TRANSCRIPTION"
         public var description: String { return self.rawValue }
     }
 
@@ -2323,6 +2524,37 @@ extension QuickSight {
         }
     }
 
+    public enum CustomPromptInput: AWSEncodableShape, Sendable {
+        /// An existing custom prompt profile to use for the agent.
+        case existingPrompt(CustomPromptProfile)
+        /// New custom prompt parameters to configure for the agent.
+        case newPrompt(CustomPromptInputParameters)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .existingPrompt(let value):
+                try container.encode(value, forKey: .existingPrompt)
+            case .newPrompt(let value):
+                try container.encode(value, forKey: .newPrompt)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .existingPrompt(let value):
+                try value.validate(name: "\(name).existingPrompt")
+            case .newPrompt(let value):
+                try value.validate(name: "\(name).newPrompt")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingPrompt = "ExistingPrompt"
+            case newPrompt = "NewPrompt"
+        }
+    }
+
     public enum DataSourceParameters: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The parameters for OpenSearch.
         case amazonElasticsearchParameters(AmazonElasticsearchParameters)
@@ -2346,6 +2578,10 @@ extension QuickSight {
         case databricksParameters(DatabricksParameters)
         /// The parameters for Exasol.
         case exasolParameters(ExasolParameters)
+        /// The parameters for a fully managed knowledge base data source.
+        case fmkbParameters(FMKBParameters)
+        /// The parameters for a Google Drive data source.
+        case googleDriveParameters(GoogleDriveParameters)
         /// The parameters for Impala.
         case impalaParameters(ImpalaParameters)
         /// The parameters for Jira.
@@ -2354,6 +2590,8 @@ extension QuickSight {
         case mariaDbParameters(MariaDbParameters)
         /// The parameters for MySQL.
         case mySqlParameters(MySqlParameters)
+        /// The parameters for an OneDrive data source.
+        case oneDriveParameters(OneDriveParameters)
         /// The parameters for Oracle.
         case oracleParameters(OracleParameters)
         /// The parameters for PostgreSQL.
@@ -2370,8 +2608,12 @@ extension QuickSight {
         case s3KnowledgeBaseParameters(S3KnowledgeBaseParameters)
         /// The parameters for S3.
         case s3Parameters(S3Parameters)
+        /// The parameters for S3 Tables.
+        case s3TablesParameters(S3TablesParameters)
         /// The parameters for ServiceNow.
         case serviceNowParameters(ServiceNowParameters)
+        /// The parameters for a SharePoint data source.
+        case sharePointParameters(SharePointParameters)
         /// The parameters for Snowflake.
         case snowflakeParameters(SnowflakeParameters)
         /// The parameters for Spark.
@@ -2432,6 +2674,12 @@ extension QuickSight {
             case .exasolParameters:
                 let value = try container.decode(ExasolParameters.self, forKey: .exasolParameters)
                 self = .exasolParameters(value)
+            case .fmkbParameters:
+                let value = try container.decode(FMKBParameters.self, forKey: .fmkbParameters)
+                self = .fmkbParameters(value)
+            case .googleDriveParameters:
+                let value = try container.decode(GoogleDriveParameters.self, forKey: .googleDriveParameters)
+                self = .googleDriveParameters(value)
             case .impalaParameters:
                 let value = try container.decode(ImpalaParameters.self, forKey: .impalaParameters)
                 self = .impalaParameters(value)
@@ -2444,6 +2692,9 @@ extension QuickSight {
             case .mySqlParameters:
                 let value = try container.decode(MySqlParameters.self, forKey: .mySqlParameters)
                 self = .mySqlParameters(value)
+            case .oneDriveParameters:
+                let value = try container.decode(OneDriveParameters.self, forKey: .oneDriveParameters)
+                self = .oneDriveParameters(value)
             case .oracleParameters:
                 let value = try container.decode(OracleParameters.self, forKey: .oracleParameters)
                 self = .oracleParameters(value)
@@ -2468,9 +2719,15 @@ extension QuickSight {
             case .s3Parameters:
                 let value = try container.decode(S3Parameters.self, forKey: .s3Parameters)
                 self = .s3Parameters(value)
+            case .s3TablesParameters:
+                let value = try container.decode(S3TablesParameters.self, forKey: .s3TablesParameters)
+                self = .s3TablesParameters(value)
             case .serviceNowParameters:
                 let value = try container.decode(ServiceNowParameters.self, forKey: .serviceNowParameters)
                 self = .serviceNowParameters(value)
+            case .sharePointParameters:
+                let value = try container.decode(SharePointParameters.self, forKey: .sharePointParameters)
+                self = .sharePointParameters(value)
             case .snowflakeParameters:
                 let value = try container.decode(SnowflakeParameters.self, forKey: .snowflakeParameters)
                 self = .snowflakeParameters(value)
@@ -2523,6 +2780,10 @@ extension QuickSight {
                 try container.encode(value, forKey: .databricksParameters)
             case .exasolParameters(let value):
                 try container.encode(value, forKey: .exasolParameters)
+            case .fmkbParameters(let value):
+                try container.encode(value, forKey: .fmkbParameters)
+            case .googleDriveParameters(let value):
+                try container.encode(value, forKey: .googleDriveParameters)
             case .impalaParameters(let value):
                 try container.encode(value, forKey: .impalaParameters)
             case .jiraParameters(let value):
@@ -2531,6 +2792,8 @@ extension QuickSight {
                 try container.encode(value, forKey: .mariaDbParameters)
             case .mySqlParameters(let value):
                 try container.encode(value, forKey: .mySqlParameters)
+            case .oneDriveParameters(let value):
+                try container.encode(value, forKey: .oneDriveParameters)
             case .oracleParameters(let value):
                 try container.encode(value, forKey: .oracleParameters)
             case .postgreSqlParameters(let value):
@@ -2547,8 +2810,12 @@ extension QuickSight {
                 try container.encode(value, forKey: .s3KnowledgeBaseParameters)
             case .s3Parameters(let value):
                 try container.encode(value, forKey: .s3Parameters)
+            case .s3TablesParameters(let value):
+                try container.encode(value, forKey: .s3TablesParameters)
             case .serviceNowParameters(let value):
                 try container.encode(value, forKey: .serviceNowParameters)
+            case .sharePointParameters(let value):
+                try container.encode(value, forKey: .sharePointParameters)
             case .snowflakeParameters(let value):
                 try container.encode(value, forKey: .snowflakeParameters)
             case .sparkParameters(let value):
@@ -2590,6 +2857,8 @@ extension QuickSight {
                 try value.validate(name: "\(name).databricksParameters")
             case .exasolParameters(let value):
                 try value.validate(name: "\(name).exasolParameters")
+            case .fmkbParameters(let value):
+                try value.validate(name: "\(name).fmkbParameters")
             case .impalaParameters(let value):
                 try value.validate(name: "\(name).impalaParameters")
             case .jiraParameters(let value):
@@ -2598,6 +2867,8 @@ extension QuickSight {
                 try value.validate(name: "\(name).mariaDbParameters")
             case .mySqlParameters(let value):
                 try value.validate(name: "\(name).mySqlParameters")
+            case .oneDriveParameters(let value):
+                try value.validate(name: "\(name).oneDriveParameters")
             case .oracleParameters(let value):
                 try value.validate(name: "\(name).oracleParameters")
             case .postgreSqlParameters(let value):
@@ -2614,8 +2885,12 @@ extension QuickSight {
                 try value.validate(name: "\(name).s3KnowledgeBaseParameters")
             case .s3Parameters(let value):
                 try value.validate(name: "\(name).s3Parameters")
+            case .s3TablesParameters(let value):
+                try value.validate(name: "\(name).s3TablesParameters")
             case .serviceNowParameters(let value):
                 try value.validate(name: "\(name).serviceNowParameters")
+            case .sharePointParameters(let value):
+                try value.validate(name: "\(name).sharePointParameters")
             case .snowflakeParameters(let value):
                 try value.validate(name: "\(name).snowflakeParameters")
             case .sparkParameters(let value):
@@ -2649,10 +2924,13 @@ extension QuickSight {
             case customConnectionParameters = "CustomConnectionParameters"
             case databricksParameters = "DatabricksParameters"
             case exasolParameters = "ExasolParameters"
+            case fmkbParameters = "FMKBParameters"
+            case googleDriveParameters = "GoogleDriveParameters"
             case impalaParameters = "ImpalaParameters"
             case jiraParameters = "JiraParameters"
             case mariaDbParameters = "MariaDbParameters"
             case mySqlParameters = "MySqlParameters"
+            case oneDriveParameters = "OneDriveParameters"
             case oracleParameters = "OracleParameters"
             case postgreSqlParameters = "PostgreSqlParameters"
             case prestoParameters = "PrestoParameters"
@@ -2661,7 +2939,9 @@ extension QuickSight {
             case redshiftParameters = "RedshiftParameters"
             case s3KnowledgeBaseParameters = "S3KnowledgeBaseParameters"
             case s3Parameters = "S3Parameters"
+            case s3TablesParameters = "S3TablesParameters"
             case serviceNowParameters = "ServiceNowParameters"
+            case sharePointParameters = "SharePointParameters"
             case snowflakeParameters = "SnowflakeParameters"
             case sparkParameters = "SparkParameters"
             case sqlServerParameters = "SqlServerParameters"
@@ -2767,9 +3047,11 @@ extension QuickSight {
     public enum PhysicalTable: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A physical table type built from the results of the custom SQL query.
         case customSql(CustomSql)
+        /// A physical table type for a file data source.
+        case fileSource(FileSource)
         /// A physical table type for relational data sources.
         case relationalTable(RelationalTable)
-        /// A physical table type for as S3 data source.
+        /// A physical table type for an S3 data source.
         case s3Source(S3Source)
         /// A physical table type for Software-as-a-Service (SaaS) sources.
         case saaSTable(SaaSTable)
@@ -2787,6 +3069,9 @@ extension QuickSight {
             case .customSql:
                 let value = try container.decode(CustomSql.self, forKey: .customSql)
                 self = .customSql(value)
+            case .fileSource:
+                let value = try container.decode(FileSource.self, forKey: .fileSource)
+                self = .fileSource(value)
             case .relationalTable:
                 let value = try container.decode(RelationalTable.self, forKey: .relationalTable)
                 self = .relationalTable(value)
@@ -2804,6 +3089,8 @@ extension QuickSight {
             switch self {
             case .customSql(let value):
                 try container.encode(value, forKey: .customSql)
+            case .fileSource(let value):
+                try container.encode(value, forKey: .fileSource)
             case .relationalTable(let value):
                 try container.encode(value, forKey: .relationalTable)
             case .s3Source(let value):
@@ -2817,6 +3104,8 @@ extension QuickSight {
             switch self {
             case .customSql(let value):
                 try value.validate(name: "\(name).customSql")
+            case .fileSource(let value):
+                try value.validate(name: "\(name).fileSource")
             case .relationalTable(let value):
                 try value.validate(name: "\(name).relationalTable")
             case .s3Source(let value):
@@ -2828,6 +3117,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case customSql = "CustomSql"
+            case fileSource = "FileSource"
             case relationalTable = "RelationalTable"
             case s3Source = "S3Source"
             case saaSTable = "SaaSTable"
@@ -3024,6 +3314,37 @@ extension QuickSight {
         }
     }
 
+    public enum UserIndexCapacityFilter: AWSEncodableShape, Sendable {
+        /// Filter users by total capacity range in bytes.
+        case totalCapacityBytes(CapacityBytesRangeFilter)
+        /// Filter users by username or email prefix.
+        case userNameOrEmail(UserNameOrEmailFilter)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .totalCapacityBytes(let value):
+                try container.encode(value, forKey: .totalCapacityBytes)
+            case .userNameOrEmail(let value):
+                try container.encode(value, forKey: .userNameOrEmail)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .totalCapacityBytes(let value):
+                try value.validate(name: "\(name).totalCapacityBytes")
+            case .userNameOrEmail(let value):
+                try value.validate(name: "\(name).userNameOrEmail")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalCapacityBytes = "totalCapacityBytes"
+            case userNameOrEmail = "userNameOrEmail"
+        }
+    }
+
     // MARK: Shapes
 
     public struct APIKeyConnectionMetadata: AWSEncodableShape {
@@ -3052,6 +3373,20 @@ extension QuickSight {
             case apiKey = "ApiKey"
             case baseEndpoint = "BaseEndpoint"
             case email = "Email"
+        }
+    }
+
+    public struct AccessControlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether ACLs are enabled for the knowledge base.
+        public let isACLEnabled: Bool?
+
+        @inlinable
+        public init(isACLEnabled: Bool? = nil) {
+            self.isACLEnabled = isACLEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isACLEnabled = "isACLEnabled"
         }
     }
 
@@ -3327,6 +3662,158 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct AdditionalNotes: AWSEncodableShape & AWSDecodableShape {
+        /// The additional notes text.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 2000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct Agent: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the action connectors attached to the agent.
+        public let actionConnectors: [String]?
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The lifecycle state of the agent. Valid values are PREVIEW and PUBLISHED.
+        public let agentLifecycle: AgentLifecycle
+        /// The status of the agent.
+        public let agentStatus: AgentStatus
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// The date and time that the agent was created.
+        public let createdAt: Date
+        /// The identity of the user who created the agent.
+        public let creator: String
+        /// The custom prompt interface configuration for the agent.
+        public let customPromptInterface: CustomPromptInterface?
+        /// A description of the agent.
+        public let description: String?
+        /// An error message associated with the agent, if applicable.
+        public let errorMessage: String?
+        /// The icon identifier for the agent.
+        public let iconId: String?
+        /// The name of the agent.
+        public let name: String
+        /// The Amazon Resource Names (ARNs) of the spaces attached to the agent.
+        public let spaces: [String]?
+        /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+        public let starterPrompts: [String]?
+        /// The date and time that the agent was last updated.
+        public let updatedAt: Date
+        /// The welcome message that is displayed when a user starts a conversation with the agent.
+        public let welcomeMessage: String?
+
+        @inlinable
+        public init(actionConnectors: [String]? = nil, agentId: String, agentLifecycle: AgentLifecycle, agentStatus: AgentStatus, arn: String, createdAt: Date, creator: String, customPromptInterface: CustomPromptInterface? = nil, description: String? = nil, errorMessage: String? = nil, iconId: String? = nil, name: String, spaces: [String]? = nil, starterPrompts: [String]? = nil, updatedAt: Date, welcomeMessage: String? = nil) {
+            self.actionConnectors = actionConnectors
+            self.agentId = agentId
+            self.agentLifecycle = agentLifecycle
+            self.agentStatus = agentStatus
+            self.arn = arn
+            self.createdAt = createdAt
+            self.creator = creator
+            self.customPromptInterface = customPromptInterface
+            self.description = description
+            self.errorMessage = errorMessage
+            self.iconId = iconId
+            self.name = name
+            self.spaces = spaces
+            self.starterPrompts = starterPrompts
+            self.updatedAt = updatedAt
+            self.welcomeMessage = welcomeMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectors = "ActionConnectors"
+            case agentId = "AgentId"
+            case agentLifecycle = "AgentLifecycle"
+            case agentStatus = "AgentStatus"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case creator = "Creator"
+            case customPromptInterface = "CustomPromptInterface"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case iconId = "IconId"
+            case name = "Name"
+            case spaces = "Spaces"
+            case starterPrompts = "StarterPrompts"
+            case updatedAt = "UpdatedAt"
+            case welcomeMessage = "WelcomeMessage"
+        }
+    }
+
+    public struct AgentSearchFilter: AWSEncodableShape {
+        /// The name of the field to filter on.
+        public let name: AgentOwnershipFilterAttribute?
+        /// The comparison operator to use for the filter.
+        public let `operator`: ComparisonOperator?
+        /// The value to filter on.
+        public let value: String?
+
+        @inlinable
+        public init(name: AgentOwnershipFilterAttribute? = nil, operator: ComparisonOperator? = nil, value: String? = nil) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
+    public struct AgentSummary: AWSDecodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// The date and time that the agent was created.
+        public let createdAt: Date
+        /// A description of the agent.
+        public let description: String?
+        /// The icon identifier for the agent.
+        public let iconId: String?
+        /// The name of the agent.
+        public let name: String
+        /// The date and time that the agent was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(agentId: String, arn: String, createdAt: Date, description: String? = nil, iconId: String? = nil, name: String, updatedAt: Date) {
+            self.agentId = agentId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.iconId = iconId
+            self.name = name
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "AgentId"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case iconId = "IconId"
+            case name = "Name"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -3680,9 +4167,11 @@ extension QuickSight {
         public let sheets: [SheetDefinition]?
         /// The static files for the definition.
         public let staticFiles: [StaticFile]?
+        /// An array of tooltip sheet definitions for an analysis. Each TooltipSheetDefinition provides detailed information about a tooltip sheet within this analysis.
+        public let tooltipSheets: [TooltipSheetDefinition]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil, tooltipSheets: [TooltipSheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -3693,6 +4182,7 @@ extension QuickSight {
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
 
         public func validate(name: String) throws {
@@ -3726,6 +4216,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).staticFiles[]")
             }
             try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
+            try self.tooltipSheets?.forEach {
+                try $0.validate(name: "\(name).tooltipSheets[]")
+            }
+            try self.validate(self.tooltipSheets, name: "tooltipSheets", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3739,6 +4233,7 @@ extension QuickSight {
             case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
             case staticFiles = "StaticFiles"
+            case tooltipSheets = "TooltipSheets"
         }
     }
 
@@ -5729,6 +6224,8 @@ extension QuickSight {
     }
 
     public struct AthenaParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Use ConsumerAccountRoleArn to perform cross-account Athena access. This is an IAM role ARN in the same AWS account as the Athena resources you want to access. Provide this along with RoleArn to enable role-chaining, where Amazon Quick Sight first assumes the RoleArn and then assumes the ConsumerAccountRoleArn to access Athena resources.
+        public let consumerAccountRoleArn: String?
         /// An optional parameter that configures IAM Identity Center authentication to grant Quick Sight access to your workgroup. This parameter can only be specified if your Quick Sight account is configured with IAM Identity Center.
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// Use the RoleArn structure to override an account-wide role for a specific Athena data source. For example, say an account administrator has turned off all Athena access with an account-wide role. The administrator can then use RoleArn to bypass the account-wide role and allow Athena access for the single Athena data source that is specified in the structure, even if the account-wide role forbidding Athena access is still active.
@@ -5737,13 +6234,16 @@ extension QuickSight {
         public let workGroup: String?
 
         @inlinable
-        public init(identityCenterConfiguration: IdentityCenterConfiguration? = nil, roleArn: String? = nil, workGroup: String? = nil) {
+        public init(consumerAccountRoleArn: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, roleArn: String? = nil, workGroup: String? = nil) {
+            self.consumerAccountRoleArn = consumerAccountRoleArn
             self.identityCenterConfiguration = identityCenterConfiguration
             self.roleArn = roleArn
             self.workGroup = workGroup
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.consumerAccountRoleArn, name: "consumerAccountRoleArn", parent: name, max: 2048)
+            try self.validate(self.consumerAccountRoleArn, name: "consumerAccountRoleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
@@ -5751,6 +6251,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumerAccountRoleArn = "ConsumerAccountRoleArn"
             case identityCenterConfiguration = "IdentityCenterConfiguration"
             case roleArn = "RoleArn"
             case workGroup = "WorkGroup"
@@ -5772,6 +6273,20 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case simpleAttributeAggregation = "SimpleAttributeAggregation"
             case valueForMultipleValues = "ValueForMultipleValues"
+        }
+    }
+
+    public struct AudioExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of audio extraction. Valid values are ENABLED and DISABLED.
+        public let audioExtractionStatus: AudioExtractionStatus
+
+        @inlinable
+        public init(audioExtractionStatus: AudioExtractionStatus) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionStatus = "audioExtractionStatus"
         }
     }
 
@@ -6651,6 +7166,117 @@ extension QuickSight {
             case succeededAnswers = "SucceededAnswers"
             case topicArn = "TopicArn"
             case topicId = "TopicId"
+        }
+    }
+
+    public struct BatchDeleteKnowledgeBaseFailure: AWSDecodableShape {
+        /// The error code for the deletion failure.
+        public let errorCode: String
+        /// The error message for the deletion failure.
+        public let errorMessage: String
+        /// The unique identifier of the knowledge base that failed to be deleted.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(errorCode: String, errorMessage: String, knowledgeBaseId: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case knowledgeBaseId = "KnowledgeBaseId"
+        }
+    }
+
+    public struct BatchDeleteKnowledgeBaseRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// A list of knowledge base identifiers to delete.
+        public let knowledgeBaseIds: [String]
+
+        @inlinable
+        public init(awsAccountId: String, knowledgeBaseIds: [String]) {
+            self.awsAccountId = awsAccountId
+            self.knowledgeBaseIds = knowledgeBaseIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.knowledgeBaseIds, forKey: .knowledgeBaseIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.knowledgeBaseIds.forEach {
+                try validate($0, name: "knowledgeBaseIds[]", parent: name, max: 1024)
+                try validate($0, name: "knowledgeBaseIds[]", parent: name, min: 1)
+                try validate($0, name: "knowledgeBaseIds[]", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+            }
+            try self.validate(self.knowledgeBaseIds, name: "knowledgeBaseIds", parent: name, max: 10)
+            try self.validate(self.knowledgeBaseIds, name: "knowledgeBaseIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseIds = "KnowledgeBaseIds"
+        }
+    }
+
+    public struct BatchDeleteKnowledgeBaseResponse: AWSDecodableShape {
+        /// A list of knowledge bases that were successfully deleted.
+        public let deleted: [BatchDeleteKnowledgeBaseSuccess]
+        /// A list of knowledge bases that failed to be deleted.
+        public let errors: [BatchDeleteKnowledgeBaseFailure]
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(deleted: [BatchDeleteKnowledgeBaseSuccess], errors: [BatchDeleteKnowledgeBaseFailure], requestId: String? = nil, status: Int? = nil) {
+            self.deleted = deleted
+            self.errors = errors
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.deleted = try container.decode([BatchDeleteKnowledgeBaseSuccess].self, forKey: .deleted)
+            self.errors = try container.decode([BatchDeleteKnowledgeBaseFailure].self, forKey: .errors)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleted = "Deleted"
+            case errors = "Errors"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct BatchDeleteKnowledgeBaseSuccess: AWSDecodableShape {
+        /// The ARN of the successfully deleted knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier of the successfully deleted knowledge base.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(knowledgeBaseArn: String, knowledgeBaseId: String) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
         }
     }
 
@@ -7652,6 +8278,8 @@ extension QuickSight {
     }
 
     public struct Capabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The ability to access the native data store for new and existing apps.
+        public let accessAppsNativeDataStore: CapabilityState?
         /// The ability to perform actions in external services through Action connectors. Actions allow users to interact with third-party systems.
         public let action: CapabilityState?
         /// The ability to add or run anomaly detection.
@@ -7668,6 +8296,8 @@ extension QuickSight {
         public let analysis: CapabilityState?
         /// The ability to review and approve sharing requests of Flows.
         public let approveFlowShareRequests: CapabilityState?
+        /// The ability to perform apps-related actions.
+        public let apps: CapabilityState?
         /// The ability to perform actions using Asana connectors.
         public let asanaAction: CapabilityState?
         /// The ability to perform automate-related actions.
@@ -7696,6 +8326,8 @@ extension QuickSight {
         public let createAndUpdateAmazonBedrockKRSAction: CapabilityState?
         /// The ability to create and update Amazon S3 actions.
         public let createAndUpdateAmazonSThreeAction: CapabilityState?
+        /// The ability to create or update apps.
+        public let createAndUpdateApps: CapabilityState?
         /// The ability to create and update Asana actions.
         public let createAndUpdateAsanaAction: CapabilityState?
         /// The ability to create and update BambooHR actions.
@@ -7790,6 +8422,8 @@ extension QuickSight {
         public let createDashboardExecutiveSummaryWithQ: CapabilityState?
         /// The ability to create shared folders.
         public let createSharedFolders: CapabilityState?
+        /// The ability to create spaces.
+        public let createSpaces: CapabilityState?
         /// The ability to create a SPICE dataset.
         public let createSPICEDataset: CapabilityState?
         /// The ability to perform dashboard-related actions.
@@ -7814,6 +8448,8 @@ extension QuickSight {
         public let factSetAction: CapabilityState?
         /// The ability to perform flow-related actions.
         public let flow: CapabilityState?
+        /// The ability to generate analysis using AI
+        public let generateAnalyses: CapabilityState?
         /// The ability to perform actions using REST API connection connectors.
         public let genericHTTPAction: CapabilityState?
         /// The ability to perform actions using GitHub connectors.
@@ -7824,10 +8460,14 @@ extension QuickSight {
         public let hubspotAction: CapabilityState?
         /// The ability to perform actions using HuggingFace connectors.
         public let huggingFaceAction: CapabilityState?
+        /// The ability to create, view, edit, delete, and run inbound email triggers for flows and automations.
+        public let inboundEmailTrigger: CapabilityState?
         /// The ability to include content in scheduled email reports.
         public let includeContentInScheduledReportsEmail: CapabilityState?
         /// The ability to perform actions using Intercom connectors.
         public let intercomAction: CapabilityState?
+        /// The ability to add and invoke AI inference in new and existing apps.
+        public let invokeAppsAIInference: CapabilityState?
         /// The ability to perform actions using Jira connectors.
         public let jiraAction: CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
@@ -7860,6 +8500,8 @@ extension QuickSight {
         public let printReports: CapabilityState?
         /// The ability to enable approvals for flow share.
         public let publishWithoutApproval: CapabilityState?
+        /// The ability to create, view, edit, delete, and run Quick event triggers for flows and automations.
+        public let quickEventTrigger: CapabilityState?
         /// The ability to rename shared folders.
         public let renameSharedFolders: CapabilityState?
         /// The ability to perform research-related actions.
@@ -7880,6 +8522,10 @@ extension QuickSight {
         public let sapPhysicalInventoryAction: CapabilityState?
         /// The ability to perform actions using SAP Product Master connectors.
         public let sapProductMasterDataAction: CapabilityState?
+        /// The ability to perform Scenario-related actions.
+        public let scenario: CapabilityState?
+        /// The ability to create, view, edit, delete, and run schedule triggers for flows and automations.
+        public let scheduleTrigger: CapabilityState?
         /// The ability to enable users to upgrade their user role.
         public let selfUpgradeUserRole: CapabilityState?
         /// The ability to perform actions using ServiceNow connectors.
@@ -7894,6 +8540,8 @@ extension QuickSight {
         public let shareAmazonSThreeAction: CapabilityState?
         /// The ability to share analyses.
         public let shareAnalyses: CapabilityState?
+        /// The ability to share apps with other users.
+        public let shareApps: CapabilityState?
         /// The ability to share Asana actions.
         public let shareAsanaAction: CapabilityState?
         /// The ability to share BambooHR actions.
@@ -7902,6 +8550,8 @@ extension QuickSight {
         public let shareBoxAgentAction: CapabilityState?
         /// The ability to share Canva Agent actions.
         public let shareCanvaAgentAction: CapabilityState?
+        /// The ability to share chat agents with other users and groups.
+        public let shareChatAgents: CapabilityState?
         /// The ability to share Comprehend actions.
         public let shareComprehendAction: CapabilityState?
         /// The ability to share Comprehend Medical actions.
@@ -7976,6 +8626,8 @@ extension QuickSight {
         public let shareSlackAction: CapabilityState?
         /// The ability to share Smartsheet actions.
         public let shareSmartsheetAction: CapabilityState?
+        /// The ability to share spaces with other users and groups.
+        public let shareSpaces: CapabilityState?
         /// The ability to share Textract actions.
         public let shareTextractAction: CapabilityState?
         /// The ability to share Zendesk actions.
@@ -7986,12 +8638,16 @@ extension QuickSight {
         public let smartsheetAction: CapabilityState?
         /// The ability to perform space-related actions.
         public let space: CapabilityState?
+        /// The ability to perform Story-related actions.
+        public let story: CapabilityState?
         /// The ability to subscribe to email reports.
         public let subscribeDashboardEmailReports: CapabilityState?
         /// The ability to perform actions using Textract connectors.
         public let textractAction: CapabilityState?
         /// The ability to perform Topic-related actions.
         public let topic: CapabilityState?
+        /// The ability to manage trigger-related settings for flows and automations.
+        public let trigger: CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research.
         /// 	          Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public let useAgentWebSearch: CapabilityState?
@@ -8011,6 +8667,8 @@ extension QuickSight {
         public let useBedrockModels: CapabilityState?
         /// The ability to use Box Agent actions.
         public let useBoxAgentAction: CapabilityState?
+        /// The ability to use Amazon Quick through the browser extension for Chrome, Firefox, and Edge.
+        public let useBrowserExtension: CapabilityState?
         /// The ability to use Canva Agent actions.
         public let useCanvaAgentAction: CapabilityState?
         /// The ability to use Comprehend actions.
@@ -8019,6 +8677,8 @@ extension QuickSight {
         public let useComprehendMedicalAction: CapabilityState?
         /// The ability to use Atlassian Confluence Cloud actions.
         public let useConfluenceAction: CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Excel add-in.
+        public let useExcelAddInExtension: CapabilityState?
         /// The ability to use FactSet actions.
         public let useFactSetAction: CapabilityState?
         /// The ability to use REST API connection actions.
@@ -8053,8 +8713,12 @@ extension QuickSight {
         public let useOneDriveAction: CapabilityState?
         /// The ability to use OpenAPI Specification actions.
         public let useOpenAPIAction: CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Outlook add-in.
+        public let useOutlookAddInExtension: CapabilityState?
         /// The ability to use PagerDuty Advance actions.
         public let usePagerDutyAction: CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft PowerPoint add-in.
+        public let usePowerpointAddInExtension: CapabilityState?
         /// The ability to use Salesforce actions.
         public let useSalesforceAction: CapabilityState?
         /// The ability to use S&P Global Energy actions.
@@ -8081,6 +8745,8 @@ extension QuickSight {
         public let useSmartsheetAction: CapabilityState?
         /// The ability to use Textract actions.
         public let useTextractAction: CapabilityState?
+        /// The ability to use Amazon Quick through the Microsoft Word add-in.
+        public let useWordAddInExtension: CapabilityState?
         /// The ability to use Zendesk actions.
         public let useZendeskAction: CapabilityState?
         /// The ability to view account SPICE capacity.
@@ -8089,7 +8755,8 @@ extension QuickSight {
         public let zendeskAction: CapabilityState?
 
         @inlinable
-        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, approveFlowShareRequests: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, buildCalculatedFieldWithQ: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createDashboardExecutiveSummaryWithQ: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, editVisualWithQ: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, extension: CapabilityState? = nil, factSetAction: CapabilityState? = nil, flow: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, manageSharedFolders: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, topic: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, zendeskAction: CapabilityState? = nil) {
+        public init(accessAppsNativeDataStore: CapabilityState? = nil, action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, approveFlowShareRequests: CapabilityState? = nil, apps: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, buildCalculatedFieldWithQ: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateApps: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createDashboardExecutiveSummaryWithQ: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSpaces: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, editVisualWithQ: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, extension: CapabilityState? = nil, factSetAction: CapabilityState? = nil, flow: CapabilityState? = nil, generateAnalyses: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, inboundEmailTrigger: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, invokeAppsAIInference: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, manageSharedFolders: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, quickEventTrigger: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, scenario: CapabilityState? = nil, scheduleTrigger: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareApps: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareChatAgents: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareSpaces: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, space: CapabilityState? = nil, story: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, topic: CapabilityState? = nil, trigger: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useBrowserExtension: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useExcelAddInExtension: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, useOutlookAddInExtension: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, usePowerpointAddInExtension: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useWordAddInExtension: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, zendeskAction: CapabilityState? = nil) {
+            self.accessAppsNativeDataStore = accessAppsNativeDataStore
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
             self.amazonBedrockARSAction = amazonBedrockARSAction
@@ -8098,6 +8765,7 @@ extension QuickSight {
             self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
             self.approveFlowShareRequests = approveFlowShareRequests
+            self.apps = apps
             self.asanaAction = asanaAction
             self.automate = automate
             self.bambooHRAction = bambooHRAction
@@ -8112,6 +8780,7 @@ extension QuickSight {
             self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
             self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
             self.createAndUpdateAmazonSThreeAction = createAndUpdateAmazonSThreeAction
+            self.createAndUpdateApps = createAndUpdateApps
             self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
             self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
             self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
@@ -8159,6 +8828,7 @@ extension QuickSight {
             self.createChatAgents = createChatAgents
             self.createDashboardExecutiveSummaryWithQ = createDashboardExecutiveSummaryWithQ
             self.createSharedFolders = createSharedFolders
+            self.createSpaces = createSpaces
             self.createSPICEDataset = createSPICEDataset
             self.dashboard = dashboard
             self.editVisualWithQ = editVisualWithQ
@@ -8171,13 +8841,16 @@ extension QuickSight {
             self.`extension` = `extension`
             self.factSetAction = factSetAction
             self.flow = flow
+            self.generateAnalyses = generateAnalyses
             self.genericHTTPAction = genericHTTPAction
             self.githubAction = githubAction
             self.googleCalendarAction = googleCalendarAction
             self.hubspotAction = hubspotAction
             self.huggingFaceAction = huggingFaceAction
+            self.inboundEmailTrigger = inboundEmailTrigger
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
             self.intercomAction = intercomAction
+            self.invokeAppsAIInference = invokeAppsAIInference
             self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
             self.linearAction = linearAction
@@ -8194,6 +8867,7 @@ extension QuickSight {
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
+            self.quickEventTrigger = quickEventTrigger
             self.renameSharedFolders = renameSharedFolders
             self.research = research
             self.salesforceAction = salesforceAction
@@ -8204,6 +8878,8 @@ extension QuickSight {
             self.sapMaterialStockAction = sapMaterialStockAction
             self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
             self.sapProductMasterDataAction = sapProductMasterDataAction
+            self.scenario = scenario
+            self.scheduleTrigger = scheduleTrigger
             self.selfUpgradeUserRole = selfUpgradeUserRole
             self.serviceNowAction = serviceNowAction
             self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
@@ -8211,10 +8887,12 @@ extension QuickSight {
             self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
             self.shareAmazonSThreeAction = shareAmazonSThreeAction
             self.shareAnalyses = shareAnalyses
+            self.shareApps = shareApps
             self.shareAsanaAction = shareAsanaAction
             self.shareBambooHRAction = shareBambooHRAction
             self.shareBoxAgentAction = shareBoxAgentAction
             self.shareCanvaAgentAction = shareCanvaAgentAction
+            self.shareChatAgents = shareChatAgents
             self.shareComprehendAction = shareComprehendAction
             self.shareComprehendMedicalAction = shareComprehendMedicalAction
             self.shareConfluenceAction = shareConfluenceAction
@@ -8252,14 +8930,17 @@ extension QuickSight {
             self.shareSharePointAction = shareSharePointAction
             self.shareSlackAction = shareSlackAction
             self.shareSmartsheetAction = shareSmartsheetAction
+            self.shareSpaces = shareSpaces
             self.shareTextractAction = shareTextractAction
             self.shareZendeskAction = shareZendeskAction
             self.slackAction = slackAction
             self.smartsheetAction = smartsheetAction
             self.space = space
+            self.story = story
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
             self.textractAction = textractAction
             self.topic = topic
+            self.trigger = trigger
             self.useAgentWebSearch = useAgentWebSearch
             self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
             self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
@@ -8269,10 +8950,12 @@ extension QuickSight {
             self.useBambooHRAction = useBambooHRAction
             self.useBedrockModels = useBedrockModels
             self.useBoxAgentAction = useBoxAgentAction
+            self.useBrowserExtension = useBrowserExtension
             self.useCanvaAgentAction = useCanvaAgentAction
             self.useComprehendAction = useComprehendAction
             self.useComprehendMedicalAction = useComprehendMedicalAction
             self.useConfluenceAction = useConfluenceAction
+            self.useExcelAddInExtension = useExcelAddInExtension
             self.useFactSetAction = useFactSetAction
             self.useGenericHTTPAction = useGenericHTTPAction
             self.useGithubAction = useGithubAction
@@ -8290,7 +8973,9 @@ extension QuickSight {
             self.useNotionAction = useNotionAction
             self.useOneDriveAction = useOneDriveAction
             self.useOpenAPIAction = useOpenAPIAction
+            self.useOutlookAddInExtension = useOutlookAddInExtension
             self.usePagerDutyAction = usePagerDutyAction
+            self.usePowerpointAddInExtension = usePowerpointAddInExtension
             self.useSalesforceAction = useSalesforceAction
             self.useSandPGlobalEnergyAction = useSandPGlobalEnergyAction
             self.useSandPGMIAction = useSandPGMIAction
@@ -8304,12 +8989,14 @@ extension QuickSight {
             self.useSlackAction = useSlackAction
             self.useSmartsheetAction = useSmartsheetAction
             self.useTextractAction = useTextractAction
+            self.useWordAddInExtension = useWordAddInExtension
             self.useZendeskAction = useZendeskAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
             self.zendeskAction = zendeskAction
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessAppsNativeDataStore = "AccessAppsNativeDataStore"
             case action = "Action"
             case addOrRunAnomalyDetectionForAnalyses = "AddOrRunAnomalyDetectionForAnalyses"
             case amazonBedrockARSAction = "AmazonBedrockARSAction"
@@ -8318,6 +9005,7 @@ extension QuickSight {
             case amazonSThreeAction = "AmazonSThreeAction"
             case analysis = "Analysis"
             case approveFlowShareRequests = "ApproveFlowShareRequests"
+            case apps = "Apps"
             case asanaAction = "AsanaAction"
             case automate = "Automate"
             case bambooHRAction = "BambooHRAction"
@@ -8332,6 +9020,7 @@ extension QuickSight {
             case createAndUpdateAmazonBedrockFSAction = "CreateAndUpdateAmazonBedrockFSAction"
             case createAndUpdateAmazonBedrockKRSAction = "CreateAndUpdateAmazonBedrockKRSAction"
             case createAndUpdateAmazonSThreeAction = "CreateAndUpdateAmazonSThreeAction"
+            case createAndUpdateApps = "CreateAndUpdateApps"
             case createAndUpdateAsanaAction = "CreateAndUpdateAsanaAction"
             case createAndUpdateBambooHRAction = "CreateAndUpdateBambooHRAction"
             case createAndUpdateBoxAgentAction = "CreateAndUpdateBoxAgentAction"
@@ -8379,6 +9068,7 @@ extension QuickSight {
             case createChatAgents = "CreateChatAgents"
             case createDashboardExecutiveSummaryWithQ = "CreateDashboardExecutiveSummaryWithQ"
             case createSharedFolders = "CreateSharedFolders"
+            case createSpaces = "CreateSpaces"
             case createSPICEDataset = "CreateSPICEDataset"
             case dashboard = "Dashboard"
             case editVisualWithQ = "EditVisualWithQ"
@@ -8391,13 +9081,16 @@ extension QuickSight {
             case `extension` = "Extension"
             case factSetAction = "FactSetAction"
             case flow = "Flow"
+            case generateAnalyses = "GenerateAnalyses"
             case genericHTTPAction = "GenericHTTPAction"
             case githubAction = "GithubAction"
             case googleCalendarAction = "GoogleCalendarAction"
             case hubspotAction = "HubspotAction"
             case huggingFaceAction = "HuggingFaceAction"
+            case inboundEmailTrigger = "InboundEmailTrigger"
             case includeContentInScheduledReportsEmail = "IncludeContentInScheduledReportsEmail"
             case intercomAction = "IntercomAction"
+            case invokeAppsAIInference = "InvokeAppsAIInference"
             case jiraAction = "JiraAction"
             case knowledgeBase = "KnowledgeBase"
             case linearAction = "LinearAction"
@@ -8414,6 +9107,7 @@ extension QuickSight {
             case performFlowUiTask = "PerformFlowUiTask"
             case printReports = "PrintReports"
             case publishWithoutApproval = "PublishWithoutApproval"
+            case quickEventTrigger = "QuickEventTrigger"
             case renameSharedFolders = "RenameSharedFolders"
             case research = "Research"
             case salesforceAction = "SalesforceAction"
@@ -8424,6 +9118,8 @@ extension QuickSight {
             case sapMaterialStockAction = "SAPMaterialStockAction"
             case sapPhysicalInventoryAction = "SAPPhysicalInventoryAction"
             case sapProductMasterDataAction = "SAPProductMasterDataAction"
+            case scenario = "Scenario"
+            case scheduleTrigger = "ScheduleTrigger"
             case selfUpgradeUserRole = "SelfUpgradeUserRole"
             case serviceNowAction = "ServiceNowAction"
             case shareAmazonBedrockARSAction = "ShareAmazonBedrockARSAction"
@@ -8431,10 +9127,12 @@ extension QuickSight {
             case shareAmazonBedrockKRSAction = "ShareAmazonBedrockKRSAction"
             case shareAmazonSThreeAction = "ShareAmazonSThreeAction"
             case shareAnalyses = "ShareAnalyses"
+            case shareApps = "ShareApps"
             case shareAsanaAction = "ShareAsanaAction"
             case shareBambooHRAction = "ShareBambooHRAction"
             case shareBoxAgentAction = "ShareBoxAgentAction"
             case shareCanvaAgentAction = "ShareCanvaAgentAction"
+            case shareChatAgents = "ShareChatAgents"
             case shareComprehendAction = "ShareComprehendAction"
             case shareComprehendMedicalAction = "ShareComprehendMedicalAction"
             case shareConfluenceAction = "ShareConfluenceAction"
@@ -8472,14 +9170,17 @@ extension QuickSight {
             case shareSharePointAction = "ShareSharePointAction"
             case shareSlackAction = "ShareSlackAction"
             case shareSmartsheetAction = "ShareSmartsheetAction"
+            case shareSpaces = "ShareSpaces"
             case shareTextractAction = "ShareTextractAction"
             case shareZendeskAction = "ShareZendeskAction"
             case slackAction = "SlackAction"
             case smartsheetAction = "SmartsheetAction"
             case space = "Space"
+            case story = "Story"
             case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
             case textractAction = "TextractAction"
             case topic = "Topic"
+            case trigger = "Trigger"
             case useAgentWebSearch = "UseAgentWebSearch"
             case useAmazonBedrockARSAction = "UseAmazonBedrockARSAction"
             case useAmazonBedrockFSAction = "UseAmazonBedrockFSAction"
@@ -8489,10 +9190,12 @@ extension QuickSight {
             case useBambooHRAction = "UseBambooHRAction"
             case useBedrockModels = "UseBedrockModels"
             case useBoxAgentAction = "UseBoxAgentAction"
+            case useBrowserExtension = "UseBrowserExtension"
             case useCanvaAgentAction = "UseCanvaAgentAction"
             case useComprehendAction = "UseComprehendAction"
             case useComprehendMedicalAction = "UseComprehendMedicalAction"
             case useConfluenceAction = "UseConfluenceAction"
+            case useExcelAddInExtension = "UseExcelAddInExtension"
             case useFactSetAction = "UseFactSetAction"
             case useGenericHTTPAction = "UseGenericHTTPAction"
             case useGithubAction = "UseGithubAction"
@@ -8510,7 +9213,9 @@ extension QuickSight {
             case useNotionAction = "UseNotionAction"
             case useOneDriveAction = "UseOneDriveAction"
             case useOpenAPIAction = "UseOpenAPIAction"
+            case useOutlookAddInExtension = "UseOutlookAddInExtension"
             case usePagerDutyAction = "UsePagerDutyAction"
+            case usePowerpointAddInExtension = "UsePowerpointAddInExtension"
             case useSalesforceAction = "UseSalesforceAction"
             case useSandPGlobalEnergyAction = "UseSandPGlobalEnergyAction"
             case useSandPGMIAction = "UseSandPGMIAction"
@@ -8524,9 +9229,33 @@ extension QuickSight {
             case useSlackAction = "UseSlackAction"
             case useSmartsheetAction = "UseSmartsheetAction"
             case useTextractAction = "UseTextractAction"
+            case useWordAddInExtension = "UseWordAddInExtension"
             case useZendeskAction = "UseZendeskAction"
             case viewAccountSPICECapacity = "ViewAccountSPICECapacity"
             case zendeskAction = "ZendeskAction"
+        }
+    }
+
+    public struct CapacityBytesRangeFilter: AWSEncodableShape {
+        /// The maximum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required.
+        public let maxBytes: Int64?
+        /// The minimum capacity in bytes (inclusive). At least one of minBytes or maxBytes is required.
+        public let minBytes: Int64?
+
+        @inlinable
+        public init(maxBytes: Int64? = nil, minBytes: Int64? = nil) {
+            self.maxBytes = maxBytes
+            self.minBytes = minBytes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBytes, name: "maxBytes", parent: name, min: 1)
+            try self.validate(self.minBytes, name: "minBytes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBytes = "maxBytes"
+            case minBytes = "minBytes"
         }
     }
 
@@ -9258,6 +9987,47 @@ extension QuickSight {
             case dataType = "DataType"
             case geographicRole = "GeographicRole"
             case name = "Name"
+        }
+    }
+
+    public struct ColumnSemanticProperty: AWSEncodableShape & AWSDecodableShape {
+        /// Additional notes for the column.
+        public let additionalNotes: AdditionalNotes?
+        /// A description of the column.
+        public let description: ColumnDescription?
+        /// The semantic type of the column.
+        public let semanticType: ColumnSemanticType?
+
+        @inlinable
+        public init(additionalNotes: AdditionalNotes? = nil, description: ColumnDescription? = nil, semanticType: ColumnSemanticType? = nil) {
+            self.additionalNotes = additionalNotes
+            self.description = description
+            self.semanticType = semanticType
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalNotes?.validate(name: "\(name).additionalNotes")
+            try self.description?.validate(name: "\(name).description")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalNotes = "AdditionalNotes"
+            case description = "Description"
+            case semanticType = "SemanticType"
+        }
+    }
+
+    public struct ColumnSemanticType: AWSEncodableShape & AWSDecodableShape {
+        /// The geographical role of the column in the new data preparation experience.
+        public let geographicalRole: GeoSpatialDataRole?
+
+        @inlinable
+        public init(geographicalRole: GeoSpatialDataRole? = nil) {
+            self.geographicalRole = geographicalRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case geographicalRole = "GeographicalRole"
         }
     }
 
@@ -10207,6 +10977,75 @@ extension QuickSight {
         }
     }
 
+    public struct ControlSortConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration for controls that are tied to a dataset column. Use this option to sort control values by an aggregate of a column.
+        public let controlColumnSort: AggregationSortConfiguration?
+        /// The sort configuration for user-specified values in the control. Use this option to sort values that are manually entered by users in a dropdown or list control.
+        public let selectableValuesSort: SelectableValuesSort?
+
+        @inlinable
+        public init(controlColumnSort: AggregationSortConfiguration? = nil, selectableValuesSort: SelectableValuesSort? = nil) {
+            self.controlColumnSort = controlColumnSort
+            self.selectableValuesSort = selectableValuesSort
+        }
+
+        public func validate(name: String) throws {
+            try self.controlColumnSort?.validate(name: "\(name).controlColumnSort")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlColumnSort = "ControlColumnSort"
+            case selectableValuesSort = "SelectableValuesSort"
+        }
+    }
+
+    public struct ControlTitleFontConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the font settings for the control title.
+        public let fontConfiguration: FontConfiguration?
+        /// Determines the alignment of the control title.
+        public let textAlignment: HorizontalTextAlignment?
+
+        @inlinable
+        public init(fontConfiguration: FontConfiguration? = nil, textAlignment: HorizontalTextAlignment? = nil) {
+            self.fontConfiguration = fontConfiguration
+            self.textAlignment = textAlignment
+        }
+
+        public func validate(name: String) throws {
+            try self.fontConfiguration?.validate(name: "\(name).fontConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontConfiguration = "FontConfiguration"
+            case textAlignment = "TextAlignment"
+        }
+    }
+
+    public struct ControlTitleFormatText: AWSEncodableShape & AWSDecodableShape {
+        /// The plain text format of the title text.
+        public let plainText: String?
+        /// The rich text format of the title text.
+        public let richText: String?
+
+        @inlinable
+        public init(plainText: String? = nil, richText: String? = nil) {
+            self.plainText = plainText
+            self.richText = richText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.plainText, name: "plainText", parent: name, max: 2048)
+            try self.validate(self.plainText, name: "plainText", parent: name, min: 1)
+            try self.validate(self.richText, name: "richText", parent: name, max: 4096)
+            try self.validate(self.richText, name: "richText", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case plainText = "PlainText"
+            case richText = "RichText"
+        }
+    }
+
     public struct Coordinate: AWSEncodableShape & AWSDecodableShape {
         /// The latitude coordinate value for the geocode preference.
         public let latitude: Double
@@ -10594,6 +11433,129 @@ extension QuickSight {
         }
     }
 
+    public struct CreateAgentRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+        public let actionConnectors: [String]?
+        /// A unique identifier for the agent.
+        public let agentId: String
+        /// The lifecycle state of the agent. Valid values are PREVIEW and PUBLISHED.
+        public let agentLifecycle: AgentLifecycle?
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+        /// The custom prompt configuration for the agent.
+        public let customPromptInput: CustomPromptInput?
+        /// A description of the agent.
+        public let description: String?
+        /// The icon identifier for the agent.
+        public let iconId: String?
+        /// The name of the agent.
+        public let name: String
+        /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+        public let spaces: [String]?
+        /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+        public let starterPrompts: [String]?
+        /// The welcome message that is displayed when a user starts a conversation with the agent.
+        public let welcomeMessage: String?
+
+        @inlinable
+        public init(actionConnectors: [String]? = nil, agentId: String, agentLifecycle: AgentLifecycle? = nil, awsAccountId: String, customPromptInput: CustomPromptInput? = nil, description: String? = nil, iconId: String? = nil, name: String, spaces: [String]? = nil, starterPrompts: [String]? = nil, welcomeMessage: String? = nil) {
+            self.actionConnectors = actionConnectors
+            self.agentId = agentId
+            self.agentLifecycle = agentLifecycle
+            self.awsAccountId = awsAccountId
+            self.customPromptInput = customPromptInput
+            self.description = description
+            self.iconId = iconId
+            self.name = name
+            self.spaces = spaces
+            self.starterPrompts = starterPrompts
+            self.welcomeMessage = welcomeMessage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actionConnectors, forKey: .actionConnectors)
+            try container.encode(self.agentId, forKey: .agentId)
+            try container.encodeIfPresent(self.agentLifecycle, forKey: .agentLifecycle)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customPromptInput, forKey: .customPromptInput)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.iconId, forKey: .iconId)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.spaces, forKey: .spaces)
+            try container.encodeIfPresent(self.starterPrompts, forKey: .starterPrompts)
+            try container.encodeIfPresent(self.welcomeMessage, forKey: .welcomeMessage)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectors, name: "actionConnectors", parent: name, max: 10)
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 256)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z-_.+]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.customPromptInput?.validate(name: "\(name).customPromptInput")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.iconId, name: "iconId", parent: name, max: 200)
+            try self.validate(self.iconId, name: "iconId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$).+$")
+            try self.validate(self.spaces, name: "spaces", parent: name, max: 10)
+            try self.starterPrompts?.forEach {
+                try validate($0, name: "starterPrompts[]", parent: name, max: 100)
+            }
+            try self.validate(self.starterPrompts, name: "starterPrompts", parent: name, max: 3)
+            try self.validate(self.welcomeMessage, name: "welcomeMessage", parent: name, max: 300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectors = "ActionConnectors"
+            case agentId = "AgentId"
+            case agentLifecycle = "AgentLifecycle"
+            case customPromptInput = "CustomPromptInput"
+            case description = "Description"
+            case iconId = "IconId"
+            case name = "Name"
+            case spaces = "Spaces"
+            case starterPrompts = "StarterPrompts"
+            case welcomeMessage = "WelcomeMessage"
+        }
+    }
+
+    public struct CreateAgentResponse: AWSDecodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The name of the agent.
+        public let agentName: String
+        /// The status of the agent.
+        public let agentStatus: AgentStatus
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agentId: String, agentName: String, agentStatus: AgentStatus, arn: String, requestId: String? = nil) {
+            self.agentId = agentId
+            self.agentName = agentName
+            self.agentStatus = agentStatus
+            self.arn = arn
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "AgentId"
+            case agentName = "AgentName"
+            case agentStatus = "AgentStatus"
+            case arn = "Arn"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CreateAnalysisRequest: AWSEncodableShape {
         /// The ID for the analysis that you're creating. This ID displays in the URL of the analysis.
         public let analysisId: String
@@ -10835,14 +11797,17 @@ extension QuickSight {
         public let capabilities: Capabilities?
         /// The name of the custom permissions profile that you want to create.
         public let customPermissionsName: String
+        /// The governance configuration for the custom permissions profile. When governance controls are defined for a category, any capabilities in that category not explicitly set to ALLOW in Capabilities are denied. Even newly added capabilities in the category are implicitly disabled when Amazon Quick releases them.
+        public let governance: Governance?
         /// The tags to associate with the custom permissions profile.
         public let tags: [Tag]?
 
         @inlinable
-        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String, governance: Governance? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.capabilities = capabilities
             self.customPermissionsName = customPermissionsName
+            self.governance = governance
             self.tags = tags
         }
 
@@ -10852,6 +11817,7 @@ extension QuickSight {
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
             try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
             try container.encode(self.customPermissionsName, forKey: .customPermissionsName)
+            try container.encodeIfPresent(self.governance, forKey: .governance)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -10862,6 +11828,7 @@ extension QuickSight {
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+            try self.governance?.validate(name: "\(name).governance")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -10872,6 +11839,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case capabilities = "Capabilities"
             case customPermissionsName = "CustomPermissionsName"
+            case governance = "Governance"
             case tags = "Tags"
         }
     }
@@ -11457,6 +12425,100 @@ extension QuickSight {
         }
     }
 
+    public struct CreateFlowRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account where you want to create the flow.
+        public let awsAccountId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The description for the flow.
+        public let description: String?
+        /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change.  Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+        public let flowDefinition: AWSDocument
+        /// The display name for the flow.
+        public let name: String
+        /// Initial permissions for the flow. If omitted, the flow is created without any permissions.
+        public let permissions: [Permission]?
+
+        @inlinable
+        public init(awsAccountId: String, clientToken: String? = CreateFlowRequest.idempotencyToken(), description: String? = nil, flowDefinition: AWSDocument, name: String, permissions: [Permission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.clientToken = clientToken
+            self.description = description
+            self.flowDefinition = flowDefinition
+            self.name = name
+            self.permissions = permissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.flowDefinition, forKey: .flowDefinition)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(?!\\s+$)[^{}\"\\\\<>]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s+$)[^{}\"\\\\<>]*$")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case flowDefinition = "FlowDefinition"
+            case name = "Name"
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct CreateFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String, flowId: String, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.flowId = flowId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.flowId = try container.decode(String.self, forKey: .flowId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case flowId = "FlowId"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CreateFolderMembershipRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
@@ -11975,6 +13037,137 @@ extension QuickSight {
         }
     }
 
+    public struct CreateKnowledgeBaseRequest: AWSEncodableShape {
+        /// The access control configuration for the knowledge base. If you don't specify this parameter, document-level ACLs are disabled.
+        public let accessControlConfiguration: AccessControlConfiguration?
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The Amazon Resource Name (ARN) of the data source for the knowledge base.
+        public let dataSourceArn: String
+        /// A description for the knowledge base. If you don't specify a description, the knowledge base is created without one.
+        public let description: String?
+        public let knowledgeBaseConfiguration: KnowledgeBaseConfiguration
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
+        /// The name of the knowledge base.
+        public let name: String
+        /// A list of resource permissions on the knowledge base. Each entry grants a specified Amazon QuickSight principal either owner or viewer access. If you don't specify permissions, only the primary owner (if provided) receives owner access.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Resource Name (ARN) of the primary owner for the knowledge base. The specified user is always granted owner access, regardless of what is specified in the Permissions field. If you don't specify a primary owner, the knowledge base is created without one.
+        public let primaryOwnerArn: String?
+        /// The tags to assign to the knowledge base. If you don't specify tags, the knowledge base is created without tags.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(accessControlConfiguration: AccessControlConfiguration? = nil, awsAccountId: String, dataSourceArn: String, description: String? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, name: String, permissions: [ResourcePermission]? = nil, primaryOwnerArn: String? = nil, tags: [Tag]? = nil) {
+            self.accessControlConfiguration = accessControlConfiguration
+            self.awsAccountId = awsAccountId
+            self.dataSourceArn = dataSourceArn
+            self.description = description
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.knowledgeBaseId = knowledgeBaseId
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.name = name
+            self.permissions = permissions
+            self.primaryOwnerArn = primaryOwnerArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessControlConfiguration, forKey: .accessControlConfiguration)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.dataSourceArn, forKey: .dataSourceArn)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.knowledgeBaseConfiguration, forKey: .knowledgeBaseConfiguration)
+            try container.encode(self.knowledgeBaseId, forKey: .knowledgeBaseId)
+            try container.encodeIfPresent(self.mediaExtractionConfiguration, forKey: .mediaExtractionConfiguration)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.permissions, forKey: .permissions)
+            try container.encodeIfPresent(self.primaryOwnerArn, forKey: .primaryOwnerArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, max: 1284)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}][\\p{L}\\p{N} _\\-\\.]*$")
+            try self.permissions?.forEach {
+                try $0.validate(name: "\(name).permissions[]")
+            }
+            try self.validate(self.permissions, name: "permissions", parent: name, max: 64)
+            try self.validate(self.permissions, name: "permissions", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlConfiguration = "AccessControlConfiguration"
+            case dataSourceArn = "DataSourceArn"
+            case description = "Description"
+            case knowledgeBaseConfiguration = "KnowledgeBaseConfiguration"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case mediaExtractionConfiguration = "MediaExtractionConfiguration"
+            case name = "Name"
+            case permissions = "Permissions"
+            case primaryOwnerArn = "PrimaryOwnerArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateKnowledgeBaseResponse: AWSDecodableShape {
+        /// The creation status of the knowledge base.
+        public let creationStatus: DataSetStatus
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(creationStatus: DataSetStatus, knowledgeBaseArn: String, knowledgeBaseId: String, requestId: String? = nil, status: Int? = nil) {
+            self.creationStatus = creationStatus
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.creationStatus = try container.decode(DataSetStatus.self, forKey: .creationStatus)
+            self.knowledgeBaseArn = try container.decode(String.self, forKey: .knowledgeBaseArn)
+            self.knowledgeBaseId = try container.decode(String.self, forKey: .knowledgeBaseId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationStatus = "CreationStatus"
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CreateNamespaceRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that you want to create the Quick Sight namespace in.
         public let awsAccountId: String
@@ -12067,6 +13260,149 @@ extension QuickSight {
             case creationStatus = "CreationStatus"
             case identityStore = "IdentityStore"
             case name = "Name"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct CreateOAuthClientApplicationRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The client ID of the OAuth application that is registered with the identity provider.
+        public let clientId: String
+        /// The client secret of the OAuth application that is registered with the identity provider.
+        public let clientSecret: String
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public let dataSourceType: DataSourceType?
+        public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
+        /// The display name for the OAuthClientApplication.
+        public let name: String
+        /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+        public let oAuthAuthorizationEndpointUrl: String?
+        /// An ID for the OAuthClientApplication that you want to create. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String
+        /// The authentication type to use for the OAuthClientApplication. This determines the OAuth 2.0 grant flow that is used when the data source connects to the identity provider. Valid values are TOKEN.
+        public let oAuthClientAuthenticationType: OAuthClientAuthenticationType
+        /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+        public let oAuthScopes: String?
+        /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+        public let oAuthTokenEndpointUrl: String
+        /// Contains a map of the key-value pairs for the resource tag or tags assigned to the OAuthClientApplication.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(awsAccountId: String, clientId: String, clientSecret: String, dataSourceType: DataSourceType? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, name: String, oAuthAuthorizationEndpointUrl: String? = nil, oAuthClientApplicationId: String, oAuthClientAuthenticationType: OAuthClientAuthenticationType, oAuthScopes: String? = nil, oAuthTokenEndpointUrl: String, tags: [Tag]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.name = name
+            self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+            self.oAuthScopes = oAuthScopes
+            self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.clientId, forKey: .clientId)
+            try container.encode(self.clientSecret, forKey: .clientSecret)
+            try container.encodeIfPresent(self.dataSourceType, forKey: .dataSourceType)
+            try container.encodeIfPresent(self.identityProviderVpcConnectionProperties, forKey: .identityProviderVpcConnectionProperties)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.oAuthAuthorizationEndpointUrl, forKey: .oAuthAuthorizationEndpointUrl)
+            try container.encode(self.oAuthClientApplicationId, forKey: .oAuthClientApplicationId)
+            try container.encode(self.oAuthClientAuthenticationType, forKey: .oAuthClientAuthenticationType)
+            try container.encodeIfPresent(self.oAuthScopes, forKey: .oAuthScopes)
+            try container.encode(self.oAuthTokenEndpointUrl, forKey: .oAuthTokenEndpointUrl)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 256)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 2048)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, max: 2048)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, min: 1)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, pattern: "^https://[^\\p{Cc}]+$")
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, max: 256)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, min: 1)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, pattern: "^[^/][^\\p{Cc}]*$")
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, max: 4096)
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, min: 1)
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, max: 2048)
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, min: 1)
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, pattern: "^https://[^\\p{Cc}]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case dataSourceType = "DataSourceType"
+            case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
+            case name = "Name"
+            case oAuthAuthorizationEndpointUrl = "OAuthAuthorizationEndpointUrl"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
+            case oAuthClientAuthenticationType = "OAuthClientAuthenticationType"
+            case oAuthScopes = "OAuthScopes"
+            case oAuthTokenEndpointUrl = "OAuthTokenEndpointUrl"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateOAuthClientApplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public let arn: String?
+        /// The status of creating the OAuthClientApplication.
+        public let creationStatus: ResourceStatus?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String? = nil, creationStatus: ResourceStatus? = nil, oAuthClientApplicationId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.creationStatus = creationStatus
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.creationStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .creationStatus)
+            self.oAuthClientApplicationId = try container.decodeIfPresent(String.self, forKey: .oAuthClientApplicationId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationStatus = "CreationStatus"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
             case requestId = "RequestId"
         }
     }
@@ -12201,6 +13537,76 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
+        }
+    }
+
+    public struct CreateSpaceRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// A description of the space.
+        public let description: String?
+        /// A display name for the space.
+        public let name: String
+        /// The ID of the space. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, description: String? = nil, name: String, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.name = name
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.spaceId, forKey: .spaceId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\P{C}\\n\\r\\t\\f\\v\\p{Cf}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\P{C}\\n\\r\\t\\f\\v\\p{Cf}]*$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case spaceId = "SpaceId"
+        }
+    }
+
+    public struct CreateSpaceResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
         }
     }
 
@@ -13369,6 +14775,24 @@ extension QuickSight {
         }
     }
 
+    public struct CustomInstruction: AWSEncodableShape & AWSDecodableShape {
+        /// An inline custom instruction containing text and optional uploaded document metadata.
+        public let inlineCustomInstruction: InlineCustomInstruction?
+
+        @inlinable
+        public init(inlineCustomInstruction: InlineCustomInstruction? = nil) {
+            self.inlineCustomInstruction = inlineCustomInstruction
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineCustomInstruction?.validate(name: "\(name).inlineCustomInstruction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineCustomInstruction = "InlineCustomInstruction"
+        }
+    }
+
     public struct CustomInstructions: AWSEncodableShape & AWSDecodableShape {
         /// A text field for providing additional guidance or context for response generation.
         public let customInstructionsString: String
@@ -13445,18 +14869,150 @@ extension QuickSight {
         public let capabilities: Capabilities?
         /// The name of the custom permissions profile.
         public let customPermissionsName: String?
+        /// The governance configuration for the custom permissions profile. When you enable governance for a category, Amazon Quick denies access to any current or new capability in that category unless you explicitly set that capability to ALLOW in Capabilities.
+        public let governance: Governance?
 
         @inlinable
-        public init(arn: String? = nil, capabilities: Capabilities? = nil, customPermissionsName: String? = nil) {
+        public init(arn: String? = nil, capabilities: Capabilities? = nil, customPermissionsName: String? = nil, governance: Governance? = nil) {
             self.arn = arn
             self.capabilities = capabilities
             self.customPermissionsName = customPermissionsName
+            self.governance = governance
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case capabilities = "Capabilities"
             case customPermissionsName = "CustomPermissionsName"
+            case governance = "Governance"
+        }
+    }
+
+    public struct CustomPromptInputParameters: AWSEncodableShape {
+        /// Custom instructions for the agent's behavior.
+        public let customInstructions: String?
+        /// Instructions that define the agent's identity and persona.
+        public let identity: String?
+        /// Instructions for the desired output style.
+        public let outputStyle: String?
+        /// Instructions for the desired response length.
+        public let responseLength: String?
+        /// Instructions for the desired tone of responses.
+        public let tone: String?
+
+        @inlinable
+        public init(customInstructions: String? = nil, identity: String? = nil, outputStyle: String? = nil, responseLength: String? = nil, tone: String? = nil) {
+            self.customInstructions = customInstructions
+            self.identity = identity
+            self.outputStyle = outputStyle
+            self.responseLength = responseLength
+            self.tone = tone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, max: 350000)
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, min: 5)
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.identity, name: "identity", parent: name, max: 350000)
+            try self.validate(self.identity, name: "identity", parent: name, min: 5)
+            try self.validate(self.identity, name: "identity", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, max: 350000)
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, min: 5)
+            try self.validate(self.outputStyle, name: "outputStyle", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.responseLength, name: "responseLength", parent: name, max: 350000)
+            try self.validate(self.responseLength, name: "responseLength", parent: name, min: 5)
+            try self.validate(self.responseLength, name: "responseLength", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.tone, name: "tone", parent: name, max: 350000)
+            try self.validate(self.tone, name: "tone", parent: name, min: 5)
+            try self.validate(self.tone, name: "tone", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customInstructions = "CustomInstructions"
+            case identity = "Identity"
+            case outputStyle = "OutputStyle"
+            case responseLength = "ResponseLength"
+            case tone = "Tone"
+        }
+    }
+
+    public struct CustomPromptInterface: AWSDecodableShape {
+        /// Custom instructions for the agent's behavior.
+        public let customInstructions: String?
+        /// Instructions that define the agent's identity and persona.
+        public let identity: String?
+        /// The identifier of the model profile.
+        public let modelProfileId: String
+        /// Instructions for the desired output style.
+        public let outputStyle: String?
+        /// A summary of the custom prompt configuration.
+        public let promptSummary: String?
+        /// The Amazon Web Services account ID for the Q Business service.
+        public let qbsAwsAccountId: String
+        /// Instructions for the desired response length.
+        public let responseLength: String?
+        /// The subscription identifier.
+        public let subscriptionId: String
+        /// Instructions for the desired tone of responses.
+        public let tone: String?
+
+        @inlinable
+        public init(customInstructions: String? = nil, identity: String? = nil, modelProfileId: String, outputStyle: String? = nil, promptSummary: String? = nil, qbsAwsAccountId: String, responseLength: String? = nil, subscriptionId: String, tone: String? = nil) {
+            self.customInstructions = customInstructions
+            self.identity = identity
+            self.modelProfileId = modelProfileId
+            self.outputStyle = outputStyle
+            self.promptSummary = promptSummary
+            self.qbsAwsAccountId = qbsAwsAccountId
+            self.responseLength = responseLength
+            self.subscriptionId = subscriptionId
+            self.tone = tone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customInstructions = "CustomInstructions"
+            case identity = "Identity"
+            case modelProfileId = "ModelProfileId"
+            case outputStyle = "OutputStyle"
+            case promptSummary = "promptSummary"
+            case qbsAwsAccountId = "QbsAwsAccountId"
+            case responseLength = "ResponseLength"
+            case subscriptionId = "SubscriptionId"
+            case tone = "Tone"
+        }
+    }
+
+    public struct CustomPromptProfile: AWSEncodableShape {
+        /// The identifier of the model profile.
+        public let modelProfileId: String
+        /// The Amazon Web Services account ID for the Q Business service.
+        public let qbsAwsAccountId: String
+        /// The subscription identifier.
+        public let subscriptionId: String
+
+        @inlinable
+        public init(modelProfileId: String, qbsAwsAccountId: String, subscriptionId: String) {
+            self.modelProfileId = modelProfileId
+            self.qbsAwsAccountId = qbsAwsAccountId
+            self.subscriptionId = subscriptionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelProfileId, name: "modelProfileId", parent: name, max: 36)
+            try self.validate(self.modelProfileId, name: "modelProfileId", parent: name, min: 36)
+            try self.validate(self.modelProfileId, name: "modelProfileId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.qbsAwsAccountId, name: "qbsAwsAccountId", parent: name, max: 15)
+            try self.validate(self.qbsAwsAccountId, name: "qbsAwsAccountId", parent: name, min: 15)
+            try self.validate(self.qbsAwsAccountId, name: "qbsAwsAccountId", parent: name, pattern: "^QBS[0-9]{12}$")
+            try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, max: 32)
+            try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, min: 32)
+            try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, pattern: "^[a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelProfileId = "ModelProfileId"
+            case qbsAwsAccountId = "QbsAwsAccountId"
+            case subscriptionId = "SubscriptionId"
         }
     }
 
@@ -13574,6 +15130,20 @@ extension QuickSight {
             case linkEntities = "LinkEntities"
             case name = "Name"
             case version = "Version"
+        }
+    }
+
+    public struct DashboardCustomizationSummaryConfigurations: AWSEncodableShape {
+        /// The enabled status of the dashboard customization summary configuration for an embedded Quick Sight dashboard.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -13878,9 +15448,11 @@ extension QuickSight {
         public let sheets: [SheetDefinition]?
         /// The static files for the definition.
         public let staticFiles: [StaticFile]?
+        /// An array of tooltip sheet definitions for a dashboard.
+        public let tooltipSheets: [TooltipSheetDefinition]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetIdentifierDeclarations: [DataSetIdentifierDeclaration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil, tooltipSheets: [TooltipSheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -13890,6 +15462,7 @@ extension QuickSight {
             self.parameterDeclarations = parameterDeclarations
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
 
         public func validate(name: String) throws {
@@ -13923,6 +15496,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).staticFiles[]")
             }
             try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
+            try self.tooltipSheets?.forEach {
+                try $0.validate(name: "\(name).tooltipSheets[]")
+            }
+            try self.validate(self.tooltipSheets, name: "tooltipSheets", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13935,6 +15512,7 @@ extension QuickSight {
             case parameterDeclarations = "ParameterDeclarations"
             case sheets = "Sheets"
             case staticFiles = "StaticFiles"
+            case tooltipSheets = "TooltipSheets"
         }
     }
 
@@ -15091,6 +16669,52 @@ extension QuickSight {
         }
     }
 
+    public struct DataSetSemanticDescription: AWSEncodableShape & AWSDecodableShape {
+        /// The descriptive text for the dataset.
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 500)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct DataSetSemanticMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// A list of custom instructions that guide how the dataset should be consumed.
+        public let customInstructions: [CustomInstruction]?
+        /// A description of the dataset.
+        public let description: DataSetSemanticDescription?
+
+        @inlinable
+        public init(customInstructions: [CustomInstruction]? = nil, description: DataSetSemanticDescription? = nil) {
+            self.customInstructions = customInstructions
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.customInstructions?.forEach {
+                try $0.validate(name: "\(name).customInstructions[]")
+            }
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, max: 2)
+            try self.validate(self.customInstructions, name: "customInstructions", parent: name, min: 1)
+            try self.description?.validate(name: "\(name).description")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customInstructions = "CustomInstructions"
+            case description = "Description"
+        }
+    }
+
     public struct DataSetStringComparisonFilterCondition: AWSEncodableShape & AWSDecodableShape {
         /// The comparison operator to use, such as EQUALS, CONTAINS, STARTS_WITH,  ENDS_WITH, or their negations.
         public let `operator`: DataSetStringComparisonFilterOperator
@@ -15282,12 +16906,16 @@ extension QuickSight {
         public let arn: String?
         /// The time that this data source was created.
         public let createdTime: Date?
+        /// The credential verification status of the data source. Valid values include:    CONNECTED – Credential validation succeeded.    AUTH_FAILED – Credential validation failed.    NOT_VERIFIED – Credential validation has not been performed.
+        public let credentialStatus: CredentialStatus?
         /// The ID of the data source. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
         public let dataSourceId: String?
         /// The parameters that Quick Sight uses to connect to your underlying source. This is a variant type structure. For this structure to be valid, only one of the attributes can be non-null.
         public let dataSourceParameters: DataSourceParameters?
         /// Error information from the last update or the creation of the data source.
         public let errorInfo: DataSourceErrorInfo?
+        /// The time that the credentials were last verified.
+        public let lastCredentialVerifiedAt: Date?
         /// The last time that this data source was updated.
         public let lastUpdatedTime: Date?
         /// A display name for the data source.
@@ -15304,13 +16932,15 @@ extension QuickSight {
         public let vpcConnectionProperties: VpcConnectionProperties?
 
         @inlinable
-        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
+        public init(alternateDataSourceParameters: [DataSourceParameters]? = nil, arn: String? = nil, createdTime: Date? = nil, credentialStatus: CredentialStatus? = nil, dataSourceId: String? = nil, dataSourceParameters: DataSourceParameters? = nil, errorInfo: DataSourceErrorInfo? = nil, lastCredentialVerifiedAt: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, secretArn: String? = nil, sslProperties: SslProperties? = nil, status: ResourceStatus? = nil, type: DataSourceType? = nil, vpcConnectionProperties: VpcConnectionProperties? = nil) {
             self.alternateDataSourceParameters = alternateDataSourceParameters
             self.arn = arn
             self.createdTime = createdTime
+            self.credentialStatus = credentialStatus
             self.dataSourceId = dataSourceId
             self.dataSourceParameters = dataSourceParameters
             self.errorInfo = errorInfo
+            self.lastCredentialVerifiedAt = lastCredentialVerifiedAt
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.secretArn = secretArn
@@ -15324,9 +16954,11 @@ extension QuickSight {
             case alternateDataSourceParameters = "AlternateDataSourceParameters"
             case arn = "Arn"
             case createdTime = "CreatedTime"
+            case credentialStatus = "CredentialStatus"
             case dataSourceId = "DataSourceId"
             case dataSourceParameters = "DataSourceParameters"
             case errorInfo = "ErrorInfo"
+            case lastCredentialVerifiedAt = "LastCredentialVerifiedAt"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case secretArn = "SecretArn"
@@ -15344,16 +16976,19 @@ extension QuickSight {
         public let credentialPair: CredentialPair?
         /// The credentials for connecting using key-pair.
         public let keyPairCredentials: KeyPairCredentials?
+        /// The OAuth client credentials for connecting to a data source using OAuth 2.0 client credentials (2LO) authentication. For more information, see  OAuthClientCredentials .
+        public let oAuthClientCredentials: OAuthClientCredentials?
         /// The Amazon Resource Name (ARN) of the secret associated with the data source in Amazon Secrets Manager.
         public let secretArn: String?
         /// The credentials for connecting through a web proxy server.
         public let webProxyCredentials: WebProxyCredentials?
 
         @inlinable
-        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, keyPairCredentials: KeyPairCredentials? = nil, secretArn: String? = nil, webProxyCredentials: WebProxyCredentials? = nil) {
+        public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil, keyPairCredentials: KeyPairCredentials? = nil, oAuthClientCredentials: OAuthClientCredentials? = nil, secretArn: String? = nil, webProxyCredentials: WebProxyCredentials? = nil) {
             self.copySourceArn = copySourceArn
             self.credentialPair = credentialPair
             self.keyPairCredentials = keyPairCredentials
+            self.oAuthClientCredentials = oAuthClientCredentials
             self.secretArn = secretArn
             self.webProxyCredentials = webProxyCredentials
         }
@@ -15362,6 +16997,7 @@ extension QuickSight {
             try self.validate(self.copySourceArn, name: "copySourceArn", parent: name, pattern: "^arn:[-a-z0-9]*:quicksight:[-a-z0-9]*:[0-9]{12}:datasource/.+$")
             try self.credentialPair?.validate(name: "\(name).credentialPair")
             try self.keyPairCredentials?.validate(name: "\(name).keyPairCredentials")
+            try self.oAuthClientCredentials?.validate(name: "\(name).oAuthClientCredentials")
             try self.validate(self.secretArn, name: "secretArn", parent: name, max: 2048)
             try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[-a-z0-9]*:secretsmanager:[-a-z0-9]*:[0-9]{12}:secret:.+$")
@@ -15372,6 +17008,7 @@ extension QuickSight {
             case copySourceArn = "CopySourceArn"
             case credentialPair = "CredentialPair"
             case keyPairCredentials = "KeyPairCredentials"
+            case oAuthClientCredentials = "OAuthClientCredentials"
             case secretArn = "SecretArn"
             case webProxyCredentials = "WebProxyCredentials"
         }
@@ -16211,23 +17848,27 @@ extension QuickSight {
     public struct DefaultFilterControlConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The control option for the DefaultFilterControlConfiguration.
         public let controlOptions: DefaultFilterControlOptions
+        /// The title text format configuration for the default filter control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(controlOptions: DefaultFilterControlOptions, title: String) {
+        public init(controlOptions: DefaultFilterControlOptions, controlTitleFormatText: ControlTitleFormatText? = nil, title: String? = nil) {
             self.controlOptions = controlOptions
+            self.controlTitleFormatText = controlTitleFormatText
             self.title = title
         }
 
         public func validate(name: String) throws {
             try self.controlOptions.validate(name: "\(name).controlOptions")
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case controlOptions = "ControlOptions"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case title = "Title"
         }
     }
@@ -16283,6 +17924,8 @@ extension QuickSight {
     public struct DefaultFilterDropDownControlOptions: AWSEncodableShape & AWSDecodableShape {
         /// The visibility configuration of the Apply button on a FilterDropDownControl.
         public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
         /// The display options of a control.
         public let displayOptions: DropDownControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -16291,20 +17934,26 @@ extension QuickSight {
         public let type: SheetControlListType?
 
         @inlinable
-        public init(commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+        public init(commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, displayOptions: DropDownControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.selectableValues?.validate(name: "\(name).selectableValues")
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
             case displayOptions = "DisplayOptions"
             case selectableValues = "SelectableValues"
             case type = "Type"
@@ -16312,6 +17961,8 @@ extension QuickSight {
     }
 
     public struct DefaultFilterListControlOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
         /// The display options of a control.
         public let displayOptions: ListControlDisplayOptions?
         /// A list of selectable values that are used in a control.
@@ -16320,18 +17971,24 @@ extension QuickSight {
         public let type: SheetControlListType?
 
         @inlinable
-        public init(displayOptions: ListControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+        public init(controlSortConfigurations: [ControlSortConfiguration]? = nil, displayOptions: ListControlDisplayOptions? = nil, selectableValues: FilterSelectableValues? = nil, type: SheetControlListType? = nil) {
+            self.controlSortConfigurations = controlSortConfigurations
             self.displayOptions = displayOptions
             self.selectableValues = selectableValues
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.selectableValues?.validate(name: "\(name).selectableValues")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlSortConfigurations = "ControlSortConfigurations"
             case displayOptions = "DisplayOptions"
             case selectableValues = "SelectableValues"
             case type = "Type"
@@ -16759,6 +18416,42 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case actionConnectorId = "ActionConnectorId"
             case arn = "Arn"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteAgentRequest: AWSEncodableShape {
+        /// The unique identifier for the agent to delete.
+        public let agentId: String
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(agentId: String, awsAccountId: String) {
+            self.agentId = agentId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "AgentId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAgentResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(requestId: String? = nil) {
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
         }
     }
@@ -17281,6 +18974,59 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteFlowRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow that you are deleting.
+        public let awsAccountId: String
+        /// The unique identifier of the flow to delete.
+        public let flowId: String
+
+        @inlinable
+        public init(awsAccountId: String, flowId: String) {
+            self.awsAccountId = awsAccountId
+            self.flowId = flowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.flowId, key: "FlowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFlowResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DeleteFolderMembershipRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
@@ -17653,6 +19399,71 @@ extension QuickSight {
         }
     }
 
+    public struct DeleteKnowledgeBaseRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(awsAccountId: String, knowledgeBaseId: String) {
+            self.awsAccountId = awsAccountId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.knowledgeBaseId, key: "KnowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteKnowledgeBaseResponse: AWSDecodableShape {
+        /// The ARN of the deleted knowledge base.
+        public let knowledgeBaseArn: String
+        /// The ID of the deleted knowledge base.
+        public let knowledgeBaseId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseArn: String, knowledgeBaseId: String, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseArn = try container.decode(String.self, forKey: .knowledgeBaseArn)
+            self.knowledgeBaseId = try container.decode(String.self, forKey: .knowledgeBaseId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DeleteNamespaceRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that you want to delete the Quick Sight namespace from.
         public let awsAccountId: String
@@ -17703,6 +19514,71 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteOAuthClientApplicationRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the OAuthClientApplication that you want to delete.
+        public let oAuthClientApplicationId: String
+
+        @inlinable
+        public init(awsAccountId: String, oAuthClientApplicationId: String) {
+            self.awsAccountId = awsAccountId
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.oAuthClientApplicationId, key: "OAuthClientApplicationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, max: 256)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, min: 1)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, pattern: "^[^/][^\\p{Cc}]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteOAuthClientApplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication that you deleted.
+        public let arn: String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String? = nil, oAuthClientApplicationId: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.oAuthClientApplicationId = try container.decodeIfPresent(String.self, forKey: .oAuthClientApplicationId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
             case requestId = "RequestId"
         }
     }
@@ -17886,6 +19762,59 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
+        }
+    }
+
+    public struct DeleteSpaceRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// The ID of the space that you want to delete.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSpaceResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
         }
     }
 
@@ -18944,6 +20873,112 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeAgentPermissionsRequest: AWSEncodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(agentId: String, awsAccountId: String) {
+            self.agentId = agentId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "AgentId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 256)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z-_.+]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAgentPermissionsResponse: AWSDecodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// The resource permissions for the agent.
+        public let permissions: [ResourcePermission]
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String
+
+        @inlinable
+        public init(agentId: String, arn: String, permissions: [ResourcePermission], requestId: String) {
+            self.agentId = agentId
+            self.arn = arn
+            self.permissions = permissions
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "AgentId"
+            case arn = "Arn"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeAgentRequest: AWSEncodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+
+        @inlinable
+        public init(agentId: String, awsAccountId: String) {
+            self.agentId = agentId
+            self.awsAccountId = awsAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "AgentId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 256)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z-_.+]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAgentResponse: AWSDecodableShape {
+        /// The full details of the agent, including its configuration, status, and associations.
+        public let agent: Agent
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agent: Agent, requestId: String? = nil) {
+            self.agent = agent
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agent = "Agent"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DescribeAnalysisDefinitionRequest: AWSEncodableShape {
         /// The ID of the analysis that you're describing. The ID is part of the URL of the analysis.
         public let analysisId: String
@@ -19421,6 +21456,95 @@ extension QuickSight {
             case requestId = "RequestId"
             case rollbackErrors = "RollbackErrors"
             case warnings = "Warnings"
+        }
+    }
+
+    public struct DescribeAutomationJobRequest: AWSEncodableShape {
+        /// The ID of the automation group that contains the automation.
+        public let automationGroupId: String
+        /// The ID of the automation that the job belongs to.
+        public let automationId: String
+        /// The ID of the Amazon Web Services account that contains the automation job.
+        public let awsAccountId: String
+        /// A Boolean value that indicates whether to include the input payload in the response. If set to true, the input payload will be included. If set to false, the input payload will be returned as null.
+        public let includeInputPayload: Bool?
+        /// A Boolean value that indicates whether to include the output payload in the response. If set to true, the output payload will be included. If set to false, the output payload will be returned as null.
+        public let includeOutputPayload: Bool?
+        /// The ID of the automation job to describe.
+        public let jobId: String
+
+        @inlinable
+        public init(automationGroupId: String, automationId: String, awsAccountId: String, includeInputPayload: Bool? = nil, includeOutputPayload: Bool? = nil, jobId: String) {
+            self.automationGroupId = automationGroupId
+            self.automationId = automationId
+            self.awsAccountId = awsAccountId
+            self.includeInputPayload = includeInputPayload
+            self.includeOutputPayload = includeOutputPayload
+            self.jobId = jobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.automationGroupId, key: "AutomationGroupId")
+            request.encodePath(self.automationId, key: "AutomationId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.includeInputPayload, key: "includeInputPayload")
+            request.encodeQuery(self.includeOutputPayload, key: "includeOutputPayload")
+            request.encodePath(self.jobId, key: "JobId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.automationGroupId, name: "automationGroupId", parent: name, pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+            try self.validate(self.automationId, name: "automationId", parent: name, pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAutomationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the automation job.
+        public let arn: String
+        /// The time that the automation job was created.
+        public let createdAt: Date?
+        /// The time that the automation job finished running.
+        public let endedAt: Date?
+        /// The input payload that was provided when the automation job was started. This field is only included when IncludeInputPayload is set to true in the request.
+        public let inputPayload: String?
+        /// The current status of the automation job.
+        public let jobStatus: AutomationJobStatus
+        /// The output payload that was generated by the automation job. This field is only included when IncludeOutputPayload is set to true in the request.
+        public let outputPayload: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The time that the automation job started running.
+        public let startedAt: Date?
+
+        @inlinable
+        public init(arn: String, createdAt: Date? = nil, endedAt: Date? = nil, inputPayload: String? = nil, jobStatus: AutomationJobStatus, outputPayload: String? = nil, requestId: String? = nil, startedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.endedAt = endedAt
+            self.inputPayload = inputPayload
+            self.jobStatus = jobStatus
+            self.outputPayload = outputPayload
+            self.requestId = requestId
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case endedAt = "EndedAt"
+            case inputPayload = "InputPayload"
+            case jobStatus = "JobStatus"
+            case outputPayload = "OutputPayload"
+            case requestId = "RequestId"
+            case startedAt = "StartedAt"
         }
     }
 
@@ -20485,6 +22609,68 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeFlowRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow that you are describing.
+        public let awsAccountId: String
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The publish state of the flow version to describe. Valid values are DRAFT, PUBLISHED,  or PENDING_APPROVAL.
+        public let publishState: FlowPublishState
+
+        @inlinable
+        public init(awsAccountId: String, flowId: String, publishState: FlowPublishState) {
+            self.awsAccountId = awsAccountId
+            self.flowId = flowId
+            self.publishState = publishState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.flowId, key: "FlowId")
+            request.encodeQuery(self.publishState, key: "publish-state")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeFlowResponse: AWSDecodableShape {
+        /// The full details of the flow.
+        public let flow: FlowDetail
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(flow: FlowDetail, requestId: String? = nil, status: Int? = nil) {
+            self.flow = flow
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.flow = try container.decode(FlowDetail.self, forKey: .flow)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flow = "Flow"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DescribeFolderPermissionsRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
@@ -21126,6 +23312,136 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeKnowledgeBasePermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(awsAccountId: String, knowledgeBaseId: String) {
+            self.awsAccountId = awsAccountId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.knowledgeBaseId, key: "KnowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKnowledgeBasePermissionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The resource permissions for the knowledge base.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseArn: String, knowledgeBaseId: String, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseArn = try container.decode(String.self, forKey: .knowledgeBaseArn)
+            self.knowledgeBaseId = try container.decode(String.self, forKey: .knowledgeBaseId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeKnowledgeBaseRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+
+        @inlinable
+        public init(awsAccountId: String, knowledgeBaseId: String) {
+            self.awsAccountId = awsAccountId
+            self.knowledgeBaseId = knowledgeBaseId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.knowledgeBaseId, key: "KnowledgeBaseId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeKnowledgeBaseResponse: AWSDecodableShape {
+        /// The knowledge base.
+        public let knowledgeBase: KnowledgeBase
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBase: KnowledgeBase, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBase = knowledgeBase
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBase = try container.decode(KnowledgeBase.self, forKey: .knowledgeBase)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBase = "KnowledgeBase"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DescribeNamespaceRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the Quick Sight namespace that you want to describe.
         public let awsAccountId: String
@@ -21181,6 +23497,66 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "Namespace"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DescribeOAuthClientApplicationRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The ID of the OAuthClientApplication that you want to describe.
+        public let oAuthClientApplicationId: String
+
+        @inlinable
+        public init(awsAccountId: String, oAuthClientApplicationId: String) {
+            self.awsAccountId = awsAccountId
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.oAuthClientApplicationId, key: "OAuthClientApplicationId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, max: 256)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, min: 1)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, pattern: "^[^/][^\\p{Cc}]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeOAuthClientApplicationResponse: AWSDecodableShape {
+        /// The information about the OAuthClientApplication.
+        public let oAuthClientApplication: OAuthClientApplication?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(oAuthClientApplication: OAuthClientApplication? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.oAuthClientApplication = oAuthClientApplication
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.oAuthClientApplication = try container.decodeIfPresent(OAuthClientApplication.self, forKey: .oAuthClientApplication)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuthClientApplication = "OAuthClientApplication"
             case requestId = "RequestId"
         }
     }
@@ -21469,6 +23845,130 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case selfUpgradeConfiguration = "SelfUpgradeConfiguration"
+        }
+    }
+
+    public struct DescribeSpacePermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// The ID of the space that you want to describe permissions for.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSpacePermissionsResponse: AWSDecodableShape {
+        /// A list of resource permissions for the space.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+        }
+    }
+
+    public struct DescribeSpaceRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// The maximum number of contributors to include in the response.
+        public let maxContributors: Int?
+        /// The ID of the space that you want to describe.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, maxContributors: Int? = nil, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.maxContributors = maxContributors
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxContributors, key: "maxContributors")
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxContributors, name: "maxContributors", parent: name, max: 100)
+            try self.validate(self.maxContributors, name: "maxContributors", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSpaceResponse: AWSDecodableShape {
+        /// A list of contributors to the space.
+        public let contributors: [SpaceContributor]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The details of the space.
+        public let space: SpaceDetails
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(contributors: [SpaceContributor]? = nil, requestId: String? = nil, space: SpaceDetails, spaceArn: String? = nil, spaceId: String) {
+            self.contributors = contributors
+            self.requestId = requestId
+            self.space = space
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contributors = "Contributors"
+            case requestId = "RequestId"
+            case space = "Space"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
         }
     }
 
@@ -22933,6 +25433,36 @@ extension QuickSight {
         }
     }
 
+    public struct FMKBParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Bedrock knowledge base.
+        public let knowledgeBaseArn: String
+        /// The IDs of the linked data sources.
+        public let linkedDataSourceIds: [String]?
+
+        @inlinable
+        public init(knowledgeBaseArn: String, linkedDataSourceIds: [String]? = nil) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.linkedDataSourceIds = linkedDataSourceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, max: 128)
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, min: 47)
+            try self.validate(self.knowledgeBaseArn, name: "knowledgeBaseArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:bedrock:[a-zA-Z0-9-]*:[0-9]{12}:knowledge-base/[0-9a-zA-Z]+$")
+            try self.linkedDataSourceIds?.forEach {
+                try validate($0, name: "linkedDataSourceIds[]", parent: name, max: 10)
+                try validate($0, name: "linkedDataSourceIds[]", parent: name, min: 1)
+                try validate($0, name: "linkedDataSourceIds[]", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            }
+            try self.validate(self.linkedDataSourceIds, name: "linkedDataSourceIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case linkedDataSourceIds = "LinkedDataSourceIds"
+        }
+    }
+
     public struct FailedKeyRegistrationEntry: AWSDecodableShape {
         /// The ARN of the KMS key that failed to update.
         public let keyArn: String?
@@ -22956,6 +25486,50 @@ extension QuickSight {
             case message = "Message"
             case senderFault = "SenderFault"
             case statusCode = "StatusCode"
+        }
+    }
+
+    public struct FailedSpaceResourceOperation: AWSDecodableShape {
+        /// The error message that describes why the operation failed.
+        public let errorMessage: String
+        /// The details of the resource.
+        public let resourceDetails: SpaceQuickSightResourceDetails?
+        /// The type of the resource.
+        public let resourceType: SpaceQuickSightResourceType
+
+        @inlinable
+        public init(errorMessage: String, resourceDetails: SpaceQuickSightResourceDetails? = nil, resourceType: SpaceQuickSightResourceType) {
+            self.errorMessage = errorMessage
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case resourceDetails = "ResourceDetails"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct FailedToUpdateAssociation: AWSDecodableShape {
+        /// The ARN that could not be added or removed.
+        public let arn: String?
+        /// The error code for the failure.
+        public let errorCode: String?
+        /// A description of the failure.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(arn: String? = nil, errorCode: String? = nil, errorMessage: String? = nil) {
+            self.arn = arn
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
         }
     }
 
@@ -23184,6 +25758,40 @@ extension QuickSight {
             case label = "Label"
             case tooltipTarget = "TooltipTarget"
             case visibility = "Visibility"
+        }
+    }
+
+    public struct FileSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the data source.
+        public let dataSourceArn: String
+        /// The column schema of the file.
+        public let inputColumns: [InputColumn]
+        /// The zero-based index of the sheet to use within the file. For files that contain multiple sheets, this identifies which sheet to read. Files that contain a single sheet, or that have no concept of sheets, use sheet 0.
+        public let sheetIndex: Int
+        /// Information about the format for the source file.
+        public let uploadSettings: UploadSettings?
+
+        @inlinable
+        public init(dataSourceArn: String, inputColumns: [InputColumn], sheetIndex: Int, uploadSettings: UploadSettings? = nil) {
+            self.dataSourceArn = dataSourceArn
+            self.inputColumns = inputColumns
+            self.sheetIndex = sheetIndex
+            self.uploadSettings = uploadSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.inputColumns.forEach {
+                try $0.validate(name: "\(name).inputColumns[]")
+            }
+            try self.validate(self.inputColumns, name: "inputColumns", parent: name, max: 2048)
+            try self.uploadSettings?.validate(name: "\(name).uploadSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "DataSourceArn"
+            case inputColumns = "InputColumns"
+            case sheetIndex = "SheetIndex"
+            case uploadSettings = "UploadSettings"
         }
     }
 
@@ -23601,6 +26209,8 @@ extension QuickSight {
     public struct FilterDateTimePickerControl: AWSEncodableShape & AWSDecodableShape {
         /// The visibility configurationof the Apply button on a DateTimePickerControl.
         public let commitMode: CommitMode?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: DateTimePickerControlDisplayOptions?
         /// The ID of the FilterDateTimePickerControl.
@@ -23608,13 +26218,14 @@ extension QuickSight {
         /// The source filter ID of the FilterDateTimePickerControl.
         public let sourceFilterId: String
         /// The title of the FilterDateTimePickerControl.
-        public let title: String
+        public let title: String?
         /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlDateTimePickerType?
 
         @inlinable
-        public init(commitMode: CommitMode? = nil, displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String, type: SheetControlDateTimePickerType? = nil) {
+        public init(commitMode: CommitMode? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: DateTimePickerControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil, type: SheetControlDateTimePickerType? = nil) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -23623,6 +26234,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -23631,11 +26243,11 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitMode = "CommitMode"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
@@ -23649,6 +26261,10 @@ extension QuickSight {
         public let cascadingControlConfiguration: CascadingControlConfiguration?
         /// The visibility configuration of the Apply button on a FilterDropDownControl.
         public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of the FilterDropDownControl.
         public let displayOptions: DropDownControlDisplayOptions?
         /// The ID of the FilterDropDownControl.
@@ -23658,14 +26274,16 @@ extension QuickSight {
         /// The source filter ID of the FilterDropDownControl.
         public let sourceFilterId: String
         /// The title of the FilterDropDownControl.
-        public let title: String
+        public let title: String?
         /// The type of the FilterDropDownControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from a dropdown menu.    SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: DropDownControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String? = nil, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -23676,6 +26294,11 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -23685,12 +26308,13 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
             case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case selectableValues = "SelectableValues"
@@ -23777,6 +26401,10 @@ extension QuickSight {
     public struct FilterListControl: AWSEncodableShape & AWSDecodableShape {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: ListControlDisplayOptions?
         /// The ID of the FilterListControl.
@@ -23786,13 +26414,15 @@ extension QuickSight {
         /// The source filter ID of the FilterListControl.
         public let sourceFilterId: String
         /// The title of the FilterListControl.
-        public let title: String
+        public let title: String?
         /// The type of the FilterListControl. Choose one of the following options:    MULTI_SELECT: The user can select multiple entries from the list.    SINGLE_SELECT: The user can select a single entry from the list.
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: ListControlDisplayOptions? = nil, filterControlId: String, selectableValues: FilterSelectableValues? = nil, sourceFilterId: String, title: String? = nil, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.selectableValues = selectableValues
@@ -23803,6 +26433,11 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -23812,11 +26447,12 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case selectableValues = "SelectableValues"
@@ -23916,6 +26552,8 @@ extension QuickSight {
     public struct FilterRelativeDateTimeControl: AWSEncodableShape & AWSDecodableShape {
         /// The visibility configuration of the Apply button on a FilterRelativeDateTimeControl.
         public let commitMode: CommitMode?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: RelativeDateTimeControlDisplayOptions?
         /// The ID of the FilterTextAreaControl.
@@ -23923,11 +26561,12 @@ extension QuickSight {
         /// The source filter ID of the FilterTextAreaControl.
         public let sourceFilterId: String
         /// The title of the FilterTextAreaControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(commitMode: CommitMode? = nil, displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+        public init(commitMode: CommitMode? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: RelativeDateTimeControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil) {
             self.commitMode = commitMode
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -23935,6 +26574,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -23943,11 +26583,11 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case commitMode = "CommitMode"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
@@ -23996,6 +26636,8 @@ extension QuickSight {
     }
 
     public struct FilterSliderControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: SliderControlDisplayOptions?
         /// The ID of the FilterSliderControl.
@@ -24009,12 +26651,13 @@ extension QuickSight {
         /// The number of increments that the slider bar is divided into.
         public let stepSize: Double
         /// The title of the FilterSliderControl.
-        public let title: String
+        public let title: String?
         /// The type of the FilterSliderControl. Choose one of the following options:    SINGLE_POINT: Filter against(equals) a single data point.    RANGE: Filter data that is in a specified range.
         public let type: SheetControlSliderType?
 
         @inlinable
-        public init(displayOptions: SliderControlDisplayOptions? = nil, filterControlId: String, maximumValue: Double, minimumValue: Double, sourceFilterId: String, stepSize: Double, title: String, type: SheetControlSliderType? = nil) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: SliderControlDisplayOptions? = nil, filterControlId: String, maximumValue: Double, minimumValue: Double, sourceFilterId: String, stepSize: Double, title: String? = nil, type: SheetControlSliderType? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.maximumValue = maximumValue
@@ -24026,6 +26669,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -24034,10 +26678,10 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case maximumValue = "MaximumValue"
@@ -24050,6 +26694,8 @@ extension QuickSight {
     }
 
     public struct FilterTextAreaControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public let delimiter: String?
         /// The display options of a control.
@@ -24059,10 +26705,11 @@ extension QuickSight {
         /// The source filter ID of the FilterTextAreaControl.
         public let sourceFilterId: String
         /// The title of the FilterTextAreaControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
@@ -24071,6 +26718,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2048)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.displayOptions?.validate(name: "\(name).displayOptions")
@@ -24081,10 +26729,10 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case delimiter = "Delimiter"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
@@ -24094,6 +26742,8 @@ extension QuickSight {
     }
 
     public struct FilterTextFieldControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: TextFieldControlDisplayOptions?
         /// The ID of the FilterTextFieldControl.
@@ -24101,10 +26751,11 @@ extension QuickSight {
         /// The source filter ID of the FilterTextFieldControl.
         public let sourceFilterId: String
         /// The title of the FilterTextFieldControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(displayOptions: TextFieldControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: TextFieldControlDisplayOptions? = nil, filterControlId: String, sourceFilterId: String, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.filterControlId = filterControlId
             self.sourceFilterId = sourceFilterId
@@ -24112,6 +26763,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, max: 512)
             try self.validate(self.filterControlId, name: "filterControlId", parent: name, min: 1)
@@ -24120,10 +26772,10 @@ extension QuickSight {
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, min: 1)
             try self.validate(self.sourceFilterId, name: "sourceFilterId", parent: name, pattern: "^[\\w\\-]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case filterControlId = "FilterControlId"
             case sourceFilterId = "SourceFilterId"
@@ -24160,6 +26812,60 @@ extension QuickSight {
             case alias = "Alias"
             case filterOperations = "FilterOperations"
             case source = "Source"
+        }
+    }
+
+    public struct FlowDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The identifier of the principal who created the flow.
+        public let createdBy: String?
+        /// The time this flow was created.
+        public let createdTime: Date
+        /// The description of the flow.
+        public let description: String?
+        /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change.
+        public let flowDefinition: AWSDocument
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The identifier of the last principal who updated the flow.
+        public let lastUpdatedBy: String?
+        /// The last time this flow was modified.
+        public let lastUpdatedTime: Date?
+        /// The display name of the flow.
+        public let name: String
+        /// The publish state of the flow. Valid values are DRAFT, PUBLISHED,  or PENDING_APPROVAL.
+        public let publishState: FlowPublishState
+        /// A list of step alias mappings for the flow.
+        public let stepAliases: [StepAliasMapping]?
+
+        @inlinable
+        public init(arn: String, createdBy: String? = nil, createdTime: Date, description: String? = nil, flowDefinition: AWSDocument, flowId: String, lastUpdatedBy: String? = nil, lastUpdatedTime: Date? = nil, name: String, publishState: FlowPublishState, stepAliases: [StepAliasMapping]? = nil) {
+            self.arn = arn
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.flowDefinition = flowDefinition
+            self.flowId = flowId
+            self.lastUpdatedBy = lastUpdatedBy
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.publishState = publishState
+            self.stepAliases = stepAliases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case flowDefinition = "FlowDefinition"
+            case flowId = "FlowId"
+            case lastUpdatedBy = "LastUpdatedBy"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case publishState = "PublishState"
+            case stepAliases = "StepAliases"
         }
     }
 
@@ -24354,6 +27060,10 @@ extension QuickSight {
             self.fontFamily = fontFamily
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.fontFamily, name: "fontFamily", parent: name, max: 256)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case fontFamily = "FontFamily"
         }
@@ -24385,6 +27095,7 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.validate(self.fontColor, name: "fontColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.validate(self.fontFamily, name: "fontFamily", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26973,6 +29684,8 @@ extension QuickSight {
     public struct GetIdentityContextRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user whose identity context you want to retrieve is in. Currently, you use the ID for the Amazon Web Services account that contains your Quick Sight account.
         public let awsAccountId: String
+        /// The region in which the context is to be used. Use this parameter to obtain an identity context for cross-region use. The specified region must meet the following conditions:   The region must be in the same Amazon Web Services partition as the region you are calling from. Cross-partition requests are not supported. For example, you cannot specify a region in the aws-cn partition when calling from a region in the aws partition.   It must be a valid Amazon QuickSight supported region.   The calling customer account must be enabled in the specified context region.   This parameter is not supported when calling from an opt-in region.
+        public let contextRegion: String?
         /// The namespace of the user that you want to get identity context for. This parameter is required when the UserIdentifier is specified using Email or UserName.
         public let namespace: String?
         /// The timestamp at which the session will expire.
@@ -26981,8 +29694,9 @@ extension QuickSight {
         public let userIdentifier: UserIdentifier
 
         @inlinable
-        public init(awsAccountId: String, namespace: String? = nil, sessionExpiresAt: Date? = nil, userIdentifier: UserIdentifier) {
+        public init(awsAccountId: String, contextRegion: String? = nil, namespace: String? = nil, sessionExpiresAt: Date? = nil, userIdentifier: UserIdentifier) {
             self.awsAccountId = awsAccountId
+            self.contextRegion = contextRegion
             self.namespace = namespace
             self.sessionExpiresAt = sessionExpiresAt
             self.userIdentifier = userIdentifier
@@ -26992,6 +29706,7 @@ extension QuickSight {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.contextRegion, forKey: .contextRegion)
             try container.encodeIfPresent(self.namespace, forKey: .namespace)
             try container.encodeIfPresent(self.sessionExpiresAt, forKey: .sessionExpiresAt)
             try container.encode(self.userIdentifier, forKey: .userIdentifier)
@@ -27001,11 +29716,13 @@ extension QuickSight {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.contextRegion, name: "contextRegion", parent: name, pattern: "^[a-z]+-[a-z]+-[0-9]{1}$")
             try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contextRegion = "ContextRegion"
             case namespace = "Namespace"
             case sessionExpiresAt = "SessionExpiresAt"
             case userIdentifier = "UserIdentifier"
@@ -27130,6 +29847,42 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case sideSpecificBorder = "SideSpecificBorder"
             case uniformBorder = "UniformBorder"
+        }
+    }
+
+    public struct GoogleDriveParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type for the Google Drive data source. Valid values include:    SERVICE_ACCOUNT – Server-to-server authentication using a Google service account key.    THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public let authType: AuthType?
+
+        @inlinable
+        public init(authType: AuthType? = nil) {
+            self.authType = authType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+        }
+    }
+
+    public struct Governance: AWSEncodableShape & AWSDecodableShape {
+        /// A map of DefaultCategoryEffects.
+        public let defaultCategoryEffects: [String: DefaultCategoryEffect]?
+
+        @inlinable
+        public init(defaultCategoryEffects: [String: DefaultCategoryEffect]? = nil) {
+            self.defaultCategoryEffects = defaultCategoryEffects
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultCategoryEffects?.forEach {
+                try validate($0.key, name: "defaultCategoryEffects.key", parent: name, max: 128)
+                try validate($0.key, name: "defaultCategoryEffects.key", parent: name, min: 1)
+            }
+            try self.validate(self.defaultCategoryEffects, name: "defaultCategoryEffects", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultCategoryEffects = "DefaultCategoryEffects"
         }
     }
 
@@ -28122,6 +30875,20 @@ extension QuickSight {
         }
     }
 
+    public struct ImageExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of image extraction. Valid values are ENABLED and DISABLED.
+        public let imageExtractionStatus: ImageExtractionStatus
+
+        @inlinable
+        public init(imageExtractionStatus: ImageExtractionStatus) {
+            self.imageExtractionStatus = imageExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageExtractionStatus = "imageExtractionStatus"
+        }
+    }
+
     public struct ImageInteractionOptions: AWSEncodableShape & AWSDecodableShape {
         /// The menu options for the image.
         public let imageMenuOption: ImageMenuOption?
@@ -28367,6 +31134,29 @@ extension QuickSight {
             case requestSource = "RequestSource"
             case requestType = "RequestType"
             case rowInfo = "RowInfo"
+        }
+    }
+
+    public struct InlineCustomInstruction: AWSEncodableShape & AWSDecodableShape {
+        /// The instruction text content.
+        public let instructionText: String
+        /// Metadata about an uploaded document associated with this instruction.
+        public let uploadedDocumentMetadata: UploadedDocumentMetadata?
+
+        @inlinable
+        public init(instructionText: String, uploadedDocumentMetadata: UploadedDocumentMetadata? = nil) {
+            self.instructionText = instructionText
+            self.uploadedDocumentMetadata = uploadedDocumentMetadata
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instructionText, name: "instructionText", parent: name, max: 50000)
+            try self.uploadedDocumentMetadata?.validate(name: "\(name).uploadedDocumentMetadata")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instructionText = "InstructionText"
+            case uploadedDocumentMetadata = "UploadedDocumentMetadata"
         }
     }
 
@@ -29355,6 +32145,20 @@ extension QuickSight {
         }
     }
 
+    public struct KbTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The template document that defines the knowledge base behavior.
+        public let template: AWSDocument?
+
+        @inlinable
+        public init(template: AWSDocument? = nil) {
+            self.template = template
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case template = "template"
+        }
+    }
+
     public struct KeyPairCredentials: AWSEncodableShape {
         /// Username
         public let keyPairUsername: String
@@ -29383,6 +32187,234 @@ extension QuickSight {
             case keyPairUsername = "KeyPairUsername"
             case privateKey = "PrivateKey"
             case privateKeyPassphrase = "PrivateKeyPassphrase"
+        }
+    }
+
+    public struct KnowledgeBase: AWSDecodableShape {
+        /// The access control configuration for the knowledge base.
+        public let accessControlConfiguration: AccessControlConfiguration?
+        /// The date and time that the knowledge base was created.
+        public let createdAt: Date?
+        /// The ARN of the data source associated with the knowledge base.
+        public let dataSourceArn: String
+        /// The description of the knowledge base.
+        public let description: String?
+        /// The number of documents in the knowledge base.
+        public let documentCount: Int64?
+        /// A summary of the first completed ingestion for the knowledge base.
+        public let firstCompletedIngestionSummary: KnowledgeBaseIngestionSummary?
+        /// A summary of the first incomplete ingestion for the knowledge base.
+        public let firstIncompleteIngestionSummary: KnowledgeBaseIngestionSummary?
+        /// Specifies whether email notifications are enabled for ingestion failures.
+        public let isEmailNotificationOptedForIngestionFailures: Bool?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The configuration settings for the knowledge base.
+        public let knowledgeBaseConfiguration: KnowledgeBaseConfiguration
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The size of the knowledge base in bytes.
+        public let knowledgeBaseSizeBytes: Int64?
+        /// A summary of the most recent ingestion for the knowledge base.
+        public let latestIngestionSummary: KnowledgeBaseIngestionSummary?
+        /// The media extraction configuration for the knowledge base.
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
+        /// The name of the knowledge base.
+        public let name: String
+        /// The ARN of the primary owner of the knowledge base.
+        public let primaryOwnerArn: String?
+        /// The username of the primary owner of the knowledge base.
+        public let primaryOwnerUsername: String?
+        /// The status of the knowledge base.
+        public let status: DataSetStatus
+        /// The type of the knowledge base.
+        public let type: String?
+        /// The date and time that the knowledge base was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(accessControlConfiguration: AccessControlConfiguration? = nil, createdAt: Date? = nil, dataSourceArn: String, description: String? = nil, documentCount: Int64? = nil, firstCompletedIngestionSummary: KnowledgeBaseIngestionSummary? = nil, firstIncompleteIngestionSummary: KnowledgeBaseIngestionSummary? = nil, isEmailNotificationOptedForIngestionFailures: Bool? = nil, knowledgeBaseArn: String, knowledgeBaseConfiguration: KnowledgeBaseConfiguration, knowledgeBaseId: String, knowledgeBaseSizeBytes: Int64? = nil, latestIngestionSummary: KnowledgeBaseIngestionSummary? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, name: String, primaryOwnerArn: String? = nil, primaryOwnerUsername: String? = nil, status: DataSetStatus, type: String? = nil, updatedAt: Date? = nil) {
+            self.accessControlConfiguration = accessControlConfiguration
+            self.createdAt = createdAt
+            self.dataSourceArn = dataSourceArn
+            self.description = description
+            self.documentCount = documentCount
+            self.firstCompletedIngestionSummary = firstCompletedIngestionSummary
+            self.firstIncompleteIngestionSummary = firstIncompleteIngestionSummary
+            self.isEmailNotificationOptedForIngestionFailures = isEmailNotificationOptedForIngestionFailures
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.knowledgeBaseId = knowledgeBaseId
+            self.knowledgeBaseSizeBytes = knowledgeBaseSizeBytes
+            self.latestIngestionSummary = latestIngestionSummary
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.name = name
+            self.primaryOwnerArn = primaryOwnerArn
+            self.primaryOwnerUsername = primaryOwnerUsername
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlConfiguration = "AccessControlConfiguration"
+            case createdAt = "CreatedAt"
+            case dataSourceArn = "DataSourceArn"
+            case description = "Description"
+            case documentCount = "DocumentCount"
+            case firstCompletedIngestionSummary = "FirstCompletedIngestionSummary"
+            case firstIncompleteIngestionSummary = "FirstIncompleteIngestionSummary"
+            case isEmailNotificationOptedForIngestionFailures = "IsEmailNotificationOptedForIngestionFailures"
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseConfiguration = "KnowledgeBaseConfiguration"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case knowledgeBaseSizeBytes = "KnowledgeBaseSizeBytes"
+            case latestIngestionSummary = "LatestIngestionSummary"
+            case mediaExtractionConfiguration = "MediaExtractionConfiguration"
+            case name = "Name"
+            case primaryOwnerArn = "PrimaryOwnerArn"
+            case primaryOwnerUsername = "PrimaryOwnerUsername"
+            case status = "Status"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct KnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The template configuration for the knowledge base.
+        public let templateConfiguration: KbTemplateConfiguration?
+
+        @inlinable
+        public init(templateConfiguration: KbTemplateConfiguration? = nil) {
+            self.templateConfiguration = templateConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateConfiguration = "templateConfiguration"
+        }
+    }
+
+    public struct KnowledgeBaseIngestionSummary: AWSDecodableShape {
+        /// The end time of the ingestion job.
+        public let endTime: Date?
+        /// The unique identifier for the ingestion job.
+        public let ingestionId: String
+        /// The status of the ingestion job.
+        public let ingestionStatus: KbIngestionStatus
+        /// The start time of the ingestion job.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date? = nil, ingestionId: String, ingestionStatus: KbIngestionStatus, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.ingestionId = ingestionId
+            self.ingestionStatus = ingestionStatus
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case ingestionId = "IngestionId"
+            case ingestionStatus = "IngestionStatus"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct KnowledgeBaseSearchFilter: AWSEncodableShape {
+        /// The name of the field to filter on.
+        public let name: KnowledgeBaseSearchFilterName
+        /// The comparison operator to use for the filter.
+        public let `operator`: KnowledgeBaseSearchOperator
+        /// The value to filter on.
+        public let value: String
+
+        @inlinable
+        public init(name: KnowledgeBaseSearchFilterName, operator: KnowledgeBaseSearchOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case value = "value"
+        }
+    }
+
+    public struct KnowledgeBaseSortBy: AWSEncodableShape {
+        /// The field to sort by.
+        public let sortByField: KnowledgeBaseSortByField
+        /// The sort order (ascending or descending).
+        public let sortOrder: SortOrder
+
+        @inlinable
+        public init(sortByField: KnowledgeBaseSortByField, sortOrder: SortOrder) {
+            self.sortByField = sortByField
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortByField = "sortByField"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct KnowledgeBaseSummary: AWSDecodableShape {
+        /// The date and time that the knowledge base was created.
+        public let createdAt: Date?
+        /// The ARN of the data source associated with the knowledge base.
+        public let dataSourceArn: String
+        /// The number of documents in the knowledge base.
+        public let documentCount: Int64?
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The size of the knowledge base in bytes.
+        public let knowledgeBaseSizeBytes: Int64?
+        /// The name of the knowledge base.
+        public let name: String
+        /// The ARN of the primary owner of the knowledge base.
+        public let primaryOwnerArn: String?
+        /// The username of the primary owner of the knowledge base.
+        public let primaryOwnerUsername: String?
+        /// The status of the knowledge base.
+        public let status: DataSetStatus
+        /// The type of the knowledge base.
+        public let type: String?
+        /// The date and time that the knowledge base was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, dataSourceArn: String, documentCount: Int64? = nil, knowledgeBaseArn: String, knowledgeBaseId: String, knowledgeBaseSizeBytes: Int64? = nil, name: String, primaryOwnerArn: String? = nil, primaryOwnerUsername: String? = nil, status: DataSetStatus, type: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.dataSourceArn = dataSourceArn
+            self.documentCount = documentCount
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.knowledgeBaseSizeBytes = knowledgeBaseSizeBytes
+            self.name = name
+            self.primaryOwnerArn = primaryOwnerArn
+            self.primaryOwnerUsername = primaryOwnerUsername
+            self.status = status
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case dataSourceArn = "DataSourceArn"
+            case documentCount = "DocumentCount"
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case knowledgeBaseSizeBytes = "KnowledgeBaseSizeBytes"
+            case name = "Name"
+            case primaryOwnerArn = "PrimaryOwnerArn"
+            case primaryOwnerUsername = "PrimaryOwnerUsername"
+            case status = "Status"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -30144,6 +33176,62 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case actionConnectorSummaries = "ActionConnectorSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct ListAgentsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the agents.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAgentsResponse: AWSDecodableShape {
+        /// A list of agent summaries.
+        public let agentSummaries: [AgentSummary]
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agentSummaries: [AgentSummary], nextToken: String? = nil, requestId: String? = nil) {
+            self.agentSummaries = agentSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentSummaries = "AgentSummaries"
             case nextToken = "NextToken"
             case requestId = "RequestId"
         }
@@ -31550,6 +34638,76 @@ extension QuickSight {
         }
     }
 
+    public struct ListKnowledgeBasesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListKnowledgeBasesResponse: AWSDecodableShape {
+        /// A list of knowledge base summaries.
+        public let knowledgeBaseSummaries: [KnowledgeBaseSummary]
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseSummaries: [KnowledgeBaseSummary], nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseSummaries = knowledgeBaseSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseSummaries = try container.decode([KnowledgeBaseSummary].self, forKey: .knowledgeBaseSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseSummaries = "KnowledgeBaseSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ListNamespacesRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the Quick Sight namespaces that you want to list.
         public let awsAccountId: String
@@ -31614,6 +34772,74 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case namespaces = "Namespaces"
             case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct ListOAuthClientApplicationsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListOAuthClientApplicationsResponse: AWSDecodableShape {
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// A list of OAuthClientApplication summaries.
+        public let oAuthClientApplications: [OAuthClientApplicationSummary]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(nextToken: String? = nil, oAuthClientApplications: [OAuthClientApplicationSummary]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.nextToken = nextToken
+            self.oAuthClientApplications = oAuthClientApplications
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.oAuthClientApplications = try container.decodeIfPresent([OAuthClientApplicationSummary].self, forKey: .oAuthClientApplications)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case oAuthClientApplications = "OAuthClientApplications"
             case requestId = "RequestId"
         }
     }
@@ -31824,6 +35050,129 @@ extension QuickSight {
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case selfUpgradeRequestDetails = "SelfUpgradeRequestDetails"
+        }
+    }
+
+    public struct ListSpaceResourcesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// The ID of the space that you want to list resources for.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSpaceResourcesResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+        /// A list of resource summaries in the space.
+        public let spaceResources: [SpaceResourceSummary]
+
+        @inlinable
+        public init(requestId: String? = nil, spaceArn: String? = nil, spaceId: String, spaceResources: [SpaceResourceSummary]) {
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+            self.spaceResources = spaceResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+            case spaceResources = "SpaceResources"
+        }
+    }
+
+    public struct ListSpacesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the spaces.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSpacesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+        /// A list of space summaries.
+        public let spaceSummaries: [SpaceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, requestId: String? = nil, spaceArn: String? = nil, spaceId: String, spaceSummaries: [SpaceSummary]) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+            self.spaceSummaries = spaceSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+            case spaceSummaries = "SpaceSummaries"
         }
     }
 
@@ -32603,6 +35952,90 @@ extension QuickSight {
         }
     }
 
+    public struct ListUsersIndexCapacityRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the index capacity data.
+        public let awsAccountId: String
+        /// Filters to apply. Only one filter is supported per request. The userNameOrEmail and totalCapacityBytes filters are mutually exclusive.
+        public let filters: [UserIndexCapacityFilter]?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The namespace to scope the user search to. Required when the userNameOrEmail filter is present.
+        public let namespace: String?
+        /// The token for the next set of results, received from a previous call.
+        public let nextToken: String?
+        /// The field to sort results by.
+        public let sortBy: UserIndexCapacitySortBy?
+        /// The sort order for results. Defaults to DESC if not specified.
+        public let sortOrder: UserIndexCapacitySortOrder?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [UserIndexCapacityFilter]? = nil, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, sortBy: UserIndexCapacitySortBy? = nil, sortOrder: UserIndexCapacitySortOrder? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "awsAccountId")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.namespace, forKey: .namespace)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
+            try container.encodeIfPresent(self.sortOrder, forKey: .sortOrder)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListUsersIndexCapacityResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The list of users with their index capacity metrics.
+        public let users: [UserIndexCapacity]?
+
+        @inlinable
+        public init(nextToken: String? = nil, requestId: String? = nil, users: [UserIndexCapacity]? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case requestId = "requestId"
+            case users = "users"
+        }
+    }
+
     public struct ListUsersRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that the user is in. Currently, you use the ID for the
         /// 			Amazon Web Services account that contains your Amazon Quick Sight account.
@@ -33146,6 +36579,28 @@ extension QuickSight {
             case categoricalMeasureField = "CategoricalMeasureField"
             case dateMeasureField = "DateMeasureField"
             case numericalMeasureField = "NumericalMeasureField"
+        }
+    }
+
+    public struct MediaExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for audio extraction.
+        public let audioExtractionConfiguration: AudioExtractionConfiguration?
+        /// The configuration for image extraction.
+        public let imageExtractionConfiguration: ImageExtractionConfiguration?
+        /// The configuration for video extraction.
+        public let videoExtractionConfiguration: VideoExtractionConfiguration?
+
+        @inlinable
+        public init(audioExtractionConfiguration: AudioExtractionConfiguration? = nil, imageExtractionConfiguration: ImageExtractionConfiguration? = nil, videoExtractionConfiguration: VideoExtractionConfiguration? = nil) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
+            self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionConfiguration = "audioExtractionConfiguration"
+            case imageExtractionConfiguration = "imageExtractionConfiguration"
+            case videoExtractionConfiguration = "videoExtractionConfiguration"
         }
     }
 
@@ -33992,7 +37447,136 @@ extension QuickSight {
         }
     }
 
+    public struct OAuthClientApplication: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public let arn: String?
+        /// The time that the OAuthClientApplication was created.
+        public let createdTime: Date?
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public let dataSourceType: DataSourceType?
+        public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
+        /// The time that the OAuthClientApplication was last updated.
+        public let lastUpdatedTime: Date?
+        /// The display name of the OAuthClientApplication.
+        public let name: String?
+        /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+        public let oAuthAuthorizationEndpointUrl: String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String?
+        /// The OAuth client authentication type used by the OAuthClientApplication. Valid values are TOKEN.
+        public let oAuthClientAuthenticationType: OAuthClientAuthenticationType?
+        /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+        public let oAuthScopes: String?
+        /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+        public let oAuthTokenEndpointUrl: String?
+
+        @inlinable
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSourceType: DataSourceType? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, oAuthAuthorizationEndpointUrl: String? = nil, oAuthClientApplicationId: String? = nil, oAuthClientAuthenticationType: OAuthClientAuthenticationType? = nil, oAuthScopes: String? = nil, oAuthTokenEndpointUrl: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+            self.oAuthScopes = oAuthScopes
+            self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSourceType = "DataSourceType"
+            case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case oAuthAuthorizationEndpointUrl = "OAuthAuthorizationEndpointUrl"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
+            case oAuthClientAuthenticationType = "OAuthClientAuthenticationType"
+            case oAuthScopes = "OAuthScopes"
+            case oAuthTokenEndpointUrl = "OAuthTokenEndpointUrl"
+        }
+    }
+
+    public struct OAuthClientApplicationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public let arn: String?
+        /// The time that the OAuthClientApplication was created.
+        public let createdTime: Date?
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public let dataSourceType: DataSourceType?
+        public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
+        /// The time that the OAuthClientApplication was last updated.
+        public let lastUpdatedTime: Date?
+        /// The display name of the OAuthClientApplication.
+        public let name: String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String?
+        /// The OAuth client authentication type used by the OAuthClientApplication. Valid values are TOKEN.
+        public let oAuthClientAuthenticationType: OAuthClientAuthenticationType?
+
+        @inlinable
+        public init(arn: String? = nil, createdTime: Date? = nil, dataSourceType: DataSourceType? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, oAuthClientApplicationId: String? = nil, oAuthClientAuthenticationType: OAuthClientAuthenticationType? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.lastUpdatedTime = lastUpdatedTime
+            self.name = name
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthClientAuthenticationType = oAuthClientAuthenticationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case dataSourceType = "DataSourceType"
+            case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case name = "Name"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
+            case oAuthClientAuthenticationType = "OAuthClientAuthenticationType"
+        }
+    }
+
+    public struct OAuthClientCredentials: AWSEncodableShape {
+        /// The client ID of the OAuth 2.0 application that is registered with the data source provider.
+        public let clientId: String?
+        /// The client secret of the OAuth 2.0 application that is registered with the data source provider.
+        public let clientSecret: String?
+        /// The username of the account that is used for OAuth 2.0 client credentials authentication with the data source provider.
+        public let username: String?
+
+        @inlinable
+        public init(clientId: String? = nil, clientSecret: String? = nil, username: String? = nil) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 256)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 2048)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.username, name: "username", parent: name, max: 64)
+            try self.validate(self.username, name: "username", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case username = "Username"
+        }
+    }
+
     public struct OAuthParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 URI of the identity provider's CA certificates bundle in PEM format. Use this parameter to provide a custom CA certificate bundle for the identity provider when the default trust store does not include the required certificates.
+        public let identityProviderCACertificatesBundleS3Uri: String?
         /// The resource uri of the identity provider.
         public let identityProviderResourceUri: String?
         public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
@@ -34002,7 +37586,8 @@ extension QuickSight {
         public let tokenProviderUrl: String
 
         @inlinable
-        public init(identityProviderResourceUri: String? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, oAuthScope: String? = nil, tokenProviderUrl: String) {
+        public init(identityProviderCACertificatesBundleS3Uri: String? = nil, identityProviderResourceUri: String? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, oAuthScope: String? = nil, tokenProviderUrl: String) {
+            self.identityProviderCACertificatesBundleS3Uri = identityProviderCACertificatesBundleS3Uri
             self.identityProviderResourceUri = identityProviderResourceUri
             self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
             self.oAuthScope = oAuthScope
@@ -34010,6 +37595,9 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.identityProviderCACertificatesBundleS3Uri, name: "identityProviderCACertificatesBundleS3Uri", parent: name, max: 2048)
+            try self.validate(self.identityProviderCACertificatesBundleS3Uri, name: "identityProviderCACertificatesBundleS3Uri", parent: name, min: 1)
+            try self.validate(self.identityProviderCACertificatesBundleS3Uri, name: "identityProviderCACertificatesBundleS3Uri", parent: name, pattern: "^s3://.+/.+$")
             try self.validate(self.identityProviderResourceUri, name: "identityProviderResourceUri", parent: name, max: 2048)
             try self.validate(self.identityProviderResourceUri, name: "identityProviderResourceUri", parent: name, min: 1)
             try self.validate(self.oAuthScope, name: "oAuthScope", parent: name, max: 128)
@@ -34019,10 +37607,40 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityProviderCACertificatesBundleS3Uri = "IdentityProviderCACertificatesBundleS3Uri"
             case identityProviderResourceUri = "IdentityProviderResourceUri"
             case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
             case oAuthScope = "OAuthScope"
             case tokenProviderUrl = "TokenProviderUrl"
+        }
+    }
+
+    public struct OneDriveParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type for the OneDrive data source. Valid values include:    TWO_LEGGED_OAUTH – Server-to-server authentication using client credentials that do not require user interaction.    THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public let authType: AuthType?
+        /// The client ID for the OneDrive data source.
+        public let clientId: String?
+        /// The tenant ID for the OneDrive data source.
+        public let tenantId: String?
+
+        @inlinable
+        public init(authType: AuthType? = nil, clientId: String? = nil, tenantId: String? = nil) {
+            self.authType = authType
+            self.clientId = clientId
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 100)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, max: 100)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case clientId = "ClientId"
+            case tenantId = "TenantId"
         }
     }
 
@@ -34314,6 +37932,8 @@ extension QuickSight {
     }
 
     public struct ParameterDateTimePickerControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: DateTimePickerControlDisplayOptions?
         /// The ID of the ParameterDateTimePickerControl.
@@ -34321,10 +37941,11 @@ extension QuickSight {
         /// The name of the ParameterDateTimePickerControl.
         public let sourceParameterName: String
         /// The title of the ParameterDateTimePickerControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(displayOptions: DateTimePickerControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: DateTimePickerControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -34332,6 +37953,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
@@ -34340,10 +37962,10 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
             case sourceParameterName = "SourceParameterName"
@@ -34389,6 +38011,10 @@ extension QuickSight {
         public let cascadingControlConfiguration: CascadingControlConfiguration?
         /// The visibility configuration of the Apply button on a ParameterDropDownControl.
         public let commitMode: CommitMode?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: DropDownControlDisplayOptions?
         /// The ID of the ParameterDropDownControl.
@@ -34398,14 +38024,16 @@ extension QuickSight {
         /// The source parameter name of the ParameterDropDownControl.
         public let sourceParameterName: String
         /// The title of the ParameterDropDownControl.
-        public let title: String
+        public let title: String?
         /// The type parameter name of the ParameterDropDownControl.
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, commitMode: CommitMode? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: DropDownControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String? = nil, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
             self.commitMode = commitMode
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -34416,6 +38044,11 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
@@ -34425,12 +38058,13 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
             case commitMode = "CommitMode"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
             case selectableValues = "SelectableValues"
@@ -34443,6 +38077,10 @@ extension QuickSight {
     public struct ParameterListControl: AWSEncodableShape & AWSDecodableShape {
         /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
         public let cascadingControlConfiguration: CascadingControlConfiguration?
+        /// The sort configuration for the values displayed in the control. Only one sort configuration can be applied per control.
+        public let controlSortConfigurations: [ControlSortConfiguration]?
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: ListControlDisplayOptions?
         /// The ID of the ParameterListControl.
@@ -34452,13 +38090,15 @@ extension QuickSight {
         /// The source parameter name of the ParameterListControl.
         public let sourceParameterName: String
         /// The title of the ParameterListControl.
-        public let title: String
+        public let title: String?
         /// The type of ParameterListControl.
         public let type: SheetControlListType?
 
         @inlinable
-        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, displayOptions: ListControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String, type: SheetControlListType? = nil) {
+        public init(cascadingControlConfiguration: CascadingControlConfiguration? = nil, controlSortConfigurations: [ControlSortConfiguration]? = nil, controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: ListControlDisplayOptions? = nil, parameterControlId: String, selectableValues: ParameterSelectableValues? = nil, sourceParameterName: String, title: String? = nil, type: SheetControlListType? = nil) {
             self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.controlSortConfigurations = controlSortConfigurations
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.selectableValues = selectableValues
@@ -34469,6 +38109,11 @@ extension QuickSight {
 
         public func validate(name: String) throws {
             try self.cascadingControlConfiguration?.validate(name: "\(name).cascadingControlConfiguration")
+            try self.controlSortConfigurations?.forEach {
+                try $0.validate(name: "\(name).controlSortConfigurations[]")
+            }
+            try self.validate(self.controlSortConfigurations, name: "controlSortConfigurations", parent: name, max: 1)
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
@@ -34478,11 +38123,12 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cascadingControlConfiguration = "CascadingControlConfiguration"
+            case controlSortConfigurations = "ControlSortConfigurations"
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
             case selectableValues = "SelectableValues"
@@ -34516,6 +38162,8 @@ extension QuickSight {
     }
 
     public struct ParameterSliderControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: SliderControlDisplayOptions?
         /// The larger value that is displayed at the right of the slider.
@@ -34529,10 +38177,11 @@ extension QuickSight {
         /// The number of increments that the slider bar is divided into.
         public let stepSize: Double
         /// The title of the ParameterSliderControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, parameterControlId: String, sourceParameterName: String, stepSize: Double, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: SliderControlDisplayOptions? = nil, maximumValue: Double, minimumValue: Double, parameterControlId: String, sourceParameterName: String, stepSize: Double, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.maximumValue = maximumValue
             self.minimumValue = minimumValue
@@ -34543,6 +38192,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
@@ -34551,10 +38201,10 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case maximumValue = "MaximumValue"
             case minimumValue = "MinimumValue"
@@ -34566,6 +38216,8 @@ extension QuickSight {
     }
 
     public struct ParameterTextAreaControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The delimiter that is used to separate the lines in text.
         public let delimiter: String?
         /// The display options of a control.
@@ -34575,10 +38227,11 @@ extension QuickSight {
         /// The source parameter name of the ParameterTextAreaControl.
         public let sourceParameterName: String
         /// The title of the ParameterTextAreaControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, delimiter: String? = nil, displayOptions: TextAreaControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.delimiter = delimiter
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
@@ -34587,6 +38240,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2048)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
             try self.displayOptions?.validate(name: "\(name).displayOptions")
@@ -34597,10 +38251,10 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case delimiter = "Delimiter"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
@@ -34610,6 +38264,8 @@ extension QuickSight {
     }
 
     public struct ParameterTextFieldControl: AWSEncodableShape & AWSDecodableShape {
+        /// The title text format configuration for the control.
+        public let controlTitleFormatText: ControlTitleFormatText?
         /// The display options of a control.
         public let displayOptions: TextFieldControlDisplayOptions?
         /// The ID of the ParameterTextFieldControl.
@@ -34617,10 +38273,11 @@ extension QuickSight {
         /// The source parameter name of the ParameterTextFieldControl.
         public let sourceParameterName: String
         /// The title of the ParameterTextFieldControl.
-        public let title: String
+        public let title: String?
 
         @inlinable
-        public init(displayOptions: TextFieldControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String) {
+        public init(controlTitleFormatText: ControlTitleFormatText? = nil, displayOptions: TextFieldControlDisplayOptions? = nil, parameterControlId: String, sourceParameterName: String, title: String? = nil) {
+            self.controlTitleFormatText = controlTitleFormatText
             self.displayOptions = displayOptions
             self.parameterControlId = parameterControlId
             self.sourceParameterName = sourceParameterName
@@ -34628,6 +38285,7 @@ extension QuickSight {
         }
 
         public func validate(name: String) throws {
+            try self.controlTitleFormatText?.validate(name: "\(name).controlTitleFormatText")
             try self.displayOptions?.validate(name: "\(name).displayOptions")
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, max: 512)
             try self.validate(self.parameterControlId, name: "parameterControlId", parent: name, min: 1)
@@ -34636,10 +38294,10 @@ extension QuickSight {
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, min: 1)
             try self.validate(self.sourceParameterName, name: "sourceParameterName", parent: name, pattern: "^[a-zA-Z0-9]+$")
             try self.validate(self.title, name: "title", parent: name, max: 2048)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case controlTitleFormatText = "ControlTitleFormatText"
             case displayOptions = "DisplayOptions"
             case parameterControlId = "ParameterControlId"
             case sourceParameterName = "SourceParameterName"
@@ -35381,11 +39039,12 @@ extension QuickSight {
         public let sortConfiguration: PivotTableSortConfiguration?
         /// The table options for a pivot table visual.
         public let tableOptions: PivotTableOptions?
+        public let tooltip: TooltipOptions?
         /// The total options for a pivot table visual.
         public let totalOptions: PivotTableTotalOptions?
 
         @inlinable
-        public init(dashboardCustomizationVisualOptions: DashboardCustomizationVisualOptions? = nil, fieldOptions: PivotTableFieldOptions? = nil, fieldWells: PivotTableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: PivotTablePaginatedReportOptions? = nil, sortConfiguration: PivotTableSortConfiguration? = nil, tableOptions: PivotTableOptions? = nil, totalOptions: PivotTableTotalOptions? = nil) {
+        public init(dashboardCustomizationVisualOptions: DashboardCustomizationVisualOptions? = nil, fieldOptions: PivotTableFieldOptions? = nil, fieldWells: PivotTableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: PivotTablePaginatedReportOptions? = nil, sortConfiguration: PivotTableSortConfiguration? = nil, tableOptions: PivotTableOptions? = nil, tooltip: TooltipOptions? = nil, totalOptions: PivotTableTotalOptions? = nil) {
             self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
@@ -35393,6 +39052,7 @@ extension QuickSight {
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
             self.tableOptions = tableOptions
+            self.tooltip = tooltip
             self.totalOptions = totalOptions
         }
 
@@ -35402,6 +39062,7 @@ extension QuickSight {
             try self.fieldWells?.validate(name: "\(name).fieldWells")
             try self.sortConfiguration?.validate(name: "\(name).sortConfiguration")
             try self.tableOptions?.validate(name: "\(name).tableOptions")
+            try self.tooltip?.validate(name: "\(name).tooltip")
             try self.totalOptions?.validate(name: "\(name).totalOptions")
         }
 
@@ -35413,6 +39074,7 @@ extension QuickSight {
             case paginatedReportOptions = "PaginatedReportOptions"
             case sortConfiguration = "SortConfiguration"
             case tableOptions = "TableOptions"
+            case tooltip = "Tooltip"
             case totalOptions = "TotalOptions"
         }
     }
@@ -37638,6 +41300,8 @@ extension QuickSight {
     public struct RegisteredUserConsoleFeatureConfigurations: AWSEncodableShape {
         /// The Amazon Q configurations of an embedded Amazon Quick Sight console.
         public let amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations?
+        /// The dashboard customization summary configuration for an embedded Quick Sight console.
+        public let dashboardCustomizationSummary: DashboardCustomizationSummaryConfigurations?
         /// The recent snapshots configuration for an embedded Quick Sight dashboard.
         public let recentSnapshots: RecentSnapshotsConfigurations?
         /// The schedules configuration for an embedded Quick Sight dashboard.
@@ -37650,8 +41314,9 @@ extension QuickSight {
         public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
-        public init(amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
+        public init(amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations? = nil, dashboardCustomizationSummary: DashboardCustomizationSummaryConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
             self.amazonQInQuickSight = amazonQInQuickSight
+            self.dashboardCustomizationSummary = dashboardCustomizationSummary
             self.recentSnapshots = recentSnapshots
             self.schedules = schedules
             self.sharedView = sharedView
@@ -37661,6 +41326,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case amazonQInQuickSight = "AmazonQInQuickSight"
+            case dashboardCustomizationSummary = "DashboardCustomizationSummary"
             case recentSnapshots = "RecentSnapshots"
             case schedules = "Schedules"
             case sharedView = "SharedView"
@@ -37698,6 +41364,8 @@ extension QuickSight {
         public let amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations?
         /// The bookmarks configuration for an embedded dashboard in Amazon Quick Sight.
         public let bookmarks: BookmarksConfigurations?
+        /// The dashboard customization summary configuration for an embedded Quick Sight dashboard.
+        public let dashboardCustomizationSummary: DashboardCustomizationSummaryConfigurations?
         /// The recent snapshots configuration for an Quick Sight embedded dashboard
         public let recentSnapshots: RecentSnapshotsConfigurations?
         /// The schedules configuration for an embedded Quick Sight dashboard.
@@ -37710,9 +41378,10 @@ extension QuickSight {
         public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
-        public init(amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations? = nil, bookmarks: BookmarksConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
+        public init(amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations? = nil, bookmarks: BookmarksConfigurations? = nil, dashboardCustomizationSummary: DashboardCustomizationSummaryConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
             self.amazonQInQuickSight = amazonQInQuickSight
             self.bookmarks = bookmarks
+            self.dashboardCustomizationSummary = dashboardCustomizationSummary
             self.recentSnapshots = recentSnapshots
             self.schedules = schedules
             self.sharedView = sharedView
@@ -37723,6 +41392,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case amazonQInQuickSight = "AmazonQInQuickSight"
             case bookmarks = "Bookmarks"
+            case dashboardCustomizationSummary = "DashboardCustomizationSummary"
             case recentSnapshots = "RecentSnapshots"
             case schedules = "Schedules"
             case sharedView = "SharedView"
@@ -38542,6 +42212,24 @@ extension QuickSight {
         }
     }
 
+    public struct S3TablesParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Tables bucket.
+        public let tableBucketArn: String?
+
+        @inlinable
+        public init(tableBucketArn: String? = nil) {
+            self.tableBucketArn = tableBucketArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketArn, name: "tableBucketArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-zA-Z0-9-_]{3,63})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableBucketArn = "TableBucketArn"
+        }
+    }
+
     public struct SaaSTable: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the SaaS data source.
         public let dataSourceArn: String
@@ -39168,6 +42856,70 @@ extension QuickSight {
         }
     }
 
+    public struct SearchAgentsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the agents.
+        public let awsAccountId: String
+        /// The filters to apply when searching agents.
+        public let filters: [AgentSearchFilter]
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [AgentSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+        }
+    }
+
+    public struct SearchAgentsResponse: AWSDecodableShape {
+        /// A list of agent summaries.
+        public let agentSummaries: [AgentSummary]?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agentSummaries: [AgentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
+            self.agentSummaries = agentSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentSummaries = "AgentSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct SearchAnalysesRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the analyses that you're searching for.
         public let awsAccountId: String
@@ -39738,6 +43490,167 @@ extension QuickSight {
         }
     }
 
+    public struct SearchKnowledgeBasesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The filters to apply when searching knowledge bases.
+        public let filters: [KnowledgeBaseSearchFilter]?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The sort configuration for the search results.
+        public let sortBy: KnowledgeBaseSortBy?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [KnowledgeBaseSearchFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: KnowledgeBaseSortBy? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            try container.encodeIfPresent(self.sortBy, forKey: .sortBy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 6)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+        }
+    }
+
+    public struct SearchKnowledgeBasesResponse: AWSDecodableShape {
+        /// A list of knowledge base summaries.
+        public let knowledgeBaseSummaries: [KnowledgeBaseSummary]
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseSummaries: [KnowledgeBaseSummary], nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseSummaries = knowledgeBaseSummaries
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseSummaries = try container.decode([KnowledgeBaseSummary].self, forKey: .knowledgeBaseSummaries)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseSummaries = "KnowledgeBaseSummaries"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct SearchSpacesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the spaces.
+        public let awsAccountId: String
+        /// The filters to apply to the search.
+        public let filters: [SpaceQuicksightSearchFilter]
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, filters: [SpaceQuicksightSearchFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encode(self.filters, forKey: .filters)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 2)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchSpacesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+        /// A list of space summaries that match the search criteria.
+        public let spaceSummaries: [SpaceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, requestId: String? = nil, spaceArn: String? = nil, spaceId: String, spaceSummaries: [SpaceSummary]) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+            self.spaceSummaries = spaceSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+            case spaceSummaries = "SpaceSummaries"
+        }
+    }
+
     public struct SearchTopicsRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that contains the topic that you want to find.
         public let awsAccountId: String
@@ -39971,6 +43884,20 @@ extension QuickSight {
         }
     }
 
+    public struct SelectableValuesSort: AWSEncodableShape & AWSDecodableShape {
+        /// The sort direction for the selectable values. Choose one of the following options:    ASC: Sort in ascending order.    DESC: Sort in descending order.    USER_DEFINED_ORDER: Preserve the order in which the values were entered.
+        public let direction: ControlSortDirection
+
+        @inlinable
+        public init(direction: ControlSortDirection) {
+            self.direction = direction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case direction = "Direction"
+        }
+    }
+
     public struct SelectedSheetsFilterScopeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The sheet ID and visual IDs of the sheet and visuals that the filter is applied to.
         public let sheetVisualScopingConfigurations: [SheetVisualScopingConfiguration]?
@@ -40085,15 +44012,23 @@ extension QuickSight {
     }
 
     public struct SemanticModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The dataset-level semantic metadata, including a description and custom instructions.
+        public let semanticMetadata: [DataSetSemanticMetadata]?
         /// A map of semantic tables that define the analytical structure.
         public let tableMap: [String: SemanticTable]?
 
         @inlinable
-        public init(tableMap: [String: SemanticTable]? = nil) {
+        public init(semanticMetadata: [DataSetSemanticMetadata]? = nil, tableMap: [String: SemanticTable]? = nil) {
+            self.semanticMetadata = semanticMetadata
             self.tableMap = tableMap
         }
 
         public func validate(name: String) throws {
+            try self.semanticMetadata?.forEach {
+                try $0.validate(name: "\(name).semanticMetadata[]")
+            }
+            try self.validate(self.semanticMetadata, name: "semanticMetadata", parent: name, max: 1)
+            try self.validate(self.semanticMetadata, name: "semanticMetadata", parent: name, min: 1)
             try self.tableMap?.forEach {
                 try validate($0.key, name: "tableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "tableMap.key", parent: name, min: 1)
@@ -40105,6 +44040,7 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case semanticMetadata = "SemanticMetadata"
             case tableMap = "TableMap"
         }
     }
@@ -40116,12 +44052,15 @@ extension QuickSight {
         public let destinationTableId: String
         /// Configuration for row level security that control data access for this semantic table.
         public let rowLevelPermissionConfiguration: RowLevelPermissionConfiguration?
+        /// The column-level semantic metadata for this semantic table.
+        public let semanticMetadata: TableSemanticMetadata?
 
         @inlinable
-        public init(alias: String, destinationTableId: String, rowLevelPermissionConfiguration: RowLevelPermissionConfiguration? = nil) {
+        public init(alias: String, destinationTableId: String, rowLevelPermissionConfiguration: RowLevelPermissionConfiguration? = nil, semanticMetadata: TableSemanticMetadata? = nil) {
             self.alias = alias
             self.destinationTableId = destinationTableId
             self.rowLevelPermissionConfiguration = rowLevelPermissionConfiguration
+            self.semanticMetadata = semanticMetadata
         }
 
         public func validate(name: String) throws {
@@ -40131,12 +44070,14 @@ extension QuickSight {
             try self.validate(self.destinationTableId, name: "destinationTableId", parent: name, min: 1)
             try self.validate(self.destinationTableId, name: "destinationTableId", parent: name, pattern: "^[0-9a-zA-Z-]*$")
             try self.rowLevelPermissionConfiguration?.validate(name: "\(name).rowLevelPermissionConfiguration")
+            try self.semanticMetadata?.validate(name: "\(name).semanticMetadata")
         }
 
         private enum CodingKeys: String, CodingKey {
             case alias = "Alias"
             case destinationTableId = "DestinationTableId"
             case rowLevelPermissionConfiguration = "RowLevelPermissionConfiguration"
+            case semanticMetadata = "SemanticMetadata"
         }
     }
 
@@ -40310,6 +44251,73 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case backgroundColor = "BackgroundColor"
+        }
+    }
+
+    public struct SharePointParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The authentication type for the SharePoint data source. Valid values include:    TWO_LEGGED_OAUTH – Server-to-server authentication using client credentials that do not require user interaction.    THREE_LEGGED_OAUTH – Interactive OAuth that requires user consent.
+        public let authType: AuthType?
+        /// The client ID for the SharePoint data source.
+        public let clientId: String?
+        /// The SharePoint domain for the data source.
+        public let sharePointDomain: String
+        /// The tenant ID for the SharePoint data source.
+        public let tenantId: String?
+
+        @inlinable
+        public init(authType: AuthType? = nil, clientId: String? = nil, sharePointDomain: String, tenantId: String? = nil) {
+            self.authType = authType
+            self.clientId = clientId
+            self.sharePointDomain = sharePointDomain
+            self.tenantId = tenantId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 100)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.sharePointDomain, name: "sharePointDomain", parent: name, max: 1024)
+            try self.validate(self.sharePointDomain, name: "sharePointDomain", parent: name, min: 1)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, max: 100)
+            try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case clientId = "ClientId"
+            case sharePointDomain = "SharePointDomain"
+            case tenantId = "TenantId"
+        }
+    }
+
+    public struct SharedColumnSemanticMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// The names of the columns this metadata applies to.
+        public let columnNames: [String]?
+        /// The semantic properties for the specified columns.
+        public let columnProperties: [ColumnSemanticProperty]
+
+        @inlinable
+        public init(columnNames: [String]? = nil, columnProperties: [ColumnSemanticProperty]) {
+            self.columnNames = columnNames
+            self.columnProperties = columnProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.columnNames?.forEach {
+                try validate($0, name: "columnNames[]", parent: name, max: 128)
+                try validate($0, name: "columnNames[]", parent: name, min: 1)
+            }
+            try self.validate(self.columnNames, name: "columnNames", parent: name, max: 2000)
+            try self.validate(self.columnNames, name: "columnNames", parent: name, min: 1)
+            try self.columnProperties.forEach {
+                try $0.validate(name: "\(name).columnProperties[]")
+            }
+            try self.validate(self.columnProperties, name: "columnProperties", parent: name, max: 3)
+            try self.validate(self.columnProperties, name: "columnProperties", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnNames = "ColumnNames"
+            case columnProperties = "ColumnProperties"
         }
     }
 
@@ -40844,6 +44852,26 @@ extension QuickSight {
             case content = "Content"
             case interactions = "Interactions"
             case sheetTextBoxId = "SheetTextBoxId"
+        }
+    }
+
+    public struct SheetTooltip: AWSEncodableShape & AWSDecodableShape {
+        /// The sheet ID of the tooltip sheet that is used by the tooltip.
+        public let sheetId: String?
+
+        @inlinable
+        public init(sheetId: String? = nil) {
+            self.sheetId = sheetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 512)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sheetId = "SheetId"
         }
     }
 
@@ -41455,6 +45483,212 @@ extension QuickSight {
         }
     }
 
+    public struct SpaceContributor: AWSDecodableShape {
+        /// The percentage of total contributions made by the user.
+        public let percentage: Double?
+        /// The raw file size in bytes contributed by the user.
+        public let rawFileSizeBytes: Int64
+        /// The user name of the contributor.
+        public let userName: String?
+
+        @inlinable
+        public init(percentage: Double? = nil, rawFileSizeBytes: Int64, userName: String? = nil) {
+            self.percentage = percentage
+            self.rawFileSizeBytes = rawFileSizeBytes
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentage = "percentage"
+            case rawFileSizeBytes = "rawFileSizeBytes"
+            case userName = "userName"
+        }
+    }
+
+    public struct SpaceDetails: AWSDecodableShape {
+        /// The number of consumed source documents.
+        public let consumedSourceDocCount: Int?
+        /// The total consumed source size in bytes.
+        public let consumedSourceSize: Int64?
+        /// The date and time that the space was created.
+        public let createdAt: Date?
+        /// The user who created the space.
+        public let createdBy: String?
+        /// The ARN of the user who created the space.
+        public let createdByArn: String?
+        /// The description of the space.
+        public let description: String?
+        /// The display name of the space.
+        public let name: String?
+        /// The resources in the space.
+        public let resources: [SpaceQuickSightResource]?
+        /// The date and time that the space was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(consumedSourceDocCount: Int? = nil, consumedSourceSize: Int64? = nil, createdAt: Date? = nil, createdBy: String? = nil, createdByArn: String? = nil, description: String? = nil, name: String? = nil, resources: [SpaceQuickSightResource]? = nil, updatedAt: Date? = nil) {
+            self.consumedSourceDocCount = consumedSourceDocCount
+            self.consumedSourceSize = consumedSourceSize
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.createdByArn = createdByArn
+            self.description = description
+            self.name = name
+            self.resources = resources
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumedSourceDocCount = "consumedSourceDocCount"
+            case consumedSourceSize = "consumedSourceSize"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case createdByArn = "createdByArn"
+            case description = "description"
+            case name = "name"
+            case resources = "resources"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct SpaceQuickSightResource: AWSDecodableShape {
+        /// The details of the QuickSight resource.
+        public let resourceDetails: SpaceQuickSightResourceDetails
+        /// The type of the QuickSight resource.
+        public let resourceType: SpaceQuickSightResourceType
+
+        @inlinable
+        public init(resourceDetails: SpaceQuickSightResourceDetails, resourceType: SpaceQuickSightResourceType) {
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDetails = "resourceDetails"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct SpaceQuicksightSearchFilter: AWSEncodableShape {
+        /// The name of the filter field to use.
+        public let name: SpaceQuickSightSearchFilterName
+        /// The comparison operator to use for the filter.
+        public let `operator`: SpaceSearchOperator
+        /// The value to use for the filter.
+        public let value: String
+
+        @inlinable
+        public init(name: SpaceQuickSightSearchFilterName, operator: SpaceSearchOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case value = "value"
+        }
+    }
+
+    public struct SpaceResourceOperation: AWSEncodableShape {
+        /// The details of the resource.
+        public let resourceDetails: SpaceQuickSightResourceDetails
+        /// The type of the resource.
+        public let resourceType: SpaceQuickSightResourceType
+
+        @inlinable
+        public init(resourceDetails: SpaceQuickSightResourceDetails, resourceType: SpaceQuickSightResourceType) {
+            self.resourceDetails = resourceDetails
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDetails = "ResourceDetails"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct SpaceResourceSummary: AWSDecodableShape {
+        /// The details of the resource.
+        public let resourceDetails: SpaceQuickSightResourceDetails
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The type of the resource.
+        public let resourceType: SpaceQuickSightResourceType
+        /// The date and time that the resource was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(resourceDetails: SpaceQuickSightResourceDetails, resourceName: String? = nil, resourceType: SpaceQuickSightResourceType, updatedAt: Date? = nil) {
+            self.resourceDetails = resourceDetails
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceDetails = "ResourceDetails"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct SpaceSummary: AWSDecodableShape {
+        /// The number of consumed source documents.
+        public let consumedSourceDocCount: Int?
+        /// The total consumed source size in bytes.
+        public let consumedSourceSize: Int64?
+        /// The date and time that the space was created.
+        public let createdAt: Date?
+        /// The user who created the space.
+        public let createdBy: String?
+        /// The ARN of the user who created the space.
+        public let createdByArn: String?
+        /// The description of the space.
+        public let description: String?
+        /// The display name of the space.
+        public let name: String?
+        /// The number of resources in the space.
+        public let resourcesCount: Int?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+        /// The date and time that the space was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(consumedSourceDocCount: Int? = nil, consumedSourceSize: Int64? = nil, createdAt: Date? = nil, createdBy: String? = nil, createdByArn: String? = nil, description: String? = nil, name: String? = nil, resourcesCount: Int? = nil, spaceArn: String? = nil, spaceId: String, updatedAt: Date? = nil) {
+            self.consumedSourceDocCount = consumedSourceDocCount
+            self.consumedSourceSize = consumedSourceSize
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.createdByArn = createdByArn
+            self.description = description
+            self.name = name
+            self.resourcesCount = resourcesCount
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumedSourceDocCount = "consumedSourceDocCount"
+            case consumedSourceSize = "consumedSourceSize"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case createdByArn = "createdByArn"
+            case description = "description"
+            case name = "name"
+            case resourcesCount = "resourcesCount"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct Spacing: AWSEncodableShape & AWSDecodableShape {
         /// Define the bottom spacing.
         public let bottom: String?
@@ -41503,6 +45737,58 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case host = "Host"
             case port = "Port"
+        }
+    }
+
+    public struct SparklinesOptions: AWSEncodableShape & AWSDecodableShape {
+        public let allPointsMarker: LineChartMarkerStyleSettings?
+        /// The field ID of the value column that the sparkline is applied to.
+        public let fieldId: String
+        /// The color of the sparkline line.
+        public let lineColor: String?
+        /// The interpolation style for the sparkline line.
+        public let lineInterpolation: LineInterpolation?
+        public let maxValueMarker: LineChartMarkerStyleSettings?
+        public let minValueMarker: LineChartMarkerStyleSettings?
+        /// The type of the sparkline. Valid values are LINE and AREA_LINE.
+        public let visualType: SparklineVisualType?
+        public let xAxisField: DimensionField
+        /// Determines whether the Y axis is shared across all sparklines or independent for each sparkline.
+        public let yAxisBehavior: SparklineAxisBehavior?
+
+        @inlinable
+        public init(allPointsMarker: LineChartMarkerStyleSettings? = nil, fieldId: String, lineColor: String? = nil, lineInterpolation: LineInterpolation? = nil, maxValueMarker: LineChartMarkerStyleSettings? = nil, minValueMarker: LineChartMarkerStyleSettings? = nil, visualType: SparklineVisualType? = nil, xAxisField: DimensionField, yAxisBehavior: SparklineAxisBehavior? = nil) {
+            self.allPointsMarker = allPointsMarker
+            self.fieldId = fieldId
+            self.lineColor = lineColor
+            self.lineInterpolation = lineInterpolation
+            self.maxValueMarker = maxValueMarker
+            self.minValueMarker = minValueMarker
+            self.visualType = visualType
+            self.xAxisField = xAxisField
+            self.yAxisBehavior = yAxisBehavior
+        }
+
+        public func validate(name: String) throws {
+            try self.allPointsMarker?.validate(name: "\(name).allPointsMarker")
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 512)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.lineColor, name: "lineColor", parent: name, pattern: "^#[A-F0-9]{6}$")
+            try self.maxValueMarker?.validate(name: "\(name).maxValueMarker")
+            try self.minValueMarker?.validate(name: "\(name).minValueMarker")
+            try self.xAxisField.validate(name: "\(name).xAxisField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allPointsMarker = "AllPointsMarker"
+            case fieldId = "FieldId"
+            case lineColor = "LineColor"
+            case lineInterpolation = "LineInterpolation"
+            case maxValueMarker = "MaxValueMarker"
+            case minValueMarker = "MinValueMarker"
+            case visualType = "VisualType"
+            case xAxisField = "XAxisField"
+            case yAxisBehavior = "YAxisBehavior"
         }
     }
 
@@ -41839,6 +46125,83 @@ extension QuickSight {
         }
     }
 
+    public struct StartAutomationJobRequest: AWSEncodableShape {
+        /// The ID of the automation group that contains the automation to run.
+        public let automationGroupId: String
+        /// The ID of the automation to run.
+        public let automationId: String
+        /// The ID of the Amazon Web Services account that contains the automation.
+        public let awsAccountId: String
+        /// The input payload for the automation job, provided as a JSON string.
+        public let inputPayload: String?
+
+        @inlinable
+        public init(automationGroupId: String, automationId: String, awsAccountId: String, inputPayload: String? = nil) {
+            self.automationGroupId = automationGroupId
+            self.automationId = automationId
+            self.awsAccountId = awsAccountId
+            self.inputPayload = inputPayload
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.automationGroupId, key: "AutomationGroupId")
+            request.encodePath(self.automationId, key: "AutomationId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.inputPayload, forKey: .inputPayload)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.automationGroupId, name: "automationGroupId", parent: name, pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+            try self.validate(self.automationId, name: "automationId", parent: name, pattern: "^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.inputPayload, name: "inputPayload", parent: name, max: 7000000)
+            try self.validate(self.inputPayload, name: "inputPayload", parent: name, min: 1)
+            try self.validate(self.inputPayload, name: "inputPayload", parent: name, pattern: "^[\\s\\S]*[{\\[].*[}\\]]\\s*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputPayload = "InputPayload"
+        }
+    }
+
+    public struct StartAutomationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the automation job.
+        public let arn: String
+        /// The ID of the automation job that was started.
+        public let jobId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String, jobId: String, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.jobId = jobId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.jobId = try container.decode(String.self, forKey: .jobId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case jobId = "JobId"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct StartDashboardSnapshotJobRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account that the dashboard snapshot job is executed in.
         public let awsAccountId: String
@@ -42075,6 +46438,24 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case url = "Url"
+        }
+    }
+
+    public struct StepAliasMapping: AWSDecodableShape {
+        /// The alias for the step.
+        public let stepAlias: String
+        /// The unique identifier of the step.
+        public let stepId: String
+
+        @inlinable
+        public init(stepAlias: String, stepId: String) {
+            self.stepAlias = stepAlias
+            self.stepId = stepId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepAlias = "StepAlias"
+            case stepId = "StepId"
         }
     }
 
@@ -42553,11 +46934,12 @@ extension QuickSight {
         public let tableInlineVisualizations: [TableInlineVisualization]?
         /// The table options for a table visual.
         public let tableOptions: TableOptions?
+        public let tooltip: TooltipOptions?
         /// The total options for a table visual.
         public let totalOptions: TotalOptions?
 
         @inlinable
-        public init(dashboardCustomizationVisualOptions: DashboardCustomizationVisualOptions? = nil, fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableInlineVisualizations: [TableInlineVisualization]? = nil, tableOptions: TableOptions? = nil, totalOptions: TotalOptions? = nil) {
+        public init(dashboardCustomizationVisualOptions: DashboardCustomizationVisualOptions? = nil, fieldOptions: TableFieldOptions? = nil, fieldWells: TableFieldWells? = nil, interactions: VisualInteractionOptions? = nil, paginatedReportOptions: TablePaginatedReportOptions? = nil, sortConfiguration: TableSortConfiguration? = nil, tableInlineVisualizations: [TableInlineVisualization]? = nil, tableOptions: TableOptions? = nil, tooltip: TooltipOptions? = nil, totalOptions: TotalOptions? = nil) {
             self.dashboardCustomizationVisualOptions = dashboardCustomizationVisualOptions
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
@@ -42566,6 +46948,7 @@ extension QuickSight {
             self.sortConfiguration = sortConfiguration
             self.tableInlineVisualizations = tableInlineVisualizations
             self.tableOptions = tableOptions
+            self.tooltip = tooltip
             self.totalOptions = totalOptions
         }
 
@@ -42579,6 +46962,7 @@ extension QuickSight {
             }
             try self.validate(self.tableInlineVisualizations, name: "tableInlineVisualizations", parent: name, max: 200)
             try self.tableOptions?.validate(name: "\(name).tableOptions")
+            try self.tooltip?.validate(name: "\(name).tooltip")
             try self.totalOptions?.validate(name: "\(name).totalOptions")
         }
 
@@ -42591,6 +46975,7 @@ extension QuickSight {
             case sortConfiguration = "SortConfiguration"
             case tableInlineVisualizations = "TableInlineVisualizations"
             case tableOptions = "TableOptions"
+            case tooltip = "Tooltip"
             case totalOptions = "TotalOptions"
         }
     }
@@ -42818,18 +47203,23 @@ extension QuickSight {
     public struct TableInlineVisualization: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of the inline visualization of the data bars within a chart.
         public let dataBars: DataBarsOptions?
+        /// The configuration of the inline visualization of the sparklines within a chart.
+        public let sparklines: SparklinesOptions?
 
         @inlinable
-        public init(dataBars: DataBarsOptions? = nil) {
+        public init(dataBars: DataBarsOptions? = nil, sparklines: SparklinesOptions? = nil) {
             self.dataBars = dataBars
+            self.sparklines = sparklines
         }
 
         public func validate(name: String) throws {
             try self.dataBars?.validate(name: "\(name).dataBars")
+            try self.sparklines?.validate(name: "\(name).sparklines")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataBars = "DataBars"
+            case sparklines = "Sparklines"
         }
     }
 
@@ -42950,6 +47340,28 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case backgroundColor = "BackgroundColor"
             case textColor = "TextColor"
+        }
+    }
+
+    public struct TableSemanticMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// A list of column semantic metadata entries.
+        public let columnMetadata: [SharedColumnSemanticMetadata]?
+
+        @inlinable
+        public init(columnMetadata: [SharedColumnSemanticMetadata]? = nil) {
+            self.columnMetadata = columnMetadata
+        }
+
+        public func validate(name: String) throws {
+            try self.columnMetadata?.forEach {
+                try $0.validate(name: "\(name).columnMetadata[]")
+            }
+            try self.validate(self.columnMetadata, name: "columnMetadata", parent: name, max: 2000)
+            try self.validate(self.columnMetadata, name: "columnMetadata", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnMetadata = "ColumnMetadata"
         }
     }
 
@@ -43459,9 +47871,11 @@ extension QuickSight {
         public let sheets: [SheetDefinition]?
         /// The static files for the definition.
         public let staticFiles: [StaticFile]?
+        /// An array of tooltip sheet definitions for a template.
+        public let tooltipSheets: [TooltipSheetDefinition]?
 
         @inlinable
-        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil) {
+        public init(analysisDefaults: AnalysisDefaults? = nil, calculatedFields: [CalculatedField]? = nil, columnConfigurations: [ColumnConfiguration]? = nil, dataSetConfigurations: [DataSetConfiguration], filterGroups: [FilterGroup]? = nil, options: AssetOptions? = nil, parameterDeclarations: [ParameterDeclaration]? = nil, queryExecutionOptions: QueryExecutionOptions? = nil, sheets: [SheetDefinition]? = nil, staticFiles: [StaticFile]? = nil, tooltipSheets: [TooltipSheetDefinition]? = nil) {
             self.analysisDefaults = analysisDefaults
             self.calculatedFields = calculatedFields
             self.columnConfigurations = columnConfigurations
@@ -43472,6 +47886,7 @@ extension QuickSight {
             self.queryExecutionOptions = queryExecutionOptions
             self.sheets = sheets
             self.staticFiles = staticFiles
+            self.tooltipSheets = tooltipSheets
         }
 
         public func validate(name: String) throws {
@@ -43504,6 +47919,10 @@ extension QuickSight {
                 try $0.validate(name: "\(name).staticFiles[]")
             }
             try self.validate(self.staticFiles, name: "staticFiles", parent: name, max: 200)
+            try self.tooltipSheets?.forEach {
+                try $0.validate(name: "\(name).tooltipSheets[]")
+            }
+            try self.validate(self.tooltipSheets, name: "tooltipSheets", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -43517,6 +47936,7 @@ extension QuickSight {
             case queryExecutionOptions = "QueryExecutionOptions"
             case sheets = "Sheets"
             case staticFiles = "StaticFiles"
+            case tooltipSheets = "TooltipSheets"
         }
     }
 
@@ -44265,24 +48685,87 @@ extension QuickSight {
         public let fieldBasedTooltip: FieldBasedTooltip?
         /// The selected type for the tooltip. Choose one of the following options:    BASIC: A basic tooltip.    DETAILED: A detailed tooltip.
         public let selectedTooltipType: SelectedTooltipType?
+        public let sheetTooltip: SheetTooltip?
         /// Determines whether or not the tooltip is visible.
         public let tooltipVisibility: Visibility?
 
         @inlinable
-        public init(fieldBasedTooltip: FieldBasedTooltip? = nil, selectedTooltipType: SelectedTooltipType? = nil, tooltipVisibility: Visibility? = nil) {
+        public init(fieldBasedTooltip: FieldBasedTooltip? = nil, selectedTooltipType: SelectedTooltipType? = nil, sheetTooltip: SheetTooltip? = nil, tooltipVisibility: Visibility? = nil) {
             self.fieldBasedTooltip = fieldBasedTooltip
             self.selectedTooltipType = selectedTooltipType
+            self.sheetTooltip = sheetTooltip
             self.tooltipVisibility = tooltipVisibility
         }
 
         public func validate(name: String) throws {
             try self.fieldBasedTooltip?.validate(name: "\(name).fieldBasedTooltip")
+            try self.sheetTooltip?.validate(name: "\(name).sheetTooltip")
         }
 
         private enum CodingKeys: String, CodingKey {
             case fieldBasedTooltip = "FieldBasedTooltip"
             case selectedTooltipType = "SelectedTooltipType"
+            case sheetTooltip = "SheetTooltip"
             case tooltipVisibility = "TooltipVisibility"
+        }
+    }
+
+    public struct TooltipSheetDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// A list of images on a tooltip sheet.
+        public let images: [SheetImage]?
+        /// Layouts define how the components of a tooltip sheet are arranged. For more information, see Types of layout in the Amazon Quick Suite User Guide.
+        public let layouts: [Layout]?
+        /// The name of the tooltip sheet. This name is displayed on the sheet's tab in the Quick console.
+        public let name: String?
+        /// The unique identifier of a tooltip sheet.
+        public let sheetId: String
+        /// The text boxes that are on a tooltip sheet.
+        public let textBoxes: [SheetTextBox]?
+        /// A list of the visuals that are on a tooltip sheet.
+        public let visuals: [Visual]?
+
+        @inlinable
+        public init(images: [SheetImage]? = nil, layouts: [Layout]? = nil, name: String? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, visuals: [Visual]? = nil) {
+            self.images = images
+            self.layouts = layouts
+            self.name = name
+            self.sheetId = sheetId
+            self.textBoxes = textBoxes
+            self.visuals = visuals
+        }
+
+        public func validate(name: String) throws {
+            try self.images?.forEach {
+                try $0.validate(name: "\(name).images[]")
+            }
+            try self.validate(self.images, name: "images", parent: name, max: 5)
+            try self.layouts?.forEach {
+                try $0.validate(name: "\(name).layouts[]")
+            }
+            try self.validate(self.layouts, name: "layouts", parent: name, max: 1)
+            try self.validate(self.layouts, name: "layouts", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, max: 512)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, min: 1)
+            try self.validate(self.sheetId, name: "sheetId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.textBoxes?.forEach {
+                try $0.validate(name: "\(name).textBoxes[]")
+            }
+            try self.validate(self.textBoxes, name: "textBoxes", parent: name, max: 5)
+            try self.visuals?.forEach {
+                try $0.validate(name: "\(name).visuals[]")
+            }
+            try self.validate(self.visuals, name: "visuals", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
+            case layouts = "Layouts"
+            case name = "Name"
+            case sheetId = "SheetId"
+            case textBoxes = "TextBoxes"
+            case visuals = "Visuals"
         }
     }
 
@@ -46117,6 +50600,8 @@ extension QuickSight {
     public struct Typography: AWSEncodableShape & AWSDecodableShape {
         public let axisLabelFontConfiguration: FontConfiguration?
         public let axisTitleFontConfiguration: FontConfiguration?
+        /// Configures the display properties of the control title.
+        public let controlTitleFontConfiguration: ControlTitleFontConfiguration?
         public let dataLabelFontConfiguration: FontConfiguration?
         /// Determines the list of font families.
         public let fontFamilies: [Font]?
@@ -46128,9 +50613,10 @@ extension QuickSight {
         public let visualTitleFontConfiguration: VisualTitleFontConfiguration?
 
         @inlinable
-        public init(axisLabelFontConfiguration: FontConfiguration? = nil, axisTitleFontConfiguration: FontConfiguration? = nil, dataLabelFontConfiguration: FontConfiguration? = nil, fontFamilies: [Font]? = nil, legendTitleFontConfiguration: FontConfiguration? = nil, legendValueFontConfiguration: FontConfiguration? = nil, visualSubtitleFontConfiguration: VisualSubtitleFontConfiguration? = nil, visualTitleFontConfiguration: VisualTitleFontConfiguration? = nil) {
+        public init(axisLabelFontConfiguration: FontConfiguration? = nil, axisTitleFontConfiguration: FontConfiguration? = nil, controlTitleFontConfiguration: ControlTitleFontConfiguration? = nil, dataLabelFontConfiguration: FontConfiguration? = nil, fontFamilies: [Font]? = nil, legendTitleFontConfiguration: FontConfiguration? = nil, legendValueFontConfiguration: FontConfiguration? = nil, visualSubtitleFontConfiguration: VisualSubtitleFontConfiguration? = nil, visualTitleFontConfiguration: VisualTitleFontConfiguration? = nil) {
             self.axisLabelFontConfiguration = axisLabelFontConfiguration
             self.axisTitleFontConfiguration = axisTitleFontConfiguration
+            self.controlTitleFontConfiguration = controlTitleFontConfiguration
             self.dataLabelFontConfiguration = dataLabelFontConfiguration
             self.fontFamilies = fontFamilies
             self.legendTitleFontConfiguration = legendTitleFontConfiguration
@@ -46142,7 +50628,11 @@ extension QuickSight {
         public func validate(name: String) throws {
             try self.axisLabelFontConfiguration?.validate(name: "\(name).axisLabelFontConfiguration")
             try self.axisTitleFontConfiguration?.validate(name: "\(name).axisTitleFontConfiguration")
+            try self.controlTitleFontConfiguration?.validate(name: "\(name).controlTitleFontConfiguration")
             try self.dataLabelFontConfiguration?.validate(name: "\(name).dataLabelFontConfiguration")
+            try self.fontFamilies?.forEach {
+                try $0.validate(name: "\(name).fontFamilies[]")
+            }
             try self.validate(self.fontFamilies, name: "fontFamilies", parent: name, max: 5)
             try self.legendTitleFontConfiguration?.validate(name: "\(name).legendTitleFontConfiguration")
             try self.legendValueFontConfiguration?.validate(name: "\(name).legendValueFontConfiguration")
@@ -46153,6 +50643,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case axisLabelFontConfiguration = "AxisLabelFontConfiguration"
             case axisTitleFontConfiguration = "AxisTitleFontConfiguration"
+            case controlTitleFontConfiguration = "ControlTitleFontConfiguration"
             case dataLabelFontConfiguration = "DataLabelFontConfiguration"
             case fontFamilies = "FontFamilies"
             case legendTitleFontConfiguration = "LegendTitleFontConfiguration"
@@ -46892,6 +51383,223 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateAgentPermissionsRequest: AWSEncodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+        /// The resource permissions that you want to grant on the agent.
+        public let grantPermissions: [ResourcePermission]?
+        /// The resource permissions that you want to revoke from the agent.
+        public let revokePermissions: [ResourcePermission]?
+
+        @inlinable
+        public init(agentId: String, awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+            self.agentId = agentId
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "AgentId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 256)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z-_.+]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateAgentPermissionsResponse: AWSDecodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// The resource permissions for the agent.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agentId: String, arn: String, permissions: [ResourcePermission]? = nil, requestId: String? = nil) {
+            self.agentId = agentId
+            self.arn = arn
+            self.permissions = permissions
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "AgentId"
+            case arn = "Arn"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateAgentRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the action connectors to attach to the agent.
+        public let actionConnectorsToAdd: [String]?
+        /// The Amazon Resource Names (ARNs) of the action connectors to detach from the agent.
+        public let actionConnectorsToRemove: [String]?
+        /// The unique identifier for the agent to update.
+        public let agentId: String
+        /// The ID of the Amazon Web Services account that contains the agent.
+        public let awsAccountId: String
+        /// The custom prompt configuration for the agent.
+        public let customPromptInput: CustomPromptInput?
+        /// A description of the agent.
+        public let description: String?
+        /// The icon identifier for the agent.
+        public let iconId: String?
+        /// The name of the agent.
+        public let name: String
+        /// The Amazon Resource Names (ARNs) of the spaces to attach to the agent.
+        public let spacesToAdd: [String]?
+        /// The Amazon Resource Names (ARNs) of the spaces to detach from the agent.
+        public let spacesToRemove: [String]?
+        /// A list of starter prompts that are displayed to users when they begin interacting with the agent.
+        public let starterPrompts: [String]?
+        /// The welcome message that is displayed when a user starts a conversation with the agent.
+        public let welcomeMessage: String?
+
+        @inlinable
+        public init(actionConnectorsToAdd: [String]? = nil, actionConnectorsToRemove: [String]? = nil, agentId: String, awsAccountId: String, customPromptInput: CustomPromptInput? = nil, description: String? = nil, iconId: String? = nil, name: String, spacesToAdd: [String]? = nil, spacesToRemove: [String]? = nil, starterPrompts: [String]? = nil, welcomeMessage: String? = nil) {
+            self.actionConnectorsToAdd = actionConnectorsToAdd
+            self.actionConnectorsToRemove = actionConnectorsToRemove
+            self.agentId = agentId
+            self.awsAccountId = awsAccountId
+            self.customPromptInput = customPromptInput
+            self.description = description
+            self.iconId = iconId
+            self.name = name
+            self.spacesToAdd = spacesToAdd
+            self.spacesToRemove = spacesToRemove
+            self.starterPrompts = starterPrompts
+            self.welcomeMessage = welcomeMessage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.actionConnectorsToAdd, forKey: .actionConnectorsToAdd)
+            try container.encodeIfPresent(self.actionConnectorsToRemove, forKey: .actionConnectorsToRemove)
+            request.encodePath(self.agentId, key: "AgentId")
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.customPromptInput, forKey: .customPromptInput)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.iconId, forKey: .iconId)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.spacesToAdd, forKey: .spacesToAdd)
+            try container.encodeIfPresent(self.spacesToRemove, forKey: .spacesToRemove)
+            try container.encodeIfPresent(self.starterPrompts, forKey: .starterPrompts)
+            try container.encodeIfPresent(self.welcomeMessage, forKey: .welcomeMessage)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.actionConnectorsToAdd, name: "actionConnectorsToAdd", parent: name, max: 10)
+            try self.validate(self.actionConnectorsToRemove, name: "actionConnectorsToRemove", parent: name, max: 10)
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 256)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[0-9a-zA-Z-_.+]+$")
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.customPromptInput?.validate(name: "\(name).customPromptInput")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.iconId, name: "iconId", parent: name, max: 200)
+            try self.validate(self.iconId, name: "iconId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$).+$")
+            try self.validate(self.spacesToAdd, name: "spacesToAdd", parent: name, max: 10)
+            try self.validate(self.spacesToRemove, name: "spacesToRemove", parent: name, max: 10)
+            try self.starterPrompts?.forEach {
+                try validate($0, name: "starterPrompts[]", parent: name, max: 100)
+            }
+            try self.validate(self.starterPrompts, name: "starterPrompts", parent: name, max: 3)
+            try self.validate(self.welcomeMessage, name: "welcomeMessage", parent: name, max: 300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionConnectorsToAdd = "ActionConnectorsToAdd"
+            case actionConnectorsToRemove = "ActionConnectorsToRemove"
+            case customPromptInput = "CustomPromptInput"
+            case description = "Description"
+            case iconId = "IconId"
+            case name = "Name"
+            case spacesToAdd = "SpacesToAdd"
+            case spacesToRemove = "SpacesToRemove"
+            case starterPrompts = "StarterPrompts"
+            case welcomeMessage = "WelcomeMessage"
+        }
+    }
+
+    public struct UpdateAgentResponse: AWSDecodableShape {
+        /// The unique identifier for the agent.
+        public let agentId: String
+        /// The status of the agent.
+        public let agentStatus: AgentStatus
+        /// The Amazon Resource Name (ARN) of the agent.
+        public let arn: String
+        /// A list of per-ARN failures from the action connectors that were requested to be added.
+        public let failedToAddActionConnectors: [FailedToUpdateAssociation]?
+        /// A list of per-ARN failures from the spaces that were requested to be added.
+        public let failedToAddSpaces: [FailedToUpdateAssociation]?
+        /// A list of per-ARN failures from the action connectors that were requested to be removed.
+        public let failedToRemoveActionConnectors: [FailedToUpdateAssociation]?
+        /// A list of per-ARN failures from the spaces that were requested to be removed.
+        public let failedToRemoveSpaces: [FailedToUpdateAssociation]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(agentId: String, agentStatus: AgentStatus, arn: String, failedToAddActionConnectors: [FailedToUpdateAssociation]? = nil, failedToAddSpaces: [FailedToUpdateAssociation]? = nil, failedToRemoveActionConnectors: [FailedToUpdateAssociation]? = nil, failedToRemoveSpaces: [FailedToUpdateAssociation]? = nil, requestId: String? = nil) {
+            self.agentId = agentId
+            self.agentStatus = agentStatus
+            self.arn = arn
+            self.failedToAddActionConnectors = failedToAddActionConnectors
+            self.failedToAddSpaces = failedToAddSpaces
+            self.failedToRemoveActionConnectors = failedToRemoveActionConnectors
+            self.failedToRemoveSpaces = failedToRemoveSpaces
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "AgentId"
+            case agentStatus = "AgentStatus"
+            case arn = "Arn"
+            case failedToAddActionConnectors = "FailedToAddActionConnectors"
+            case failedToAddSpaces = "FailedToAddSpaces"
+            case failedToRemoveActionConnectors = "FailedToRemoveActionConnectors"
+            case failedToRemoveSpaces = "FailedToRemoveSpaces"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateAnalysisPermissionsRequest: AWSEncodableShape {
         /// The ID of the analysis whose permissions you're updating. The ID is part of the analysis URL.
         public let analysisId: String
@@ -47314,12 +52022,15 @@ extension QuickSight {
         public let capabilities: Capabilities?
         /// The name of the custom permissions profile that you want to update.
         public let customPermissionsName: String
+        /// The governance configuration for the custom permissions profile. The UpdateCustomPermissions operation replaces all existing Capabilities and Governance values. If you omit this parameter, Amazon Quick removes governance from the profile and the existing custom permission behavior applies.
+        public let governance: Governance?
 
         @inlinable
-        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String) {
+        public init(awsAccountId: String, capabilities: Capabilities? = nil, customPermissionsName: String, governance: Governance? = nil) {
             self.awsAccountId = awsAccountId
             self.capabilities = capabilities
             self.customPermissionsName = customPermissionsName
+            self.governance = governance
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -47328,6 +52039,7 @@ extension QuickSight {
             request.encodePath(self.awsAccountId, key: "AwsAccountId")
             try container.encodeIfPresent(self.capabilities, forKey: .capabilities)
             request.encodePath(self.customPermissionsName, key: "CustomPermissionsName")
+            try container.encodeIfPresent(self.governance, forKey: .governance)
         }
 
         public func validate(name: String) throws {
@@ -47337,10 +52049,12 @@ extension QuickSight {
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, max: 64)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, min: 1)
             try self.validate(self.customPermissionsName, name: "customPermissionsName", parent: name, pattern: "^[a-zA-Z0-9+=,.@_-]+$")
+            try self.governance?.validate(name: "\(name).governance")
         }
 
         private enum CodingKeys: String, CodingKey {
             case capabilities = "Capabilities"
+            case governance = "Governance"
         }
     }
 
@@ -48434,6 +53148,97 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateFlowRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the flow that you are updating.
+        public let awsAccountId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Updated description for the flow. Omit to preserve the existing description.
+        public let description: String?
+        /// The definition of the flow, specifying the steps and configurations. This is the flow definition in Quick Flow's internal format. The format is subject to change. When provided, all existing steps are replaced. Omit to preserve the existing definition.  Always derive or depend on the flow definition from the DescribeFlow operation to ensure you are working with the latest format.
+        public let flowDefinition: AWSDocument?
+        /// The unique identifier of the flow to update.
+        public let flowId: String
+        /// Updated display name for the flow. Omit to preserve the existing name.
+        public let name: String?
+
+        @inlinable
+        public init(awsAccountId: String, clientToken: String? = UpdateFlowRequest.idempotencyToken(), description: String? = nil, flowDefinition: AWSDocument? = nil, flowId: String, name: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.clientToken = clientToken
+            self.description = description
+            self.flowDefinition = flowDefinition
+            self.flowId = flowId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.flowDefinition, forKey: .flowDefinition)
+            request.encodePath(self.flowId, key: "FlowId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(?!\\s+$)[^{}\"\\\\<>]*$")
+            try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s+$)[^{}\"\\\\<>]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case flowDefinition = "FlowDefinition"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateFlowResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow.
+        public let arn: String
+        /// The unique identifier of the flow.
+        public let flowId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(arn: String, flowId: String, requestId: String? = nil, status: Int? = nil) {
+            self.arn = arn
+            self.flowId = flowId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decode(String.self, forKey: .arn)
+            self.flowId = try container.decode(String.self, forKey: .flowId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case flowId = "FlowId"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct UpdateFolderPermissionsRequest: AWSEncodableShape {
         /// The ID for the Amazon Web Services account that contains the folder to update.
         public let awsAccountId: String
@@ -48978,6 +53783,322 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateKnowledgeBasePermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// The resource permissions that you want to grant on the knowledge base.
+        public let grantPermissions: [ResourcePermission]?
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The resource permissions that you want to revoke from the knowledge base.
+        public let revokePermissions: [ResourcePermission]?
+
+        @inlinable
+        public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, knowledgeBaseId: String, revokePermissions: [ResourcePermission]? = nil) {
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.knowledgeBaseId = knowledgeBaseId
+            self.revokePermissions = revokePermissions
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            request.encodePath(self.knowledgeBaseId, key: "KnowledgeBaseId")
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateKnowledgeBasePermissionsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The resource permissions for the knowledge base.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseArn: String, knowledgeBaseId: String, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.permissions = permissions
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseArn = try container.decode(String.self, forKey: .knowledgeBaseArn)
+            self.knowledgeBaseId = try container.decode(String.self, forKey: .knowledgeBaseId)
+            self.permissions = try container.decodeIfPresent([ResourcePermission].self, forKey: .permissions)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case permissions = "Permissions"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateKnowledgeBaseRequest: AWSEncodableShape {
+        /// The access control configuration for the knowledge base. If you don't specify this parameter, the existing setting is retained.
+        public let accessControlConfiguration: AccessControlConfiguration?
+        /// The ID of the Amazon Web Services account that contains the knowledge base.
+        public let awsAccountId: String
+        /// A description for the knowledge base. If you don't specify a description, the existing description is retained.
+        public let description: String?
+        /// Specifies whether email notifications are enabled for ingestion failures.
+        public let isEmailNotificationOptedForIngestionFailures: Bool?
+        public let knowledgeBaseConfiguration: KnowledgeBaseConfiguration?
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        public let mediaExtractionConfiguration: MediaExtractionConfiguration?
+        /// The name of the knowledge base. If you don't specify a name, the existing name is retained.
+        public let name: String?
+
+        @inlinable
+        public init(accessControlConfiguration: AccessControlConfiguration? = nil, awsAccountId: String, description: String? = nil, isEmailNotificationOptedForIngestionFailures: Bool? = nil, knowledgeBaseConfiguration: KnowledgeBaseConfiguration? = nil, knowledgeBaseId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, name: String? = nil) {
+            self.accessControlConfiguration = accessControlConfiguration
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.isEmailNotificationOptedForIngestionFailures = isEmailNotificationOptedForIngestionFailures
+            self.knowledgeBaseConfiguration = knowledgeBaseConfiguration
+            self.knowledgeBaseId = knowledgeBaseId
+            self.mediaExtractionConfiguration = mediaExtractionConfiguration
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessControlConfiguration, forKey: .accessControlConfiguration)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.isEmailNotificationOptedForIngestionFailures, forKey: .isEmailNotificationOptedForIngestionFailures)
+            try container.encodeIfPresent(self.knowledgeBaseConfiguration, forKey: .knowledgeBaseConfiguration)
+            request.encodePath(self.knowledgeBaseId, key: "KnowledgeBaseId")
+            try container.encodeIfPresent(self.mediaExtractionConfiguration, forKey: .mediaExtractionConfiguration)
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, max: 1024)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, min: 1)
+            try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}][\\p{L}\\p{N} _\\-\\.]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessControlConfiguration = "AccessControlConfiguration"
+            case description = "Description"
+            case isEmailNotificationOptedForIngestionFailures = "IsEmailNotificationOptedForIngestionFailures"
+            case knowledgeBaseConfiguration = "KnowledgeBaseConfiguration"
+            case mediaExtractionConfiguration = "MediaExtractionConfiguration"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateKnowledgeBaseResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the knowledge base.
+        public let knowledgeBaseArn: String
+        /// The unique identifier for the knowledge base.
+        public let knowledgeBaseId: String
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(knowledgeBaseArn: String, knowledgeBaseId: String, requestId: String? = nil, status: Int? = nil) {
+            self.knowledgeBaseArn = knowledgeBaseArn
+            self.knowledgeBaseId = knowledgeBaseId
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.knowledgeBaseArn = try container.decode(String.self, forKey: .knowledgeBaseArn)
+            self.knowledgeBaseId = try container.decode(String.self, forKey: .knowledgeBaseId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseArn = "KnowledgeBaseArn"
+            case knowledgeBaseId = "KnowledgeBaseId"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateOAuthClientApplicationRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID.
+        public let awsAccountId: String
+        /// The client ID of the OAuth application that is registered with the identity provider.
+        public let clientId: String?
+        /// The client secret of the OAuth application that is registered with the identity provider.
+        public let clientSecret: String?
+        /// The type of data source that the OAuthClientApplication is used with. Valid values are SNOWFLAKE.
+        public let dataSourceType: DataSourceType?
+        public let identityProviderVpcConnectionProperties: VpcConnectionProperties?
+        /// The display name for the OAuthClientApplication.
+        public let name: String
+        /// The authorization endpoint URL of the identity provider that is used to obtain authorization codes.
+        public let oAuthAuthorizationEndpointUrl: String?
+        /// The ID of the OAuthClientApplication that you want to update.
+        public let oAuthClientApplicationId: String
+        /// The OAuth scopes that are requested when the OAuthClientApplication obtains an access token from the identity provider.
+        public let oAuthScopes: String?
+        /// The token endpoint URL of the identity provider that is used to obtain access tokens.
+        public let oAuthTokenEndpointUrl: String?
+
+        @inlinable
+        public init(awsAccountId: String, clientId: String? = nil, clientSecret: String? = nil, dataSourceType: DataSourceType? = nil, identityProviderVpcConnectionProperties: VpcConnectionProperties? = nil, name: String, oAuthAuthorizationEndpointUrl: String? = nil, oAuthClientApplicationId: String, oAuthScopes: String? = nil, oAuthTokenEndpointUrl: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.dataSourceType = dataSourceType
+            self.identityProviderVpcConnectionProperties = identityProviderVpcConnectionProperties
+            self.name = name
+            self.oAuthAuthorizationEndpointUrl = oAuthAuthorizationEndpointUrl
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.oAuthScopes = oAuthScopes
+            self.oAuthTokenEndpointUrl = oAuthTokenEndpointUrl
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.clientId, forKey: .clientId)
+            try container.encodeIfPresent(self.clientSecret, forKey: .clientSecret)
+            try container.encodeIfPresent(self.dataSourceType, forKey: .dataSourceType)
+            try container.encodeIfPresent(self.identityProviderVpcConnectionProperties, forKey: .identityProviderVpcConnectionProperties)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.oAuthAuthorizationEndpointUrl, forKey: .oAuthAuthorizationEndpointUrl)
+            request.encodePath(self.oAuthClientApplicationId, key: "OAuthClientApplicationId")
+            try container.encodeIfPresent(self.oAuthScopes, forKey: .oAuthScopes)
+            try container.encodeIfPresent(self.oAuthTokenEndpointUrl, forKey: .oAuthTokenEndpointUrl)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 256)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 2048)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, min: 1)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, max: 2048)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, min: 1)
+            try self.validate(self.oAuthAuthorizationEndpointUrl, name: "oAuthAuthorizationEndpointUrl", parent: name, pattern: "^https://[^\\p{Cc}]+$")
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, max: 256)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, min: 1)
+            try self.validate(self.oAuthClientApplicationId, name: "oAuthClientApplicationId", parent: name, pattern: "^[^/][^\\p{Cc}]*$")
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, max: 4096)
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, min: 1)
+            try self.validate(self.oAuthScopes, name: "oAuthScopes", parent: name, pattern: "^[^\\p{Cc}]+$")
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, max: 2048)
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, min: 1)
+            try self.validate(self.oAuthTokenEndpointUrl, name: "oAuthTokenEndpointUrl", parent: name, pattern: "^https://[^\\p{Cc}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case dataSourceType = "DataSourceType"
+            case identityProviderVpcConnectionProperties = "IdentityProviderVpcConnectionProperties"
+            case name = "Name"
+            case oAuthAuthorizationEndpointUrl = "OAuthAuthorizationEndpointUrl"
+            case oAuthScopes = "OAuthScopes"
+            case oAuthTokenEndpointUrl = "OAuthTokenEndpointUrl"
+        }
+    }
+
+    public struct UpdateOAuthClientApplicationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OAuthClientApplication.
+        public let arn: String?
+        /// The ID of the OAuthClientApplication. This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+        public let oAuthClientApplicationId: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+        /// The status of updating the OAuthClientApplication.
+        public let updateStatus: ResourceStatus?
+
+        @inlinable
+        public init(arn: String? = nil, oAuthClientApplicationId: String? = nil, requestId: String? = nil, status: Int? = nil, updateStatus: ResourceStatus? = nil) {
+            self.arn = arn
+            self.oAuthClientApplicationId = oAuthClientApplicationId
+            self.requestId = requestId
+            self.status = status
+            self.updateStatus = updateStatus
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.arn = try container.decodeIfPresent(String.self, forKey: .arn)
+            self.oAuthClientApplicationId = try container.decodeIfPresent(String.self, forKey: .oAuthClientApplicationId)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+            self.updateStatus = try container.decodeIfPresent(ResourceStatus.self, forKey: .updateStatus)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case oAuthClientApplicationId = "OAuthClientApplicationId"
+            case requestId = "RequestId"
+            case updateStatus = "UpdateStatus"
+        }
+    }
+
     public struct UpdatePublicSharingSettingsRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with your Amazon Quick Sight subscription.
         public let awsAccountId: String
@@ -49461,6 +54582,221 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case requestId = "RequestId"
             case selfUpgradeRequestDetail = "SelfUpgradeRequestDetail"
+        }
+    }
+
+    public struct UpdateSpacePermissionsRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// The permissions that you want to grant on the space.
+        public let grantPermissions: [ResourcePermission]?
+        /// The permissions that you want to revoke from the space.
+        public let revokePermissions: [ResourcePermission]?
+        /// The ID of the space that you want to update permissions for.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.grantPermissions = grantPermissions
+            self.revokePermissions = revokePermissions
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.grantPermissions, forKey: .grantPermissions)
+            try container.encodeIfPresent(self.revokePermissions, forKey: .revokePermissions)
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.grantPermissions?.forEach {
+                try $0.validate(name: "\(name).grantPermissions[]")
+            }
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 64)
+            try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, min: 1)
+            try self.revokePermissions?.forEach {
+                try $0.validate(name: "\(name).revokePermissions[]")
+            }
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, max: 64)
+            try self.validate(self.revokePermissions, name: "revokePermissions", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grantPermissions = "GrantPermissions"
+            case revokePermissions = "RevokePermissions"
+        }
+    }
+
+    public struct UpdateSpacePermissionsResponse: AWSDecodableShape {
+        /// The updated permissions for the space.
+        public let permissions: [ResourcePermission]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(permissions: [ResourcePermission]? = nil, requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.permissions = permissions
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "permissions"
+            case requestId = "requestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+        }
+    }
+
+    public struct UpdateSpaceRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// A new description for the space.
+        public let description: String?
+        /// A new display name for the space.
+        public let name: String?
+        /// The ID of the space that you want to update.
+        public let spaceId: String
+
+        @inlinable
+        public init(awsAccountId: String, description: String? = nil, name: String? = nil, spaceId: String) {
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.name = name
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\P{C}\\n\\r\\t\\f\\v\\p{Cf}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\P{C}\\n\\r\\t\\f\\v\\p{Cf}]*$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateSpaceResourcesRequest: AWSEncodableShape {
+        /// A list of resources to add to the space.
+        public let addResources: [SpaceResourceOperation]?
+        /// The ID of the Amazon Web Services account that contains the space.
+        public let awsAccountId: String
+        /// A list of resources to remove from the space.
+        public let removeResources: [SpaceResourceOperation]?
+        /// The ID of the space that you want to update resources for.
+        public let spaceId: String
+
+        @inlinable
+        public init(addResources: [SpaceResourceOperation]? = nil, awsAccountId: String, removeResources: [SpaceResourceOperation]? = nil, spaceId: String) {
+            self.addResources = addResources
+            self.awsAccountId = awsAccountId
+            self.removeResources = removeResources
+            self.spaceId = spaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.addResources, forKey: .addResources)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            try container.encodeIfPresent(self.removeResources, forKey: .removeResources)
+            request.encodePath(self.spaceId, key: "SpaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.spaceId, name: "spaceId", parent: name, max: 256)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, min: 1)
+            try self.validate(self.spaceId, name: "spaceId", parent: name, pattern: "^[0-9a-zA-Z-_=.+]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addResources = "AddResources"
+            case removeResources = "RemoveResources"
+        }
+    }
+
+    public struct UpdateSpaceResourcesResponse: AWSDecodableShape {
+        /// A list of resource operations that failed.
+        public let failedResourceOperations: [FailedSpaceResourceOperation]?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(failedResourceOperations: [FailedSpaceResourceOperation]? = nil, requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.failedResourceOperations = failedResourceOperations
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedResourceOperations = "FailedResourceOperations"
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
+        }
+    }
+
+    public struct UpdateSpaceResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The ARN of the space.
+        public let spaceArn: String?
+        /// The ID of the space.
+        public let spaceId: String
+
+        @inlinable
+        public init(requestId: String? = nil, spaceArn: String? = nil, spaceId: String) {
+            self.requestId = requestId
+            self.spaceArn = spaceArn
+            self.spaceId = spaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case spaceArn = "spaceArn"
+            case spaceId = "spaceId"
         }
     }
 
@@ -50612,6 +55948,25 @@ extension QuickSight {
         }
     }
 
+    public struct UploadedDocumentMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the uploaded document.
+        public let name: String?
+
+        @inlinable
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct User: AWSDecodableShape {
         /// The active status of user. When you create an Quick Sight user that's not an IAM user or an Active Directory user, that user is inactive until they sign in and provide a password.
         public let active: Bool?
@@ -50663,6 +56018,70 @@ extension QuickSight {
             case principalId = "PrincipalId"
             case role = "Role"
             case userName = "UserName"
+        }
+    }
+
+    public struct UserIndexCapacity: AWSDecodableShape {
+        /// The email address of the user.
+        public let email: String?
+        /// The number of knowledge bases owned by the user.
+        public let kbCount: Int?
+        /// The role of the user.
+        public let role: String?
+        /// The number of spaces owned by the user.
+        public let spaceCount: Int?
+        /// The total index capacity consumed by the user in bytes.
+        public let totalCapacityBytes: Int64?
+        /// The total index capacity consumed by the user's knowledge bases in bytes.
+        public let totalKBCapacityBytes: Int64?
+        /// The total index capacity consumed by the user's spaces in bytes.
+        public let totalSpaceCapacityBytes: Int64?
+        /// The ARN of the user.
+        public let userArn: String?
+        /// The username of the user.
+        public let userName: String?
+
+        @inlinable
+        public init(email: String? = nil, kbCount: Int? = nil, role: String? = nil, spaceCount: Int? = nil, totalCapacityBytes: Int64? = nil, totalKBCapacityBytes: Int64? = nil, totalSpaceCapacityBytes: Int64? = nil, userArn: String? = nil, userName: String? = nil) {
+            self.email = email
+            self.kbCount = kbCount
+            self.role = role
+            self.spaceCount = spaceCount
+            self.totalCapacityBytes = totalCapacityBytes
+            self.totalKBCapacityBytes = totalKBCapacityBytes
+            self.totalSpaceCapacityBytes = totalSpaceCapacityBytes
+            self.userArn = userArn
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "email"
+            case kbCount = "kbCount"
+            case role = "role"
+            case spaceCount = "spaceCount"
+            case totalCapacityBytes = "totalCapacityBytes"
+            case totalKBCapacityBytes = "totalKBCapacityBytes"
+            case totalSpaceCapacityBytes = "totalSpaceCapacityBytes"
+            case userArn = "userArn"
+            case userName = "userName"
+        }
+    }
+
+    public struct UserNameOrEmailFilter: AWSEncodableShape {
+        /// The prefix to match against username or email (starts-with match).
+        public let prefix: String
+
+        @inlinable
+        public init(prefix: String) {
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case prefix = "prefix"
         }
     }
 
@@ -50811,6 +56230,24 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case aggregationFunction = "AggregationFunction"
+        }
+    }
+
+    public struct VideoExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of video extraction. Valid values are ENABLED and DISABLED.
+        public let videoExtractionStatus: VideoExtractionStatus
+        /// The type of video extraction to perform.
+        public let videoExtractionType: VideoExtractionType?
+
+        @inlinable
+        public init(videoExtractionStatus: VideoExtractionStatus, videoExtractionType: VideoExtractionType? = nil) {
+            self.videoExtractionStatus = videoExtractionStatus
+            self.videoExtractionType = videoExtractionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case videoExtractionStatus = "videoExtractionStatus"
+            case videoExtractionType = "videoExtractionType"
         }
     }
 
@@ -51969,6 +57406,20 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case readClientCredentialsGrantDetails = "ReadClientCredentialsGrantDetails"
+        }
+    }
+
+    public struct SpaceQuickSightResourceDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the QuickSight resource.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
         }
     }
 }

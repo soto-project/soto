@@ -484,7 +484,7 @@ public struct Lightsail: AWSService {
         return try await self.createCloudFormationStack(input, logger: logger)
     }
 
-    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. The create contact method operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide.
     @Sendable
     @inlinable
     public func createContactMethod(_ input: CreateContactMethodRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactMethodResult {
@@ -497,21 +497,24 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. The create contact method operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide.
     ///
     /// Parameters:
     ///   - contactEndpoint: The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia.
     ///   - protocol: The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following Amazon Web Services Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
+    ///   - tags: The tag keys and optional values to add to the contact method during create. Use the TagResource action to tag a resource after it's created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createContactMethod(
         contactEndpoint: String,
         protocol: ContactProtocol,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateContactMethodResult {
         let input = CreateContactMethodRequest(
             contactEndpoint: contactEndpoint, 
-            protocol: `protocol`
+            protocol: `protocol`, 
+            tags: tags
         )
         return try await self.createContactMethod(input, logger: logger)
     }
@@ -4416,7 +4419,7 @@ public struct Lightsail: AWSService {
         return try await self.peerVpc(input, logger: logger)
     }
 
-    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
+    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration. The put alarm operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide.
     @Sendable
     @inlinable
     public func putAlarm(_ input: PutAlarmRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAlarmResult {
@@ -4429,7 +4432,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
+    /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see Alarms in Amazon Lightsail. When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration. The put alarm operation supports tag-based access control via request tags. For more information, see the Lightsail Developer Guide.
     ///
     /// Parameters:
     ///   - alarmName: The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
@@ -4441,6 +4444,7 @@ public struct Lightsail: AWSService {
     ///   - monitoredResourceName: The name of the Lightsail resource that will be monitored. Instances, load balancers, and relational databases are the only Lightsail resources that can currently be monitored by alarms.
     ///   - notificationEnabled: Indicates whether the alarm is enabled. Notifications are enabled by default if you don't specify this parameter.
     ///   - notificationTriggers: The alarm states that trigger a notification. An alarm has the following possible states:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
+    ///   - tags: The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created.
     ///   - threshold: The value against which the specified statistic is compared.
     ///   - treatMissingData: Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways:    breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore - Ignore the missing data. Maintains the current alarm state.    missing - Missing data is treated as missing.   If treatMissingData is not specified, the default behavior of missing is used.
     ///   - logger: Logger use during operation
@@ -4455,6 +4459,7 @@ public struct Lightsail: AWSService {
         monitoredResourceName: String,
         notificationEnabled: Bool? = nil,
         notificationTriggers: [AlarmState]? = nil,
+        tags: [Tag]? = nil,
         threshold: Double,
         treatMissingData: TreatMissingData? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -4469,6 +4474,7 @@ public struct Lightsail: AWSService {
             monitoredResourceName: monitoredResourceName, 
             notificationEnabled: notificationEnabled, 
             notificationTriggers: notificationTriggers, 
+            tags: tags, 
             threshold: threshold, 
             treatMissingData: treatMissingData
         )

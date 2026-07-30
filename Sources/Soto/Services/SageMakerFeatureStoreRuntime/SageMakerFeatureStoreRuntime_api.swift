@@ -111,6 +111,38 @@ public struct SageMakerFeatureStoreRuntime: AWSService {
         return try await self.batchGetRecord(input, logger: logger)
     }
 
+    /// Writes a batch of Records to one or more FeatureGroups. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore. You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDuration parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration.
+    @Sendable
+    @inlinable
+    public func batchWriteRecord(_ input: BatchWriteRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchWriteRecordResponse {
+        try await self.client.execute(
+            operation: "BatchWriteRecord", 
+            path: "/BatchWriteRecord", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Writes a batch of Records to one or more FeatureGroups. Use this API for bulk ingestion of records into the OnlineStore and OfflineStore. You can set the ingested records to expire at a given time to live (TTL) duration after the record's event time by specifying the TtlDuration parameter. A request level TtlDuration applies to all entries that do not specify their own TtlDuration.
+    ///
+    /// Parameters:
+    ///   - entries: A list of records to write. Each entry specifies the FeatureGroup, the record data, and optionally target stores and a TTL duration.
+    ///   - ttlDuration: Time to live duration applied to all entries in the batch that do not specify their own TtlDuration; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchWriteRecord(
+        entries: [BatchWriteRecordEntry]? = nil,
+        ttlDuration: TtlDuration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchWriteRecordResponse {
+        let input = BatchWriteRecordRequest(
+            entries: entries, 
+            ttlDuration: ttlDuration
+        )
+        return try await self.batchWriteRecord(input, logger: logger)
+    }
+
     /// Deletes a Record from a FeatureGroup in the OnlineStore. Feature Store supports both SoftDelete and HardDelete. For SoftDelete (default), feature columns are set to null and the record is no longer retrievable by GetRecord or BatchGetRecord. For HardDelete, the complete Record is removed from the OnlineStore. In both cases, Feature Store appends the deleted record marker to the OfflineStore. The deleted record marker is a record with the same RecordIdentifer as the original, but with is_deleted value set to True, EventTime set to the delete input EventTime, and other feature values set to null. Note that the EventTime specified in DeleteRecord should be set later than the EventTime of the existing record in the OnlineStore for that RecordIdentifer. If it is not, the deletion does not occur:   For SoftDelete, the existing (not deleted) record remains in the OnlineStore, though the delete record marker is still written to the OfflineStore.    HardDelete returns EventTime: 400 ValidationException to indicate that the delete operation failed. No delete record marker is written to the OfflineStore.   When a record is deleted from the OnlineStore, the deleted record marker is appended to the OfflineStore. If you have the Iceberg table format enabled for your OfflineStore, you can remove all history of a record from the OfflineStore using Amazon Athena or Apache Spark. For information on how to hard delete a record from the OfflineStore with the Iceberg table format enabled, see Delete records from the offline store.
     @Sendable
     @inlinable
@@ -190,6 +222,44 @@ public struct SageMakerFeatureStoreRuntime: AWSService {
         return try await self.getRecord(input, logger: logger)
     }
 
+    /// Lists the RecordIdentifier values of all records stored in a FeatureGroup's OnlineStore. This enables you to discover which records exist without retrieving the full record data.
+    @Sendable
+    @inlinable
+    public func listRecords(_ input: ListRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecordsResponse {
+        try await self.client.execute(
+            operation: "ListRecords", 
+            path: "/FeatureGroup/{FeatureGroupName}/ListRecords", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the RecordIdentifier values of all records stored in a FeatureGroup's OnlineStore. This enables you to discover which records exist without retrieving the full record data.
+    ///
+    /// Parameters:
+    ///   - featureGroupName: The name or Amazon Resource Name (ARN) of the feature group to list records from.
+    ///   - includeSoftDeletedRecords: If set to true, the result includes records that have been soft deleted.
+    ///   - maxResults: The maximum number of record identifiers to return in a single page of results. For the InMemory tier, this value is a hint and not a strict requirement. The response may contain more or fewer results than the specified MaxResults.
+    ///   - nextToken: A token to resume pagination of ListRecords results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecords(
+        featureGroupName: String,
+        includeSoftDeletedRecords: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecordsResponse {
+        let input = ListRecordsRequest(
+            featureGroupName: featureGroupName, 
+            includeSoftDeletedRecords: includeSoftDeletedRecords, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecords(input, logger: logger)
+    }
+
     /// The PutRecord API is used to ingest a list of Records into your feature group.  If a new record’s EventTime is greater, the new record is written to both the OnlineStore and OfflineStore. Otherwise, the record is a historic record and it is written only to the OfflineStore.  You can specify the ingestion to be applied to the OnlineStore, OfflineStore, or both by using the TargetStores request parameter.  You can set the ingested record to expire at a given time to live (TTL) duration after the record’s event time, ExpiresAt = EventTime + TtlDuration, by specifying the TtlDuration parameter. A record level TtlDuration is set when specifying the TtlDuration parameter using the PutRecord API call. If the input TtlDuration is null or unspecified, TtlDuration is set to the default feature group level TtlDuration. A record level TtlDuration supersedes the group level TtlDuration.
     @Sendable
     @inlinable
@@ -235,5 +305,62 @@ extension SageMakerFeatureStoreRuntime {
     public init(from: SageMakerFeatureStoreRuntime, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension SageMakerFeatureStoreRuntime {
+    /// Return PaginatorSequence for operation ``listRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecordsPaginator(
+        _ input: ListRecordsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecordsRequest, ListRecordsResponse> {
+        return .init(
+            input: input,
+            command: self.listRecords,
+            inputKey: \ListRecordsRequest.nextToken,
+            outputKey: \ListRecordsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - featureGroupName: The name or Amazon Resource Name (ARN) of the feature group to list records from.
+    ///   - includeSoftDeletedRecords: If set to true, the result includes records that have been soft deleted.
+    ///   - maxResults: The maximum number of record identifiers to return in a single page of results. For the InMemory tier, this value is a hint and not a strict requirement. The response may contain more or fewer results than the specified MaxResults.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecordsPaginator(
+        featureGroupName: String,
+        includeSoftDeletedRecords: Bool? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecordsRequest, ListRecordsResponse> {
+        let input = ListRecordsRequest(
+            featureGroupName: featureGroupName, 
+            includeSoftDeletedRecords: includeSoftDeletedRecords, 
+            maxResults: maxResults
+        )
+        return self.listRecordsPaginator(input, logger: logger)
+    }
+}
+
+extension SageMakerFeatureStoreRuntime.ListRecordsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMakerFeatureStoreRuntime.ListRecordsRequest {
+        return .init(
+            featureGroupName: self.featureGroupName,
+            includeSoftDeletedRecords: self.includeSoftDeletedRecords,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

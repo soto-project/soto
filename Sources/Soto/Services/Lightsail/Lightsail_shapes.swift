@@ -653,6 +653,13 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginIpAddressTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OriginProtocolPolicyEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpOnly = "http-only"
         case httpsOnly = "https-only"
@@ -704,18 +711,22 @@ extension Lightsail {
     }
 
     public enum RegionName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apEast1 = "ap-east-1"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
         case apSoutheast3 = "ap-southeast-3"
+        case apSoutheast5 = "ap-southeast-5"
         case caCentral1 = "ca-central-1"
         case euCentral1 = "eu-central-1"
         case euNorth1 = "eu-north-1"
+        case euSouth2 = "eu-south-2"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
         case usWest1 = "us-west-1"
@@ -1063,6 +1074,8 @@ extension Lightsail {
         public let statistic: MetricStatistic?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail alarm. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
+        public let tags: [Tag]?
         /// The value against which the specified statistic is compared.
         public let threshold: Double?
         /// Specifies how the alarm handles missing data points. An alarm can treat missing data in the following ways:    breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore - Ignore the missing data. Maintains the current alarm state.    missing - Missing data is treated as missing.
@@ -1071,7 +1084,7 @@ extension Lightsail {
         public let unit: MetricUnit?
 
         @inlinable
-        public init(arn: String? = nil, comparisonOperator: ComparisonOperator? = nil, contactProtocols: [ContactProtocol]? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int? = nil, location: ResourceLocation? = nil, metricName: MetricName? = nil, monitoredResourceInfo: MonitoredResourceInfo? = nil, name: String? = nil, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, period: Int? = nil, resourceType: ResourceType? = nil, state: AlarmState? = nil, statistic: MetricStatistic? = nil, supportCode: String? = nil, threshold: Double? = nil, treatMissingData: TreatMissingData? = nil, unit: MetricUnit? = nil) {
+        public init(arn: String? = nil, comparisonOperator: ComparisonOperator? = nil, contactProtocols: [ContactProtocol]? = nil, createdAt: Date? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int? = nil, location: ResourceLocation? = nil, metricName: MetricName? = nil, monitoredResourceInfo: MonitoredResourceInfo? = nil, name: String? = nil, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, period: Int? = nil, resourceType: ResourceType? = nil, state: AlarmState? = nil, statistic: MetricStatistic? = nil, supportCode: String? = nil, tags: [Tag]? = nil, threshold: Double? = nil, treatMissingData: TreatMissingData? = nil, unit: MetricUnit? = nil) {
             self.arn = arn
             self.comparisonOperator = comparisonOperator
             self.contactProtocols = contactProtocols
@@ -1089,6 +1102,7 @@ extension Lightsail {
             self.state = state
             self.statistic = statistic
             self.supportCode = supportCode
+            self.tags = tags
             self.threshold = threshold
             self.treatMissingData = treatMissingData
             self.unit = unit
@@ -1112,6 +1126,7 @@ extension Lightsail {
             case state = "state"
             case statistic = "statistic"
             case supportCode = "supportCode"
+            case tags = "tags"
             case threshold = "threshold"
             case treatMissingData = "treatMissingData"
             case unit = "unit"
@@ -2096,9 +2111,11 @@ extension Lightsail {
         public let status: ContactMethodStatus?
         /// The support code. Include this code in your email to support when you have questions about your Lightsail contact method. This code enables our support team to look up your Lightsail information more easily.
         public let supportCode: String?
+        /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(arn: String? = nil, contactEndpoint: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: ContactProtocol? = nil, resourceType: ResourceType? = nil, status: ContactMethodStatus? = nil, supportCode: String? = nil) {
+        public init(arn: String? = nil, contactEndpoint: String? = nil, createdAt: Date? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: ContactProtocol? = nil, resourceType: ResourceType? = nil, status: ContactMethodStatus? = nil, supportCode: String? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.contactEndpoint = contactEndpoint
             self.createdAt = createdAt
@@ -2108,6 +2125,7 @@ extension Lightsail {
             self.resourceType = resourceType
             self.status = status
             self.supportCode = supportCode
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2120,6 +2138,7 @@ extension Lightsail {
             case resourceType = "resourceType"
             case status = "status"
             case supportCode = "supportCode"
+            case tags = "tags"
         }
     }
 
@@ -2772,11 +2791,14 @@ extension Lightsail {
         public let contactEndpoint: String
         /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following Amazon Web Services Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
         public let `protocol`: ContactProtocol
+        /// The tag keys and optional values to add to the contact method during create. Use the TagResource action to tag a resource after it's created.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(contactEndpoint: String, protocol: ContactProtocol) {
+        public init(contactEndpoint: String, protocol: ContactProtocol, tags: [Tag]? = nil) {
             self.contactEndpoint = contactEndpoint
             self.`protocol` = `protocol`
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2787,6 +2809,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case contactEndpoint = "contactEndpoint"
             case `protocol` = "protocol"
+            case tags = "tags"
         }
     }
 
@@ -7932,6 +7955,8 @@ extension Lightsail {
     }
 
     public struct InputOrigin: AWSEncodableShape {
+        /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: OriginIpAddressTypeEnum?
         /// The name of the origin resource.
         public let name: String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -7942,7 +7967,8 @@ extension Lightsail {
         public let responseTimeout: Int?
 
         @inlinable
-        public init(name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, responseTimeout: Int? = nil) {
+        public init(ipAddressType: OriginIpAddressTypeEnum? = nil, name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, responseTimeout: Int? = nil) {
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -7954,6 +7980,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolPolicy = "protocolPolicy"
             case regionName = "regionName"
@@ -9200,6 +9227,8 @@ extension Lightsail {
     }
 
     public struct Origin: AWSDecodableShape {
+        /// The IP address type that the distribution uses when connecting to the origin. The possible values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
+        public let ipAddressType: OriginIpAddressTypeEnum?
         /// The name of the origin resource.
         public let name: String?
         /// The protocol that your Amazon Lightsail distribution uses when establishing a connection with your origin to pull content.
@@ -9212,7 +9241,8 @@ extension Lightsail {
         public let responseTimeout: Int?
 
         @inlinable
-        public init(name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, resourceType: ResourceType? = nil, responseTimeout: Int? = nil) {
+        public init(ipAddressType: OriginIpAddressTypeEnum? = nil, name: String? = nil, protocolPolicy: OriginProtocolPolicyEnum? = nil, regionName: RegionName? = nil, resourceType: ResourceType? = nil, responseTimeout: Int? = nil) {
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
@@ -9221,6 +9251,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolPolicy = "protocolPolicy"
             case regionName = "regionName"
@@ -9397,13 +9428,15 @@ extension Lightsail {
         public let notificationEnabled: Bool?
         /// The alarm states that trigger a notification. An alarm has the following possible states:    ALARM - The metric is outside of the defined threshold.    INSUFFICIENT_DATA - The alarm has just started, the metric is not available, or not enough data is available for the metric to determine the alarm state.    OK - The metric is within the defined threshold.   When you specify a notification trigger, the ALARM state must be specified. The INSUFFICIENT_DATA and OK states can be specified in addition to the ALARM state.   If you specify OK as an alarm trigger, a notification is sent when the alarm switches from an ALARM or INSUFFICIENT_DATA alarm state to an OK state. This can be thought of as an all clear alarm notification.   If you specify INSUFFICIENT_DATA as the alarm trigger, a notification is sent when the alarm switches from an OK or ALARM alarm state to an INSUFFICIENT_DATA state.   The notification trigger defaults to ALARM if you don't specify this parameter.
         public let notificationTriggers: [AlarmState]?
+        /// The tag keys and optional values to add to the alarm during create. Use the TagResource action to tag a resource after it's created.
+        public let tags: [Tag]?
         /// The value against which the specified statistic is compared.
         public let threshold: Double
         /// Sets how this alarm will handle missing data points. An alarm can treat missing data in the following ways:    breaching - Assume the missing data is not within the threshold. Missing data counts towards the number of times the metric is not within the threshold.    notBreaching - Assume the missing data is within the threshold. Missing data does not count towards the number of times the metric is not within the threshold.    ignore - Ignore the missing data. Maintains the current alarm state.    missing - Missing data is treated as missing.   If treatMissingData is not specified, the default behavior of missing is used.
         public let treatMissingData: TreatMissingData?
 
         @inlinable
-        public init(alarmName: String, comparisonOperator: ComparisonOperator, contactProtocols: [ContactProtocol]? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int, metricName: MetricName, monitoredResourceName: String, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, threshold: Double, treatMissingData: TreatMissingData? = nil) {
+        public init(alarmName: String, comparisonOperator: ComparisonOperator, contactProtocols: [ContactProtocol]? = nil, datapointsToAlarm: Int? = nil, evaluationPeriods: Int, metricName: MetricName, monitoredResourceName: String, notificationEnabled: Bool? = nil, notificationTriggers: [AlarmState]? = nil, tags: [Tag]? = nil, threshold: Double, treatMissingData: TreatMissingData? = nil) {
             self.alarmName = alarmName
             self.comparisonOperator = comparisonOperator
             self.contactProtocols = contactProtocols
@@ -9413,6 +9446,7 @@ extension Lightsail {
             self.monitoredResourceName = monitoredResourceName
             self.notificationEnabled = notificationEnabled
             self.notificationTriggers = notificationTriggers
+            self.tags = tags
             self.threshold = threshold
             self.treatMissingData = treatMissingData
         }
@@ -9432,6 +9466,7 @@ extension Lightsail {
             case monitoredResourceName = "monitoredResourceName"
             case notificationEnabled = "notificationEnabled"
             case notificationTriggers = "notificationTriggers"
+            case tags = "tags"
             case threshold = "threshold"
             case treatMissingData = "treatMissingData"
         }

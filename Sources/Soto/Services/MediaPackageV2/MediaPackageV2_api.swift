@@ -153,6 +153,7 @@ public struct MediaPackageV2: AWSService {
     ///   - inputSwitchConfiguration: The configuration for input switching based on the media quality confidence score (MQCS) as provided from AWS Elemental MediaLive. This setting is valid only when InputType is CMAF.
     ///   - inputType: The input type will be an immutable field which will be used to define whether the channel will allow CMAF ingest or HLS ingest. If unprovided, it will default to HLS to preserve current behavior. The allowed values are:    HLS - The HLS streaming specification (which defines M3U8 manifests and TS segments).    CMAF - The DASH-IF CMAF Ingest specification (which defines CMAF segments with optional DASH manifests).
     ///   - outputHeaderConfiguration: The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
+    ///   - outputLockingMode: The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.
     ///   - tags: A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
     ///   - logger: Logger use during operation
     @inlinable
@@ -164,6 +165,7 @@ public struct MediaPackageV2: AWSService {
         inputSwitchConfiguration: InputSwitchConfiguration? = nil,
         inputType: InputType? = nil,
         outputHeaderConfiguration: OutputHeaderConfiguration? = nil,
+        outputLockingMode: OutputLockingMode? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateChannelResponse {
@@ -175,6 +177,7 @@ public struct MediaPackageV2: AWSService {
             inputSwitchConfiguration: inputSwitchConfiguration, 
             inputType: inputType, 
             outputHeaderConfiguration: outputHeaderConfiguration, 
+            outputLockingMode: outputLockingMode, 
             tags: tags
         )
         return try await self.createChannel(input, logger: logger)
@@ -304,6 +307,7 @@ public struct MediaPackageV2: AWSService {
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
     ///   - tags: A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
+    ///   - uriSeparator: The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
     ///   - logger: Logger use during operation
     @inlinable
     public func createOriginEndpoint(
@@ -321,6 +325,7 @@ public struct MediaPackageV2: AWSService {
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
         tags: [String: String]? = nil,
+        uriSeparator: UriSeparator? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOriginEndpointResponse {
         let input = CreateOriginEndpointRequest(
@@ -337,7 +342,8 @@ public struct MediaPackageV2: AWSService {
             originEndpointName: originEndpointName, 
             segment: segment, 
             startoverWindowSeconds: startoverWindowSeconds, 
-            tags: tags
+            tags: tags, 
+            uriSeparator: uriSeparator
         )
         return try await self.createOriginEndpoint(input, logger: logger)
     }
@@ -1199,6 +1205,7 @@ public struct MediaPackageV2: AWSService {
     ///   - originEndpointName: The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     ///   - segment: The segment configuration, including the segment name, duration, and other configuration values.
     ///   - startoverWindowSeconds: The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
+    ///   - uriSeparator: The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateOriginEndpoint(
@@ -1215,6 +1222,7 @@ public struct MediaPackageV2: AWSService {
         originEndpointName: String,
         segment: Segment? = nil,
         startoverWindowSeconds: Int? = nil,
+        uriSeparator: UriSeparator? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateOriginEndpointResponse {
         let input = UpdateOriginEndpointRequest(
@@ -1230,7 +1238,8 @@ public struct MediaPackageV2: AWSService {
             mssManifests: mssManifests, 
             originEndpointName: originEndpointName, 
             segment: segment, 
-            startoverWindowSeconds: startoverWindowSeconds
+            startoverWindowSeconds: startoverWindowSeconds, 
+            uriSeparator: uriSeparator
         )
         return try await self.updateOriginEndpoint(input, logger: logger)
     }

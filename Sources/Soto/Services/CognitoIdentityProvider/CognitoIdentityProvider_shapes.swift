@@ -93,6 +93,7 @@ extension CognitoIdentityProvider {
         case emailOtp = "EMAIL_OTP"
         case password = "PASSWORD"
         case smsOtp = "SMS_OTP"
+        case softwareToken = "SOFTWARE_TOKEN"
         case webAuthn = "WEB_AUTHN"
         public var description: String { return self.rawValue }
     }
@@ -203,6 +204,12 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKey = "AWS_OWNED_KEY"
+        case customerManagedKey = "CUSTOMER_MANAGED_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passwordChange = "PASSWORD_CHANGE"
         case signIn = "SIGN_IN"
@@ -272,6 +279,17 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum IssuerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case original = "ORIGINAL"
+        case updated = "UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LimitClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiCategory = "API_CATEGORY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case info = "INFO"
@@ -288,6 +306,14 @@ extension CognitoIdentityProvider {
         case clientCredentials = "client_credentials"
         case code = "code"
         case implicit = "implicit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PasswordHashingAlgorithmType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case argon2id = "ARGON2ID"
+        case bcrypt = "BCRYPT"
+        case pbkdf2Sha256 = "PBKDF2_SHA256"
+        case scrypt = "SCRYPT"
         public var description: String { return self.rawValue }
     }
 
@@ -311,6 +337,20 @@ extension CognitoIdentityProvider {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicaRoleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case primary = "PRIMARY"
+        case secondary = "SECONDARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicaStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RiskDecisionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountTakeover = "AccountTakeover"
         case block = "Block"
@@ -322,6 +362,13 @@ extension CognitoIdentityProvider {
         case high = "High"
         case low = "Low"
         case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SecurityPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tlsV1 = "TLS_V1"
+        case tlsV122021 = "TLS_V1_2_2021"
+        case tlsV132025 = "TLS_V1_3_2025"
         public var description: String { return self.rawValue }
     }
 
@@ -346,6 +393,12 @@ extension CognitoIdentityProvider {
         case hours = "hours"
         case minutes = "minutes"
         case seconds = "seconds"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateReplicaStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -408,6 +461,12 @@ extension CognitoIdentityProvider {
     public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebAuthnFactorConfigurationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case multiFactorWithUserVerification = "MULTI_FACTOR_WITH_USER_VERIFICATION"
+        case singleFactor = "SINGLE_FACTOR"
         public var description: String { return self.rawValue }
     }
 
@@ -1000,6 +1059,59 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct AdminGetUserAuthFactorsRequest: AWSEncodableShape {
+        /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+        public let username: String
+        /// The ID of the user pool where you want to get information about the user's authentication factors.
+        public let userPoolId: String
+
+        @inlinable
+        public init(username: String, userPoolId: String) {
+            self.username = username
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.username, name: "username", parent: name, max: 128)
+            try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case username = "Username"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct AdminGetUserAuthFactorsResponse: AWSDecodableShape {
+        /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"].  PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
+        public let configuredUserAuthFactors: [AuthFactorType]?
+        /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
+        public let preferredMfaSetting: String?
+        /// The MFA options that are activated for the user. The possible values in this list are SMS_MFA, EMAIL_OTP, and SOFTWARE_TOKEN_MFA.
+        public let userMFASettingList: [String]?
+        /// The name of the user who is eligible for the authentication factors in the response.
+        public let username: String
+
+        @inlinable
+        public init(configuredUserAuthFactors: [AuthFactorType]? = nil, preferredMfaSetting: String? = nil, userMFASettingList: [String]? = nil, username: String) {
+            self.configuredUserAuthFactors = configuredUserAuthFactors
+            self.preferredMfaSetting = preferredMfaSetting
+            self.userMFASettingList = userMFASettingList
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuredUserAuthFactors = "ConfiguredUserAuthFactors"
+            case preferredMfaSetting = "PreferredMfaSetting"
+            case userMFASettingList = "UserMFASettingList"
+            case username = "Username"
+        }
+    }
+
     public struct AdminGetUserRequest: AWSEncodableShape {
         /// The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
         public let username: String
@@ -1589,14 +1701,17 @@ extension CognitoIdentityProvider {
         public let username: String
         /// The ID of the user pool where you want to set a user's MFA preferences.
         public let userPoolId: String
+        /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let webAuthnMfaSettings: WebAuthnMfaSettingsType?
 
         @inlinable
-        public init(emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, username: String, userPoolId: String) {
+        public init(emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, username: String, userPoolId: String, webAuthnMfaSettings: WebAuthnMfaSettingsType? = nil) {
             self.emailMfaSettings = emailMfaSettings
             self.smsMfaSettings = smsMfaSettings
             self.softwareTokenMfaSettings = softwareTokenMfaSettings
             self.username = username
             self.userPoolId = userPoolId
+            self.webAuthnMfaSettings = webAuthnMfaSettings
         }
 
         public func validate(name: String) throws {
@@ -1614,6 +1729,7 @@ extension CognitoIdentityProvider {
             case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
             case username = "Username"
             case userPoolId = "UserPoolId"
+            case webAuthnMfaSettings = "WebAuthnMfaSettings"
         }
     }
 
@@ -2826,12 +2942,12 @@ extension CognitoIdentityProvider {
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\w+]+$")
             try self.links?.forEach {
-                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
+                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|dutch|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
             }
-            try self.validate(self.links, name: "links", parent: name, max: 12)
+            try self.validate(self.links, name: "links", parent: name, max: 13)
             try self.validate(self.links, name: "links", parent: name, min: 1)
             try self.validate(self.termsName, name: "termsName", parent: name, pattern: "^(terms-of-use|privacy-policy)$")
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
@@ -2868,13 +2984,16 @@ extension CognitoIdentityProvider {
         public let cloudWatchLogsRoleArn: String
         /// A friendly name for the user import job.
         public let jobName: String
+        /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+        public let passwordHashingAlgorithm: PasswordHashingAlgorithmType?
         /// The ID of the user pool that you want to import users into.
         public let userPoolId: String
 
         @inlinable
-        public init(cloudWatchLogsRoleArn: String, jobName: String, userPoolId: String) {
+        public init(cloudWatchLogsRoleArn: String, jobName: String, passwordHashingAlgorithm: PasswordHashingAlgorithmType? = nil, userPoolId: String) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.jobName = jobName
+            self.passwordHashingAlgorithm = passwordHashingAlgorithm
             self.userPoolId = userPoolId
         }
 
@@ -2893,6 +3012,7 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
             case jobName = "JobName"
+            case passwordHashingAlgorithm = "PasswordHashingAlgorithm"
             case userPoolId = "UserPoolId"
         }
     }
@@ -3129,16 +3249,19 @@ extension CognitoIdentityProvider {
         public let customDomainConfig: CustomDomainConfigType?
         /// The domain string. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For prefix domains, this is the prefix alone, such as myprefix. A prefix value of myprefix for a user pool in the us-east-1 Region results in a domain of myprefix.auth.us-east-1.amazoncognito.com.
         public let domain: String
-        /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite.
+        /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login. Managed login requires that your user pool be configured for any feature plan other than Lite. A ManagedLoginVersion value of 2 does not activate managed login pages for your app client. When you create an app client programmatically, your app client has no branding style. To use managed login, create a branding style using the CreateManagedLoginBranding operation. When you use the console, Amazon Cognito assigns a default branding style automatically. When you use the API or an SDK, you must create a branding style yourself.
         public let managedLoginVersion: Int?
+        /// The configuration of routing for requests to the domain for replicas of a replicated user pool. The routing configuration is currently only supported for custom domains.
+        public let routing: RoutingType?
         /// The ID of the user pool where you want to add a domain.
         public let userPoolId: String
 
         @inlinable
-        public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, managedLoginVersion: Int? = nil, userPoolId: String) {
+        public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, managedLoginVersion: Int? = nil, routing: RoutingType? = nil, userPoolId: String) {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
             self.userPoolId = userPoolId
         }
 
@@ -3147,6 +3270,7 @@ extension CognitoIdentityProvider {
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
+            try self.routing?.validate(name: "\(name).routing")
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
@@ -3156,6 +3280,7 @@ extension CognitoIdentityProvider {
             case customDomainConfig = "CustomDomainConfig"
             case domain = "Domain"
             case managedLoginVersion = "ManagedLoginVersion"
+            case routing = "Routing"
             case userPoolId = "UserPoolId"
         }
     }
@@ -3165,16 +3290,69 @@ extension CognitoIdentityProvider {
         public let cloudFrontDomain: String?
         /// The version of managed login branding applied your domain. A value of 1 indicates hosted UI (classic) and a version of 2 indicates managed login.
         public let managedLoginVersion: Int?
+        /// The routing configuration that was applied to the user pool domain.
+        public let routing: RoutingType?
 
         @inlinable
-        public init(cloudFrontDomain: String? = nil, managedLoginVersion: Int? = nil) {
+        public init(cloudFrontDomain: String? = nil, managedLoginVersion: Int? = nil, routing: RoutingType? = nil) {
             self.cloudFrontDomain = cloudFrontDomain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontDomain = "CloudFrontDomain"
             case managedLoginVersion = "ManagedLoginVersion"
+            case routing = "Routing"
+        }
+    }
+
+    public struct CreateUserPoolReplicaRequest: AWSEncodableShape {
+        /// The Amazon Web Services Region where you want to create the replica user pool.
+        public let regionName: String
+        /// The ID of the user pool to replicate.
+        public let userPoolId: String
+        /// A map of tags to assign to the replica user pool. Each tag consists of a key and an optional value, both of which you define. You can maintain tags independently on replica user pools.
+        public let userPoolTags: [String: String]?
+
+        @inlinable
+        public init(regionName: String, userPoolId: String, userPoolTags: [String: String]? = nil) {
+            self.regionName = regionName
+            self.userPoolId = userPoolId
+            self.userPoolTags = userPoolTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 5)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+            try self.userPoolTags?.forEach {
+                try validate($0.key, name: "userPoolTags.key", parent: name, max: 128)
+                try validate($0.key, name: "userPoolTags.key", parent: name, min: 1)
+                try validate($0.value, name: "userPoolTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case userPoolId = "UserPoolId"
+            case userPoolTags = "UserPoolTags"
+        }
+    }
+
+    public struct CreateUserPoolReplicaResponse: AWSDecodableShape {
+        /// Information about the created user pool replica, including its status and role.
+        public let userPoolReplica: UserPoolReplicaType?
+
+        @inlinable
+        public init(userPoolReplica: UserPoolReplicaType? = nil) {
+            self.userPoolReplica = userPoolReplica
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolReplica = "UserPoolReplica"
         }
     }
 
@@ -3202,9 +3380,13 @@ extension CognitoIdentityProvider {
         public let emailVerificationMessage: String?
         /// This parameter is no longer used.
         public let emailVerificationSubject: String?
+        /// The issuer configuration for the user pool. Specifies the issuer type for token generation.
+        public let issuerConfiguration: IssuerConfigurationType?
+        /// The key configuration for the user pool. Specifies the key type and KMS key ARN for encryption.
+        public let keyConfiguration: KeyConfigurationType?
         /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
         public let lambdaConfig: LambdaConfigType?
-        /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
+        /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor. The CreateUserPool operation supports only SMS MFA configuration. If you set MfaConfiguration to either of these values, include an SmsConfiguration in the same request:    ON – Requires MFA for all users    OPTIONAL – Makes MFA optional for each user   If you omit SmsConfiguration, the operation returns an InvalidParameterException. To configure TOTP or email MFA, use the SetUserPoolMfaConfig operation. You can also use SetUserPoolMfaConfig to add MFA factors later.
         public let mfaConfiguration: UserPoolMfaType?
         /// The password policy and sign-in policy in the user pool. The password policy sets options like password complexity requirements and password history. The sign-in policy sets the options available to applications in choice-based authentication.
         public let policies: UserPoolPolicyType?
@@ -3240,7 +3422,7 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String, schema: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -3250,6 +3432,8 @@ extension CognitoIdentityProvider {
             self.emailConfiguration = emailConfiguration
             self.emailVerificationMessage = emailVerificationMessage
             self.emailVerificationSubject = emailVerificationSubject
+            self.issuerConfiguration = issuerConfiguration
+            self.keyConfiguration = keyConfiguration
             self.lambdaConfig = lambdaConfig
             self.mfaConfiguration = mfaConfiguration
             self.policies = policies
@@ -3277,6 +3461,7 @@ extension CognitoIdentityProvider {
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, max: 140)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, min: 1)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+$")
+            try self.keyConfiguration?.validate(name: "\(name).keyConfiguration")
             try self.lambdaConfig?.validate(name: "\(name).lambdaConfig")
             try self.policies?.validate(name: "\(name).policies")
             try self.validate(self.poolName, name: "poolName", parent: name, max: 128)
@@ -3312,6 +3497,8 @@ extension CognitoIdentityProvider {
             case emailConfiguration = "EmailConfiguration"
             case emailVerificationMessage = "EmailVerificationMessage"
             case emailVerificationSubject = "EmailVerificationSubject"
+            case issuerConfiguration = "IssuerConfiguration"
+            case keyConfiguration = "KeyConfiguration"
             case lambdaConfig = "LambdaConfig"
             case mfaConfiguration = "MfaConfiguration"
             case policies = "Policies"
@@ -3347,10 +3534,13 @@ extension CognitoIdentityProvider {
     public struct CustomDomainConfigType: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an Certificate Manager SSL certificate. You use this certificate for the subdomain of your custom domain.
         public let certificateArn: String
+        /// The security policy for the custom domain. Defines the minimum TLS version and cipher suites that Amazon CloudFront supports when communicating with clients. For specific guidance, see Supported protocols and ciphers between viewers and CloudFront. Valid values are as follows:    TLS_V1_3_2025 (strictest): A post-quantum-ready policy requiring TLS 1.3. It provides the strongest security posture and is ideal for workloads where all clients and browsers are updated to the latest versions. Supported protocols and ciphers for TLSv1.3_2025.    TLS_V1_2_2021 (recommended): A post-quantum-ready policy which prefers TLS 1.3 but allows fallback to TLS 1.2 to accommodate older clients. It is the recommended minimum for typical commercial-grade consumer applications. Supported protocols and ciphers for TLSv1.2_2021.    TLS_V1 (strongly discouraged): Permits fallback to TLS 1.0. It offers the broadest compatibility, including support for legacy clients that are more than a decade old. This compatibility comes at the expense of allowing TLS versions and cryptographic algorithms that are no longer considered safe for commercial use. Supported protocols and ciphers for TLSv1.
+        public let securityPolicy: SecurityPolicyType?
 
         @inlinable
-        public init(certificateArn: String) {
+        public init(certificateArn: String, securityPolicy: SecurityPolicyType? = nil) {
             self.certificateArn = certificateArn
+            self.securityPolicy = securityPolicy
         }
 
         public func validate(name: String) throws {
@@ -3361,6 +3551,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
+            case securityPolicy = "SecurityPolicy"
         }
     }
 
@@ -3668,6 +3859,46 @@ extension CognitoIdentityProvider {
 
     public struct DeleteUserPoolDomainResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteUserPoolReplicaRequest: AWSEncodableShape {
+        /// The Amazon Web Services Region of the replica to delete.
+        public let regionName: String
+        /// The ID of the user pool that contains the replica to delete.
+        public let userPoolId: String
+
+        @inlinable
+        public init(regionName: String, userPoolId: String) {
+            self.regionName = regionName
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 5)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct DeleteUserPoolReplicaResponse: AWSDecodableShape {
+        /// Information about the deleted user pool replica.
+        public let userPoolReplica: UserPoolReplicaType?
+
+        @inlinable
+        public init(userPoolReplica: UserPoolReplicaType? = nil) {
+            self.userPoolReplica = userPoolReplica
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolReplica = "UserPoolReplica"
+        }
     }
 
     public struct DeleteUserPoolRequest: AWSEncodableShape {
@@ -4221,6 +4452,8 @@ extension CognitoIdentityProvider {
         public let domain: String?
         /// The version of managed login branding that you want to apply to your domain. A value of 1 indicates hosted UI (classic) branding and a version of 2 indicates managed login branding. Managed login requires that your user pool be configured for any feature plan other than Lite.
         public let managedLoginVersion: Int?
+        /// The routing configuration for the domain, including failover settings for multi-region deployments. Currently only Failover configurations are allowed.
+        public let routing: RoutingType?
         /// The Amazon S3 bucket where the static files for this domain are stored.
         public let s3Bucket: String?
         /// The domain status.
@@ -4231,12 +4464,13 @@ extension CognitoIdentityProvider {
         public let version: String?
 
         @inlinable
-        public init(awsAccountId: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, managedLoginVersion: Int? = nil, s3Bucket: String? = nil, status: DomainStatusType? = nil, userPoolId: String? = nil, version: String? = nil) {
+        public init(awsAccountId: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, managedLoginVersion: Int? = nil, routing: RoutingType? = nil, s3Bucket: String? = nil, status: DomainStatusType? = nil, userPoolId: String? = nil, version: String? = nil) {
             self.awsAccountId = awsAccountId
             self.cloudFrontDistribution = cloudFrontDistribution
             self.customDomainConfig = customDomainConfig
             self.domain = domain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
             self.s3Bucket = s3Bucket
             self.status = status
             self.userPoolId = userPoolId
@@ -4249,6 +4483,7 @@ extension CognitoIdentityProvider {
             case customDomainConfig = "CustomDomainConfig"
             case domain = "Domain"
             case managedLoginVersion = "ManagedLoginVersion"
+            case routing = "Routing"
             case s3Bucket = "S3Bucket"
             case status = "Status"
             case userPoolId = "UserPoolId"
@@ -4340,6 +4575,57 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct EumsSmsConfigurationType: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role that Amazon Cognito assumes to send SMS messages through Amazon Web Services End User Messaging SMS. The role must grant permission to call the sms-voice:SendTextMessage operation.
+        public let callerArn: String
+        /// The name of the Amazon Web Services End User Messaging SMS configuration set that Amazon Cognito applies to messages, for logging and event destinations. If you omit this member, Amazon Cognito sends messages without applying a configuration set.
+        public let configurationSetName: String?
+        /// The external ID that Amazon Cognito includes when it assumes the CallerArn role. Use this value as a condition in the role trust policy to prevent the confused deputy problem.
+        public let externalId: String?
+        /// The principal entity ID required by India's Distributed Ledger Technology (DLT) regulations for SMS messages.
+        public let inEntityId: String?
+        /// The registered template ID for the message template required by India's DLT regulations for SMS messages.
+        public let inTemplateId: String?
+        /// The origination identity that Amazon Web Services End User Messaging SMS uses to send messages to your users. This value can be one of the following:   A phone number – A long code, toll-free number, or short code that is assigned to your account.   A sender ID – An alphabetic name that identifies the message sender in supported countries.   A phone pool – A group of phone numbers that Amazon Web Services End User Messaging SMS selects from when it sends messages.   You can provide an E.164 phone number or the ARN of the phone number, sender ID, or phone pool. Amazon Web Services End User Messaging SMS evaluates IAM authorization with the value that you provide. If the permissions policy of your CallerArn role scopes the sms-voice:SendTextMessage resource to a specific ARN, provide that same ARN. If the formats do not match, requests fail with an InvalidSmsRoleAccessPolicyException. Depending on the destination country, you must provide an origination identity. For country-specific requirements, see Supported countries and regions for SMS messaging in the Amazon Web Services End User Messaging SMS User Guide.
+        public let originationIdentity: String?
+        /// The Amazon Web Services Region of the Amazon Web Services End User Messaging SMS resources that Amazon Cognito uses to send messages. Amazon Web Services End User Messaging SMS must be available in your user pool's Region. If you omit this parameter, Amazon Cognito uses the same Region as your user pool. You can also set this parameter to your user pool's Region explicitly. Amazon Cognito rejects any other value with an InvalidParameterException.
+        public let region: String?
+
+        @inlinable
+        public init(callerArn: String, configurationSetName: String? = nil, externalId: String? = nil, inEntityId: String? = nil, inTemplateId: String? = nil, originationIdentity: String? = nil, region: String? = nil) {
+            self.callerArn = callerArn
+            self.configurationSetName = configurationSetName
+            self.externalId = externalId
+            self.inEntityId = inEntityId
+            self.inTemplateId = inTemplateId
+            self.originationIdentity = originationIdentity
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.callerArn, name: "callerArn", parent: name, max: 2048)
+            try self.validate(self.callerArn, name: "callerArn", parent: name, min: 20)
+            try self.validate(self.callerArn, name: "callerArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 131072)
+            try self.validate(self.externalId, name: "externalId", parent: name, max: 131072)
+            try self.validate(self.inEntityId, name: "inEntityId", parent: name, max: 131072)
+            try self.validate(self.inTemplateId, name: "inTemplateId", parent: name, max: 131072)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 131072)
+            try self.validate(self.region, name: "region", parent: name, max: 32)
+            try self.validate(self.region, name: "region", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case callerArn = "CallerArn"
+            case configurationSetName = "ConfigurationSetName"
+            case externalId = "ExternalId"
+            case inEntityId = "InEntityId"
+            case inTemplateId = "InTemplateId"
+            case originationIdentity = "OriginationIdentity"
+            case region = "Region"
+        }
+    }
+
     public struct EventContextDataType: AWSDecodableShape {
         /// The user's city.
         public let city: String?
@@ -4415,6 +4701,30 @@ extension CognitoIdentityProvider {
             case compromisedCredentialsDetected = "CompromisedCredentialsDetected"
             case riskDecision = "RiskDecision"
             case riskLevel = "RiskLevel"
+        }
+    }
+
+    public struct FailoverType: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon Web Services Route53 healthcheck that controls routing. If the healthcheck is healthy, traffic will be routed to the primary replica, and if the healthcheck is unhealthy, traffic will be routed to the secondary region.
+        public let primaryRoute53HealthCheckId: String
+        /// The secondary Amazon Web Services Region to use for failover when the primary region becomes unavailable.
+        public let secondaryRegion: String
+
+        @inlinable
+        public init(primaryRoute53HealthCheckId: String, secondaryRegion: String) {
+            self.primaryRoute53HealthCheckId = primaryRoute53HealthCheckId
+            self.secondaryRegion = secondaryRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.primaryRoute53HealthCheckId, name: "primaryRoute53HealthCheckId", parent: name, max: 64)
+            try self.validate(self.secondaryRegion, name: "secondaryRegion", parent: name, max: 32)
+            try self.validate(self.secondaryRegion, name: "secondaryRegion", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryRoute53HealthCheckId = "PrimaryRoute53HealthCheckId"
+            case secondaryRegion = "SecondaryRegion"
         }
     }
 
@@ -4730,6 +5040,38 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct GetProvisionedLimitRequest: AWSEncodableShape {
+        /// The limit to retrieve. Specify the limit class and the attributes that identify the limit.
+        public let limitDefinition: LimitDefinitionType
+
+        @inlinable
+        public init(limitDefinition: LimitDefinitionType) {
+            self.limitDefinition = limitDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.limitDefinition.validate(name: "\(name).limitDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitDefinition = "LimitDefinition"
+        }
+    }
+
+    public struct GetProvisionedLimitResponse: AWSDecodableShape {
+        /// The provisioned and default limit values for the requested limit.
+        public let limit: LimitType
+
+        @inlinable
+        public init(limit: LimitType) {
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+        }
+    }
+
     public struct GetSigningCertificateRequest: AWSEncodableShape {
         /// The ID of the user pool where you want to view the signing certificate.
         public let userPoolId: String
@@ -4935,7 +5277,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct GetUserAuthFactorsResponse: AWSDecodableShape {
-        /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"].
+        /// The authentication types that are available to the user with USER_AUTH sign-in, for example ["PASSWORD", "WEB_AUTHN"].  PASSWORD can only be used as a first authentication factor. SOFTWARE_TOKEN can only be used as an MFA factor. EMAIL_OTP, SMS_OTP, and WEB_AUTHN can be used as either a first authentication factor or an MFA factor. WEB_AUTHN is available as an MFA factor only when passkey MFA is enabled at the user pool level.
         public let configuredUserAuthFactors: [AuthFactorType]?
         /// The challenge method that Amazon Cognito returns to the user in response to sign-in requests. Users can prefer SMS message, email message, or TOTP MFA.
         public let preferredMfaSetting: String?
@@ -4989,7 +5331,7 @@ extension CognitoIdentityProvider {
         public let smsMfaConfiguration: SmsMfaConfigType?
         /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
-        /// Shows user pool configuration for sign-in with passkey authenticators like biometric devices and security keys. Passkeys are not eligible MFA factors. They are instead an eligible primary sign-in factor for choice-based authentication, or the USER_AUTH flow.
+        /// Shows user pool configuration for sign-in with passkey authenticators such as biometric devices and security keys. Includes relying-party configuration, user-verification requirements, and whether passkeys can satisfy MFA requirements.
         public let webAuthnConfiguration: WebAuthnConfigurationType?
 
         @inlinable
@@ -5329,6 +5671,44 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct IssuerConfigurationType: AWSEncodableShape & AWSDecodableShape {
+        /// The type of issuer configuration. Determines the token issuing behavior for the user pool.  ORIGINAL  The original issuer configuration for user pools. The issuer URL is hosted in the user pool’s region and provides OIDC endpoints specific to that region. Original issuers have the format of https://cognito-idp.[region].amazonaws.com/[userPoolId]   UPDATED  Recommended for all user pools, including for multi-Region replication. Updated issuers host the same JWKS content in multiple regions, resulting in improved resilience and efficiency. Updated issuers have the format of https://issuer-cognito-idp.[region].amazonaws.com/[userPoolId], where region is the primary Amazon Web Services Region of your user pool.
+        public let type: IssuerType?
+
+        @inlinable
+        public init(type: IssuerType? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct KeyConfigurationType: AWSEncodableShape & AWSDecodableShape {
+        /// The type of encryption key used for the user pool.  AWS_OWNED_KEY  A key owned by Amazon Web Services in Key Management Service.  CUSTOMER_MANAGED_KEY  A key managed by the customer in Key Management Service. You must use a multi-region key to enable multi-region replication for a user pool.
+        public let keyType: EncryptionKeyType?
+        /// The Amazon Resource Name (ARN) of the KMS key used for encryption. If not specified, Amazon Web Services managed keys are used.
+        public let kmsKeyArn: String?
+
+        @inlinable
+        public init(keyType: EncryptionKeyType? = nil, kmsKeyArn: String? = nil) {
+            self.keyType = keyType
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyType = "KeyType"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
     public struct LambdaConfigType: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of a create auth challenge Lambda trigger, one of three triggers in the sequence of the custom authentication challenge triggers.
         public let createAuthChallenge: String?
@@ -5436,6 +5816,53 @@ extension CognitoIdentityProvider {
             case preTokenGenerationConfig = "PreTokenGenerationConfig"
             case userMigration = "UserMigration"
             case verifyAuthChallengeResponse = "VerifyAuthChallengeResponse"
+        }
+    }
+
+    public struct LimitDefinitionType: AWSEncodableShape & AWSDecodableShape {
+        /// The attributes that identify the specific limit. For API rate limits, specify the Category key with a value like UserAuthentication or UserCreation.
+        public let attributes: [String: String]
+        /// The class of the limit. For API rate limits, this is API_CATEGORY.
+        public let limitClass: LimitClass
+
+        @inlinable
+        public init(attributes: [String: String], limitClass: LimitClass) {
+            self.attributes = attributes
+            self.limitClass = limitClass
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try validate($0.key, name: "attributes.key", parent: name, max: 131072)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 131072)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case limitClass = "LimitClass"
+        }
+    }
+
+    public struct LimitType: AWSDecodableShape {
+        /// The default (free) limit value, in requests per second (RPS). This is the rate included at no additional cost.
+        public let freeLimitValue: Int
+        /// The definition that identifies this limit, including the class and attributes.
+        public let limitDefinition: LimitDefinitionType
+        /// The provisioned limit value, in requests per second (RPS). This is the rate that Amazon Cognito currently enforces for your account.
+        public let provisionedLimitValue: Int
+
+        @inlinable
+        public init(freeLimitValue: Int, limitDefinition: LimitDefinitionType, provisionedLimitValue: Int) {
+            self.freeLimitValue = freeLimitValue
+            self.limitDefinition = limitDefinition
+            self.provisionedLimitValue = provisionedLimitValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeLimitValue = "FreeLimitValue"
+            case limitDefinition = "LimitDefinition"
+            case provisionedLimitValue = "ProvisionedLimitValue"
         }
     }
 
@@ -5922,6 +6349,50 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case userPoolClients = "UserPoolClients"
+        }
+    }
+
+    public struct ListUserPoolReplicasRequest: AWSEncodableShape {
+        /// A pagination token for retrieving the next page of results. If this parameter is omitted, the operation returns the first page of results.
+        public let nextToken: String?
+        /// The ID of the user pool for which to list replicas.
+        public let userPoolId: String
+
+        @inlinable
+        public init(nextToken: String? = nil, userPoolId: String) {
+            self.nextToken = nextToken
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct ListUserPoolReplicasResponse: AWSDecodableShape {
+        /// A pagination token for retrieving the next page of results. If this value is null, there are no more results to retrieve.
+        public let nextToken: String?
+        /// A list of user pool replicas, including information about their status, role, and Region.
+        public let userPoolReplicas: [UserPoolReplicaType]?
+
+        @inlinable
+        public init(nextToken: String? = nil, userPoolReplicas: [UserPoolReplicaType]? = nil) {
+            self.nextToken = nextToken
+            self.userPoolReplicas = userPoolReplicas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case userPoolReplicas = "UserPoolReplicas"
         }
     }
 
@@ -6932,6 +7403,24 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct RoutingType: AWSEncodableShape & AWSDecodableShape {
+        /// The failover configuration that specifies the secondary region and health check settings.
+        public let failover: FailoverType?
+
+        @inlinable
+        public init(failover: FailoverType? = nil) {
+            self.failover = failover
+        }
+
+        public func validate(name: String) throws {
+            try self.failover?.validate(name: "\(name).failover")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failover = "Failover"
+        }
+    }
+
     public struct S3ConfigurationType: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of an Amazon S3 bucket that's the destination for threat protection log export.
         public let bucketArn: String?
@@ -7174,13 +7663,16 @@ extension CognitoIdentityProvider {
         public let smsMfaSettings: SMSMfaSettingsType?
         /// User preferences for time-based one-time password (TOTP) MFA. Activates or deactivates TOTP MFA and sets it as the preferred MFA method when multiple methods are available. Users must register a TOTP authenticator before they set this as their preferred MFA method.
         public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
+        /// User preferences for passkey MFA. Activates or deactivates passkey MFA for the user. When activated, passkey authentication requires user verification, and passkey sign-in is available when MFA is required. To activate this setting, the FactorConfiguration of your user pool WebAuthnConfiguration must be MULTI_FACTOR_WITH_USER_VERIFICATION. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let webAuthnMfaSettings: WebAuthnMfaSettingsType?
 
         @inlinable
-        public init(accessToken: String, emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
+        public init(accessToken: String, emailMfaSettings: EmailMfaSettingsType? = nil, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, webAuthnMfaSettings: WebAuthnMfaSettingsType? = nil) {
             self.accessToken = accessToken
             self.emailMfaSettings = emailMfaSettings
             self.smsMfaSettings = smsMfaSettings
             self.softwareTokenMfaSettings = softwareTokenMfaSettings
+            self.webAuthnMfaSettings = webAuthnMfaSettings
         }
 
         public func validate(name: String) throws {
@@ -7192,6 +7684,7 @@ extension CognitoIdentityProvider {
             case emailMfaSettings = "EmailMfaSettings"
             case smsMfaSettings = "SMSMfaSettings"
             case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
+            case webAuthnMfaSettings = "WebAuthnMfaSettings"
         }
     }
 
@@ -7210,7 +7703,7 @@ extension CognitoIdentityProvider {
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
         /// The user pool ID.
         public let userPoolId: String
-        /// The configuration of your user pool for passkey, or WebAuthn, authentication and registration. You can set this configuration independent of the MFA configuration options in this operation.
+        /// The configuration of your user pool for passkey, or WebAuthn, authentication and registration. Includes relying-party configuration, user-verification requirements, and whether passkeys can satisfy MFA requirements.
         public let webAuthnConfiguration: WebAuthnConfigurationType?
 
         @inlinable
@@ -7251,7 +7744,7 @@ extension CognitoIdentityProvider {
         public let smsMfaConfiguration: SmsMfaConfigType?
         /// Shows user pool configuration for time-based one-time password (TOTP) MFA. Includes TOTP enabled or disabled state.
         public let softwareTokenMfaConfiguration: SoftwareTokenMfaConfigType?
-        /// The configuration of your user pool for passkey, or WebAuthn, sign-in with authenticators like biometric and security-key devices. Includes relying-party configuration and settings for user-verification requirements.
+        /// The configuration of your user pool for passkey, or WebAuthn, sign-in with authenticators such as biometric and security-key devices. Includes relying-party configuration and settings for user-verification requirements.
         public let webAuthnConfiguration: WebAuthnConfigurationType?
 
         @inlinable
@@ -7303,7 +7796,7 @@ extension CognitoIdentityProvider {
     }
 
     public struct SignInPolicyType: AWSEncodableShape & AWSDecodableShape {
-        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors.
+        /// The sign-in methods that a user pool supports as the first factor. You can permit users to start authentication with a standard username and password, or with other one-time password and hardware factors.   SOFTWARE_TOKEN is not currently supported as a first auth factor. Do not include this value in AllowedFirstAuthFactors.
         public let allowedFirstAuthFactors: [AuthFactorType]?
 
         @inlinable
@@ -7312,7 +7805,7 @@ extension CognitoIdentityProvider {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.allowedFirstAuthFactors, name: "allowedFirstAuthFactors", parent: name, max: 4)
+            try self.validate(self.allowedFirstAuthFactors, name: "allowedFirstAuthFactors", parent: name, max: 5)
             try self.validate(self.allowedFirstAuthFactors, name: "allowedFirstAuthFactors", parent: name, min: 1)
         }
 
@@ -7426,30 +7919,34 @@ extension CognitoIdentityProvider {
     }
 
     public struct SmsConfigurationType: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for sending SMS messages through Amazon Web Services End User Messaging SMS, as an alternative to Amazon SNS. In a user pool, provide either the Amazon SNS configuration (SnsCallerArn) or this configuration, but not both. In Amazon Web Services Regions where Amazon SNS is not available, this configuration is required.
+        public let eumsSms: EumsSmsConfigurationType?
         /// The external ID provides additional security for your IAM role. You can use an ExternalId with the IAM role that you use with Amazon SNS to send SMS messages for your user pool. If you provide an ExternalId, your Amazon Cognito user pool includes it in the request to assume your IAM role. You can configure the role trust policy to require that Amazon Cognito, and any principal, provide the ExternalID. If you use the Amazon Cognito Management Console to create a role for SMS multi-factor authentication (MFA), Amazon Cognito creates a role with the required permissions and a trust policy that demonstrates use of the ExternalId. For more information about the ExternalId of a role, see How to use an external ID when granting access to your Amazon Web Services resources to a third party.
         public let externalId: String?
         /// The Amazon Resource Name (ARN) of the Amazon SNS caller. This is the ARN of the IAM role in your Amazon Web Services account that Amazon Cognito will use to send SMS messages. SMS messages are subject to a spending limit.
-        public let snsCallerArn: String
+        public let snsCallerArn: String?
         /// The Amazon Web Services Region to use with Amazon SNS integration. You can choose the same Region as your user pool, or a supported Legacy Amazon SNS alternate Region.   Amazon Cognito resources in the Asia Pacific (Seoul) Amazon Web Services Region must use your Amazon SNS configuration in the Asia Pacific (Tokyo) Region. For more information, see SMS message settings for Amazon Cognito user pools.
         public let snsRegion: String?
 
         @inlinable
-        public init(externalId: String? = nil, snsCallerArn: String, snsRegion: String? = nil) {
+        public init(eumsSms: EumsSmsConfigurationType? = nil, externalId: String? = nil, snsCallerArn: String? = nil, snsRegion: String? = nil) {
+            self.eumsSms = eumsSms
             self.externalId = externalId
             self.snsCallerArn = snsCallerArn
             self.snsRegion = snsRegion
         }
 
         public func validate(name: String) throws {
+            try self.eumsSms?.validate(name: "\(name).eumsSms")
             try self.validate(self.externalId, name: "externalId", parent: name, max: 131072)
             try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, max: 2048)
-            try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, min: 20)
-            try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
+            try self.validate(self.snsCallerArn, name: "snsCallerArn", parent: name, pattern: "^(arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?)?$")
             try self.validate(self.snsRegion, name: "snsRegion", parent: name, max: 32)
             try self.validate(self.snsRegion, name: "snsRegion", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eumsSms = "EumsSms"
             case externalId = "ExternalId"
             case snsCallerArn = "SnsCallerArn"
             case snsRegion = "SnsRegion"
@@ -8127,6 +8624,42 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct UpdateProvisionedLimitRequest: AWSEncodableShape {
+        /// The limit to update. Specify the limit class and the attributes that identify the limit.
+        public let limitDefinition: LimitDefinitionType
+        /// The provisioned rate to set, in requests per second (RPS).
+        public let requestedLimitValue: Int
+
+        @inlinable
+        public init(limitDefinition: LimitDefinitionType, requestedLimitValue: Int = 0) {
+            self.limitDefinition = limitDefinition
+            self.requestedLimitValue = requestedLimitValue
+        }
+
+        public func validate(name: String) throws {
+            try self.limitDefinition.validate(name: "\(name).limitDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitDefinition = "LimitDefinition"
+            case requestedLimitValue = "RequestedLimitValue"
+        }
+    }
+
+    public struct UpdateProvisionedLimitResponse: AWSDecodableShape {
+        /// The updated provisioned and default limit values.
+        public let limit: LimitType
+
+        @inlinable
+        public init(limit: LimitType) {
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+        }
+    }
+
     public struct UpdateResourceServerRequest: AWSEncodableShape {
         /// A unique resource server identifier for the resource server. The identifier can be an API friendly name like solar-system-data. You can also set an API URL like https://solar-system-data-api.example.com as your identifier. Amazon Cognito represents scopes in the access token in the format $resource-server-identifier/$scope. Longer scope-identifier strings increase the size of your access tokens.
         public let identifier: String
@@ -8209,12 +8742,12 @@ extension CognitoIdentityProvider {
 
         public func validate(name: String) throws {
             try self.links?.forEach {
-                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
+                try validate($0.key, name: "links.key", parent: name, pattern: "^cognito:(default|dutch|english|french|spanish|german|bahasa-indonesia|italian|japanese|korean|portuguese-brazil|chinese-(simplified|traditional))$")
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "links[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}]+$")
             }
-            try self.validate(self.links, name: "links", parent: name, max: 12)
+            try self.validate(self.links, name: "links", parent: name, max: 13)
             try self.validate(self.links, name: "links", parent: name, min: 1)
             try self.validate(self.termsId, name: "termsId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[4][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
             try self.validate(self.termsName, name: "termsName", parent: name, pattern: "^(terms-of-use|privacy-policy)$")
@@ -8512,14 +9045,17 @@ extension CognitoIdentityProvider {
         public let domain: String
         /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login.
         public let managedLoginVersion: Int?
+        /// The routing configuration for the user pool domain. Specifies failover settings for multi-region deployments.
+        public let routing: RoutingType?
         /// The ID of the user pool that is associated with the domain you're updating.
         public let userPoolId: String
 
         @inlinable
-        public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, managedLoginVersion: Int? = nil, userPoolId: String) {
+        public init(customDomainConfig: CustomDomainConfigType? = nil, domain: String, managedLoginVersion: Int? = nil, routing: RoutingType? = nil, userPoolId: String) {
             self.customDomainConfig = customDomainConfig
             self.domain = domain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
             self.userPoolId = userPoolId
         }
 
@@ -8528,6 +9064,7 @@ extension CognitoIdentityProvider {
             try self.validate(self.domain, name: "domain", parent: name, max: 63)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$")
+            try self.routing?.validate(name: "\(name).routing")
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
             try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
@@ -8537,6 +9074,7 @@ extension CognitoIdentityProvider {
             case customDomainConfig = "CustomDomainConfig"
             case domain = "Domain"
             case managedLoginVersion = "ManagedLoginVersion"
+            case routing = "Routing"
             case userPoolId = "UserPoolId"
         }
     }
@@ -8546,16 +9084,64 @@ extension CognitoIdentityProvider {
         public let cloudFrontDomain: String?
         /// A version number that indicates the state of managed login for your domain. Version 1 is hosted UI (classic). Version 2 is the newer managed login with the branding editor. For more information, see Managed login.
         public let managedLoginVersion: Int?
+        /// The updated routing configuration for the user pool domain.
+        public let routing: RoutingType?
 
         @inlinable
-        public init(cloudFrontDomain: String? = nil, managedLoginVersion: Int? = nil) {
+        public init(cloudFrontDomain: String? = nil, managedLoginVersion: Int? = nil, routing: RoutingType? = nil) {
             self.cloudFrontDomain = cloudFrontDomain
             self.managedLoginVersion = managedLoginVersion
+            self.routing = routing
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFrontDomain = "CloudFrontDomain"
             case managedLoginVersion = "ManagedLoginVersion"
+            case routing = "Routing"
+        }
+    }
+
+    public struct UpdateUserPoolReplicaRequest: AWSEncodableShape {
+        /// The Amazon Web Services Region of the replica to update.
+        public let regionName: String
+        /// The status to set for the replica. Valid values are ACTIVE and INACTIVE.
+        public let status: UpdateReplicaStatusType
+        /// The ID of the user pool that contains the replica to update.
+        public let userPoolId: String
+
+        @inlinable
+        public init(regionName: String, status: UpdateReplicaStatusType, userPoolId: String) {
+            self.regionName = regionName
+            self.status = status
+            self.userPoolId = userPoolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
+            try self.validate(self.regionName, name: "regionName", parent: name, min: 5)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, max: 55)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, min: 1)
+            try self.validate(self.userPoolId, name: "userPoolId", parent: name, pattern: "^[\\w-]+_[0-9a-zA-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case status = "Status"
+            case userPoolId = "UserPoolId"
+        }
+    }
+
+    public struct UpdateUserPoolReplicaResponse: AWSDecodableShape {
+        /// Information about the updated user pool replica.
+        public let userPoolReplica: UserPoolReplicaType?
+
+        @inlinable
+        public init(userPoolReplica: UserPoolReplicaType? = nil) {
+            self.userPoolReplica = userPoolReplica
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userPoolReplica = "UserPoolReplica"
         }
     }
 
@@ -8581,6 +9167,10 @@ extension CognitoIdentityProvider {
         public let emailVerificationMessage: String?
         /// This parameter is no longer used.
         public let emailVerificationSubject: String?
+        /// The issuer configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
+        public let issuerConfiguration: IssuerConfigurationType?
+        /// The key configuration for the user pool. In secondary regions, this parameter must match the existing configuration and cannot be modified.
+        public let keyConfiguration: KeyConfigurationType?
         /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of authentication operations. Triggers can modify the outcome of the operations that invoked them.
         public let lambdaConfig: LambdaConfigType?
         /// Sets multi-factor authentication (MFA) to be on, off, or optional. When ON, all users must set up MFA before they can sign in. When OPTIONAL, your application must make a client-side determination of whether a user wants to register an MFA device. For user pools with adaptive authentication with threat protection, choose OPTIONAL. When MfaConfiguration is OPTIONAL, managed login doesn't automatically prompt users to set up MFA. Amazon Cognito generates MFA prompts in API responses and in managed login for users who have chosen and configured a preferred MFA factor.
@@ -8615,7 +9205,7 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, emailConfiguration: EmailConfigurationType? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, mfaConfiguration: UserPoolMfaType? = nil, policies: UserPoolPolicyType? = nil, poolName: String? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolId: String, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.autoVerifiedAttributes = autoVerifiedAttributes
@@ -8624,6 +9214,8 @@ extension CognitoIdentityProvider {
             self.emailConfiguration = emailConfiguration
             self.emailVerificationMessage = emailVerificationMessage
             self.emailVerificationSubject = emailVerificationSubject
+            self.issuerConfiguration = issuerConfiguration
+            self.keyConfiguration = keyConfiguration
             self.lambdaConfig = lambdaConfig
             self.mfaConfiguration = mfaConfiguration
             self.policies = policies
@@ -8649,6 +9241,7 @@ extension CognitoIdentityProvider {
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, max: 140)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, min: 1)
             try self.validate(self.emailVerificationSubject, name: "emailVerificationSubject", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+$")
+            try self.keyConfiguration?.validate(name: "\(name).keyConfiguration")
             try self.lambdaConfig?.validate(name: "\(name).lambdaConfig")
             try self.policies?.validate(name: "\(name).policies")
             try self.validate(self.poolName, name: "poolName", parent: name, max: 128)
@@ -8681,6 +9274,8 @@ extension CognitoIdentityProvider {
             case emailConfiguration = "EmailConfiguration"
             case emailVerificationMessage = "EmailVerificationMessage"
             case emailVerificationSubject = "EmailVerificationSubject"
+            case issuerConfiguration = "IssuerConfiguration"
+            case keyConfiguration = "KeyConfiguration"
             case lambdaConfig = "LambdaConfig"
             case mfaConfiguration = "MfaConfiguration"
             case policies = "Policies"
@@ -8756,6 +9351,8 @@ extension CognitoIdentityProvider {
         public let jobId: String?
         /// The friendly name of the user import job.
         public let jobName: String?
+        /// The password hashing algorithm used to generate the hashes in the CSV file for this import job. Valid values: BCRYPT | SCRYPT | ARGON2ID | PBKDF2_SHA256
+        public let passwordHashingAlgorithm: PasswordHashingAlgorithmType?
         /// The pre-signed URL target for uploading the CSV file.
         public let preSignedUrl: String?
         /// The number of users that were skipped.
@@ -8768,7 +9365,7 @@ extension CognitoIdentityProvider {
         public let userPoolId: String?
 
         @inlinable
-        public init(cloudWatchLogsRoleArn: String? = nil, completionDate: Date? = nil, completionMessage: String? = nil, creationDate: Date? = nil, failedUsers: Int64? = nil, importedUsers: Int64? = nil, jobId: String? = nil, jobName: String? = nil, preSignedUrl: String? = nil, skippedUsers: Int64? = nil, startDate: Date? = nil, status: UserImportJobStatusType? = nil, userPoolId: String? = nil) {
+        public init(cloudWatchLogsRoleArn: String? = nil, completionDate: Date? = nil, completionMessage: String? = nil, creationDate: Date? = nil, failedUsers: Int64? = nil, importedUsers: Int64? = nil, jobId: String? = nil, jobName: String? = nil, passwordHashingAlgorithm: PasswordHashingAlgorithmType? = nil, preSignedUrl: String? = nil, skippedUsers: Int64? = nil, startDate: Date? = nil, status: UserImportJobStatusType? = nil, userPoolId: String? = nil) {
             self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
             self.completionDate = completionDate
             self.completionMessage = completionMessage
@@ -8777,6 +9374,7 @@ extension CognitoIdentityProvider {
             self.importedUsers = importedUsers
             self.jobId = jobId
             self.jobName = jobName
+            self.passwordHashingAlgorithm = passwordHashingAlgorithm
             self.preSignedUrl = preSignedUrl
             self.skippedUsers = skippedUsers
             self.startDate = startDate
@@ -8793,6 +9391,7 @@ extension CognitoIdentityProvider {
             case importedUsers = "ImportedUsers"
             case jobId = "JobId"
             case jobName = "JobName"
+            case passwordHashingAlgorithm = "PasswordHashingAlgorithm"
             case preSignedUrl = "PreSignedUrl"
             case skippedUsers = "SkippedUsers"
             case startDate = "StartDate"
@@ -9006,27 +9605,31 @@ extension CognitoIdentityProvider {
         public let lastModifiedDate: Date?
         /// The user pool name.
         public let name: String?
+        /// A list of Amazon Web Services Regions where replicas of this user pool exist.
+        public let replicaRegions: [String]?
         /// The user pool status.
         public let status: StatusType?
 
         @inlinable
-        public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil) {
+        public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil, replicaRegions: [String]? = nil) {
             self.creationDate = creationDate
             self.id = id
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.replicaRegions = replicaRegions
             self.status = nil
         }
 
         @available(*, deprecated, message: "Members status have been deprecated")
         @inlinable
-        public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil, status: StatusType? = nil) {
+        public init(creationDate: Date? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, name: String? = nil, replicaRegions: [String]? = nil, status: StatusType? = nil) {
             self.creationDate = creationDate
             self.id = id
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.replicaRegions = replicaRegions
             self.status = status
         }
 
@@ -9036,6 +9639,7 @@ extension CognitoIdentityProvider {
             case lambdaConfig = "LambdaConfig"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
+            case replicaRegions = "ReplicaRegions"
             case status = "Status"
         }
     }
@@ -9060,6 +9664,32 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case passwordPolicy = "PasswordPolicy"
             case signInPolicy = "SignInPolicy"
+        }
+    }
+
+    public struct UserPoolReplicaType: AWSDecodableShape {
+        /// The Amazon Web Services Region where the replica is located.
+        public let regionName: String?
+        /// The role of the user pool replica that determines which API operations are enabled.  PRIMARY  The primary replica supports all end user and administrator operations.  SECONDARY  The secondary replica supports a limited set of end user and administrator operations. Generally, only administrator operations that set configurations specific to the replica, and only end-user operations that do not create or change attributes of a user are supported.
+        public let role: ReplicaRoleType?
+        /// The current status of the replica.  CREATING  The replica is being created.  INACTIVE  The replica has been created, but is not accepting requests for end-users. Administrator configuration operations are supported.  ACTIVE  The replica is available for both end-user and administrator operations.  DELETING  The replica is being deleted.
+        public let status: ReplicaStatusType?
+        /// The Amazon Resource Name (ARN) of the replica user pool.
+        public let userPoolArn: String?
+
+        @inlinable
+        public init(regionName: String? = nil, role: ReplicaRoleType? = nil, status: ReplicaStatusType? = nil, userPoolArn: String? = nil) {
+            self.regionName = regionName
+            self.role = role
+            self.status = status
+            self.userPoolArn = userPoolArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case regionName = "RegionName"
+            case role = "Role"
+            case status = "Status"
+            case userPoolArn = "UserPoolArn"
         }
     }
 
@@ -9102,6 +9732,10 @@ extension CognitoIdentityProvider {
         public let estimatedNumberOfUsers: Int?
         /// The ID of the user pool.
         public let id: String?
+        /// The issuer configuration for the user pool, including token issuing settings.
+        public let issuerConfiguration: IssuerConfigurationType?
+        /// The key configuration for the user pool, including encryption settings.
+        public let keyConfiguration: KeyConfigurationType?
         /// A collection of user pool Lambda triggers. Amazon Cognito invokes triggers at several possible stages of user pool operations. Triggers can modify the outcome of the operations that invoked them.
         public let lambdaConfig: LambdaConfigType?
         /// The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
@@ -9147,7 +9781,7 @@ extension CognitoIdentityProvider {
         public let verificationMessageTemplate: VerificationMessageTemplateType?
 
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -9164,6 +9798,8 @@ extension CognitoIdentityProvider {
             self.emailVerificationSubject = emailVerificationSubject
             self.estimatedNumberOfUsers = estimatedNumberOfUsers
             self.id = id
+            self.issuerConfiguration = issuerConfiguration
+            self.keyConfiguration = keyConfiguration
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.mfaConfiguration = mfaConfiguration
@@ -9186,7 +9822,7 @@ extension CognitoIdentityProvider {
 
         @available(*, deprecated, message: "Members status have been deprecated")
         @inlinable
-        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
+        public init(accountRecoverySetting: AccountRecoverySettingType? = nil, adminCreateUserConfig: AdminCreateUserConfigType? = nil, aliasAttributes: [AliasAttributeType]? = nil, arn: String? = nil, autoVerifiedAttributes: [VerifiedAttributeType]? = nil, creationDate: Date? = nil, customDomain: String? = nil, deletionProtection: DeletionProtectionType? = nil, deviceConfiguration: DeviceConfigurationType? = nil, domain: String? = nil, emailConfiguration: EmailConfigurationType? = nil, emailConfigurationFailure: String? = nil, emailVerificationMessage: String? = nil, emailVerificationSubject: String? = nil, estimatedNumberOfUsers: Int? = nil, id: String? = nil, issuerConfiguration: IssuerConfigurationType? = nil, keyConfiguration: KeyConfigurationType? = nil, lambdaConfig: LambdaConfigType? = nil, lastModifiedDate: Date? = nil, mfaConfiguration: UserPoolMfaType? = nil, name: String? = nil, policies: UserPoolPolicyType? = nil, schemaAttributes: [SchemaAttributeType]? = nil, smsAuthenticationMessage: String? = nil, smsConfiguration: SmsConfigurationType? = nil, smsConfigurationFailure: String? = nil, smsVerificationMessage: String? = nil, status: StatusType? = nil, userAttributeUpdateSettings: UserAttributeUpdateSettingsType? = nil, usernameAttributes: [UsernameAttributeType]? = nil, usernameConfiguration: UsernameConfigurationType? = nil, userPoolAddOns: UserPoolAddOnsType? = nil, userPoolTags: [String: String]? = nil, userPoolTier: UserPoolTierType? = nil, verificationMessageTemplate: VerificationMessageTemplateType? = nil) {
             self.accountRecoverySetting = accountRecoverySetting
             self.adminCreateUserConfig = adminCreateUserConfig
             self.aliasAttributes = aliasAttributes
@@ -9203,6 +9839,8 @@ extension CognitoIdentityProvider {
             self.emailVerificationSubject = emailVerificationSubject
             self.estimatedNumberOfUsers = estimatedNumberOfUsers
             self.id = id
+            self.issuerConfiguration = issuerConfiguration
+            self.keyConfiguration = keyConfiguration
             self.lambdaConfig = lambdaConfig
             self.lastModifiedDate = lastModifiedDate
             self.mfaConfiguration = mfaConfiguration
@@ -9240,6 +9878,8 @@ extension CognitoIdentityProvider {
             case emailVerificationSubject = "EmailVerificationSubject"
             case estimatedNumberOfUsers = "EstimatedNumberOfUsers"
             case id = "Id"
+            case issuerConfiguration = "IssuerConfiguration"
+            case keyConfiguration = "KeyConfiguration"
             case lambdaConfig = "LambdaConfig"
             case lastModifiedDate = "LastModifiedDate"
             case mfaConfiguration = "MfaConfiguration"
@@ -9460,13 +10100,16 @@ extension CognitoIdentityProvider {
     }
 
     public struct WebAuthnConfigurationType: AWSEncodableShape & AWSDecodableShape {
+        /// Sets whether passkeys can be used as multi-factor authentication (MFA). When set to MULTI_FACTOR_WITH_USER_VERIFICATION, passkey authentication with user verification satisfies MFA requirements. When set to SINGLE_FACTOR or not set, passkeys are a single authentication factor. To activate this setting, your user pool must be in the  Essentials tier or higher.
+        public let factorConfiguration: WebAuthnFactorConfigurationType?
         /// Sets or displays the authentication domain, typically your user pool domain, that passkey providers must use as a relying party (RP) in their configuration. Under the following conditions, the passkey relying party ID must be the fully-qualified domain name of your custom domain:   The user pool is configured for passkey authentication.   The user pool has a custom domain, whether or not it also has a prefix domain.   Your application performs authentication with managed login or the classic hosted UI.
         public let relyingPartyId: String?
         /// When required, users can only register and sign in users with passkeys that are capable of user verification. When preferred, your user pool doesn't require the use of authenticators with user verification but encourages it.
         public let userVerification: UserVerificationType?
 
         @inlinable
-        public init(relyingPartyId: String? = nil, userVerification: UserVerificationType? = nil) {
+        public init(factorConfiguration: WebAuthnFactorConfigurationType? = nil, relyingPartyId: String? = nil, userVerification: UserVerificationType? = nil) {
+            self.factorConfiguration = factorConfiguration
             self.relyingPartyId = relyingPartyId
             self.userVerification = userVerification
         }
@@ -9477,6 +10120,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case factorConfiguration = "FactorConfiguration"
             case relyingPartyId = "RelyingPartyId"
             case userVerification = "UserVerification"
         }
@@ -9516,6 +10160,20 @@ extension CognitoIdentityProvider {
             case relyingPartyId = "RelyingPartyId"
         }
     }
+
+    public struct WebAuthnMfaSettingsType: AWSEncodableShape {
+        /// Specifies whether passkey MFA is activated for a user. When activated, the user's passkey authentication requires user verification, and passkey sign-in is available when MFA is required. The user must also have at least one other MFA method such as SMS, TOTP, or email activated to prevent account lockout.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -9549,12 +10207,14 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case managedLoginBrandingExistsException = "ManagedLoginBrandingExistsException"
         case mfaMethodNotFoundException = "MFAMethodNotFoundException"
         case notAuthorizedException = "NotAuthorizedException"
+        case operationNotEnabledException = "OperationNotEnabledException"
         case passwordHistoryPolicyViolationException = "PasswordHistoryPolicyViolationException"
         case passwordResetRequiredException = "PasswordResetRequiredException"
         case preconditionNotMetException = "PreconditionNotMetException"
         case refreshTokenReuseException = "RefreshTokenReuseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case scopeDoesNotExistException = "ScopeDoesNotExistException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case softwareTokenMFANotFoundException = "SoftwareTokenMFANotFoundException"
         case termsExistsException = "TermsExistsException"
         case tierChangeNotAllowedException = "TierChangeNotAllowedException"
@@ -9652,6 +10312,8 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var mfaMethodNotFoundException: Self { .init(.mfaMethodNotFoundException) }
     /// This exception is thrown when a user isn't authorized.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    /// This exception is thrown when an operation is not available in the current region or for the current user pool configuration. This can occur when attempting to perform operations that are not supported in secondary replica regions.
+    public static var operationNotEnabledException: Self { .init(.operationNotEnabledException) }
     /// The message returned when a user's new password matches a previous password and doesn't comply with the password-history policy.
     public static var passwordHistoryPolicyViolationException: Self { .init(.passwordHistoryPolicyViolationException) }
     /// This exception is thrown when a password reset is required.
@@ -9664,6 +10326,8 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// This exception is thrown when the specified scope doesn't exist.
     public static var scopeDoesNotExistException: Self { .init(.scopeDoesNotExistException) }
+    /// The request exceeded your account's service quota. To increase your limit, use  or submit a Service Quotas increase request.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// This exception is thrown when the software token time-based one-time password (TOTP) multi-factor authentication (MFA) isn't activated for the user pool.
     public static var softwareTokenMFANotFoundException: Self { .init(.softwareTokenMFANotFoundException) }
     /// Terms document names must be unique to the app client. This exception is thrown when you attempt to create terms documents with a duplicate TermsName.

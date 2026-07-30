@@ -48,9 +48,33 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case creating = "CREATING"
+        case failed = "FAILED"
+        case inprogress = "INPROGRESS"
+        case pending = "PENDING"
+        case processed = "PROCESSED"
+        case runsDeleted = "RUNS_DELETED"
+        case runsDeleting = "RUNS_DELETING"
+        case stopping = "STOPPING"
+        case submitting = "SUBMITTING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CacheBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cacheAlways = "CACHE_ALWAYS"
         case cacheOnFailure = "CACHE_ON_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +141,12 @@ extension Omics {
         case inProgress = "IN_PROGRESS"
         /// The Job has been submitted to run
         case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case restricted = "RESTRICTED"
+        case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
 
@@ -300,6 +330,12 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScratchStorageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case local = "LOCAL"
+        case shared = "SHARED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SequenceStoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -378,6 +414,16 @@ extension Omics {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubmissionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelFailed = "CANCEL_FAILED"
+        case cancelSuccess = "CANCEL_SUCCESS"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteSuccess = "DELETE_SUCCESS"
+        case failed = "FAILED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaskStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case completed = "COMPLETED"
@@ -431,6 +477,43 @@ extension Omics {
         case `private` = "PRIVATE"
         case ready2run = "READY2RUN"
         public var description: String { return self.rawValue }
+    }
+
+    public enum BatchRunSettings: AWSEncodableShape, Sendable {
+        /// A list of per-run configurations provided inline in the request. Each entry must include a unique runSettingId. Supports up to 100 entries. For batches with more than 100 runs, use s3UriSettings.
+        case inlineSettings([InlineSetting])
+        /// An Amazon S3 URI pointing to a JSON file containing per-run configurations. The file must be a JSON array in the same format as inlineSettings. Supports up to 100,000 run configurations. The maximum file size is 6 GB. The IAM service role in roleArn must have read access to this S3 object. HealthOmics validates access to the file during the synchronous API call and records the file's ETag. If the file is modified after submission, the batch fails.
+        case s3UriSettings(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .inlineSettings(let value):
+                try container.encode(value, forKey: .inlineSettings)
+            case .s3UriSettings(let value):
+                try container.encode(value, forKey: .s3UriSettings)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .inlineSettings(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).inlineSettings[]")
+                }
+                try self.validate(value, name: "inlineSettings", parent: name, max: 100)
+                try self.validate(value, name: "inlineSettings", parent: name, min: 1)
+            case .s3UriSettings(let value):
+                try self.validate(value, name: "s3UriSettings", parent: name, max: 750)
+                try self.validate(value, name: "s3UriSettings", parent: name, min: 1)
+                try self.validate(value, name: "s3UriSettings", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineSettings = "inlineSettings"
+            case s3UriSettings = "s3UriSettings"
+        }
     }
 
     public enum FormatOptions: AWSEncodableShape & AWSDecodableShape, Sendable {
@@ -882,6 +965,41 @@ extension Omics {
         }
     }
 
+    public struct BatchListItem: AWSDecodableShape {
+        /// The timestamp when the batch was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The batch identifier.
+        public let id: String?
+        /// The batch name.
+        public let name: String?
+        /// The current batch status.
+        public let status: BatchStatus?
+        /// The total number of runs in the batch.
+        public let totalRuns: Int?
+        /// The identifier of the workflow used for the batch.
+        public let workflowId: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, id: String? = nil, name: String? = nil, status: BatchStatus? = nil, totalRuns: Int? = nil, workflowId: String? = nil) {
+            self.createdAt = createdAt
+            self.id = id
+            self.name = name
+            self.status = status
+            self.totalRuns = totalRuns
+            self.workflowId = workflowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case id = "id"
+            case name = "name"
+            case status = "status"
+            case totalRuns = "totalRuns"
+            case workflowId = "workflowId"
+        }
+    }
+
     public struct CancelAnnotationImportRequest: AWSEncodableShape {
         /// The job's ID.
         public let jobId: String
@@ -905,6 +1023,30 @@ extension Omics {
     }
 
     public struct CancelAnnotationImportResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CancelRunBatchRequest: AWSEncodableShape {
+        /// The identifier portion of the run batch ARN.
+        public let batchId: String
+
+        @inlinable
+        public init(batchId: String) {
+            self.batchId = batchId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchId = "batchId"
+        }
+    }
+
+    public struct CancelRunBatchResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1028,6 +1170,59 @@ extension Omics {
             case checksum = "checksum"
             case partNumber = "partNumber"
             case partSource = "partSource"
+        }
+    }
+
+    public struct ConfigurationDetails: AWSDecodableShape {
+        /// Unique resource identifier for the configuration.
+        public let arn: String?
+        /// User-friendly name for the configuration.
+        public let name: String?
+        /// Unique identifier for the configuration.
+        public let uuid: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil, uuid: String? = nil) {
+            self.arn = arn
+            self.name = name
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case name = "name"
+            case uuid = "uuid"
+        }
+    }
+
+    public struct ConfigurationListItem: AWSDecodableShape {
+        /// Unique resource identifier for the configuration.
+        public let arn: String?
+        /// Configuration creation timestamp.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Description for the configuration.
+        public let description: String?
+        /// User-friendly name for the configuration.
+        public let name: String?
+        /// Current configuration status.
+        public let status: ConfigurationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, name: String? = nil, status: ConfigurationStatus? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -1251,6 +1446,97 @@ extension Omics {
             case storeId = "storeId"
             case versionName = "versionName"
             case versionOptions = "versionOptions"
+        }
+    }
+
+    public struct CreateConfigurationRequest: AWSEncodableShape {
+        /// Optional description for the configuration.
+        public let description: String?
+        /// User-friendly name for the configuration.
+        public let name: String
+        /// Optional request idempotency token. If not specified, a universally unique identifier (UUID) will be automatically generated for the request.
+        public let requestId: String
+        /// Required run-specific configurations.
+        public let runConfigurations: RunConfigurations
+        /// Optional tags for the configuration.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, name: String, requestId: String = CreateConfigurationRequest.idempotencyToken(), runConfigurations: RunConfigurations, tags: [String: String]? = nil) {
+            self.description = description
+            self.name = name
+            self.requestId = requestId
+            self.runConfigurations = runConfigurations
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.runConfigurations.validate(name: "\(name).runConfigurations")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case requestId = "requestId"
+            case runConfigurations = "runConfigurations"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateConfigurationResponse: AWSDecodableShape {
+        /// Unique resource identifier for the configuration.
+        public let arn: String?
+        /// Configuration creation timestamp.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Description for the configuration.
+        public let description: String?
+        /// User-friendly name for the configuration.
+        public let name: String?
+        /// Run-specific configurations.
+        public let runConfigurations: RunConfigurationsResponse?
+        /// Current configuration status.
+        public let status: ConfigurationStatus?
+        /// Tags for the configuration.
+        public let tags: [String: String]?
+        /// Unique identifier for the configuration.
+        public let uuid: String?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, name: String? = nil, runConfigurations: RunConfigurationsResponse? = nil, status: ConfigurationStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.runConfigurations = runConfigurations
+            self.status = status
+            self.tags = tags
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case name = "name"
+            case runConfigurations = "runConfigurations"
+            case status = "status"
+            case tags = "tags"
+            case uuid = "uuid"
         }
     }
 
@@ -1910,7 +2196,7 @@ extension Omics {
         public let definitionZip: AWSBase64Data?
         /// A description for the workflow.
         public let description: String?
-        /// The workflow engine for the workflow. This is only required if you have workflow definition files from more than one engine in your zip file. Otherwise, the service can detect the engine automatically from your workflow definition.
+        /// The workflow engine for the workflow. By default, Amazon Web Services HealthOmics detects the engine automatically from your workflow definition. Provide a value if you have workflow definition files from more than one engine in your zip file, or to use WDL lenient. WDL lenient is designed to handle workflows migrated from Cromwell. It supports customer Cromwell directives and some non-conformant logic. For details, see Implicit type conversion in WDL lenient in the Amazon Web Services HealthOmics User Guide.
         public let engine: WorkflowEngine?
         /// The path of the main definition file for the workflow. This parameter is not required if the ZIP archive contains only one workflow definition file, or if the main definition file is named “main”. An example path is: workflow-definition/main-file.wdl.
         public let main: String?
@@ -1985,7 +2271,7 @@ extension Omics {
                 try validate($0.key, name: "parameterTemplate.key", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
                 try $0.value.validate(name: "\(name).parameterTemplate[\"\($0.key)\"]")
             }
-            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 1000)
+            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 2000)
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, min: 1)
             try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, max: 128)
             try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, min: 1)
@@ -2175,7 +2461,7 @@ extension Omics {
                 try validate($0.key, name: "parameterTemplate.key", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
                 try $0.value.validate(name: "\(name).parameterTemplate[\"\($0.key)\"]")
             }
-            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 1000)
+            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 2000)
             try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, min: 1)
             try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, max: 128)
             try self.validate(self.parameterTemplatePath, name: "parameterTemplatePath", parent: name, min: 1)
@@ -2256,6 +2542,140 @@ extension Omics {
             case uuid = "uuid"
             case versionName = "versionName"
             case workflowId = "workflowId"
+        }
+    }
+
+    public struct DefaultRunSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The cache behavior for the runs. Requires cacheId to be set.
+        public let cacheBehavior: CacheBehavior?
+        /// The identifier of the run cache to associate with the runs.
+        public let cacheId: String?
+        /// Optional configuration name to use for the workflow run.
+        public let configurationName: String?
+        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+        public let engineSettings: AWSDocument?
+        /// The verbosity level for CloudWatch Logs emitted during each run.
+        public let logLevel: RunLogLevel?
+        /// An optional user-friendly name applied to each workflow run. Can be overridden per run.
+        public let name: String?
+        /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
+        public let networkingMode: NetworkingMode?
+        /// The expected AWS account ID of the owner of the output S3 bucket. Can be overridden per run.
+        public let outputBucketOwnerId: String?
+        /// The destination S3 URI for workflow outputs. Must begin with s3://. The roleArn must grant write permissions to this bucket. Can be overridden per run.
+        public let outputUri: String?
+        /// Workflow parameter names and values shared across all runs. Merged with per-run parameters; run-specific values take precedence when keys overlap. Can be overridden per run.
+        public let parameters: AWSDocument?
+        /// An integer priority for the workflow runs. Higher values correspond to higher priority. A value of 0 corresponds to the lowest priority. Can be overridden per run.
+        public let priority: Int?
+        /// The retention behavior for runs after completion.
+        public let retentionMode: RunRetentionMode?
+        /// The IAM role ARN that grants HealthOmics permissions to access required AWS resources such as Amazon S3 and CloudWatch. The role must have the same permissions required for individual StartRun calls.
+        public let roleArn: String
+        /// The ID of the run group to contain all workflow runs in the batch.
+        public let runGroupId: String?
+        /// AWS tags to associate with each workflow run. Merged with per-run runTags; run-specific values take precedence when keys overlap.
+        public let runTags: [String: String]?
+        /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+        public let scratchStorageMode: ScratchStorageMode?
+        /// The filesystem size in gibibytes (GiB) provisioned for each workflow run and shared by all tasks in that run. Defaults to 1200 GiB if not specified.
+        public let storageCapacity: Int?
+        /// The storage type for the workflow runs.
+        public let storageType: StorageType?
+        /// The identifier of the workflow to run.
+        public let workflowId: String
+        /// The AWS account ID of the workflow owner, used for cross-account workflow sharing.
+        public let workflowOwnerId: String?
+        /// The type of the originating workflow. Batch runs are not supported with READY2RUN workflows.
+        public let workflowType: WorkflowType?
+        /// The version name of the specified workflow.
+        public let workflowVersionName: String?
+
+        @inlinable
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputBucketOwnerId: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runTags: [String: String]? = nil, scratchStorageMode: ScratchStorageMode? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+            self.cacheBehavior = cacheBehavior
+            self.cacheId = cacheId
+            self.configurationName = configurationName
+            self.engineSettings = engineSettings
+            self.logLevel = logLevel
+            self.name = name
+            self.networkingMode = networkingMode
+            self.outputBucketOwnerId = outputBucketOwnerId
+            self.outputUri = outputUri
+            self.parameters = parameters
+            self.priority = priority
+            self.retentionMode = retentionMode
+            self.roleArn = roleArn
+            self.runGroupId = runGroupId
+            self.runTags = runTags
+            self.scratchStorageMode = scratchStorageMode
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
+            self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
+            self.workflowType = workflowType
+            self.workflowVersionName = workflowVersionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cacheId, name: "cacheId", parent: name, max: 18)
+            try self.validate(self.cacheId, name: "cacheId", parent: name, min: 1)
+            try self.validate(self.cacheId, name: "cacheId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, max: 128)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, max: 12)
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, min: 12)
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.outputUri, name: "outputUri", parent: name, max: 750)
+            try self.validate(self.outputUri, name: "outputUri", parent: name, min: 1)
+            try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 128)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.+$")
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, max: 18)
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, min: 1)
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, pattern: "^[0-9]+$")
+            try self.runTags?.forEach {
+                try validate($0.key, name: "runTags.key", parent: name, max: 128)
+                try validate($0.key, name: "runTags.key", parent: name, min: 1)
+                try validate($0.value, name: "runTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, max: 64)
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, min: 1)
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheBehavior = "cacheBehavior"
+            case cacheId = "cacheId"
+            case configurationName = "configurationName"
+            case engineSettings = "engineSettings"
+            case logLevel = "logLevel"
+            case name = "name"
+            case networkingMode = "networkingMode"
+            case outputBucketOwnerId = "outputBucketOwnerId"
+            case outputUri = "outputUri"
+            case parameters = "parameters"
+            case priority = "priority"
+            case retentionMode = "retentionMode"
+            case roleArn = "roleArn"
+            case runGroupId = "runGroupId"
+            case runTags = "runTags"
+            case scratchStorageMode = "scratchStorageMode"
+            case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
+            case workflowId = "workflowId"
+            case workflowOwnerId = "workflowOwnerId"
+            case workflowType = "workflowType"
+            case workflowVersionName = "workflowVersionName"
         }
     }
 
@@ -2412,6 +2832,54 @@ extension Omics {
         }
     }
 
+    public struct DeleteBatchRequest: AWSEncodableShape {
+        /// The identifier portion of the run batch ARN.
+        public let batchId: String
+
+        @inlinable
+        public init(batchId: String) {
+            self.batchId = batchId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.batchId, key: "batchId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConfigurationRequest: AWSEncodableShape {
+        /// Configuration name to delete.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteReferenceRequest: AWSEncodableShape {
         /// The reference's ID.
         public let id: String
@@ -2472,6 +2940,30 @@ extension Omics {
     }
 
     public struct DeleteReferenceStoreResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRunBatchRequest: AWSEncodableShape {
+        /// The identifier portion of the run batch ARN.
+        public let batchId: String
+
+        @inlinable
+        public init(batchId: String) {
+            self.batchId = batchId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchId = "batchId"
+        }
+    }
+
+    public struct DeleteRunBatchResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3162,6 +3654,171 @@ extension Omics {
             case versionName = "versionName"
             case versionOptions = "versionOptions"
             case versionSizeBytes = "versionSizeBytes"
+        }
+    }
+
+    public struct GetBatchRequest: AWSEncodableShape {
+        /// The identifier portion of the run batch ARN.
+        public let batchId: String
+
+        @inlinable
+        public init(batchId: String) {
+            self.batchId = batchId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.batchId, key: "batchId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBatchResponse: AWSDecodableShape {
+        /// The unique ARN of the run batch.
+        public let arn: String?
+        /// The timestamp when the batch was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The shared configuration applied to all runs in the batch. See DefaultRunSetting.
+        public let defaultRunSetting: DefaultRunSetting?
+        /// The timestamp when the batch transitioned to a FAILED status.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var failedTime: Date?
+        /// A description of the batch failure. Present only when status is FAILED.
+        public let failureReason: String?
+        /// The identifier portion of the run batch ARN.
+        public let id: String?
+        /// The optional user-friendly name of the batch.
+        public let name: String?
+        /// The timestamp when all run executions completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var processedTime: Date?
+        /// A summary of run execution states. Run execution counts are eventually consistent and may lag behind actual run states. Final counts are accurate once the batch reaches PROCESSED status. See RunSummary.
+        public let runSummary: RunSummary?
+        /// The current status of the run batch. Possible values: CREATING (initial setup), PENDING (ready to submit runs), SUBMITTING (submitting runs), INPROGRESS (runs executing), STOPPING (cancellation in progress), PROCESSED (all runs completed), CANCELLED (batch cancelled), FAILED (batch failed), RUNS_DELETING (deleting runs), RUNS_DELETED (runs deleted).
+        public let status: BatchStatus?
+        /// A summary of run submission outcomes. See SubmissionSummary.
+        public let submissionSummary: SubmissionSummary?
+        /// The timestamp when all run submissions completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var submittedTime: Date?
+        /// AWS tags associated with the run batch.
+        public let tags: [String: String]?
+        /// The total number of runs in the batch.
+        public let totalRuns: Int?
+        /// The universally unique identifier (UUID) for the run batch.
+        public let uuid: String?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, defaultRunSetting: DefaultRunSetting? = nil, failedTime: Date? = nil, failureReason: String? = nil, id: String? = nil, name: String? = nil, processedTime: Date? = nil, runSummary: RunSummary? = nil, status: BatchStatus? = nil, submissionSummary: SubmissionSummary? = nil, submittedTime: Date? = nil, tags: [String: String]? = nil, totalRuns: Int? = nil, uuid: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.defaultRunSetting = defaultRunSetting
+            self.failedTime = failedTime
+            self.failureReason = failureReason
+            self.id = id
+            self.name = name
+            self.processedTime = processedTime
+            self.runSummary = runSummary
+            self.status = status
+            self.submissionSummary = submissionSummary
+            self.submittedTime = submittedTime
+            self.tags = tags
+            self.totalRuns = totalRuns
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case defaultRunSetting = "defaultRunSetting"
+            case failedTime = "failedTime"
+            case failureReason = "failureReason"
+            case id = "id"
+            case name = "name"
+            case processedTime = "processedTime"
+            case runSummary = "runSummary"
+            case status = "status"
+            case submissionSummary = "submissionSummary"
+            case submittedTime = "submittedTime"
+            case tags = "tags"
+            case totalRuns = "totalRuns"
+            case uuid = "uuid"
+        }
+    }
+
+    public struct GetConfigurationRequest: AWSEncodableShape {
+        /// Configuration name to retrieve.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConfigurationResponse: AWSDecodableShape {
+        /// Unique resource identifier for the configuration.
+        public let arn: String?
+        /// Configuration creation timestamp.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Description for the configuration.
+        public let description: String?
+        /// User-friendly name for the configuration.
+        public let name: String?
+        /// Run-specific configurations.
+        public let runConfigurations: RunConfigurationsResponse?
+        /// Current configuration status.
+        public let status: ConfigurationStatus?
+        /// Tags for the configuration.
+        public let tags: [String: String]?
+        /// Unique identifier for the configuration.
+        public let uuid: String?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, name: String? = nil, runConfigurations: RunConfigurationsResponse? = nil, status: ConfigurationStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.name = name
+            self.runConfigurations = runConfigurations
+            self.status = status
+            self.tags = tags
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case name = "name"
+            case runConfigurations = "runConfigurations"
+            case status = "status"
+            case tags = "tags"
+            case uuid = "uuid"
         }
     }
 
@@ -4010,10 +4667,14 @@ extension Omics {
         public let accelerators: Accelerators?
         /// The run's ARN.
         public let arn: String?
+        /// The run's batch ID.
+        public let batchId: String?
         /// The run cache behavior for the run.
         public let cacheBehavior: CacheBehavior?
         /// The run cache associated with the run.
         public let cacheId: String?
+        /// Configuration details for the workflow run.
+        public let configuration: ConfigurationDetails?
         /// When the run was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
@@ -4021,6 +4682,8 @@ extension Omics {
         public let definition: String?
         /// The run's digest.
         public let digest: String?
+        /// The engine-specific settings for the workflow run.
+        public let engineSettings: AWSDocument?
         /// The actual Nextflow engine version that Amazon Web Services HealthOmics used for the run. The other workflow definition languages don't provide a value for this field.
         public let engineVersion: String?
         /// The reason a run has failed.
@@ -4033,6 +4696,8 @@ extension Omics {
         public let logLocation: RunLogLocation?
         /// The run's name.
         public let name: String?
+        /// Configuration for run networking behavior. If absent, this will default to RESTRICTED.
+        public let networkingMode: NetworkingMode?
         /// The run's output URI.
         public let outputUri: String?
         /// The run's parameters.
@@ -4051,6 +4716,8 @@ extension Omics {
         public let runId: String?
         /// The destination for workflow outputs.
         public let runOutputUri: String?
+        /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If absent, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+        public let scratchStorageMode: ScratchStorageMode?
         /// Who started the run.
         public let startedBy: String?
         /// When the run started.
@@ -4071,6 +4738,8 @@ extension Omics {
         public let tags: [String: String]?
         /// The universally unique identifier for a run.
         public let uuid: String?
+        /// VPC configuration for the workflow run.
+        public let vpcConfig: VpcConfigResponse?
         /// The run's workflow ID.
         public let workflowId: String?
         /// The ID of the workflow owner.
@@ -4083,20 +4752,24 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, batchId: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configuration: ConfigurationDetails? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineSettings: AWSDocument? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, vpcConfig: VpcConfigResponse? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
+            self.batchId = batchId
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
+            self.configuration = configuration
             self.creationTime = creationTime
             self.definition = definition
             self.digest = digest
+            self.engineSettings = engineSettings
             self.engineVersion = engineVersion
             self.failureReason = failureReason
             self.id = id
             self.logLevel = logLevel
             self.logLocation = logLocation
             self.name = name
+            self.networkingMode = networkingMode
             self.outputUri = outputUri
             self.parameters = parameters
             self.priority = priority
@@ -4106,6 +4779,7 @@ extension Omics {
             self.runGroupId = runGroupId
             self.runId = runId
             self.runOutputUri = runOutputUri
+            self.scratchStorageMode = scratchStorageMode
             self.startedBy = startedBy
             self.startTime = startTime
             self.status = status
@@ -4115,6 +4789,7 @@ extension Omics {
             self.storageType = storageType
             self.tags = tags
             self.uuid = uuid
+            self.vpcConfig = vpcConfig
             self.workflowId = workflowId
             self.workflowOwnerId = workflowOwnerId
             self.workflowType = workflowType
@@ -4125,17 +4800,21 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case accelerators = "accelerators"
             case arn = "arn"
+            case batchId = "batchId"
             case cacheBehavior = "cacheBehavior"
             case cacheId = "cacheId"
+            case configuration = "configuration"
             case creationTime = "creationTime"
             case definition = "definition"
             case digest = "digest"
+            case engineSettings = "engineSettings"
             case engineVersion = "engineVersion"
             case failureReason = "failureReason"
             case id = "id"
             case logLevel = "logLevel"
             case logLocation = "logLocation"
             case name = "name"
+            case networkingMode = "networkingMode"
             case outputUri = "outputUri"
             case parameters = "parameters"
             case priority = "priority"
@@ -4145,6 +4824,7 @@ extension Omics {
             case runGroupId = "runGroupId"
             case runId = "runId"
             case runOutputUri = "runOutputUri"
+            case scratchStorageMode = "scratchStorageMode"
             case startedBy = "startedBy"
             case startTime = "startTime"
             case status = "status"
@@ -4154,6 +4834,7 @@ extension Omics {
             case storageType = "storageType"
             case tags = "tags"
             case uuid = "uuid"
+            case vpcConfig = "vpcConfig"
             case workflowId = "workflowId"
             case workflowOwnerId = "workflowOwnerId"
             case workflowType = "workflowType"
@@ -4229,9 +4910,11 @@ extension Omics {
         public var stopTime: Date?
         /// The task's ID.
         public let taskId: String?
+        /// The universally unique identifier (UUID) for the workflow task.
+        public let uuid: String?
 
         @inlinable
-        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, imageDetails: ImageDetails? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, failureReason: String? = nil, gpus: Int? = nil, imageDetails: ImageDetails? = nil, instanceType: String? = nil, logStream: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, taskId: String? = nil, uuid: String? = nil) {
             self.cacheHit = cacheHit
             self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
@@ -4248,6 +4931,7 @@ extension Omics {
             self.statusMessage = statusMessage
             self.stopTime = stopTime
             self.taskId = taskId
+            self.uuid = uuid
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4267,6 +4951,7 @@ extension Omics {
             case statusMessage = "statusMessage"
             case stopTime = "stopTime"
             case taskId = "taskId"
+            case uuid = "uuid"
         }
     }
 
@@ -4667,6 +5352,10 @@ extension Omics {
         public let name: String?
         /// The workflow's parameter template.
         public let parameterTemplate: [String: WorkflowParameter]?
+        /// A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.
+        public let profileParameterTemplates: [String: [String: WorkflowParameter]]?
+        /// The list of Nextflow profiles that are available for this workflow. Profiles allow you to select predefined configuration settings at runtime.
+        public let profiles: [String]?
         /// The README content for the workflow, providing documentation and usage information.
         public let readme: String?
         /// The path to the workflow README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
@@ -4687,7 +5376,7 @@ extension Omics {
         public let uuid: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, profileParameterTemplates: [String: [String: WorkflowParameter]]? = nil, profiles: [String]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.containerRegistryMap = containerRegistryMap
@@ -4702,6 +5391,8 @@ extension Omics {
             self.metadata = metadata
             self.name = name
             self.parameterTemplate = parameterTemplate
+            self.profileParameterTemplates = profileParameterTemplates
+            self.profiles = profiles
             self.readme = readme
             self.readmePath = readmePath
             self.status = status
@@ -4728,6 +5419,8 @@ extension Omics {
             case metadata = "metadata"
             case name = "name"
             case parameterTemplate = "parameterTemplate"
+            case profileParameterTemplates = "profileParameterTemplates"
+            case profiles = "profiles"
             case readme = "readme"
             case readmePath = "readmePath"
             case status = "status"
@@ -4811,6 +5504,10 @@ extension Omics {
         public let metadata: [String: String]?
         /// The parameter template for the workflow version.
         public let parameterTemplate: [String: WorkflowParameter]?
+        /// A mapping of profile names to their parameter templates. Each profile defines its own set of parameters that you can use when starting a run with that profile.
+        public let profileParameterTemplates: [String: [String: WorkflowParameter]]?
+        /// The list of Nextflow profiles that are available for this workflow version. Profiles allow you to select predefined configuration settings at runtime.
+        public let profiles: [String]?
         /// The README content for the workflow version, providing documentation and usage information specific to this version.
         public let readme: String?
         /// The path to the workflow version README markdown file within the repository. This file provides documentation and usage information for the workflow. If not specified, the README.md file from the root directory of the repository will be used.
@@ -4837,7 +5534,7 @@ extension Omics {
         public let workflowId: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, metadata: [String: String]? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil, versionName: String? = nil, workflowBucketOwnerId: String? = nil, workflowId: String? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, containerRegistryMap: ContainerRegistryMap? = nil, creationTime: Date? = nil, definition: String? = nil, definitionRepositoryDetails: DefinitionRepositoryDetails? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, metadata: [String: String]? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, profileParameterTemplates: [String: [String: WorkflowParameter]]? = nil, profiles: [String]? = nil, readme: String? = nil, readmePath: String? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil, versionName: String? = nil, workflowBucketOwnerId: String? = nil, workflowId: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.containerRegistryMap = containerRegistryMap
@@ -4850,6 +5547,8 @@ extension Omics {
             self.main = main
             self.metadata = metadata
             self.parameterTemplate = parameterTemplate
+            self.profileParameterTemplates = profileParameterTemplates
+            self.profiles = profiles
             self.readme = readme
             self.readmePath = readmePath
             self.status = status
@@ -4877,6 +5576,8 @@ extension Omics {
             case main = "main"
             case metadata = "metadata"
             case parameterTemplate = "parameterTemplate"
+            case profileParameterTemplates = "profileParameterTemplates"
+            case profiles = "profiles"
             case readme = "readme"
             case readmePath = "readmePath"
             case status = "status"
@@ -5149,6 +5850,68 @@ extension Omics {
         }
     }
 
+    public struct InlineSetting: AWSEncodableShape {
+        /// Per-run engine-specific settings. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles). Overrides defaultRunSetting.engineSettings for this run.
+        public let engineSettings: AWSDocument?
+        /// An optional user-friendly name for this run.
+        public let name: String?
+        /// The expected AWS account ID of the owner of the output S3 bucket for this run.
+        public let outputBucketOwnerId: String?
+        /// Override the destination S3 URI for this run's outputs.
+        public let outputUri: String?
+        /// Per-run workflow parameters. Merged with defaultRunSetting.parameters; values in this object take precedence when keys overlap.
+        public let parameters: AWSDocument?
+        /// Override the priority for this run.
+        public let priority: Int?
+        /// A customer-provided unique identifier for this run configuration within the batch. After submission, use ListRunsInBatch to map each runSettingId to the HealthOmics-generated runId.
+        public let runSettingId: String
+        /// Per-run AWS tags. Merged with defaultRunSetting.runTags; values in this object take precedence when keys overlap.
+        public let runTags: [String: String]?
+
+        @inlinable
+        public init(engineSettings: AWSDocument? = nil, name: String? = nil, outputBucketOwnerId: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, runSettingId: String, runTags: [String: String]? = nil) {
+            self.engineSettings = engineSettings
+            self.name = name
+            self.outputBucketOwnerId = outputBucketOwnerId
+            self.outputUri = outputUri
+            self.parameters = parameters
+            self.priority = priority
+            self.runSettingId = runSettingId
+            self.runTags = runTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, max: 12)
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, min: 12)
+            try self.validate(self.outputBucketOwnerId, name: "outputBucketOwnerId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.outputUri, name: "outputUri", parent: name, max: 750)
+            try self.validate(self.outputUri, name: "outputUri", parent: name, min: 1)
+            try self.validate(self.outputUri, name: "outputUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.runSettingId, name: "runSettingId", parent: name, max: 128)
+            try self.validate(self.runSettingId, name: "runSettingId", parent: name, min: 1)
+            try self.validate(self.runSettingId, name: "runSettingId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.runTags?.forEach {
+                try validate($0.key, name: "runTags.key", parent: name, max: 128)
+                try validate($0.key, name: "runTags.key", parent: name, min: 1)
+                try validate($0.value, name: "runTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engineSettings = "engineSettings"
+            case name = "name"
+            case outputBucketOwnerId = "outputBucketOwnerId"
+            case outputUri = "outputUri"
+            case parameters = "parameters"
+            case priority = "priority"
+            case runSettingId = "runSettingId"
+            case runTags = "runTags"
+        }
+    }
+
     public struct ListAnnotationImportJobsFilter: AWSEncodableShape {
         /// A status to filter on.
         public let status: JobStatus?
@@ -5357,6 +6120,116 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case annotationStores = "annotationStores"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListBatchRequest: AWSEncodableShape {
+        /// The maximum number of batches to return. If not specified, defaults to 100.
+        public let maxItems: Int?
+        /// Filter batches by name.
+        public let name: String?
+        /// Filter batches by run group ID.
+        public let runGroupId: String?
+        /// A pagination token returned from a prior ListBatch call.
+        public let startingToken: String?
+        /// Filter batches by status.
+        public let status: BatchStatus?
+
+        @inlinable
+        public init(maxItems: Int? = nil, name: String? = nil, runGroupId: String? = nil, startingToken: String? = nil, status: BatchStatus? = nil) {
+            self.maxItems = maxItems
+            self.name = name
+            self.runGroupId = runGroupId
+            self.startingToken = startingToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxItems, key: "maxItems")
+            request.encodeQuery(self.name, key: "name")
+            request.encodeQuery(self.runGroupId, key: "runGroupId")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, max: 18)
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, min: 1)
+            try self.validate(self.runGroupId, name: "runGroupId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.startingToken, name: "startingToken", parent: name, max: 128)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, min: 1)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListBatchResponse: AWSDecodableShape {
+        /// A list of batch summary objects. See BatchListItem.
+        public let items: [BatchListItem]?
+        /// A pagination token to retrieve the next page of results. Absent when no further results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [BatchListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConfigurationsRequest: AWSEncodableShape {
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// Pagination token for retrieving next page of results.
+        public let startingToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, startingToken: String? = nil) {
+            self.maxResults = maxResults
+            self.startingToken = startingToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startingToken, name: "startingToken", parent: name, max: 128)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, min: 1)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConfigurationsResponse: AWSDecodableShape {
+        /// List of configuration items.
+        public let items: [ConfigurationListItem]?
+        /// Token for retrieving next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ConfigurationListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
             case nextToken = "nextToken"
         }
     }
@@ -6050,7 +6923,74 @@ extension Omics {
         }
     }
 
+    public struct ListRunsInBatchRequest: AWSEncodableShape {
+        /// The identifier portion of the run batch ARN.
+        public let batchId: String
+        /// The maximum number of runs to return.
+        public let maxItems: Int?
+        /// Filter runs by the HealthOmics-generated run ID.
+        public let runId: String?
+        /// Filter runs by the customer-provided run setting ID.
+        public let runSettingId: String?
+        /// A pagination token returned from a prior ListRunsInBatch call.
+        public let startingToken: String?
+        /// Filter runs by submission status.
+        public let submissionStatus: SubmissionStatus?
+
+        @inlinable
+        public init(batchId: String, maxItems: Int? = nil, runId: String? = nil, runSettingId: String? = nil, startingToken: String? = nil, submissionStatus: SubmissionStatus? = nil) {
+            self.batchId = batchId
+            self.maxItems = maxItems
+            self.runId = runId
+            self.runSettingId = runSettingId
+            self.startingToken = startingToken
+            self.submissionStatus = submissionStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.batchId, key: "batchId")
+            request.encodeQuery(self.maxItems, key: "maxItems")
+            request.encodeQuery(self.runId, key: "runId")
+            request.encodeQuery(self.runSettingId, key: "runSettingId")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.submissionStatus, key: "submissionStatus")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.startingToken, name: "startingToken", parent: name, max: 128)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, min: 1)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRunsInBatchResponse: AWSDecodableShape {
+        /// A pagination token to retrieve the next page of results. Absent when the last run has been returned.
+        public let nextToken: String?
+        /// A list of run entries in the batch. See RunBatchListItem.
+        public let runs: [RunBatchListItem]?
+
+        @inlinable
+        public init(nextToken: String? = nil, runs: [RunBatchListItem]? = nil) {
+            self.nextToken = nextToken
+            self.runs = runs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case runs = "runs"
+        }
+    }
+
     public struct ListRunsRequest: AWSEncodableShape {
+        /// Filter by batch ID.
+        public let batchId: String?
         /// The maximum number of runs to return in one page of results.
         public let maxResults: Int?
         /// Filter the list by run name.
@@ -6063,7 +7003,8 @@ extension Omics {
         public let status: RunStatus?
 
         @inlinable
-        public init(maxResults: Int? = nil, name: String? = nil, runGroupId: String? = nil, startingToken: String? = nil, status: RunStatus? = nil) {
+        public init(batchId: String? = nil, maxResults: Int? = nil, name: String? = nil, runGroupId: String? = nil, startingToken: String? = nil, status: RunStatus? = nil) {
+            self.batchId = batchId
             self.maxResults = maxResults
             self.name = name
             self.runGroupId = runGroupId
@@ -6074,6 +7015,7 @@ extension Omics {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.batchId, key: "batchId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.name, key: "name")
             request.encodeQuery(self.runGroupId, key: "runGroupId")
@@ -6082,6 +7024,9 @@ extension Omics {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.batchId, name: "batchId", parent: name, max: 18)
+            try self.validate(self.batchId, name: "batchId", parent: name, min: 1)
+            try self.validate(self.batchId, name: "batchId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -7140,6 +8085,44 @@ extension Omics {
         }
     }
 
+    public struct RunBatchListItem: AWSDecodableShape {
+        /// The unique ARN of the workflow run.
+        public let runArn: String?
+        /// The HealthOmics-generated identifier for the workflow run. Empty if submission failed.
+        public let runId: String?
+        /// The universally unique identifier (UUID) for the run.
+        public let runInternalUuid: String?
+        /// The customer-provided identifier for the run configuration. Use this to correlate results back to the input configuration provided in inlineSettings or s3UriSettings.
+        public let runSettingId: String?
+        /// A detailed message describing the submission failure.
+        public let submissionFailureMessage: String?
+        /// The error category for a failed submission. See the run-level failure table in the HealthOmics User Guide for details on each value.
+        public let submissionFailureReason: String?
+        /// The submission outcome for this run.
+        public let submissionStatus: SubmissionStatus?
+
+        @inlinable
+        public init(runArn: String? = nil, runId: String? = nil, runInternalUuid: String? = nil, runSettingId: String? = nil, submissionFailureMessage: String? = nil, submissionFailureReason: String? = nil, submissionStatus: SubmissionStatus? = nil) {
+            self.runArn = runArn
+            self.runId = runId
+            self.runInternalUuid = runInternalUuid
+            self.runSettingId = runSettingId
+            self.submissionFailureMessage = submissionFailureMessage
+            self.submissionFailureReason = submissionFailureReason
+            self.submissionStatus = submissionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runArn = "runArn"
+            case runId = "runId"
+            case runInternalUuid = "runInternalUuid"
+            case runSettingId = "runSettingId"
+            case submissionFailureMessage = "submissionFailureMessage"
+            case submissionFailureReason = "submissionFailureReason"
+            case submissionStatus = "submissionStatus"
+        }
+    }
+
     public struct RunCacheListItem: AWSDecodableShape {
         /// Unique resource identifier for the run cache.
         public let arn: String?
@@ -7176,6 +8159,38 @@ extension Omics {
             case id = "id"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct RunConfigurations: AWSEncodableShape {
+        /// VPC configuration for workflow runs.
+        public let vpcConfig: VpcConfig?
+
+        @inlinable
+        public init(vpcConfig: VpcConfig? = nil) {
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct RunConfigurationsResponse: AWSDecodableShape {
+        /// VPC configuration for workflow runs with computed VPC ID.
+        public let vpcConfig: VpcConfigResponse?
+
+        @inlinable
+        public init(vpcConfig: VpcConfigResponse? = nil) {
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConfig = "vpcConfig"
         }
     }
 
@@ -7225,6 +8240,8 @@ extension Omics {
     public struct RunListItem: AWSDecodableShape {
         /// The run's ARN.
         public let arn: String?
+        /// The run's batch ID.
+        public let batchId: String?
         /// When the run was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
@@ -7248,12 +8265,15 @@ extension Omics {
         public let storageType: StorageType?
         /// The run's workflow ID.
         public let workflowId: String?
+        /// The name of the workflow.
+        public let workflowName: String?
         /// The name of the workflow version.
         public let workflowVersionName: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil, workflowVersionName: String? = nil) {
+        public init(arn: String? = nil, batchId: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil, workflowName: String? = nil, workflowVersionName: String? = nil) {
             self.arn = arn
+            self.batchId = batchId
             self.creationTime = creationTime
             self.id = id
             self.name = name
@@ -7264,11 +8284,13 @@ extension Omics {
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
+            self.workflowName = workflowName
             self.workflowVersionName = workflowVersionName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case batchId = "batchId"
             case creationTime = "creationTime"
             case id = "id"
             case name = "name"
@@ -7279,6 +8301,7 @@ extension Omics {
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case workflowId = "workflowId"
+            case workflowName = "workflowName"
             case workflowVersionName = "workflowVersionName"
         }
     }
@@ -7298,6 +8321,48 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case engineLogStream = "engineLogStream"
             case runLogStream = "runLogStream"
+        }
+    }
+
+    public struct RunSummary: AWSDecodableShape {
+        /// The number of cancelled runs.
+        public let cancelledRunCount: Int?
+        /// The number of completed runs.
+        public let completedRunCount: Int?
+        /// The number of deleted runs.
+        public let deletedRunCount: Int?
+        /// The number of failed runs.
+        public let failedRunCount: Int?
+        /// The number of pending runs.
+        public let pendingRunCount: Int?
+        /// The number of running runs.
+        public let runningRunCount: Int?
+        /// The number of starting runs.
+        public let startingRunCount: Int?
+        /// The number of stopping runs.
+        public let stoppingRunCount: Int?
+
+        @inlinable
+        public init(cancelledRunCount: Int? = nil, completedRunCount: Int? = nil, deletedRunCount: Int? = nil, failedRunCount: Int? = nil, pendingRunCount: Int? = nil, runningRunCount: Int? = nil, startingRunCount: Int? = nil, stoppingRunCount: Int? = nil) {
+            self.cancelledRunCount = cancelledRunCount
+            self.completedRunCount = completedRunCount
+            self.deletedRunCount = deletedRunCount
+            self.failedRunCount = failedRunCount
+            self.pendingRunCount = pendingRunCount
+            self.runningRunCount = runningRunCount
+            self.startingRunCount = startingRunCount
+            self.stoppingRunCount = stoppingRunCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancelledRunCount = "cancelledRunCount"
+            case completedRunCount = "completedRunCount"
+            case deletedRunCount = "deletedRunCount"
+            case failedRunCount = "failedRunCount"
+            case pendingRunCount = "pendingRunCount"
+            case runningRunCount = "runningRunCount"
+            case startingRunCount = "startingRunCount"
+            case stoppingRunCount = "stoppingRunCount"
         }
     }
 
@@ -8085,15 +9150,97 @@ extension Omics {
         }
     }
 
+    public struct StartRunBatchRequest: AWSEncodableShape {
+        /// An optional user-friendly name for the run batch.
+        public let batchName: String?
+        /// The individual run configurations. Specify exactly one of inlineSettings or s3UriSettings. See BatchRunSettings.
+        public let batchRunSettings: BatchRunSettings
+        /// Shared configuration applied to all runs in the batch. See DefaultRunSetting.
+        public let defaultRunSetting: DefaultRunSetting
+        /// A client token used to deduplicate retry requests and prevent duplicate batches from being created.
+        public let requestId: String
+        /// AWS tags to associate with the batch resource. These tags are not inherited by individual runs. To tag individual runs, use defaultRunSetting.runTags.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(batchName: String? = nil, batchRunSettings: BatchRunSettings, defaultRunSetting: DefaultRunSetting, requestId: String = StartRunBatchRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.batchName = batchName
+            self.batchRunSettings = batchRunSettings
+            self.defaultRunSetting = defaultRunSetting
+            self.requestId = requestId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.batchName, name: "batchName", parent: name, max: 64)
+            try self.validate(self.batchName, name: "batchName", parent: name, min: 1)
+            try self.validate(self.batchName, name: "batchName", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.batchRunSettings.validate(name: "\(name).batchRunSettings")
+            try self.defaultRunSetting.validate(name: "\(name).defaultRunSetting")
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchName = "batchName"
+            case batchRunSettings = "batchRunSettings"
+            case defaultRunSetting = "defaultRunSetting"
+            case requestId = "requestId"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartRunBatchResponse: AWSDecodableShape {
+        /// The unique ARN of the run batch.
+        public let arn: String?
+        /// The identifier portion of the run batch ARN.
+        public let id: String?
+        /// The initial status of the run batch. Returns CREATING while the batch is being initialized.
+        public let status: BatchStatus?
+        /// AWS tags associated with the run batch.
+        public let tags: [String: String]?
+        /// The universally unique identifier (UUID) for the run batch.
+        public let uuid: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, status: BatchStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.status = status
+            self.tags = tags
+            self.uuid = uuid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+            case tags = "tags"
+            case uuid = "uuid"
+        }
+    }
+
     public struct StartRunRequest: AWSEncodableShape {
         /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
         public let cacheBehavior: CacheBehavior?
         /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
         public let cacheId: String?
+        /// Optional configuration name to use for the workflow run.
+        public let configurationName: String?
+        /// Engine-specific settings for the workflow run. Use this field to specify configuration options that are specific to the workflow engine (for example, Nextflow profiles).
+        public let engineSettings: AWSDocument?
         /// A log level for the run.
         public let logLevel: RunLogLevel?
         /// A name for the run. This is recommended to view and organize runs in the Amazon Web Services HealthOmics console and CloudWatch logs.
         public let name: String?
+        /// Optional configuration for run networking behavior. If not specified, this will default to RESTRICTED.
+        public let networkingMode: NetworkingMode?
         /// An output S3 URI for the run. The S3 bucket must be in the same region as the workflow. The role ARN must have permission to write to this S3 bucket.
         public let outputUri: String
         /// Parameters for the run. The run needs all required parameters and can include optional parameters. The run cannot include any parameters that are not defined in the parameter template. To retrieve parameters from the run, use the GetRun API operation.
@@ -8110,6 +9257,8 @@ extension Omics {
         public let runGroupId: String?
         /// The ID of a run to duplicate.
         public let runId: String?
+        /// Optional configuration for enabling scratch ephemeral storage mounted at /tmp. If not specified, this will default to SHARED. This configuration is applicable only for CPU tasks. For tasks using GPUs, scratch storage is always LOCAL.
+        public let scratchStorageMode: ScratchStorageMode?
         /// The STATIC storage capacity (in gibibytes, GiB) for this run. The default run storage capacity is 1200 GiB. If your requested storage capacity is unavailable, the system rounds up the value to the nearest 1200 GiB multiple. If the requested storage capacity is still unavailable, the system rounds up the value to the nearest 2400 GiB multiple. This field is not required if the storage type is DYNAMIC (the system ignores any value that you enter).
         public let storageCapacity: Int?
         /// The storage type for the run. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. For more information about DYNAMIC and STATIC storage, see Run storage types in the Amazon Web Services HealthOmics User Guide.
@@ -8126,11 +9275,14 @@ extension Omics {
         public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, configurationName: String? = nil, engineSettings: AWSDocument? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, networkingMode: NetworkingMode? = nil, outputUri: String, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, scratchStorageMode: ScratchStorageMode? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
+            self.configurationName = configurationName
+            self.engineSettings = engineSettings
             self.logLevel = logLevel
             self.name = name
+            self.networkingMode = networkingMode
             self.outputUri = outputUri
             self.parameters = parameters
             self.priority = priority
@@ -8139,6 +9291,7 @@ extension Omics {
             self.roleArn = roleArn
             self.runGroupId = runGroupId
             self.runId = runId
+            self.scratchStorageMode = scratchStorageMode
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.tags = tags
@@ -8152,6 +9305,9 @@ extension Omics {
             try self.validate(self.cacheId, name: "cacheId", parent: name, max: 18)
             try self.validate(self.cacheId, name: "cacheId", parent: name, min: 1)
             try self.validate(self.cacheId, name: "cacheId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, max: 128)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -8187,8 +9343,11 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case cacheBehavior = "cacheBehavior"
             case cacheId = "cacheId"
+            case configurationName = "configurationName"
+            case engineSettings = "engineSettings"
             case logLevel = "logLevel"
             case name = "name"
+            case networkingMode = "networkingMode"
             case outputUri = "outputUri"
             case parameters = "parameters"
             case priority = "priority"
@@ -8197,6 +9356,7 @@ extension Omics {
             case roleArn = "roleArn"
             case runGroupId = "runGroupId"
             case runId = "runId"
+            case scratchStorageMode = "scratchStorageMode"
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case tags = "tags"
@@ -8210,8 +9370,12 @@ extension Omics {
     public struct StartRunResponse: AWSDecodableShape {
         /// Unique resource identifier for the run.
         public let arn: String?
+        /// Configuration details for the workflow run.
+        public let configuration: ConfigurationDetails?
         /// The run's ID.
         public let id: String?
+        /// Networking mode for the workflow run.
+        public let networkingMode: String?
         /// The destination for workflow outputs.
         public let runOutputUri: String?
         /// The run's status.
@@ -8222,9 +9386,11 @@ extension Omics {
         public let uuid: String?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, runOutputUri: String? = nil, status: RunStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
+        public init(arn: String? = nil, configuration: ConfigurationDetails? = nil, id: String? = nil, networkingMode: String? = nil, runOutputUri: String? = nil, status: RunStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
             self.arn = arn
+            self.configuration = configuration
             self.id = id
+            self.networkingMode = networkingMode
             self.runOutputUri = runOutputUri
             self.status = status
             self.tags = tags
@@ -8233,7 +9399,9 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case configuration = "configuration"
             case id = "id"
+            case networkingMode = "networkingMode"
             case runOutputUri = "runOutputUri"
             case status = "status"
             case tags = "tags"
@@ -8295,6 +9463,44 @@ extension Omics {
 
         private enum CodingKeys: String, CodingKey {
             case jobId = "jobId"
+        }
+    }
+
+    public struct SubmissionSummary: AWSDecodableShape {
+        /// The number of failed cancel submissions.
+        public let failedCancelSubmissionCount: Int?
+        /// The number of failed delete submissions.
+        public let failedDeleteSubmissionCount: Int?
+        /// The number of failed start submissions.
+        public let failedStartSubmissionCount: Int?
+        /// The number of pending start submissions.
+        public let pendingStartSubmissionCount: Int?
+        /// The number of successful cancel submissions.
+        public let successfulCancelSubmissionCount: Int?
+        /// The number of successful delete submissions.
+        public let successfulDeleteSubmissionCount: Int?
+        /// The number of successful start submissions.
+        public let successfulStartSubmissionCount: Int?
+
+        @inlinable
+        public init(failedCancelSubmissionCount: Int? = nil, failedDeleteSubmissionCount: Int? = nil, failedStartSubmissionCount: Int? = nil, pendingStartSubmissionCount: Int? = nil, successfulCancelSubmissionCount: Int? = nil, successfulDeleteSubmissionCount: Int? = nil, successfulStartSubmissionCount: Int? = nil) {
+            self.failedCancelSubmissionCount = failedCancelSubmissionCount
+            self.failedDeleteSubmissionCount = failedDeleteSubmissionCount
+            self.failedStartSubmissionCount = failedStartSubmissionCount
+            self.pendingStartSubmissionCount = pendingStartSubmissionCount
+            self.successfulCancelSubmissionCount = successfulCancelSubmissionCount
+            self.successfulDeleteSubmissionCount = successfulDeleteSubmissionCount
+            self.successfulStartSubmissionCount = successfulStartSubmissionCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedCancelSubmissionCount = "failedCancelSubmissionCount"
+            case failedDeleteSubmissionCount = "failedDeleteSubmissionCount"
+            case failedStartSubmissionCount = "failedStartSubmissionCount"
+            case pendingStartSubmissionCount = "pendingStartSubmissionCount"
+            case successfulCancelSubmissionCount = "successfulCancelSubmissionCount"
+            case successfulDeleteSubmissionCount = "successfulDeleteSubmissionCount"
+            case successfulStartSubmissionCount = "successfulStartSubmissionCount"
         }
     }
 
@@ -8365,9 +9571,11 @@ extension Omics {
         public var stopTime: Date?
         /// The task's ID.
         public let taskId: String?
+        /// The universally unique identifier (UUID) for the workflow task.
+        public let uuid: String?
 
         @inlinable
-        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil) {
+        public init(cacheHit: Bool? = nil, cacheS3Uri: String? = nil, cpus: Int? = nil, creationTime: Date? = nil, gpus: Int? = nil, instanceType: String? = nil, memory: Int? = nil, name: String? = nil, startTime: Date? = nil, status: TaskStatus? = nil, stopTime: Date? = nil, taskId: String? = nil, uuid: String? = nil) {
             self.cacheHit = cacheHit
             self.cacheS3Uri = cacheS3Uri
             self.cpus = cpus
@@ -8380,6 +9588,7 @@ extension Omics {
             self.status = status
             self.stopTime = stopTime
             self.taskId = taskId
+            self.uuid = uuid
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8395,6 +9604,7 @@ extension Omics {
             case status = "status"
             case stopTime = "stopTime"
             case taskId = "taskId"
+            case uuid = "uuid"
         }
     }
 
@@ -9308,6 +10518,59 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case versionName = "versionName"
+        }
+    }
+
+    public struct VpcConfig: AWSEncodableShape {
+        /// List of security group IDs. Maximum of 5 security groups allowed.
+        public let securityGroupIds: [String]?
+        /// List of subnet IDs. Maximum of 16 subnets allowed.
+        public let subnetIds: [String]?
+
+        @inlinable
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 4)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-f]+$")
+            }
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 128)
+                try validate($0, name: "subnetIds[]", parent: name, min: 8)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-f]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+        }
+    }
+
+    public struct VpcConfigResponse: AWSDecodableShape {
+        /// List of security group IDs.
+        public let securityGroupIds: [String]?
+        /// List of subnet IDs.
+        public let subnetIds: [String]?
+        /// VPC ID computed from the provided subnet IDs.
+        public let vpcId: String?
+
+        @inlinable
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case vpcId = "vpcId"
         }
     }
 

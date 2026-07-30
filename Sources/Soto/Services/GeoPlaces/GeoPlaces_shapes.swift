@@ -25,14 +25,45 @@ import Foundation
 extension GeoPlaces {
     // MARK: Enums
 
+    public enum AccessPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delivery = "Delivery"
+        case emergency = "Emergency"
+        case entrance = "Entrance"
+        case loading = "Loading"
+        case other = "Other"
+        case parking = "Parking"
+        case taxi = "Taxi"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AddressTranslationComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case district = "District"
+        case locality = "Locality"
+        case region = "Region"
+        case subRegion = "SubRegion"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AdminNamesPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alternative = "Alternative"
+        case primary = "Primary"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutocompleteAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case core = "Core"
         public var description: String { return self.rawValue }
     }
 
     public enum AutocompleteFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case country = "Country"
+        case interpolatedAddress = "InterpolatedAddress"
+        case intersection = "Intersection"
         case locality = "Locality"
+        case pointAddress = "PointAddress"
         case postalCode = "PostalCode"
+        case region = "Region"
+        case street = "Street"
         public var description: String { return self.rawValue }
     }
 
@@ -50,12 +81,22 @@ extension GeoPlaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum GeocodeAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case administrative = "Administrative"
+        case matched = "Matched"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeocodeFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case country = "Country"
         case interpolatedAddress = "InterpolatedAddress"
         case intersection = "Intersection"
         case locality = "Locality"
         case pointAddress = "PointAddress"
+        case pointOfInterest = "PointOfInterest"
         case postalCode = "PostalCode"
+        case region = "Region"
+        case secondaryAddress = "SecondaryAddress"
         case street = "Street"
         public var description: String { return self.rawValue }
     }
@@ -71,9 +112,15 @@ extension GeoPlaces {
     public enum GetPlaceAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
         case contact = "Contact"
+        case crossReferences = "CrossReferences"
         case phonemes = "Phonemes"
         case secondaryAddresses = "SecondaryAddresses"
         case timeZone = "TimeZone"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GetPlaceAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case administrative = "Administrative"
         public var description: String { return self.rawValue }
     }
 
@@ -82,6 +129,11 @@ extension GeoPlaces {
         case singleUse = "SingleUse"
         /// Indicates that results of the operation may be stored locally.
         case storage = "Storage"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PlaceAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case driveThrough = "DriveThrough"
         public var description: String { return self.rawValue }
     }
 
@@ -111,6 +163,7 @@ extension GeoPlaces {
     }
 
     public enum PostalCodeMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enumerateSpannedDistricts = "EnumerateSpannedDistricts"
         case enumerateSpannedLocalities = "EnumerateSpannedLocalities"
         case mergeAllSpannedLocalities = "MergeAllSpannedLocalities"
         public var description: String { return self.rawValue }
@@ -145,11 +198,18 @@ extension GeoPlaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReverseGeocodeAddressNamesMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case administrative = "Administrative"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReverseGeocodeFilterPlaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case interpolatedAddress = "InterpolatedAddress"
         case intersection = "Intersection"
         case locality = "Locality"
         case pointAddress = "PointAddress"
+        case pointOfInterest = "PointOfInterest"
+        case secondaryAddress = "SecondaryAddress"
         case street = "Street"
         public var description: String { return self.rawValue }
     }
@@ -165,6 +225,7 @@ extension GeoPlaces {
     public enum SearchNearbyAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
         case contact = "Contact"
+        case crossReferences = "CrossReferences"
         case phonemes = "Phonemes"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
@@ -181,6 +242,7 @@ extension GeoPlaces {
     public enum SearchTextAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
         case contact = "Contact"
+        case crossReferences = "CrossReferences"
         case phonemes = "Phonemes"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
@@ -194,9 +256,17 @@ extension GeoPlaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchTextTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case car = "Car"
+        case scooter = "Scooter"
+        case truck = "Truck"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SuggestAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case access = "Access"
         case core = "Core"
+        case crossReferences = "CrossReferences"
         case phonemes = "Phonemes"
         case timeZone = "TimeZone"
         public var description: String { return self.rawValue }
@@ -214,6 +284,23 @@ extension GeoPlaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum SuggestTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case car = "Car"
+        case scooter = "Scooter"
+        case truck = "Truck"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranslationNameType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abbreviation = "Abbreviation"
+        case areaCode = "AreaCode"
+        case baseName = "BaseName"
+        case exonym = "Exonym"
+        case shortened = "Shortened"
+        case synonym = "Synonym"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TypePlacement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterBaseName = "AfterBaseName"
         case beforeBaseName = "BeforeBaseName"
@@ -221,9 +308,7 @@ extension GeoPlaces {
     }
 
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse = "CannotParse"
-        ///     The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
         case fieldValidationFailed = "FieldValidationFailed"
         /// The required input is missing.
         case missing = "Missing"
@@ -246,16 +331,28 @@ extension GeoPlaces {
     // MARK: Shapes
 
     public struct AccessPoint: AWSDecodableShape {
+        /// A short textual description of the access point, such as "North Entrance".
+        public let label: String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
+        /// Set to true for the primary access position when the place has more than one access point.
+        public let primary: Bool?
+        /// The type of access point, indicating its intended use. Only applies to results of type place.
+        public let type: AccessPointType?
 
         @inlinable
-        public init(position: [Double]? = nil) {
+        public init(label: String? = nil, position: [Double]? = nil, primary: Bool? = nil, type: AccessPointType? = nil) {
+            self.label = label
             self.position = position
+            self.primary = primary
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case label = "Label"
             case position = "Position"
+            case primary = "Primary"
+            case type = "Type"
         }
     }
 
@@ -280,15 +377,15 @@ extension GeoPlaces {
     public struct Address: AWSDecodableShape {
         /// The number that identifies an address within a street.
         public let addressNumber: String?
-        /// Name of the block.  Example: Sunny Mansion 203 block: 2 Chome
+        ///  Name of the block. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Example: Sunny Mansion 203 block: 2 Chome
         public let block: String?
-        /// The name of the building at the address.
+        ///  The name of the building at the address. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let building: String?
         /// The country component of the address.
         public let country: Country?
         /// The district or division of a locality associated with this address.
         public let district: String?
-        /// Name of the streets in the intersection.  Example: ["Friedrichstraße","Unter den Linden"]
+        ///  Name of the streets in the intersection. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Example: ["Friedrichstraße","Unter den Linden"]
         public let intersection: [String]?
         /// Assembled address value built out of the address components, according to the regional postal rules. This is the correctly formatted address.
         public let label: String?
@@ -298,13 +395,13 @@ extension GeoPlaces {
         public let postalCode: String?
         /// The region or state results should be present in.  Example: North Rhine-Westphalia.
         public let region: Region?
-        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor.  Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
+        ///  Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
         public let secondaryAddressComponents: [SecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public let street: String?
-        /// Components of the street.  Example: Younge from the "Younge street".
+        ///  Components of the street. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Example: Yonge from "Yonge street".
         public let streetComponents: [StreetComponents]?
-        /// Name of sub-block.  Example: Sunny Mansion 203 sub-block: 4
+        ///  Name of sub-block. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Example: Sunny Mansion 203 sub-block: 4
         public let subBlock: String?
         /// A subdivision of a district.  Example: Minden-Lübbecke.
         public let subDistrict: String?
@@ -459,6 +556,24 @@ extension GeoPlaces {
         }
     }
 
+    public struct AdminNames: AWSDecodableShape {
+        /// A list of translation names for the administrative address component, including name variants and translations in available languages.
+        public let names: [TranslationName]
+        /// Indicates the preference level of the administrative name. Valid values are Primary and Alternative.
+        public let preference: AdminNamesPreference?
+
+        @inlinable
+        public init(names: [TranslationName], preference: AdminNamesPreference? = nil) {
+            self.names = names
+            self.preference = preference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+            case preference = "Preference"
+        }
+    }
+
     public struct AutocompleteAddressHighlights: AWSDecodableShape {
         /// The house number or address results should have.
         public let addressNumber: [Highlight]?
@@ -553,7 +668,7 @@ extension GeoPlaces {
             }
             try self.validate(self.includeCountries, name: "includeCountries", parent: name, max: 100)
             try self.validate(self.includeCountries, name: "includeCountries", parent: name, min: 1)
-            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 2)
+            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 8)
             try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, min: 1)
         }
 
@@ -590,7 +705,7 @@ extension GeoPlaces {
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: AutocompleteFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Autocomplete does not support storage of results.
         public let intendedUse: AutocompleteIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -600,7 +715,7 @@ extension GeoPlaces {
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
-        /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned.
+        /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
         public let postalCodeMode: PostalCodeMode?
         /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryText: String
@@ -690,6 +805,8 @@ extension GeoPlaces {
         public let address: Address?
         /// The distance in meters between the center of the search area and this result. Useful to evaluate how far away from the original bias position the result is.
         public let distance: Int64?
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public let estimatedPointAddress: Bool?
         /// Indicates the starting and ending index of the place in the text query that match the found title.
         public let highlights: AutocompleteHighlights?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
@@ -704,9 +821,10 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(address: Address? = nil, distance: Int64? = nil, highlights: AutocompleteHighlights? = nil, language: String? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, title: String) {
+        public init(address: Address? = nil, distance: Int64? = nil, estimatedPointAddress: Bool? = nil, highlights: AutocompleteHighlights? = nil, language: String? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, title: String) {
             self.address = address
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.highlights = highlights
             self.language = language
             self.placeId = placeId
@@ -718,6 +836,7 @@ extension GeoPlaces {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case distance = "Distance"
+            case estimatedPointAddress = "EstimatedPointAddress"
             case highlights = "Highlights"
             case language = "Language"
             case placeId = "PlaceId"
@@ -877,10 +996,32 @@ extension GeoPlaces {
         }
     }
 
+    public struct CrossReference: AWSDecodableShape {
+        /// The name of the third-party data supplier (for example, Yelp or TripAdvisor).
+        public let source: String
+        /// The list of place category identifiers this supplier reference relates to.
+        public let sourceCategories: [Category]?
+        /// The place identifier assigned by the third-party supplier.
+        public let sourcePlaceId: String
+
+        @inlinable
+        public init(source: String, sourceCategories: [Category]? = nil, sourcePlaceId: String) {
+            self.source = source
+            self.sourceCategories = sourceCategories
+            self.sourcePlaceId = sourcePlaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case sourceCategories = "SourceCategories"
+            case sourcePlaceId = "SourcePlaceId"
+        }
+    }
+
     public struct FilterCircle: AWSEncodableShape {
         /// The center position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let center: [Double]
-        /// The radius, in meters, of the FilterCircle.
+        ///  The radius, in meters, of the FilterCircle. For GrabMaps customers,ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 300,000.
         public let radius: Int64
 
         @inlinable
@@ -944,7 +1085,7 @@ extension GeoPlaces {
             }
             try self.validate(self.includeCountries, name: "includeCountries", parent: name, max: 100)
             try self.validate(self.includeCountries, name: "includeCountries", parent: name, min: 1)
-            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 6)
+            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 10)
             try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, min: 1)
         }
 
@@ -985,6 +1126,8 @@ extension GeoPlaces {
         public let district: [ParsedQueryComponent]?
         /// The city or locality of the address. Example: Vancouver.
         public let locality: [ParsedQueryComponent]?
+        /// Additional information extracted from the query that does not correspond to standard address components.
+        public let otherComponents: [ParsedQueryComponent]?
         /// An alphanumeric string included in a postal address to facilitate mail sorting, such as post code, postcode, or ZIP code, for which the result should possess.
         public let postalCode: [ParsedQueryComponent]?
         /// The region or state results should be present in.  Example: North Rhine-Westphalia.
@@ -1001,13 +1144,14 @@ extension GeoPlaces {
         public let subRegion: [ParsedQueryComponent]?
 
         @inlinable
-        public init(addressNumber: [ParsedQueryComponent]? = nil, block: [ParsedQueryComponent]? = nil, building: [ParsedQueryComponent]? = nil, country: [ParsedQueryComponent]? = nil, district: [ParsedQueryComponent]? = nil, locality: [ParsedQueryComponent]? = nil, postalCode: [ParsedQueryComponent]? = nil, region: [ParsedQueryComponent]? = nil, secondaryAddressComponents: [ParsedQuerySecondaryAddressComponent]? = nil, street: [ParsedQueryComponent]? = nil, subBlock: [ParsedQueryComponent]? = nil, subDistrict: [ParsedQueryComponent]? = nil, subRegion: [ParsedQueryComponent]? = nil) {
+        public init(addressNumber: [ParsedQueryComponent]? = nil, block: [ParsedQueryComponent]? = nil, building: [ParsedQueryComponent]? = nil, country: [ParsedQueryComponent]? = nil, district: [ParsedQueryComponent]? = nil, locality: [ParsedQueryComponent]? = nil, otherComponents: [ParsedQueryComponent]? = nil, postalCode: [ParsedQueryComponent]? = nil, region: [ParsedQueryComponent]? = nil, secondaryAddressComponents: [ParsedQuerySecondaryAddressComponent]? = nil, street: [ParsedQueryComponent]? = nil, subBlock: [ParsedQueryComponent]? = nil, subDistrict: [ParsedQueryComponent]? = nil, subRegion: [ParsedQueryComponent]? = nil) {
             self.addressNumber = addressNumber
             self.block = block
             self.building = building
             self.country = country
             self.district = district
             self.locality = locality
+            self.otherComponents = otherComponents
             self.postalCode = postalCode
             self.region = region
             self.secondaryAddressComponents = secondaryAddressComponents
@@ -1024,6 +1168,7 @@ extension GeoPlaces {
             case country = "Country"
             case district = "District"
             case locality = "Locality"
+            case otherComponents = "OtherComponents"
             case postalCode = "PostalCode"
             case region = "Region"
             case secondaryAddressComponents = "SecondaryAddressComponents"
@@ -1079,11 +1224,15 @@ extension GeoPlaces {
     public struct GeocodeRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone, that can be requested for each result.
         public let additionalFeatures: [GeocodeAdditionalFeature]?
+        /// Specifies how address names are returned. If not set, the service returns normalized (official) names by default. When set to Matched, address names in the response are based on the input query rather than official names. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+        public let addressNamesMode: GeocodeAddressNamesMode?
+        /// Specifies which address components to include translations for. Translations include all name variants and alternative names for the requested fields in all available languages. Valid values are District, Locality, Region, and SubRegion.
+        public let addressTranslations: [AddressTranslationComponent]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: GeocodeFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an Geocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing Geocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: GeocodeIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -1093,13 +1242,17 @@ extension GeoPlaces {
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
+        /// The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
+        public let postalCodeMode: PostalCodeMode?
         public let queryComponents: GeocodeQueryComponents?
         /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
         public let queryText: String?
 
         @inlinable
-        public init(additionalFeatures: [GeocodeAdditionalFeature]? = nil, biasPosition: [Double]? = nil, filter: GeocodeFilter? = nil, intendedUse: GeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryComponents: GeocodeQueryComponents? = nil, queryText: String? = nil) {
+        public init(additionalFeatures: [GeocodeAdditionalFeature]? = nil, addressNamesMode: GeocodeAddressNamesMode? = nil, addressTranslations: [AddressTranslationComponent]? = nil, biasPosition: [Double]? = nil, filter: GeocodeFilter? = nil, intendedUse: GeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, postalCodeMode: PostalCodeMode? = nil, queryComponents: GeocodeQueryComponents? = nil, queryText: String? = nil) {
             self.additionalFeatures = additionalFeatures
+            self.addressNamesMode = addressNamesMode
+            self.addressTranslations = addressTranslations
             self.biasPosition = biasPosition
             self.filter = filter
             self.intendedUse = intendedUse
@@ -1107,6 +1260,7 @@ extension GeoPlaces {
             self.language = language
             self.maxResults = maxResults
             self.politicalView = politicalView
+            self.postalCodeMode = postalCodeMode
             self.queryComponents = queryComponents
             self.queryText = queryText
         }
@@ -1115,6 +1269,8 @@ extension GeoPlaces {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalFeatures, forKey: .additionalFeatures)
+            try container.encodeIfPresent(self.addressNamesMode, forKey: .addressNamesMode)
+            try container.encodeIfPresent(self.addressTranslations, forKey: .addressTranslations)
             try container.encodeIfPresent(self.biasPosition, forKey: .biasPosition)
             try container.encodeIfPresent(self.filter, forKey: .filter)
             try container.encodeIfPresent(self.intendedUse, forKey: .intendedUse)
@@ -1122,6 +1278,7 @@ extension GeoPlaces {
             try container.encodeIfPresent(self.language, forKey: .language)
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.politicalView, forKey: .politicalView)
+            try container.encodeIfPresent(self.postalCodeMode, forKey: .postalCodeMode)
             try container.encodeIfPresent(self.queryComponents, forKey: .queryComponents)
             try container.encodeIfPresent(self.queryText, forKey: .queryText)
         }
@@ -1129,6 +1286,8 @@ extension GeoPlaces {
         public func validate(name: String) throws {
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
+            try self.validate(self.addressTranslations, name: "addressTranslations", parent: name, max: 4)
+            try self.validate(self.addressTranslations, name: "addressTranslations", parent: name, min: 1)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
             try self.filter?.validate(name: "\(name).filter")
@@ -1142,12 +1301,15 @@ extension GeoPlaces {
 
         private enum CodingKeys: String, CodingKey {
             case additionalFeatures = "AdditionalFeatures"
+            case addressNamesMode = "AddressNamesMode"
+            case addressTranslations = "AddressTranslations"
             case biasPosition = "BiasPosition"
             case filter = "Filter"
             case intendedUse = "IntendedUse"
             case language = "Language"
             case maxResults = "MaxResults"
             case politicalView = "PoliticalView"
+            case postalCodeMode = "PostalCodeMode"
             case queryComponents = "QueryComponents"
             case queryText = "QueryText"
         }
@@ -1188,6 +1350,8 @@ extension GeoPlaces {
         public let categories: [Category]?
         /// The distance in meters from the QueryPosition.
         public let distance: Int64?
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public let estimatedPointAddress: Bool?
         /// List of food types offered by this result.
         public let foodTypes: [FoodType]?
         /// All Intersections that are near the provided address.
@@ -1216,14 +1380,17 @@ extension GeoPlaces {
         public let timeZone: TimeZone?
         /// The localized display name of this result item based on request parameter language.
         public let title: String
+        /// All name translations and alternative names for the requested address fields in all available languages.
+        public let translations: TranslationDetails?
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, matchScores: MatchScoreDetails? = nil, parsedQuery: GeocodeParsedQuery? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, estimatedPointAddress: Bool? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, matchScores: MatchScoreDetails? = nil, parsedQuery: GeocodeParsedQuery? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String, translations: TranslationDetails? = nil) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.foodTypes = foodTypes
             self.intersections = intersections
             self.mainAddress = mainAddress
@@ -1238,6 +1405,7 @@ extension GeoPlaces {
             self.secondaryAddresses = secondaryAddresses
             self.timeZone = timeZone
             self.title = title
+            self.translations = translations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1246,6 +1414,7 @@ extension GeoPlaces {
             case addressNumberCorrected = "AddressNumberCorrected"
             case categories = "Categories"
             case distance = "Distance"
+            case estimatedPointAddress = "EstimatedPointAddress"
             case foodTypes = "FoodTypes"
             case intersections = "Intersections"
             case mainAddress = "MainAddress"
@@ -1260,26 +1429,30 @@ extension GeoPlaces {
             case secondaryAddresses = "SecondaryAddresses"
             case timeZone = "TimeZone"
             case title = "Title"
+            case translations = "Translations"
         }
     }
 
     public struct GetPlaceRequest: AWSEncodableShape {
-        /// A list of optional additional parameters such as time zone that can be requested for each result.
+        ///  A list of optional additional parameters such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
         public let additionalFeatures: [GetPlaceAdditionalFeature]?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an GetPlace query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+        /// Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+        public let addressNamesMode: GetPlaceAddressNamesMode?
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: GetPlaceIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        ///  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
         public let language: String?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
 
         @inlinable
-        public init(additionalFeatures: [GetPlaceAdditionalFeature]? = nil, intendedUse: GetPlaceIntendedUse? = nil, key: String? = nil, language: String? = nil, placeId: String, politicalView: String? = nil) {
+        public init(additionalFeatures: [GetPlaceAdditionalFeature]? = nil, addressNamesMode: GetPlaceAddressNamesMode? = nil, intendedUse: GetPlaceIntendedUse? = nil, key: String? = nil, language: String? = nil, placeId: String, politicalView: String? = nil) {
             self.additionalFeatures = additionalFeatures
+            self.addressNamesMode = addressNamesMode
             self.intendedUse = intendedUse
             self.key = key
             self.language = language
@@ -1291,6 +1464,7 @@ extension GeoPlaces {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.additionalFeatures, key: "additional-features")
+            request.encodeQuery(self.addressNamesMode, key: "address-names-mode")
             request.encodeQuery(self.intendedUse, key: "intended-use")
             request.encodeQuery(self.key, key: "key")
             request.encodeQuery(self.language, key: "language")
@@ -1299,7 +1473,7 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 5)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 6)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
@@ -1313,43 +1487,49 @@ extension GeoPlaces {
     }
 
     public struct GetPlaceResponse: AWSDecodableShape {
-        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+        ///  Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let accessPoints: [AccessPoint]?
-        /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
+        ///  Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let accessRestrictions: [AccessRestriction]?
         /// The place's address.
         public let address: Address?
-        /// Boolean indicating if the address provided has been corrected.
+        ///  Boolean indicating if the address provided has been corrected. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let addressNumberCorrected: Bool?
         /// The Business Chains associated with the place.
         public let businessChains: [BusinessChain]?
         /// Categories of results that results must belong to.
         public let categories: [Category]?
-        /// List of potential contact methods for the result/place.
+        ///  List of potential contact methods for the result/place. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let contacts: Contacts?
-        /// List of food types offered by this result.
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public let crossReferences: [CrossReference]?
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public let estimatedPointAddress: Bool?
+        ///  List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let foodTypes: [FoodType]?
-        /// The main address corresponding to a place of type Secondary Address.
+        ///  The main address corresponding to a place of type Secondary Address. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let mainAddress: RelatedPlace?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set of four coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
-        /// List of opening hours objects.
+        ///  List of opening hours objects. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let openingHours: [OpeningHours]?
-        /// How the various components of the result's address are pronounced in various languages.
+        ///  How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let phonemes: PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public let placeAttributes: [PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
         public let placeType: PlaceType
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
-        /// Contains details about the postal code of the place/result.
+        ///  Contains details about the postal code of the place/result. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let postalCodeDetails: [PostalCodeDetails]?
         /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
-        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.  Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
+        ///  All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
         public let secondaryAddresses: [RelatedPlace]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -1357,7 +1537,7 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, foodTypes: [FoodType]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, pricingBucket: String, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, crossReferences: [CrossReference]? = nil, estimatedPointAddress: Bool? = nil, foodTypes: [FoodType]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeAttributes: [PlaceAttribute]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, pricingBucket: String, secondaryAddresses: [RelatedPlace]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -1365,11 +1545,14 @@ extension GeoPlaces {
             self.businessChains = businessChains
             self.categories = categories
             self.contacts = contacts
+            self.crossReferences = crossReferences
+            self.estimatedPointAddress = estimatedPointAddress
             self.foodTypes = foodTypes
             self.mainAddress = mainAddress
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -1391,11 +1574,14 @@ extension GeoPlaces {
             self.businessChains = try container.decodeIfPresent([BusinessChain].self, forKey: .businessChains)
             self.categories = try container.decodeIfPresent([Category].self, forKey: .categories)
             self.contacts = try container.decodeIfPresent(Contacts.self, forKey: .contacts)
+            self.crossReferences = try container.decodeIfPresent([CrossReference].self, forKey: .crossReferences)
+            self.estimatedPointAddress = try container.decodeIfPresent(Bool.self, forKey: .estimatedPointAddress)
             self.foodTypes = try container.decodeIfPresent([FoodType].self, forKey: .foodTypes)
             self.mainAddress = try container.decodeIfPresent(RelatedPlace.self, forKey: .mainAddress)
             self.mapView = try container.decodeIfPresent([Double].self, forKey: .mapView)
             self.openingHours = try container.decodeIfPresent([OpeningHours].self, forKey: .openingHours)
             self.phonemes = try container.decodeIfPresent(PhonemeDetails.self, forKey: .phonemes)
+            self.placeAttributes = try container.decodeIfPresent([PlaceAttribute].self, forKey: .placeAttributes)
             self.placeId = try container.decode(String.self, forKey: .placeId)
             self.placeType = try container.decode(PlaceType.self, forKey: .placeType)
             self.politicalView = try container.decodeIfPresent(String.self, forKey: .politicalView)
@@ -1415,11 +1601,14 @@ extension GeoPlaces {
             case businessChains = "BusinessChains"
             case categories = "Categories"
             case contacts = "Contacts"
+            case crossReferences = "CrossReferences"
+            case estimatedPointAddress = "EstimatedPointAddress"
             case foodTypes = "FoodTypes"
             case mainAddress = "MainAddress"
             case mapView = "MapView"
             case openingHours = "OpeningHours"
             case phonemes = "Phonemes"
+            case placeAttributes = "PlaceAttributes"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
             case politicalView = "PoliticalView"
@@ -1713,7 +1902,7 @@ extension GeoPlaces {
     }
 
     public struct Region: AWSDecodableShape {
-        /// Abbreviated code for a the state, province or region of the country.  Example: BC.
+        ///  Abbreviated code for a the state, province or region of the country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Example: BC.
         public let code: String?
         /// Name for a the state, province, or region of the country.  Example: British Columbia.
         public let name: String?
@@ -1782,7 +1971,7 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeFilter: AWSEncodableShape {
-        /// The included place types.
+        ///  The included place types. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only Street and PointAddress values.
         public let includePlaceTypes: [ReverseGeocodeFilterPlaceType]?
 
         @inlinable
@@ -1791,7 +1980,7 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 5)
+            try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, max: 7)
             try self.validate(self.includePlaceTypes, name: "includePlaceTypes", parent: name, min: 1)
         }
 
@@ -1801,30 +1990,33 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeRequest: AWSEncodableShape {
-        /// A list of optional additional parameters, such as time zone that can be requested for each result.
+        ///  A list of optional additional parameters, such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
         public let additionalFeatures: [ReverseGeocodeAdditionalFeature]?
+        /// Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+        public let addressNamesMode: ReverseGeocodeAddressNamesMode?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: ReverseGeocodeFilter?
         /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
         public let heading: Double?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored).   When storing ReverseGeocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: ReverseGeocodeIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        ///  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
         public let language: String?
-        /// An optional limit for the number of results returned in a single call. Default value: 1
+        ///  An optional limit for the number of results returned in a single call. Default value: 1
         public let maxResults: Int?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
         public let queryPosition: [Double]
-        /// The maximum distance in meters from the QueryPosition from which a result will be returned.
+        ///  The maximum distance in meters from the QueryPosition from which a result will be returned. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000.
         public let queryRadius: Int64?
 
         @inlinable
-        public init(additionalFeatures: [ReverseGeocodeAdditionalFeature]? = nil, filter: ReverseGeocodeFilter? = nil, heading: Double? = nil, intendedUse: ReverseGeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryPosition: [Double], queryRadius: Int64? = nil) {
+        public init(additionalFeatures: [ReverseGeocodeAdditionalFeature]? = nil, addressNamesMode: ReverseGeocodeAddressNamesMode? = nil, filter: ReverseGeocodeFilter? = nil, heading: Double? = nil, intendedUse: ReverseGeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryPosition: [Double], queryRadius: Int64? = nil) {
             self.additionalFeatures = additionalFeatures
+            self.addressNamesMode = addressNamesMode
             self.filter = filter
             self.heading = heading
             self.intendedUse = intendedUse
@@ -1840,6 +2032,7 @@ extension GeoPlaces {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalFeatures, forKey: .additionalFeatures)
+            try container.encodeIfPresent(self.addressNamesMode, forKey: .addressNamesMode)
             try container.encodeIfPresent(self.filter, forKey: .filter)
             try container.encodeIfPresent(self.heading, forKey: .heading)
             try container.encodeIfPresent(self.intendedUse, forKey: .intendedUse)
@@ -1871,6 +2064,7 @@ extension GeoPlaces {
 
         private enum CodingKeys: String, CodingKey {
             case additionalFeatures = "AdditionalFeatures"
+            case addressNamesMode = "AddressNamesMode"
             case filter = "Filter"
             case heading = "Heading"
             case intendedUse = "IntendedUse"
@@ -1907,31 +2101,35 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeResultItem: AWSDecodableShape {
-        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+        ///  Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let accessPoints: [AccessPoint]?
         /// The place's address.
         public let address: Address?
-        /// Boolean indicating if the address provided has been corrected.
+        ///  Boolean indicating if the address provided has been corrected. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let addressNumberCorrected: Bool?
         /// Categories of results that results must belong to.
         public let categories: [Category]?
         /// The distance in meters from the QueryPosition.
         public let distance: Int64?
-        /// List of food types offered by this result.
+        /// If true, indicates that the coordinates of the position and access points of the point address are estimated.
+        public let estimatedPointAddress: Bool?
+        ///  List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let foodTypes: [FoodType]?
-        /// All Intersections that are near the provided address.
+        ///  All Intersections that are near the provided address. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let intersections: [Intersection]?
+        /// The main address corresponding to a place of type Secondary Address.
+        public let mainAddress: RelatedPlace?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
         public let placeType: PlaceType
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
-        /// Contains details about the postal code of the place/result.
+        ///  Contains details about the postal code of the place/result. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let postalCodeDetails: [PostalCodeDetails]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -1939,14 +2137,16 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mapView: [Double]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, categories: [Category]? = nil, distance: Int64? = nil, estimatedPointAddress: Bool? = nil, foodTypes: [FoodType]? = nil, intersections: [Intersection]? = nil, mainAddress: RelatedPlace? = nil, mapView: [Double]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, postalCodeDetails: [PostalCodeDetails]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.address = address
             self.addressNumberCorrected = addressNumberCorrected
             self.categories = categories
             self.distance = distance
+            self.estimatedPointAddress = estimatedPointAddress
             self.foodTypes = foodTypes
             self.intersections = intersections
+            self.mainAddress = mainAddress
             self.mapView = mapView
             self.placeId = placeId
             self.placeType = placeType
@@ -1963,8 +2163,10 @@ extension GeoPlaces {
             case addressNumberCorrected = "AddressNumberCorrected"
             case categories = "Categories"
             case distance = "Distance"
+            case estimatedPointAddress = "EstimatedPointAddress"
             case foodTypes = "FoodTypes"
             case intersections = "Intersections"
+            case mainAddress = "MainAddress"
             case mapView = "MapView"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
@@ -2047,7 +2249,7 @@ extension GeoPlaces {
         public let additionalFeatures: [SearchNearbyAdditionalFeature]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SearchNearbyFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchNearby query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing SearchNearby responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: SearchNearbyIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
@@ -2094,7 +2296,7 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 5)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.key, name: "key", parent: name, max: 1000)
@@ -2168,6 +2370,8 @@ extension GeoPlaces {
         public let categories: [Category]?
         /// List of potential contact methods for the result/place.
         public let contacts: Contacts?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public let crossReferences: [CrossReference]?
         /// The distance in meters from the QueryPosition.
         public let distance: Int64?
         /// List of food types offered by this result.
@@ -2178,6 +2382,8 @@ extension GeoPlaces {
         public let openingHours: [OpeningHours]?
         /// How the various components of the result's address are pronounced in various languages.
         public let phonemes: PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public let placeAttributes: [PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
@@ -2192,7 +2398,7 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, crossReferences: [CrossReference]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeAttributes: [PlaceAttribute]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -2200,11 +2406,13 @@ extension GeoPlaces {
             self.businessChains = businessChains
             self.categories = categories
             self.contacts = contacts
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -2221,11 +2429,13 @@ extension GeoPlaces {
             case businessChains = "BusinessChains"
             case categories = "Categories"
             case contacts = "Contacts"
+            case crossReferences = "CrossReferences"
             case distance = "Distance"
             case foodTypes = "FoodTypes"
             case mapView = "MapView"
             case openingHours = "OpeningHours"
             case phonemes = "Phonemes"
+            case placeAttributes = "PlaceAttributes"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
             case politicalView = "PoliticalView"
@@ -2270,31 +2480,33 @@ extension GeoPlaces {
     }
 
     public struct SearchTextRequest: AWSEncodableShape {
-        /// A list of optional additional parameters, such as time zone, that can be requested for each result.
+        /// A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
         public let additionalFeatures: [SearchTextAdditionalFeature]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  Exactly one of the following fields must be set: BiasPosition, Filter.BoundingBox, or Filter.Circle.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SearchTextFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchText query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored).   When storing SearchText responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: SearchTextIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
         public let language: String?
         /// An optional limit for the number of results returned in a single call. Default value: 20
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
-        /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API.  Exactly one of the following fields must be set: QueryText or QueryId.
+        /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Exactly one of the following fields must be set: QueryText or QueryId.
         public let queryId: String?
         /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  Exactly one of the following fields must be set: QueryText or QueryId.
         public let queryText: String?
+        /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
+        public let travelMode: SearchTextTravelMode?
 
         @inlinable
-        public init(additionalFeatures: [SearchTextAdditionalFeature]? = nil, biasPosition: [Double]? = nil, filter: SearchTextFilter? = nil, intendedUse: SearchTextIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, politicalView: String? = nil, queryId: String? = nil, queryText: String? = nil) {
+        public init(additionalFeatures: [SearchTextAdditionalFeature]? = nil, biasPosition: [Double]? = nil, filter: SearchTextFilter? = nil, intendedUse: SearchTextIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, politicalView: String? = nil, queryId: String? = nil, queryText: String? = nil, travelMode: SearchTextTravelMode? = nil) {
             self.additionalFeatures = additionalFeatures
             self.biasPosition = biasPosition
             self.filter = filter
@@ -2306,6 +2518,7 @@ extension GeoPlaces {
             self.politicalView = politicalView
             self.queryId = queryId
             self.queryText = queryText
+            self.travelMode = travelMode
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2322,10 +2535,11 @@ extension GeoPlaces {
             try container.encodeIfPresent(self.politicalView, forKey: .politicalView)
             try container.encodeIfPresent(self.queryId, forKey: .queryId)
             try container.encodeIfPresent(self.queryText, forKey: .queryText)
+            try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 5)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
@@ -2351,6 +2565,7 @@ extension GeoPlaces {
             case politicalView = "PoliticalView"
             case queryId = "QueryId"
             case queryText = "QueryText"
+            case travelMode = "TravelMode"
         }
     }
 
@@ -2398,16 +2613,20 @@ extension GeoPlaces {
         public let categories: [Category]?
         /// List of potential contact methods for the result/place.
         public let contacts: Contacts?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public let crossReferences: [CrossReference]?
         /// The distance in meters from the QueryPosition.
         public let distance: Int64?
         /// List of food types offered by this result.
         public let foodTypes: [FoodType]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
-        /// List of opening hours objects.
+        ///  List of opening hours objects. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let openingHours: [OpeningHours]?
         /// How the various components of the result's address are pronounced in various languages.
         public let phonemes: PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public let placeAttributes: [PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
@@ -2422,7 +2641,7 @@ extension GeoPlaces {
         public let title: String
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil, title: String) {
+        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, addressNumberCorrected: Bool? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, contacts: Contacts? = nil, crossReferences: [CrossReference]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, openingHours: [OpeningHours]? = nil, phonemes: PhonemeDetails? = nil, placeAttributes: [PlaceAttribute]? = nil, placeId: String, placeType: PlaceType, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil, title: String) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
@@ -2430,11 +2649,13 @@ extension GeoPlaces {
             self.businessChains = businessChains
             self.categories = categories
             self.contacts = contacts
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.openingHours = openingHours
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -2451,11 +2672,13 @@ extension GeoPlaces {
             case businessChains = "BusinessChains"
             case categories = "Categories"
             case contacts = "Contacts"
+            case crossReferences = "CrossReferences"
             case distance = "Distance"
             case foodTypes = "FoodTypes"
             case mapView = "MapView"
             case openingHours = "OpeningHours"
             case phonemes = "Phonemes"
+            case placeAttributes = "PlaceAttributes"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
             case politicalView = "PoliticalView"
@@ -2540,7 +2763,7 @@ extension GeoPlaces {
     }
 
     public struct SubRegion: AWSDecodableShape {
-        /// Abbreviated code for the county or sub-region.
+        ///  Abbreviated code for the county or sub-region. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let code: String?
         /// Name for the county or sub-region.
         public let name: String?
@@ -2642,29 +2865,33 @@ extension GeoPlaces {
     }
 
     public struct SuggestPlaceResult: AWSDecodableShape {
-        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
+        ///  Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude]. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let accessPoints: [AccessPoint]?
-        /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
+        ///  Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let accessRestrictions: [AccessRestriction]?
         /// The place's address.
         public let address: Address?
-        /// The Business Chains associated with the place.
+        ///  The Business Chains associated with the place. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let businessChains: [BusinessChain]?
         /// Categories of results that results must belong to.
         public let categories: [Category]?
+        /// The list of supplier references available for this place. Requires the CrossReferences additional feature to be enabled.
+        public let crossReferences: [CrossReference]?
         /// The distance in meters from the QueryPosition.
         public let distance: Int64?
-        /// List of food types offered by this result.
+        ///  List of food types offered by this result. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let foodTypes: [FoodType]?
         /// The bounding box enclosing the geometric shape (area or line) that an individual result covers. The bounding box formed is defined as a set 4 coordinates: [{westward lng}, {southern lat}, {eastward lng}, {northern lat}]
         public let mapView: [Double]?
-        /// How the various components of the result's address are pronounced in various languages.
+        ///  How the various components of the result's address are pronounced in various languages. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let phonemes: PhonemeDetails?
+        /// A list of place attributes for the result, such as whether the business offers drive-through service.
+        public let placeAttributes: [PlaceAttribute]?
         /// The PlaceId of the place you wish to receive the information for.
         public let placeId: String?
         /// A PlaceType is a category that the result place must belong to.
         public let placeType: PlaceType?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
         /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
@@ -2672,16 +2899,18 @@ extension GeoPlaces {
         public let timeZone: TimeZone?
 
         @inlinable
-        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, phonemes: PhonemeDetails? = nil, placeId: String? = nil, placeType: PlaceType? = nil, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil) {
+        public init(accessPoints: [AccessPoint]? = nil, accessRestrictions: [AccessRestriction]? = nil, address: Address? = nil, businessChains: [BusinessChain]? = nil, categories: [Category]? = nil, crossReferences: [CrossReference]? = nil, distance: Int64? = nil, foodTypes: [FoodType]? = nil, mapView: [Double]? = nil, phonemes: PhonemeDetails? = nil, placeAttributes: [PlaceAttribute]? = nil, placeId: String? = nil, placeType: PlaceType? = nil, politicalView: String? = nil, position: [Double]? = nil, timeZone: TimeZone? = nil) {
             self.accessPoints = accessPoints
             self.accessRestrictions = accessRestrictions
             self.address = address
             self.businessChains = businessChains
             self.categories = categories
+            self.crossReferences = crossReferences
             self.distance = distance
             self.foodTypes = foodTypes
             self.mapView = mapView
             self.phonemes = phonemes
+            self.placeAttributes = placeAttributes
             self.placeId = placeId
             self.placeType = placeType
             self.politicalView = politicalView
@@ -2695,10 +2924,12 @@ extension GeoPlaces {
             case address = "Address"
             case businessChains = "BusinessChains"
             case categories = "Categories"
+            case crossReferences = "CrossReferences"
             case distance = "Distance"
             case foodTypes = "FoodTypes"
             case mapView = "MapView"
             case phonemes = "Phonemes"
+            case placeAttributes = "PlaceAttributes"
             case placeId = "PlaceId"
             case placeType = "PlaceType"
             case politicalView = "PoliticalView"
@@ -2708,9 +2939,9 @@ extension GeoPlaces {
     }
 
     public struct SuggestQueryResult: AWSDecodableShape {
-        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details SearchText API docs.  The fields QueryText, and QueryID are mutually exclusive.
+        /// QueryId can be used to complete a follow up query through the SearchText API. The QueryId retains context from the original Suggest request such as filters, political view and language. See the SearchText API documentation for more details SearchText API docs. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   The fields QueryText, and QueryID are mutually exclusive.
         public let queryId: String?
-        /// The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business.
+        ///  The query type. Category queries will search for places which have an entry matching the given category, for example "doctor office". BusinessChain queries will search for instances of a given business. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let queryType: QueryType?
 
         @inlinable
@@ -2726,29 +2957,31 @@ extension GeoPlaces {
     }
 
     public struct SuggestRequest: AWSEncodableShape {
-        /// A list of optional additional parameters, such as time zone, that can be requested for each result.
+        ///  A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Core and TimeZone values.
         public let additionalFeatures: [SuggestAdditionalFeature]?
         /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SuggestFilter?
-        /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+        ///  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Suggest does not support storage of results.
         public let intendedUse: SuggestIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+        ///  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
         public let language: String?
-        /// Maximum number of query terms to be returned for use with a search text query.
+        ///  Maximum number of query terms to be returned for use with a search text query. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let maxQueryRefinements: Int?
-        /// An optional limit for the number of results returned in a single call. Default value: 20
+        ///  An optional limit for the number of results returned in a single call.  Default value: 20
         public let maxResults: Int?
-        /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+        ///  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let politicalView: String?
         /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText and QueryID are mutually exclusive.
         public let queryText: String
+        /// Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
+        public let travelMode: SuggestTravelMode?
 
         @inlinable
-        public init(additionalFeatures: [SuggestAdditionalFeature]? = nil, biasPosition: [Double]? = nil, filter: SuggestFilter? = nil, intendedUse: SuggestIntendedUse? = nil, key: String? = nil, language: String? = nil, maxQueryRefinements: Int? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryText: String) {
+        public init(additionalFeatures: [SuggestAdditionalFeature]? = nil, biasPosition: [Double]? = nil, filter: SuggestFilter? = nil, intendedUse: SuggestIntendedUse? = nil, key: String? = nil, language: String? = nil, maxQueryRefinements: Int? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryText: String, travelMode: SuggestTravelMode? = nil) {
             self.additionalFeatures = additionalFeatures
             self.biasPosition = biasPosition
             self.filter = filter
@@ -2759,6 +2992,7 @@ extension GeoPlaces {
             self.maxResults = maxResults
             self.politicalView = politicalView
             self.queryText = queryText
+            self.travelMode = travelMode
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2774,10 +3008,11 @@ extension GeoPlaces {
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.politicalView, forKey: .politicalView)
             try container.encode(self.queryText, forKey: .queryText)
+            try container.encodeIfPresent(self.travelMode, forKey: .travelMode)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 5)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
@@ -2800,13 +3035,14 @@ extension GeoPlaces {
             case maxResults = "MaxResults"
             case politicalView = "PoliticalView"
             case queryText = "QueryText"
+            case travelMode = "TravelMode"
         }
     }
 
     public struct SuggestResponse: AWSDecodableShape {
         /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
-        /// Maximum number of query terms to be returned for use with a search text query.
+        ///  Maximum number of query terms to be returned for use with a search text query. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
         public let queryRefinements: [QueryRefinement]?
         /// List of places or results returned for a query.
         public let resultItems: [SuggestResultItem]?
@@ -2880,6 +3116,62 @@ extension GeoPlaces {
             case name = "Name"
             case offset = "Offset"
             case offsetSeconds = "OffsetSeconds"
+        }
+    }
+
+    public struct TranslationDetails: AWSDecodableShape {
+        /// A list of administrative names and translations for the district address component.
+        public let district: [AdminNames]?
+        /// A list of administrative names and translations for the locality address component.
+        public let locality: [AdminNames]?
+        /// A list of administrative names and translations for the region address component.
+        public let region: [AdminNames]?
+        /// A list of administrative names and translations for the sub-region address component.
+        public let subRegion: [AdminNames]?
+
+        @inlinable
+        public init(district: [AdminNames]? = nil, locality: [AdminNames]? = nil, region: [AdminNames]? = nil, subRegion: [AdminNames]? = nil) {
+            self.district = district
+            self.locality = locality
+            self.region = region
+            self.subRegion = subRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case district = "District"
+            case locality = "Locality"
+            case region = "Region"
+            case subRegion = "SubRegion"
+        }
+    }
+
+    public struct TranslationName: AWSDecodableShape {
+        /// A BCP 47 compliant language code for the translation name.
+        public let language: String?
+        /// If true, indicates this is the primary name variant for the given language.
+        public let primary: Bool?
+        /// If true, indicates this name is a transliterated version rather than a native script translation.
+        public let transliterated: Bool?
+        /// The type of translation name. Valid values are Abbreviation, AreaCode, BaseName, Exonym, Shortened, and Synonym.
+        public let type: TranslationNameType
+        /// The translated or alternative name value.
+        public let value: String
+
+        @inlinable
+        public init(language: String? = nil, primary: Bool? = nil, transliterated: Bool? = nil, type: TranslationNameType, value: String) {
+            self.language = language
+            self.primary = primary
+            self.transliterated = transliterated
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case language = "Language"
+            case primary = "Primary"
+            case transliterated = "Transliterated"
+            case type = "Type"
+            case value = "Value"
         }
     }
 

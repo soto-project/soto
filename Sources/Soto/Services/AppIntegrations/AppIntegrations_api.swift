@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AppIntegrations service.
 ///
-///    Amazon AppIntegrations actions     Amazon AppIntegrations data types    The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Third-party applications (3p apps) in the agent workspace     Use Amazon Q in Connect for generative AI–powered agent assistance in real-time
+///    Amazon AppIntegrations actions     Amazon AppIntegrations data types    The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Connect Customer, see the following topics in the Connect Customer Administrator Guide:    Third-party applications (3p apps) in the agent workspace     Use Amazon Q in Connect for generative AI–powered agent assistance in real-time
 public struct AppIntegrations: AWSService {
     // MARK: Member variables
 

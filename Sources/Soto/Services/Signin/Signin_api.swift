@@ -147,6 +147,352 @@ public struct Signin: AWSService {
         )
         return try await self.createOAuth2Token(input, logger: logger)
     }
+
+    /// Grants permission to exchange client credentials for an OAuth 2.0 access token
+    /// scoped to a resource that can be used to access AWS services from applications
+    @Sendable
+    @inlinable
+    public func createOAuth2TokenWithIAM(_ input: CreateOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOAuth2TokenWithIAMResponse {
+        try await self.client.execute(
+            operation: "CreateOAuth2TokenWithIAM", 
+            path: "/v1/token?x-amz-client-auth-method=iam", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to exchange client credentials for an OAuth 2.0 access token
+    /// scoped to a resource that can be used to access AWS services from applications
+    ///
+    /// Parameters:
+    ///   - grantType: OAuth 2.0 grant type. Must be "client_credentials".
+    ///   - resource: The OAuth resource for which the access token is requested.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createOAuth2TokenWithIAM(
+        grantType: String,
+        resource: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateOAuth2TokenWithIAMResponse {
+        let input = CreateOAuth2TokenWithIAMRequest(
+            grantType: grantType, 
+            resource: resource
+        )
+        return try await self.createOAuth2TokenWithIAM(input, logger: logger)
+    }
+
+    /// Delete console authorization configuration with automatic scope detection
+    @Sendable
+    @inlinable
+    public func deleteConsoleAuthorizationConfiguration(_ input: DeleteConsoleAuthorizationConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConsoleAuthorizationConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteConsoleAuthorizationConfiguration", 
+            path: "/delete-console-authorization-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete console authorization configuration with automatic scope detection
+    ///
+    /// Parameters:
+    ///   - targetId: Target account identifier
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConsoleAuthorizationConfiguration(
+        targetId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConsoleAuthorizationConfigurationOutput {
+        let input = DeleteConsoleAuthorizationConfigurationInput(
+            targetId: targetId
+        )
+        return try await self.deleteConsoleAuthorizationConfiguration(input, logger: logger)
+    }
+
+    /// Remove a permission statement from the account's SignIn resource-based policy
+    @Sendable
+    @inlinable
+    public func deleteResourcePermissionStatement(_ input: DeleteResourcePermissionStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePermissionStatementOutput {
+        try await self.client.execute(
+            operation: "DeleteResourcePermissionStatement", 
+            path: "/delete-resource-permission-statement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove a permission statement from the account's SignIn resource-based policy
+    ///
+    /// Parameters:
+    ///   - clientToken: Idempotency token for the request
+    ///   - statementId: Unique identifier of the permission statement to delete
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePermissionStatement(
+        clientToken: String? = DeleteResourcePermissionStatementInput.idempotencyToken(),
+        statementId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePermissionStatementOutput {
+        let input = DeleteResourcePermissionStatementInput(
+            clientToken: clientToken, 
+            statementId: statementId
+        )
+        return try await self.deleteResourcePermissionStatement(input, logger: logger)
+    }
+
+    /// Get console authorization configuration with automatic scope detection
+    @Sendable
+    @inlinable
+    public func getConsoleAuthorizationConfiguration(_ input: GetConsoleAuthorizationConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConsoleAuthorizationConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetConsoleAuthorizationConfiguration", 
+            path: "/get-console-authorization-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get console authorization configuration with automatic scope detection
+    ///
+    /// Parameters:
+    ///   - targetId: Target account identifier
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConsoleAuthorizationConfiguration(
+        targetId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConsoleAuthorizationConfigurationOutput {
+        let input = GetConsoleAuthorizationConfigurationInput(
+            targetId: targetId
+        )
+        return try await self.getConsoleAuthorizationConfiguration(input, logger: logger)
+    }
+
+    /// Retrieve the account's consolidated SignIn resource-based policy
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyOutput {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/get-resource-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve the account's consolidated SignIn resource-based policy
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyOutput {
+        let input = GetResourcePolicyInput(
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0
+    /// access token or refresh token
+    /// Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated
+    /// endpoint. Inspects the metadata of an access_token or refresh_token issued
+    /// by AWS Sign-In and returns the claims associated with it.
+    /// Inactive token semantics (RFC 7662 §2.2): when the supplied token is
+    /// unknown, expired, revoked, malformed, or owned by a different account,
+    /// the response body is exactly { "active": false } with all other claims
+    /// omitted.
+    @Sendable
+    @inlinable
+    public func introspectOAuth2TokenWithIAM(_ input: IntrospectOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IntrospectOAuth2TokenWithIAMResponse {
+        try await self.client.execute(
+            operation: "IntrospectOAuth2TokenWithIAM", 
+            path: "/v1/introspect?x-amz-client-auth-method=iam", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to inspect the metadata and state of an OAuth 2.0
+    /// access token or refresh token
+    /// Implements RFC 7662 OAuth 2.0 Token Introspection over a SigV4-authenticated
+    /// endpoint. Inspects the metadata of an access_token or refresh_token issued
+    /// by AWS Sign-In and returns the claims associated with it.
+    /// Inactive token semantics (RFC 7662 §2.2): when the supplied token is
+    /// unknown, expired, revoked, malformed, or owned by a different account,
+    /// the response body is exactly { "active": false } with all other claims
+    /// omitted.
+    ///
+    /// Parameters:
+    ///   - token: The string value of the token to introspect.
+    ///   - tokenTypeHint: Optional hint about the type of the token submitted for introspection.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func introspectOAuth2TokenWithIAM(
+        token: String,
+        tokenTypeHint: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> IntrospectOAuth2TokenWithIAMResponse {
+        let input = IntrospectOAuth2TokenWithIAMRequest(
+            token: token, 
+            tokenTypeHint: tokenTypeHint
+        )
+        return try await self.introspectOAuth2TokenWithIAM(input, logger: logger)
+    }
+
+    /// Retrieve all permission statements in the account's SignIn resource-based policy
+    @Sendable
+    @inlinable
+    public func listResourcePermissionStatements(_ input: ListResourcePermissionStatementsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResourcePermissionStatementsOutput {
+        try await self.client.execute(
+            operation: "ListResourcePermissionStatements", 
+            path: "/list-resource-permission-statements", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve all permission statements in the account's SignIn resource-based policy
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return
+    ///   - nextToken: Token for pagination
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResourcePermissionStatements(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResourcePermissionStatementsOutput {
+        let input = ListResourcePermissionStatementsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listResourcePermissionStatements(input, logger: logger)
+    }
+
+    /// Enable console authorization configuration with automatic scope detection
+    @Sendable
+    @inlinable
+    public func putConsoleAuthorizationConfiguration(_ input: PutConsoleAuthorizationConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConsoleAuthorizationConfigurationOutput {
+        try await self.client.execute(
+            operation: "PutConsoleAuthorizationConfiguration", 
+            path: "/put-console-authorization-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enable console authorization configuration with automatic scope detection
+    ///
+    /// Parameters:
+    ///   - targetId: Target account identifier
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putConsoleAuthorizationConfiguration(
+        targetId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutConsoleAuthorizationConfigurationOutput {
+        let input = PutConsoleAuthorizationConfigurationInput(
+            targetId: targetId
+        )
+        return try await self.putConsoleAuthorizationConfiguration(input, logger: logger)
+    }
+
+    /// Create a permission statement in the account's SignIn resource-based policy
+    @Sendable
+    @inlinable
+    public func putResourcePermissionStatement(_ input: PutResourcePermissionStatementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePermissionStatementOutput {
+        try await self.client.execute(
+            operation: "PutResourcePermissionStatement", 
+            path: "/put-resource-permission-statement", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a permission statement in the account's SignIn resource-based policy
+    ///
+    /// Parameters:
+    ///   - clientToken: Idempotency token for the request
+    ///   - consoleSourceVpce: Console VPC endpoint identifier
+    ///   - excludedPrincipal: Principal to exclude from the permission statement
+    ///   - requestedRegion: AWS region where the VPC and VPC endpoint reside
+    ///   - signinSourceVpce: SignIn VPC endpoint identifier
+    ///   - sourceIp: Source IP address
+    ///   - sourceVpc: VPC identifier to restrict console access
+    ///   - vpcSourceIp: Source IP address within VPC
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePermissionStatement(
+        clientToken: String? = PutResourcePermissionStatementInput.idempotencyToken(),
+        consoleSourceVpce: String? = nil,
+        excludedPrincipal: String? = nil,
+        requestedRegion: String? = nil,
+        signinSourceVpce: String? = nil,
+        sourceIp: String? = nil,
+        sourceVpc: String? = nil,
+        vpcSourceIp: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePermissionStatementOutput {
+        let input = PutResourcePermissionStatementInput(
+            clientToken: clientToken, 
+            consoleSourceVpce: consoleSourceVpce, 
+            excludedPrincipal: excludedPrincipal, 
+            requestedRegion: requestedRegion, 
+            signinSourceVpce: signinSourceVpce, 
+            sourceIp: sourceIp, 
+            sourceVpc: sourceVpc, 
+            vpcSourceIp: vpcSourceIp
+        )
+        return try await self.putResourcePermissionStatement(input, logger: logger)
+    }
+
+    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens
+    /// Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token
+    /// chain so that the refresh_token can no longer be used to mint new access_tokens.
+    /// Idempotency: revoking an already-revoked, expired, or otherwise invalid token
+    /// still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    @Sendable
+    @inlinable
+    public func revokeOAuth2TokenWithIAM(_ input: RevokeOAuth2TokenWithIAMRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeOAuth2TokenWithIAMResponse {
+        try await self.client.execute(
+            operation: "RevokeOAuth2TokenWithIAM", 
+            path: "/v1/revoke?x-amz-client-auth-method=iam", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Grants permission to revoke an OAuth 2.0 refresh token and its associated refresh tokens
+    /// Revokes a refresh_token issued by AWS Sign-In, invalidating the entire token
+    /// chain so that the refresh_token can no longer be used to mint new access_tokens.
+    /// Idempotency: revoking an already-revoked, expired, or otherwise invalid token
+    /// still returns 200 OK with an empty body. Only the refresh_token type is accepted.
+    ///
+    /// Parameters:
+    ///   - token: The refresh_token to revoke. Must be a refresh_token issued by AWS
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func revokeOAuth2TokenWithIAM(
+        token: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RevokeOAuth2TokenWithIAMResponse {
+        let input = RevokeOAuth2TokenWithIAMRequest(
+            token: token
+        )
+        return try await self.revokeOAuth2TokenWithIAM(input, logger: logger)
+    }
 }
 
 extension Signin {
@@ -155,5 +501,54 @@ extension Signin {
     public init(from: Signin, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Signin {
+    /// Return PaginatorSequence for operation ``listResourcePermissionStatements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourcePermissionStatementsPaginator(
+        _ input: ListResourcePermissionStatementsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput> {
+        return .init(
+            input: input,
+            command: self.listResourcePermissionStatements,
+            inputKey: \ListResourcePermissionStatementsInput.nextToken,
+            outputKey: \ListResourcePermissionStatementsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResourcePermissionStatements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResourcePermissionStatementsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResourcePermissionStatementsInput, ListResourcePermissionStatementsOutput> {
+        let input = ListResourcePermissionStatementsInput(
+            maxResults: maxResults
+        )
+        return self.listResourcePermissionStatementsPaginator(input, logger: logger)
+    }
+}
+
+extension Signin.ListResourcePermissionStatementsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Signin.ListResourcePermissionStatementsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }

@@ -127,6 +127,12 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum DiversityCapType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case percentage = "PERCENTAGE"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EstimateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case running = "RUNNING"
@@ -303,6 +309,7 @@ extension CustomerProfiles {
     public enum PeriodUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
         case hours = "HOURS"
+        case minutes = "MINUTES"
         case months = "MONTHS"
         case weeks = "WEEKS"
         public var description: String { return self.rawValue }
@@ -355,6 +362,12 @@ extension CustomerProfiles {
         case recommendedForYou = "recommended-for-you"
         case similarItems = "similar-items"
         case trendingNow = "trending-now"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommenderSchemaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -439,6 +452,19 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum SegmentSortDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case date = "DATE"
+        case number = "NUMBER"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case classic = "CLASSIC"
         case enhanced = "ENHANCED"
@@ -467,6 +493,12 @@ extension CustomerProfiles {
         case validateNonNull = "VALIDATE_NON_NULL"
         case validateNonZero = "VALIDATE_NON_ZERO"
         case validateNumeric = "VALIDATE_NUMERIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortAttributeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case calculated = "CALCULATED"
+        case profile = "PROFILE"
         public var description: String { return self.rawValue }
     }
 
@@ -556,7 +588,14 @@ extension CustomerProfiles {
         case coverage = "coverage"
         case freshness = "freshness"
         case hit = "hit"
+        case meanReciprocalRankAt25 = "mean_reciprocal_rank_at_25"
+        case normalizedDiscountedCumulativeGainAt10 = "normalized_discounted_cumulative_gain_at_10"
+        case normalizedDiscountedCumulativeGainAt25 = "normalized_discounted_cumulative_gain_at_25"
+        case normalizedDiscountedCumulativeGainAt5 = "normalized_discounted_cumulative_gain_at_5"
         case popularity = "popularity"
+        case precisionAt10 = "precision_at_10"
+        case precisionAt25 = "precision_at_25"
+        case precisionAt5 = "precision_at_5"
         case recall = "recall"
         case similarity = "similarity"
         public var description: String { return self.rawValue }
@@ -1341,6 +1380,133 @@ extension CustomerProfiles {
         }
     }
 
+    public struct BatchPutProfileObjectErrorItem: AWSDecodableShape {
+        /// The HTTP status code for the error.
+        public let code: Int
+        /// The unique identifier of the item in the batch request that failed.
+        public let id: String
+        /// A message describing the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: Int, id: String, message: String? = nil) {
+            self.code = code
+            self.id = id
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case id = "Id"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchPutProfileObjectRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A list of items to add to the domain.
+        public let items: [BatchPutProfileObjectRequestItem]
+        /// The name of the profile object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(domainName: String, items: [BatchPutProfileObjectRequestItem], objectTypeName: String) {
+            self.domainName = domainName
+            self.items = items
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.items, forKey: .items)
+            try container.encode(self.objectTypeName, forKey: .objectTypeName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.items.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+            try self.validate(self.items, name: "items", parent: name, max: 10)
+            try self.validate(self.items, name: "items", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case objectTypeName = "ObjectTypeName"
+        }
+    }
+
+    public struct BatchPutProfileObjectRequestItem: AWSEncodableShape {
+        /// A unique identifier for this item in the batch request. Used to correlate items in the response.
+        public let id: String
+        /// A string that is serialized from a JSON object.
+        public let object: String
+
+        @inlinable
+        public init(id: String, object: String) {
+            self.id = id
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.object, name: "object", parent: name, max: 256000)
+            try self.validate(self.object, name: "object", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case object = "Object"
+        }
+    }
+
+    public struct BatchPutProfileObjectResponse: AWSDecodableShape {
+        /// A list of items that failed to be added to the domain.
+        public let failed: [BatchPutProfileObjectErrorItem]?
+        /// A list of items that were successfully added to the domain.
+        public let successful: [BatchPutProfileObjectResponseItem]?
+
+        @inlinable
+        public init(failed: [BatchPutProfileObjectErrorItem]? = nil, successful: [BatchPutProfileObjectResponseItem]? = nil) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
+    public struct BatchPutProfileObjectResponseItem: AWSDecodableShape {
+        /// The unique identifier of the item in the batch request.
+        public let id: String
+        /// The unique identifier of the profile object generated by the service.
+        public let profileObjectUniqueKey: String
+
+        @inlinable
+        public init(id: String, profileObjectUniqueKey: String) {
+            self.id = id
+            self.profileObjectUniqueKey = profileObjectUniqueKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case profileObjectUniqueKey = "ProfileObjectUniqueKey"
+        }
+    }
+
     public struct CalculatedAttributeDimension: AWSEncodableShape & AWSDecodableShape {
         /// Applies the given condition over the initial Calculated Attribute's definition.
         public let conditionOverrides: ConditionOverrides?
@@ -1916,7 +2082,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingRequest?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -1999,7 +2165,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -2530,15 +2696,18 @@ extension CustomerProfiles {
         public let recommenderFilterExpression: String
         /// The name of the recommender filter. The name must be unique within the domain.
         public let recommenderFilterName: String
+        /// The name of the recommender schema to use for this recommender filter. If not specified, the default schema is used.
+        public let recommenderSchemaName: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, domainName: String, recommenderFilterExpression: String, recommenderFilterName: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, domainName: String, recommenderFilterExpression: String, recommenderFilterName: String, recommenderSchemaName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.domainName = domainName
             self.recommenderFilterExpression = recommenderFilterExpression
             self.recommenderFilterName = recommenderFilterName
+            self.recommenderSchemaName = recommenderSchemaName
             self.tags = tags
         }
 
@@ -2549,6 +2718,7 @@ extension CustomerProfiles {
             request.encodePath(self.domainName, key: "DomainName")
             try container.encode(self.recommenderFilterExpression, forKey: .recommenderFilterExpression)
             request.encodePath(self.recommenderFilterName, key: "RecommenderFilterName")
+            try container.encodeIfPresent(self.recommenderSchemaName, forKey: .recommenderSchemaName)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -2563,6 +2733,9 @@ extension CustomerProfiles {
             try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, max: 63)
             try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, min: 1)
             try self.validate(self.recommenderFilterName, name: "recommenderFilterName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, max: 64)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2576,6 +2749,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case recommenderFilterExpression = "RecommenderFilterExpression"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case tags = "Tags"
         }
     }
@@ -2609,16 +2783,19 @@ extension CustomerProfiles {
         public let recommenderName: String
         /// The name of the recommeder recipe.
         public let recommenderRecipeName: RecommenderRecipeName
+        /// The name of the recommender schema to use for this recommender. If not specified, the default schema is used.
+        public let recommenderSchemaName: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, tags: [String: String]? = nil) {
+        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, recommenderSchemaName: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.domainName = domainName
             self.recommenderConfig = recommenderConfig
             self.recommenderName = recommenderName
             self.recommenderRecipeName = recommenderRecipeName
+            self.recommenderSchemaName = recommenderSchemaName
             self.tags = tags
         }
 
@@ -2630,6 +2807,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.recommenderConfig, forKey: .recommenderConfig)
             request.encodePath(self.recommenderName, key: "RecommenderName")
             try container.encode(self.recommenderRecipeName, forKey: .recommenderRecipeName)
+            try container.encodeIfPresent(self.recommenderSchemaName, forKey: .recommenderSchemaName)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -2643,6 +2821,9 @@ extension CustomerProfiles {
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, max: 64)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2657,6 +2838,7 @@ extension CustomerProfiles {
             case description = "Description"
             case recommenderConfig = "RecommenderConfig"
             case recommenderRecipeName = "RecommenderRecipeName"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case tags = "Tags"
         }
     }
@@ -2679,6 +2861,96 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CreateRecommenderSchemaRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _catalogItem keys are supported.
+        public let fields: [String: [RecommenderSchemaField]]
+        /// The name of the recommender schema. The name must be unique within the domain.
+        public let recommenderSchemaName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(domainName: String, fields: [String: [RecommenderSchemaField]], recommenderSchemaName: String, tags: [String: String]? = nil) {
+            self.domainName = domainName
+            self.fields = fields
+            self.recommenderSchemaName = recommenderSchemaName
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.fields, forKey: .fields)
+            request.encodePath(self.recommenderSchemaName, key: "RecommenderSchemaName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.fields.forEach {
+                try validate($0.value, name: "fields[\"\($0.key)\"]", parent: name, max: 9)
+                try validate($0.value, name: "fields[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 2)
+            try self.validate(self.fields, name: "fields", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, max: 64)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRecommenderSchemaResponse: AWSDecodableShape {
+        /// The timestamp of when the recommender schema was created.
+        public let createdAt: Date
+        /// A map of dataset type to column definitions included in the schema.
+        public let fields: [String: [RecommenderSchemaField]]
+        /// The Amazon Resource Name (ARN) of the recommender schema.
+        public let recommenderSchemaArn: String
+        /// The name of the recommender schema.
+        public let recommenderSchemaName: String
+        /// The status of the recommender schema.
+        public let status: RecommenderSchemaStatus
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date, fields: [String: [RecommenderSchemaField]], recommenderSchemaArn: String, recommenderSchemaName: String, status: RecommenderSchemaStatus, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.fields = fields
+            self.recommenderSchemaArn = recommenderSchemaArn
+            self.recommenderSchemaName = recommenderSchemaName
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case fields = "Fields"
+            case recommenderSchemaArn = "RecommenderSchemaArn"
+            case recommenderSchemaName = "RecommenderSchemaName"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateSegmentDefinitionRequest: AWSEncodableShape {
         /// The description of the segment definition.
         public let description: String?
@@ -2690,18 +2962,21 @@ extension CustomerProfiles {
         public let segmentDefinitionName: String
         /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
         public let segmentGroups: SegmentGroup?
+        /// The segment sort.
+        public let segmentSort: SegmentSort?
         /// The segment SQL query.
         public let segmentSqlQuery: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, displayName: String, domainName: String, segmentDefinitionName: String, segmentGroups: SegmentGroup? = nil, segmentSqlQuery: String? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, displayName: String, domainName: String, segmentDefinitionName: String, segmentGroups: SegmentGroup? = nil, segmentSort: SegmentSort? = nil, segmentSqlQuery: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.displayName = displayName
             self.domainName = domainName
             self.segmentDefinitionName = segmentDefinitionName
             self.segmentGroups = segmentGroups
+            self.segmentSort = segmentSort
             self.segmentSqlQuery = segmentSqlQuery
             self.tags = tags
         }
@@ -2714,6 +2989,7 @@ extension CustomerProfiles {
             request.encodePath(self.domainName, key: "DomainName")
             request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
             try container.encodeIfPresent(self.segmentGroups, forKey: .segmentGroups)
+            try container.encodeIfPresent(self.segmentSort, forKey: .segmentSort)
             try container.encodeIfPresent(self.segmentSqlQuery, forKey: .segmentSqlQuery)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -2730,6 +3006,7 @@ extension CustomerProfiles {
             try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
             try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.segmentGroups?.validate(name: "\(name).segmentGroups")
+            try self.segmentSort?.validate(name: "\(name).segmentSort")
             try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, max: 50000)
             try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, min: 1)
             try self.tags?.forEach {
@@ -2746,6 +3023,7 @@ extension CustomerProfiles {
             case description = "Description"
             case displayName = "DisplayName"
             case segmentGroups = "SegmentGroups"
+            case segmentSort = "SegmentSort"
             case segmentSqlQuery = "SegmentSqlQuery"
             case tags = "Tags"
         }
@@ -2855,7 +3133,7 @@ extension CustomerProfiles {
     public struct CreateSegmentSnapshotRequest: AWSEncodableShape {
         /// The format in which the segment will be exported.
         public let dataFormat: DataFormat
-        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website.
         public let destinationUri: String?
         /// The unique name of the domain.
         public let domainName: String
@@ -3619,6 +3897,41 @@ extension CustomerProfiles {
         public init() {}
     }
 
+    public struct DeleteRecommenderSchemaRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender schema to delete.
+        public let recommenderSchemaName: String
+
+        @inlinable
+        public init(domainName: String, recommenderSchemaName: String) {
+            self.domainName = domainName
+            self.recommenderSchemaName = recommenderSchemaName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderSchemaName, key: "RecommenderSchemaName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, max: 64)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRecommenderSchemaResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSegmentDefinitionRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -3789,6 +4102,57 @@ extension CustomerProfiles {
             case fields = "Fields"
             case keys = "Keys"
             case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
+        }
+    }
+
+    public struct DiversityColumn: AWSEncodableShape & AWSDecodableShape {
+        /// The type of diversity cap to apply. Valid values are PERCENTAGE (interpret Target as a percentage of returned items) and VALUE (interpret Target as an absolute count).
+        public let capType: DiversityCapType
+        /// The name of the item catalog column on which to apply the diversity cap. The column must be defined in the recommender schema.
+        public let name: String
+        /// The diversity cap target. Either an integer literal (for example, "25") or a placeholder expression of the form $name whose value is supplied at inference time through GetProfileRecommendations.
+        public let target: String
+
+        @inlinable
+        public init(capType: DiversityCapType, name: String, target: String) {
+            self.capType = capType
+            self.name = name
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 64)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, pattern: "^(\\d+|\\$[a-z_]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capType = "CapType"
+            case name = "Name"
+            case target = "Target"
+        }
+    }
+
+    public struct DiversityConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A list of up to two diversity columns. Each column defines a cap on the number or percentage of recommended items that share the same value for that column.
+        public let diversityColumns: [DiversityColumn]?
+
+        @inlinable
+        public init(diversityColumns: [DiversityColumn]? = nil) {
+            self.diversityColumns = diversityColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.diversityColumns?.forEach {
+                try $0.validate(name: "\(name).diversityColumns[]")
+            }
+            try self.validate(self.diversityColumns, name: "diversityColumns", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diversityColumns = "DiversityColumns"
         }
     }
 
@@ -4121,7 +4485,7 @@ extension CustomerProfiles {
             try self.eventParametersList.forEach {
                 try $0.validate(name: "\(name).eventParametersList[]")
             }
-            try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, max: 5)
+            try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, max: 10)
             try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, min: 1)
         }
 
@@ -4915,7 +5279,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
-        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        /// The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
@@ -5695,6 +6059,8 @@ extension CustomerProfiles {
         public let candidateIds: [String]?
         /// The contextual metadata used to provide dynamic runtime information to tailor recommendations.
         public let context: [String: String]?
+        /// Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender.
+        public let diversityConfig: RecommendationDiversityConfig?
         /// The unique name of the domain.
         public let domainName: String
         /// The maximum number of recommendations to return. The default value is 10.
@@ -5711,9 +6077,10 @@ extension CustomerProfiles {
         public let recommenderPromotionalFilters: [RecommenderPromotionalFilter]?
 
         @inlinable
-        public init(candidateIds: [String]? = nil, context: [String: String]? = nil, domainName: String, maxResults: Int? = nil, metadataConfig: MetadataConfig? = nil, profileId: String, recommenderFilters: [RecommenderFilter]? = nil, recommenderName: String, recommenderPromotionalFilters: [RecommenderPromotionalFilter]? = nil) {
+        public init(candidateIds: [String]? = nil, context: [String: String]? = nil, diversityConfig: RecommendationDiversityConfig? = nil, domainName: String, maxResults: Int? = nil, metadataConfig: MetadataConfig? = nil, profileId: String, recommenderFilters: [RecommenderFilter]? = nil, recommenderName: String, recommenderPromotionalFilters: [RecommenderPromotionalFilter]? = nil) {
             self.candidateIds = candidateIds
             self.context = context
+            self.diversityConfig = diversityConfig
             self.domainName = domainName
             self.maxResults = maxResults
             self.metadataConfig = metadataConfig
@@ -5728,6 +6095,7 @@ extension CustomerProfiles {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.candidateIds, forKey: .candidateIds)
             try container.encodeIfPresent(self.context, forKey: .context)
+            try container.encodeIfPresent(self.diversityConfig, forKey: .diversityConfig)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.metadataConfig, forKey: .metadataConfig)
@@ -5750,6 +6118,7 @@ extension CustomerProfiles {
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 255)
                 try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.diversityConfig?.validate(name: "\(name).diversityConfig")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -5773,6 +6142,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case candidateIds = "CandidateIds"
             case context = "Context"
+            case diversityConfig = "DiversityConfig"
             case maxResults = "MaxResults"
             case metadataConfig = "MetadataConfig"
             case recommenderFilters = "RecommenderFilters"
@@ -5837,18 +6207,21 @@ extension CustomerProfiles {
         public let recommenderFilterExpression: String
         /// The name of the recommender filter.
         public let recommenderFilterName: String
+        /// The name of the recommender schema associated with this recommender filter.
+        public let recommenderSchemaName: String?
         /// The status of the recommender filter.
         public let status: RecommenderFilterStatus
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]
 
         @inlinable
-        public init(createdAt: Date, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String, recommenderFilterName: String, status: RecommenderFilterStatus, tags: [String: String]) {
+        public init(createdAt: Date, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String, recommenderFilterName: String, recommenderSchemaName: String? = nil, status: RecommenderFilterStatus, tags: [String: String]) {
             self.createdAt = createdAt
             self.description = description
             self.failureReason = failureReason
             self.recommenderFilterExpression = recommenderFilterExpression
             self.recommenderFilterName = recommenderFilterName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
         }
@@ -5859,6 +6232,7 @@ extension CustomerProfiles {
             case failureReason = "FailureReason"
             case recommenderFilterExpression = "RecommenderFilterExpression"
             case recommenderFilterName = "RecommenderFilterName"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case status = "Status"
             case tags = "Tags"
         }
@@ -5902,6 +6276,8 @@ extension CustomerProfiles {
     }
 
     public struct GetRecommenderResponse: AWSDecodableShape {
+        /// The name of the recommender version currently serving recommendations. Omitted when no active recommender version is set.
+        public let activeRecommenderVersionName: String?
         /// The timestamp of when the recommender was created.
         public let createdAt: Date?
         /// A detailed description of the recommender providing information about its purpose and functionality.
@@ -5918,6 +6294,8 @@ extension CustomerProfiles {
         public let recommenderName: String
         /// The name of the recipe used by the recommender to generate recommendations.
         public let recommenderRecipeName: RecommenderRecipeName
+        /// The name of the recommender schema associated with this recommender.
+        public let recommenderSchemaName: String?
         /// The current status of the recommender, indicating whether it is active, creating, updating, or in another state.
         public let status: RecommenderStatus?
         /// The tags used to organize, track, or control access for this resource.
@@ -5926,7 +6304,8 @@ extension CustomerProfiles {
         public let trainingMetrics: [TrainingMetrics]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, status: RecommenderStatus? = nil, tags: [String: String]? = nil, trainingMetrics: [TrainingMetrics]? = nil) {
+        public init(activeRecommenderVersionName: String? = nil, createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, recommenderSchemaName: String? = nil, status: RecommenderStatus? = nil, tags: [String: String]? = nil, trainingMetrics: [TrainingMetrics]? = nil) {
+            self.activeRecommenderVersionName = activeRecommenderVersionName
             self.createdAt = createdAt
             self.description = description
             self.failureReason = failureReason
@@ -5935,12 +6314,14 @@ extension CustomerProfiles {
             self.recommenderConfig = recommenderConfig
             self.recommenderName = recommenderName
             self.recommenderRecipeName = recommenderRecipeName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
             self.trainingMetrics = trainingMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeRecommenderVersionName = "ActiveRecommenderVersionName"
             case createdAt = "CreatedAt"
             case description = "Description"
             case failureReason = "FailureReason"
@@ -5949,9 +6330,67 @@ extension CustomerProfiles {
             case recommenderConfig = "RecommenderConfig"
             case recommenderName = "RecommenderName"
             case recommenderRecipeName = "RecommenderRecipeName"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case status = "Status"
             case tags = "Tags"
             case trainingMetrics = "TrainingMetrics"
+        }
+    }
+
+    public struct GetRecommenderSchemaRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender schema to retrieve.
+        public let recommenderSchemaName: String
+
+        @inlinable
+        public init(domainName: String, recommenderSchemaName: String) {
+            self.domainName = domainName
+            self.recommenderSchemaName = recommenderSchemaName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderSchemaName, key: "RecommenderSchemaName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, max: 64)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, min: 1)
+            try self.validate(self.recommenderSchemaName, name: "recommenderSchemaName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRecommenderSchemaResponse: AWSDecodableShape {
+        /// The timestamp of when the recommender schema was created.
+        public let createdAt: Date
+        /// A map of dataset type to column definitions included in the schema.
+        public let fields: [String: [RecommenderSchemaField]]
+        /// The name of the recommender schema.
+        public let recommenderSchemaName: String
+        /// The status of the recommender schema.
+        public let status: RecommenderSchemaStatus
+
+        @inlinable
+        public init(createdAt: Date, fields: [String: [RecommenderSchemaField]], recommenderSchemaName: String, status: RecommenderSchemaStatus) {
+            self.createdAt = createdAt
+            self.fields = fields
+            self.recommenderSchemaName = recommenderSchemaName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case fields = "Fields"
+            case recommenderSchemaName = "RecommenderSchemaName"
+            case status = "Status"
         }
     }
 
@@ -5999,6 +6438,8 @@ extension CustomerProfiles {
         public let segmentDefinitionName: String?
         /// The segment criteria associated with this definition.
         public let segmentGroups: SegmentGroup?
+        /// The segment sort.
+        public let segmentSort: SegmentSort?
         /// The segment SQL query.
         public let segmentSqlQuery: String?
         /// The segment type. Classic : Segments created using traditional SegmentGroup structure Enhanced : Segments created using SQL queries
@@ -6007,13 +6448,14 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String, segmentDefinitionName: String? = nil, segmentGroups: SegmentGroup? = nil, segmentSqlQuery: String? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String, segmentDefinitionName: String? = nil, segmentGroups: SegmentGroup? = nil, segmentSort: SegmentSort? = nil, segmentSqlQuery: String? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.segmentDefinitionArn = segmentDefinitionArn
             self.segmentDefinitionName = segmentDefinitionName
             self.segmentGroups = segmentGroups
+            self.segmentSort = segmentSort
             self.segmentSqlQuery = segmentSqlQuery
             self.segmentType = segmentType
             self.tags = tags
@@ -6026,6 +6468,7 @@ extension CustomerProfiles {
             case segmentDefinitionArn = "SegmentDefinitionArn"
             case segmentDefinitionName = "SegmentDefinitionName"
             case segmentGroups = "SegmentGroups"
+            case segmentSort = "SegmentSort"
             case segmentSqlQuery = "SegmentSqlQuery"
             case segmentType = "SegmentType"
             case tags = "Tags"
@@ -6213,7 +6656,7 @@ extension CustomerProfiles {
     public struct GetSegmentSnapshotResponse: AWSDecodableShape {
         /// The format in which the segment will be exported.
         public let dataFormat: DataFormat
-        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+        /// The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website.
         public let destinationUri: String?
         /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
         public let encryptionKey: String?
@@ -6715,7 +7158,7 @@ extension CustomerProfiles {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, max: 500)
+            try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, max: 1000)
             try self.validate(self.minProvisionedTPS, name: "minProvisionedTPS", parent: name, min: 1)
         }
 
@@ -8145,6 +8588,60 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListRecommenderSchemasRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of recommender schemas to return in the response. The default value is 100.
+        public let maxResults: Int?
+        /// A token received from a previous ListRecommenderSchemas call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecommenderSchemasResponse: AWSDecodableShape {
+        /// A token to retrieve the next page of results. Null if there are no more results to retrieve.
+        public let nextToken: String?
+        /// A list of recommender schemas and their properties in the specified domain.
+        public let recommenderSchemas: [RecommenderSchemaSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recommenderSchemas: [RecommenderSchemaSummary]? = nil) {
+            self.nextToken = nextToken
+            self.recommenderSchemas = recommenderSchemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommenderSchemas = "RecommenderSchemas"
+        }
+    }
+
     public struct ListRecommendersRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -8787,7 +9284,7 @@ extension CustomerProfiles {
         public let contentType: FieldContentType?
         /// A field of a ProfileObject. For example: _source.FirstName, where “_source” is a ProfileObjectType of a Zendesk user and “FirstName” is a field in that ObjectType.
         public let source: String?
-        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode.
+        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode. Do not include sensitive or personally identifiable information (PII) in the target field name.
         public let target: String?
 
         @inlinable
@@ -8858,7 +9355,7 @@ extension CustomerProfiles {
         public func validate(name: String) throws {
             try self.validate(self.maxInvocationsPerProfile, name: "maxInvocationsPerProfile", parent: name, max: 1000)
             try self.validate(self.maxInvocationsPerProfile, name: "maxInvocationsPerProfile", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, max: 24)
+            try self.validate(self.value, name: "value", parent: name, max: 60)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -9131,7 +9628,6 @@ extension CustomerProfiles {
             try self.attributes?.forEach {
                 try validate($0.key, name: "attributes.key", parent: name, max: 255)
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
-                try validate($0.key, name: "attributes.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
                 try $0.value.validate(name: "\(name).attributes[\"\($0.key)\"]")
             }
             try self.billingAddress?.validate(name: "\(name).billingAddress")
@@ -9914,30 +10410,84 @@ extension CustomerProfiles {
         }
     }
 
+    public struct RecommendationDiversityConfig: AWSEncodableShape {
+        /// Whether diversity-aware recommendations are enabled for this request.
+        public let enabled: Bool
+        /// An optional map of placeholder name to integer cap value used to resolve $name placeholders defined in the recommender's DiversityConfig at inference time. Up to 2 entries are supported.
+        public let values: [String: Int]?
+
+        @inlinable
+        public init(enabled: Bool, values: [String: Int]? = nil) {
+            self.enabled = enabled
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0.key, name: "values.key", parent: name, max: 64)
+                try validate($0.key, name: "values.key", parent: name, min: 1)
+                try validate($0.key, name: "values.key", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 200)
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case values = "Values"
+        }
+    }
+
     public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for diversity-aware recommendations. When set, the recommender applies diversity constraints defined per item column to reduce over-concentration of similar items in the results.
+        public let diversityConfig: DiversityConfig?
         /// Configuration settings for how the recommender processes and uses events.
         public let eventsConfig: EventsConfig?
+        /// A map of dataset type to a list of column names to exclude from training. The _webAnalytics and _catalogItem keys are supported. The column names must be valid columns defined in the recommender schema. All columns in the schema except the listed columns will be used for training. The following columns are mandatory and cannot be excluded: Item.Id, EventTimestamp, and EventType for _webAnalytics; Id for _catalogItem. Mutually exclusive with IncludedColumns — both cannot be specified in the same request.
+        public let excludedColumns: [String: [String]]?
+        /// A map of dataset type to a list of column names to train on. The _webAnalytics and _catalogItem keys are supported. The column names must be a subset of the columns defined in the recommender schema. If not specified, all columns in the schema are used for training. The following columns are always included in training and do not need to be specified: Item.Id, EventTimestamp, and EventType for _webAnalytics; Id for _catalogItem. Mutually exclusive with ExcludedColumns — both cannot be specified in the same request.
+        public let includedColumns: [String: [String]]?
         /// Configuration settings for how the recommender handles inference requests.
         public let inferenceConfig: InferenceConfig?
-        /// How often the recommender should retrain its model with new data.
+        /// How often the recommender should retrain its model with new data. If set to 0, automatic retraining will not be enabled.
         public let trainingFrequency: Int?
 
         @inlinable
-        public init(eventsConfig: EventsConfig? = nil, inferenceConfig: InferenceConfig? = nil, trainingFrequency: Int? = nil) {
+        public init(diversityConfig: DiversityConfig? = nil, eventsConfig: EventsConfig? = nil, excludedColumns: [String: [String]]? = nil, includedColumns: [String: [String]]? = nil, inferenceConfig: InferenceConfig? = nil, trainingFrequency: Int? = nil) {
+            self.diversityConfig = diversityConfig
             self.eventsConfig = eventsConfig
+            self.excludedColumns = excludedColumns
+            self.includedColumns = includedColumns
             self.inferenceConfig = inferenceConfig
             self.trainingFrequency = trainingFrequency
         }
 
         public func validate(name: String) throws {
+            try self.diversityConfig?.validate(name: "\(name).diversityConfig")
             try self.eventsConfig?.validate(name: "\(name).eventsConfig")
+            try self.excludedColumns?.forEach {
+                try validate($0.value, name: "excludedColumns[\"\($0.key)\"]", parent: name, max: 100)
+                try validate($0.value, name: "excludedColumns[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.excludedColumns, name: "excludedColumns", parent: name, max: 2)
+            try self.validate(self.excludedColumns, name: "excludedColumns", parent: name, min: 1)
+            try self.includedColumns?.forEach {
+                try validate($0.value, name: "includedColumns[\"\($0.key)\"]", parent: name, max: 100)
+                try validate($0.value, name: "includedColumns[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.includedColumns, name: "includedColumns", parent: name, max: 2)
+            try self.validate(self.includedColumns, name: "includedColumns", parent: name, min: 1)
             try self.inferenceConfig?.validate(name: "\(name).inferenceConfig")
             try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, max: 30)
-            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, min: 1)
+            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case diversityConfig = "DiversityConfig"
             case eventsConfig = "EventsConfig"
+            case excludedColumns = "ExcludedColumns"
+            case includedColumns = "IncludedColumns"
             case inferenceConfig = "InferenceConfig"
             case trainingFrequency = "TrainingFrequency"
         }
@@ -9962,7 +10512,7 @@ extension CustomerProfiles {
             try self.values?.forEach {
                 try validate($0.key, name: "values.key", parent: name, max: 50)
                 try validate($0.key, name: "values.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
-                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 3000)
             }
             try self.validate(self.values, name: "values", parent: name, max: 25)
         }
@@ -9984,18 +10534,21 @@ extension CustomerProfiles {
         public let recommenderFilterExpression: String?
         /// The name of the recommender filter.
         public let recommenderFilterName: String?
+        /// The name of the recommender schema associated with this recommender filter.
+        public let recommenderSchemaName: String?
         /// The current operational status of the recommender filter.
         public let status: RecommenderFilterStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String? = nil, recommenderFilterName: String? = nil, status: RecommenderFilterStatus? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, recommenderFilterExpression: String? = nil, recommenderFilterName: String? = nil, recommenderSchemaName: String? = nil, status: RecommenderFilterStatus? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.failureReason = failureReason
             self.recommenderFilterExpression = recommenderFilterExpression
             self.recommenderFilterName = recommenderFilterName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
         }
@@ -10006,6 +10559,7 @@ extension CustomerProfiles {
             case failureReason = "FailureReason"
             case recommenderFilterExpression = "RecommenderFilterExpression"
             case recommenderFilterName = "RecommenderFilterName"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case status = "Status"
             case tags = "Tags"
         }
@@ -10041,7 +10595,7 @@ extension CustomerProfiles {
             try self.values?.forEach {
                 try validate($0.key, name: "values.key", parent: name, max: 50)
                 try validate($0.key, name: "values.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
-                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "values[\"\($0.key)\"]", parent: name, max: 3000)
             }
             try self.validate(self.values, name: "values", parent: name, max: 25)
         }
@@ -10072,6 +10626,59 @@ extension CustomerProfiles {
         }
     }
 
+    public struct RecommenderSchemaField: AWSEncodableShape & AWSDecodableShape {
+        /// The data type of the column value. Valid values are String and Number. The default value is String.
+        public let contentType: ContentType?
+        /// How the column is treated for model training. Valid values are CATEGORICAL and TEXTUAL.
+        public let featureType: FeatureType?
+        /// The name of the target field in the dataset, such as Location.City or Attributes.MealTime.
+        public let targetFieldName: String
+
+        @inlinable
+        public init(contentType: ContentType? = nil, featureType: FeatureType? = nil, targetFieldName: String) {
+            self.contentType = contentType
+            self.featureType = featureType
+            self.targetFieldName = targetFieldName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetFieldName, name: "targetFieldName", parent: name, max: 1000)
+            try self.validate(self.targetFieldName, name: "targetFieldName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case featureType = "FeatureType"
+            case targetFieldName = "TargetFieldName"
+        }
+    }
+
+    public struct RecommenderSchemaSummary: AWSDecodableShape {
+        /// The timestamp when the recommender schema was created.
+        public let createdAt: Date
+        /// A map of dataset type to column definitions included in the schema.
+        public let fields: [String: [RecommenderSchemaField]]
+        /// The name of the recommender schema.
+        public let recommenderSchemaName: String
+        /// The current operational status of the recommender schema.
+        public let status: RecommenderSchemaStatus
+
+        @inlinable
+        public init(createdAt: Date, fields: [String: [RecommenderSchemaField]], recommenderSchemaName: String, status: RecommenderSchemaStatus) {
+            self.createdAt = createdAt
+            self.fields = fields
+            self.recommenderSchemaName = recommenderSchemaName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case fields = "Fields"
+            case recommenderSchemaName = "RecommenderSchemaName"
+            case status = "Status"
+        }
+    }
+
     public struct RecommenderSummary: AWSDecodableShape {
         /// The timestamp when the recommender was created.
         public let createdAt: Date?
@@ -10089,13 +10696,15 @@ extension CustomerProfiles {
         public let recommenderConfig: RecommenderConfig?
         /// The name of the recommender.
         public let recommenderName: String?
+        /// The name of the recommender schema associated with this recommender.
+        public let recommenderSchemaName: String?
         /// The current operational status of the recommender.
         public let status: RecommenderStatus?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recipeName: RecommenderRecipeName? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String? = nil, status: RecommenderStatus? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recipeName: RecommenderRecipeName? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String? = nil, recommenderSchemaName: String? = nil, status: RecommenderStatus? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.failureReason = failureReason
@@ -10104,6 +10713,7 @@ extension CustomerProfiles {
             self.recipeName = recipeName
             self.recommenderConfig = recommenderConfig
             self.recommenderName = recommenderName
+            self.recommenderSchemaName = recommenderSchemaName
             self.status = status
             self.tags = tags
         }
@@ -10117,6 +10727,7 @@ extension CustomerProfiles {
             case recipeName = "RecipeName"
             case recommenderConfig = "RecommenderConfig"
             case recommenderName = "RecommenderName"
+            case recommenderSchemaName = "RecommenderSchemaName"
             case status = "Status"
             case tags = "Tags"
         }
@@ -10131,15 +10742,18 @@ extension CustomerProfiles {
         public let lastUpdatedAt: Date?
         /// The updated configuration settings applied to the recommender during this update.
         public let recommenderConfig: RecommenderConfig?
+        /// The name of the recommender version associated with this update operation.
+        public let recommenderVersionName: String?
         /// The current status of the recommender update operation.
         public let status: RecommenderStatus?
 
         @inlinable
-        public init(createdAt: Date? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, recommenderConfig: RecommenderConfig? = nil, status: RecommenderStatus? = nil) {
+        public init(createdAt: Date? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderVersionName: String? = nil, status: RecommenderStatus? = nil) {
             self.createdAt = createdAt
             self.failureReason = failureReason
             self.lastUpdatedAt = lastUpdatedAt
             self.recommenderConfig = recommenderConfig
+            self.recommenderVersionName = recommenderVersionName
             self.status = status
         }
 
@@ -10148,6 +10762,7 @@ extension CustomerProfiles {
             case failureReason = "FailureReason"
             case lastUpdatedAt = "LastUpdatedAt"
             case recommenderConfig = "RecommenderConfig"
+            case recommenderVersionName = "RecommenderVersionName"
             case status = "Status"
         }
     }
@@ -10583,6 +11198,28 @@ extension CustomerProfiles {
         }
     }
 
+    public struct SegmentSort: AWSEncodableShape & AWSDecodableShape {
+        /// A list of attributes used to sort the segments and their ordering preferences.
+        public let attributes: [SortAttribute]
+
+        @inlinable
+        public init(attributes: [SortAttribute]) {
+            self.attributes = attributes
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 10)
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+        }
+    }
+
     public struct ServiceNowSourceProperties: AWSEncodableShape {
         /// The object specified in the ServiceNow flow source.
         public let object: String
@@ -10599,6 +11236,38 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case object = "Object"
+        }
+    }
+
+    public struct SortAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// The data type of the sort attribute (e.g., string, number, date).
+        public let dataType: SegmentSortDataType?
+        /// The name of the attribute to sort by.
+        public let name: String
+        /// The sort order for the attribute (ascending or descending).
+        public let order: SegmentSortOrder
+        /// The type of attribute (e.g., profile, calculated).
+        public let type: SortAttributeType?
+
+        @inlinable
+        public init(dataType: SegmentSortDataType? = nil, name: String, order: SegmentSortOrder, type: SortAttributeType? = nil) {
+            self.dataType = dataType
+            self.name = name
+            self.order = order
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case name = "Name"
+            case order = "Order"
+            case type = "Type"
         }
     }
 
@@ -10943,17 +11612,21 @@ extension CustomerProfiles {
     public struct TrainingMetrics: AWSDecodableShape {
         /// A collection of performance metrics and statistics from the training process.
         public let metrics: [TrainingMetricName: Double]?
+        /// The name of the recommender version that produced these training metrics.
+        public let recommenderVersionName: String?
         /// The timestamp when these training metrics were recorded.
         public let time: Date?
 
         @inlinable
-        public init(metrics: [TrainingMetricName: Double]? = nil, time: Date? = nil) {
+        public init(metrics: [TrainingMetricName: Double]? = nil, recommenderVersionName: String? = nil, time: Date? = nil) {
             self.metrics = metrics
+            self.recommenderVersionName = recommenderVersionName
             self.time = time
         }
 
         private enum CodingKeys: String, CodingKey {
             case metrics = "Metrics"
+            case recommenderVersionName = "RecommenderVersionName"
             case time = "Time"
         }
     }
@@ -11342,7 +12015,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingRequest?
-        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -11425,7 +12098,7 @@ extension CustomerProfiles {
         /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
         /// S3.
         public let matching: MatchingResponse?
-        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+        /// The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
         public let ruleBasedMatching: RuleBasedMatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -11780,13 +12453,16 @@ extension CustomerProfiles {
         public let recommenderConfig: RecommenderConfig?
         /// The name of the recommender to update.
         public let recommenderName: String
+        /// The name of a specific recommender version to activate as part of this update (for example, to roll back to a previously trained version).
+        public let recommenderVersionName: String?
 
         @inlinable
-        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String) {
+        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderVersionName: String? = nil) {
             self.description = description
             self.domainName = domainName
             self.recommenderConfig = recommenderConfig
             self.recommenderName = recommenderName
+            self.recommenderVersionName = recommenderVersionName
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -11796,6 +12472,7 @@ extension CustomerProfiles {
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.recommenderConfig, forKey: .recommenderConfig)
             request.encodePath(self.recommenderName, key: "RecommenderName")
+            try container.encodeIfPresent(self.recommenderVersionName, forKey: .recommenderVersionName)
         }
 
         public func validate(name: String) throws {
@@ -11808,11 +12485,15 @@ extension CustomerProfiles {
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
             try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderVersionName, name: "recommenderVersionName", parent: name, max: 100)
+            try self.validate(self.recommenderVersionName, name: "recommenderVersionName", parent: name, min: 1)
+            try self.validate(self.recommenderVersionName, name: "recommenderVersionName", parent: name, pattern: "^[a-zA-Z0-9_-]+/\\d{4}-\\d{2}-\\d{2}T\\d{2}-\\d{2}-\\d{2}Z$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case recommenderConfig = "RecommenderConfig"
+            case recommenderVersionName = "RecommenderVersionName"
         }
     }
 

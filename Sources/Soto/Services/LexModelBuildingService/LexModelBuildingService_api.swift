@@ -95,6 +95,7 @@ public struct LexModelBuildingService: AWSService {
     // MARK: API Calls
 
     /// Creates a new version of the bot based on the $LATEST version. If the $LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version.  You can update only the $LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation.  When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permission for the lex:CreateBotVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func createBotVersion(_ input: CreateBotVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBotVersionResponse {
@@ -113,6 +114,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - checksum: Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     ///   - name: The name of the bot that you want to create a new version of. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func createBotVersion(
         checksum: String? = nil,
@@ -127,6 +129,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.  When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func createIntentVersion(_ input: CreateIntentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntentVersionResponse {
@@ -145,6 +148,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - checksum: Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     ///   - name: The name of the intent that you want to create a new version of. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func createIntentVersion(
         checksum: String? = nil,
@@ -159,6 +163,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates a new version of a slot type based on the $LATEST version of the specified slot type. If the $LATEST version of this resource has not changed since the last version that you created, Amazon Lex doesn't create a new version. It returns the last version that you created.   You can update only the $LATEST version of a slot type. You can't update the numbered versions that you create with the CreateSlotTypeVersion operation.  When you create a version of a slot type, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions for the lex:CreateSlotTypeVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func createSlotTypeVersion(_ input: CreateSlotTypeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSlotTypeVersionResponse {
@@ -177,6 +182,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - checksum: Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     ///   - name: The name of the slot type that you want to create a new version for. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func createSlotTypeVersion(
         checksum: String? = nil,
@@ -191,6 +197,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes all versions of the bot, including the $LATEST version. To delete a specific version of the bot, use the DeleteBotVersion operation. The DeleteBot operation doesn't immediately remove the bot schema. Instead, it is marked for deletion and removed later. Amazon Lex stores utterances indefinitely for improving the ability of your bot to respond to user inputs. These utterances are not removed when the bot is deleted. To remove the utterances, use the DeleteUtterances operation. If a bot has an alias, you can't delete it. Instead, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the alias that refers to the bot. To remove the reference to the bot, delete the alias. If you get the same exception again, delete the referring alias until the DeleteBot operation is successful. This operation requires permissions for the lex:DeleteBot action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteBot(_ input: DeleteBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -208,6 +215,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - name: The name of the bot. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteBot(
         name: String,
@@ -220,6 +228,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes an alias for the specified bot.  You can't delete an alias that is used in the association between a bot and a messaging channel. If an alias is used in a channel association, the DeleteBot operation returns a ResourceInUseException exception that includes a reference to the channel association that refers to the bot. You can remove the reference to the alias by deleting the channel association. If you get the same exception again, delete the referring association until the DeleteBotAlias operation is successful.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteBotAlias(_ input: DeleteBotAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -238,6 +247,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botName: The name of the bot that the alias points to.
     ///   - name: The name of the alias to delete. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteBotAlias(
         botName: String,
@@ -252,6 +262,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes the association between an Amazon Lex bot and a messaging platform. This operation requires permission for the lex:DeleteBotChannelAssociation action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteBotChannelAssociation(_ input: DeleteBotChannelAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -271,6 +282,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botName: The name of the Amazon Lex bot.
     ///   - name: The name of the association. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteBotChannelAssociation(
         botAlias: String,
@@ -287,6 +299,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot operation.  This operation requires permissions for the lex:DeleteBotVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteBotVersion(_ input: DeleteBotVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -305,6 +318,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the bot.
     ///   - version: The version of the bot to delete. You cannot delete the $LATEST version of the bot. To delete the $LATEST version, use the DeleteBot operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteBotVersion(
         name: String,
@@ -319,6 +333,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation. You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.   If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.   This operation requires permission for the lex:DeleteIntent action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteIntent(_ input: DeleteIntentRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -336,6 +351,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - name: The name of the intent. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteIntent(
         name: String,
@@ -348,6 +364,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes a specific version of an intent. To delete all versions of a intent, use the DeleteIntent operation.  This operation requires permissions for the lex:DeleteIntentVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteIntentVersion(_ input: DeleteIntentVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -366,6 +383,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the intent.
     ///   - version: The version of the intent to delete. You cannot delete the $LATEST version of the intent. To delete the $LATEST version, use the DeleteIntent operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteIntentVersion(
         name: String,
@@ -380,6 +398,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes all versions of the slot type, including the $LATEST version. To delete a specific version of the slot type, use the DeleteSlotTypeVersion operation. You can delete a version of a slot type only if it is not referenced. To delete a slot type that is referred to in one or more intents, you must remove those references first.   If you get the ResourceInUseException exception, the exception provides an example reference that shows the intent where the slot type is referenced. To remove the reference to the slot type, either update the intent or delete it. If you get the same exception when you attempt to delete the slot type again, repeat until the slot type has no references and the DeleteSlotType call is successful.   This operation requires permission for the lex:DeleteSlotType action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteSlotType(_ input: DeleteSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -397,6 +416,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - name: The name of the slot type. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteSlotType(
         name: String,
@@ -409,6 +429,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes a specific version of a slot type. To delete all versions of a slot type, use the DeleteSlotType operation.  This operation requires permissions for the lex:DeleteSlotTypeVersion action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteSlotTypeVersion(_ input: DeleteSlotTypeVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -427,6 +448,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the slot type.
     ///   - version: The version of the slot type to delete. You cannot delete the $LATEST version of the slot type. To delete the $LATEST version, use the DeleteSlotType operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteSlotTypeVersion(
         name: String,
@@ -441,6 +463,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the GetUtterancesView operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input. Use the DeleteUtterances operation to manually delete stored utterances for a specific user. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the GetUtterancesView operation are deleted after 15 days. This operation requires permissions for the lex:DeleteUtterances action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func deleteUtterances(_ input: DeleteUtterancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -459,6 +482,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botName: The name of the bot that stored the utterances.
     ///   - userId:  The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func deleteUtterances(
         botName: String,
@@ -473,6 +497,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.  This operation requires permissions for the lex:GetBot action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBot(_ input: GetBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotResponse {
@@ -491,6 +516,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the bot. The name is case sensitive.
     ///   - versionOrAlias: The version or alias of the bot.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBot(
         name: String,
@@ -505,6 +531,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns information about an Amazon Lex bot alias. For more information about aliases, see versioning-aliases. This operation requires permissions for the lex:GetBotAlias action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBotAlias(_ input: GetBotAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotAliasResponse {
@@ -523,6 +550,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botName: The name of the bot.
     ///   - name: The name of the bot alias. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotAlias(
         botName: String,
@@ -537,6 +565,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns a list of aliases for a specified Amazon Lex bot. This operation requires permissions for the lex:GetBotAliases action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBotAliases(_ input: GetBotAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotAliasesResponse {
@@ -557,6 +586,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nameContains: Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - nextToken: A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotAliases(
         botName: String,
@@ -575,6 +605,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns information about the association between an Amazon Lex bot and a messaging platform. This operation requires permissions for the lex:GetBotChannelAssociation action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBotChannelAssociation(_ input: GetBotChannelAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotChannelAssociationResponse {
@@ -594,6 +625,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botName: The name of the Amazon Lex bot.
     ///   - name: The name of the association between the bot and the channel. The name is case sensitive.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotChannelAssociation(
         botAlias: String,
@@ -610,6 +642,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     ///  Returns a list of all of the channels associated with the specified bot.  The GetBotChannelAssociations operation requires permissions for the lex:GetBotChannelAssociations action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBotChannelAssociations(_ input: GetBotChannelAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotChannelAssociationsResponse {
@@ -631,6 +664,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nameContains: Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
     ///   - nextToken: A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotChannelAssociations(
         botAlias: String,
@@ -651,6 +685,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets information about all of the versions of a bot. The GetBotVersions operation returns a BotMetadata object for each version of a bot. For example, if a bot has three numbered versions, the GetBotVersions operation returns four BotMetadata objects in the response, one for each numbered version and one for the $LATEST version.  The GetBotVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetBotVersions action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBotVersions(_ input: GetBotVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotVersionsResponse {
@@ -670,6 +705,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the bot for which versions should be returned.
     ///   - nextToken: A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotVersions(
         maxResults: Int? = nil,
@@ -686,6 +722,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns bot information as follows:    If you provide the nameContains field, the response includes information for the $LATEST version of all bots whose name contains the specified string.   If you don't specify the nameContains field, the operation returns information about the $LATEST version of all of your bots.   This operation requires permission for the lex:GetBots action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBots(_ input: GetBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBotsResponse {
@@ -705,6 +742,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nameContains: Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - nextToken: A pagination token that fetches the next page of bots. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of bots, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBots(
         maxResults: Int? = nil,
@@ -721,6 +759,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns information about a built-in intent. This operation requires permission for the lex:GetBuiltinIntent action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBuiltinIntent(_ input: GetBuiltinIntentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBuiltinIntentResponse {
@@ -738,6 +777,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - signature: The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinIntent(
         signature: String,
@@ -750,6 +790,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets a list of built-in intents that meet the specified criteria. This operation requires permission for the lex:GetBuiltinIntents action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBuiltinIntents(_ input: GetBuiltinIntentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBuiltinIntentsResponse {
@@ -770,6 +811,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nextToken: A pagination token that fetches the next page of intents. If this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, use the pagination token in the next request.
     ///   - signatureContains: Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinIntents(
         locale: Locale? = nil,
@@ -788,6 +830,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets a list of built-in slot types that meet the specified criteria. For a list of built-in slot types, see Slot Type Reference in the Alexa Skills Kit. This operation requires permission for the lex:GetBuiltInSlotTypes action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getBuiltinSlotTypes(_ input: GetBuiltinSlotTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBuiltinSlotTypesResponse {
@@ -808,6 +851,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nextToken: A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of slot types, specify the pagination token in the next request.
     ///   - signatureContains: Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinSlotTypes(
         locale: Locale? = nil,
@@ -826,6 +870,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Exports the contents of a Amazon Lex resource in a specified format.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getExport(_ input: GetExportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportResponse {
@@ -846,6 +891,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - resourceType: The type of resource to export.
     ///   - version: The version of the bot to export.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getExport(
         exportType: ExportType,
@@ -864,6 +910,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets information about an import job started with the StartImport operation.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getImport(_ input: GetImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetImportResponse {
@@ -881,6 +928,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - importId: The identifier of the import job information to return.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getImport(
         importId: String,
@@ -893,6 +941,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     ///  Returns information about an intent. In addition to the intent name, you must specify the intent version.  This operation requires permissions to perform the lex:GetIntent action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getIntent(_ input: GetIntentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntentResponse {
@@ -911,6 +960,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the intent. The name is case sensitive.
     ///   - version: The version of the intent.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntent(
         name: String,
@@ -925,6 +975,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets information about all of the versions of an intent. The GetIntentVersions operation returns an IntentMetadata object for each version of an intent. For example, if an intent has three numbered versions, the GetIntentVersions operation returns four IntentMetadata objects in the response, one for each numbered version and one for the $LATEST version.  The GetIntentVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetIntentVersions action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getIntentVersions(_ input: GetIntentVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntentVersionsResponse {
@@ -944,6 +995,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the intent for which versions should be returned.
     ///   - nextToken: A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntentVersions(
         maxResults: Int? = nil,
@@ -960,6 +1012,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns intent information as follows:    If you specify the nameContains field, returns the $LATEST version of all intents that contain the specified string.   If you don't specify the nameContains field, returns information about the $LATEST version of all intents.    The operation requires permission for the lex:GetIntents action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getIntents(_ input: GetIntentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntentsResponse {
@@ -979,6 +1032,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nameContains: Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - nextToken: A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntents(
         maxResults: Int? = nil,
@@ -995,6 +1049,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Provides details about an ongoing or complete migration from an Amazon Lex V1 bot to an Amazon Lex V2 bot. Use this operation to view the migration alerts and warnings related to the migration.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getMigration(_ input: GetMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationResponse {
@@ -1012,6 +1067,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - migrationId: The unique identifier of the migration to view. The migrationID is returned by the  operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getMigration(
         migrationId: String,
@@ -1024,6 +1080,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets a list of migrations between Amazon Lex V1 and Amazon Lex V2.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getMigrations(_ input: GetMigrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationsResponse {
@@ -1046,6 +1103,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - sortByOrder: The order so sort the list.
     ///   - v1BotNameContains: Filters the list to contain only bots whose name contains the specified string. The string is matched anywhere in bot name.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getMigrations(
         maxResults: Int? = nil,
@@ -1068,6 +1126,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns information about a specific version of a slot type. In addition to specifying the slot type name, you must specify the slot type version. This operation requires permissions for the lex:GetSlotType action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getSlotType(_ input: GetSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSlotTypeResponse {
@@ -1086,6 +1145,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the slot type. The name is case sensitive.
     ///   - version: The version of the slot type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotType(
         name: String,
@@ -1100,6 +1160,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets information about all versions of a slot type. The GetSlotTypeVersions operation returns a SlotTypeMetadata object for each version of a slot type. For example, if a slot type has three numbered versions, the GetSlotTypeVersions operation returns four SlotTypeMetadata objects in the response, one for each numbered version and one for the $LATEST version.  The GetSlotTypeVersions operation always returns at least one version, the $LATEST version. This operation requires permissions for the lex:GetSlotTypeVersions action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getSlotTypeVersions(_ input: GetSlotTypeVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSlotTypeVersionsResponse {
@@ -1119,6 +1180,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the slot type for which versions should be returned.
     ///   - nextToken: A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypeVersions(
         maxResults: Int? = nil,
@@ -1135,6 +1197,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Returns slot type information as follows:    If you specify the nameContains field, returns the $LATEST version of all slot types that contain the specified string.   If you don't specify the nameContains field, returns information about the $LATEST version of all slot types.    The operation requires permission for the lex:GetSlotTypes action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getSlotTypes(_ input: GetSlotTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSlotTypesResponse {
@@ -1154,6 +1217,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - nameContains: Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - nextToken: A pagination token that fetches the next page of slot types. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch next page of slot types, specify the pagination token in the next request.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypes(
         maxResults: Int? = nil,
@@ -1170,6 +1234,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Use the GetUtterancesView operation to get information about the utterances that your users have made to your bot. You can use this list to tune the utterances that your bot responds to. For example, say that you have created a bot to order flowers. After your users have used your bot for a while, use the GetUtterancesView operation to see the requests that they have made and whether they have been successful. You might find that the utterance "I want flowers" is not being recognized. You could add this utterance to the OrderFlowers intent so that your bot recognizes that utterance. After you publish a new version of a bot, you can get information about the old version and the new so that you can compare the performance across the two versions.  Utterance statistics are generated once a day. Data is available for the last 15 days. You can request information for up to 5 versions of your bot in each request. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days. The response contains information about a maximum of 100 utterances for each version. If you set childDirected field to true when you created your bot, if you are using slot obfuscation with one or more slots, or if you opted out of participating in improving Amazon Lex, utterances are not available. This operation requires permissions for the lex:GetUtterancesView action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func getUtterancesView(_ input: GetUtterancesViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUtterancesViewResponse {
@@ -1189,6 +1254,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - botVersions: An array of bot versions for which utterance information should be returned. The limit is 5 versions per request.
     ///   - statusType: To return utterances that were recognized and handled, use Detected. To return utterances that were not recognized, use Missed.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getUtterancesView(
         botName: String,
@@ -1205,6 +1271,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Gets a list of tags associated with the specified resource. Only bots, bot aliases, and bot channels can have tags associated with them.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1222,6 +1289,7 @@ public struct LexModelBuildingService: AWSService {
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to get a list of tags for.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func listTagsForResource(
         resourceArn: String,
@@ -1234,6 +1302,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates an Amazon Lex conversational bot or replaces an existing bot. When you create or update a bot you are only required to specify a name, a locale, and whether the bot is directed toward children under age 13. You can use this to add intents later, or to remove intents from an existing bot. When you create a bot with the minimum information, the bot is created or updated but Amazon Lex returns the  response FAILED. You can build the bot after you add one or more intents. For more information about Amazon Lex bots, see how-it-works.  If you specify the name of an existing bot, the fields in the request replace the existing values in the $LATEST version of the bot. Amazon Lex removes any fields that you don't provide values for in the request, except for the idleTTLInSeconds and privacySettings fields, which are set to their default values. If you don't specify values for required fields, Amazon Lex throws an exception. This operation requires permissions for the lex:PutBot action. For more information, see security-iam.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func putBot(_ input: PutBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutBotResponse {
@@ -1266,6 +1335,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - tags: A list of tags to add to the bot. You can only add tags when you create a bot, you can't use the PutBot operation to update the tags on a bot. To update tags, use the TagResource operation.
     ///   - voiceId: The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func putBot(
         abortStatement: Statement? = nil,
@@ -1308,6 +1378,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates an alias for the specified version of the bot or replaces an alias for the specified bot. To change the version of the bot that the alias points to, replace the alias. For more information about aliases, see versioning-aliases. This operation requires permissions for the lex:PutBotAlias action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func putBotAlias(_ input: PutBotAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutBotAliasResponse {
@@ -1331,6 +1402,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - name: The name of the alias. The name is not case sensitive.
     ///   - tags: A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func putBotAlias(
         botName: String,
@@ -1355,6 +1427,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates an intent or replaces an existing intent. To define the interaction between the user and your bot, you use one or more intents. For a pizza ordering bot, for example, you would create an OrderPizza intent.  To create an intent or replace an existing intent, you must provide the following:   Intent name. For example, OrderPizza.   Sample utterances. For example, "Can I order a pizza, please." and "I want to order a pizza."   Information to be gathered. You specify slot types for the information that your bot will request from the user. You can specify standard slot types, such as a date or a time, or custom slot types such as the size and crust of a pizza.   How the intent will be fulfilled. You can provide a Lambda function or configure the intent to return the intent information to the client application. If you use a Lambda function, when all of the intent information is available, Amazon Lex invokes your Lambda function. If you configure your intent to return the intent information to the client application.    You can specify other optional information in the request, such as:   A confirmation prompt to ask the user to confirm an intent. For example, "Shall I order your pizza?"   A conclusion statement to send to the user after the intent has been fulfilled. For example, "I placed your pizza order."   A follow-up prompt that asks the user for additional activity. For example, asking "Do you want to order a drink with your pizza?"   If you specify an existing intent name to update the intent, Amazon Lex replaces the values in the $LATEST version of the intent with the values in the request. Amazon Lex removes fields that you don't provide in the request. If you don't specify the required fields, Amazon Lex throws an exception. When you update the $LATEST version of an intent, the status field of any bot that uses the $LATEST version of the intent is set to NOT_BUILT. For more information, see how-it-works. This operation requires permissions for the lex:PutIntent action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func putIntent(_ input: PutIntentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutIntentResponse {
@@ -1387,6 +1460,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - sampleUtterances: An array of utterances (strings) that a user might say to signal the intent. For example, "I want {PizzaSize} pizza", "Order {Quantity} {PizzaSize} pizzas".  In each utterance, a slot name is enclosed in curly braces.
     ///   - slots: An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func putIntent(
         checksum: String? = nil,
@@ -1429,6 +1503,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Creates a custom slot type or replaces an existing custom slot type. To create a custom slot type, specify a name for the slot type and a set of enumeration values, which are the values that a slot of this type can assume. For more information, see how-it-works. If you specify the name of an existing slot type, the fields in the request replace the existing values in the $LATEST version of the slot type. Amazon Lex removes the fields that you don't provide in the request. If you don't specify required fields, Amazon Lex throws an exception. When you update the $LATEST version of a slot type, if a bot uses the $LATEST version of an intent that contains the slot type, the bot's status field is set to NOT_BUILT. This operation requires permissions for the lex:PutSlotType action.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func putSlotType(_ input: PutSlotTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSlotTypeResponse {
@@ -1453,6 +1528,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - slotTypeConfigurations: Configuration information that extends the parent built-in slot type. The configuration is added to the settings for the parent slot type.
     ///   - valueSelectionStrategy: Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func putSlotType(
         checksum: String? = nil,
@@ -1479,6 +1555,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Starts a job to import a resource to Amazon Lex.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImportResponse {
@@ -1499,6 +1576,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - resourceType: Specifies the type of resource to export. Each resource also exports any resources that it depends on.    A bot exports dependent intents.   An intent exports dependent slot types.
     ///   - tags: A list of tags to add to the imported bot. You can only add tags when you import a bot, you can't add tags to an intent or slot type.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func startImport(
         mergeStrategy: MergeStrategy,
@@ -1517,6 +1595,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Starts migrating a bot from Amazon Lex V1 to Amazon Lex V2. Migrate your bot when you want to take advantage of the new features of Amazon Lex V2. For more information, see Migrating a bot in the Amazon Lex developer guide.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func startMigration(_ input: StartMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMigrationResponse {
@@ -1538,6 +1617,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - v2BotName: The name of the Amazon Lex V2 bot that you are migrating the Amazon Lex V1 bot to.    If the Amazon Lex V2 bot doesn't exist, you must use the CREATE_NEW migration strategy.   If the Amazon Lex V2 bot exists, you must use the UPDATE_EXISTING migration strategy to change the contents of the Amazon Lex V2 bot.
     ///   - v2BotRole: The IAM role that Amazon Lex uses to run the Amazon Lex V2 bot.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func startMigration(
         migrationStrategy: MigrationStrategy,
@@ -1558,6 +1638,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1576,6 +1657,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
     ///   - tags: A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func tagResource(
         resourceArn: String,
@@ -1590,6 +1672,7 @@ public struct LexModelBuildingService: AWSService {
     }
 
     /// Removes tags from a bot, bot alias or bot channel.
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1608,6 +1691,7 @@ public struct LexModelBuildingService: AWSService {
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to remove the tags from.
     ///   - tagKeys: A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func untagResource(
         resourceArn: String,
@@ -1640,6 +1724,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotAliasesPaginator(
         _ input: GetBotAliasesRequest,
@@ -1660,6 +1745,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of aliases to return in the response. The default is 50. .
     ///   - nameContains: Substring to match in bot alias names. An alias will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotAliasesPaginator(
         botName: String,
@@ -1680,6 +1766,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotChannelAssociationsPaginator(
         _ input: GetBotChannelAssociationsRequest,
@@ -1701,6 +1788,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of associations to return in the response. The default is 50.
     ///   - nameContains: Substring to match in channel association names. An association will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To return all bot channel associations, use a hyphen ("-") as the nameContains parameter.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotChannelAssociationsPaginator(
         botAlias: String,
@@ -1723,6 +1811,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotVersionsPaginator(
         _ input: GetBotVersionsRequest,
@@ -1742,6 +1831,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of bot versions to return in the response. The default is 10.
     ///   - name: The name of the bot for which versions should be returned.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotVersionsPaginator(
         maxResults: Int? = nil,
@@ -1760,6 +1850,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotsPaginator(
         _ input: GetBotsRequest,
@@ -1779,6 +1870,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of bots to return in the response that the request will return. The default is 10.
     ///   - nameContains: Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBotsPaginator(
         maxResults: Int? = nil,
@@ -1797,6 +1889,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinIntentsPaginator(
         _ input: GetBuiltinIntentsRequest,
@@ -1817,6 +1910,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of intents to return in the response. The default is 10.
     ///   - signatureContains: Substring to match in built-in intent signatures. An intent will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz." To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinIntentsPaginator(
         locale: Locale? = nil,
@@ -1837,6 +1931,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinSlotTypesPaginator(
         _ input: GetBuiltinSlotTypesRequest,
@@ -1857,6 +1952,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of slot types to return in the response. The default is 10.
     ///   - signatureContains: Substring to match in built-in slot type signatures. A slot type will be returned if any part of its signature matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getBuiltinSlotTypesPaginator(
         locale: Locale? = nil,
@@ -1877,6 +1973,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntentVersionsPaginator(
         _ input: GetIntentVersionsRequest,
@@ -1896,6 +1993,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of intent versions to return in the response. The default is 10.
     ///   - name: The name of the intent for which versions should be returned.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntentVersionsPaginator(
         maxResults: Int? = nil,
@@ -1914,6 +2012,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntentsPaginator(
         _ input: GetIntentsRequest,
@@ -1933,6 +2032,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of intents to return in the response. The default is 10.
     ///   - nameContains: Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getIntentsPaginator(
         maxResults: Int? = nil,
@@ -1951,6 +2051,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getMigrationsPaginator(
         _ input: GetMigrationsRequest,
@@ -1973,6 +2074,7 @@ extension LexModelBuildingService {
     ///   - sortByOrder: The order so sort the list.
     ///   - v1BotNameContains: Filters the list to contain only bots whose name contains the specified string. The string is matched anywhere in bot name.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getMigrationsPaginator(
         maxResults: Int? = nil,
@@ -1997,6 +2099,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypeVersionsPaginator(
         _ input: GetSlotTypeVersionsRequest,
@@ -2016,6 +2119,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of slot type versions to return in the response. The default is 10.
     ///   - name: The name of the slot type for which versions should be returned.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypeVersionsPaginator(
         maxResults: Int? = nil,
@@ -2034,6 +2138,7 @@ extension LexModelBuildingService {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypesPaginator(
         _ input: GetSlotTypesRequest,
@@ -2053,6 +2158,7 @@ extension LexModelBuildingService {
     ///   - maxResults: The maximum number of slot types to return in the response. The default is 10.
     ///   - nameContains: Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "Amazon Lex V1 is deprecated. Use Amazon Lex V2 instead.")
     @inlinable
     public func getSlotTypesPaginator(
         maxResults: Int? = nil,

@@ -2471,6 +2471,47 @@ public struct QConnect: AWSService {
         return try await self.listMessages(input, logger: logger)
     }
 
+    /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are determined by the region of the specified assistant.
+    @Sendable
+    @inlinable
+    public func listModels(_ input: ListModelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListModelsResponse {
+        try await self.client.execute(
+            operation: "ListModels", 
+            path: "/assistants/{assistantId}/models", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the models available to an Amazon Q in Connect assistant in the assistant's Amazon Web Services Region. The available models are determined by the region of the specified assistant.
+    ///
+    /// Parameters:
+    ///   - aiPromptType: The type of the AI Prompt to filter models by. When specified, only models that support the given AI Prompt type are returned.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's region determines which models are available.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - modelLifecycle: The lifecycle status of models to filter by. When specified, only models with the given lifecycle status are returned.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listModels(
+        aiPromptType: AIPromptType? = nil,
+        assistantId: String,
+        maxResults: Int? = nil,
+        modelLifecycle: ModelLifecycle? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListModelsResponse {
+        let input = ListModelsRequest(
+            aiPromptType: aiPromptType, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            modelLifecycle: modelLifecycle, 
+            nextToken: nextToken
+        )
+        return try await self.listModels(input, logger: logger)
+    }
+
     /// Lists information about quick response.
     @Sendable
     @inlinable
@@ -3011,6 +3052,7 @@ public struct QConnect: AWSService {
     ///   - message: The message data to submit to the Amazon Q in Connect session.
     ///   - metadata: Additional metadata for the message.
     ///   - orchestratorUseCase: The orchestrator use case for message processing.
+    ///   - originRequestId: Request identifier from the origin system, used for end-to-end tracing across spans.
     ///   - sessionId: The identifier of the Amazon Q in Connect session.
     ///   - type: The message type.
     ///   - logger: Logger use during operation
@@ -3024,6 +3066,7 @@ public struct QConnect: AWSService {
         message: MessageInput,
         metadata: [String: String]? = nil,
         orchestratorUseCase: String? = nil,
+        originRequestId: String? = nil,
         sessionId: String,
         type: MessageType,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3037,6 +3080,7 @@ public struct QConnect: AWSService {
             message: message, 
             metadata: metadata, 
             orchestratorUseCase: orchestratorUseCase, 
+            originRequestId: originRequestId, 
             sessionId: sessionId, 
             type: type
         )
@@ -4296,6 +4340,49 @@ extension QConnect {
         return self.listMessagesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listModelsPaginator(
+        _ input: ListModelsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListModelsRequest, ListModelsResponse> {
+        return .init(
+            input: input,
+            command: self.listModels,
+            inputKey: \ListModelsRequest.nextToken,
+            outputKey: \ListModelsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listModels(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - aiPromptType: The type of the AI Prompt to filter models by. When specified, only models that support the given AI Prompt type are returned.
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's region determines which models are available.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - modelLifecycle: The lifecycle status of models to filter by. When specified, only models with the given lifecycle status are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listModelsPaginator(
+        aiPromptType: AIPromptType? = nil,
+        assistantId: String,
+        maxResults: Int? = nil,
+        modelLifecycle: ModelLifecycle? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListModelsRequest, ListModelsResponse> {
+        let input = ListModelsRequest(
+            aiPromptType: aiPromptType, 
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            modelLifecycle: modelLifecycle
+        )
+        return self.listModelsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listQuickResponses(_:logger:)``.
     ///
     /// - Parameters:
@@ -4761,6 +4848,19 @@ extension QConnect.ListMessagesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sessionId: self.sessionId
+        )
+    }
+}
+
+extension QConnect.ListModelsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListModelsRequest {
+        return .init(
+            aiPromptType: self.aiPromptType,
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            modelLifecycle: self.modelLifecycle,
+            nextToken: token
         )
     }
 }

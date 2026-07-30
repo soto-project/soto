@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CustomerProfiles service.
 ///
-/// Amazon Connect Customer Profiles    Customer Profiles actions     Customer Profiles data types    Amazon Connect Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Amazon Connect contact center.  For more information about the Amazon Connect Customer Profiles feature, see Use Customer Profiles in the Amazon Connect Administrator's Guide.
+/// Connect Customer Customer Profiles    Customer Profiles actions     Customer Profiles data types    Connect Customer Customer Profiles is a unified customer profile for your contact center that has pre-built connectors powered by AppFlow that make it easy to combine customer information from third party applications, such as Salesforce (CRM), ServiceNow (ITSM), and your enterprise resource planning (ERP), with contact history from your Connect Customer contact center.  For more information about the Connect Customer Customer Profiles feature, see Use Customer Profiles in the Connect Customer Administrator's Guide.
 public struct CustomerProfiles: AWSService {
     // MARK: Member variables
 
@@ -195,6 +195,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.batchGetProfile(input, logger: logger)
     }
 
+    /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. BatchPutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
+    @Sendable
+    @inlinable
+    public func batchPutProfileObject(_ input: BatchPutProfileObjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutProfileObjectResponse {
+        try await self.client.execute(
+            operation: "BatchPutProfileObject", 
+            path: "/domains/{DomainName}/profiles/objects/batch-put-profile-object", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds multiple profile objects to a domain of a given ObjectType in a single API call. When adding a specific profile object, like a Contact Record, an inferred profile can get created if it is not mapped to an existing profile. The resulting profile will only have a phone number populated in the standard ProfileObject. Any additional Contact Records with the same phone number will be mapped to the same inferred profile. When a ProfileObject is created and if a ProfileObjectType already exists for the ProfileObject, it will provide data to a standard profile depending on the ProfileObjectType definition. BatchPutProfileObject needs an ObjectType, which can be created using PutProfileObjectType.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - items: A list of items to add to the domain.
+    ///   - objectTypeName: The name of the profile object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchPutProfileObject(
+        domainName: String,
+        items: [BatchPutProfileObjectRequestItem],
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchPutProfileObjectResponse {
+        let input = BatchPutProfileObjectRequest(
+            domainName: domainName, 
+            items: items, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.batchPutProfileObject(input, logger: logger)
+    }
+
     /// Creates a new calculated attribute definition. After creation, new object data ingested into Customer Profiles will be included in the calculated attribute, which can be retrieved for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated attribute makes it available for all profiles within a domain. Each calculated attribute can only reference one ObjectType and at most, two fields from that ObjectType.
     @Sendable
     @inlinable
@@ -251,7 +286,7 @@ public struct CustomerProfiles: AWSService {
         return try await self.createCalculatedAttributeDefinition(input, logger: logger)
     }
 
-    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
+    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Connect Customer instance can be associated with only one domain. Multiple Connect Customer instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     @Sendable
     @inlinable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
@@ -264,7 +299,7 @@ public struct CustomerProfiles: AWSService {
             logger: logger
         )
     }
-    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
+    /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Connect Customer instance can be associated with only one domain. Multiple Connect Customer instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     ///
     /// Parameters:
     ///   - dataStore: Set to true to enabled data store for this domain.
@@ -273,7 +308,7 @@ public struct CustomerProfiles: AWSService {
     ///   - defaultExpirationDays: The default number of days until the data within the domain expires.
     ///   - domainName: The unique name of the domain.
     ///   - matching: The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
-    ///   - ruleBasedMatching: The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    ///   - ruleBasedMatching: The process of matching duplicate profiles using the Rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -351,7 +386,7 @@ public struct CustomerProfiles: AWSService {
         return try await self.createDomainLayout(input, logger: logger)
     }
 
-    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
+    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Connect Customer Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     @Sendable
     @inlinable
     public func createEventStream(_ input: CreateEventStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEventStreamResponse {
@@ -364,7 +399,7 @@ public struct CustomerProfiles: AWSService {
             logger: logger
         )
     }
-    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Amazon Connect Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
+    /// Creates an event stream, which is a subscription to real-time events, such as when profiles are created and updated through Connect Customer Customer Profiles. Each event stream can be associated with only one Kinesis Data Stream destination in the same region and Amazon Web Services account as the customer profiles domain
     ///
     /// Parameters:
     ///   - domainName: The unique name of the domain.
@@ -608,6 +643,7 @@ public struct CustomerProfiles: AWSService {
     ///   - recommenderConfig: The recommender configuration.
     ///   - recommenderName: The name of the recommender.
     ///   - recommenderRecipeName: The name of the recommeder recipe.
+    ///   - recommenderSchemaName: The name of the recommender schema to use for this recommender. If not specified, the default schema is used.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -617,6 +653,7 @@ public struct CustomerProfiles: AWSService {
         recommenderConfig: RecommenderConfig? = nil,
         recommenderName: String,
         recommenderRecipeName: RecommenderRecipeName,
+        recommenderSchemaName: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRecommenderResponse {
@@ -626,6 +663,7 @@ public struct CustomerProfiles: AWSService {
             recommenderConfig: recommenderConfig, 
             recommenderName: recommenderName, 
             recommenderRecipeName: recommenderRecipeName, 
+            recommenderSchemaName: recommenderSchemaName, 
             tags: tags
         )
         return try await self.createRecommender(input, logger: logger)
@@ -651,6 +689,7 @@ public struct CustomerProfiles: AWSService {
     ///   - domainName: The unique name of the domain.
     ///   - recommenderFilterExpression: The filter expression that defines which items to include or exclude from recommendations.
     ///   - recommenderFilterName: The name of the recommender filter. The name must be unique within the domain.
+    ///   - recommenderSchemaName: The name of the recommender schema to use for this recommender filter. If not specified, the default schema is used.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -659,6 +698,7 @@ public struct CustomerProfiles: AWSService {
         domainName: String,
         recommenderFilterExpression: String,
         recommenderFilterName: String,
+        recommenderSchemaName: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRecommenderFilterResponse {
@@ -667,9 +707,48 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName, 
             recommenderFilterExpression: recommenderFilterExpression, 
             recommenderFilterName: recommenderFilterName, 
+            recommenderSchemaName: recommenderSchemaName, 
             tags: tags
         )
         return try await self.createRecommenderFilter(input, logger: logger)
+    }
+
+    /// Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain.
+    @Sendable
+    @inlinable
+    public func createRecommenderSchema(_ input: CreateRecommenderSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecommenderSchemaResponse {
+        try await self.client.execute(
+            operation: "CreateRecommenderSchema", 
+            path: "/domains/{DomainName}/recommender-schemas/{RecommenderSchemaName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a recommender schema. A recommender schema defines the set of data columns available for training recommenders and filters under a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - fields: A map of dataset type to column definitions that specifies which data columns to include in the schema. The _webAnalytics and _catalogItem keys are supported.
+    ///   - recommenderSchemaName: The name of the recommender schema. The name must be unique within the domain.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRecommenderSchema(
+        domainName: String,
+        fields: [String: [RecommenderSchemaField]],
+        recommenderSchemaName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRecommenderSchemaResponse {
+        let input = CreateRecommenderSchemaRequest(
+            domainName: domainName, 
+            fields: fields, 
+            recommenderSchemaName: recommenderSchemaName, 
+            tags: tags
+        )
+        return try await self.createRecommenderSchema(input, logger: logger)
     }
 
     /// Creates a segment definition associated to the given domain.
@@ -693,6 +772,7 @@ public struct CustomerProfiles: AWSService {
     ///   - domainName: The unique name of the domain.
     ///   - segmentDefinitionName: The unique name of the segment definition.
     ///   - segmentGroups: Specifies the base segments and dimensions for a segment definition along with their respective relationship.
+    ///   - segmentSort: The segment sort.
     ///   - segmentSqlQuery: The segment SQL query.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
@@ -703,6 +783,7 @@ public struct CustomerProfiles: AWSService {
         domainName: String,
         segmentDefinitionName: String,
         segmentGroups: SegmentGroup? = nil,
+        segmentSort: SegmentSort? = nil,
         segmentSqlQuery: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -713,6 +794,7 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName, 
             segmentDefinitionName: segmentDefinitionName, 
             segmentGroups: segmentGroups, 
+            segmentSort: segmentSort, 
             segmentSqlQuery: segmentSqlQuery, 
             tags: tags
         )
@@ -771,7 +853,7 @@ public struct CustomerProfiles: AWSService {
     ///
     /// Parameters:
     ///   - dataFormat: The format in which the segment will be exported.
-    ///   - destinationUri: The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Amazon Connect Admin Website.
+    ///   - destinationUri: The destination to which the segment will be exported. This field must be provided if the request is not submitted from the Connect Customer Admin Website.
     ///   - domainName: The unique name of the domain.
     ///   - encryptionKey: The Amazon Resource Name (ARN) of the KMS key used to encrypt the exported segment.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting KMS and S3 operations.
@@ -1262,6 +1344,38 @@ public struct CustomerProfiles: AWSService {
             recommenderFilterName: recommenderFilterName
         )
         return try await self.deleteRecommenderFilter(input, logger: logger)
+    }
+
+    /// Deletes a recommender schema from a domain.
+    @Sendable
+    @inlinable
+    public func deleteRecommenderSchema(_ input: DeleteRecommenderSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecommenderSchemaResponse {
+        try await self.client.execute(
+            operation: "DeleteRecommenderSchema", 
+            path: "/domains/{DomainName}/recommender-schemas/{RecommenderSchemaName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a recommender schema from a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderSchemaName: The name of the recommender schema to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecommenderSchema(
+        domainName: String,
+        recommenderSchemaName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecommenderSchemaResponse {
+        let input = DeleteRecommenderSchemaRequest(
+            domainName: domainName, 
+            recommenderSchemaName: recommenderSchemaName
+        )
+        return try await self.deleteRecommenderSchema(input, logger: logger)
     }
 
     /// Deletes a segment definition from the domain.
@@ -1880,6 +1994,7 @@ public struct CustomerProfiles: AWSService {
     /// Parameters:
     ///   - candidateIds: A list of item IDs to rank for the user. Use this when you want to re-rank a specific set of items rather than getting recommendations from the full item catalog. Required for personalized-ranking use cases.
     ///   - context: The contextual metadata used to provide dynamic runtime information to tailor recommendations.
+    ///   - diversityConfig: Runtime diversity configuration for this request. Enables diversity-aware recommendations and optionally supplies values for placeholder-based diversity caps configured on the recommender.
     ///   - domainName: The unique name of the domain.
     ///   - maxResults: The maximum number of recommendations to return. The default value is 10.
     ///   - metadataConfig: Configuration for including item metadata in the recommendation response. Use this to specify which metadata columns to return alongside recommended items.
@@ -1892,6 +2007,7 @@ public struct CustomerProfiles: AWSService {
     public func getProfileRecommendations(
         candidateIds: [String]? = nil,
         context: [String: String]? = nil,
+        diversityConfig: RecommendationDiversityConfig? = nil,
         domainName: String,
         maxResults: Int? = nil,
         metadataConfig: MetadataConfig? = nil,
@@ -1904,6 +2020,7 @@ public struct CustomerProfiles: AWSService {
         let input = GetProfileRecommendationsRequest(
             candidateIds: candidateIds, 
             context: context, 
+            diversityConfig: diversityConfig, 
             domainName: domainName, 
             maxResults: maxResults, 
             metadataConfig: metadataConfig, 
@@ -1980,6 +2097,38 @@ public struct CustomerProfiles: AWSService {
             recommenderFilterName: recommenderFilterName
         )
         return try await self.getRecommenderFilter(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific recommender schema in a domain.
+    @Sendable
+    @inlinable
+    public func getRecommenderSchema(_ input: GetRecommenderSchemaRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommenderSchemaResponse {
+        try await self.client.execute(
+            operation: "GetRecommenderSchema", 
+            path: "/domains/{DomainName}/recommender-schemas/{RecommenderSchemaName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific recommender schema in a domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderSchemaName: The name of the recommender schema to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecommenderSchema(
+        domainName: String,
+        recommenderSchemaName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecommenderSchemaResponse {
+        let input = GetRecommenderSchemaRequest(
+            domainName: domainName, 
+            recommenderSchemaName: recommenderSchemaName
+        )
+        return try await self.getRecommenderSchema(input, logger: logger)
     }
 
     /// Gets a segment definition from the domain.
@@ -2986,6 +3135,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.listRecommenderRecipes(input, logger: logger)
     }
 
+    /// Returns a list of recommender schemas in the specified domain.
+    @Sendable
+    @inlinable
+    public func listRecommenderSchemas(_ input: ListRecommenderSchemasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommenderSchemasResponse {
+        try await self.client.execute(
+            operation: "ListRecommenderSchemas", 
+            path: "/domains/{DomainName}/recommender-schemas", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of recommender schemas in the specified domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommender schemas to return in the response. The default value is 100.
+    ///   - nextToken: A token received from a previous ListRecommenderSchemas call to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommenderSchemas(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommenderSchemasResponse {
+        let input = ListRecommenderSchemasRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecommenderSchemas(input, logger: logger)
+    }
+
     /// Returns a list of recommenders in the specified domain.
     @Sendable
     @inlinable
@@ -3739,7 +3923,7 @@ public struct CustomerProfiles: AWSService {
     ///   - defaultExpirationDays: The default number of days until the data within the domain expires.
     ///   - domainName: The unique name of the domain.
     ///   - matching: The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
-    ///   - ruleBasedMatching: The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
+    ///   - ruleBasedMatching: The process of matching duplicate profiles using the rule-Based matching. If RuleBasedMatching = true, Connect Customer Customer Profiles will start to match and merge your profiles according to your configuration in the RuleBasedMatchingRequest. You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you can download the results from S3.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3988,6 +4172,7 @@ public struct CustomerProfiles: AWSService {
     ///   - domainName: The unique name of the domain.
     ///   - recommenderConfig: The new configuration settings to apply to the recommender, including updated parameters and settings that define its behavior.
     ///   - recommenderName: The name of the recommender to update.
+    ///   - recommenderVersionName: The name of a specific recommender version to activate as part of this update (for example, to roll back to a previously trained version).
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRecommender(
@@ -3995,13 +4180,15 @@ public struct CustomerProfiles: AWSService {
         domainName: String,
         recommenderConfig: RecommenderConfig? = nil,
         recommenderName: String,
+        recommenderVersionName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateRecommenderResponse {
         let input = UpdateRecommenderRequest(
             description: description, 
             domainName: domainName, 
             recommenderConfig: recommenderConfig, 
-            recommenderName: recommenderName
+            recommenderName: recommenderName, 
+            recommenderVersionName: recommenderVersionName
         )
         return try await self.updateRecommender(input, logger: logger)
     }
@@ -4325,6 +4512,43 @@ extension CustomerProfiles {
         return self.listRecommenderRecipesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRecommenderSchemas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderSchemasPaginator(
+        _ input: ListRecommenderSchemasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommenderSchemasRequest, ListRecommenderSchemasResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommenderSchemas,
+            inputKey: \ListRecommenderSchemasRequest.nextToken,
+            outputKey: \ListRecommenderSchemasResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommenderSchemas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommender schemas to return in the response. The default value is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderSchemasPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommenderSchemasRequest, ListRecommenderSchemasResponse> {
+        let input = ListRecommenderSchemasRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listRecommenderSchemasPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRecommenders(_:logger:)``.
     ///
     /// - Parameters:
@@ -4559,6 +4783,17 @@ extension CustomerProfiles.ListRecommenderRecipesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRecommenderRecipesRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListRecommenderSchemasRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRecommenderSchemasRequest {
+        return .init(
+            domainName: self.domainName,
             maxResults: self.maxResults,
             nextToken: token
         )

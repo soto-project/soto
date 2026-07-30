@@ -31,6 +31,12 @@ extension ChimeSDKVoice {
         public var description: String { return self.rawValue }
     }
 
+    public enum CallDistributionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case loadBalancedDistribution = "LoadBalancedDistribution"
+        case priorityWeightedDistribution = "PriorityWeightedDistribution"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CallLegType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case callee = "Callee"
         case caller = "Caller"
@@ -75,6 +81,7 @@ extension ChimeSDKVoice {
         case throttling = "Throttling"
         case unauthorized = "Unauthorized"
         case unprocessable = "Unprocessable"
+        case validation = "Validation"
         case voiceConnectorGroupAssociationsExist = "VoiceConnectorGroupAssociationsExist"
         public var description: String { return self.rawValue }
     }
@@ -364,7 +371,7 @@ extension ChimeSDKVoice {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -641,9 +648,7 @@ extension ChimeSDKVoice {
             }
             try self.validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, max: 2)
             try self.validate(self.participantPhoneNumbers, name: "participantPhoneNumbers", parent: name, min: 2)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -794,14 +799,14 @@ extension ChimeSDKVoice {
         /// The name of the SIP rule.
         public let name: String
         /// List of SIP media applications, with priority and AWS Region. Only one SIP  application per AWS Region can be used.
-        public let targetApplications: [SipRuleTargetApplication]?
+        public let targetApplications: [SipRuleTargetApplication]
         /// The type of trigger assigned to the SIP rule in TriggerValue,  currently RequestUriHostname or ToPhoneNumber.
         public let triggerType: SipRuleTriggerType
         /// If TriggerType is RequestUriHostname, the  value can be the outbound host name of a Voice Connector. If  TriggerType is ToPhoneNumber, the value can  be a customer-owned phone number in the E164 format. The  SipMediaApplication specified in the SipRule is triggered  if the request URI in an incoming SIP request matches the  RequestUriHostname, or if the To header in the  incoming SIP request matches the ToPhoneNumber value.
         public let triggerValue: String
 
         @inlinable
-        public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication]? = nil, triggerType: SipRuleTriggerType, triggerValue: String) {
+        public init(disabled: Bool? = nil, name: String, targetApplications: [SipRuleTargetApplication], triggerType: SipRuleTriggerType, triggerValue: String) {
             self.disabled = disabled
             self.name = name
             self.targetApplications = targetApplications
@@ -813,7 +818,7 @@ extension ChimeSDKVoice {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
-            try self.targetApplications?.forEach {
+            try self.targetApplications.forEach {
                 try $0.validate(name: "\(name).targetApplications[]")
             }
             try self.validate(self.targetApplications, name: "targetApplications", parent: name, max: 25)
@@ -845,13 +850,15 @@ extension ChimeSDKVoice {
     }
 
     public struct CreateVoiceConnectorGroupRequest: AWSEncodableShape {
+        public let callDistributionType: CallDistributionType?
         /// The name of the Voice Connector group.
         public let name: String
         /// Lists the Voice Connectors that inbound calls are routed to.
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
         @inlinable
-        public init(name: String, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+        public init(callDistributionType: CallDistributionType? = nil, name: String, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+            self.callDistributionType = callDistributionType
             self.name = name
             self.voiceConnectorItems = voiceConnectorItems
         }
@@ -866,6 +873,7 @@ extension ChimeSDKVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callDistributionType = "CallDistributionType"
             case name = "Name"
             case voiceConnectorItems = "VoiceConnectorItems"
         }
@@ -888,11 +896,11 @@ extension ChimeSDKVoice {
     public struct CreateVoiceConnectorRequest: AWSEncodableShape {
         /// The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value:  us-east-1 .
         public let awsRegion: VoiceConnectorAwsRegion?
-        /// The connectors for use with Amazon Connect. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.    CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+        /// The connectors for use with Connect Customer. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration.  This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist.     CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration.
         public let integrationType: VoiceConnectorIntegrationType?
         /// The name of the Voice Connector.
         public let name: String
-        /// The type of network for the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        /// The type of network for the Voice Connector.
         public let networkType: NetworkType?
         /// Enables or disables encryption for the Voice Connector.
         public let requireEncryption: Bool
@@ -1127,9 +1135,7 @@ extension ChimeSDKVoice {
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1195,7 +1201,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1217,7 +1223,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1261,7 +1267,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1283,9 +1289,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1307,7 +1311,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1329,7 +1333,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1355,7 +1359,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1379,7 +1383,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1501,7 +1505,7 @@ extension ChimeSDKVoice {
             try self.e164PhoneNumbers.forEach {
                 try validate($0, name: "e164PhoneNumbers[]", parent: name, pattern: "^\\+?[1-9]\\d{1,14}$")
             }
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1728,9 +1732,7 @@ extension ChimeSDKVoice {
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1917,9 +1919,7 @@ extension ChimeSDKVoice {
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1955,7 +1955,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1991,7 +1991,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2063,7 +2063,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2099,7 +2099,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2135,9 +2135,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2173,7 +2171,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2209,7 +2207,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2245,7 +2243,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2281,7 +2279,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2401,9 +2399,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 256)
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 1)
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "\\S")
@@ -2478,6 +2474,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2593,9 +2590,7 @@ extension ChimeSDKVoice {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65535)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2847,7 +2842,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3189,6 +3184,7 @@ extension ChimeSDKVoice {
         public let name: String?
         /// The phone number's order ID.
         public let orderId: String?
+        public let phoneNumberArn: String?
         /// The phone number's ID.
         public let phoneNumberId: String?
         /// The phone number's product type.
@@ -3202,7 +3198,7 @@ extension ChimeSDKVoice {
         public var updatedTimestamp: Date?
 
         @inlinable
-        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, name: String? = nil, orderId: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
+        public init(associations: [PhoneNumberAssociation]? = nil, callingName: String? = nil, callingNameStatus: CallingNameStatus? = nil, capabilities: PhoneNumberCapabilities? = nil, country: String? = nil, createdTimestamp: Date? = nil, deletionTimestamp: Date? = nil, e164PhoneNumber: String? = nil, name: String? = nil, orderId: String? = nil, phoneNumberArn: String? = nil, phoneNumberId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberStatus? = nil, type: PhoneNumberType? = nil, updatedTimestamp: Date? = nil) {
             self.associations = associations
             self.callingName = callingName
             self.callingNameStatus = callingNameStatus
@@ -3213,6 +3209,7 @@ extension ChimeSDKVoice {
             self.e164PhoneNumber = e164PhoneNumber
             self.name = name
             self.orderId = orderId
+            self.phoneNumberArn = phoneNumberArn
             self.phoneNumberId = phoneNumberId
             self.productType = productType
             self.status = status
@@ -3231,6 +3228,7 @@ extension ChimeSDKVoice {
             case e164PhoneNumber = "E164PhoneNumber"
             case name = "Name"
             case orderId = "OrderId"
+            case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
             case productType = "ProductType"
             case status = "Status"
@@ -3341,8 +3339,7 @@ extension ChimeSDKVoice {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
         /// The Firm Order Commitment (FOC) date for phone number porting orders. This field is null if a phone number order is not a porting order.
-        @OptionalCustomCoding<ISO8601DateCoder>
-        public var focDate: Date?
+        public let focDate: String?
         /// The ordered phone number details, such as the phone number in E.164 format  and the phone number status.
         public let orderedPhoneNumbers: [OrderedPhoneNumber]?
         /// The type of phone number being ordered, local or toll-free.
@@ -3358,7 +3355,7 @@ extension ChimeSDKVoice {
         public var updatedTimestamp: Date?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, focDate: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, orderType: PhoneNumberOrderType? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
+        public init(createdTimestamp: Date? = nil, focDate: String? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, orderType: PhoneNumberOrderType? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
             self.focDate = focDate
             self.orderedPhoneNumbers = orderedPhoneNumbers
@@ -3578,7 +3575,7 @@ extension ChimeSDKVoice {
 
         public func validate(name: String) throws {
             try self.emergencyCallingConfiguration.validate(name: "\(name).emergencyCallingConfiguration")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3624,9 +3621,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3669,7 +3664,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3712,7 +3707,7 @@ extension ChimeSDKVoice {
 
         public func validate(name: String) throws {
             try self.origination.validate(name: "\(name).origination")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3772,9 +3767,7 @@ extension ChimeSDKVoice {
             }
             try self.validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, max: 100)
             try self.validate(self.phoneNumberPoolCountries, name: "phoneNumberPoolCountries", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3820,7 +3813,7 @@ extension ChimeSDKVoice {
 
         public func validate(name: String) throws {
             try self.streamingConfiguration.validate(name: "\(name).streamingConfiguration")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3862,7 +3855,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3891,7 +3884,7 @@ extension ChimeSDKVoice {
 
         public func validate(name: String) throws {
             try self.termination.validate(name: "\(name).termination")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4392,9 +4385,7 @@ extension ChimeSDKVoice {
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 256)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, max: 256)
             try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, min: 1)
             try self.validate(self.voiceProfileDomainId, name: "voiceProfileDomainId", parent: name, pattern: "\\S")
@@ -4454,9 +4445,7 @@ extension ChimeSDKVoice {
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 256)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4503,9 +4492,7 @@ extension ChimeSDKVoice {
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, max: 256)
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, min: 1)
             try self.validate(self.speakerSearchTaskId, name: "speakerSearchTaskId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4531,9 +4518,7 @@ extension ChimeSDKVoice {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, max: 256)
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, min: 1)
             try self.validate(self.voiceToneAnalysisTaskId, name: "voiceToneAnalysisTaskId", parent: name, pattern: "\\S")
@@ -4776,11 +4761,15 @@ extension ChimeSDKVoice {
 
     public struct UpdateGlobalSettingsRequest: AWSEncodableShape {
         /// The Voice Connector settings.
-        public let voiceConnector: VoiceConnectorSettings?
+        public let voiceConnector: VoiceConnectorSettings
 
         @inlinable
-        public init(voiceConnector: VoiceConnectorSettings? = nil) {
+        public init(voiceConnector: VoiceConnectorSettings) {
             self.voiceConnector = voiceConnector
+        }
+
+        public func validate(name: String) throws {
+            try self.voiceConnector.validate(name: "\(name).voiceConnector")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4926,9 +4915,7 @@ extension ChimeSDKVoice {
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, max: 128)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, min: 1)
             try self.validate(self.proxySessionId, name: "proxySessionId", parent: name, pattern: "\\S")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, max: 128)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5115,6 +5102,7 @@ extension ChimeSDKVoice {
     }
 
     public struct UpdateVoiceConnectorGroupRequest: AWSEncodableShape {
+        public let callDistributionType: CallDistributionType?
         /// The name of the Voice Connector group.
         public let name: String
         /// The Voice Connector ID.
@@ -5123,7 +5111,8 @@ extension ChimeSDKVoice {
         public let voiceConnectorItems: [VoiceConnectorItem]
 
         @inlinable
-        public init(name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
+        public init(callDistributionType: CallDistributionType? = nil, name: String, voiceConnectorGroupId: String, voiceConnectorItems: [VoiceConnectorItem]) {
+            self.callDistributionType = callDistributionType
             self.name = name
             self.voiceConnectorGroupId = voiceConnectorGroupId
             self.voiceConnectorItems = voiceConnectorItems
@@ -5132,6 +5121,7 @@ extension ChimeSDKVoice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.callDistributionType, forKey: .callDistributionType)
             try container.encode(self.name, forKey: .name)
             request.encodePath(self.voiceConnectorGroupId, key: "VoiceConnectorGroupId")
             try container.encode(self.voiceConnectorItems, forKey: .voiceConnectorItems)
@@ -5148,6 +5138,7 @@ extension ChimeSDKVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callDistributionType = "CallDistributionType"
             case name = "Name"
             case voiceConnectorItems = "VoiceConnectorItems"
         }
@@ -5194,7 +5185,7 @@ extension ChimeSDKVoice {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9 _.-]+$")
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5397,11 +5388,11 @@ extension ChimeSDKVoice {
         /// The Voice Connector's creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
-        /// The connectors for use with Amazon Connect.
+        /// The connectors for use with Connect Customer.
         public let integrationType: VoiceConnectorIntegrationType?
         /// The Voice Connector's name.
         public let name: String?
-        /// The type of network of the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+        /// The type of network for the Voice Connector.
         public let networkType: NetworkType?
         /// The outbound host name for the Voice Connector.
         public let outboundHostName: String?
@@ -5444,6 +5435,7 @@ extension ChimeSDKVoice {
     }
 
     public struct VoiceConnectorGroup: AWSDecodableShape {
+        public let callDistributionType: CallDistributionType?
         /// The Voice Connector group's creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
@@ -5460,7 +5452,8 @@ extension ChimeSDKVoice {
         public let voiceConnectorItems: [VoiceConnectorItem]?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+        public init(callDistributionType: CallDistributionType? = nil, createdTimestamp: Date? = nil, name: String? = nil, updatedTimestamp: Date? = nil, voiceConnectorGroupArn: String? = nil, voiceConnectorGroupId: String? = nil, voiceConnectorItems: [VoiceConnectorItem]? = nil) {
+            self.callDistributionType = callDistributionType
             self.createdTimestamp = createdTimestamp
             self.name = name
             self.updatedTimestamp = updatedTimestamp
@@ -5470,6 +5463,7 @@ extension ChimeSDKVoice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case callDistributionType = "CallDistributionType"
             case createdTimestamp = "CreatedTimestamp"
             case name = "Name"
             case updatedTimestamp = "UpdatedTimestamp"
@@ -5481,12 +5475,12 @@ extension ChimeSDKVoice {
 
     public struct VoiceConnectorItem: AWSEncodableShape & AWSDecodableShape {
         /// The priority setting of a Voice Connector item. Calls are routed to hosts  in priority order, with 1 as the highest priority. When hosts have equal priority,  the system distributes calls among them based on their relative weight.
-        public let priority: Int
+        public let priority: Int?
         /// The Voice Connector ID.
         public let voiceConnectorId: String
 
         @inlinable
-        public init(priority: Int, voiceConnectorId: String) {
+        public init(priority: Int? = nil, voiceConnectorId: String) {
             self.priority = priority
             self.voiceConnectorId = voiceConnectorId
         }
@@ -5494,7 +5488,7 @@ extension ChimeSDKVoice {
         public func validate(name: String) throws {
             try self.validate(self.priority, name: "priority", parent: name, max: 99)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
-            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "\\S")
+            try self.validate(self.voiceConnectorId, name: "voiceConnectorId", parent: name, pattern: "^([a-z0-9]{21,22}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5510,6 +5504,12 @@ extension ChimeSDKVoice {
         @inlinable
         public init(cdrBucket: String? = nil) {
             self.cdrBucket = cdrBucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cdrBucket, name: "cdrBucket", parent: name, max: 64)
+            try self.validate(self.cdrBucket, name: "cdrBucket", parent: name, min: 1)
+            try self.validate(self.cdrBucket, name: "cdrBucket", parent: name, pattern: "^(?!(^xn--|.+-s3alias$))^[a-z0-9][a-z0-9-]{1,61}[a-z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {

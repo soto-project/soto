@@ -4807,6 +4807,8 @@ extension DynamoDB {
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The name of the Region.
         public let regionName: String?
+        /// The Amazon Resource Name (ARN) of the global table replica.
+        public let replicaArn: String?
         /// The time at which the replica was first detected as inaccessible. To determine cause of inaccessibility check the ReplicaStatus property.
         public let replicaInaccessibleDateTime: Date?
         /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the Amazon Web Services Region has been disabled.  If the Amazon Web Services Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.     INACCESSIBLE_ENCRYPTION_CREDENTIALS  - The KMS key used to encrypt the table is inaccessible.  If the KMS key remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.
@@ -4820,13 +4822,14 @@ extension DynamoDB {
         public let warmThroughput: TableWarmThroughputDescription?
 
         @inlinable
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, globalTableSettingsReplicationMode: GlobalTableSettingsReplicationMode? = nil, kmsMasterKeyId: String? = nil, onDemandThroughputOverride: OnDemandThroughputOverride? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaArn: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil, warmThroughput: TableWarmThroughputDescription? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
+            self.replicaArn = replicaArn
             self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
             self.replicaStatus = replicaStatus
             self.replicaStatusDescription = replicaStatusDescription
@@ -4842,6 +4845,7 @@ extension DynamoDB {
             case onDemandThroughputOverride = "OnDemandThroughputOverride"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
+            case replicaArn = "ReplicaArn"
             case replicaInaccessibleDateTime = "ReplicaInaccessibleDateTime"
             case replicaStatus = "ReplicaStatus"
             case replicaStatusDescription = "ReplicaStatusDescription"

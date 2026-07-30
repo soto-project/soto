@@ -60,7 +60,9 @@ extension ApplicationAutoScaling {
         case ec2SpotFleetRequestAverageNetworkIn = "EC2SpotFleetRequestAverageNetworkIn"
         case ec2SpotFleetRequestAverageNetworkOut = "EC2SpotFleetRequestAverageNetworkOut"
         case ecsServiceAverageCPUUtilization = "ECSServiceAverageCPUUtilization"
+        case ecsServiceAverageCPUUtilizationHighResolution = "ECSServiceAverageCPUUtilizationHighResolution"
         case ecsServiceAverageMemoryUtilization = "ECSServiceAverageMemoryUtilization"
+        case ecsServiceAverageMemoryUtilizationHighResolution = "ECSServiceAverageMemoryUtilizationHighResolution"
         case elastiCacheDatabaseCapacityUsageCountedForEvictPercentage = "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage"
         case elastiCacheDatabaseMemoryUsageCountedForEvictPercentage = "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
         case elastiCacheDatabaseMemoryUsagePercentage = "ElastiCacheDatabaseMemoryUsagePercentage"
@@ -758,7 +760,7 @@ extension ApplicationAutoScaling {
     }
 
     public struct PredefinedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The metric type. The ALBRequestCountPerTarget metric type applies only to Spot Fleets and ECS services.
+        /// The metric type. The following are notes about specific metric types:    ALBRequestCountPerTarget - This metric type applies only to Spot Fleets and ECS services.    ECSServiceAverageCPUUtilizationHighResolution - The high-resolution version of ECSServiceAverageCPUUtilization that uses 20-second CloudWatch metrics. Use this metric for target tracking scaling policies that evaluate metrics every 20 seconds. You must enable high-resolution metrics in Amazon ECS before creating a scaling policy with this metric type.    ECSServiceAverageMemoryUtilizationHighResolution - The high-resolution version of ECSServiceAverageMemoryUtilization that uses 20-second CloudWatch metrics. Use this metric for target tracking scaling policies that evaluate metrics every 20 seconds. You must enable high-resolution metrics in Amazon ECS before creating a scaling policy with this metric type.
         public let predefinedMetricType: MetricType
         /// Identifies the resource associated with the metric type. You can't specify a resource label unless the metric type is ALBRequestCountPerTarget and there is a target group attached to the Spot Fleet or ECS service. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?

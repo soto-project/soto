@@ -25,6 +25,25 @@ import Foundation
 extension ElementalInference {
     // MARK: Enums
 
+    public enum DictionaryLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deu = "deu"
+        case eng = "eng"
+        case fra = "fra"
+        case ita = "ita"
+        case por = "por"
+        case spa = "spa"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DictionaryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case referenced = "REFERENCED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FeedStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -42,11 +61,33 @@ extension ElementalInference {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProfanityFilterMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case censor = "CENSOR"
+        case disabled = "DISABLED"
+        case drop = "DROP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscriptionLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deu = "deu"
+        case eng = "eng"
+        case engAu = "eng-au"
+        case engGb = "eng-gb"
+        case engUs = "eng-us"
+        case fra = "fra"
+        case ita = "ita"
+        case por = "por"
+        case spa = "spa"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OutputConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The output config type that applies to the clipping feature.
         case clipping(ClippingConfig)
         /// The output config type that applies to the cropping feature.
         case cropping(CroppingConfig)
+        /// The output config type that applies to the smart subtitling feature.
+        case subtitling(SubtitlingConfig)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -64,6 +105,9 @@ extension ElementalInference {
             case .cropping:
                 let value = try container.decode(CroppingConfig.self, forKey: .cropping)
                 self = .cropping(value)
+            case .subtitling:
+                let value = try container.decode(SubtitlingConfig.self, forKey: .subtitling)
+                self = .subtitling(value)
             }
         }
 
@@ -74,6 +118,8 @@ extension ElementalInference {
                 try container.encode(value, forKey: .clipping)
             case .cropping(let value):
                 try container.encode(value, forKey: .cropping)
+            case .subtitling(let value):
+                try container.encode(value, forKey: .subtitling)
             }
         }
 
@@ -81,6 +127,8 @@ extension ElementalInference {
             switch self {
             case .clipping(let value):
                 try value.validate(name: "\(name).clipping")
+            case .subtitling(let value):
+                try value.validate(name: "\(name).subtitling")
             default:
                 break
             }
@@ -89,19 +137,38 @@ extension ElementalInference {
         private enum CodingKeys: String, CodingKey {
             case clipping = "clipping"
             case cropping = "cropping"
+            case subtitling = "subtitling"
         }
     }
 
     // MARK: Shapes
 
+    public struct AspectRatio: AWSEncodableShape & AWSDecodableShape {
+        /// The height component of the aspect ratio (for example, 9 in a 16:9 ratio).
+        public let height: Int
+        /// The width component of the aspect ratio (for example, 16 in a 16:9 ratio).
+        public let width: Int
+
+        @inlinable
+        public init(height: Int, width: Int) {
+            self.height = height
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case width = "width"
+        }
+    }
+
     public struct AssociateFeedRequest: AWSEncodableShape {
-        /// An identifier for the resource. If the resource is from an AWS service, this identifier must be the full ARN of that resource. Otherwise, the identifier is a name that you assign and that is appropriate for the application that owns the resource. This name must not resemble an ARN.
+        /// An identifier for the resource. This name must not resemble an ARN. The resource is the source media that the feed will process. The name you assign should help you to later identify the source media that belongs to the feed. In this way, you will know which source media to push to the feed (using PutMedia).
         public let associatedResourceName: String
-        /// Set to true if you want to do a dry run of the associate action.
+        /// Set to true if you want to do a dry run of the associate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions, quota limits exceeded, conflicting outputs, and so on. If the dry run fails, the action returns a 4xx error code. After you've fixed the errors, resubmit the request.
         public let dryRun: Bool?
         /// The ID of the feed.
         public let id: String
-        /// The outputs to add to this feed. You must specify at least one output. You can later use the UpdateFeed action to change the list of outputs.
+        /// An array of one or more outputs that you want to add to this feed now, to supplement any outputs that you specified when you created or updated the feed.
         public let outputs: [CreateOutput]
 
         @inlinable
@@ -139,9 +206,9 @@ extension ElementalInference {
     }
 
     public struct AssociateFeedResponse: AWSDecodableShape {
-        /// The AWS ARN for this association.
+        /// The ARN of the feed.
         public let arn: String
-        /// An ID for this response. It is unique in Elemental Inference for this AWS account.
+        /// The ID of the feed.
         public let id: String
 
         @inlinable
@@ -157,7 +224,7 @@ extension ElementalInference {
     }
 
     public struct ClippingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The metadata that is the result of the clip request to Elemental Inference.
+        /// A string that you want Elemental Inference to always include in the event clipping metadata for this output. The string might identify the sports event in the source media, for example.
         public let callbackMetadata: String?
 
         @inlinable
@@ -175,12 +242,86 @@ extension ElementalInference {
         }
     }
 
-    public struct CreateFeedRequest: AWSEncodableShape {
-        /// A name for this feed.
+    public struct CreateDictionaryRequest: AWSEncodableShape {
+        /// The dictionary entries payload. Contains the custom words and phrases for the dictionary. Maximum size is 40,960 characters.
+        public let entries: String?
+        /// The language of the dictionary entries. Specify the language using an ISO 639-2/T three-letter code. Supported values: eng, fra, ita, deu, spa, por.
+        public let language: DictionaryLanguage
+        /// A user-friendly name for this dictionary.
         public let name: String
-        /// An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, an output might represent the crop feature.
+        /// Optional tags to associate with the dictionary.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(entries: String? = nil, language: DictionaryLanguage, name: String, tags: [String: String]? = nil) {
+            self.entries = entries
+            self.language = language
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entries, name: "entries", parent: name, max: 40960)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+            case language = "language"
+            case name = "name"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDictionaryResponse: AWSDecodableShape {
+        /// The ARN of the dictionary.
+        public let arn: String
+        /// A unique ID that Elemental Inference assigns to the dictionary.
+        public let id: String
+        /// The language of the dictionary.
+        public let language: DictionaryLanguage
+        /// The name that you specified in the request.
+        public let name: String
+        /// A list of feed IDs that reference this dictionary.
+        public let references: [String]?
+        /// The current status of the dictionary. After creation succeeds, the status will be AVAILABLE.
+        public let status: DictionaryStatus
+        /// Any tags that you included when you created the dictionary.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, id: String, language: DictionaryLanguage, name: String, references: [String]? = nil, status: DictionaryStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.id = id
+            self.language = language
+            self.name = name
+            self.references = references
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case language = "language"
+            case name = "name"
+            case references = "references"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateFeedRequest: AWSEncodableShape {
+        /// A user-friendly name for this feed.
+        public let name: String
+        /// An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed.
         public let outputs: [CreateOutput]
-        /// If you want to include tags, add them now. You won't be able to add them later.
+        /// Optional tags. You can also add tags later, using TagResource.
         public let tags: [String: String]?
 
         @inlinable
@@ -212,15 +353,15 @@ extension ElementalInference {
     public struct CreateFeedResponse: AWSDecodableShape {
         /// A unique ARN that Elemental Inference assigns to the feed.
         public let arn: String
-        /// The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed.
+        /// The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed or UpdateFeed.
         public let association: FeedAssociation?
-        /// A unique ARN that Elemental Inference assigns to the feed.
+        /// An array of endpoints for the feed. Typically, there is only one endpoint. The feed receives source media at this endpoint (when the calling application calls PutMedia) and returns the resulting metadata to this endpoint (when the calling application calls GetMetadata).
         public let dataEndpoints: [String]
         /// A unique ID that Elemental Inference assigns to the feed.
         public let id: String
-        /// The name that you specified.
+        /// The name that you specified in the request.
         public let name: String
-        /// Data endpoints that Elemental Inference assigns to the feed.
+        /// Repeats the outputs that you specified in the request.
         public let outputs: [GetOutput]
         /// The current status of the feed. After creation of the feed has succeeded, the status will be AVAILABLE.
         public let status: FeedStatus
@@ -256,7 +397,7 @@ extension ElementalInference {
         public let description: String?
         /// A name for the output.
         public let name: String
-        /// A typed property for an output in a feed. It is used in the CreateFeed and AssociateFeed actions. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         public let outputConfig: OutputConfig
         /// The status to assign to the output.
         public let status: OutputStatus
@@ -286,6 +427,52 @@ extension ElementalInference {
 
     public struct CroppingConfig: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteDictionaryRequest: AWSEncodableShape {
+        /// The ID of the dictionary to delete.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 19)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDictionaryResponse: AWSDecodableShape {
+        /// The ARN of the deleted dictionary.
+        public let arn: String
+        /// The ID of the deleted dictionary.
+        public let id: String
+        /// The status of the dictionary after deletion.
+        public let status: DictionaryStatus
+
+        @inlinable
+        public init(arn: String, id: String, status: DictionaryStatus) {
+            self.arn = arn
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case status = "status"
+        }
     }
 
     public struct DeleteFeedRequest: AWSEncodableShape {
@@ -332,10 +519,40 @@ extension ElementalInference {
         }
     }
 
+    public struct DictionarySummary: AWSDecodableShape {
+        /// The ARN of the dictionary.
+        public let arn: String
+        /// The ID of the dictionary.
+        public let id: String
+        /// The language of the dictionary.
+        public let language: DictionaryLanguage
+        /// The name of the dictionary.
+        public let name: String
+        /// The status of the dictionary.
+        public let status: DictionaryStatus
+
+        @inlinable
+        public init(arn: String, id: String, language: DictionaryLanguage, name: String, status: DictionaryStatus) {
+            self.arn = arn
+            self.id = id
+            self.language = language
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case language = "language"
+            case name = "name"
+            case status = "status"
+        }
+    }
+
     public struct DisassociateFeedRequest: AWSEncodableShape {
-        /// The name of the resource currently associated with the feed'.
+        /// The name of the resource currently associated with the feed.
         public let associatedResourceName: String
-        /// Set to true if you want to do a dry run of the disassociate action.
+        /// Set to true if you want to do a dry run of the disassociate action. Elemental Inference will validate that the real request would succeed without actually making any changes. A dry run catches errors such as missing IAM permissions. If the dry run fails, the action returns a 4xx error code.
         public let dryRun: Bool?
         /// The ID of the feed where you want to release the resource.
         public let id: String
@@ -369,9 +586,9 @@ extension ElementalInference {
     }
 
     public struct DisassociateFeedResponse: AWSDecodableShape {
-        /// The ID of the feed where you deleted the associated resource.
+        /// The ARN of the feed.
         public let arn: String
-        /// The ARN of the resource that you deleted.
+        /// The ID of the feed.
         public let id: String
 
         @inlinable
@@ -383,6 +600,44 @@ extension ElementalInference {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case id = "id"
+        }
+    }
+
+    public struct ExportDictionaryEntriesRequest: AWSEncodableShape {
+        /// The ID of the dictionary whose entries you want to export.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 19)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportDictionaryEntriesResponse: AWSDecodableShape {
+        /// The dictionary entries payload.
+        public let entries: String?
+
+        @inlinable
+        public init(entries: String? = nil) {
+            self.entries = entries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
         }
     }
 
@@ -430,6 +685,68 @@ extension ElementalInference {
         }
     }
 
+    public struct GetDictionaryRequest: AWSEncodableShape {
+        /// The ID of the dictionary to retrieve.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 19)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDictionaryResponse: AWSDecodableShape {
+        /// The ARN of the dictionary.
+        public let arn: String
+        /// The ID of the dictionary.
+        public let id: String
+        /// The language of the dictionary.
+        public let language: DictionaryLanguage
+        /// The name of the dictionary.
+        public let name: String
+        /// A list of feed IDs that reference this dictionary.
+        public let references: [String]?
+        /// The current status of the dictionary.
+        public let status: DictionaryStatus
+        /// The tags associated with the dictionary.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, id: String, language: DictionaryLanguage, name: String, references: [String]? = nil, status: DictionaryStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.id = id
+            self.language = language
+            self.name = name
+            self.references = references
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case language = "language"
+            case name = "name"
+            case references = "references"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct GetFeedRequest: AWSEncodableShape {
         /// The ID of the feed to query.
         public let id: String
@@ -455,19 +772,19 @@ extension ElementalInference {
     public struct GetFeedResponse: AWSDecodableShape {
         /// The ARN of the feed.
         public let arn: String
-        /// Information about the resource, if any, associated with the feed being queried.
+        /// Information about the resource that is associated with the feed. It's possible that there is no associated resource. This is not an error.
         public let association: FeedAssociation?
-        /// The dataEndpoints of the feed being queried.
+        /// The dataEndpoints of the feed.
         public let dataEndpoints: [String]
-        /// The ID of the feed being queried.
+        /// The ID of the feed.
         public let id: String
-        /// The name of the feed being queried.
+        /// The name of the feed.
         public let name: String
-        /// An array of the outputs in the feed being queried.
+        /// An array of the outputs in the feed.
         public let outputs: [GetOutput]
-        /// The status of the feed being queried.
+        /// The status of the feed.
         public let status: FeedStatus
-        /// A list of the tags, if any, for the feed being queried.
+        /// A list of the tags, if any, for the feed.
         public let tags: [String: String]?
 
         @inlinable
@@ -497,11 +814,11 @@ extension ElementalInference {
     public struct GetOutput: AWSDecodableShape {
         /// The description of the output.
         public let description: String?
-        /// True means that the output was originally created in the feed by the AssociateFeed operation. False means it was created using CreateFeed or UpdateFeed. You will need this value if you use the UpdateFeed operation to modify the list of outputs in the feed.
+        /// True means that the output was originally created in the feed using AssociateFeed. False means it was created using CreateFeed or UpdateFeed.  You will need this value if you use UpdateFeed to modify the list of outputs in the feed.
         public let fromAssociation: Bool?
-        /// The ARN of the output.
+        /// The name of the output.
         public let name: String
-        /// A typed property for an output in a feed. It is used in the GetFeed action. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         public let outputConfig: OutputConfig
         /// The status of the output.
         public let status: OutputStatus
@@ -524,10 +841,50 @@ extension ElementalInference {
         }
     }
 
-    public struct ListFeedsRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page. Valid Range: Minimum value of 1. Maximum value of 1000.
+    public struct ListDictionariesRequest: AWSEncodableShape {
+        /// The maximum number of results to return per API request. Valid range: 1 to 100.
         public let maxResults: Int?
-        /// The token that identifies the batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+        /// The token that identifies the next batch of results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDictionariesResponse: AWSDecodableShape {
+        /// A list of DictionarySummary objects.
+        public let dictionaries: [DictionarySummary]
+        /// The token to use to retrieve the next batch of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dictionaries: [DictionarySummary], nextToken: String? = nil) {
+            self.dictionaries = dictionaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dictionaries = "dictionaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListFeedsRequest: AWSEncodableShape {
+        /// The maximum number of results to return per API request. For example, you submit a list request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.  Valid Range: Minimum value of 1. Maximum value of 1000.
+        public let maxResults: Int?
+        /// The token that identifies the batch of results that you want to see. For example, you submit a ListFeeds request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFeeds request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -547,7 +904,7 @@ extension ElementalInference {
     }
 
     public struct ListFeedsResponse: AWSDecodableShape {
-        /// A list of feed summaries.
+        /// A list of FeedSummary objects.
         public let feeds: [FeedSummary]
         /// The token that identifies the batch of results that you want to see. For example, you submit a list request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the list request a second time and specify the NextToken value.
         public let nextToken: String?
@@ -579,6 +936,10 @@ extension ElementalInference {
             request.encodePath(self.resourceArn, key: "resourceArn")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -593,6 +954,38 @@ extension ElementalInference {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct SubtitlingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths.
+        public let aspectRatio: AspectRatio?
+        /// The ID of a custom dictionary to improve transcription accuracy for domain-specific terminology. Use the CreateDictionary operation to create a dictionary.
+        public let dictionary: String?
+        /// The language of the audio in the source media. Elemental Inference uses this setting to optimize transcription accuracy. Specify the language using an ISO 639-2/T three-letter code, optionally with a region subtag. Supported values: eng, eng-au, eng-gb, eng-us, fra, ita, deu, spa, por.
+        public let language: TranscriptionLanguage
+        /// Controls how profanity is handled in the generated subtitles. Valid values: DISABLED (no filtering, default), CENSOR (replace profanity with asterisks), DROP (remove profanity from the transcript).
+        public let profanityFilter: ProfanityFilterMode?
+
+        @inlinable
+        public init(aspectRatio: AspectRatio? = nil, dictionary: String? = nil, language: TranscriptionLanguage, profanityFilter: ProfanityFilterMode? = nil) {
+            self.aspectRatio = aspectRatio
+            self.dictionary = dictionary
+            self.language = language
+            self.profanityFilter = profanityFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dictionary, name: "dictionary", parent: name, max: 19)
+            try self.validate(self.dictionary, name: "dictionary", parent: name, min: 1)
+            try self.validate(self.dictionary, name: "dictionary", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aspectRatio = "aspectRatio"
+            case dictionary = "dictionary"
+            case language = "language"
+            case profanityFilter = "profanityFilter"
         }
     }
 
@@ -616,6 +1009,7 @@ extension ElementalInference {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -648,6 +1042,7 @@ extension ElementalInference {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:elemental-inference[a-z\\-]*:[a-z0-9\\-]+:[0-9]{12}:(feed|dictionary)/[a-zA-Z0-9]{1,19}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -655,6 +1050,86 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateDictionaryRequest: AWSEncodableShape {
+        /// New dictionary entries. If not specified, the entries are not changed.
+        public let entries: String?
+        /// The ID of the dictionary to update.
+        public let id: String
+        /// A new language for the dictionary. If not specified, the language is not changed.
+        public let language: DictionaryLanguage?
+        /// A new name for the dictionary. If not specified, the name is not changed.
+        public let name: String?
+
+        @inlinable
+        public init(entries: String? = nil, id: String, language: DictionaryLanguage? = nil, name: String? = nil) {
+            self.entries = entries
+            self.id = id
+            self.language = language
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.entries, forKey: .entries)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.language, forKey: .language)
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entries, name: "entries", parent: name, max: 40960)
+            try self.validate(self.id, name: "id", parent: name, max: 19)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entries"
+            case language = "language"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateDictionaryResponse: AWSDecodableShape {
+        /// The ARN of the dictionary.
+        public let arn: String
+        /// The ID of the dictionary.
+        public let id: String
+        /// The updated or original language of the dictionary.
+        public let language: DictionaryLanguage
+        /// The updated or original name of the dictionary.
+        public let name: String
+        /// A list of feed IDs that reference this dictionary.
+        public let references: [String]?
+        /// The current status of the dictionary.
+        public let status: DictionaryStatus
+        /// Any tags associated with the dictionary.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String, id: String, language: DictionaryLanguage, name: String, references: [String]? = nil, status: DictionaryStatus, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.id = id
+            self.language = language
+            self.name = name
+            self.references = references
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case language = "language"
+            case name = "name"
+            case references = "references"
+            case status = "status"
+            case tags = "tags"
+        }
     }
 
     public struct UpdateFeedRequest: AWSEncodableShape {
@@ -697,7 +1172,7 @@ extension ElementalInference {
     public struct UpdateFeedResponse: AWSDecodableShape {
         /// The ARN of the feed.
         public let arn: String
-        /// True means that the output was originally created in the feed by the AssociateFeed operation. False means it was created using CreateFeed or UpdateFeed. You will need this value if you use the UpdateFeed operation to modify the list of outputs in the feed.
+        /// Information about the resource that is associated with the feed, if any.
         public let association: FeedAssociation?
         /// The data endpoints of the feed.
         public let dataEndpoints: [String]
@@ -707,9 +1182,9 @@ extension ElementalInference {
         public let name: String
         /// The array of outputs in the feed. You might have left this array unchanged, or you might have changed it.
         public let outputs: [GetOutput]
-        /// The status of the output.
+        /// The status of the feed.
         public let status: FeedStatus
-        /// The name of the resource currently associated with the feed, if any.
+        /// The tags associated with the feed.
         public let tags: [String: String]?
 
         @inlinable
@@ -739,11 +1214,11 @@ extension ElementalInference {
     public struct UpdateOutput: AWSEncodableShape {
         /// A description of the output.
         public let description: String?
-        /// This property is set by the service when you add the output to the feed, and indicates how you added the output. True means that you used the AssociateFeed operation. False means that you used the CreateFeed or UpdateFeed operation. Use GetFeed to obtain the value. If the value is True, include this field here with a value of True. If the value is False, omit the field here.
+        /// Elemental Inference originally sets this parameter to True if this output was created by AssociateFeed or to False if this output was created by CreateFeed or UpdateFeed.  You must not change this value. Therefore, use GetFeed to determine the current value. Then in the UpdateFeed request, if the current value is True, include this parameter with a value of True. If it's False, omit the parameter.
         public let fromAssociation: Bool?
-        /// The name start here
+        /// The name of the output.
         public let name: String
-        /// A typed property for an output in a feed. It is used in the UpdateFeed action. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
+        /// A typed property for an output in a feed. It identifies the action for Elemental Inference to perform. It also provides a repository for the results of that action. For example, CroppingConfig output will contain the metadata for the crop feature.
         public let outputConfig: OutputConfig
         /// The status of the output.
         public let status: OutputStatus

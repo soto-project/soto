@@ -806,6 +806,7 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - awsLocation: The location where the connection is created.
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    ///   - configurations: The configurations of the connection.
     ///   - description: A connection description.
     ///   - domainIdentifier: The ID of the domain where the connection is created.
     ///   - enableTrustedIdentityPropagation: Specifies whether the trusted identity propagation is enabled.
@@ -818,6 +819,7 @@ public struct DataZone: AWSService {
     public func createConnection(
         awsLocation: AwsLocation? = nil,
         clientToken: String? = CreateConnectionInput.idempotencyToken(),
+        configurations: [Configuration]? = nil,
         description: String? = nil,
         domainIdentifier: String,
         enableTrustedIdentityPropagation: Bool? = nil,
@@ -830,6 +832,7 @@ public struct DataZone: AWSService {
         let input = CreateConnectionInput(
             awsLocation: awsLocation, 
             clientToken: clientToken, 
+            configurations: configurations, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             enableTrustedIdentityPropagation: enableTrustedIdentityPropagation, 
@@ -1039,7 +1042,7 @@ public struct DataZone: AWSService {
     public func createDomain(
         clientToken: String? = CreateDomainInput.idempotencyToken(),
         description: String? = nil,
-        domainExecutionRole: String,
+        domainExecutionRole: String? = nil,
         domainVersion: DomainVersion? = nil,
         kmsKeyIdentifier: String? = nil,
         name: String,
@@ -1124,8 +1127,9 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which the environment is created.
     ///   - environmentAccountIdentifier: The ID of the account in which the environment is being created.
     ///   - environmentAccountRegion: The region of the account in which the environment is being created.
-    ///   - environmentBlueprintIdentifier: The ID of the blueprint with which the environment is being created.
+    ///   - environmentBlueprintIdentifier: The ID of the blueprint with which the environment is being created.  This parameter is only valid for V1 domains. If provided for a V2 domain, the service returns a ValidationException.
     ///   - environmentConfigurationId: The configuration ID of the environment.
+    ///   - environmentConfigurationName: The configuration name of the environment.
     ///   - environmentProfileIdentifier: The identifier of the environment profile that is used to create this Amazon DataZone environment.
     ///   - glossaryTerms: The glossary terms that can be used in this Amazon DataZone environment.
     ///   - name: The name of the Amazon DataZone environment.
@@ -1141,6 +1145,7 @@ public struct DataZone: AWSService {
         environmentAccountRegion: String? = nil,
         environmentBlueprintIdentifier: String? = nil,
         environmentConfigurationId: String? = nil,
+        environmentConfigurationName: String? = nil,
         environmentProfileIdentifier: String? = nil,
         glossaryTerms: [String]? = nil,
         name: String,
@@ -1156,6 +1161,7 @@ public struct DataZone: AWSService {
             environmentAccountRegion: environmentAccountRegion, 
             environmentBlueprintIdentifier: environmentBlueprintIdentifier, 
             environmentConfigurationId: environmentConfigurationId, 
+            environmentConfigurationName: environmentConfigurationName, 
             environmentProfileIdentifier: environmentProfileIdentifier, 
             glossaryTerms: glossaryTerms, 
             name: name, 
@@ -1457,18 +1463,21 @@ public struct DataZone: AWSService {
     ///   - clientToken:  A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which the group profile is created.
     ///   - groupIdentifier: The identifier of the group for which the group profile is created.
+    ///   - rolePrincipalArn: The ARN of the IAM role that will be associated with the group profile. This role defines the permissions that group members will assume when accessing Amazon DataZone resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGroupProfile(
         clientToken: String? = CreateGroupProfileInput.idempotencyToken(),
         domainIdentifier: String,
-        groupIdentifier: String,
+        groupIdentifier: String? = nil,
+        rolePrincipalArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGroupProfileOutput {
         let input = CreateGroupProfileInput(
             clientToken: clientToken, 
             domainIdentifier: domainIdentifier, 
-            groupIdentifier: groupIdentifier
+            groupIdentifier: groupIdentifier, 
+            rolePrincipalArn: rolePrincipalArn
         )
         return try await self.createGroupProfile(input, logger: logger)
     }
@@ -1517,6 +1526,53 @@ public struct DataZone: AWSService {
         return try await self.createListingChangeSet(input, logger: logger)
     }
 
+    /// Creates a notebook in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing.
+    @Sendable
+    @inlinable
+    public func createNotebook(_ input: CreateNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotebookOutput {
+        try await self.client.execute(
+            operation: "CreateNotebook", 
+            path: "/v2/domains/{domainIdentifier}/notebooks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a notebook in Amazon SageMaker Unified Studio. A notebook is a collaborative document within a project that contains code cells for interactive computing.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - description: The description of the notebook.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to create the notebook.
+    ///   - metadata: The metadata for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    ///   - name: The name of the notebook. The name must be between 1 and 256 characters.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebook.
+    ///   - parameters: The sensitive parameters for the notebook, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createNotebook(
+        clientToken: String? = CreateNotebookInput.idempotencyToken(),
+        description: String? = nil,
+        domainIdentifier: String,
+        metadata: [String: String]? = nil,
+        name: String,
+        owningProjectIdentifier: String,
+        parameters: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateNotebookOutput {
+        let input = CreateNotebookInput(
+            clientToken: clientToken, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            metadata: metadata, 
+            name: name, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            parameters: parameters
+        )
+        return try await self.createNotebook(input, logger: logger)
+    }
+
     /// Creates an Amazon DataZone project.
     @Sendable
     @inlinable
@@ -1537,7 +1593,10 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which this project is created.
     ///   - domainUnitId: The ID of the domain unit. This parameter is not required and if it is not specified, then the project is created at the root domain unit level.
     ///   - glossaryTerms: The glossary terms that can be used in this Amazon DataZone project.
+    ///   - membershipAssignments: The members to be assigned to the project.
     ///   - name: The name of the Amazon DataZone project.
+    ///   - projectCategory: The category of the project. Set to 'ADMIN' designates this as an administrative project for the Amazon DataZone domain.
+    ///   - projectExecutionRole: The default project IAM role that is used to access project resources and run computes such as Glue and Sagemaker.
     ///   - projectProfileId: The ID of the project profile.
     ///   - resourceTags: The resource tags of the project.
     ///   - userParameters: The user parameters of the project.
@@ -1548,7 +1607,10 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         domainUnitId: String? = nil,
         glossaryTerms: [String]? = nil,
+        membershipAssignments: [ProjectMembershipAssignment]? = nil,
         name: String,
+        projectCategory: String? = nil,
+        projectExecutionRole: String? = nil,
         projectProfileId: String? = nil,
         resourceTags: [String: String]? = nil,
         userParameters: [EnvironmentConfigurationUserParameter]? = nil,
@@ -1559,7 +1621,10 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             domainUnitId: domainUnitId, 
             glossaryTerms: glossaryTerms, 
+            membershipAssignments: membershipAssignments, 
             name: name, 
+            projectCategory: projectCategory, 
+            projectExecutionRole: projectExecutionRole, 
             projectProfileId: projectProfileId, 
             resourceTags: resourceTags, 
             userParameters: userParameters
@@ -1879,6 +1944,7 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which a user profile is created.
+    ///   - sessionName: The session name for IAM role sessions.
     ///   - userIdentifier: The identifier of the user for which the user profile is created.
     ///   - userType: The user type of the user for which the user profile is created.
     ///   - logger: Logger use during operation
@@ -1886,6 +1952,7 @@ public struct DataZone: AWSService {
     public func createUserProfile(
         clientToken: String? = CreateUserProfileInput.idempotencyToken(),
         domainIdentifier: String,
+        sessionName: String? = nil,
         userIdentifier: String,
         userType: UserType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1893,6 +1960,7 @@ public struct DataZone: AWSService {
         let input = CreateUserProfileInput(
             clientToken: clientToken, 
             domainIdentifier: domainIdentifier, 
+            sessionName: sessionName, 
             userIdentifier: userIdentifier, 
             userType: userType
         )
@@ -2484,6 +2552,38 @@ public struct DataZone: AWSService {
         return try await self.deleteGlossaryTerm(input, logger: logger)
     }
 
+    /// Deletes the specified lineage event.
+    @Sendable
+    @inlinable
+    public func deleteLineageEvent(_ input: DeleteLineageEventInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLineageEventOutput {
+        try await self.client.execute(
+            operation: "DeleteLineageEvent", 
+            path: "/v2/domains/{domainIdentifier}/lineage/events/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified lineage event.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain.
+    ///   - identifier: The ID of the lineage event.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLineageEvent(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLineageEventOutput {
+        let input = DeleteLineageEventInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteLineageEvent(input, logger: logger)
+    }
+
     /// Deletes a listing (a record of an asset at a given time).
     @Sendable
     @inlinable
@@ -2514,6 +2614,38 @@ public struct DataZone: AWSService {
             identifier: identifier
         )
         return try await self.deleteListing(input, logger: logger)
+    }
+
+    /// Deletes a notebook in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func deleteNotebook(_ input: DeleteNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotebookOutput {
+        try await self.client.execute(
+            operation: "DeleteNotebook", 
+            path: "/v2/domains/{domainIdentifier}/notebooks/{identifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a notebook in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    ///   - identifier: The identifier of the notebook to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNotebook(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNotebookOutput {
+        let input = DeleteNotebookInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.deleteNotebook(input, logger: logger)
     }
 
     /// Deletes a project in Amazon DataZone.
@@ -3748,6 +3880,102 @@ public struct DataZone: AWSService {
         return try await self.getMetadataGenerationRun(input, logger: logger)
     }
 
+    /// Gets the details of a notebook in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func getNotebook(_ input: GetNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotebookOutput {
+        try await self.client.execute(
+            operation: "GetNotebook", 
+            path: "/v2/domains/{domainIdentifier}/notebooks/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a notebook in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    ///   - identifier: The identifier of the notebook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNotebook(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetNotebookOutput {
+        let input = GetNotebookInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getNotebook(input, logger: logger)
+    }
+
+    /// Gets the details of a notebook export in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func getNotebookExport(_ input: GetNotebookExportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotebookExportOutput {
+        try await self.client.execute(
+            operation: "GetNotebookExport", 
+            path: "/v2/domains/{domainIdentifier}/notebook-exports/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a notebook export in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook export exists.
+    ///   - identifier: The identifier of the notebook export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNotebookExport(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetNotebookExportOutput {
+        let input = GetNotebookExportInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getNotebookExport(input, logger: logger)
+    }
+
+    /// Gets the details of a notebook run in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func getNotebookRun(_ input: GetNotebookRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotebookRunOutput {
+        try await self.client.execute(
+            operation: "GetNotebookRun", 
+            path: "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a notebook run in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run exists.
+    ///   - identifier: The identifier of the notebook run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getNotebookRun(
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetNotebookRunOutput {
+        let input = GetNotebookRunInput(
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.getNotebookRun(input, logger: logger)
+    }
+
     /// Gets a project in Amazon DataZone.
     @Sendable
     @inlinable
@@ -4036,18 +4264,21 @@ public struct DataZone: AWSService {
     ///
     /// Parameters:
     ///   - domainIdentifier: the ID of the Amazon DataZone domain the data portal of which you want to get.
+    ///   - sessionName: The session name for IAM role sessions.
     ///   - type: The type of the user profile.
     ///   - userIdentifier: The identifier of the user for which you want to get the user profile.
     ///   - logger: Logger use during operation
     @inlinable
     public func getUserProfile(
         domainIdentifier: String,
+        sessionName: String? = nil,
         type: UserProfileType? = nil,
         userIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetUserProfileOutput {
         let input = GetUserProfileInput(
             domainIdentifier: domainIdentifier, 
+            sessionName: sessionName, 
             type: type, 
             userIdentifier: userIdentifier
         )
@@ -4966,6 +5197,103 @@ public struct DataZone: AWSService {
         return try await self.listMetadataGenerationRuns(input, logger: logger)
     }
 
+    /// Lists notebook runs in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func listNotebookRuns(_ input: ListNotebookRunsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotebookRunsOutput {
+        try await self.client.execute(
+            operation: "ListNotebookRuns", 
+            path: "/v2/domains/{domainIdentifier}/notebook-runs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists notebook runs in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to list notebook runs.
+    ///   - maxResults: The maximum number of notebook runs to return in a single call. When the number of notebook runs exceeds the value of MaxResults, the response contains a NextToken value.
+    ///   - nextToken: When the number of notebook runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebook runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebookRuns to list the next set of notebook runs.
+    ///   - notebookIdentifier: The identifier of the notebook to filter runs by.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebook runs.
+    ///   - scheduleIdentifier: The identifier of the schedule to filter notebook runs by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - status: The status to filter notebook runs by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNotebookRuns(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        notebookIdentifier: String? = nil,
+        owningProjectIdentifier: String,
+        scheduleIdentifier: String? = nil,
+        sortOrder: SortOrder? = nil,
+        status: NotebookRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNotebookRunsOutput {
+        let input = ListNotebookRunsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            notebookIdentifier: notebookIdentifier, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            scheduleIdentifier: scheduleIdentifier, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listNotebookRuns(input, logger: logger)
+    }
+
+    /// Lists notebooks in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func listNotebooks(_ input: ListNotebooksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotebooksOutput {
+        try await self.client.execute(
+            operation: "ListNotebooks", 
+            path: "/v2/domains/{domainIdentifier}/notebooks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists notebooks in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to list notebooks.
+    ///   - maxResults: The maximum number of notebooks to return in a single call. When the number of notebooks exceeds the value of MaxResults, the response contains a NextToken value.
+    ///   - nextToken: When the number of notebooks is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of notebooks, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListNotebooks to list the next set of notebooks.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebooks.
+    ///   - sortBy: The field to sort the results by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - status: The status to filter notebooks by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNotebooks(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        owningProjectIdentifier: String,
+        sortBy: SortKey? = nil,
+        sortOrder: SortOrder? = nil,
+        status: NotebookStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNotebooksOutput {
+        let input = ListNotebooksInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listNotebooks(input, logger: logger)
+    }
+
     /// Lists all Amazon DataZone notifications.
     @Sendable
     @inlinable
@@ -5169,6 +5497,7 @@ public struct DataZone: AWSService {
     ///   - maxResults: The maximum number of projects to return in a single call to ListProjects. When the number of projects to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjects to list the next set of projects.
     ///   - name: The name of the project.
     ///   - nextToken: When the number of projects is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of projects, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjects to list the next set of projects.
+    ///   - projectCategory: A parameter to filter projects by their category.
     ///   - userIdentifier: The identifier of the Amazon DataZone user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5178,6 +5507,7 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         name: String? = nil,
         nextToken: String? = nil,
+        projectCategory: String? = nil,
         userIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListProjectsOutput {
@@ -5187,6 +5517,7 @@ public struct DataZone: AWSService {
             maxResults: maxResults, 
             name: name, 
             nextToken: nextToken, 
+            projectCategory: projectCategory, 
             userIdentifier: userIdentifier
         )
         return try await self.listProjects(input, logger: logger)
@@ -5687,6 +6018,7 @@ public struct DataZone: AWSService {
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone.
     ///
     /// Parameters:
+    ///   - allowUserProvidedConfigurations: Specifies whether user-provided resource configurations are allowed for the environment blueprint.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - enabledRegions: Specifies the enabled Amazon Web Services Regions.
     ///   - environmentBlueprintIdentifier: The identifier of the environment blueprint.
@@ -5696,9 +6028,11 @@ public struct DataZone: AWSService {
     ///   - provisioningConfigurations: The provisioning configuration of a blueprint.
     ///   - provisioningRoleArn: The ARN of the provisioning role.
     ///   - regionalParameters: The regional parameters in the environment blueprint.
+    ///   - resourceConfigurations: The resource configurations of the environment blueprint.
     ///   - logger: Logger use during operation
     @inlinable
     public func putEnvironmentBlueprintConfiguration(
+        allowUserProvidedConfigurations: Bool? = nil,
         domainIdentifier: String,
         enabledRegions: [String],
         environmentBlueprintIdentifier: String,
@@ -5708,9 +6042,11 @@ public struct DataZone: AWSService {
         provisioningConfigurations: [ProvisioningConfiguration]? = nil,
         provisioningRoleArn: String? = nil,
         regionalParameters: [String: [String: String]]? = nil,
+        resourceConfigurations: [PutResourceConfiguration]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutEnvironmentBlueprintConfigurationOutput {
         let input = PutEnvironmentBlueprintConfigurationInput(
+            allowUserProvidedConfigurations: allowUserProvidedConfigurations, 
             domainIdentifier: domainIdentifier, 
             enabledRegions: enabledRegions, 
             environmentBlueprintIdentifier: environmentBlueprintIdentifier, 
@@ -5719,7 +6055,8 @@ public struct DataZone: AWSService {
             manageAccessRoleArn: manageAccessRoleArn, 
             provisioningConfigurations: provisioningConfigurations, 
             provisioningRoleArn: provisioningRoleArn, 
-            regionalParameters: regionalParameters
+            regionalParameters: regionalParameters, 
+            resourceConfigurations: resourceConfigurations
         )
         return try await self.putEnvironmentBlueprintConfiguration(input, logger: logger)
     }
@@ -6287,6 +6624,235 @@ public struct DataZone: AWSService {
         return try await self.startMetadataGenerationRun(input, logger: logger)
     }
 
+    /// Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service.
+    @Sendable
+    @inlinable
+    public func startNotebookExport(_ input: StartNotebookExportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNotebookExportOutput {
+        try await self.client.execute(
+            operation: "StartNotebookExport", 
+            path: "/v2/domains/{domainIdentifier}/notebook-exports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a notebook export in Amazon SageMaker Unified Studio. This operation exports a notebook to a specified file format and stores the output in Amazon Simple Storage Service.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to export the notebook.
+    ///   - fileFormat: The file format for the notebook export. Valid values are PDF and IPYNB.
+    ///   - notebookIdentifier: The identifier of the notebook to export.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNotebookExport(
+        clientToken: String? = StartNotebookExportInput.idempotencyToken(),
+        domainIdentifier: String,
+        fileFormat: FileFormat,
+        notebookIdentifier: String,
+        owningProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNotebookExportOutput {
+        let input = StartNotebookExportInput(
+            clientToken: clientToken, 
+            domainIdentifier: domainIdentifier, 
+            fileFormat: fileFormat, 
+            notebookIdentifier: notebookIdentifier, 
+            owningProjectIdentifier: owningProjectIdentifier
+        )
+        return try await self.startNotebookExport(input, logger: logger)
+    }
+
+    /// Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project.
+    @Sendable
+    @inlinable
+    public func startNotebookImport(_ input: StartNotebookImportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNotebookImportOutput {
+        try await self.client.execute(
+            operation: "StartNotebookImport", 
+            path: "/v2/domains/{domainIdentifier}/notebook-imports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a notebook import in Amazon SageMaker Unified Studio. This operation imports a notebook from an Amazon Simple Storage Service location into a project.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - description: The description of the imported notebook.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to import the notebook.
+    ///   - name: The name of the imported notebook. The name must be between 1 and 256 characters.
+    ///   - owningProjectIdentifier: The identifier of the project that will own the imported notebook.
+    ///   - sourceLocation: The source location of the notebook to import. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNotebookImport(
+        clientToken: String? = StartNotebookImportInput.idempotencyToken(),
+        description: String? = nil,
+        domainIdentifier: String,
+        name: String,
+        owningProjectIdentifier: String,
+        sourceLocation: SourceLocation,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNotebookImportOutput {
+        let input = StartNotebookImportInput(
+            clientToken: clientToken, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            name: name, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            sourceLocation: sourceLocation
+        )
+        return try await self.startNotebookImport(input, logger: logger)
+    }
+
+    /// Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run.
+    @Sendable
+    @inlinable
+    public func startNotebookRun(_ input: StartNotebookRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNotebookRunOutput {
+        try await self.client.execute(
+            operation: "StartNotebookRun", 
+            path: "/v2/domains/{domainIdentifier}/notebook-runs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a notebook run in Amazon SageMaker Unified Studio. A notebook run represents the execution of an Amazon SageMaker notebook within a project. You can configure compute, network, timeout, and environment settings for the run.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - computeConfiguration: The compute configuration for the notebook run, including instance type and environment version.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is started.
+    ///   - metadata: The metadata for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    ///   - networkConfiguration: The network configuration for the notebook run, including network access type and optional VPC settings.
+    ///   - notebookIdentifier: The identifier of the notebook to run.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebook run.
+    ///   - parameters: The sensitive parameters for the notebook run, specified as key-value pairs. You can specify up to 50 entries, with keys up to 128 characters and values up to 1024 characters.
+    ///   - scheduleIdentifier: The identifier of the schedule associated with the notebook run.
+    ///   - timeoutConfiguration: The timeout configuration for the notebook run. The default timeout is 720 minutes (12 hours) and the maximum is 1440 minutes (24 hours).
+    ///   - triggerSource: The source that triggered the notebook run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNotebookRun(
+        clientToken: String? = StartNotebookRunInput.idempotencyToken(),
+        computeConfiguration: ComputeConfig? = nil,
+        domainIdentifier: String,
+        metadata: [String: String]? = nil,
+        networkConfiguration: NetworkConfig? = nil,
+        notebookIdentifier: String,
+        owningProjectIdentifier: String,
+        parameters: [String: String]? = nil,
+        scheduleIdentifier: String? = nil,
+        timeoutConfiguration: TimeoutConfig? = nil,
+        triggerSource: TriggerSource? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNotebookRunOutput {
+        let input = StartNotebookRunInput(
+            clientToken: clientToken, 
+            computeConfiguration: computeConfiguration, 
+            domainIdentifier: domainIdentifier, 
+            metadata: metadata, 
+            networkConfiguration: networkConfiguration, 
+            notebookIdentifier: notebookIdentifier, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            parameters: parameters, 
+            scheduleIdentifier: scheduleIdentifier, 
+            timeoutConfiguration: timeoutConfiguration, 
+            triggerSource: triggerSource
+        )
+        return try await self.startNotebookRun(input, logger: logger)
+    }
+
+    /// Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.
+    @Sendable
+    @inlinable
+    public func startNotebookSync(_ input: StartNotebookSyncInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartNotebookSyncOutput {
+        try await self.client.execute(
+            operation: "StartNotebookSync", 
+            path: "/v2/domains/{domainIdentifier}/notebook-syncs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a notebook sync in Amazon SageMaker Unified Studio. This operation syncs a notebook from a Git repository into a project.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - description: The description of the notebook.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to sync the notebook.
+    ///   - gitMetadata: The Git metadata for the notebook sync, including repository, branch, and commit information.
+    ///   - name: The name of the notebook. The name must be between 1 and 256 characters.
+    ///   - notebookId: The identifier of an existing notebook to sync. If not specified, a new notebook is created.
+    ///   - owningProjectIdentifier: The identifier of the project that will own the synced notebook.
+    ///   - sourceLocation: The source location of the notebook to sync. This specifies the Amazon Simple Storage Service URI of the notebook file.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startNotebookSync(
+        clientToken: String? = StartNotebookSyncInput.idempotencyToken(),
+        description: String? = nil,
+        domainIdentifier: String,
+        gitMetadata: GitMetadata? = nil,
+        name: String? = nil,
+        notebookId: String? = nil,
+        owningProjectIdentifier: String,
+        sourceLocation: SourceLocation,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartNotebookSyncOutput {
+        let input = StartNotebookSyncInput(
+            clientToken: clientToken, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            gitMetadata: gitMetadata, 
+            name: name, 
+            notebookId: notebookId, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            sourceLocation: sourceLocation
+        )
+        return try await self.startNotebookSync(input, logger: logger)
+    }
+
+    /// Stops a running notebook run in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func stopNotebookRun(_ input: StopNotebookRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopNotebookRunOutput {
+        try await self.client.execute(
+            operation: "StopNotebookRun", 
+            path: "/v2/domains/{domainIdentifier}/notebook-runs/{identifier}/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running notebook run in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook run is stopped.
+    ///   - identifier: The identifier of the notebook run to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopNotebookRun(
+        clientToken: String? = StopNotebookRunInput.idempotencyToken(),
+        domainIdentifier: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopNotebookRunOutput {
+        let input = StopNotebookRunInput(
+            clientToken: clientToken, 
+            domainIdentifier: domainIdentifier, 
+            identifier: identifier
+        )
+        return try await self.stopNotebookRun(input, logger: logger)
+    }
+
     /// Tags a resource in Amazon DataZone.
     @Sendable
     @inlinable
@@ -6456,6 +7022,7 @@ public struct DataZone: AWSService {
     ///
     /// Parameters:
     ///   - awsLocation: The location where a connection is to be updated.
+    ///   - configurations: The configurations of the connection.
     ///   - description: The description of a connection.
     ///   - domainIdentifier: The ID of the domain where a connection is to be updated.
     ///   - identifier: The ID of the connection to be updated.
@@ -6464,6 +7031,7 @@ public struct DataZone: AWSService {
     @inlinable
     public func updateConnection(
         awsLocation: AwsLocation? = nil,
+        configurations: [Configuration]? = nil,
         description: String? = nil,
         domainIdentifier: String,
         identifier: String,
@@ -6472,6 +7040,7 @@ public struct DataZone: AWSService {
     ) async throws -> UpdateConnectionOutput {
         let input = UpdateConnectionInput(
             awsLocation: awsLocation, 
+            configurations: configurations, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             identifier: identifier, 
@@ -6643,6 +7212,7 @@ public struct DataZone: AWSService {
     ///   - blueprintVersion: The blueprint version to which the environment should be updated. You can only specify the following string for this parameter: latest.
     ///   - description: The description to be updated as part of the UpdateEnvironment action.
     ///   - domainIdentifier: The identifier of the domain in which the environment is to be updated.
+    ///   - environmentConfigurationName: The configuration name of the environment.
     ///   - glossaryTerms: The glossary terms to be updated as part of the UpdateEnvironment action.
     ///   - identifier: The identifier of the environment that is to be updated.
     ///   - name: The name to be updated as part of the UpdateEnvironment action.
@@ -6653,6 +7223,7 @@ public struct DataZone: AWSService {
         blueprintVersion: String? = nil,
         description: String? = nil,
         domainIdentifier: String,
+        environmentConfigurationName: String? = nil,
         glossaryTerms: [String]? = nil,
         identifier: String,
         name: String? = nil,
@@ -6663,6 +7234,7 @@ public struct DataZone: AWSService {
             blueprintVersion: blueprintVersion, 
             description: description, 
             domainIdentifier: domainIdentifier, 
+            environmentConfigurationName: environmentConfigurationName, 
             glossaryTerms: glossaryTerms, 
             identifier: identifier, 
             name: name, 
@@ -6930,6 +7502,62 @@ public struct DataZone: AWSService {
             status: status
         )
         return try await self.updateGroupProfile(input, logger: logger)
+    }
+
+    /// Updates a notebook in Amazon SageMaker Unified Studio.
+    @Sendable
+    @inlinable
+    public func updateNotebook(_ input: UpdateNotebookInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotebookOutput {
+        try await self.client.execute(
+            operation: "UpdateNotebook", 
+            path: "/v2/domains/{domainIdentifier}/notebooks/{identifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a notebook in Amazon SageMaker Unified Studio.
+    ///
+    /// Parameters:
+    ///   - cellOrder: The updated ordered list of cells in the notebook.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - description: The updated description of the notebook.
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which the notebook exists.
+    ///   - environmentConfiguration: The updated environment configuration for the notebook.
+    ///   - identifier: The identifier of the notebook to update.
+    ///   - metadata: The updated metadata for the notebook, specified as key-value pairs.
+    ///   - name: The updated name of the notebook.
+    ///   - parameters: The updated sensitive parameters for the notebook, specified as key-value pairs.
+    ///   - status: The updated status of the notebook.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateNotebook(
+        cellOrder: [CellInformation]? = nil,
+        clientToken: String? = UpdateNotebookInput.idempotencyToken(),
+        description: String? = nil,
+        domainIdentifier: String,
+        environmentConfiguration: EnvironmentConfig? = nil,
+        identifier: String,
+        metadata: [String: String]? = nil,
+        name: String? = nil,
+        parameters: [String: String]? = nil,
+        status: NotebookStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateNotebookOutput {
+        let input = UpdateNotebookInput(
+            cellOrder: cellOrder, 
+            clientToken: clientToken, 
+            description: description, 
+            domainIdentifier: domainIdentifier, 
+            environmentConfiguration: environmentConfiguration, 
+            identifier: identifier, 
+            metadata: metadata, 
+            name: name, 
+            parameters: parameters, 
+            status: status
+        )
+        return try await self.updateNotebook(input, logger: logger)
     }
 
     /// Updates the specified project in Amazon DataZone.
@@ -7281,6 +7909,7 @@ public struct DataZone: AWSService {
     ///
     /// Parameters:
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain in which a user profile is updated.
+    ///   - sessionName: The session name for IAM role sessions.
     ///   - status: The status of the user profile that are to be updated.
     ///   - type: The type of the user profile that are to be updated.
     ///   - userIdentifier: The identifier of the user whose user profile is to be updated.
@@ -7288,6 +7917,7 @@ public struct DataZone: AWSService {
     @inlinable
     public func updateUserProfile(
         domainIdentifier: String,
+        sessionName: String? = nil,
         status: UserProfileStatus,
         type: UserProfileType? = nil,
         userIdentifier: String,
@@ -7295,6 +7925,7 @@ public struct DataZone: AWSService {
     ) async throws -> UpdateUserProfileOutput {
         let input = UpdateUserProfileInput(
             domainIdentifier: domainIdentifier, 
+            sessionName: sessionName, 
             status: status, 
             type: type, 
             userIdentifier: userIdentifier
@@ -8230,6 +8861,107 @@ extension DataZone {
         return self.listMetadataGenerationRunsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listNotebookRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNotebookRunsPaginator(
+        _ input: ListNotebookRunsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNotebookRunsInput, ListNotebookRunsOutput> {
+        return .init(
+            input: input,
+            command: self.listNotebookRuns,
+            inputKey: \ListNotebookRunsInput.nextToken,
+            outputKey: \ListNotebookRunsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNotebookRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to list notebook runs.
+    ///   - maxResults: The maximum number of notebook runs to return in a single call. When the number of notebook runs exceeds the value of MaxResults, the response contains a NextToken value.
+    ///   - notebookIdentifier: The identifier of the notebook to filter runs by.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebook runs.
+    ///   - scheduleIdentifier: The identifier of the schedule to filter notebook runs by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - status: The status to filter notebook runs by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNotebookRunsPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        notebookIdentifier: String? = nil,
+        owningProjectIdentifier: String,
+        scheduleIdentifier: String? = nil,
+        sortOrder: SortOrder? = nil,
+        status: NotebookRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNotebookRunsInput, ListNotebookRunsOutput> {
+        let input = ListNotebookRunsInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            notebookIdentifier: notebookIdentifier, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            scheduleIdentifier: scheduleIdentifier, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listNotebookRunsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listNotebooks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNotebooksPaginator(
+        _ input: ListNotebooksInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListNotebooksInput, ListNotebooksOutput> {
+        return .init(
+            input: input,
+            command: self.listNotebooks,
+            inputKey: \ListNotebooksInput.nextToken,
+            outputKey: \ListNotebooksOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listNotebooks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainIdentifier: The identifier of the Amazon SageMaker Unified Studio domain in which to list notebooks.
+    ///   - maxResults: The maximum number of notebooks to return in a single call. When the number of notebooks exceeds the value of MaxResults, the response contains a NextToken value.
+    ///   - owningProjectIdentifier: The identifier of the project that owns the notebooks.
+    ///   - sortBy: The field to sort the results by.
+    ///   - sortOrder: The sort order for the results.
+    ///   - status: The status to filter notebooks by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listNotebooksPaginator(
+        domainIdentifier: String,
+        maxResults: Int? = nil,
+        owningProjectIdentifier: String,
+        sortBy: SortKey? = nil,
+        sortOrder: SortOrder? = nil,
+        status: NotebookStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListNotebooksInput, ListNotebooksOutput> {
+        let input = ListNotebooksInput(
+            domainIdentifier: domainIdentifier, 
+            maxResults: maxResults, 
+            owningProjectIdentifier: owningProjectIdentifier, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listNotebooksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listNotifications(_:logger:)``.
     ///
     /// - Parameters:
@@ -8445,6 +9177,7 @@ extension DataZone {
     ///   - groupIdentifier: The identifier of a group.
     ///   - maxResults: The maximum number of projects to return in a single call to ListProjects. When the number of projects to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjects to list the next set of projects.
     ///   - name: The name of the project.
+    ///   - projectCategory: A parameter to filter projects by their category.
     ///   - userIdentifier: The identifier of the Amazon DataZone user.
     ///   - logger: Logger used for logging
     @inlinable
@@ -8453,6 +9186,7 @@ extension DataZone {
         groupIdentifier: String? = nil,
         maxResults: Int? = nil,
         name: String? = nil,
+        projectCategory: String? = nil,
         userIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListProjectsInput, ListProjectsOutput> {
@@ -8461,6 +9195,7 @@ extension DataZone {
             groupIdentifier: groupIdentifier, 
             maxResults: maxResults, 
             name: name, 
+            projectCategory: projectCategory, 
             userIdentifier: userIdentifier
         )
         return self.listProjectsPaginator(input, logger: logger)
@@ -9390,6 +10125,37 @@ extension DataZone.ListMetadataGenerationRunsInput: AWSPaginateToken {
     }
 }
 
+extension DataZone.ListNotebookRunsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListNotebookRunsInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            notebookIdentifier: self.notebookIdentifier,
+            owningProjectIdentifier: self.owningProjectIdentifier,
+            scheduleIdentifier: self.scheduleIdentifier,
+            sortOrder: self.sortOrder,
+            status: self.status
+        )
+    }
+}
+
+extension DataZone.ListNotebooksInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DataZone.ListNotebooksInput {
+        return .init(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            owningProjectIdentifier: self.owningProjectIdentifier,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status
+        )
+    }
+}
+
 extension DataZone.ListNotificationsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DataZone.ListNotificationsInput {
@@ -9457,6 +10223,7 @@ extension DataZone.ListProjectsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,
+            projectCategory: self.projectCategory,
             userIdentifier: self.userIdentifier
         )
     }

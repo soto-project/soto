@@ -59,6 +59,26 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeliverySourceConfigurationSchemaValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "boolean"
+        case double = "double"
+        case int = "int"
+        case long = "long"
+        case string = "string"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliverySourceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeliverySourceStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resourceDeleted = "RESOURCE_DELETED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Distribution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case byLogStream = "ByLogStream"
         case random = "Random"
@@ -239,6 +259,12 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScheduleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsManaged = "AWS_MANAGED"
+        case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScheduledQueryDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case s3 = "S3"
         public var description: String { return self.rawValue }
@@ -293,6 +319,12 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum StorageTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SuppressionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case suppressed = "SUPPRESSED"
         case unsuppressed = "UNSUPPRESSED"
@@ -309,6 +341,11 @@ extension CloudWatchLogs {
         case hours = "HOURS"
         case minutes = "MINUTES"
         case seconds = "SECONDS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyslogSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case vpce = "VPCE"
         public var description: String { return self.rawValue }
     }
 
@@ -706,15 +743,18 @@ extension CloudWatchLogs {
         public let columns: [String]?
         /// The character used to separate each column in the original comma-separated value log event. If you omit this, the processor looks for the comma , character as the delimiter.
         public let delimiter: String?
+        /// The path to the parent field to put transformed key value pairs under. If you omit this value, the key value pairs will be placed under the root node.
+        public let destination: String?
         /// The character used used as a text qualifier for a single column of data. If you omit this, the double quotation mark " character is used.
         public let quoteCharacter: String?
         /// The path to the field in the log event that has the comma separated values to be parsed. If you omit this value, the whole log message is processed.
         public let source: String?
 
         @inlinable
-        public init(columns: [String]? = nil, delimiter: String? = nil, quoteCharacter: String? = nil, source: String? = nil) {
+        public init(columns: [String]? = nil, delimiter: String? = nil, destination: String? = nil, quoteCharacter: String? = nil, source: String? = nil) {
             self.columns = columns
             self.delimiter = delimiter
+            self.destination = destination
             self.quoteCharacter = quoteCharacter
             self.source = source
         }
@@ -727,6 +767,8 @@ extension CloudWatchLogs {
             try self.validate(self.columns, name: "columns", parent: name, max: 100)
             try self.validate(self.delimiter, name: "delimiter", parent: name, max: 2)
             try self.validate(self.delimiter, name: "delimiter", parent: name, min: 1)
+            try self.validate(self.destination, name: "destination", parent: name, max: 128)
+            try self.validate(self.destination, name: "destination", parent: name, min: 1)
             try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, max: 1)
             try self.validate(self.quoteCharacter, name: "quoteCharacter", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, max: 128)
@@ -736,6 +778,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case columns = "columns"
             case delimiter = "delimiter"
+            case destination = "destination"
             case quoteCharacter = "quoteCharacter"
             case source = "source"
         }
@@ -825,15 +868,19 @@ extension CloudWatchLogs {
         public let defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues?
         /// A string specifying which destination type this configuration template applies to.
         public let deliveryDestinationType: DeliveryDestinationType?
+        /// The schema of the delivery source configuration that is available for this log type. Each element describes a configuration that can be set when calling PutDeliverySource, including the configuration name, type, and default value.
+        public let deliverySourceConfiguration: [DeliverySourceConfigurationSchema]?
         /// A string specifying which log type this configuration template applies to.
         public let logType: String?
         /// A string specifying which resource type this configuration template applies to.
         public let resourceType: String?
+        /// The S3 Tables integration configuration for this configuration template, including the datasource name and type.
+        public let s3TablesIntegration: S3TablesIntegration?
         /// A string specifying which service this configuration template applies to. For more information about supported services see Enable logging from Amazon Web Services services..
         public let service: String?
 
         @inlinable
-        public init(allowedActionForAllowVendedLogsDeliveryForResource: String? = nil, allowedFieldDelimiters: [String]? = nil, allowedFields: [RecordField]? = nil, allowedOutputFormats: [OutputFormat]? = nil, allowedSuffixPathFields: [String]? = nil, defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, logType: String? = nil, resourceType: String? = nil, service: String? = nil) {
+        public init(allowedActionForAllowVendedLogsDeliveryForResource: String? = nil, allowedFieldDelimiters: [String]? = nil, allowedFields: [RecordField]? = nil, allowedOutputFormats: [OutputFormat]? = nil, allowedSuffixPathFields: [String]? = nil, defaultDeliveryConfigValues: ConfigurationTemplateDeliveryConfigValues? = nil, deliveryDestinationType: DeliveryDestinationType? = nil, deliverySourceConfiguration: [DeliverySourceConfigurationSchema]? = nil, logType: String? = nil, resourceType: String? = nil, s3TablesIntegration: S3TablesIntegration? = nil, service: String? = nil) {
             self.allowedActionForAllowVendedLogsDeliveryForResource = allowedActionForAllowVendedLogsDeliveryForResource
             self.allowedFieldDelimiters = allowedFieldDelimiters
             self.allowedFields = allowedFields
@@ -841,8 +888,10 @@ extension CloudWatchLogs {
             self.allowedSuffixPathFields = allowedSuffixPathFields
             self.defaultDeliveryConfigValues = defaultDeliveryConfigValues
             self.deliveryDestinationType = deliveryDestinationType
+            self.deliverySourceConfiguration = deliverySourceConfiguration
             self.logType = logType
             self.resourceType = resourceType
+            self.s3TablesIntegration = s3TablesIntegration
             self.service = service
         }
 
@@ -854,8 +903,10 @@ extension CloudWatchLogs {
             case allowedSuffixPathFields = "allowedSuffixPathFields"
             case defaultDeliveryConfigValues = "defaultDeliveryConfigValues"
             case deliveryDestinationType = "deliveryDestinationType"
+            case deliverySourceConfiguration = "deliverySourceConfiguration"
             case logType = "logType"
             case resourceType = "resourceType"
+            case s3TablesIntegration = "s3TablesIntegration"
             case service = "service"
         }
     }
@@ -1267,18 +1318,87 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct CreateLookupTableRequest: AWSEncodableShape {
+        /// A description of the lookup table. The description can be up to 1024 characters long.
+        public let description: String?
+        /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key.
+        public let kmsKeyId: String?
+        /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
+        public let lookupTableName: String
+        /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+        public let tableBody: String
+        /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableName: String, tableBody: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.lookupTableName = lookupTableName
+            self.tableBody = tableBody
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, max: 256)
+            try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, min: 1)
+            try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.tableBody, name: "tableBody", parent: name, max: 10485760)
+            try self.validate(self.tableBody, name: "tableBody", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case lookupTableName = "lookupTableName"
+            case tableBody = "tableBody"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateLookupTableResponse: AWSDecodableShape {
+        /// The time when the lookup table was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let createdAt: Int64?
+        /// The ARN of the lookup table that was created.
+        public let lookupTableArn: String?
+
+        @inlinable
+        public init(createdAt: Int64? = nil, lookupTableArn: String? = nil) {
+            self.createdAt = createdAt
+            self.lookupTableArn = lookupTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case lookupTableArn = "lookupTableArn"
+        }
+    }
+
     public struct CreateScheduledQueryRequest: AWSEncodableShape {
         /// An optional description for the scheduled query to help identify its purpose and functionality.
         public let description: String?
         /// Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
         public let destinationConfiguration: DestinationConfiguration?
+        /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
+        public let endTimeOffset: Int64?
         /// The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination.
         public let executionRoleArn: String
         /// An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN.
         public let logGroupIdentifiers: [String]?
-        /// The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
+        /// The name of the scheduled query. The name must be unique within your account and region. Length must be between 1 and 300 characters.
         public let name: String
-        /// The query language to use for the scheduled query. Valid values are LogsQL, PPL, and SQL.
+        /// The query language to use for the scheduled query. Valid values are CWLI, PPL, and SQL.
         public let queryLanguage: QueryLanguage
         /// The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters.
         public let queryString: String
@@ -1298,9 +1418,10 @@ extension CloudWatchLogs {
         public let timezone: String?
 
         @inlinable
-        public init(description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, executionRoleArn: String, logGroupIdentifiers: [String]? = nil, name: String, queryLanguage: QueryLanguage, queryString: String, scheduleEndTime: Int64? = nil, scheduleExpression: String, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, tags: [String: String]? = nil, timezone: String? = nil) {
+        public init(description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, endTimeOffset: Int64? = nil, executionRoleArn: String, logGroupIdentifiers: [String]? = nil, name: String, queryLanguage: QueryLanguage, queryString: String, scheduleEndTime: Int64? = nil, scheduleExpression: String, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, tags: [String: String]? = nil, timezone: String? = nil) {
             self.description = description
             self.destinationConfiguration = destinationConfiguration
+            self.endTimeOffset = endTimeOffset
             self.executionRoleArn = executionRoleArn
             self.logGroupIdentifiers = logGroupIdentifiers
             self.name = name
@@ -1326,9 +1447,8 @@ extension CloudWatchLogs {
             }
             try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, max: 50)
             try self.validate(self.logGroupIdentifiers, name: "logGroupIdentifiers", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, max: 300)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\-/.#]+$")
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
             try self.validate(self.scheduleEndTime, name: "scheduleEndTime", parent: name, min: 0)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
@@ -1348,6 +1468,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case destinationConfiguration = "destinationConfiguration"
+            case endTimeOffset = "endTimeOffset"
             case executionRoleArn = "executionRoleArn"
             case logGroupIdentifiers = "logGroupIdentifiers"
             case name = "name"
@@ -1766,6 +1887,20 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DeleteLookupTableRequest: AWSEncodableShape {
+        /// The ARN of the lookup table to delete.
+        public let lookupTableArn: String
+
+        @inlinable
+        public init(lookupTableArn: String) {
+            self.lookupTableArn = lookupTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookupTableArn = "lookupTableArn"
+        }
+    }
+
     public struct DeleteMetricFilterRequest: AWSEncodableShape {
         /// The name of the metric filter.
         public let filterName: String
@@ -1882,7 +2017,8 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 300)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1918,6 +2054,31 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case filterName = "filterName"
             case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct DeleteSyslogConfigurationRequest: AWSEncodableShape {
+        /// The name or ARN of the log group to remove the syslog configuration from.
+        public let logGroupIdentifier: String
+        /// The ID of the VPC endpoint associated with the syslog configuration to delete.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(logGroupIdentifier: String, vpcEndpointId: String? = nil) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+            case vpcEndpointId = "vpcEndpointId"
         }
     }
 
@@ -2038,6 +2199,8 @@ extension CloudWatchLogs {
     public struct DeliverySource: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies this delivery source.
         public let arn: String?
+        /// The map of key-value pairs that configure the delivery source.
+        public let deliverySourceConfiguration: [String: String]?
         /// The type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
         public let logType: String?
         /// The unique name of the delivery source.
@@ -2046,26 +2209,70 @@ extension CloudWatchLogs {
         public let resourceArns: [String]?
         /// The Amazon Web Services service that is sending logs.
         public let service: String?
+        /// The status of the delivery source. A delivery source can have the status ACTIVE or INACTIVE. Note: This value is defined for selective log types.
+        public let status: DeliverySourceStatus?
+        /// The reason for the status of the delivery source. A status reason of RESOURCE_DELETED indicates that the resource associated with the delivery source has been deleted. Note: This value is defined for selective log types.
+        public let statusReason: DeliverySourceStatusReason?
         /// The tags that have been assigned to this delivery source.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, logType: String? = nil, name: String? = nil, resourceArns: [String]? = nil, service: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, deliverySourceConfiguration: [String: String]? = nil, logType: String? = nil, name: String? = nil, resourceArns: [String]? = nil, service: String? = nil, status: DeliverySourceStatus? = nil, statusReason: DeliverySourceStatusReason? = nil, tags: [String: String]? = nil) {
             self.arn = arn
+            self.deliverySourceConfiguration = deliverySourceConfiguration
             self.logType = logType
             self.name = name
             self.resourceArns = resourceArns
             self.service = service
+            self.status = status
+            self.statusReason = statusReason
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case deliverySourceConfiguration = "deliverySourceConfiguration"
             case logType = "logType"
             case name = "name"
             case resourceArns = "resourceArns"
             case service = "service"
+            case status = "status"
+            case statusReason = "statusReason"
             case tags = "tags"
+        }
+    }
+
+    public struct DeliverySourceConfigurationSchema: AWSDecodableShape {
+        /// The default value of the configuration that is used when a value is not specified in a PutDeliverySource request.
+        public let defaultValue: String
+        /// The name of the configuration.
+        public let keyName: String
+        /// The maximum numeric value allowed for the configuration. This applies only when the valueType is a numeric type.
+        public let maxValue: Double?
+        /// The minimum numeric value allowed for the configuration. This applies only when the valueType is a numeric type.
+        public let minValue: Double?
+        /// The list of allowed values for the configuration. Empty for free-form configuration.
+        public let supportedValues: [String]?
+        /// The data type of the configuration value. Valid values are string, boolean, int, double, and long.
+        public let valueType: DeliverySourceConfigurationSchemaValueType
+
+        @inlinable
+        public init(defaultValue: String, keyName: String, maxValue: Double? = nil, minValue: Double? = nil, supportedValues: [String]? = nil, valueType: DeliverySourceConfigurationSchemaValueType) {
+            self.defaultValue = defaultValue
+            self.keyName = keyName
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.supportedValues = supportedValues
+            self.valueType = valueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case keyName = "keyName"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case supportedValues = "supportedValues"
+            case valueType = "valueType"
         }
     }
 
@@ -2778,6 +2985,54 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct DescribeLookupTablesRequest: AWSEncodableShape {
+        /// A prefix to filter lookup tables by name. Only tables whose names start with this prefix are returned. If you don't specify a prefix, all tables in the account and Region are returned.
+        public let lookupTableNamePrefix: String?
+        /// The maximum number of lookup tables to return in the response. The default value is 50 and the maximum value is 100.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(lookupTableNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.lookupTableNamePrefix = lookupTableNamePrefix
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lookupTableNamePrefix, name: "lookupTableNamePrefix", parent: name, max: 256)
+            try self.validate(self.lookupTableNamePrefix, name: "lookupTableNamePrefix", parent: name, min: 1)
+            try self.validate(self.lookupTableNamePrefix, name: "lookupTableNamePrefix", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookupTableNamePrefix = "lookupTableNamePrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeLookupTablesResponse: AWSDecodableShape {
+        /// An array of structures, where each structure contains metadata about one lookup table.
+        public let lookupTables: [LookupTable]?
+        /// The token to use when requesting the next set of items.
+        public let nextToken: String?
+
+        @inlinable
+        public init(lookupTables: [LookupTable]? = nil, nextToken: String? = nil) {
+            self.lookupTables = lookupTables
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookupTables = "lookupTables"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeMetricFiltersRequest: AWSEncodableShape {
         /// The prefix to match. CloudWatch Logs uses the value that you set here only if you also include the logGroupName parameter in your request.
         public let filterNamePrefix: String?
@@ -3350,13 +3605,15 @@ extension CloudWatchLogs {
         public let logStreamNames: [String]?
         /// The token for the next set of events to return. (You received this token from a previous call.)
         public let nextToken: String?
+        /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used.  Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
+        public let startFromHead: Bool?
         /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
         public let startTime: Int64?
         /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
         public let unmask: Bool?
 
         @inlinable
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = nil
@@ -3366,13 +3623,14 @@ extension CloudWatchLogs {
             self.logStreamNamePrefix = logStreamNamePrefix
             self.logStreamNames = logStreamNames
             self.nextToken = nextToken
+            self.startFromHead = startFromHead
             self.startTime = startTime
             self.unmask = unmask
         }
 
         @available(*, deprecated, message: "Members interleaved have been deprecated")
         @inlinable
-        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
+        public init(endTime: Int64? = nil, filterPattern: String? = nil, interleaved: Bool? = nil, limit: Int? = nil, logGroupIdentifier: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logStreamNames: [String]? = nil, nextToken: String? = nil, startFromHead: Bool? = nil, startTime: Int64? = nil, unmask: Bool? = nil) {
             self.endTime = endTime
             self.filterPattern = filterPattern
             self.interleaved = interleaved
@@ -3382,6 +3640,7 @@ extension CloudWatchLogs {
             self.logStreamNamePrefix = logStreamNamePrefix
             self.logStreamNames = logStreamNames
             self.nextToken = nextToken
+            self.startFromHead = startFromHead
             self.startTime = startTime
             self.unmask = unmask
         }
@@ -3421,6 +3680,7 @@ extension CloudWatchLogs {
             case logStreamNamePrefix = "logStreamNamePrefix"
             case logStreamNames = "logStreamNames"
             case nextToken = "nextToken"
+            case startFromHead = "startFromHead"
             case startTime = "startTime"
             case unmask = "unmask"
         }
@@ -3429,7 +3689,7 @@ extension CloudWatchLogs {
     public struct FilterLogEventsResponse: AWSDecodableShape {
         /// The matched events.
         public let events: [FilteredLogEvent]?
-        /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
+        /// The token for the next set of items in the sorting direction specified by the startFromHead parameter in the first request. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
         public let nextToken: String?
         ///  Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
@@ -4001,21 +4261,84 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct GetLookupTableRequest: AWSEncodableShape {
+        /// The ARN of the lookup table to retrieve.
+        public let lookupTableArn: String
+
+        @inlinable
+        public init(lookupTableArn: String) {
+            self.lookupTableArn = lookupTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lookupTableArn = "lookupTableArn"
+        }
+    }
+
+    public struct GetLookupTableResponse: AWSDecodableShape {
+        /// The description of the lookup table.
+        public let description: String?
+        /// The ARN of the KMS key used to encrypt the lookup table data, if applicable.
+        public let kmsKeyId: String?
+        /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The ARN of the lookup table.
+        public let lookupTableArn: String?
+        /// The name of the lookup table.
+        public let lookupTableName: String?
+        /// The size of the lookup table in bytes.
+        public let sizeBytes: Int64?
+        /// The full CSV content of the lookup table.
+        public let tableBody: String?
+
+        @inlinable
+        public init(description: String? = nil, kmsKeyId: String? = nil, lastUpdatedTime: Int64? = nil, lookupTableArn: String? = nil, lookupTableName: String? = nil, sizeBytes: Int64? = nil, tableBody: String? = nil) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.lookupTableArn = lookupTableArn
+            self.lookupTableName = lookupTableName
+            self.sizeBytes = sizeBytes
+            self.tableBody = tableBody
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case lookupTableArn = "lookupTableArn"
+            case lookupTableName = "lookupTableName"
+            case sizeBytes = "sizeBytes"
+            case tableBody = "tableBody"
+        }
+    }
+
     public struct GetQueryResultsRequest: AWSEncodableShape {
+        /// The maximum number of log events to return in the response. The maximum is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken.
+        public let maxItems: Int?
+        /// The token for the next set of items to return. The token expires after 1 hour.
+        public let nextToken: String?
         /// The ID number of the query.
         public let queryId: String
 
         @inlinable
-        public init(queryId: String) {
+        public init(maxItems: Int? = nil, nextToken: String? = nil, queryId: String) {
+            self.maxItems = maxItems
+            self.nextToken = nextToken
             self.queryId = queryId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
             try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxItems = "maxItems"
+            case nextToken = "nextToken"
             case queryId = "queryId"
         }
     }
@@ -4023,6 +4346,8 @@ extension CloudWatchLogs {
     public struct GetQueryResultsResponse: AWSDecodableShape {
         /// If you associated an KMS key with the CloudWatch Logs Insights query results in this account, this field displays the ARN of the key that's used to encrypt the query results when StartQuery stores them.
         public let encryptionKey: String?
+        /// If there are more log events remaining in the results, the response includes a nextToken. You can use this token in a subsequent GetQueryResults request to get the next set of results. You can retrieve up to 100,000 log event results from a query by paginating with this token. This is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
+        public let nextToken: String?
         /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see Supported query languages.
         public let queryLanguage: QueryLanguage?
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
@@ -4033,8 +4358,9 @@ extension CloudWatchLogs {
         public let status: QueryStatus?
 
         @inlinable
-        public init(encryptionKey: String? = nil, queryLanguage: QueryLanguage? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
+        public init(encryptionKey: String? = nil, nextToken: String? = nil, queryLanguage: QueryLanguage? = nil, results: [[ResultField]]? = nil, statistics: QueryStatistics? = nil, status: QueryStatus? = nil) {
             self.encryptionKey = encryptionKey
+            self.nextToken = nextToken
             self.queryLanguage = queryLanguage
             self.results = results
             self.statistics = statistics
@@ -4043,6 +4369,7 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case encryptionKey = "encryptionKey"
+            case nextToken = "nextToken"
             case queryLanguage = "queryLanguage"
             case results = "results"
             case statistics = "statistics"
@@ -4075,7 +4402,8 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 300)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -4127,7 +4455,8 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 300)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4142,6 +4471,8 @@ extension CloudWatchLogs {
         public let description: String?
         /// Configuration for where query results are delivered.
         public let destinationConfiguration: DestinationConfiguration?
+        /// The time offset in seconds that defines the end of the lookback period for the query.
+        public let endTimeOffset: Int64?
         /// The ARN of the IAM role used to execute the query and deliver results.
         public let executionRoleArn: String?
         /// The status of the most recent execution of the scheduled query.
@@ -4166,6 +4497,8 @@ extension CloudWatchLogs {
         public let scheduleExpression: String?
         /// The start time for the scheduled query in Unix epoch format.
         public let scheduleStartTime: Int64?
+        /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+        public let scheduleType: ScheduleType?
         /// The time offset in seconds that defines the lookback period for the query.
         public let startTimeOffset: Int64?
         /// The current state of the scheduled query.
@@ -4174,10 +4507,11 @@ extension CloudWatchLogs {
         public let timezone: String?
 
         @inlinable
-        public init(creationTime: Int64? = nil, description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, executionRoleArn: String? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, logGroupIdentifiers: [String]? = nil, name: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, scheduledQueryArn: String? = nil, scheduleEndTime: Int64? = nil, scheduleExpression: String? = nil, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
+        public init(creationTime: Int64? = nil, description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, endTimeOffset: Int64? = nil, executionRoleArn: String? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, logGroupIdentifiers: [String]? = nil, name: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, scheduledQueryArn: String? = nil, scheduleEndTime: Int64? = nil, scheduleExpression: String? = nil, scheduleStartTime: Int64? = nil, scheduleType: ScheduleType? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.destinationConfiguration = destinationConfiguration
+            self.endTimeOffset = endTimeOffset
             self.executionRoleArn = executionRoleArn
             self.lastExecutionStatus = lastExecutionStatus
             self.lastTriggeredTime = lastTriggeredTime
@@ -4190,6 +4524,7 @@ extension CloudWatchLogs {
             self.scheduleEndTime = scheduleEndTime
             self.scheduleExpression = scheduleExpression
             self.scheduleStartTime = scheduleStartTime
+            self.scheduleType = scheduleType
             self.startTimeOffset = startTimeOffset
             self.state = state
             self.timezone = timezone
@@ -4199,6 +4534,7 @@ extension CloudWatchLogs {
             case creationTime = "creationTime"
             case description = "description"
             case destinationConfiguration = "destinationConfiguration"
+            case endTimeOffset = "endTimeOffset"
             case executionRoleArn = "executionRoleArn"
             case lastExecutionStatus = "lastExecutionStatus"
             case lastTriggeredTime = "lastTriggeredTime"
@@ -4211,9 +4547,32 @@ extension CloudWatchLogs {
             case scheduleEndTime = "scheduleEndTime"
             case scheduleExpression = "scheduleExpression"
             case scheduleStartTime = "scheduleStartTime"
+            case scheduleType = "scheduleType"
             case startTimeOffset = "startTimeOffset"
             case state = "state"
             case timezone = "timezone"
+        }
+    }
+
+    public struct GetStorageTierPolicyRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetStorageTierPolicyResponse: AWSDecodableShape {
+        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The current storage tier for the account.
+        public let storageTier: StorageTier?
+
+        @inlinable
+        public init(lastUpdatedTime: Int64? = nil, storageTier: StorageTier? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.storageTier = storageTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "lastUpdatedTime"
+            case storageTier = "storageTier"
         }
     }
 
@@ -4790,10 +5149,12 @@ extension CloudWatchLogs {
         public let logGroupClass: LogGroupClass?
         /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples.    Use ^ to match log group names by prefix.   For a substring match, specify the string to match. All matches are case sensitive   To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery    You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
         public let logGroupNamePattern: String?
+        /// An array of tag filters to return only log groups that have specific tags. Multiple filters are combined with AND logic.
+        public let logGroupTags: [TagFilter]?
         public let nextToken: String?
 
         @inlinable
-        public init(accountIdentifiers: [String]? = nil, dataSources: [DataSourceFilter]? = nil, fieldIndexNames: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupNamePattern: String? = nil, nextToken: String? = nil) {
+        public init(accountIdentifiers: [String]? = nil, dataSources: [DataSourceFilter]? = nil, fieldIndexNames: [String]? = nil, includeLinkedAccounts: Bool? = nil, limit: Int? = nil, logGroupClass: LogGroupClass? = nil, logGroupNamePattern: String? = nil, logGroupTags: [TagFilter]? = nil, nextToken: String? = nil) {
             self.accountIdentifiers = accountIdentifiers
             self.dataSources = dataSources
             self.fieldIndexNames = fieldIndexNames
@@ -4801,6 +5162,7 @@ extension CloudWatchLogs {
             self.limit = limit
             self.logGroupClass = logGroupClass
             self.logGroupNamePattern = logGroupNamePattern
+            self.logGroupTags = logGroupTags
             self.nextToken = nextToken
         }
 
@@ -4825,6 +5187,11 @@ extension CloudWatchLogs {
             try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, max: 129)
             try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, min: 3)
             try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, pattern: "^(\\^?[\\.\\-_\\/#A-Za-z0-9]{3,24})(\\|\\^?[\\.\\-_\\/#A-Za-z0-9]{3,24}){0,4}$")
+            try self.logGroupTags?.forEach {
+                try $0.validate(name: "\(name).logGroupTags[]")
+            }
+            try self.validate(self.logGroupTags, name: "logGroupTags", parent: name, max: 5)
+            try self.validate(self.logGroupTags, name: "logGroupTags", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
 
@@ -4836,6 +5203,7 @@ extension CloudWatchLogs {
             case limit = "limit"
             case logGroupClass = "logGroupClass"
             case logGroupNamePattern = "logGroupNamePattern"
+            case logGroupTags = "logGroupTags"
             case nextToken = "nextToken"
         }
     }
@@ -4861,13 +5229,16 @@ extension CloudWatchLogs {
         /// The maximum number of scheduled queries to return. Valid range is 1 to 1000.
         public let maxResults: Int?
         public let nextToken: String?
+        /// Filter scheduled queries by schedule type. Valid values are CUSTOMER_MANAGED and AWS_MANAGED. If not specified, scheduled queries of all schedule types are returned.
+        public let scheduleType: ScheduleType?
         /// Filter scheduled queries by state. Valid values are ENABLED and DISABLED. If not specified, all scheduled queries are returned.
         public let state: ScheduledQueryState?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, state: ScheduledQueryState? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, scheduleType: ScheduleType? = nil, state: ScheduledQueryState? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scheduleType = scheduleType
             self.state = state
         }
 
@@ -4880,6 +5251,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case scheduleType = "scheduleType"
             case state = "state"
         }
     }
@@ -4942,6 +5314,60 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case sources = "sources"
+        }
+    }
+
+    public struct ListSyslogConfigurationsRequest: AWSEncodableShape {
+        /// The name or ARN of the log group to filter syslog configurations for.
+        public let logGroupIdentifier: String?
+        /// The maximum number of syslog configurations to return in the response.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. You received this token from a previous call.
+        public let nextToken: String?
+        /// The ID of the VPC endpoint to filter syslog configurations for.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(logGroupIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEndpointId: String? = nil) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case vpcEndpointId = "vpcEndpointId"
+        }
+    }
+
+    public struct ListSyslogConfigurationsResponse: AWSDecodableShape {
+        /// The token for the next set of items to return. The token expires after 24 hours.
+        public let nextToken: String?
+        /// The list of syslog configurations.
+        public let syslogConfigurations: [SyslogConfiguration]?
+
+        @inlinable
+        public init(nextToken: String? = nil, syslogConfigurations: [SyslogConfiguration]? = nil) {
+            self.nextToken = nextToken
+            self.syslogConfigurations = syslogConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case syslogConfigurations = "syslogConfigurations"
         }
     }
 
@@ -5365,6 +5791,48 @@ extension CloudWatchLogs {
             case logStreamName = "logStreamName"
             case storedBytes = "storedBytes"
             case uploadSequenceToken = "uploadSequenceToken"
+        }
+    }
+
+    public struct LookupTable: AWSDecodableShape {
+        /// The description of the lookup table.
+        public let description: String?
+        /// The ARN of the KMS key used to encrypt the lookup table data, if applicable.
+        public let kmsKeyId: String?
+        /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The ARN of the lookup table.
+        public let lookupTableArn: String?
+        /// The name of the lookup table.
+        public let lookupTableName: String?
+        /// The number of data rows in the lookup table, excluding the header row.
+        public let recordsCount: Int64?
+        /// The size of the lookup table in bytes.
+        public let sizeBytes: Int64?
+        /// The column headers from the first row of the CSV file.
+        public let tableFields: [String]?
+
+        @inlinable
+        public init(description: String? = nil, kmsKeyId: String? = nil, lastUpdatedTime: Int64? = nil, lookupTableArn: String? = nil, lookupTableName: String? = nil, recordsCount: Int64? = nil, sizeBytes: Int64? = nil, tableFields: [String]? = nil) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.lookupTableArn = lookupTableArn
+            self.lookupTableName = lookupTableName
+            self.recordsCount = recordsCount
+            self.sizeBytes = sizeBytes
+            self.tableFields = tableFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case lookupTableArn = "lookupTableArn"
+            case lookupTableName = "lookupTableName"
+            case recordsCount = "recordsCount"
+            case sizeBytes = "sizeBytes"
+            case tableFields = "tableFields"
         }
     }
 
@@ -6432,17 +6900,20 @@ extension CloudWatchLogs {
     }
 
     public struct PutDeliverySourceRequest: AWSEncodableShape {
-        /// Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.   For Quick Suite, the valid values are CHAT_LOGS and FEEDBACK_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+        /// A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For example, {"samplingRate": "50"}.
+        public let deliverySourceConfiguration: [String: String]?
+        /// Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String
-        /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234
+        /// The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234  For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:securityhub:us-east-1:111122223333:hubv2/*
         public let resourceArn: String
         /// An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources
         public let tags: [String: String]?
 
         @inlinable
-        public init(logType: String, name: String, resourceArn: String, tags: [String: String]? = nil) {
+        public init(deliverySourceConfiguration: [String: String]? = nil, logType: String, name: String, resourceArn: String, tags: [String: String]? = nil) {
+            self.deliverySourceConfiguration = deliverySourceConfiguration
             self.logType = logType
             self.name = name
             self.resourceArn = resourceArn
@@ -6450,6 +6921,12 @@ extension CloudWatchLogs {
         }
 
         public func validate(name: String) throws {
+            try self.deliverySourceConfiguration?.forEach {
+                try validate($0.key, name: "deliverySourceConfiguration.key", parent: name, max: 255)
+                try validate($0.key, name: "deliverySourceConfiguration.key", parent: name, min: 1)
+                try validate($0.value, name: "deliverySourceConfiguration[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "deliverySourceConfiguration[\"\($0.key)\"]", parent: name, min: 1)
+            }
             try self.validate(self.logType, name: "logType", parent: name, max: 255)
             try self.validate(self.logType, name: "logType", parent: name, min: 1)
             try self.validate(self.logType, name: "logType", parent: name, pattern: "^[\\w]*$")
@@ -6468,6 +6945,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deliverySourceConfiguration = "deliverySourceConfiguration"
             case logType = "logType"
             case name = "name"
             case resourceArn = "resourceArn"
@@ -6815,6 +7293,8 @@ extension CloudWatchLogs {
         public let logGroupNames: [String]?
         /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
         public let name: String
+        /// Use this parameter to include specific query parameters as part of your query definition. Query parameters are supported only for Logs Insights QL queries. Query parameters allow you to use placeholder variables in your query string that are substituted with values at execution time. Use the {{parameterName}} syntax in your query string to reference a parameter.
+        public let parameters: [QueryParameter]?
         /// If you are updating a query definition, use this parameter to specify the ID of the query definition that you want to update. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions. If you are creating a query definition, do not specify this parameter. CloudWatch generates a unique ID for the new query definition and include it in the response to this operation.
         public let queryDefinitionId: String?
         /// Specify the query language to use for this query. The options are Logs Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information about the query languages that CloudWatch Logs supports, see Supported query languages.
@@ -6823,10 +7303,11 @@ extension CloudWatchLogs {
         public let queryString: String
 
         @inlinable
-        public init(clientToken: String? = PutQueryDefinitionRequest.idempotencyToken(), logGroupNames: [String]? = nil, name: String, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String) {
+        public init(clientToken: String? = PutQueryDefinitionRequest.idempotencyToken(), logGroupNames: [String]? = nil, name: String, parameters: [QueryParameter]? = nil, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String) {
             self.clientToken = clientToken
             self.logGroupNames = logGroupNames
             self.name = name
+            self.parameters = parameters
             self.queryDefinitionId = queryDefinitionId
             self.queryLanguage = queryLanguage
             self.queryString = queryString
@@ -6843,6 +7324,10 @@ extension CloudWatchLogs {
             }
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, max: 256)
             try self.validate(self.queryDefinitionId, name: "queryDefinitionId", parent: name, min: 1)
             try self.validate(self.queryString, name: "queryString", parent: name, max: 10000)
@@ -6853,6 +7338,7 @@ extension CloudWatchLogs {
             case clientToken = "clientToken"
             case logGroupNames = "logGroupNames"
             case name = "name"
+            case parameters = "parameters"
             case queryDefinitionId = "queryDefinitionId"
             case queryLanguage = "queryLanguage"
             case queryString = "queryString"
@@ -6946,6 +7432,38 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct PutStorageTierPolicyRequest: AWSEncodableShape {
+        /// The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+        public let storageTier: StorageTier
+
+        @inlinable
+        public init(storageTier: StorageTier) {
+            self.storageTier = storageTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageTier = "storageTier"
+        }
+    }
+
+    public struct PutStorageTierPolicyResponse: AWSDecodableShape {
+        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The storage tier that was set.
+        public let storageTier: StorageTier?
+
+        @inlinable
+        public init(lastUpdatedTime: Int64? = nil, storageTier: StorageTier? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.storageTier = storageTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "lastUpdatedTime"
+            case storageTier = "storageTier"
+        }
+    }
+
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
         /// This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If the log group uses either a log-group level or account-level transformer, and you specify true, the subscription filter will be applied on the transformed version of the log events instead of the original ingested log events.
         public let applyOnTransformedLogs: Bool?
@@ -7002,6 +7520,31 @@ extension CloudWatchLogs {
             case filterPattern = "filterPattern"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct PutSyslogConfigurationRequest: AWSEncodableShape {
+        /// The name or ARN of the log group to associate with the syslog configuration.
+        public let logGroupIdentifier: String
+        /// The ID of the VPC endpoint to use for syslog ingestion.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(logGroupIdentifier: String, vpcEndpointId: String? = nil) {
+            self.logGroupIdentifier = logGroupIdentifier
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, max: 2048)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.logGroupIdentifier, name: "logGroupIdentifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{1,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupIdentifier = "logGroupIdentifier"
+            case vpcEndpointId = "vpcEndpointId"
         }
     }
 
@@ -7077,6 +7620,8 @@ extension CloudWatchLogs {
         public let logGroupNames: [String]?
         /// The name of the query definition.
         public let name: String?
+        /// If this query definition contains a list of query parameters that define placeholder variables for the query string, that list appears here.
+        public let parameters: [QueryParameter]?
         /// The unique ID of the query definition.
         public let queryDefinitionId: String?
         /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see Supported query languages.
@@ -7085,10 +7630,11 @@ extension CloudWatchLogs {
         public let queryString: String?
 
         @inlinable
-        public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil) {
+        public init(lastModified: Int64? = nil, logGroupNames: [String]? = nil, name: String? = nil, parameters: [QueryParameter]? = nil, queryDefinitionId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil) {
             self.lastModified = lastModified
             self.logGroupNames = logGroupNames
             self.name = name
+            self.parameters = parameters
             self.queryDefinitionId = queryDefinitionId
             self.queryLanguage = queryLanguage
             self.queryString = queryString
@@ -7098,6 +7644,7 @@ extension CloudWatchLogs {
             case lastModified = "lastModified"
             case logGroupNames = "logGroupNames"
             case name = "name"
+            case parameters = "parameters"
             case queryDefinitionId = "queryDefinitionId"
             case queryLanguage = "queryLanguage"
             case queryString = "queryString"
@@ -7105,10 +7652,14 @@ extension CloudWatchLogs {
     }
 
     public struct QueryInfo: AWSDecodableShape {
+        /// The total number of bytes scanned by the query. This indicates the cost associated with the query.
+        public let bytesScanned: Double?
         /// The date and time that this query was created.
         public let createTime: Int64?
         /// The name of the log group scanned by this query.
         public let logGroupName: String?
+        /// The duration in milliseconds that the query took to execute.
+        public let queryDuration: Int64?
         /// The unique ID number of this query.
         public let queryId: String?
         /// The query language used for this query. For more information about the query languages that CloudWatch Logs supports, see Supported query languages.
@@ -7117,24 +7668,62 @@ extension CloudWatchLogs {
         public let queryString: String?
         /// The status of this query. Possible values are Cancelled, Complete, Failed, Running, Scheduled, and Unknown.
         public let status: QueryStatus?
+        /// The ARN of the user who ran the query.
+        public let userIdentity: String?
 
         @inlinable
-        public init(createTime: Int64? = nil, logGroupName: String? = nil, queryId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, status: QueryStatus? = nil) {
+        public init(bytesScanned: Double? = nil, createTime: Int64? = nil, logGroupName: String? = nil, queryDuration: Int64? = nil, queryId: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, status: QueryStatus? = nil, userIdentity: String? = nil) {
+            self.bytesScanned = bytesScanned
             self.createTime = createTime
             self.logGroupName = logGroupName
+            self.queryDuration = queryDuration
             self.queryId = queryId
             self.queryLanguage = queryLanguage
             self.queryString = queryString
             self.status = status
+            self.userIdentity = userIdentity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bytesScanned = "bytesScanned"
             case createTime = "createTime"
             case logGroupName = "logGroupName"
+            case queryDuration = "queryDuration"
             case queryId = "queryId"
             case queryLanguage = "queryLanguage"
             case queryString = "queryString"
             case status = "status"
+            case userIdentity = "userIdentity"
+        }
+    }
+
+    public struct QueryParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The default value to use for this query parameter if no value is supplied at execution time.
+        public let defaultValue: String?
+        /// A description of the query parameter that explains its purpose or expected values.
+        public let description: String?
+        /// The name of the query parameter. A query parameter name must start with a letter or underscore, and contain only letters, digits, and underscores.
+        public let name: String
+
+        @inlinable
+        public init(defaultValue: String? = nil, description: String? = nil, name: String) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case name = "name"
         }
     }
 
@@ -7332,23 +7921,35 @@ extension CloudWatchLogs {
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 URI where query results are delivered. Must be a valid S3 URI format.
         public let destinationIdentifier: String
+        /// The Amazon Resource Name (ARN) of the KMS encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket.
+        public let kmsKeyId: String?
+        /// The Amazon Web Services accountId for the bucket owning account.
+        public let ownerAccountId: String?
         /// The ARN of the IAM role that grants permissions to write query results to the specified Amazon S3 destination.
         public let roleArn: String
 
         @inlinable
-        public init(destinationIdentifier: String, roleArn: String) {
+        public init(destinationIdentifier: String, kmsKeyId: String? = nil, ownerAccountId: String? = nil, roleArn: String) {
             self.destinationIdentifier = destinationIdentifier
+            self.kmsKeyId = kmsKeyId
+            self.ownerAccountId = ownerAccountId
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.destinationIdentifier, name: "destinationIdentifier", parent: name, max: 1024)
             try self.validate(self.destinationIdentifier, name: "destinationIdentifier", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, max: 12)
+            try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, min: 12)
+            try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationIdentifier = "destinationIdentifier"
+            case kmsKeyId = "kmsKeyId"
+            case ownerAccountId = "ownerAccountId"
             case roleArn = "roleArn"
         }
     }
@@ -7383,16 +7984,19 @@ extension CloudWatchLogs {
         public let dataSource: DataSource?
         /// The unique identifier for this data source association.
         public let identifier: String?
+        /// The identifier of the parent data source for this association.
+        public let parentSourceIdentifier: String?
         /// The current status of the data source association.
         public let status: S3TableIntegrationSourceStatus?
         /// Additional information about the status of the data source association.
         public let statusReason: String?
 
         @inlinable
-        public init(createdTimeStamp: Int64? = nil, dataSource: DataSource? = nil, identifier: String? = nil, status: S3TableIntegrationSourceStatus? = nil, statusReason: String? = nil) {
+        public init(createdTimeStamp: Int64? = nil, dataSource: DataSource? = nil, identifier: String? = nil, parentSourceIdentifier: String? = nil, status: S3TableIntegrationSourceStatus? = nil, statusReason: String? = nil) {
             self.createdTimeStamp = createdTimeStamp
             self.dataSource = dataSource
             self.identifier = identifier
+            self.parentSourceIdentifier = parentSourceIdentifier
             self.status = status
             self.statusReason = statusReason
         }
@@ -7401,8 +8005,27 @@ extension CloudWatchLogs {
             case createdTimeStamp = "createdTimeStamp"
             case dataSource = "dataSource"
             case identifier = "identifier"
+            case parentSourceIdentifier = "parentSourceIdentifier"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct S3TablesIntegration: AWSDecodableShape {
+        /// The name of the S3 Tables datasource.
+        public let datasourceName: String?
+        /// The type of the S3 Tables datasource.
+        public let datasourceType: String?
+
+        @inlinable
+        public init(datasourceName: String? = nil, datasourceType: String? = nil) {
+            self.datasourceName = datasourceName
+            self.datasourceType = datasourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasourceName = "datasourceName"
+            case datasourceType = "datasourceType"
         }
     }
 
@@ -7453,13 +8076,15 @@ extension CloudWatchLogs {
         public let scheduledQueryArn: String?
         /// The cron expression that defines when the scheduled query runs.
         public let scheduleExpression: String?
+        /// The schedule type of the scheduled query. Valid values are CUSTOMER_MANAGED and AWS_MANAGED.
+        public let scheduleType: ScheduleType?
         /// The current state of the scheduled query.
         public let state: ScheduledQueryState?
         /// The timezone used for evaluating the schedule expression.
         public let timezone: String?
 
         @inlinable
-        public init(creationTime: Int64? = nil, destinationConfiguration: DestinationConfiguration? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, name: String? = nil, scheduledQueryArn: String? = nil, scheduleExpression: String? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
+        public init(creationTime: Int64? = nil, destinationConfiguration: DestinationConfiguration? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, name: String? = nil, scheduledQueryArn: String? = nil, scheduleExpression: String? = nil, scheduleType: ScheduleType? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
             self.creationTime = creationTime
             self.destinationConfiguration = destinationConfiguration
             self.lastExecutionStatus = lastExecutionStatus
@@ -7468,6 +8093,7 @@ extension CloudWatchLogs {
             self.name = name
             self.scheduledQueryArn = scheduledQueryArn
             self.scheduleExpression = scheduleExpression
+            self.scheduleType = scheduleType
             self.state = state
             self.timezone = timezone
         }
@@ -7481,6 +8107,7 @@ extension CloudWatchLogs {
             case name = "name"
             case scheduledQueryArn = "scheduledQueryArn"
             case scheduleExpression = "scheduleExpression"
+            case scheduleType = "scheduleType"
             case state = "state"
             case timezone = "timezone"
         }
@@ -7648,7 +8275,7 @@ extension CloudWatchLogs {
     public struct StartQueryRequest: AWSEncodableShape {
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
-        /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 10,000.
+        /// The maximum number of log events to return from the query. The maximum limit is 100,000. The maximum events returned in a single GetQueryResults API call is 10,000 log events per request. You can retrieve up to 100,000 log event results from a query by paginating with the nextToken. 100,000 limit is only supported for Logs Insights QL and is currently not supported for PPL and SQL query languages.
         public let limit: Int?
         /// The list of log groups to query. You can include up to 50 log groups. You can specify them by the log group name or ARN. If a log group that you're querying is in a source account and you're using a monitoring account, you must specify the ARN of the log group here. The query definition must also be defined in the monitoring account. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end. A StartQuery operation must include exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers. The exception is queries using the OpenSearch Service SQL query language, where you specify the log group names inside the querystring instead of here.
         public let logGroupIdentifiers: [String]?
@@ -7677,7 +8304,7 @@ extension CloudWatchLogs {
 
         public func validate(name: String) throws {
             try self.validate(self.endTime, name: "endTime", parent: name, min: 0)
-            try self.validate(self.limit, name: "limit", parent: name, max: 10000)
+            try self.validate(self.limit, name: "limit", parent: name, max: 100000)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.logGroupIdentifiers?.forEach {
                 try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
@@ -7870,6 +8497,61 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case suppressionUnit = "suppressionUnit"
             case value = "value"
+        }
+    }
+
+    public struct SyslogConfiguration: AWSDecodableShape {
+        /// The time when the syslog configuration was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let createdAt: Int64?
+        /// The ARN of the log group associated with this syslog configuration.
+        public let logGroupArn: String?
+        /// The source type for the syslog configuration.
+        public let sourceType: SyslogSourceType?
+        /// The ID of the VPC endpoint used for syslog ingestion.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(createdAt: Int64? = nil, logGroupArn: String? = nil, sourceType: SyslogSourceType? = nil, vpcEndpointId: String? = nil) {
+            self.createdAt = createdAt
+            self.logGroupArn = logGroupArn
+            self.sourceType = sourceType
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case logGroupArn = "logGroupArn"
+            case sourceType = "sourceType"
+            case vpcEndpointId = "vpcEndpointId"
+        }
+    }
+
+    public struct TagFilter: AWSEncodableShape {
+        /// The tag key to filter on.
+        public let key: String
+        /// An optional list of tag values to filter on.   If you specify a filter that contains more than one value for a key,  the response returns log groups that match any of the specified values for that key.   If you don't specify values, the response returns all log groups that are  tagged with that key, with any or no value.   Use * for wildcard matching. For example, prod* matches values that start with prod.   Use ! as a prefix for negation. For example, !prod matches values that are not prod.   Exact matching and negation are case-sensitive. Wildcard matching is case-insensitive.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: String, values: [String]? = nil) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 259)
+                try validate($0, name: "values[]", parent: name, pattern: "^!?\\*?([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)\\*?$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -8343,11 +9025,64 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct UpdateLookupTableRequest: AWSEncodableShape {
+        /// An updated description of the lookup table.
+        public let description: String?
+        /// The ARN of the KMS key to use to encrypt the lookup table data. You can use this parameter to add, update, or remove the KMS key. To remove the KMS key and use an Amazon Web Services-owned key instead, specify an empty string.
+        public let kmsKeyId: String?
+        /// The ARN of the lookup table to update.
+        public let lookupTableArn: String
+        /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+        public let tableBody: String
+
+        @inlinable
+        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableArn: String, tableBody: String) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.lookupTableArn = lookupTableArn
+            self.tableBody = tableBody
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.tableBody, name: "tableBody", parent: name, max: 10485760)
+            try self.validate(self.tableBody, name: "tableBody", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case lookupTableArn = "lookupTableArn"
+            case tableBody = "tableBody"
+        }
+    }
+
+    public struct UpdateLookupTableResponse: AWSDecodableShape {
+        /// The time when the lookup table was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+        /// The ARN of the lookup table that was updated.
+        public let lookupTableArn: String?
+
+        @inlinable
+        public init(lastUpdatedTime: Int64? = nil, lookupTableArn: String? = nil) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.lookupTableArn = lookupTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedTime = "lastUpdatedTime"
+            case lookupTableArn = "lookupTableArn"
+        }
+    }
+
     public struct UpdateScheduledQueryRequest: AWSEncodableShape {
         /// An updated description for the scheduled query.
         public let description: String?
         /// The updated configuration for where to deliver query results.
         public let destinationConfiguration: DestinationConfiguration?
+        /// The updated time offset in seconds that defines the end of the lookback period for the query.
+        public let endTimeOffset: Int64?
         /// The updated ARN of the IAM role that grants permissions to execute the query and deliver results.
         public let executionRoleArn: String
         /// The ARN or name of the scheduled query to update.
@@ -8372,9 +9107,10 @@ extension CloudWatchLogs {
         public let timezone: String?
 
         @inlinable
-        public init(description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, executionRoleArn: String, identifier: String, logGroupIdentifiers: [String]? = nil, queryLanguage: QueryLanguage, queryString: String, scheduleEndTime: Int64? = nil, scheduleExpression: String, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
+        public init(description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, endTimeOffset: Int64? = nil, executionRoleArn: String, identifier: String, logGroupIdentifiers: [String]? = nil, queryLanguage: QueryLanguage, queryString: String, scheduleEndTime: Int64? = nil, scheduleExpression: String, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
             self.description = description
             self.destinationConfiguration = destinationConfiguration
+            self.endTimeOffset = endTimeOffset
             self.executionRoleArn = executionRoleArn
             self.identifier = identifier
             self.logGroupIdentifiers = logGroupIdentifiers
@@ -8392,7 +9128,8 @@ extension CloudWatchLogs {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.destinationConfiguration?.validate(name: "\(name).destinationConfiguration")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 1)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w#+=/:,.@-]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 300)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.logGroupIdentifiers?.forEach {
                 try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
                 try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
@@ -8410,6 +9147,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case destinationConfiguration = "destinationConfiguration"
+            case endTimeOffset = "endTimeOffset"
             case executionRoleArn = "executionRoleArn"
             case identifier = "identifier"
             case logGroupIdentifiers = "logGroupIdentifiers"
@@ -8431,6 +9169,8 @@ extension CloudWatchLogs {
         public let description: String?
         /// The destination configuration of the updated scheduled query.
         public let destinationConfiguration: DestinationConfiguration?
+        /// The end time offset in seconds of the updated scheduled query.
+        public let endTimeOffset: Int64?
         /// The execution role ARN of the updated scheduled query.
         public let executionRoleArn: String?
         /// The status of the most recent execution of the updated scheduled query.
@@ -8455,6 +9195,8 @@ extension CloudWatchLogs {
         public let scheduleExpression: String?
         /// The start time of the updated scheduled query.
         public let scheduleStartTime: Int64?
+        /// The schedule type of the updated scheduled query.
+        public let scheduleType: ScheduleType?
         /// The time offset of the updated scheduled query.
         public let startTimeOffset: Int64?
         /// The state of the updated scheduled query.
@@ -8463,10 +9205,11 @@ extension CloudWatchLogs {
         public let timezone: String?
 
         @inlinable
-        public init(creationTime: Int64? = nil, description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, executionRoleArn: String? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, logGroupIdentifiers: [String]? = nil, name: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, scheduledQueryArn: String? = nil, scheduleEndTime: Int64? = nil, scheduleExpression: String? = nil, scheduleStartTime: Int64? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
+        public init(creationTime: Int64? = nil, description: String? = nil, destinationConfiguration: DestinationConfiguration? = nil, endTimeOffset: Int64? = nil, executionRoleArn: String? = nil, lastExecutionStatus: ExecutionStatus? = nil, lastTriggeredTime: Int64? = nil, lastUpdatedTime: Int64? = nil, logGroupIdentifiers: [String]? = nil, name: String? = nil, queryLanguage: QueryLanguage? = nil, queryString: String? = nil, scheduledQueryArn: String? = nil, scheduleEndTime: Int64? = nil, scheduleExpression: String? = nil, scheduleStartTime: Int64? = nil, scheduleType: ScheduleType? = nil, startTimeOffset: Int64? = nil, state: ScheduledQueryState? = nil, timezone: String? = nil) {
             self.creationTime = creationTime
             self.description = description
             self.destinationConfiguration = destinationConfiguration
+            self.endTimeOffset = endTimeOffset
             self.executionRoleArn = executionRoleArn
             self.lastExecutionStatus = lastExecutionStatus
             self.lastTriggeredTime = lastTriggeredTime
@@ -8479,6 +9222,7 @@ extension CloudWatchLogs {
             self.scheduleEndTime = scheduleEndTime
             self.scheduleExpression = scheduleExpression
             self.scheduleStartTime = scheduleStartTime
+            self.scheduleType = scheduleType
             self.startTimeOffset = startTimeOffset
             self.state = state
             self.timezone = timezone
@@ -8488,6 +9232,7 @@ extension CloudWatchLogs {
             case creationTime = "creationTime"
             case description = "description"
             case destinationConfiguration = "destinationConfiguration"
+            case endTimeOffset = "endTimeOffset"
             case executionRoleArn = "executionRoleArn"
             case lastExecutionStatus = "lastExecutionStatus"
             case lastTriggeredTime = "lastTriggeredTime"
@@ -8500,6 +9245,7 @@ extension CloudWatchLogs {
             case scheduleEndTime = "scheduleEndTime"
             case scheduleExpression = "scheduleExpression"
             case scheduleStartTime = "scheduleStartTime"
+            case scheduleType = "scheduleType"
             case startTimeOffset = "startTimeOffset"
             case state = "state"
             case timezone = "timezone"

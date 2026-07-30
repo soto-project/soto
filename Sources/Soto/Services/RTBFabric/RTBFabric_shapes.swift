@@ -25,9 +25,32 @@ import Foundation
 extension RTBFabric {
     // MARK: Enums
 
+    public enum CertificateAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "ASSOCIATED"
+        case disassociated = "DISASSOCIATED"
+        case failed = "FAILED"
+        case pendingAssociation = "PENDING_ASSOCIATION"
+        case pendingDisassociation = "PENDING_DISASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case externalInbound = "EXTERNAL_INBOUND"
+        case publicEgress = "PUBLIC_EGRESS"
+        case publicIngress = "PUBLIC_INGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exclude = "EXCLUDE"
         case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GatewayType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `internal` = "INTERNAL"
+        case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
@@ -90,6 +113,16 @@ extension RTBFabric {
         case pendingIsolation = "PENDING_ISOLATION"
         case pendingRestoration = "PENDING_RESTORATION"
         case pendingUpdate = "PENDING_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case deleted = "DELETED"
+        case deletionInProgress = "DELETION_IN_PROGRESS"
+        case failed = "FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -177,10 +210,10 @@ extension RTBFabric {
 
         public func validate(name: String) throws {
             switch self {
+            case .autoScalingGroups(let value):
+                try value.validate(name: "\(name).autoScalingGroups")
             case .eksEndpoints(let value):
                 try value.validate(name: "\(name).eksEndpoints")
-            default:
-                break
             }
         }
 
@@ -250,13 +283,16 @@ extension RTBFabric {
         public let linkId: String
         /// Settings for the application logs.
         public let logSettings: LinkLogSettings
+        /// The timeout value in milliseconds.
+        public let timeoutInMillis: Int64?
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings) {
+        public init(attributes: LinkAttributes? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings, timeoutInMillis: Int64? = nil) {
             self.attributes = attributes
             self.gatewayId = gatewayId
             self.linkId = linkId
             self.logSettings = logSettings
+            self.timeoutInMillis = timeoutInMillis
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -266,23 +302,33 @@ extension RTBFabric {
             request.encodePath(self.gatewayId, key: "gatewayId")
             request.encodePath(self.linkId, key: "linkId")
             try container.encode(self.logSettings, forKey: .logSettings)
+            try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
         }
 
         public func validate(name: String) throws {
             try self.attributes?.validate(name: "\(name).attributes")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 5000)
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case logSettings = "logSettings"
+            case timeoutInMillis = "timeoutInMillis"
         }
     }
 
     public struct AcceptLinkResponse: AWSDecodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the link was created.
         public let createdAt: Date
         /// The direction of the link.
@@ -293,6 +339,7 @@ extension RTBFabric {
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        public let logSettings: LinkLogSettings?
         /// The unique identifier of the peer gateway.
         public let peerGatewayId: String
         /// The configuration of pending flow modules.
@@ -303,13 +350,15 @@ extension RTBFabric {
         public let updatedAt: Date
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
+            self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
             self.status = status
@@ -318,11 +367,13 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case direction = "direction"
             case flowModules = "flowModules"
             case gatewayId = "gatewayId"
             case linkId = "linkId"
+            case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case pendingFlowModules = "pendingFlowModules"
             case status = "status"
@@ -330,21 +381,119 @@ extension RTBFabric {
         }
     }
 
+    public struct AssociateCertificateRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate to associate.
+        public let acmCertificateArn: String
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+
+        @inlinable
+        public init(acmCertificateArn: String, clientToken: String = AssociateCertificateRequest.idempotencyToken(), gatewayId: String) {
+            self.acmCertificateArn = acmCertificateArn
+            self.clientToken = clientToken
+            self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.acmCertificateArn, forKey: .acmCertificateArn)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, max: 256)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, min: 75)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:certificate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct AssociateCertificateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let acmCertificateArn: String
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The status of the certificate association.
+        public let status: CertificateAssociationStatus
+
+        @inlinable
+        public init(acmCertificateArn: String, gatewayId: String, status: CertificateAssociationStatus) {
+            self.acmCertificateArn = acmCertificateArn
+            self.gatewayId = gatewayId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case gatewayId = "gatewayId"
+            case status = "status"
+        }
+    }
+
     public struct AutoScalingGroupsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The names of the auto scaling group.
         public let autoScalingGroupNames: [String]
+        /// The health check configuration for the Auto Scaling group managed endpoint.
+        public let healthCheckConfig: HealthCheckConfig?
         /// The role ARN of the auto scaling group.
         public let roleArn: String
 
         @inlinable
-        public init(autoScalingGroupNames: [String], roleArn: String) {
+        public init(autoScalingGroupNames: [String], healthCheckConfig: HealthCheckConfig? = nil, roleArn: String) {
             self.autoScalingGroupNames = autoScalingGroupNames
+            self.healthCheckConfig = healthCheckConfig
             self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.autoScalingGroupNames.forEach {
+                try validate($0, name: "autoScalingGroupNames[]", parent: name, max: 255)
+                try validate($0, name: "autoScalingGroupNames[]", parent: name, min: 1)
+            }
+            try self.healthCheckConfig?.validate(name: "\(name).healthCheckConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupNames = "autoScalingGroupNames"
+            case healthCheckConfig = "healthCheckConfig"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct CertificateAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let acmCertificateArn: String
+        /// The timestamp of when the certificate was associated.
+        public let associatedAt: Date?
+        /// The status of the certificate association.
+        public let status: CertificateAssociationStatus
+        /// The timestamp of when the certificate association was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmCertificateArn: String, associatedAt: Date? = nil, status: CertificateAssociationStatus, updatedAt: Date? = nil) {
+            self.acmCertificateArn = acmCertificateArn
+            self.associatedAt = associatedAt
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case associatedAt = "associatedAt"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -355,6 +504,7 @@ extension RTBFabric {
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
+        /// Settings for the application logs.
         public let logSettings: LinkLogSettings
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]?
@@ -380,11 +530,13 @@ extension RTBFabric {
 
         public func validate(name: String) throws {
             try self.attributes?.validate(name: "\(name).attributes")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
         }
@@ -436,15 +588,18 @@ extension RTBFabric {
         public let peerGatewayId: String
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
         public let tags: [String: String]?
+        /// The timeout value in milliseconds.
+        public let timeoutInMillis: Int64?
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, gatewayId: String, httpResponderAllowed: Bool? = nil, logSettings: LinkLogSettings, peerGatewayId: String, tags: [String: String]? = nil) {
+        public init(attributes: LinkAttributes? = nil, gatewayId: String, httpResponderAllowed: Bool? = nil, logSettings: LinkLogSettings, peerGatewayId: String, tags: [String: String]? = nil, timeoutInMillis: Int64? = nil) {
             self.attributes = attributes
             self.gatewayId = gatewayId
             self.httpResponderAllowed = httpResponderAllowed
             self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.tags = tags
+            self.timeoutInMillis = timeoutInMillis
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -456,18 +611,25 @@ extension RTBFabric {
             try container.encode(self.logSettings, forKey: .logSettings)
             try container.encode(self.peerGatewayId, forKey: .peerGatewayId)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
         }
 
         public func validate(name: String) throws {
             try self.attributes?.validate(name: "\(name).attributes")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.peerGatewayId, name: "peerGatewayId", parent: name, max: 32)
+            try self.validate(self.peerGatewayId, name: "peerGatewayId", parent: name, min: 8)
             try self.validate(self.peerGatewayId, name: "peerGatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 5000)
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -476,12 +638,15 @@ extension RTBFabric {
             case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case tags = "tags"
+            case timeoutInMillis = "timeoutInMillis"
         }
     }
 
     public struct CreateLinkResponse: AWSDecodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the link was created.
         public let createdAt: Date
         /// The customer-provided unique identifier of the link.
@@ -494,6 +659,7 @@ extension RTBFabric {
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        public let logSettings: LinkLogSettings?
         /// The unique identifier of the peer gateway.
         public let peerGatewayId: String
         /// The configuration of pending flow modules.
@@ -504,14 +670,16 @@ extension RTBFabric {
         public let updatedAt: Date
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date, customerProvidedId: String? = nil, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date, customerProvidedId: String? = nil, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.customerProvidedId = customerProvidedId
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
+            self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
             self.status = status
@@ -520,12 +688,14 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case customerProvidedId = "customerProvidedId"
             case direction = "direction"
             case flowModules = "flowModules"
             case gatewayId = "gatewayId"
             case linkId = "linkId"
+            case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case pendingFlowModules = "pendingFlowModules"
             case status = "status"
@@ -533,12 +703,96 @@ extension RTBFabric {
         }
     }
 
+    public struct CreateLinkRoutingRuleRequest: AWSEncodableShape {
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+        public let clientToken: String
+        /// The conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+        public let conditions: RuleCondition
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+        public let priority: Int
+        /// A map of the key-value pairs of the tag or tags to assign to the resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String = CreateLinkRoutingRuleRequest.idempotencyToken(), conditions: RuleCondition, gatewayId: String, linkId: String, priority: Int, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.conditions = conditions
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.priority = priority
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encode(self.conditions, forKey: .conditions)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodePath(self.linkId, key: "linkId")
+            try container.encode(self.priority, forKey: .priority)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 1000)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case conditions = "conditions"
+            case priority = "priority"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateLinkRoutingRuleResponse: AWSDecodableShape {
+        /// The timestamp of when the routing rule was created.
+        public let createdAt: Date
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+        /// The status of the routing rule.
+        public let status: RuleStatus
+
+        @inlinable
+        public init(createdAt: Date, ruleId: String, status: RuleStatus) {
+            self.createdAt = createdAt
+            self.ruleId = ruleId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case ruleId = "ruleId"
+            case status = "status"
+        }
+    }
+
     public struct CreateOutboundExternalLinkRequest: AWSEncodableShape {
+        /// Attributes of the link.
         public let attributes: LinkAttributes?
         /// The unique client token.
         public let clientToken: String
         /// The unique identifier of the gateway.
         public let gatewayId: String
+        /// Settings for the application logs.
         public let logSettings: LinkLogSettings
         /// The public endpoint of the link.
         public let publicEndpoint: String
@@ -568,13 +822,15 @@ extension RTBFabric {
 
         public func validate(name: String) throws {
             try self.attributes?.validate(name: "\(name).attributes")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
             try self.validate(self.publicEndpoint, name: "publicEndpoint", parent: name, max: 255)
             try self.validate(self.publicEndpoint, name: "publicEndpoint", parent: name, pattern: "^(https|http)://.+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
         }
@@ -636,17 +892,23 @@ extension RTBFabric {
 
         public func validate(name: String) throws {
             try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 43)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}$")
             }
             try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-\\w{8,17}$")
             }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[a-f0-9]{8,17}$")
         }
 
@@ -689,6 +951,9 @@ extension RTBFabric {
         public let description: String?
         /// The domain name for the responder gateway.
         public let domainName: String?
+        /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
+        public let gatewayType: GatewayType?
+        public let listenerConfig: ListenerConfig?
         /// The configuration for the managed endpoint.
         public let managedEndpointConfiguration: ManagedEndpointConfiguration?
         /// The networking port to use.
@@ -707,10 +972,12 @@ extension RTBFabric {
         public let vpcId: String
 
         @inlinable
-        public init(clientToken: String = CreateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, vpcId: String) {
+        public init(clientToken: String = CreateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayType: GatewayType? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], subnetIds: [String], tags: [String: String]? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, vpcId: String) {
             self.clientToken = clientToken
             self.description = description
             self.domainName = domainName
+            self.gatewayType = gatewayType
+            self.listenerConfig = listenerConfig
             self.managedEndpointConfiguration = managedEndpointConfiguration
             self.port = port
             self.`protocol` = `protocol`
@@ -724,21 +991,28 @@ extension RTBFabric {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+$")
+            try self.listenerConfig?.validate(name: "\(name).listenerConfig")
             try self.managedEndpointConfiguration?.validate(name: "\(name).managedEndpointConfiguration")
             try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 43)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-f]{8,40}$")
             }
             try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 24)
+                try validate($0, name: "subnetIds[]", parent: name, min: 15)
                 try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-\\w{8,17}$")
             }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
             try self.trustStoreConfiguration?.validate(name: "\(name).trustStoreConfiguration")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 21)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 12)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[a-f0-9]{8,17}$")
         }
 
@@ -746,6 +1020,8 @@ extension RTBFabric {
             case clientToken = "clientToken"
             case description = "description"
             case domainName = "domainName"
+            case gatewayType = "gatewayType"
+            case listenerConfig = "listenerConfig"
             case managedEndpointConfiguration = "managedEndpointConfiguration"
             case port = "port"
             case `protocol` = "protocol"
@@ -758,19 +1034,27 @@ extension RTBFabric {
     }
 
     public struct CreateResponderGatewayResponse: AWSDecodableShape {
+        /// The external inbound endpoint for the responder gateway.
+        public let externalInboundEndpoint: String?
         /// The unique identifier of the gateway.
         public let gatewayId: String
+        /// The listener configuration for the responder gateway.
+        public let listenerConfig: ListenerConfig?
         /// The status of the request.
         public let status: ResponderGatewayStatus
 
         @inlinable
-        public init(gatewayId: String, status: ResponderGatewayStatus) {
+        public init(externalInboundEndpoint: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, status: ResponderGatewayStatus) {
+            self.externalInboundEndpoint = externalInboundEndpoint
             self.gatewayId = gatewayId
+            self.listenerConfig = listenerConfig
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case externalInboundEndpoint = "externalInboundEndpoint"
             case gatewayId = "gatewayId"
+            case listenerConfig = "listenerConfig"
             case status = "status"
         }
     }
@@ -795,7 +1079,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -840,7 +1128,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -865,6 +1157,62 @@ extension RTBFabric {
         }
     }
 
+    public struct DeleteLinkRoutingRuleRequest: AWSEncodableShape {
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(gatewayId: String, linkId: String, ruleId: String) {
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodePath(self.linkId, key: "linkId")
+            request.encodePath(self.ruleId, key: "ruleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 30)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 6)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^rule-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLinkRoutingRuleResponse: AWSDecodableShape {
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+        /// The status of the routing rule.
+        public let status: RuleStatus
+
+        @inlinable
+        public init(ruleId: String, status: RuleStatus) {
+            self.ruleId = ruleId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleId = "ruleId"
+            case status = "status"
+        }
+    }
+
     public struct DeleteOutboundExternalLinkRequest: AWSEncodableShape {
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -885,7 +1233,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -926,6 +1278,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -966,6 +1320,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -985,6 +1341,59 @@ extension RTBFabric {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case gatewayId = "gatewayId"
+            case status = "status"
+        }
+    }
+
+    public struct DisassociateCertificateRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate to disassociate.
+        public let acmCertificateArn: String
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+
+        @inlinable
+        public init(acmCertificateArn: String, gatewayId: String) {
+            self.acmCertificateArn = acmCertificateArn
+            self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.acmCertificateArn, key: "acmCertificateArn")
+            request.encodePath(self.gatewayId, key: "gatewayId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, max: 256)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, min: 75)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:certificate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateCertificateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let acmCertificateArn: String
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The status of the certificate association.
+        public let status: CertificateAssociationStatus
+
+        @inlinable
+        public init(acmCertificateArn: String, gatewayId: String, status: CertificateAssociationStatus) {
+            self.acmCertificateArn = acmCertificateArn
+            self.gatewayId = gatewayId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
             case gatewayId = "gatewayId"
             case status = "status"
         }
@@ -1019,8 +1428,14 @@ extension RTBFabric {
             try self.validate(self.clusterApiServerCaCertificateChain, name: "clusterApiServerCaCertificateChain", parent: name, min: 1)
             try self.validate(self.clusterApiServerEndpointUri, name: "clusterApiServerEndpointUri", parent: name, max: 255)
             try self.validate(self.clusterApiServerEndpointUri, name: "clusterApiServerEndpointUri", parent: name, pattern: "^(https|http)://(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+$")
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 63)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 2)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$")
+            try self.validate(self.endpointsResourceName, name: "endpointsResourceName", parent: name, max: 63)
+            try self.validate(self.endpointsResourceName, name: "endpointsResourceName", parent: name, min: 2)
             try self.validate(self.endpointsResourceName, name: "endpointsResourceName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$")
+            try self.validate(self.endpointsResourceNamespace, name: "endpointsResourceNamespace", parent: name, max: 63)
+            try self.validate(self.endpointsResourceNamespace, name: "endpointsResourceNamespace", parent: name, min: 2)
             try self.validate(self.endpointsResourceNamespace, name: "endpointsResourceNamespace", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9-]{0,61}[A-Za-z0-9]$")
         }
 
@@ -1066,6 +1481,67 @@ extension RTBFabric {
         }
     }
 
+    public struct GetCertificateAssociationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let acmCertificateArn: String
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+
+        @inlinable
+        public init(acmCertificateArn: String, gatewayId: String) {
+            self.acmCertificateArn = acmCertificateArn
+            self.gatewayId = gatewayId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.acmCertificateArn, key: "acmCertificateArn")
+            request.encodePath(self.gatewayId, key: "gatewayId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, max: 256)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, min: 75)
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):acm:[a-z0-9-]+:[0-9]{12}:certificate/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCertificateAssociationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let acmCertificateArn: String
+        /// The timestamp of when the certificate was associated.
+        public let associatedAt: Date?
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The status of the certificate association.
+        public let status: CertificateAssociationStatus
+        /// The timestamp of when the certificate association was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(acmCertificateArn: String, associatedAt: Date? = nil, gatewayId: String, status: CertificateAssociationStatus, updatedAt: Date? = nil) {
+            self.acmCertificateArn = acmCertificateArn
+            self.associatedAt = associatedAt
+            self.gatewayId = gatewayId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmCertificateArn = "acmCertificateArn"
+            case associatedAt = "associatedAt"
+            case gatewayId = "gatewayId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct GetInboundExternalLinkRequest: AWSEncodableShape {
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -1086,7 +1562,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -1096,6 +1576,8 @@ extension RTBFabric {
     public struct GetInboundExternalLinkResponse: AWSDecodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the inbound external link was created.
         public let createdAt: Date?
         /// The domain name.
@@ -1106,6 +1588,7 @@ extension RTBFabric {
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        /// Settings for the application logs.
         public let logSettings: LinkLogSettings?
         /// The configuration of pending flow modules.
         public let pendingFlowModules: [ModuleConfiguration]?
@@ -1117,8 +1600,9 @@ extension RTBFabric {
         public let updatedAt: Date?
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date? = nil, domainName: String, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date? = nil, domainName: String, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.domainName = domainName
             self.flowModules = flowModules
@@ -1133,6 +1617,7 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case domainName = "domainName"
             case flowModules = "flowModules"
@@ -1166,7 +1651,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -1176,6 +1665,8 @@ extension RTBFabric {
     public struct GetLinkResponse: AWSDecodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the link was created.
         public let createdAt: Date
         /// The direction of the link.
@@ -1184,6 +1675,8 @@ extension RTBFabric {
         public let flowModules: [ModuleConfiguration]?
         /// The unique identifier of the gateway.
         public let gatewayId: String
+        /// Boolean to specify if an HTTP responder is allowed.
+        public let httpResponderAllowed: Bool?
         /// The unique identifier of the link.
         public let linkId: String
         /// Settings for the application logs.
@@ -1196,35 +1689,127 @@ extension RTBFabric {
         public let status: LinkStatus
         /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
         public let tags: [String: String]?
+        /// The timeout value in milliseconds.
+        public let timeoutInMillis: Int64?
         /// The timestamp of when the link was updated.
         public let updatedAt: Date
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, httpResponderAllowed: Bool? = nil, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, tags: [String: String]? = nil, timeoutInMillis: Int64? = nil, updatedAt: Date) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
+            self.httpResponderAllowed = httpResponderAllowed
             self.linkId = linkId
             self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
             self.status = status
             self.tags = tags
+            self.timeoutInMillis = timeoutInMillis
             self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case direction = "direction"
             case flowModules = "flowModules"
             case gatewayId = "gatewayId"
+            case httpResponderAllowed = "httpResponderAllowed"
             case linkId = "linkId"
             case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case pendingFlowModules = "pendingFlowModules"
+            case status = "status"
+            case tags = "tags"
+            case timeoutInMillis = "timeoutInMillis"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetLinkRoutingRuleRequest: AWSEncodableShape {
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(gatewayId: String, linkId: String, ruleId: String) {
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodePath(self.linkId, key: "linkId")
+            request.encodePath(self.ruleId, key: "ruleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 30)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 6)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^rule-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLinkRoutingRuleResponse: AWSDecodableShape {
+        /// The conditions for the routing rule.
+        public let conditions: RuleCondition
+        /// The timestamp of when the routing rule was created.
+        public let createdAt: Date
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The priority of the routing rule.
+        public let priority: Int
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+        /// The status of the routing rule.
+        public let status: RuleStatus
+        /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
+        public let tags: [String: String]?
+        /// The timestamp of when the routing rule was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(conditions: RuleCondition, createdAt: Date, gatewayId: String, linkId: String, priority: Int, ruleId: String, status: RuleStatus, tags: [String: String]? = nil, updatedAt: Date) {
+            self.conditions = conditions
+            self.createdAt = createdAt
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.priority = priority
+            self.ruleId = ruleId
+            self.status = status
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case createdAt = "createdAt"
+            case gatewayId = "gatewayId"
+            case linkId = "linkId"
+            case priority = "priority"
+            case ruleId = "ruleId"
             case status = "status"
             case tags = "tags"
             case updatedAt = "updatedAt"
@@ -1251,7 +1836,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -1259,13 +1848,21 @@ extension RTBFabric {
     }
 
     public struct GetOutboundExternalLinkResponse: AWSDecodableShape {
+        public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the outbound external link was created.
         public let createdAt: Date?
+        /// The configuration of flow modules.
+        public let flowModules: [ModuleConfiguration]?
         /// The unique identifier of the gateway.
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        /// Settings for the application logs.
         public let logSettings: LinkLogSettings?
+        /// The configuration of pending flow modules.
+        public let pendingFlowModules: [ModuleConfiguration]?
         /// The public endpoint for the link.
         public let publicEndpoint: String
         /// The status of the request.
@@ -1276,11 +1873,15 @@ extension RTBFabric {
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, publicEndpoint: String, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, pendingFlowModules: [ModuleConfiguration]? = nil, publicEndpoint: String, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+            self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
+            self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
             self.logSettings = logSettings
+            self.pendingFlowModules = pendingFlowModules
             self.publicEndpoint = publicEndpoint
             self.status = status
             self.tags = tags
@@ -1288,10 +1889,14 @@ extension RTBFabric {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
+            case flowModules = "flowModules"
             case gatewayId = "gatewayId"
             case linkId = "linkId"
             case logSettings = "logSettings"
+            case pendingFlowModules = "pendingFlowModules"
             case publicEndpoint = "publicEndpoint"
             case status = "status"
             case tags = "tags"
@@ -1315,6 +1920,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -1395,6 +2002,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -1410,10 +2019,16 @@ extension RTBFabric {
         public let description: String?
         /// The domain name of the responder gateway.
         public let domainName: String?
+        /// The external inbound endpoint for the responder gateway.
+        public let externalInboundEndpoint: String?
         /// The unique identifier of the gateway.
         public let gatewayId: String
-        /// The count of inbound links for the responder gateway.
-        public let inboundLinksCount: Int?
+        /// The type of gateway. Valid values are EXTERNAL or INTERNAL.
+        public let gatewayType: GatewayType?
+        /// The count of requested links waiting for the responder gateway to accept or reject.
+        public let linksRequestedCount: Int?
+        /// The listener configuration for the responder gateway.
+        public let listenerConfig: ListenerConfig?
         /// The configuration of the managed endpoint.
         public let managedEndpointConfiguration: ManagedEndpointConfiguration?
         /// The networking port.
@@ -1438,13 +2053,16 @@ extension RTBFabric {
         public let vpcId: String
 
         @inlinable
-        public init(activeLinksCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, domainName: String? = nil, gatewayId: String, inboundLinksCount: Int? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], status: ResponderGatewayStatus, subnetIds: [String], tags: [String: String]? = nil, totalLinksCount: Int? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, updatedAt: Date? = nil, vpcId: String) {
+        public init(activeLinksCount: Int? = nil, createdAt: Date? = nil, description: String? = nil, domainName: String? = nil, externalInboundEndpoint: String? = nil, gatewayId: String, gatewayType: GatewayType? = nil, linksRequestedCount: Int? = nil, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, securityGroupIds: [String], status: ResponderGatewayStatus, subnetIds: [String], tags: [String: String]? = nil, totalLinksCount: Int? = nil, trustStoreConfiguration: TrustStoreConfiguration? = nil, updatedAt: Date? = nil, vpcId: String) {
             self.activeLinksCount = activeLinksCount
             self.createdAt = createdAt
             self.description = description
             self.domainName = domainName
+            self.externalInboundEndpoint = externalInboundEndpoint
             self.gatewayId = gatewayId
-            self.inboundLinksCount = inboundLinksCount
+            self.gatewayType = gatewayType
+            self.linksRequestedCount = linksRequestedCount
+            self.listenerConfig = listenerConfig
             self.managedEndpointConfiguration = managedEndpointConfiguration
             self.port = port
             self.`protocol` = `protocol`
@@ -1463,8 +2081,11 @@ extension RTBFabric {
             case createdAt = "createdAt"
             case description = "description"
             case domainName = "domainName"
+            case externalInboundEndpoint = "externalInboundEndpoint"
             case gatewayId = "gatewayId"
-            case inboundLinksCount = "inboundLinksCount"
+            case gatewayType = "gatewayType"
+            case linksRequestedCount = "linksRequestedCount"
+            case listenerConfig = "listenerConfig"
             case managedEndpointConfiguration = "managedEndpointConfiguration"
             case port = "port"
             case `protocol` = "protocol"
@@ -1494,6 +2115,53 @@ extension RTBFabric {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case value = "value"
+        }
+    }
+
+    public struct HealthCheckConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of consecutive successful health checks required before an instance is considered healthy. Valid range is 2 to 10.
+        public let healthyThresholdCount: Int?
+        /// The interval between health check probes, in seconds. Valid range is 5 to 60.
+        public let intervalSeconds: Int?
+        /// The destination path for the health check request. Must start with /.
+        public let path: String
+        /// The port to use for health check probes. Valid range is 80 to 65535.
+        public let port: Int
+        /// The protocol to use for health check probes.
+        public let `protocol`: `Protocol`?
+        /// The expected HTTP status code or status code pattern from healthy instances. Supports a single code (for example, 200), a range (for example, 200-299), or a comma-separated list (for example, 200,204).
+        public let statusCodeMatcher: String?
+        /// The timeout for each health check probe, in milliseconds. Valid range is 100 to 5000.
+        public let timeoutMs: Int?
+        /// The number of consecutive failed health checks required before an instance is considered unhealthy. Valid range is 2 to 10.
+        public let unhealthyThresholdCount: Int?
+
+        @inlinable
+        public init(healthyThresholdCount: Int? = nil, intervalSeconds: Int? = nil, path: String, port: Int, protocol: `Protocol`? = nil, statusCodeMatcher: String? = nil, timeoutMs: Int? = nil, unhealthyThresholdCount: Int? = nil) {
+            self.healthyThresholdCount = healthyThresholdCount
+            self.intervalSeconds = intervalSeconds
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.timeoutMs = timeoutMs
+            self.unhealthyThresholdCount = unhealthyThresholdCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.statusCodeMatcher, name: "statusCodeMatcher", parent: name, max: 64)
+            try self.validate(self.statusCodeMatcher, name: "statusCodeMatcher", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthyThresholdCount = "healthyThresholdCount"
+            case intervalSeconds = "intervalSeconds"
+            case path = "path"
+            case port = "port"
+            case `protocol` = "protocol"
+            case statusCodeMatcher = "statusCodeMatcher"
+            case timeoutMs = "timeoutMs"
+            case unhealthyThresholdCount = "unhealthyThresholdCount"
         }
     }
 
@@ -1572,6 +2240,147 @@ extension RTBFabric {
         }
     }
 
+    public struct LinkRoutingRuleSummary: AWSDecodableShape {
+        /// The conditions for the routing rule.
+        public let conditions: RuleCondition
+        /// The timestamp of when the routing rule was created.
+        public let createdAt: Date
+        /// The priority of the routing rule.
+        public let priority: Int
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+        /// The status of the routing rule.
+        public let status: RuleStatus
+        /// The timestamp of when the routing rule was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(conditions: RuleCondition, createdAt: Date, priority: Int, ruleId: String, status: RuleStatus, updatedAt: Date) {
+            self.conditions = conditions
+            self.createdAt = createdAt
+            self.priority = priority
+            self.ruleId = ruleId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case createdAt = "createdAt"
+            case priority = "priority"
+            case ruleId = "ruleId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ListCertificateAssociationsRequest: AWSEncodableShape {
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gatewayId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.gatewayId = gatewayId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCertificateAssociationsResponse: AWSDecodableShape {
+        /// The list of certificate associations for the gateway.
+        public let certificateAssociations: [CertificateAssociationSummary]
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(certificateAssociations: [CertificateAssociationSummary], nextToken: String? = nil) {
+            self.certificateAssociations = certificateAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAssociations = "certificateAssociations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLinkRoutingRulesRequest: AWSEncodableShape {
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
+        public let maxResults: Int?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(gatewayId: String, linkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodePath(self.linkId, key: "linkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLinkRoutingRulesResponse: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+        /// The list of routing rules for the link.
+        public let rules: [LinkRoutingRuleSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rules: [LinkRoutingRuleSummary]? = nil) {
+            self.nextToken = nextToken
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case rules = "rules"
+        }
+    }
+
     public struct ListLinksRequest: AWSEncodableShape {
         /// The unique identifier of the gateway.
         public let gatewayId: String
@@ -1596,6 +2405,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -1623,6 +2434,8 @@ extension RTBFabric {
     public struct ListLinksResponseStructure: AWSDecodableShape {
         /// Describes attributes of a link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the link was created.
         public let createdAt: Date
         /// The direction of the link.
@@ -1633,10 +2446,13 @@ extension RTBFabric {
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        public let logSettings: LinkLogSettings?
         /// The unique identifier of the peer gateway.
         public let peerGatewayId: String
         /// Describes the configuration of pending flow modules.
         public let pendingFlowModules: [ModuleConfiguration]?
+        /// The public endpoint of the outbound link.
+        public let publicEndpoint: String?
         /// The status of the link.
         public let status: LinkStatus
         /// A map of the key-value pairs of the tag or tags to assign to the resource.
@@ -1645,15 +2461,18 @@ extension RTBFabric {
         public let updatedAt: Date
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, publicEndpoint: String? = nil, status: LinkStatus, tags: [String: String]? = nil, updatedAt: Date) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
+            self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
+            self.publicEndpoint = publicEndpoint
             self.status = status
             self.tags = tags
             self.updatedAt = updatedAt
@@ -1661,13 +2480,16 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case direction = "direction"
             case flowModules = "flowModules"
             case gatewayId = "gatewayId"
             case linkId = "linkId"
+            case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case pendingFlowModules = "pendingFlowModules"
+            case publicEndpoint = "publicEndpoint"
             case status = "status"
             case tags = "tags"
             case updatedAt = "updatedAt"
@@ -1772,7 +2594,7 @@ extension RTBFabric {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+(/routing-rule/[a-zA-Z0-9-]+)?)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1789,6 +2611,25 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ListenerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The protocol for connections from clients to the gateway
+        public let protocols: [`Protocol`]
+
+        @inlinable
+        public init(protocols: [`Protocol`]) {
+            self.protocols = protocols
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.protocols, name: "protocols", parent: name, max: 2)
+            try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protocols = "protocols"
         }
     }
 
@@ -1817,6 +2658,8 @@ extension RTBFabric {
             }
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9 -]+$")
+            try self.validate(self.version, name: "version", parent: name, max: 25)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "^[a-z0-9-]{1,25}$")
         }
 
@@ -1890,6 +2733,24 @@ extension RTBFabric {
         }
     }
 
+    public struct QueryStringKeyValuePair: AWSEncodableShape & AWSDecodableShape {
+        /// The key of the query string parameter to match. Must contain only RFC 3986 unreserved characters.
+        public let key: String
+        /// The value of the query string parameter to match. Must contain only RFC 3986 unreserved characters.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct RateLimiterModuleParameters: AWSEncodableShape & AWSDecodableShape {
         /// The transactions per second rate limit.
         public let tps: Float?
@@ -1924,7 +2785,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
         }
 
@@ -1934,6 +2799,8 @@ extension RTBFabric {
     public struct RejectLinkResponse: AWSDecodableShape {
         /// Attributes of the link.
         public let attributes: LinkAttributes?
+        /// The connectivity type of the link.
+        public let connectivityType: ConnectivityType?
         /// The timestamp of when the link was created.
         public let createdAt: Date
         /// The direction of the link.
@@ -1944,6 +2811,7 @@ extension RTBFabric {
         public let gatewayId: String
         /// The unique identifier of the link.
         public let linkId: String
+        public let logSettings: LinkLogSettings?
         /// The unique identifier of the peer gateway.
         public let peerGatewayId: String
         /// The configuration of pending flow modules.
@@ -1954,13 +2822,15 @@ extension RTBFabric {
         public let updatedAt: Date
 
         @inlinable
-        public init(attributes: LinkAttributes? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
+        public init(attributes: LinkAttributes? = nil, connectivityType: ConnectivityType? = nil, createdAt: Date, direction: LinkDirection? = nil, flowModules: [ModuleConfiguration]? = nil, gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, peerGatewayId: String, pendingFlowModules: [ModuleConfiguration]? = nil, status: LinkStatus, updatedAt: Date) {
             self.attributes = attributes
+            self.connectivityType = connectivityType
             self.createdAt = createdAt
             self.direction = direction
             self.flowModules = flowModules
             self.gatewayId = gatewayId
             self.linkId = linkId
+            self.logSettings = logSettings
             self.peerGatewayId = peerGatewayId
             self.pendingFlowModules = pendingFlowModules
             self.status = status
@@ -1969,11 +2839,13 @@ extension RTBFabric {
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
+            case connectivityType = "connectivityType"
             case createdAt = "createdAt"
             case direction = "direction"
             case flowModules = "flowModules"
             case gatewayId = "gatewayId"
             case linkId = "linkId"
+            case logSettings = "logSettings"
             case peerGatewayId = "peerGatewayId"
             case pendingFlowModules = "pendingFlowModules"
             case status = "status"
@@ -2012,6 +2884,40 @@ extension RTBFabric {
         }
     }
 
+    public struct RuleCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The exact host header value to match.
+        public let hostHeader: String?
+        /// A wildcard pattern for host header matching (for example, *.example.com).
+        public let hostHeaderWildcard: String?
+        /// The exact path to match. Must start with /.
+        public let pathExact: String?
+        /// The path prefix to match. The request path must start with this value. Must start with /.
+        public let pathPrefix: String?
+        /// A query string key-value pair that must be present and match exactly.
+        public let queryStringEquals: QueryStringKeyValuePair?
+        /// A query string key that must be present in the request (any value is accepted).
+        public let queryStringExists: String?
+
+        @inlinable
+        public init(hostHeader: String? = nil, hostHeaderWildcard: String? = nil, pathExact: String? = nil, pathPrefix: String? = nil, queryStringEquals: QueryStringKeyValuePair? = nil, queryStringExists: String? = nil) {
+            self.hostHeader = hostHeader
+            self.hostHeaderWildcard = hostHeaderWildcard
+            self.pathExact = pathExact
+            self.pathPrefix = pathPrefix
+            self.queryStringEquals = queryStringEquals
+            self.queryStringExists = queryStringExists
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostHeader = "hostHeader"
+            case hostHeaderWildcard = "hostHeaderWildcard"
+            case pathExact = "pathExact"
+            case pathPrefix = "pathPrefix"
+            case queryStringEquals = "queryStringEquals"
+            case queryStringExists = "queryStringExists"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
@@ -2034,11 +2940,11 @@ extension RTBFabric {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+(/routing-rule/[a-zA-Z0-9-]+)?)?$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1600)
             }
         }
@@ -2096,11 +3002,11 @@ extension RTBFabric {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1600)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+)?$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:rtbfabric:[a-zA-Z0-9_-]+:[0-9]{12}:gateway/[a-zA-Z0-9-]+(/link/[a-zA-Z0-9-]+(/routing-rule/[a-zA-Z0-9-]+)?)?$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(resourceArn|internalId|(?!aws:)[a-zA-Z0-9+\\-=._:/@]+)$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(resourceArn|internalId|[a-zA-Z0-9+\\-=._:/@]+)$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -2141,7 +3047,11 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
             try self.modules.forEach {
                 try $0.validate(name: "\(name).modules[]")
@@ -2183,12 +3093,15 @@ extension RTBFabric {
         public let linkId: String
         /// Settings for the application logs.
         public let logSettings: LinkLogSettings?
+        /// The timeout value in milliseconds.
+        public let timeoutInMillis: Int64?
 
         @inlinable
-        public init(gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil) {
+        public init(gatewayId: String, linkId: String, logSettings: LinkLogSettings? = nil, timeoutInMillis: Int64? = nil) {
             self.gatewayId = gatewayId
             self.linkId = linkId
             self.logSettings = logSettings
+            self.timeoutInMillis = timeoutInMillis
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2197,15 +3110,23 @@ extension RTBFabric {
             request.encodePath(self.gatewayId, key: "gatewayId")
             request.encodePath(self.linkId, key: "linkId")
             try container.encodeIfPresent(self.logSettings, forKey: .logSettings)
+            try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
             try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, max: 5000)
+            try self.validate(self.timeoutInMillis, name: "timeoutInMillis", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case logSettings = "logSettings"
+            case timeoutInMillis = "timeoutInMillis"
         }
     }
 
@@ -2224,6 +3145,79 @@ extension RTBFabric {
         private enum CodingKeys: String, CodingKey {
             case linkId = "linkId"
             case status = "status"
+        }
+    }
+
+    public struct UpdateLinkRoutingRuleRequest: AWSEncodableShape {
+        /// The updated conditions for the routing rule. All specified fields must match for the rule to apply. At least one condition field must be set.
+        public let conditions: RuleCondition
+        /// The unique identifier of the gateway.
+        public let gatewayId: String
+        /// The unique identifier of the link.
+        public let linkId: String
+        /// The updated priority of the routing rule. Lower numbers are evaluated first. Valid values are 1 to 1000. Priority must be unique among non-deleted rules within a link.
+        public let priority: Int
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(conditions: RuleCondition, gatewayId: String, linkId: String, priority: Int, ruleId: String) {
+            self.conditions = conditions
+            self.gatewayId = gatewayId
+            self.linkId = linkId
+            self.priority = priority
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.conditions, forKey: .conditions)
+            request.encodePath(self.gatewayId, key: "gatewayId")
+            request.encodePath(self.linkId, key: "linkId")
+            try container.encode(self.priority, forKey: .priority)
+            request.encodePath(self.ruleId, key: "ruleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 30)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 6)
+            try self.validate(self.linkId, name: "linkId", parent: name, pattern: "^link-[a-z0-9-]{1,25}$")
+            try self.validate(self.priority, name: "priority", parent: name, max: 1000)
+            try self.validate(self.priority, name: "priority", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 30)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 6)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^rule-[a-z0-9-]{1,25}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case priority = "priority"
+        }
+    }
+
+    public struct UpdateLinkRoutingRuleResponse: AWSDecodableShape {
+        /// The unique identifier of the routing rule.
+        public let ruleId: String
+        /// The status of the routing rule.
+        public let status: RuleStatus
+        /// The timestamp of when the routing rule was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(ruleId: String, status: RuleStatus, updatedAt: Date) {
+            self.ruleId = ruleId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleId = "ruleId"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -2251,6 +3245,8 @@ extension RTBFabric {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
         }
 
@@ -2287,6 +3283,8 @@ extension RTBFabric {
         public let domainName: String?
         /// The unique identifier of the gateway.
         public let gatewayId: String
+        /// The listener configuration for the responder gateway.
+        public let listenerConfig: ListenerConfig?
         /// The configuration for the managed endpoint.
         public let managedEndpointConfiguration: ManagedEndpointConfiguration?
         /// The networking port to use.
@@ -2297,11 +3295,12 @@ extension RTBFabric {
         public let trustStoreConfiguration: TrustStoreConfiguration?
 
         @inlinable
-        public init(clientToken: String = UpdateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayId: String, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, trustStoreConfiguration: TrustStoreConfiguration? = nil) {
+        public init(clientToken: String = UpdateResponderGatewayRequest.idempotencyToken(), description: String? = nil, domainName: String? = nil, gatewayId: String, listenerConfig: ListenerConfig? = nil, managedEndpointConfiguration: ManagedEndpointConfiguration? = nil, port: Int, protocol: `Protocol`, trustStoreConfiguration: TrustStoreConfiguration? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.domainName = domainName
             self.gatewayId = gatewayId
+            self.listenerConfig = listenerConfig
             self.managedEndpointConfiguration = managedEndpointConfiguration
             self.port = port
             self.`protocol` = `protocol`
@@ -2315,6 +3314,7 @@ extension RTBFabric {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.domainName, forKey: .domainName)
             request.encodePath(self.gatewayId, key: "gatewayId")
+            try container.encodeIfPresent(self.listenerConfig, forKey: .listenerConfig)
             try container.encodeIfPresent(self.managedEndpointConfiguration, forKey: .managedEndpointConfiguration)
             try container.encode(self.port, forKey: .port)
             try container.encode(self.`protocol`, forKey: .`protocol`)
@@ -2324,8 +3324,11 @@ extension RTBFabric {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
-            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\\.(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?))+$")
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+$")
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, max: 32)
+            try self.validate(self.gatewayId, name: "gatewayId", parent: name, min: 8)
             try self.validate(self.gatewayId, name: "gatewayId", parent: name, pattern: "^rtb-gw-[a-z0-9-]{1,25}$")
+            try self.listenerConfig?.validate(name: "\(name).listenerConfig")
             try self.managedEndpointConfiguration?.validate(name: "\(name).managedEndpointConfiguration")
             try self.trustStoreConfiguration?.validate(name: "\(name).trustStoreConfiguration")
         }
@@ -2334,6 +3337,7 @@ extension RTBFabric {
             case clientToken = "clientToken"
             case description = "description"
             case domainName = "domainName"
+            case listenerConfig = "listenerConfig"
             case managedEndpointConfiguration = "managedEndpointConfiguration"
             case port = "port"
             case `protocol` = "protocol"

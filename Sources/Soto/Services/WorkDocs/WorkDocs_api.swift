@@ -1619,7 +1619,7 @@ public struct WorkDocs: AWSService {
     ///
     /// Parameters:
     ///   - additionalResponseFields: A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
-    ///   - authenticationToken: Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+    ///   - authenticationToken: WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     ///   - filters: Filters results based on entity metadata.
     ///   - limit: Max results count per page.
     ///   - marker: The marker for the next set of results.
@@ -2281,7 +2281,7 @@ extension WorkDocs {
     ///
     /// - Parameters:
     ///   - additionalResponseFields: A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
-    ///   - authenticationToken: Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+    ///   - authenticationToken: WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
     ///   - filters: Filters results based on entity metadata.
     ///   - limit: Max results count per page.
     ///   - orderBy: Order by results in one or more categories.

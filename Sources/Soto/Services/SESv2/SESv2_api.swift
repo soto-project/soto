@@ -171,7 +171,7 @@ public struct SESv2: AWSService {
     ///   - deliveryOptions: An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
     ///   - reputationOptions: An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
     ///   - sendingOptions: An object that defines whether or not Amazon SES can send email that you send using the configuration set.
-    ///   - suppressionOptions: 
+    ///   - suppressionOptions: An object that contains information about the suppression list preferences for the configuration set. You can optionally include a SuppressionScope to override the tenant or account suppression scope for emails sent using this configuration set.
     ///   - tags: An array of objects that define the tags (keys and values) to associate with the configuration set.
     ///   - trackingOptions: An object that defines the open and click tracking options for emails that you send using the configuration set.
     ///   - vdmOptions: An object that defines the VDM options for emails that you send using the configuration set.
@@ -609,7 +609,7 @@ public struct SESv2: AWSService {
         return try await self.createImportJob(input, logger: logger)
     }
 
-    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been created and where it can be managed.
     @Sendable
     @inlinable
     public func createMultiRegionEndpoint(_ input: CreateMultiRegionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMultiRegionEndpointResponse {
@@ -622,7 +622,7 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic will be split equally between the two. The primary region is the region where the resource has been created and where it can be managed.
+    /// Creates a multi-region endpoint (global-endpoint). The primary region is going to be the AWS-Region where the operation is executed. The secondary region has to be provided in request's parameters. From the data flow standpoint there is no difference between primary and secondary regions - sending traffic is divided between the two. The primary region is the region where the resource has been created and where it can be managed.
     ///
     /// Parameters:
     ///   - details: Contains details of a multi-region endpoint (global-endpoint) being created.
@@ -644,7 +644,7 @@ public struct SESv2: AWSService {
         return try await self.createMultiRegionEndpoint(input, logger: logger)
     }
 
-    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure tenant-level suppression at creation time. When tenant-level suppression is enabled, Amazon SES maintains a separate suppression list for the tenant instead of using the account-level suppression list.
     @Sendable
     @inlinable
     public func createTenant(_ input: CreateTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTenantResponse {
@@ -657,19 +657,22 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+    /// Create a tenant.  Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account. You can optionally specify SuppressionAttributes to configure tenant-level suppression at creation time. When tenant-level suppression is enabled, Amazon SES maintains a separate suppression list for the tenant instead of using the account-level suppression list.
     ///
     /// Parameters:
+    ///   - suppressionAttributes: An object that contains information about the suppression list preferences for the tenant. Use this to configure tenant-level suppression at creation time.
     ///   - tags: An array of objects that define the tags (keys and values) to associate with the tenant
     ///   - tenantName: The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTenant(
+        suppressionAttributes: TenantSuppressionAttributes? = nil,
         tags: [Tag]? = nil,
         tenantName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTenantResponse {
         let input = CreateTenantRequest(
+            suppressionAttributes: suppressionAttributes, 
             tags: tags, 
             tenantName: tenantName
         )
@@ -1007,7 +1010,7 @@ public struct SESv2: AWSService {
         return try await self.deleteMultiRegionEndpoint(input, logger: logger)
     }
 
-    /// Removes an email address from the suppression list for your account.
+    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is removed from the account-level suppression list.
     @Sendable
     @inlinable
     public func deleteSuppressedDestination(_ input: DeleteSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSuppressedDestinationResponse {
@@ -1020,18 +1023,21 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Removes an email address from the suppression list for your account.
+    /// Removes an email address from the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is removed from the account-level suppression list.
     ///
     /// Parameters:
-    ///   - emailAddress: The suppressed email destination to remove from the account suppression list.
+    ///   - emailAddress: The suppressed email destination to remove from the suppression list for your account or for the specified tenant.
+    ///   - tenantName: The name of the tenant whose suppression list you want to remove the address from. If you omit this parameter, the address is removed from the account-level suppression list.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteSuppressedDestination(
         emailAddress: String,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteSuppressedDestinationResponse {
         let input = DeleteSuppressedDestinationRequest(
-            emailAddress: emailAddress
+            emailAddress: emailAddress, 
+            tenantName: tenantName
         )
         return try await self.deleteSuppressedDestination(input, logger: logger)
     }
@@ -1599,7 +1605,7 @@ public struct SESv2: AWSService {
         return try await self.getEmailIdentityPolicies(input, logger: logger)
     }
 
-    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
+    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than 50 times per second.
     @Sendable
     @inlinable
     public func getEmailTemplate(_ input: GetEmailTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEmailTemplateResponse {
@@ -1612,7 +1618,7 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than once per second.
+    /// Displays the template object (which includes the subject line, HTML part and text part) for the template you specify. You can execute this operation no more than 50 times per second.
     ///
     /// Parameters:
     ///   - templateName: The name of the template.
@@ -1776,7 +1782,7 @@ public struct SESv2: AWSService {
         return try await self.getReputationEntity(input, logger: logger)
     }
 
-    /// Retrieves information about a specific email address that's on the suppression list for your account.
+    /// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     @Sendable
     @inlinable
     public func getSuppressedDestination(_ input: GetSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSuppressedDestinationResponse {
@@ -1789,23 +1795,26 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a specific email address that's on the suppression list for your account.
+    /// Retrieves information about a specific email address that's on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     ///
     /// Parameters:
-    ///   - emailAddress: The email address that's on the account suppression list.
+    ///   - emailAddress: The email address that's on the suppression list for your account or for the specified tenant.
+    ///   - tenantName: The name of the tenant whose suppression list you want to query. If you omit this parameter, the operation targets the account-level suppression list.
     ///   - logger: Logger use during operation
     @inlinable
     public func getSuppressedDestination(
         emailAddress: String,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetSuppressedDestinationResponse {
         let input = GetSuppressedDestinationRequest(
-            emailAddress: emailAddress
+            emailAddress: emailAddress, 
+            tenantName: tenantName
         )
         return try await self.getSuppressedDestination(input, logger: logger)
     }
 
-    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes.
     @Sendable
     @inlinable
     public func getTenant(_ input: GetTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTenantResponse {
@@ -1818,7 +1827,7 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, and sending status.
+    /// Get information about a specific tenant, including the tenant's name, ID, ARN, creation timestamp, tags, sending status, and suppression attributes.
     ///
     /// Parameters:
     ///   - tenantName: The name of the tenant to retrieve information about.
@@ -2347,7 +2356,7 @@ public struct SESv2: AWSService {
         return try await self.listResourceTenants(input, logger: logger)
     }
 
-    /// Retrieves a list of email addresses that are on the suppression list for your account.
+    /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     @Sendable
     @inlinable
     public func listSuppressedDestinations(_ input: ListSuppressedDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSuppressedDestinationsResponse {
@@ -2360,14 +2369,15 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of email addresses that are on the suppression list for your account.
+    /// Retrieves a list of email addresses that are on the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the operation targets the account-level suppression list.
     ///
     /// Parameters:
     ///   - endDate: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
     ///   - nextToken: A token returned from a previous call to ListSuppressedDestinations to indicate the position in the list of suppressed email addresses.
     ///   - pageSize: The number of results to show in a single call to ListSuppressedDestinations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-    ///   - reasons: The factors that caused the email address to be added to .
+    ///   - reasons: The factors that caused the email address to be added to the suppression list for your account or for a specific tenant.
     ///   - startDate: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
+    ///   - tenantName: The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSuppressedDestinations(
@@ -2376,6 +2386,7 @@ public struct SESv2: AWSService {
         pageSize: Int? = nil,
         reasons: [SuppressionListReason]? = nil,
         startDate: Date? = nil,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListSuppressedDestinationsResponse {
         let input = ListSuppressedDestinationsRequest(
@@ -2383,7 +2394,8 @@ public struct SESv2: AWSService {
             nextToken: nextToken, 
             pageSize: pageSize, 
             reasons: reasons, 
-            startDate: startDate
+            startDate: startDate, 
+            tenantName: tenantName
         )
         return try await self.listSuppressedDestinations(input, logger: logger)
     }
@@ -2558,6 +2570,35 @@ public struct SESv2: AWSService {
             websiteURL: websiteURL
         )
         return try await self.putAccountDetails(input, logger: logger)
+    }
+
+    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    @Sendable
+    @inlinable
+    public func putAccountPricingAttributes(_ input: PutAccountPricingAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountPricingAttributesResponse {
+        try await self.client.execute(
+            operation: "PutAccountPricingAttributes", 
+            path: "/v2/email/account/pricing-attributes", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    ///
+    /// Parameters:
+    ///   - plan: The pricing plan to apply to your Amazon SES account. Can be one of the following:    NONE – No pricing plan is applied; billing follows per-feature pricing.    ESSENTIALS – Baseline Amazon SES capabilities and select premium features.    PRO – Includes everything in ESSENTIALS, plus additional premium features for growing senders.    ENTERPRISE – Includes everything in PRO, plus features intended for large-scale senders.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountPricingAttributes(
+        plan: PricingPlan,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAccountPricingAttributesResponse {
+        let input = PutAccountPricingAttributesRequest(
+            plan: plan
+        )
+        return try await self.putAccountPricingAttributes(input, logger: logger)
     }
 
     /// Enable or disable the ability of your account to send email.
@@ -2784,7 +2825,7 @@ public struct SESv2: AWSService {
         return try await self.putConfigurationSetSendingOptions(input, logger: logger)
     }
 
-    /// Specify the account suppression list preferences for a configuration set.
+    /// Specify the suppression list preferences for a configuration set. You can also use this operation to specify a SuppressionScope to override the suppression scope of the tenant or account for emails sent using this configuration set.
     @Sendable
     @inlinable
     public func putConfigurationSetSuppressionOptions(_ input: PutConfigurationSetSuppressionOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetSuppressionOptionsResponse {
@@ -2797,23 +2838,26 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Specify the account suppression list preferences for a configuration set.
+    /// Specify the suppression list preferences for a configuration set. You can also use this operation to specify a SuppressionScope to override the suppression scope of the tenant or account for emails sent using this configuration set.
     ///
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set to change the suppression list preferences for.
-    ///   - suppressedReasons: A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+    ///   - suppressedReasons: A list that contains the reasons that email addresses are automatically added to the suppression list for your account or for a specific tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account or for a specific tenant when a message sent to that address results in a hard bounce.
+    ///   - suppressionScope: The suppression scope for the configuration set. This overrides the tenant or account suppression scope for emails sent using this configuration set. Can be one of the following:    TENANT – Use the tenant's suppression list.    ACCOUNT – Use the account-level suppression list.
     ///   - validationOptions: An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func putConfigurationSetSuppressionOptions(
         configurationSetName: String,
         suppressedReasons: [SuppressionListReason]? = nil,
+        suppressionScope: SuppressionListScope? = nil,
         validationOptions: SuppressionValidationOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutConfigurationSetSuppressionOptionsResponse {
         let input = PutConfigurationSetSuppressionOptionsRequest(
             configurationSetName: configurationSetName, 
             suppressedReasons: suppressedReasons, 
+            suppressionScope: suppressionScope, 
             validationOptions: validationOptions
         )
         return try await self.putConfigurationSetSuppressionOptions(input, logger: logger)
@@ -3178,7 +3222,7 @@ public struct SESv2: AWSService {
         return try await self.putEmailIdentityMailFromAttributes(input, logger: logger)
     }
 
-    /// Adds an email address to the suppression list for your account.
+    /// Adds an email address to the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is added to the account-level suppression list.
     @Sendable
     @inlinable
     public func putSuppressedDestination(_ input: PutSuppressedDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSuppressedDestinationResponse {
@@ -3191,23 +3235,61 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Adds an email address to the suppression list for your account.
+    /// Adds an email address to the suppression list for your account or for a specific tenant. To target a tenant's suppression list, specify the TenantName parameter. If you omit TenantName, the address is added to the account-level suppression list.
     ///
     /// Parameters:
-    ///   - emailAddress: The email address that should be added to the suppression list for your account.
-    ///   - reason: The factors that should cause the email address to be added to the suppression list for your account.
+    ///   - emailAddress: The email address that should be added to the suppression list for your account or for the specified tenant.
+    ///   - reason: The factors that should cause the email address to be added to the suppression list for your account or for the specified tenant.
+    ///   - tenantName: The name of the tenant whose suppression list you want to add the address to. If you omit this parameter, the address is added to the account-level suppression list.
     ///   - logger: Logger use during operation
     @inlinable
     public func putSuppressedDestination(
         emailAddress: String,
         reason: SuppressionListReason,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutSuppressedDestinationResponse {
         let input = PutSuppressedDestinationRequest(
             emailAddress: emailAddress, 
-            reason: reason
+            reason: reason, 
+            tenantName: tenantName
         )
         return try await self.putSuppressedDestination(input, logger: logger)
+    }
+
+    /// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT, Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT, the tenant uses the account-level suppression list.
+    @Sendable
+    @inlinable
+    public func putTenantSuppressionAttributes(_ input: PutTenantSuppressionAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTenantSuppressionAttributesResponse {
+        try await self.client.execute(
+            operation: "PutTenantSuppressionAttributes", 
+            path: "/v2/email/tenant/suppression", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Configure the suppression list preferences for a tenant. Use this operation to enable or disable tenant-level suppression, or to change the suppressed reasons for a tenant. When you set the suppression scope to TENANT, Amazon SES maintains a separate suppression list for the tenant. When you set the scope to ACCOUNT, the tenant uses the account-level suppression list.
+    ///
+    /// Parameters:
+    ///   - suppressedReasons: A list that contains the reasons that email addresses are automatically added to the suppression list for the tenant. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list when a message sent to that address results in a hard bounce.
+    ///   - suppressionScope: The suppression scope for the tenant. Specify TENANT to use the tenant's own suppression list, or ACCOUNT to use the account-level suppression list.  If you don't specify a suppression scope, the tenant defaults to ACCOUNT scope and uses the account-level suppression list.
+    ///   - tenantName: The name of the tenant to configure suppression list preferences for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTenantSuppressionAttributes(
+        suppressedReasons: [SuppressionListReason]? = nil,
+        suppressionScope: SuppressionListScope? = nil,
+        tenantName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTenantSuppressionAttributesResponse {
+        let input = PutTenantSuppressionAttributesRequest(
+            suppressedReasons: suppressedReasons, 
+            suppressionScope: suppressionScope, 
+            tenantName: tenantName
+        )
+        return try await self.putTenantSuppressionAttributes(input, logger: logger)
     }
 
     /// Composes an email message to multiple destinations.
@@ -4371,8 +4453,9 @@ extension SESv2 {
     /// - Parameters:
     ///   - endDate: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
     ///   - pageSize: The number of results to show in a single call to ListSuppressedDestinations. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
-    ///   - reasons: The factors that caused the email address to be added to .
+    ///   - reasons: The factors that caused the email address to be added to the suppression list for your account or for a specific tenant.
     ///   - startDate: Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list after a specific date.
+    ///   - tenantName: The name of the tenant whose suppression list you want to retrieve. If you omit this parameter, the operation targets the account-level suppression list.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSuppressedDestinationsPaginator(
@@ -4380,13 +4463,15 @@ extension SESv2 {
         pageSize: Int? = nil,
         reasons: [SuppressionListReason]? = nil,
         startDate: Date? = nil,
+        tenantName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListSuppressedDestinationsRequest, ListSuppressedDestinationsResponse> {
         let input = ListSuppressedDestinationsRequest(
             endDate: endDate, 
             pageSize: pageSize, 
             reasons: reasons, 
-            startDate: startDate
+            startDate: startDate, 
+            tenantName: tenantName
         )
         return self.listSuppressedDestinationsPaginator(input, logger: logger)
     }
@@ -4646,7 +4731,8 @@ extension SESv2.ListSuppressedDestinationsRequest: AWSPaginateToken {
             nextToken: token,
             pageSize: self.pageSize,
             reasons: self.reasons,
-            startDate: self.startDate
+            startDate: self.startDate,
+            tenantName: self.tenantName
         )
     }
 }

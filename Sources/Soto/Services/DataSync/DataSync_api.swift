@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DataSync service.
 ///
-/// DataSync DataSync is an online data movement service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
+/// DataSync In addition to the Amazon Web Services Management Console and Amazon Web Services Command Line Interface, you can use the DataSync API to configure and manage DataSync with the Amazon Web Services SDKs. DataSync is an online data movement service that simplifies data migration and helps you quickly, easily, and securely transfer your file or object data to, from, and between Amazon Web Services storage services. This API interface reference includes documentation for using DataSync programmatically. For complete information, see the  DataSync User Guide .
 public struct DataSync: AWSService {
     // MARK: Member variables
 
@@ -517,7 +517,7 @@ public struct DataSync: AWSService {
     ///   - kerberosKrb5Conf: The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.   If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.   If KERBEROS is specified for AuthenticationType, this parameter is required.
     ///   - kmsKeyProviderUri: The URI of the HDFS cluster's Key Management Server (KMS).
-    ///   - nameNodes: The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+    ///   - nameNodes: The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:    Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.    Basic mode – You can specify only one NameNode.
     ///   - qopConfiguration: The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer protection settings configured on the Hadoop Distributed File System (HDFS) cluster. If QopConfiguration isn't specified, RpcProtection and DataTransferProtection default to PRIVACY. If you set RpcProtection or DataTransferProtection, the other parameter assumes the same value.
     ///   - replicationFactor: The number of DataNodes to replicate the data to when writing to the HDFS cluster. By default, data is replicated to three DataNodes.
     ///   - simpleUser: The user name used to identify the client on the host operating system.   If SIMPLE is specified for AuthenticationType, this parameter is required.
@@ -1920,7 +1920,7 @@ public struct DataSync: AWSService {
     ///   - kerberosPrincipal: The Kerberos principal with access to the files and folders on the HDFS cluster.
     ///   - kmsKeyProviderUri: The URI of the HDFS cluster's Key Management Server (KMS).
     ///   - locationArn: The Amazon Resource Name (ARN) of the source HDFS cluster location.
-    ///   - nameNodes: The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. You can use only one NameNode.
+    ///   - nameNodes: The NameNode that manages the HDFS namespace. The NameNode performs operations such as opening, closing, and renaming files and directories. The NameNode contains the information to map blocks of data to the DataNodes. The number of NameNodes you can specify depends on the task mode:   Enhanced mode – You can specify multiple NameNodes for HDFS High Availability (HA) configurations.   Basic mode – You can specify only one NameNode.
     ///   - qopConfiguration: The Quality of Protection (QOP) configuration specifies the Remote Procedure Call (RPC) and data transfer privacy settings configured on the Hadoop Distributed File System (HDFS) cluster.
     ///   - replicationFactor: The number of DataNodes to replicate the data to when writing to the HDFS cluster.
     ///   - simpleUser: The user name used to identify the client on the host operating system.

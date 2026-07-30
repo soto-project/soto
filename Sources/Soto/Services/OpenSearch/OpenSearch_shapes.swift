@@ -93,6 +93,22 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapabilityFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsKeyInsufficientPermission = "KMS_KEY_INSUFFICIENT_PERMISSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case createFailed = "create_failed"
+        case creating = "creating"
+        case deleteFailed = "delete_failed"
+        case deleting = "deleting"
+        case updateFailed = "update_failed"
+        case updating = "updating"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigChangeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applyingChanges = "ApplyingChanges"
         case cancelled = "Cancelled"
@@ -108,6 +124,13 @@ extension OpenSearch {
     public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case direct = "DIRECT"
         case vpcEndpoint = "VPC_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSourceAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attached = "ATTACHED"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -177,9 +200,23 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum DomainUseCase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mixed = "MIXED"
+        case observability = "OBSERVABILITY"
+        case search = "SEARCH"
+        case vector = "VECTOR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DryRunMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "Basic"
         case verbose = "Verbose"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EngineMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case general = "GENERAL"
+        case optimized = "OPTIMIZED"
         public var description: String { return self.rawValue }
     }
 
@@ -217,6 +254,62 @@ extension OpenSearch {
     public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customer = "CUSTOMER"
         case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "Account"
+        case domain = "DomainName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightFeedbackEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domain = "DomainName"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightFeedbackThumbs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case down = "Down"
+        case up = "Up"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case metric = "metric"
+        case text = "text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightPriorityLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightResponseStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightSortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case dismissed = "DISMISSED"
+        case resolved = "RESOLVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InsightType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case event = "EVENT"
+        case recommendation = "RECOMMENDATION"
         public var description: String { return self.rawValue }
     }
 
@@ -457,6 +550,14 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum PauseState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case completed = "Completed"
+        case disabled = "Disabled"
+        case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAccount = "AWS_ACCOUNT"
         case awsService = "AWS_SERVICE"
@@ -538,6 +639,7 @@ extension OpenSearch {
         case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
         case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
         case policyMinTls12Pfs202310 = "Policy-Min-TLS-1-2-PFS-2023-10"
+        case policyMinTls12Rfc9151Fips202408 = "Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08"
         public var description: String { return self.rawValue }
     }
 
@@ -596,6 +698,8 @@ extension OpenSearch {
     public enum DirectQueryDataSourceType: AWSEncodableShape & AWSDecodableShape, Sendable {
         ///  Specifies CloudWatch Logs as a type of data source for direct queries.
         case cloudWatchLog(CloudWatchDirectQueryDataSource)
+        ///  Specifies Prometheus as a type of data source for direct queries.
+        case prometheus(PrometheusDirectQueryDataSource)
         ///  Specifies Security Lake as a type of data source for direct queries.
         case securityLake(SecurityLakeDirectQueryDataSource)
 
@@ -612,6 +716,9 @@ extension OpenSearch {
             case .cloudWatchLog:
                 let value = try container.decode(CloudWatchDirectQueryDataSource.self, forKey: .cloudWatchLog)
                 self = .cloudWatchLog(value)
+            case .prometheus:
+                let value = try container.decode(PrometheusDirectQueryDataSource.self, forKey: .prometheus)
+                self = .prometheus(value)
             case .securityLake:
                 let value = try container.decode(SecurityLakeDirectQueryDataSource.self, forKey: .securityLake)
                 self = .securityLake(value)
@@ -623,6 +730,8 @@ extension OpenSearch {
             switch self {
             case .cloudWatchLog(let value):
                 try container.encode(value, forKey: .cloudWatchLog)
+            case .prometheus(let value):
+                try container.encode(value, forKey: .prometheus)
             case .securityLake(let value):
                 try container.encode(value, forKey: .securityLake)
             }
@@ -632,6 +741,8 @@ extension OpenSearch {
             switch self {
             case .cloudWatchLog(let value):
                 try value.validate(name: "\(name).cloudWatchLog")
+            case .prometheus(let value):
+                try value.validate(name: "\(name).prometheus")
             case .securityLake(let value):
                 try value.validate(name: "\(name).securityLake")
             }
@@ -639,11 +750,16 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLog = "CloudWatchLog"
+            case prometheus = "Prometheus"
             case securityLake = "SecurityLake"
         }
     }
 
     // MARK: Shapes
+
+    public struct AIConfig: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
 
     public struct AIMLOptionsInput: AWSEncodableShape {
         /// Container for parameters required for natural language query generation on the specified domain.
@@ -865,12 +981,12 @@ extension OpenSearch {
         public let dataSourceType: DirectQueryDataSourceType
         ///  An optional text field for providing additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-        public let openSearchArns: [String]
+        ///  An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
+        public let openSearchArns: [String]?
         public let tagList: [Tag]?
 
         @inlinable
-        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String], tagList: [Tag]? = nil) {
+        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]? = nil, tagList: [Tag]? = nil) {
             self.dataSourceAccessPolicy = dataSourceAccessPolicy
             self.dataSourceName = dataSourceName
             self.dataSourceType = dataSourceType
@@ -888,7 +1004,7 @@ extension OpenSearch {
             try self.dataSourceType.validate(name: "\(name).dataSourceType")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
-            try self.openSearchArns.forEach {
+            try self.openSearchArns?.forEach {
                 try validate($0, name: "openSearchArns[]", parent: name, max: 2048)
                 try validate($0, name: "openSearchArns[]", parent: name, min: 20)
                 try validate($0, name: "openSearchArns[]", parent: name, pattern: ".*")
@@ -1244,6 +1360,81 @@ extension OpenSearch {
         }
     }
 
+    public struct AttachDataSourceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions.
+        public let clientToken: String?
+        public let dataSourceArn: String
+        /// The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication, GetApplication, and DeleteApplication.
+        public let id: String
+        /// Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with workspaceId.
+        public let workspaceConfiguration: WorkspaceConfigurationInput?
+        /// The identifier of an existing workspace to update with the new data source. Mutually exclusive with workspaceConfiguration.
+        public let workspaceId: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, dataSourceArn: String, id: String, workspaceConfiguration: WorkspaceConfigurationInput? = nil, workspaceId: String? = nil) {
+            self.clientToken = clientToken
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+            self.workspaceConfiguration = workspaceConfiguration
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.dataSourceArn, forKey: .dataSourceArn)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.workspaceConfiguration, forKey: .workspaceConfiguration)
+            try container.encodeIfPresent(self.workspaceId, forKey: .workspaceId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, max: 2048)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, min: 20)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: ".*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case dataSourceArn = "dataSourceArn"
+            case workspaceConfiguration = "workspaceConfiguration"
+            case workspaceId = "workspaceId"
+        }
+    }
+
+    public struct AttachDataSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        /// The unique identifier assigned to the data source attachment.
+        public let attachmentId: String?
+        public let dataSourceArn: String?
+        /// The unique identifier of the OpenSearch application.
+        public let id: String?
+        /// The status of the data source attachment. Valid values are PENDING (waiting for resources to become active), ATTACHED (successfully attached), and FAILED (attachment timed out or encountered a non-retryable error).
+        public let status: DataSourceAttachmentStatus?
+
+        @inlinable
+        public init(arn: String? = nil, attachmentId: String? = nil, dataSourceArn: String? = nil, id: String? = nil, status: DataSourceAttachmentStatus? = nil) {
+            self.arn = arn
+            self.attachmentId = attachmentId
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case attachmentId = "attachmentId"
+            case dataSourceArn = "dataSourceArn"
+            case id = "id"
+            case status = "status"
+        }
+    }
+
     public struct AuthorizeVpcEndpointAccessRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID to grant access to.
         public let account: String?
@@ -1251,12 +1442,15 @@ extension OpenSearch {
         public let domainName: String
         /// The Amazon Web Services service SP to grant access to.
         public let service: AWSServicePrincipal?
+        /// The options for the service, including the supported Regions for the endpoint access.
+        public let serviceOptions: ServiceOptions?
 
         @inlinable
-        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil) {
+        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil, serviceOptions: ServiceOptions? = nil) {
             self.account = account
             self.domainName = domainName
             self.service = service
+            self.serviceOptions = serviceOptions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1265,6 +1459,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.account, forKey: .account)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.service, forKey: .service)
+            try container.encodeIfPresent(self.serviceOptions, forKey: .serviceOptions)
         }
 
         public func validate(name: String) throws {
@@ -1272,11 +1467,13 @@ extension OpenSearch {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.serviceOptions?.validate(name: "\(name).serviceOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
             case service = "Service"
+            case serviceOptions = "ServiceOptions"
         }
     }
 
@@ -1299,16 +1496,20 @@ extension OpenSearch {
         public let principal: String?
         /// The type of principal.
         public let principalType: PrincipalType?
+        /// The options for the service, including the supported Regions for the endpoint access.
+        public let serviceOptions: ServiceOptions?
 
         @inlinable
-        public init(principal: String? = nil, principalType: PrincipalType? = nil) {
+        public init(principal: String? = nil, principalType: PrincipalType? = nil, serviceOptions: ServiceOptions? = nil) {
             self.principal = principal
             self.principalType = principalType
+            self.serviceOptions = serviceOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case principal = "Principal"
             case principalType = "PrincipalType"
+            case serviceOptions = "ServiceOptions"
         }
     }
 
@@ -1506,6 +1707,72 @@ extension OpenSearch {
         }
     }
 
+    public struct AutomatedSnapshotPauseOptions: AWSDecodableShape {
+        /// Whether automated snapshot pause is enabled for the domain.
+        public let enabled: Bool
+        /// The timestamp at which the automated snapshot pause ends.
+        public let endTime: Date?
+        /// The timestamp at which the automated snapshot pause begins.
+        public let startTime: Date?
+        /// The current state of the automated snapshot pause. Valid values are Active, Completed, Scheduled, and Disabled.
+        public let state: PauseState?
+
+        @inlinable
+        public init(enabled: Bool, endTime: Date? = nil, startTime: Date? = nil, state: PauseState? = nil) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+            case state = "State"
+        }
+    }
+
+    public struct AutomatedSnapshotPauseOptionsStatus: AWSDecodableShape {
+        /// Automated snapshot pause options for the domain.
+        public let options: AutomatedSnapshotPauseOptions
+        /// The current status of the automated snapshot pause options for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: AutomatedSnapshotPauseOptions, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
+    public struct AutomatedSnapshotPauseRequestOptions: AWSEncodableShape {
+        /// Whether to enable or disable automated snapshot pause for the domain.
+        public let enabled: Bool
+        /// The timestamp at which the automated snapshot pause should end. The maximum allowed duration between StartTime and EndTime is 3 days.
+        public let endTime: Date?
+        /// The timestamp at which the automated snapshot pause should begin.
+        public let startTime: Date?
+
+        @inlinable
+        public init(enabled: Bool, endTime: Date? = nil, startTime: Date? = nil) {
+            self.enabled = enabled
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case endTime = "EndTime"
+            case startTime = "StartTime"
+        }
+    }
+
     public struct AvailabilityZoneInfo: AWSDecodableShape {
         /// The name of the Availability Zone.
         public let availabilityZoneName: String?
@@ -1644,6 +1911,24 @@ extension OpenSearch {
             case activeValue = "ActiveValue"
             case cancelledValue = "CancelledValue"
             case propertyName = "PropertyName"
+        }
+    }
+
+    public struct CapabilityFailure: AWSDecodableShape {
+        /// Additional details about the capability failure.
+        public let details: String?
+        /// The reason for the capability failure. Possible values: KMS_KEY_INSUFFICIENT_PERMISSION.
+        public let reason: CapabilityFailureReason?
+
+        @inlinable
+        public init(details: String? = nil, reason: CapabilityFailureReason? = nil) {
+            self.details = details
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case reason = "reason"
         }
     }
 
@@ -2079,6 +2364,8 @@ extension OpenSearch {
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
         /// Options for all machine learning features for the specified domain.
         public let aimlOptions: AIMLOptionsInput?
+        /// Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions?
         /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptionsInput?
         /// Container for the cluster configuration of a domain.
@@ -2095,6 +2382,8 @@ extension OpenSearch {
         public let ebsOptions: EBSOptions?
         /// Key-value pairs to enable encryption at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
+        /// The engine mode for the domain. For valid values and requirements, see EngineMode.
+        public let engineMode: EngineMode?
         /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
         public let engineVersion: String?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -2113,15 +2402,18 @@ extension OpenSearch {
         public let softwareUpdateOptions: SoftwareUpdateOptions?
         /// List of tags to add to the domain upon creation.
         public let tagList: [Tag]?
+        /// The primary use case for the domain. For valid values, see DomainUseCase.
+        public let useCase: DomainUseCase?
         /// Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, tagList: [Tag]? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -2130,6 +2422,7 @@ extension OpenSearch {
             self.domainName = domainName
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -2139,6 +2432,7 @@ extension OpenSearch {
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
             self.tagList = tagList
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -2171,6 +2465,7 @@ extension OpenSearch {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case aimlOptions = "AIMLOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
@@ -2179,6 +2474,7 @@ extension OpenSearch {
             case domainName = "DomainName"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
             case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
@@ -2188,6 +2484,7 @@ extension OpenSearch {
             case snapshotOptions = "SnapshotOptions"
             case softwareUpdateOptions = "SoftwareUpdateOptions"
             case tagList = "TagList"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -2488,6 +2785,27 @@ extension OpenSearch {
             case dataSourceArn = "dataSourceArn"
             case dataSourceDescription = "dataSourceDescription"
             case iamRoleForDataSourceArn = "iamRoleForDataSourceArn"
+        }
+    }
+
+    public struct DataSourceAttachmentSummary: AWSDecodableShape {
+        /// The unique identifier assigned to the data source attachment.
+        public let attachmentId: String?
+        public let dataSourceArn: String?
+        /// The current status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+        public let status: DataSourceAttachmentStatus?
+
+        @inlinable
+        public init(attachmentId: String? = nil, dataSourceArn: String? = nil, status: DataSourceAttachmentStatus? = nil) {
+            self.attachmentId = attachmentId
+            self.dataSourceArn = dataSourceArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "attachmentId"
+            case dataSourceArn = "dataSourceArn"
+            case status = "status"
         }
     }
 
@@ -2873,6 +3191,107 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case options = "Options"
             case status = "Status"
+        }
+    }
+
+    public struct DeregisterCapabilityRequest: AWSEncodableShape {
+        /// The unique identifier of the OpenSearch UI application to deregister the capability from.
+        public let applicationId: String
+        /// The name of the capability to deregister.
+        public let capabilityName: String
+
+        @inlinable
+        public init(applicationId: String, capabilityName: String) {
+            self.applicationId = applicationId
+            self.capabilityName = capabilityName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.capabilityName, key: "capabilityName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{3,30}$")
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, max: 30)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, min: 3)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeregisterCapabilityResponse: AWSDecodableShape {
+        /// The status of the deregistration operation. Returns deleting when the capability is being removed.
+        public let status: CapabilityStatus?
+
+        @inlinable
+        public init(status: CapabilityStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct DescribeDataSourceAttachmentRequest: AWSEncodableShape {
+        public let dataSourceArn: String
+        /// The unique identifier or name of the OpenSearch application.
+        public let id: String
+
+        @inlinable
+        public init(dataSourceArn: String, id: String) {
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.dataSourceArn, forKey: .dataSourceArn)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, max: 2048)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, min: 20)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: ".*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "dataSourceArn"
+        }
+    }
+
+    public struct DescribeDataSourceAttachmentResponse: AWSDecodableShape {
+        public let arn: String?
+        /// The unique identifier assigned to the data source attachment.
+        public let attachmentId: String?
+        public let dataSourceArn: String?
+        /// The unique identifier of the OpenSearch application.
+        public let id: String?
+        /// The status of the data source attachment. Valid values are PENDING, ATTACHED, and FAILED.
+        public let status: DataSourceAttachmentStatus?
+
+        @inlinable
+        public init(arn: String? = nil, attachmentId: String? = nil, dataSourceArn: String? = nil, id: String? = nil, status: DataSourceAttachmentStatus? = nil) {
+            self.arn = arn
+            self.attachmentId = attachmentId
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case attachmentId = "attachmentId"
+            case dataSourceArn = "dataSourceArn"
+            case id = "id"
+            case status = "status"
         }
     }
 
@@ -3312,6 +3731,49 @@ extension OpenSearch {
         }
     }
 
+    public struct DescribeInsightDetailsRequest: AWSEncodableShape {
+        /// The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+        public let entity: InsightEntity
+        /// The unique identifier of the insight to describe.
+        public let insightId: String
+        /// Specifies whether to show response with HTML content in response or not.
+        public let showHtmlContent: Bool?
+
+        @inlinable
+        public init(entity: InsightEntity, insightId: String, showHtmlContent: Bool? = nil) {
+            self.entity = entity
+            self.insightId = insightId
+            self.showHtmlContent = showHtmlContent
+        }
+
+        public func validate(name: String) throws {
+            try self.entity.validate(name: "\(name).entity")
+            try self.validate(self.insightId, name: "insightId", parent: name, max: 36)
+            try self.validate(self.insightId, name: "insightId", parent: name, min: 36)
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity = "Entity"
+            case insightId = "InsightId"
+            case showHtmlContent = "ShowHtmlContent"
+        }
+    }
+
+    public struct DescribeInsightDetailsResponse: AWSDecodableShape {
+        /// The list of fields that contain detailed information about the insight.
+        public let fields: [InsightField]
+
+        @inlinable
+        public init(fields: [InsightField]) {
+            self.fields = fields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+        }
+    }
+
     public struct DescribeInstanceTypeLimitsRequest: AWSEncodableShape {
         /// The name of the domain. Only specify if you need the limits for an existing domain.
         public let domainName: String?
@@ -3622,6 +4084,56 @@ extension OpenSearch {
         }
     }
 
+    public struct DetachDataSourceRequest: AWSEncodableShape {
+        public let dataSourceArn: String
+        /// The unique identifier or name of the OpenSearch application to detach the data source from.
+        public let id: String
+
+        @inlinable
+        public init(dataSourceArn: String, id: String) {
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.dataSourceArn, forKey: .dataSourceArn)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, max: 2048)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, min: 20)
+            try self.validate(self.dataSourceArn, name: "dataSourceArn", parent: name, pattern: ".*")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceArn = "dataSourceArn"
+        }
+    }
+
+    public struct DetachDataSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        public let dataSourceArn: String?
+        /// The unique identifier of the OpenSearch application.
+        public let id: String?
+
+        @inlinable
+        public init(arn: String? = nil, dataSourceArn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.dataSourceArn = dataSourceArn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dataSourceArn = "dataSourceArn"
+            case id = "id"
+        }
+    }
+
     public struct DirectQueryDataSource: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
@@ -3748,6 +4260,8 @@ extension OpenSearch {
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
         /// Container for parameters required to enable all machine learning features.
         public let aimlOptions: AIMLOptionsStatus?
+        /// Specifies AutomatedSnapshotPauseOptions for the domain.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptionsStatus?
         /// Container for Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsStatus?
         /// Container for information about the progress of an existing configuration change.
@@ -3764,6 +4278,8 @@ extension OpenSearch {
         public let ebsOptions: EBSOptionsStatus?
         /// Key-value pairs to enable encryption at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
+        /// The engine mode configured for the domain.
+        public let engineMode: EngineModeStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public let engineVersion: VersionStatus?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
@@ -3782,15 +4298,18 @@ extension OpenSearch {
         public let snapshotOptions: SnapshotOptionsStatus?
         /// Software update options for the domain.
         public let softwareUpdateOptions: SoftwareUpdateOptionsStatus?
+        /// The use case configured for the domain.
+        public let useCase: UseCaseStatus?
         /// The current VPC options for the domain and the status of any updates to their configuration.
         public let vpcOptions: VPCDerivedInfoStatus?
 
         @inlinable
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, deploymentStrategyOptions: DeploymentStrategyOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, identityCenterOptions: IdentityCenterOptionsStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, aimlOptions: AIMLOptionsStatus? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, deploymentStrategyOptions: DeploymentStrategyOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineMode: EngineModeStatus? = nil, engineVersion: VersionStatus? = nil, identityCenterOptions: IdentityCenterOptionsStatus? = nil, ipAddressType: IPAddressTypeStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, offPeakWindowOptions: OffPeakWindowOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, softwareUpdateOptions: SoftwareUpdateOptionsStatus? = nil, useCase: UseCaseStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
@@ -3799,6 +4318,7 @@ extension OpenSearch {
             self.domainEndpointOptions = domainEndpointOptions
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -3808,6 +4328,7 @@ extension OpenSearch {
             self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -3816,6 +4337,7 @@ extension OpenSearch {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case aimlOptions = "AIMLOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
@@ -3824,6 +4346,7 @@ extension OpenSearch {
             case domainEndpointOptions = "DomainEndpointOptions"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
             case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
@@ -3833,6 +4356,7 @@ extension OpenSearch {
             case offPeakWindowOptions = "OffPeakWindowOptions"
             case snapshotOptions = "SnapshotOptions"
             case softwareUpdateOptions = "SoftwareUpdateOptions"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -3846,7 +4370,7 @@ extension OpenSearch {
         public let customEndpointEnabled: Bool?
         /// True to require that all traffic to the domain arrive over HTTPS.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites
+        /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain. The policy can be one of the following values:    Policy-Min-TLS-1-0-2019-07: TLS security policy that supports TLS version 1.0 to TLS version 1.2    Policy-Min-TLS-1-2-2019-07: TLS security policy that supports only TLS version 1.2    Policy-Min-TLS-1-2-PFS-2023-10: TLS security policy that supports TLS version 1.2 to TLS version 1.3 with perfect forward secrecy cipher suites    Policy-Min-TLS-1-2-RFC9151-FIPS-2024-08: TLS  security policy that supports TLS version 1.3 with FIPS
         public let tlsSecurityPolicy: TLSSecurityPolicy?
 
         @inlinable
@@ -4079,6 +4603,8 @@ extension OpenSearch {
         public let aimlOptions: AIMLOptionsOutput?
         /// The Amazon Resource Name (ARN) of the domain. For more information, see IAM identifiers in the Amazon Web Services Identity and Access Management User Guide.
         public let arn: String
+        /// The current status of the domain's automated snapshot pause options.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptions?
         /// Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsOutput?
         /// Information about a configuration change happening on the domain.
@@ -4113,6 +4639,8 @@ extension OpenSearch {
         public let endpoints: [String: String]?
         /// If IPAddressType to set to dualstack, a version 2 domain endpoint is provisioned. This endpoint functions like a normal endpoint, except that it works with both IPv4 and IPv6 IP addresses. Normal endpoints work only with IPv4 IP addresses.
         public let endpointV2: String?
+        /// The engine mode for the domain.
+        public let engineMode: EngineMode?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public let engineVersion: String?
         /// Configuration options for controlling IAM Identity Center integration within a domain.
@@ -4137,16 +4665,19 @@ extension OpenSearch {
         public let softwareUpdateOptions: SoftwareUpdateOptions?
         /// The status of a domain version upgrade to a new version of OpenSearch or Elasticsearch. True if OpenSearch Service is in the process of a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
+        /// The primary use case for the domain.
+        public let useCase: DomainUseCase?
         /// The VPC configuration for the domain.
         public let vpcOptions: VPCDerivedInfo?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, aimlOptions: AIMLOptionsOutput? = nil, arn: String, automatedSnapshotPauseOptions: AutomatedSnapshotPauseOptions? = nil, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainEndpointV2HostedZoneId: String? = nil, domainId: String, domainName: String, domainProcessingStatus: DomainProcessingStatusType? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, endpointV2: String? = nil, engineMode: EngineMode? = nil, engineVersion: String? = nil, identityCenterOptions: IdentityCenterOptions? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, modifyingProperties: [ModifyingProperties]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, upgradeProcessing: Bool? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
             self.arn = arn
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
@@ -4164,6 +4695,7 @@ extension OpenSearch {
             self.endpoint = endpoint
             self.endpoints = endpoints
             self.endpointV2 = endpointV2
+            self.engineMode = engineMode
             self.engineVersion = engineVersion
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
@@ -4176,6 +4708,7 @@ extension OpenSearch {
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
             self.upgradeProcessing = upgradeProcessing
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -4185,6 +4718,7 @@ extension OpenSearch {
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case aimlOptions = "AIMLOptions"
             case arn = "ARN"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
@@ -4202,6 +4736,7 @@ extension OpenSearch {
             case endpoint = "Endpoint"
             case endpoints = "Endpoints"
             case endpointV2 = "EndpointV2"
+            case engineMode = "EngineMode"
             case engineVersion = "EngineVersion"
             case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
@@ -4214,6 +4749,7 @@ extension OpenSearch {
             case snapshotOptions = "SnapshotOptions"
             case softwareUpdateOptions = "SoftwareUpdateOptions"
             case upgradeProcessing = "UpgradeProcessing"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -4379,6 +4915,24 @@ extension OpenSearch {
         }
     }
 
+    public struct EngineModeStatus: AWSDecodableShape {
+        /// The engine mode configured for the domain.
+        public let options: EngineMode
+        /// The current status of the engine mode for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: EngineMode, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct EnvironmentInfo: AWSDecodableShape {
         ///  A list of AvailabilityZoneInfo for the domain.
         public let availabilityZoneInformation: [AvailabilityZoneInfo]?
@@ -4408,6 +4962,28 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case errorMessage = "ErrorMessage"
             case errorType = "ErrorType"
+        }
+    }
+
+    public struct ExportOptions: AWSEncodableShape {
+        /// Specifies whether to include all objects referenced by the exported objects, recursively.
+        public let includeReferencesDeep: Bool?
+        /// A list of specific saved objects to include in the migration, identified by type and ID.
+        public let objects: [SavedObjectIdentifier]?
+        /// A list of saved object types to include in the migration. Valid values include dashboard, visualization, index-pattern, search, and query.
+        public let types: [String]?
+
+        @inlinable
+        public init(includeReferencesDeep: Bool? = nil, objects: [SavedObjectIdentifier]? = nil, types: [String]? = nil) {
+            self.includeReferencesDeep = includeReferencesDeep
+            self.objects = objects
+            self.types = types
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeReferencesDeep = "includeReferencesDeep"
+            case objects = "objects"
+            case types = "types"
         }
     }
 
@@ -4512,6 +5088,65 @@ extension OpenSearch {
             case kmsKeyArn = "kmsKeyArn"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct GetCapabilityRequest: AWSEncodableShape {
+        /// The unique identifier of the OpenSearch UI application.
+        public let applicationId: String
+        /// The name of the capability to retrieve information about.
+        public let capabilityName: String
+
+        @inlinable
+        public init(applicationId: String, capabilityName: String) {
+            self.applicationId = applicationId
+            self.capabilityName = capabilityName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.capabilityName, key: "capabilityName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{3,30}$")
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, max: 30)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, min: 3)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCapabilityResponse: AWSDecodableShape {
+        /// The unique identifier of the OpenSearch UI application.
+        public let applicationId: String?
+        /// The configuration settings for the capability, including capability-specific settings such as AI configuration.
+        public let capabilityConfig: CapabilityExtendedResponseConfig?
+        /// The name of the capability.
+        public let capabilityName: String?
+        /// A list of failures associated with the capability, if any. Each failure includes a reason and details about what went wrong.
+        public let failures: [CapabilityFailure]?
+        /// The current status of the capability. Possible values: creating, create_failed, active, updating, update_failed, deleting, delete_failed.
+        public let status: CapabilityStatus?
+
+        @inlinable
+        public init(applicationId: String? = nil, capabilityConfig: CapabilityExtendedResponseConfig? = nil, capabilityName: String? = nil, failures: [CapabilityFailure]? = nil, status: CapabilityStatus? = nil) {
+            self.applicationId = applicationId
+            self.capabilityConfig = capabilityConfig
+            self.capabilityName = capabilityName
+            self.failures = failures
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case capabilityConfig = "capabilityConfig"
+            case capabilityName = "capabilityName"
+            case failures = "failures"
             case status = "status"
         }
     }
@@ -4792,6 +5427,70 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case indexSchema = "IndexSchema"
+        }
+    }
+
+    public struct GetMigrationRequest: AWSEncodableShape {
+        /// The unique identifier of the migration job to retrieve.
+        public let migrationId: String
+
+        @inlinable
+        public init(migrationId: String) {
+            self.migrationId = migrationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.migrationId, key: "migrationId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMigrationResponse: AWSDecodableShape {
+        /// The unique identifier of the OpenSearch application associated with the migration.
+        public let applicationId: String?
+        /// The date and time when the migration job was created.
+        public let createdAt: Date?
+        /// Error details if the migration failed or completed with errors.
+        public let error: MigrationError?
+        /// The number of saved objects exported from the source data source.
+        public let exportedCount: Int?
+        /// The number of saved objects successfully imported into the target workspace.
+        public let importedCount: Int?
+        /// The unique identifier of the migration job.
+        public let migrationId: String?
+        /// The source configuration for the migration, including the data source ARN.
+        public let source: MigrationSource?
+        /// The current status of the migration job. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+        public let status: String?
+        /// The date and time when the migration job was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(applicationId: String? = nil, createdAt: Date? = nil, error: MigrationError? = nil, exportedCount: Int? = nil, importedCount: Int? = nil, migrationId: String? = nil, source: MigrationSource? = nil, status: String? = nil, updatedAt: Date? = nil) {
+            self.applicationId = applicationId
+            self.createdAt = createdAt
+            self.error = error
+            self.exportedCount = exportedCount
+            self.importedCount = importedCount
+            self.migrationId = migrationId
+            self.source = source
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case createdAt = "createdAt"
+            case error = "error"
+            case exportedCount = "exportedCount"
+            case importedCount = "importedCount"
+            case migrationId = "migrationId"
+            case source = "source"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -5076,6 +5775,8 @@ extension OpenSearch {
         public let identityCenterApplicationARN: String?
         /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
         public let identityCenterInstanceARN: String?
+        /// The Region of the IAM Identity Center instance.
+        public let identityCenterInstanceRegion: String?
         /// The identifier of the IAM Identity Store.
         public let identityStoreId: String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
@@ -5084,10 +5785,11 @@ extension OpenSearch {
         public let subjectKey: SubjectKeyIdCOption?
 
         @inlinable
-        public init(enabledAPIAccess: Bool? = nil, identityCenterApplicationARN: String? = nil, identityCenterInstanceARN: String? = nil, identityStoreId: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
+        public init(enabledAPIAccess: Bool? = nil, identityCenterApplicationARN: String? = nil, identityCenterInstanceARN: String? = nil, identityCenterInstanceRegion: String? = nil, identityStoreId: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterApplicationARN = identityCenterApplicationARN
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.identityStoreId = identityStoreId
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -5097,6 +5799,7 @@ extension OpenSearch {
             case enabledAPIAccess = "EnabledAPIAccess"
             case identityCenterApplicationARN = "IdentityCenterApplicationARN"
             case identityCenterInstanceARN = "IdentityCenterInstanceARN"
+            case identityCenterInstanceRegion = "IdentityCenterInstanceRegion"
             case identityStoreId = "IdentityStoreId"
             case rolesKey = "RolesKey"
             case subjectKey = "SubjectKey"
@@ -5108,15 +5811,18 @@ extension OpenSearch {
         public let enabledAPIAccess: Bool?
         /// The ARN of the IAM Identity Center instance used to create an OpenSearch UI application that uses IAM Identity Center for authentication.
         public let identityCenterInstanceARN: String?
+        /// The Region of the IAM Identity Center instance.
+        public let identityCenterInstanceRegion: String?
         /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public let rolesKey: RolesKeyIdCOption?
         /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
         public let subjectKey: SubjectKeyIdCOption?
 
         @inlinable
-        public init(enabledAPIAccess: Bool? = nil, identityCenterInstanceARN: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
+        public init(enabledAPIAccess: Bool? = nil, identityCenterInstanceARN: String? = nil, identityCenterInstanceRegion: String? = nil, rolesKey: RolesKeyIdCOption? = nil, subjectKey: SubjectKeyIdCOption? = nil) {
             self.enabledAPIAccess = enabledAPIAccess
             self.identityCenterInstanceARN = identityCenterInstanceARN
+            self.identityCenterInstanceRegion = identityCenterInstanceRegion
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
         }
@@ -5125,11 +5831,15 @@ extension OpenSearch {
             try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, max: 2048)
             try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, min: 20)
             try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, pattern: "^arn:aws[a-z\\\\-]*:[a-z]+:[a-z0-9\\\\-]*:[0-9]*:[a-z0-9\\\\-]+\\/[a-z0-9\\\\-]+$")
+            try self.validate(self.identityCenterInstanceRegion, name: "identityCenterInstanceRegion", parent: name, max: 30)
+            try self.validate(self.identityCenterInstanceRegion, name: "identityCenterInstanceRegion", parent: name, min: 5)
+            try self.validate(self.identityCenterInstanceRegion, name: "identityCenterInstanceRegion", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabledAPIAccess = "EnabledAPIAccess"
             case identityCenterInstanceARN = "IdentityCenterInstanceARN"
+            case identityCenterInstanceRegion = "IdentityCenterInstanceRegion"
             case rolesKey = "RolesKey"
             case subjectKey = "SubjectKey"
         }
@@ -5198,6 +5908,184 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case statusCode = "StatusCode"
+        }
+    }
+
+    public struct Insight: AWSDecodableShape {
+        /// The timestamp when the insight was created, in epoch milliseconds.
+        public let creationTime: Date?
+        /// The display name of the insight.
+        public let displayName: String?
+        /// The unique identifier of the insight.
+        public let insightId: String?
+        /// Indicates whether the insight is experimental.
+        public let isExperimental: Bool?
+        /// The priority level of the insight. Possible values are CRITICAL, HIGH, MEDIUM, and LOW.
+        public let priority: InsightPriorityLevel?
+        /// The current status of the insight. Possible values are ACTIVE, RESOLVED, and DISMISSED.
+        public let status: InsightStatus?
+        /// The type of the insight. Possible values are EVENT and RECOMMENDATION.
+        public let type: InsightType?
+        /// The timestamp when the insight was last updated, in epoch milliseconds.
+        public let updateTime: Date?
+
+        @inlinable
+        public init(creationTime: Date? = nil, displayName: String? = nil, insightId: String? = nil, isExperimental: Bool? = nil, priority: InsightPriorityLevel? = nil, status: InsightStatus? = nil, type: InsightType? = nil, updateTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.displayName = displayName
+            self.insightId = insightId
+            self.isExperimental = isExperimental
+            self.priority = priority
+            self.status = status
+            self.type = type
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case displayName = "DisplayName"
+            case insightId = "InsightId"
+            case isExperimental = "IsExperimental"
+            case priority = "Priority"
+            case status = "Status"
+            case type = "Type"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct InsightEntity: AWSEncodableShape {
+        /// The type of the entity. Possible values are Account and DomainName.
+        public let type: InsightEntityType
+        /// The value of the entity. For DomainName, this is the domain name. For Account, this is the Amazon Web Services account ID.
+        public let value: String?
+
+        @inlinable
+        public init(type: InsightEntityType, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 28)
+            try self.validate(self.value, name: "value", parent: name, min: 3)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([a-z][a-z0-9\\-]+|\\d{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct InsightFeedbackEntity: AWSEncodableShape {
+        /// The type of the entity. Possible values are DomainName.
+        public let type: InsightFeedbackEntityType
+        /// The value of the entity, such as a domain name.
+        public let value: String
+
+        @inlinable
+        public init(type: InsightFeedbackEntityType, value: String) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 28)
+            try self.validate(self.value, name: "value", parent: name, min: 3)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([a-z][a-z0-9\\-]+|\\d{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct InsightFeedbackRequest: AWSEncodableShape {
+        /// The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name.
+        public let entity: InsightFeedbackEntity
+        /// Optional text feedback providing additional details about the insight. Maximum length is 1000 characters.
+        public let feedbackText: String?
+        /// The unique identifier of the insight for which to submit feedback.
+        public let insightId: String
+        /// The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down.
+        public let thumbs: InsightFeedbackThumbs
+
+        @inlinable
+        public init(entity: InsightFeedbackEntity, feedbackText: String? = nil, insightId: String, thumbs: InsightFeedbackThumbs) {
+            self.entity = entity
+            self.feedbackText = feedbackText
+            self.insightId = insightId
+            self.thumbs = thumbs
+        }
+
+        public func validate(name: String) throws {
+            try self.entity.validate(name: "\(name).entity")
+            try self.validate(self.feedbackText, name: "feedbackText", parent: name, max: 1000)
+            try self.validate(self.insightId, name: "insightId", parent: name, max: 36)
+            try self.validate(self.insightId, name: "insightId", parent: name, min: 36)
+            try self.validate(self.insightId, name: "insightId", parent: name, pattern: "^\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity = "Entity"
+            case feedbackText = "FeedbackText"
+            case insightId = "InsightId"
+            case thumbs = "Thumbs"
+        }
+    }
+
+    public struct InsightFeedbackResponse: AWSDecodableShape {
+        /// The status of the feedback submission. Possible values are SUCCESS and ERROR.
+        public let status: InsightResponseStatus?
+
+        @inlinable
+        public init(status: InsightResponseStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct InsightField: AWSDecodableShape {
+        /// The name of the insight field.
+        public let name: String
+        /// The type of the insight field. Possible values are text and metric.
+        public let type: InsightFieldType
+        /// The value of the insight field.
+        public let value: String
+
+        @inlinable
+        public init(name: String, type: InsightFieldType, value: String) {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct InsightTimeRange: AWSEncodableShape {
+        /// The start of the time range, in epoch milliseconds.
+        public let from: Int64
+        /// The end of the time range, in epoch milliseconds.
+        public let to: Int64
+
+        @inlinable
+        public init(from: Int64, to: Int64) {
+            self.from = from
+            self.to = to
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case to = "To"
         }
     }
 
@@ -5278,6 +6166,8 @@ extension OpenSearch {
     public struct JWTOptionsInput: AWSEncodableShape {
         /// True to enable JWT authentication and authorization for a domain.
         public let enabled: Bool?
+        /// The URL endpoint that hosts the JSON Web Key Set (JWKS) containing public keys used to verify JWT signatures.
+        public let jwksUrl: String?
         /// Element of the JWT assertion used by the cluster to verify JWT signatures.
         public let publicKey: String?
         /// Element of the JWT assertion to use for roles.
@@ -5286,14 +6176,17 @@ extension OpenSearch {
         public let subjectKey: String?
 
         @inlinable
-        public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+        public init(enabled: Bool? = nil, jwksUrl: String? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.jwksUrl, name: "jwksUrl", parent: name, max: 2048)
+            try self.validate(self.jwksUrl, name: "jwksUrl", parent: name, pattern: "^$|^https://(?!(?:10|127|169\\.254|192\\.168|172\\.(?:1[6-9]|2[0-9]|3[01]))\\.)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\\.[a-zA-Z]{2,}(?::[0-9]{1,5})?(?:/[a-zA-Z0-9\\-._~%!$&'()*+,;=:'@]*(?:/[a-zA-Z0-9\\-._~%!$&'()*+,;=:'@]*)*)?(?:\\?[a-zA-Z0-9\\-._~%!$&'()*+,;=:'/@?]+)?$")
             try self.validate(self.rolesKey, name: "rolesKey", parent: name, max: 64)
             try self.validate(self.rolesKey, name: "rolesKey", parent: name, min: 1)
             try self.validate(self.subjectKey, name: "subjectKey", parent: name, max: 64)
@@ -5302,6 +6195,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+            case jwksUrl = "JwksUrl"
             case publicKey = "PublicKey"
             case rolesKey = "RolesKey"
             case subjectKey = "SubjectKey"
@@ -5311,6 +6205,8 @@ extension OpenSearch {
     public struct JWTOptionsOutput: AWSDecodableShape {
         /// True if JWT use is enabled.
         public let enabled: Bool?
+        /// The configured JWKS URL endpoint from which the cluster retrieves public keys to verify JWT requests.
+        public let jwksUrl: String?
         /// The key used to verify the signature of incoming JWT requests.
         public let publicKey: String?
         /// The key used for matching the JWT roles attribute.
@@ -5319,8 +6215,9 @@ extension OpenSearch {
         public let subjectKey: String?
 
         @inlinable
-        public init(enabled: Bool? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
+        public init(enabled: Bool? = nil, jwksUrl: String? = nil, publicKey: String? = nil, rolesKey: String? = nil, subjectKey: String? = nil) {
             self.enabled = enabled
+            self.jwksUrl = jwksUrl
             self.publicKey = publicKey
             self.rolesKey = rolesKey
             self.subjectKey = subjectKey
@@ -5328,6 +6225,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+            case jwksUrl = "JwksUrl"
             case publicKey = "PublicKey"
             case rolesKey = "RolesKey"
             case subjectKey = "SubjectKey"
@@ -5421,6 +6319,57 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case applicationSummaries = "ApplicationSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataSourceAttachmentsRequest: AWSEncodableShape {
+        /// The unique identifier or name of the OpenSearch application to list attachments for.
+        public let id: String
+        /// The maximum number of results to return per page. The default is 50.
+        public let maxResults: Int?
+        /// The pagination token from a previous call to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataSourceAttachmentsResponse: AWSDecodableShape {
+        /// A list of data source attachment summaries for the specified application.
+        public let attachments: [DataSourceAttachmentSummary]?
+        /// The pagination token to use in a subsequent call to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachments: [DataSourceAttachmentSummary]? = nil, nextToken: String? = nil) {
+            self.attachments = attachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "attachments"
             case nextToken = "nextToken"
         }
     }
@@ -5637,6 +6586,60 @@ extension OpenSearch {
         }
     }
 
+    public struct ListInsightsRequest: AWSEncodableShape {
+        /// The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+        public let entity: InsightEntity
+        /// An optional parameter that specifies the maximum number of results to return. You can use NextToken to get the next page of results. Valid values are 1 to 500.
+        public let maxResults: Int?
+        /// If your initial ListInsights operation returns a NextToken, include the returned NextToken in subsequent ListInsights operations to retrieve the next page of results.
+        public let nextToken: String?
+        /// The sort order for the results. Possible values are ASC (ascending) and DESC (descending).
+        public let sortOrder: InsightSortOrder?
+        /// The time range for filtering insights, specified as epoch millisecond timestamps.
+        public let timeRange: InsightTimeRange?
+
+        @inlinable
+        public init(entity: InsightEntity, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: InsightSortOrder? = nil, timeRange: InsightTimeRange? = nil) {
+            self.entity = entity
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+            self.timeRange = timeRange
+        }
+
+        public func validate(name: String) throws {
+            try self.entity.validate(name: "\(name).entity")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity = "Entity"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortOrder = "SortOrder"
+            case timeRange = "TimeRange"
+        }
+    }
+
+    public struct ListInsightsResponse: AWSDecodableShape {
+        /// The list of insights returned for the specified entity.
+        public let insights: [Insight]?
+        /// When NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(insights: [Insight]? = nil, nextToken: String? = nil) {
+            self.insights = insights
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insights = "Insights"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListInstanceTypeDetailsRequest: AWSEncodableShape {
         /// The name of the domain.
         public let domainName: String?
@@ -5703,6 +6706,58 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case instanceTypeDetails = "InstanceTypeDetails"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMigrationsRequest: AWSEncodableShape {
+        /// The unique identifier of the OpenSearch application to list migrations for.
+        public let applicationId: String
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The pagination token from a previous call to retrieve the next set of results.
+        public let nextToken: String?
+        /// Filters the results by migration status. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+        public let status: String?
+
+        @inlinable
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
+            self.applicationId = applicationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{3,30}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMigrationsResponse: AWSDecodableShape {
+        /// A list of migration job summaries for the specified application.
+        public let migrations: [MigrationSummary]?
+        /// The pagination token to use in a subsequent call to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(migrations: [MigrationSummary]? = nil, nextToken: String? = nil) {
+            self.migrations = migrations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrations = "migrations"
+            case nextToken = "nextToken"
         }
     }
 
@@ -6091,6 +7146,146 @@ extension OpenSearch {
             case masterUserARN = "MasterUserARN"
             case masterUserName = "MasterUserName"
             case masterUserPassword = "MasterUserPassword"
+        }
+    }
+
+    public struct MigrationError: AWSDecodableShape {
+        /// The error code identifying the type of failure.
+        public let code: String?
+        /// A human-readable description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct MigrationOptions: AWSEncodableShape {
+        /// The strategy for resolving conflicts when saved objects already exist in the target workspace. Valid values are CREATE_NEW_COPIES, which creates new objects with unique IDs, and overwrite, which replaces existing objects.
+        public let conflictResolution: String?
+        /// Options to filter the scope of saved objects to export from the source.
+        public let exportOptions: ExportOptions?
+        /// The data source from which to export saved objects.
+        public let source: MigrationSource
+        /// The target workspace configuration for importing saved objects. You can specify an existing workspace or request creation of a new workspace.
+        public let workspace: MigrationWorkspace
+
+        @inlinable
+        public init(conflictResolution: String? = nil, exportOptions: ExportOptions? = nil, source: MigrationSource, workspace: MigrationWorkspace) {
+            self.conflictResolution = conflictResolution
+            self.exportOptions = exportOptions
+            self.source = source
+            self.workspace = workspace
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictResolution = "conflictResolution"
+            case exportOptions = "exportOptions"
+            case source = "source"
+            case workspace = "workspace"
+        }
+    }
+
+    public struct MigrationSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the data source to migrate saved objects from.
+        public let datasourceArn: String
+
+        @inlinable
+        public init(datasourceArn: String) {
+            self.datasourceArn = datasourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasourceArn, name: "datasourceArn", parent: name, max: 2048)
+            try self.validate(self.datasourceArn, name: "datasourceArn", parent: name, min: 20)
+            try self.validate(self.datasourceArn, name: "datasourceArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasourceArn = "datasourceArn"
+        }
+    }
+
+    public struct MigrationSummary: AWSDecodableShape {
+        /// The unique identifier of the OpenSearch application associated with the migration.
+        public let applicationId: String?
+        /// The date and time when the migration job was created.
+        public let createdAt: Date?
+        /// Error details if the migration failed or completed with errors.
+        public let error: MigrationError?
+        /// The number of saved objects exported from the source data source.
+        public let exportedCount: Int?
+        /// The number of saved objects successfully imported into the target workspace.
+        public let importedCount: Int?
+        /// The unique identifier of the migration job.
+        public let migrationId: String?
+        /// The source configuration for the migration.
+        public let source: MigrationSource?
+        /// The current status of the migration job.
+        public let status: String?
+        /// The date and time when the migration job was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(applicationId: String? = nil, createdAt: Date? = nil, error: MigrationError? = nil, exportedCount: Int? = nil, importedCount: Int? = nil, migrationId: String? = nil, source: MigrationSource? = nil, status: String? = nil, updatedAt: Date? = nil) {
+            self.applicationId = applicationId
+            self.createdAt = createdAt
+            self.error = error
+            self.exportedCount = exportedCount
+            self.importedCount = importedCount
+            self.migrationId = migrationId
+            self.source = source
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case createdAt = "createdAt"
+            case error = "error"
+            case exportedCount = "exportedCount"
+            case importedCount = "importedCount"
+            case migrationId = "migrationId"
+            case source = "source"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct MigrationWorkspace: AWSEncodableShape {
+        /// Specifies whether to create a new workspace as the migration target. If true, you must also specify name.
+        public let createWorkspace: Bool?
+        /// The name of the new workspace to create. Required when createWorkspace is true.
+        public let name: String?
+        /// The type of the new workspace to create.
+        public let type: String?
+        /// The unique identifier of an existing workspace to use as the migration target. Specify either this parameter or createWorkspace.
+        public let workspaceId: String?
+
+        @inlinable
+        public init(createWorkspace: Bool? = nil, name: String? = nil, type: String? = nil, workspaceId: String? = nil) {
+            self.createWorkspace = createWorkspace
+            self.name = name
+            self.type = type
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createWorkspace = "createWorkspace"
+            case name = "name"
+            case type = "type"
+            case workspaceId = "workspaceId"
         }
     }
 
@@ -6644,6 +7839,31 @@ extension OpenSearch {
         }
     }
 
+    public struct PrometheusDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
+        public let roleArn: String
+        ///  The unique identifier of the Amazon Managed Prometheus Workspace that is associated with the specified data source.
+        public let workspaceArn: String
+
+        @inlinable
+        public init(roleArn: String, workspaceArn: String) {
+            self.roleArn = roleArn
+            self.workspaceArn = workspaceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role(\\/service-role)?\\/[A-Za-z0-9+=,.@\\-_]{1,64}$")
+            try self.validate(self.workspaceArn, name: "workspaceArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:aps:[a-z0-9-]+:[0-9]{12}:workspace\\/ws-[a-z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+            case workspaceArn = "WorkspaceArn"
+        }
+    }
+
     public struct PurchaseReservedInstanceOfferingRequest: AWSEncodableShape {
         /// The number of OpenSearch instances to reserve.
         public let instanceCount: Int?
@@ -6745,6 +7965,68 @@ extension OpenSearch {
         private enum CodingKeys: String, CodingKey {
             case recurringChargeAmount = "RecurringChargeAmount"
             case recurringChargeFrequency = "RecurringChargeFrequency"
+        }
+    }
+
+    public struct RegisterCapabilityRequest: AWSEncodableShape {
+        /// The unique identifier of the OpenSearch UI application to register the capability for.
+        public let applicationId: String
+        /// The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration.
+        public let capabilityConfig: CapabilityBaseRequestConfig
+        /// The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the application. For registering AI Assistant capability, use ai-capability
+        public let capabilityName: String
+
+        @inlinable
+        public init(applicationId: String, capabilityConfig: CapabilityBaseRequestConfig, capabilityName: String) {
+            self.applicationId = applicationId
+            self.capabilityConfig = capabilityConfig
+            self.capabilityName = capabilityName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encode(self.capabilityConfig, forKey: .capabilityConfig)
+            try container.encode(self.capabilityName, forKey: .capabilityName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{3,30}$")
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, max: 30)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, min: 3)
+            try self.validate(self.capabilityName, name: "capabilityName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilityConfig = "capabilityConfig"
+            case capabilityName = "capabilityName"
+        }
+    }
+
+    public struct RegisterCapabilityResponse: AWSDecodableShape {
+        /// The unique identifier of the OpenSearch UI application.
+        public let applicationId: String?
+        /// The configuration settings for the registered capability.
+        public let capabilityConfig: CapabilityBaseResponseConfig?
+        /// The name of the registered capability.
+        public let capabilityName: String?
+        /// The current status of the capability. Possible values: creating, create_failed, active, updating, update_failed, deleting, delete_failed.
+        public let status: CapabilityStatus?
+
+        @inlinable
+        public init(applicationId: String? = nil, capabilityConfig: CapabilityBaseResponseConfig? = nil, capabilityName: String? = nil, status: CapabilityStatus? = nil) {
+            self.applicationId = applicationId
+            self.capabilityConfig = capabilityConfig
+            self.capabilityName = capabilityName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case capabilityConfig = "capabilityConfig"
+            case capabilityName = "capabilityName"
+            case status = "status"
         }
     }
 
@@ -6925,12 +8207,15 @@ extension OpenSearch {
         public let domainName: String
         /// The service SP to revoke access from.
         public let service: AWSServicePrincipal?
+        /// The options for the service, including the supported Regions for the endpoint access.
+        public let serviceOptions: ServiceOptions?
 
         @inlinable
-        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil) {
+        public init(account: String? = nil, domainName: String, service: AWSServicePrincipal? = nil, serviceOptions: ServiceOptions? = nil) {
             self.account = account
             self.domainName = domainName
             self.service = service
+            self.serviceOptions = serviceOptions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6939,6 +8224,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.account, forKey: .account)
             request.encodePath(self.domainName, key: "DomainName")
             try container.encodeIfPresent(self.service, forKey: .service)
+            try container.encodeIfPresent(self.serviceOptions, forKey: .serviceOptions)
         }
 
         public func validate(name: String) throws {
@@ -6946,16 +8232,78 @@ extension OpenSearch {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.serviceOptions?.validate(name: "\(name).serviceOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case account = "Account"
             case service = "Service"
+            case serviceOptions = "ServiceOptions"
         }
     }
 
     public struct RevokeVpcEndpointAccessResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RollbackServiceSoftwareOptions: AWSDecodableShape {
+        /// The current service software version on the domain.
+        public let currentVersion: String?
+        /// A description of the rollback status.
+        public let description: String?
+        /// The service software version that the domain will roll back to.
+        public let newVersion: String?
+        /// Whether a service software rollback is available for the domain.
+        public let rollbackAvailable: Bool?
+
+        @inlinable
+        public init(currentVersion: String? = nil, description: String? = nil, newVersion: String? = nil, rollbackAvailable: Bool? = nil) {
+            self.currentVersion = currentVersion
+            self.description = description
+            self.newVersion = newVersion
+            self.rollbackAvailable = rollbackAvailable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion = "CurrentVersion"
+            case description = "Description"
+            case newVersion = "NewVersion"
+            case rollbackAvailable = "RollbackAvailable"
+        }
+    }
+
+    public struct RollbackServiceSoftwareUpdateRequest: AWSEncodableShape {
+        /// The name of the domain to roll back the service software update on.
+        public let domainName: String
+
+        @inlinable
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct RollbackServiceSoftwareUpdateResponse: AWSDecodableShape {
+        /// The rollback options for the service software update.
+        public let rollbackServiceSoftwareOptions: RollbackServiceSoftwareOptions?
+
+        @inlinable
+        public init(rollbackServiceSoftwareOptions: RollbackServiceSoftwareOptions? = nil) {
+            self.rollbackServiceSoftwareOptions = rollbackServiceSoftwareOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rollbackServiceSoftwareOptions = "RollbackServiceSoftwareOptions"
+        }
     }
 
     public struct S3GlueDataCatalog: AWSEncodableShape & AWSDecodableShape {
@@ -7094,6 +8442,24 @@ extension OpenSearch {
         }
     }
 
+    public struct SavedObjectIdentifier: AWSEncodableShape {
+        /// The unique identifier of the saved object.
+        public let id: String
+        /// The type of the saved object, such as dashboard, visualization, index-pattern, search, or query.
+        public let type: String
+
+        @inlinable
+        public init(id: String, type: String) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
+        }
+    }
+
     public struct ScheduledAction: AWSDecodableShape {
         /// Whether or not the scheduled action is cancellable.
         public let cancellable: Bool?
@@ -7200,6 +8566,28 @@ extension OpenSearch {
         }
     }
 
+    public struct ServiceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The list of supported Regions for the service.
+        public let supportedRegions: [String]?
+
+        @inlinable
+        public init(supportedRegions: [String]? = nil) {
+            self.supportedRegions = supportedRegions
+        }
+
+        public func validate(name: String) throws {
+            try self.supportedRegions?.forEach {
+                try validate($0, name: "supportedRegions[]", parent: name, max: 30)
+                try validate($0, name: "supportedRegions[]", parent: name, min: 5)
+                try validate($0, name: "supportedRegions[]", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedRegions = "SupportedRegions"
+        }
+    }
+
     public struct ServiceSoftwareOptions: AWSDecodableShape {
         /// The timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: Date?
@@ -7295,14 +8683,18 @@ extension OpenSearch {
     public struct SoftwareUpdateOptions: AWSEncodableShape & AWSDecodableShape {
         /// Whether automatic service software updates are enabled for the domain.
         public let autoSoftwareUpdateEnabled: Bool?
+        /// Whether the domain should use the latest service software version during a blue/green deployment. If enabled, the domain will automatically use the latest available service software when a blue/green deployment is triggered.
+        public let useLatestServiceSoftwareForBlueGreen: Bool?
 
         @inlinable
-        public init(autoSoftwareUpdateEnabled: Bool? = nil) {
+        public init(autoSoftwareUpdateEnabled: Bool? = nil, useLatestServiceSoftwareForBlueGreen: Bool? = nil) {
             self.autoSoftwareUpdateEnabled = autoSoftwareUpdateEnabled
+            self.useLatestServiceSoftwareForBlueGreen = useLatestServiceSoftwareForBlueGreen
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoSoftwareUpdateEnabled = "AutoSoftwareUpdateEnabled"
+            case useLatestServiceSoftwareForBlueGreen = "UseLatestServiceSoftwareForBlueGreen"
         }
     }
 
@@ -7372,6 +8764,53 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case maintenanceId = "MaintenanceId"
+        }
+    }
+
+    public struct StartMigrationRequest: AWSEncodableShape {
+        /// The unique identifier of the OpenSearch application to migrate saved objects into.
+        public let applicationId: String
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon OpenSearch Service ignores the request but does not return an error.
+        public let clientToken: String?
+        /// The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolution strategy.
+        public let migrationOptions: MigrationOptions
+
+        @inlinable
+        public init(applicationId: String, clientToken: String? = nil, migrationOptions: MigrationOptions) {
+            self.applicationId = applicationId
+            self.clientToken = clientToken
+            self.migrationOptions = migrationOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-z0-9]{3,30}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.migrationOptions.validate(name: "\(name).migrationOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationId = "applicationId"
+            case clientToken = "clientToken"
+            case migrationOptions = "migrationOptions"
+        }
+    }
+
+    public struct StartMigrationResponse: AWSDecodableShape {
+        /// The unique identifier of the migration job.
+        public let migrationId: String?
+        /// The initial status of the migration job. The status is PENDING when a migration is first created.
+        public let status: String?
+
+        @inlinable
+        public init(migrationId: String? = nil, status: String? = nil) {
+            self.migrationId = migrationId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationId = "migrationId"
+            case status = "status"
         }
     }
 
@@ -7488,13 +8927,16 @@ extension OpenSearch {
         public let appConfigs: [AppConfig]?
         /// The data sources to associate with the OpenSearch application.
         public let dataSources: [DataSource]?
+        /// Configuration settings for integrating IAM Identity Center with the OpenSearch application.
+        public let iamIdentityCenterOptions: IamIdentityCenterOptionsInput?
         /// The unique identifier for the OpenSearch application to be updated.
         public let id: String
 
         @inlinable
-        public init(appConfigs: [AppConfig]? = nil, dataSources: [DataSource]? = nil, id: String) {
+        public init(appConfigs: [AppConfig]? = nil, dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil, id: String) {
             self.appConfigs = appConfigs
             self.dataSources = dataSources
+            self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
         }
 
@@ -7503,6 +8945,7 @@ extension OpenSearch {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.appConfigs, forKey: .appConfigs)
             try container.encodeIfPresent(self.dataSources, forKey: .dataSources)
+            try container.encodeIfPresent(self.iamIdentityCenterOptions, forKey: .iamIdentityCenterOptions)
             request.encodePath(self.id, key: "id")
         }
 
@@ -7514,12 +8957,14 @@ extension OpenSearch {
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
+            try self.iamIdentityCenterOptions?.validate(name: "\(name).iamIdentityCenterOptions")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{3,30}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case appConfigs = "appConfigs"
             case dataSources = "dataSources"
+            case iamIdentityCenterOptions = "iamIdentityCenterOptions"
         }
     }
 
@@ -7637,11 +9082,11 @@ extension OpenSearch {
         public let dataSourceType: DirectQueryDataSourceType
         ///  An optional text field for providing additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
-        public let openSearchArns: [String]
+        ///  An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
+        public let openSearchArns: [String]?
 
         @inlinable
-        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]) {
+        public init(dataSourceAccessPolicy: String? = nil, dataSourceName: String, dataSourceType: DirectQueryDataSourceType, description: String? = nil, openSearchArns: [String]? = nil) {
             self.dataSourceAccessPolicy = dataSourceAccessPolicy
             self.dataSourceName = dataSourceName
             self.dataSourceType = dataSourceType
@@ -7656,7 +9101,7 @@ extension OpenSearch {
             request.encodePath(self.dataSourceName, key: "DataSourceName")
             try container.encode(self.dataSourceType, forKey: .dataSourceType)
             try container.encodeIfPresent(self.description, forKey: .description)
-            try container.encode(self.openSearchArns, forKey: .openSearchArns)
+            try container.encodeIfPresent(self.openSearchArns, forKey: .openSearchArns)
         }
 
         public func validate(name: String) throws {
@@ -7668,7 +9113,7 @@ extension OpenSearch {
             try self.dataSourceType.validate(name: "\(name).dataSourceType")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^([a-zA-Z0-9_])*[\\\\a-zA-Z0-9_@#%*+=:?./!\\s-]*$")
-            try self.openSearchArns.forEach {
+            try self.openSearchArns?.forEach {
                 try validate($0, name: "openSearchArns[]", parent: name, max: 2048)
                 try validate($0, name: "openSearchArns[]", parent: name, min: 20)
                 try validate($0, name: "openSearchArns[]", parent: name, pattern: ".*")
@@ -7706,6 +9151,8 @@ extension OpenSearch {
         public let advancedSecurityOptions: AdvancedSecurityOptionsInput?
         /// Options for all machine learning features for the specified domain.
         public let aimlOptions: AIMLOptionsInput?
+        /// Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
+        public let automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions?
         /// Options for Auto-Tune.
         public let autoTuneOptions: AutoTuneOptions?
         /// Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
@@ -7726,6 +9173,8 @@ extension OpenSearch {
         public let ebsOptions: EBSOptions?
         /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
+        /// The engine mode for the domain. The engine mode can't be changed after the domain is created. For valid values, see EngineMode.
+        public let engineMode: EngineMode?
         public let identityCenterOptions: IdentityCenterOptionsInput?
         /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
         public let ipAddressType: IPAddressType?
@@ -7739,15 +9188,18 @@ extension OpenSearch {
         public let snapshotOptions: SnapshotOptions?
         /// Service software update options for the domain.
         public let softwareUpdateOptions: SoftwareUpdateOptions?
+        /// The primary use case for the domain. For valid values, see DomainUseCase.
+        public let useCase: DomainUseCase?
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCOptions?
 
         @inlinable
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, aimlOptions: AIMLOptionsInput? = nil, automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, deploymentStrategyOptions: DeploymentStrategyOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, dryRunMode: DryRunMode? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineMode: EngineMode? = nil, identityCenterOptions: IdentityCenterOptionsInput? = nil, ipAddressType: IPAddressType? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, offPeakWindowOptions: OffPeakWindowOptions? = nil, snapshotOptions: SnapshotOptions? = nil, softwareUpdateOptions: SoftwareUpdateOptions? = nil, useCase: DomainUseCase? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.aimlOptions = aimlOptions
+            self.automatedSnapshotPauseOptions = automatedSnapshotPauseOptions
             self.autoTuneOptions = autoTuneOptions
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
@@ -7758,6 +9210,7 @@ extension OpenSearch {
             self.dryRunMode = dryRunMode
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
+            self.engineMode = engineMode
             self.identityCenterOptions = identityCenterOptions
             self.ipAddressType = ipAddressType
             self.logPublishingOptions = logPublishingOptions
@@ -7765,6 +9218,7 @@ extension OpenSearch {
             self.offPeakWindowOptions = offPeakWindowOptions
             self.snapshotOptions = snapshotOptions
             self.softwareUpdateOptions = softwareUpdateOptions
+            self.useCase = useCase
             self.vpcOptions = vpcOptions
         }
 
@@ -7775,6 +9229,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.advancedOptions, forKey: .advancedOptions)
             try container.encodeIfPresent(self.advancedSecurityOptions, forKey: .advancedSecurityOptions)
             try container.encodeIfPresent(self.aimlOptions, forKey: .aimlOptions)
+            try container.encodeIfPresent(self.automatedSnapshotPauseOptions, forKey: .automatedSnapshotPauseOptions)
             try container.encodeIfPresent(self.autoTuneOptions, forKey: .autoTuneOptions)
             try container.encodeIfPresent(self.clusterConfig, forKey: .clusterConfig)
             try container.encodeIfPresent(self.cognitoOptions, forKey: .cognitoOptions)
@@ -7785,6 +9240,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.dryRunMode, forKey: .dryRunMode)
             try container.encodeIfPresent(self.ebsOptions, forKey: .ebsOptions)
             try container.encodeIfPresent(self.encryptionAtRestOptions, forKey: .encryptionAtRestOptions)
+            try container.encodeIfPresent(self.engineMode, forKey: .engineMode)
             try container.encodeIfPresent(self.identityCenterOptions, forKey: .identityCenterOptions)
             try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.logPublishingOptions, forKey: .logPublishingOptions)
@@ -7792,6 +9248,7 @@ extension OpenSearch {
             try container.encodeIfPresent(self.offPeakWindowOptions, forKey: .offPeakWindowOptions)
             try container.encodeIfPresent(self.snapshotOptions, forKey: .snapshotOptions)
             try container.encodeIfPresent(self.softwareUpdateOptions, forKey: .softwareUpdateOptions)
+            try container.encodeIfPresent(self.useCase, forKey: .useCase)
             try container.encodeIfPresent(self.vpcOptions, forKey: .vpcOptions)
         }
 
@@ -7818,6 +9275,7 @@ extension OpenSearch {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case aimlOptions = "AIMLOptions"
+            case automatedSnapshotPauseOptions = "AutomatedSnapshotPauseOptions"
             case autoTuneOptions = "AutoTuneOptions"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
@@ -7827,6 +9285,7 @@ extension OpenSearch {
             case dryRunMode = "DryRunMode"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
+            case engineMode = "EngineMode"
             case identityCenterOptions = "IdentityCenterOptions"
             case ipAddressType = "IPAddressType"
             case logPublishingOptions = "LogPublishingOptions"
@@ -7834,6 +9293,7 @@ extension OpenSearch {
             case offPeakWindowOptions = "OffPeakWindowOptions"
             case snapshotOptions = "SnapshotOptions"
             case softwareUpdateOptions = "SoftwareUpdateOptions"
+            case useCase = "UseCase"
             case vpcOptions = "VPCOptions"
         }
     }
@@ -8238,9 +9698,29 @@ extension OpenSearch {
         }
     }
 
+    public struct UseCaseStatus: AWSDecodableShape {
+        /// The use case configured for the domain.
+        public let options: DomainUseCase
+        /// The current status of the use case for the domain.
+        public let status: OptionStatus
+
+        @inlinable
+        public init(options: DomainUseCase, status: OptionStatus) {
+            self.options = options
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case options = "Options"
+            case status = "Status"
+        }
+    }
+
     public struct VPCDerivedInfo: AWSDecodableShape {
         /// The list of Availability Zones associated with the VPC subnets.
         public let availabilityZones: [String]?
+        /// Indicates whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public let egressEnabled: Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain.
         public let securityGroupIds: [String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain.
@@ -8249,8 +9729,9 @@ extension OpenSearch {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, egressEnabled: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.vpcId = vpcId
@@ -8258,6 +9739,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
+            case egressEnabled = "EgressEnabled"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
             case vpcId = "VPCId"
@@ -8283,18 +9765,22 @@ extension OpenSearch {
     }
 
     public struct VPCOptions: AWSEncodableShape {
+        /// Controls whether egress traffic from the domain is routed through the customer VPC. When true, outbound traffic flows through the VPC. When false, outbound traffic goes through the public internet.
+        public let egressEnabled: Bool?
         /// The list of security group IDs associated with the VPC endpoints for the domain. If you do not provide a security group ID, OpenSearch Service uses the default security group for the VPC.
         public let securityGroupIds: [String]?
         /// A list of subnet IDs associated with the VPC endpoints for the domain. If your domain uses multiple Availability Zones, you need to provide two subnet IDs, one per zone. Otherwise, provide only one.
         public let subnetIds: [String]?
 
         @inlinable
-        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+        public init(egressEnabled: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil) {
+            self.egressEnabled = egressEnabled
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case egressEnabled = "EgressEnabled"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
         }
@@ -8443,6 +9929,24 @@ extension OpenSearch {
         }
     }
 
+    public struct WorkspaceConfigurationInput: AWSEncodableShape {
+        /// The name of the workspace to create. Must be between 1 and 40 characters and can contain alphanumeric characters, parentheses, brackets, hyphens, underscores, and spaces.
+        public let name: String
+        /// The type of workspace to create, which determines the use-case features enabled for the workspace. Valid values are OBSERVABILITY, SECURITY_ANALYTICS, and SEARCH.
+        public let workspaceType: String
+
+        @inlinable
+        public init(name: String, workspaceType: String) {
+            self.name = name
+            self.workspaceType = workspaceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case workspaceType = "workspaceType"
+        }
+    }
+
     public struct ZoneAwarenessConfig: AWSEncodableShape & AWSDecodableShape {
         /// If you enabled multiple Availability Zones, this value is the number of zones that you want the domain to use. Valid values are 2 and 3. If your domain is provisioned within a VPC, this value be equal to number of subnets.
         public let availabilityZoneCount: Int?
@@ -8454,6 +9958,48 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZoneCount = "AvailabilityZoneCount"
+        }
+    }
+
+    public struct CapabilityBaseRequestConfig: AWSEncodableShape {
+        /// Configuration settings for AI-powered capabilities.
+        public let aiConfig: AIConfig?
+
+        @inlinable
+        public init(aiConfig: AIConfig? = nil) {
+            self.aiConfig = aiConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiConfig = "aiConfig"
+        }
+    }
+
+    public struct CapabilityBaseResponseConfig: AWSDecodableShape {
+        /// Configuration settings for AI-powered capabilities.
+        public let aiConfig: AIConfig?
+
+        @inlinable
+        public init(aiConfig: AIConfig? = nil) {
+            self.aiConfig = aiConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiConfig = "aiConfig"
+        }
+    }
+
+    public struct CapabilityExtendedResponseConfig: AWSDecodableShape {
+        /// Configuration settings for AI-powered capabilities.
+        public let aiConfig: AIConfig?
+
+        @inlinable
+        public init(aiConfig: AIConfig? = nil) {
+            self.aiConfig = aiConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiConfig = "aiConfig"
         }
     }
 
@@ -8492,6 +10038,7 @@ public struct OpenSearchErrorType: AWSErrorType {
         case limitExceededException = "LimitExceededException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case slotNotAvailableException = "SlotNotAvailableException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
@@ -8537,6 +10084,8 @@ public struct OpenSearchErrorType: AWSErrorType {
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
     /// An exception for accessing or deleting a resource that doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// An exception for when a request would cause a service quota to be exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// An exception for attempting to schedule a domain action during an unavailable time slot.
     public static var slotNotAvailableException: Self { .init(.slotNotAvailableException) }
     /// The request was denied due to request throttling. Reduce the frequency of your requests and try again.

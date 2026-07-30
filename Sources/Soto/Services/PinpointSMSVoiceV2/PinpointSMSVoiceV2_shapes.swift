@@ -62,6 +62,13 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CarrierStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurationSetFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultMessageFeedbackEnabled = "default-message-feedback-enabled"
         case defaultMessageType = "default-message-type"
@@ -86,6 +93,7 @@ extension PinpointSMSVoiceV2 {
         case keywordMismatch = "KEYWORD_MISMATCH"
         case lastPhoneNumber = "LAST_PHONE_NUMBER"
         case messageTypeMismatch = "MESSAGE_TYPE_MISMATCH"
+        case notifyConfigurationNotActive = "NOTIFY_CONFIGURATION_NOT_ACTIVE"
         case noOriginationIdentitiesFound = "NO_ORIGINATION_IDENTITIES_FOUND"
         case numberCapabilitiesMismatch = "NUMBER_CAPABILITIES_MISMATCH"
         case optOutListMismatch = "OPT_OUT_LIST_MISMATCH"
@@ -93,11 +101,15 @@ extension PinpointSMSVoiceV2 {
         case phoneNumberAssociatedToRegistration = "PHONE_NUMBER_ASSOCIATED_TO_REGISTRATION"
         case phoneNumberNotAssociatedToPool = "PHONE_NUMBER_NOT_ASSOCIATED_TO_POOL"
         case phoneNumberNotInRegistrationRegion = "PHONE_NUMBER_NOT_IN_REGISTRATION_REGION"
+        case poolAssociatedToNotifyConfiguration = "POOL_ASSOCIATED_TO_NOTIFY_CONFIGURATION"
         case protectConfigurationAssociatedWithConfigurationSet = "PROTECT_CONFIGURATION_ASSOCIATED_WITH_CONFIGURATION_SET"
         case protectConfigurationIsAccountDefault = "PROTECT_CONFIGURATION_IS_ACCOUNT_DEFAULT"
         case protectConfigurationNotAssociatedWithConfigurationSet = "PROTECT_CONFIGURATION_NOT_ASSOCIATED_WITH_CONFIGURATION_SET"
+        case rcsAgentAlreadyAssociatedToRegistrationType = "RCS_AGENT_ALREADY_ASSOCIATED_TO_REGISTRATION_TYPE"
+        case rcsAgentAssociatedToPool = "RCS_AGENT_ASSOCIATED_TO_POOL"
         case registrationAlreadySubmitted = "REGISTRATION_ALREADY_SUBMITTED"
         case registrationNotComplete = "REGISTRATION_NOT_COMPLETE"
+        case resourceAlreadyAssociated = "RESOURCE_ALREADY_ASSOCIATED"
         case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
         case resourceDeletionNotAllowed = "RESOURCE_DELETION_NOT_ALLOWED"
         case resourceModificationNotAllowed = "RESOURCE_MODIFICATION_NOT_ALLOWED"
@@ -109,6 +121,20 @@ extension PinpointSMSVoiceV2 {
         case twoWayConfigMismatch = "TWO_WAY_CONFIG_MISMATCH"
         case verificationAlreadyComplete = "VERIFICATION_ALREADY_COMPLETE"
         case verificationCodeExpired = "VERIFICATION_CODE_EXPIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CountryLaunchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case partial = "PARTIAL"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CountryLaunchStatusFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case countryLaunchStatus = "country-launch-status"
         public var description: String { return self.rawValue }
     }
 
@@ -137,6 +163,15 @@ extension PinpointSMSVoiceV2 {
         case mediaTtlExpired = "MEDIA_TTL_EXPIRED"
         case mediaUnknown = "MEDIA_UNKNOWN"
         case mediaUnreachable = "MEDIA_UNREACHABLE"
+        case rcsAll = "RCS_ALL"
+        case rcsDelivered = "RCS_DELIVERED"
+        case rcsFailed = "RCS_FAILED"
+        case rcsFallenBackToSms = "RCS_FALLEN_BACK_TO_SMS"
+        case rcsProtectBlocked = "RCS_PROTECT_BLOCKED"
+        case rcsQueued = "RCS_QUEUED"
+        case rcsRead = "RCS_READ"
+        case rcsSent = "RCS_SENT"
+        case rcsTtlExpired = "RCS_TTL_EXPIRED"
         case textAll = "TEXT_ALL"
         case textBlocked = "TEXT_BLOCKED"
         case textCarrierBlocked = "TEXT_CARRIER_BLOCKED"
@@ -220,8 +255,62 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum NotifyConfigurationFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case defaultPool = "default-pool"
+        case defaultTemplate = "default-template"
+        case deletionProtectionEnabled = "deletion-protection-enabled"
+        case displayName = "display-name"
+        case enabledChannels = "enabled-channels"
+        case enabledCountries = "enabled-countries"
+        case status = "status"
+        case tierUpgradeStatus = "tier-upgrade-status"
+        case useCase = "use-case"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
+        case requiresVerification = "REQUIRES_VERIFICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyConfigurationTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case advanced = "ADVANCED"
+        case basic = "BASIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyConfigurationUseCase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeVerification = "CODE_VERIFICATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyTemplateFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case channels = "channels"
+        case languageCode = "language-code"
+        case supportedCountries = "supported-countries"
+        case supportedVoiceIds = "supported-voice-ids"
+        case templateType = "template-type"
+        case tierAccess = "tier-access"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyTemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NotifyTemplateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case otpVerification = "OTP_VERIFICATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NumberCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mms = "MMS"
+        case rcs = "RCS"
         case sms = "SMS"
         case voice = "VOICE"
         public var description: String { return self.rawValue }
@@ -334,6 +423,32 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RcsAgentFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deletionProtectionEnabled = "deletion-protection-enabled"
+        case optOutListName = "opt-out-list-name"
+        case selfManagedOptOutsEnabled = "self-managed-opt-outs-enabled"
+        case status = "status"
+        case twoWayChannelArn = "two-way-channel-arn"
+        case twoWayEnabled = "two-way-enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RcsAgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case deleted = "DELETED"
+        case partial = "PARTIAL"
+        case pending = "PENDING"
+        case testing = "TESTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RcsFallbackChannel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mms = "MMS"
+        case sms = "SMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RegistrationAssociationBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associateAfterComplete = "ASSOCIATE_AFTER_COMPLETE"
         case associateBeforeSubmit = "ASSOCIATE_BEFORE_SUBMIT"
@@ -398,6 +513,7 @@ extension PinpointSMSVoiceV2 {
         case discarded = "DISCARDED"
         case draft = "DRAFT"
         case requiresAuthentication = "REQUIRES_AUTHENTICATION"
+        case requiresOfflineReview = "REQUIRES_OFFLINE_REVIEW"
         case reviewing = "REVIEWING"
         case revoked = "REVOKED"
         case submitted = "SUBMITTED"
@@ -419,12 +535,15 @@ extension PinpointSMSVoiceV2 {
         case keyword = "keyword"
         case message = "message"
         case messageTemplate = "message-template"
+        case notifyConfiguration = "notify-configuration"
+        case notifyTemplate = "notify-template"
         case optOutList = "opt-out-list"
         case optedOutNumber = "opted-out-number"
         case phoneNumber = "phone-number"
         case policy = "policy"
         case pool = "pool"
         case protectConfiguration = "protect-configuration"
+        case rcsAgent = "rcs-agent"
         case registration = "registration"
         case registrationAttachment = "registration-attachment"
         case senderId = "sender-id"
@@ -445,18 +564,23 @@ extension PinpointSMSVoiceV2 {
         case associationsPerRegistration = "ASSOCIATIONS_PER_REGISTRATION"
         case configurationSetsPerAccount = "CONFIGURATION_SETS_PER_ACCOUNT"
         case dailyDestinationCallLimit = "DAILY_DESTINATION_CALL_LIMIT"
+        case dailyNotifyTierMessageLimit = "DAILY_NOTIFY_TIER_MESSAGE_LIMIT"
         case eventDestinationsPerConfigurationSet = "EVENT_DESTINATIONS_PER_CONFIGURATION_SET"
         case keywordsPerPhoneNumber = "KEYWORDS_PER_PHONE_NUMBER"
         case keywordsPerPool = "KEYWORDS_PER_POOL"
         case monthlySpendLimitReachedForMedia = "MONTHLY_SPEND_LIMIT_REACHED_FOR_MEDIA"
+        case monthlySpendLimitReachedForNotify = "MONTHLY_SPEND_LIMIT_REACHED_FOR_NOTIFY"
+        case monthlySpendLimitReachedForRcs = "MONTHLY_SPEND_LIMIT_REACHED_FOR_RCS"
         case monthlySpendLimitReachedForText = "MONTHLY_SPEND_LIMIT_REACHED_FOR_TEXT"
         case monthlySpendLimitReachedForVoice = "MONTHLY_SPEND_LIMIT_REACHED_FOR_VOICE"
+        case notifyConfigurationsPerAccount = "NOTIFY_CONFIGURATIONS_PER_ACCOUNT"
         case optOutListsPerAccount = "OPT_OUT_LISTS_PER_ACCOUNT"
         case originationIdentitiesPerPool = "ORIGINATION_IDENTITIES_PER_POOL"
         case phoneNumbersPerAccount = "PHONE_NUMBERS_PER_ACCOUNT"
         case phoneNumbersPerRegistration = "PHONE_NUMBERS_PER_REGISTRATION"
         case poolsPerAccount = "POOLS_PER_ACCOUNT"
         case protectConfigurationsPerAccount = "PROTECT_CONFIGURATIONS_PER_ACCOUNT"
+        case rcsAgentsPerAccount = "RCS_AGENTS_PER_ACCOUNT"
         case registrationsPerAccount = "REGISTRATIONS_PER_ACCOUNT"
         case registrationAttachmentsCreatedPerDay = "REGISTRATION_ATTACHMENTS_CREATED_PER_DAY"
         case registrationAttachmentsPerAccount = "REGISTRATION_ATTACHMENTS_PER_ACCOUNT"
@@ -470,8 +594,38 @@ extension PinpointSMSVoiceV2 {
 
     public enum SpendLimitName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mediaMessageMonthlySpendLimit = "MEDIA_MESSAGE_MONTHLY_SPEND_LIMIT"
+        case notifyMessageMonthlySpendLimit = "NOTIFY_MESSAGE_MONTHLY_SPEND_LIMIT"
+        case rcsMessageMonthlySpendLimit = "RCS_MESSAGE_MONTHLY_SPEND_LIMIT"
         case textMessageMonthlySpendLimit = "TEXT_MESSAGE_MONTHLY_SPEND_LIMIT"
         case voiceMessageMonthlySpendLimit = "VOICE_MESSAGE_MONTHLY_SPEND_LIMIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateVariableSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customer = "CUSTOMER"
+        case system = "SYSTEM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateVariableType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "BOOLEAN"
+        case integer = "INTEGER"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestingAgentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case created = "CREATED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TierUpgradeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case advanced = "ADVANCED"
+        case basic = "BASIC"
+        case pendingUpgrade = "PENDING_UPGRADE"
+        case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
@@ -479,7 +633,9 @@ extension PinpointSMSVoiceV2 {
         case attachmentTypeNotSupported = "ATTACHMENT_TYPE_NOT_SUPPORTED"
         case cannotAddOptedOutNumber = "CANNOT_ADD_OPTED_OUT_NUMBER"
         case cannotParse = "CANNOT_PARSE"
+        case channelNotEnabled = "CHANNEL_NOT_ENABLED"
         case countryCodeMismatch = "COUNTRY_CODE_MISMATCH"
+        case countryNotEnabled = "COUNTRY_NOT_ENABLED"
         case destinationCountryBlocked = "DESTINATION_COUNTRY_BLOCKED"
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
         case internationalSendingNotSupported = "INTERNATIONAL_SENDING_NOT_SUPPORTED"
@@ -528,11 +684,13 @@ extension PinpointSMSVoiceV2 {
 
     public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pending = "PENDING"
+        case unsupported = "UNSUPPORTED"
         case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
     public enum VerifiedDestinationNumberFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rcsAgentId = "rcs-agent-id"
         case status = "status"
         public var description: String { return self.rawValue }
     }
@@ -606,6 +764,110 @@ extension PinpointSMSVoiceV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum RcsContent: AWSEncodableShape, Sendable {
+        /// A carousel of 2 to 10 scrollable cards, each with media, title, description, and suggested actions.
+        case carousel(RcsCarousel)
+        /// A file message containing a media file (image, video, audio, or PDF) with an optional thumbnail.
+        case fileMessage(RcsFileMessage)
+        /// A standalone rich card with media, title, description, and suggested actions.
+        case richCard(RcsStandaloneCard)
+        /// A plain text RCS message.
+        case textMessage(RcsTextMessage)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .carousel(let value):
+                try container.encode(value, forKey: .carousel)
+            case .fileMessage(let value):
+                try container.encode(value, forKey: .fileMessage)
+            case .richCard(let value):
+                try container.encode(value, forKey: .richCard)
+            case .textMessage(let value):
+                try container.encode(value, forKey: .textMessage)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .carousel(let value):
+                try value.validate(name: "\(name).carousel")
+            case .fileMessage(let value):
+                try value.validate(name: "\(name).fileMessage")
+            case .richCard(let value):
+                try value.validate(name: "\(name).richCard")
+            case .textMessage(let value):
+                try value.validate(name: "\(name).textMessage")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case carousel = "Carousel"
+            case fileMessage = "FileMessage"
+            case richCard = "RichCard"
+            case textMessage = "TextMessage"
+        }
+    }
+
+    public enum RcsSuggestedAction: AWSEncodableShape, Sendable {
+        /// A suggested action that creates a calendar event on the user's device.
+        case createCalendarEvent(RcsCreateCalendarEventAction)
+        /// A suggested action that initiates a phone call to the specified number.
+        case dialPhone(RcsDialPhoneAction)
+        /// A suggested action that opens a URL in the user's browser or a webview.
+        case openUrl(RcsOpenUrlAction)
+        /// A suggested reply that sends predefined text and postback data when tapped.
+        case reply(RcsReplyAction)
+        /// A suggested action that requests the user's current location.
+        case requestLocation(RcsRequestLocationAction)
+        /// A suggested action that shows a location on a map.
+        case showLocation(RcsShowLocationAction)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .createCalendarEvent(let value):
+                try container.encode(value, forKey: .createCalendarEvent)
+            case .dialPhone(let value):
+                try container.encode(value, forKey: .dialPhone)
+            case .openUrl(let value):
+                try container.encode(value, forKey: .openUrl)
+            case .reply(let value):
+                try container.encode(value, forKey: .reply)
+            case .requestLocation(let value):
+                try container.encode(value, forKey: .requestLocation)
+            case .showLocation(let value):
+                try container.encode(value, forKey: .showLocation)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .createCalendarEvent(let value):
+                try value.validate(name: "\(name).createCalendarEvent")
+            case .dialPhone(let value):
+                try value.validate(name: "\(name).dialPhone")
+            case .openUrl(let value):
+                try value.validate(name: "\(name).openUrl")
+            case .reply(let value):
+                try value.validate(name: "\(name).reply")
+            case .requestLocation(let value):
+                try value.validate(name: "\(name).requestLocation")
+            case .showLocation(let value):
+                try value.validate(name: "\(name).showLocation")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createCalendarEvent = "CreateCalendarEvent"
+            case dialPhone = "DialPhone"
+            case openUrl = "OpenUrl"
+            case reply = "Reply"
+            case requestLocation = "RequestLocation"
+            case showLocation = "ShowLocation"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AccessDeniedException: AWSErrorShape {
@@ -668,15 +930,15 @@ extension PinpointSMSVoiceV2 {
     public struct AssociateOriginationIdentityRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
-        /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
-        public let isoCountryCode: String
+        /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
+        public let isoCountryCode: String?
         /// The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.  If you are using a shared End User Messaging SMS; resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
-        public init(clientToken: String? = AssociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String, originationIdentity: String, poolId: String) {
+        public init(clientToken: String? = AssociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String? = nil, originationIdentity: String, poolId: String) {
             self.clientToken = clientToken
             self.isoCountryCode = isoCountryCode
             self.originationIdentity = originationIdentity
@@ -694,8 +956,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -851,6 +1112,24 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct CarrierStatusInformation: AWSDecodableShape {
+        /// The name of the carrier.
+        public let carrierName: String
+        /// The launch status for this carrier.
+        public let status: CarrierStatus
+
+        @inlinable
+        public init(carrierName: String, status: CarrierStatus) {
+            self.carrierName = carrierName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case carrierName = "CarrierName"
+            case status = "Status"
+        }
+    }
+
     public struct CloudWatchLogsDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an Identity and Access Management role that is able to write event data to an Amazon CloudWatch destination.
         public let iamRoleArn: String
@@ -973,6 +1252,64 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct CountryLaunchStatusFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: CountryLaunchStatusFilterName
+        /// An array values to filter for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: CountryLaunchStatusFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct CountryLaunchStatusInformation: AWSDecodableShape {
+        /// An array of CarrierStatusInformation objects containing carrier-level launch status details.
+        public let carrierStatus: [CarrierStatusInformation]
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// The RCS platform identifier for this country.
+        public let rcsPlatformId: String?
+        /// The unique identifier of the registration associated with this country launch.
+        public let registrationId: String
+        /// The launch status for this country.
+        public let status: CountryLaunchStatus
+
+        @inlinable
+        public init(carrierStatus: [CarrierStatusInformation], isoCountryCode: String, rcsPlatformId: String? = nil, registrationId: String, status: CountryLaunchStatus) {
+            self.carrierStatus = carrierStatus
+            self.isoCountryCode = isoCountryCode
+            self.rcsPlatformId = rcsPlatformId
+            self.registrationId = registrationId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case carrierStatus = "CarrierStatus"
+            case isoCountryCode = "IsoCountryCode"
+            case rcsPlatformId = "RcsPlatformId"
+            case registrationId = "RegistrationId"
+            case status = "Status"
+        }
+    }
+
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
@@ -1073,7 +1410,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, min: 1)
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, pattern: "^[A-Za-z0-9_-]+$")
             try self.kinesisFirehoseDestination?.validate(name: "\(name).kinesisFirehoseDestination")
-            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 43)
+            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 52)
             try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, min: 1)
             try self.snsDestination?.validate(name: "\(name).snsDestination")
         }
@@ -1108,6 +1445,147 @@ extension PinpointSMSVoiceV2 {
             case configurationSetArn = "ConfigurationSetArn"
             case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
+        }
+    }
+
+    public struct CreateNotifyConfigurationRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier.
+        public let defaultTemplateId: String?
+        /// By default this is set to false. When set to true the notify configuration can't be deleted. You can change this value using the UpdateNotifyConfiguration action.
+        public let deletionProtectionEnabled: Bool?
+        /// The display name to associate with the notify configuration.
+        public let displayName: String
+        /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The identifier of the pool to associate with the notify configuration.
+        public let poolId: String?
+        /// An array of tags (key and value pairs) associated with the notify configuration.
+        public let tags: [Tag]?
+        /// The use case for the notify configuration.
+        public let useCase: NotifyConfigurationUseCase
+
+        @inlinable
+        public init(clientToken: String? = CreateNotifyConfigurationRequest.idempotencyToken(), defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool? = nil, displayName: String, enabledChannels: [NumberCapability], enabledCountries: [String]? = nil, poolId: String? = nil, tags: [Tag]? = nil, useCase: NotifyConfigurationUseCase) {
+            self.clientToken = clientToken
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.poolId = poolId
+            self.tags = tags
+            self.useCase = useCase
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.defaultTemplateId, name: "defaultTemplateId", parent: name, max: 256)
+            try self.validate(self.defaultTemplateId, name: "defaultTemplateId", parent: name, pattern: "^([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 15)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[A-Za-z0-9_ -]+$")
+            try self.validate(self.enabledChannels, name: "enabledChannels", parent: name, max: 4)
+            try self.validate(self.enabledChannels, name: "enabledChannels", parent: name, min: 1)
+            try self.enabledCountries?.forEach {
+                try validate($0, name: "enabledCountries[]", parent: name, max: 2)
+                try validate($0, name: "enabledCountries[]", parent: name, min: 2)
+                try validate($0, name: "enabledCountries[]", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.validate(self.enabledCountries, name: "enabledCountries", parent: name, max: 300)
+            try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case displayName = "DisplayName"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case poolId = "PoolId"
+            case tags = "Tags"
+            case useCase = "UseCase"
+        }
+    }
+
+    public struct CreateNotifyConfigurationResult: AWSDecodableShape {
+        /// The time when the notify configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The default template identifier associated with the notify configuration.
+        public let defaultTemplateId: String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The display name associated with the notify configuration.
+        public let displayName: String
+        /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The Amazon Resource Name (ARN) for the notify configuration.
+        public let notifyConfigurationArn: String
+        /// The unique identifier for the notify configuration.
+        public let notifyConfigurationId: String
+        /// The identifier of the pool associated with the notify configuration.
+        public let poolId: String?
+        /// The reason the notify configuration was rejected, if applicable.
+        public let rejectionReason: String?
+        /// The current status of the notify configuration.
+        public let status: NotifyConfigurationStatus
+        /// An array of tags (key and value pairs) associated with the notify configuration.
+        public let tags: [Tag]?
+        /// The tier of the notify configuration.
+        public let tier: NotifyConfigurationTier
+        /// The tier upgrade status of the notify configuration.
+        public let tierUpgradeStatus: TierUpgradeStatus
+        /// The use case for the notify configuration.
+        public let useCase: NotifyConfigurationUseCase
+
+        @inlinable
+        public init(createdTimestamp: Date, defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool, displayName: String, enabledChannels: [NumberCapability], enabledCountries: [String]? = nil, notifyConfigurationArn: String, notifyConfigurationId: String, poolId: String? = nil, rejectionReason: String? = nil, status: NotifyConfigurationStatus, tags: [Tag]? = nil, tier: NotifyConfigurationTier, tierUpgradeStatus: TierUpgradeStatus, useCase: NotifyConfigurationUseCase) {
+            self.createdTimestamp = createdTimestamp
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationArn = notifyConfigurationArn
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+            self.rejectionReason = rejectionReason
+            self.status = status
+            self.tags = tags
+            self.tier = tier
+            self.tierUpgradeStatus = tierUpgradeStatus
+            self.useCase = useCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case displayName = "DisplayName"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case notifyConfigurationArn = "NotifyConfigurationArn"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case poolId = "PoolId"
+            case rejectionReason = "RejectionReason"
+            case status = "Status"
+            case tags = "Tags"
+            case tier = "Tier"
+            case tierUpgradeStatus = "TierUpgradeStatus"
+            case useCase = "UseCase"
         }
     }
 
@@ -1177,8 +1655,8 @@ extension PinpointSMSVoiceV2 {
         public let clientToken: String?
         /// By default this is set to false. When set to true the pool can't be deleted. You can change this value using the UpdatePool action.
         public let deletionProtectionEnabled: Bool?
-        /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
-        public let isoCountryCode: String
+        /// The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
+        public let isoCountryCode: String?
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
         public let messageType: MessageType
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, and use DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
@@ -1187,7 +1665,7 @@ extension PinpointSMSVoiceV2 {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreatePoolRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String, messageType: MessageType, originationIdentity: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreatePoolRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, isoCountryCode: String? = nil, messageType: MessageType, originationIdentity: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.isoCountryCode = isoCountryCode
@@ -1347,6 +1825,115 @@ extension PinpointSMSVoiceV2 {
             case protectConfigurationArn = "ProtectConfigurationArn"
             case protectConfigurationId = "ProtectConfigurationId"
             case tags = "Tags"
+        }
+    }
+
+    public struct CreateRcsAgentRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
+        public let clientToken: String?
+        /// By default this is set to false. When set to true the RCS agent can't be deleted. You can change this value using the UpdateRcsAgent action.
+        public let deletionProtectionEnabled: Bool?
+        /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+        public let optOutListName: String?
+        /// An array of tags (key and value pairs) associated with the RCS agent.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateRcsAgentRequest.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, max: 256)
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRcsAgentResult: AWSDecodableShape {
+        /// The time when the RCS agent was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The name of the OptOutList associated with the RCS agent.
+        public let optOutListName: String?
+        /// The Amazon Resource Name (ARN) of the newly created RCS agent.
+        public let rcsAgentArn: String
+        /// The unique identifier for the RCS agent.
+        public let rcsAgentId: String
+        /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        public let selfManagedOptOutsEnabled: Bool
+        /// The current status of the RCS agent.
+        public let status: RcsAgentStatus
+        /// An array of tags (key and value pairs) associated with the RCS agent.
+        public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
+        /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+        public let twoWayEnabled: Bool
+        /// The name of the S3 bucket where inbound RCS media files are stored.
+        public let twoWayMediaS3BucketName: String?
+        /// The key prefix used for inbound RCS media objects in the S3 bucket.
+        public let twoWayMediaS3KeyPrefix: String?
+        /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it.
+        public let twoWayMediaS3Role: String?
+        /// The list of RCS event types enabled for two-way messaging on the agent.
+        public let twoWayRcsEventsEnabled: [String]?
+
+        @inlinable
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, optOutListName: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, tags: [Tag]? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.status = status
+            self.tags = tags
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+            self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+            self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+            self.twoWayMediaS3Role = twoWayMediaS3Role
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case rcsAgentArn = "RcsAgentArn"
+            case rcsAgentId = "RcsAgentId"
+            case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
+            case status = "Status"
+            case tags = "Tags"
+            case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
+            case twoWayEnabled = "TwoWayEnabled"
+            case twoWayMediaS3BucketName = "TwoWayMediaS3BucketName"
+            case twoWayMediaS3KeyPrefix = "TwoWayMediaS3KeyPrefix"
+            case twoWayMediaS3Role = "TwoWayMediaS3Role"
+            case twoWayRcsEventsEnabled = "TwoWayRcsEventsEnabled"
         }
     }
 
@@ -1622,13 +2209,16 @@ extension PinpointSMSVoiceV2 {
         public let clientToken: String?
         /// The verified destination phone number, in E.164 format.
         public let destinationPhoneNumber: String
+        /// The unique identifier of the RCS agent to associate with the verified destination number. You can use either the RcsAgentId or RcsAgentArn.
+        public let rcsAgentId: String?
         /// An array of tags (key and value pairs) to associate with the destination number.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateVerifiedDestinationNumberRequest.idempotencyToken(), destinationPhoneNumber: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateVerifiedDestinationNumberRequest.idempotencyToken(), destinationPhoneNumber: String, rcsAgentId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.rcsAgentId = rcsAgentId
             self.tags = tags
         }
 
@@ -1639,6 +2229,9 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, max: 256)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, min: 1)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1648,6 +2241,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case destinationPhoneNumber = "DestinationPhoneNumber"
+            case rcsAgentId = "RcsAgentId"
             case tags = "Tags"
         }
     }
@@ -1657,6 +2251,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date
         /// The verified destination phone number, in E.164 format.
         public let destinationPhoneNumber: String
+        /// The unique identifier of the RCS agent associated with the verified destination number.
+        public let rcsAgentId: String?
         /// The status of the verified destination phone number.    PENDING: The phone number hasn't been verified yet.    VERIFIED: The phone number is verified and can receive messages.
         public let status: VerificationStatus
         /// An array of tags (key and value pairs) to associate with the destination number.
@@ -1667,9 +2263,10 @@ extension PinpointSMSVoiceV2 {
         public let verifiedDestinationNumberId: String
 
         @inlinable
-        public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, tags: [Tag]? = nil, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, rcsAgentId: String? = nil, status: VerificationStatus, tags: [Tag]? = nil, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.rcsAgentId = rcsAgentId
             self.status = status
             self.tags = tags
             self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
@@ -1679,6 +2276,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case destinationPhoneNumber = "DestinationPhoneNumber"
+            case rcsAgentId = "RcsAgentId"
             case status = "Status"
             case tags = "Tags"
             case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
@@ -1974,6 +2572,110 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DeleteNotifyConfigurationRequest: AWSEncodableShape {
+        /// The identifier of the notify configuration to delete. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation.
+        public let notifyConfigurationId: String
+
+        @inlinable
+        public init(notifyConfigurationId: String) {
+            self.notifyConfigurationId = notifyConfigurationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, max: 256)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, min: 1)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notifyConfigurationId = "NotifyConfigurationId"
+        }
+    }
+
+    public struct DeleteNotifyConfigurationResult: AWSDecodableShape {
+        /// The time when the notify configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The default template identifier associated with the notify configuration.
+        public let defaultTemplateId: String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The display name associated with the notify configuration.
+        public let displayName: String
+        /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The Amazon Resource Name (ARN) for the notify configuration.
+        public let notifyConfigurationArn: String
+        /// The unique identifier for the notify configuration.
+        public let notifyConfigurationId: String
+        /// The identifier of the pool associated with the notify configuration.
+        public let poolId: String?
+        /// The reason the notify configuration was rejected, if applicable.
+        public let rejectionReason: String?
+        /// The current status of the notify configuration.
+        public let status: NotifyConfigurationStatus
+        /// The tier of the notify configuration.
+        public let tier: NotifyConfigurationTier
+        /// The tier upgrade status of the notify configuration.
+        public let tierUpgradeStatus: TierUpgradeStatus
+        /// The use case for the notify configuration.
+        public let useCase: NotifyConfigurationUseCase
+
+        @inlinable
+        public init(createdTimestamp: Date, defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool, displayName: String, enabledChannels: [NumberCapability], enabledCountries: [String]? = nil, notifyConfigurationArn: String, notifyConfigurationId: String, poolId: String? = nil, rejectionReason: String? = nil, status: NotifyConfigurationStatus, tier: NotifyConfigurationTier, tierUpgradeStatus: TierUpgradeStatus, useCase: NotifyConfigurationUseCase) {
+            self.createdTimestamp = createdTimestamp
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationArn = notifyConfigurationArn
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+            self.rejectionReason = rejectionReason
+            self.status = status
+            self.tier = tier
+            self.tierUpgradeStatus = tierUpgradeStatus
+            self.useCase = useCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case displayName = "DisplayName"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case notifyConfigurationArn = "NotifyConfigurationArn"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case poolId = "PoolId"
+            case rejectionReason = "RejectionReason"
+            case status = "Status"
+            case tier = "Tier"
+            case tierUpgradeStatus = "TierUpgradeStatus"
+            case useCase = "UseCase"
+        }
+    }
+
+    public struct DeleteNotifyMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteNotifyMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit, in US dollars.
+        public let monthlyLimit: Int64?
+
+        @inlinable
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
     public struct DeleteOptOutListRequest: AWSEncodableShape {
         /// The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String
@@ -2084,8 +2786,7 @@ extension PinpointSMSVoiceV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2259,6 +2960,98 @@ extension PinpointSMSVoiceV2 {
             case isoCountryCode = "IsoCountryCode"
             case protectConfigurationArn = "ProtectConfigurationArn"
             case protectConfigurationId = "ProtectConfigurationId"
+        }
+    }
+
+    public struct DeleteRcsAgentRequest: AWSEncodableShape {
+        /// The unique identifier of the RCS agent to delete. You can use either the RcsAgentId or RcsAgentArn.
+        public let rcsAgentId: String
+
+        @inlinable
+        public init(rcsAgentId: String) {
+            self.rcsAgentId = rcsAgentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, max: 256)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, min: 1)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rcsAgentId = "RcsAgentId"
+        }
+    }
+
+    public struct DeleteRcsAgentResult: AWSDecodableShape {
+        /// The time when the RCS agent was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The name of the OptOutList that was associated with the deleted RCS agent.
+        public let optOutListName: String?
+        /// The Amazon Resource Name (ARN) of the deleted RCS agent.
+        public let rcsAgentArn: String
+        /// The unique identifier for the deleted RCS agent.
+        public let rcsAgentId: String
+        /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        public let selfManagedOptOutsEnabled: Bool
+        /// The current status of the RCS agent.
+        public let status: RcsAgentStatus
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
+        /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+        public let twoWayEnabled: Bool
+        /// The list of RCS event types that were enabled for two-way messaging on the deleted agent.
+        public let twoWayRcsEventsEnabled: [String]?
+
+        @inlinable
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, optOutListName: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayRcsEventsEnabled: [String]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.status = status
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case rcsAgentArn = "RcsAgentArn"
+            case rcsAgentId = "RcsAgentId"
+            case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
+            case status = "Status"
+            case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
+            case twoWayEnabled = "TwoWayEnabled"
+            case twoWayRcsEventsEnabled = "TwoWayRcsEventsEnabled"
+        }
+    }
+
+    public struct DeleteRcsMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteRcsMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit to enforce on RCS message spending.
+        public let monthlyLimit: Int64?
+
+        @inlinable
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
         }
     }
 
@@ -2794,6 +3587,130 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct DescribeNotifyConfigurationsRequest: AWSEncodableShape {
+        /// An array of NotifyConfigurationFilter objects to filter the results on.
+        public let filters: [NotifyConfigurationFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of notify configuration IDs to describe.
+        public let notifyConfigurationIds: [String]?
+
+        @inlinable
+        public init(filters: [NotifyConfigurationFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, notifyConfigurationIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.notifyConfigurationIds = notifyConfigurationIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.notifyConfigurationIds?.forEach {
+                try validate($0, name: "notifyConfigurationIds[]", parent: name, max: 256)
+                try validate($0, name: "notifyConfigurationIds[]", parent: name, min: 1)
+                try validate($0, name: "notifyConfigurationIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.notifyConfigurationIds, name: "notifyConfigurationIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case notifyConfigurationIds = "NotifyConfigurationIds"
+        }
+    }
+
+    public struct DescribeNotifyConfigurationsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+        public let nextToken: String?
+        /// An array of NotifyConfigurationInformation objects that contain the results.
+        public let notifyConfigurations: [NotifyConfigurationInformation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, notifyConfigurations: [NotifyConfigurationInformation]? = nil) {
+            self.nextToken = nextToken
+            self.notifyConfigurations = notifyConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notifyConfigurations = "NotifyConfigurations"
+        }
+    }
+
+    public struct DescribeNotifyTemplatesRequest: AWSEncodableShape {
+        /// An array of NotifyTemplateFilter objects to filter the results on.
+        public let filters: [NotifyTemplateFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// An array of template IDs to describe.
+        public let templateIds: [String]?
+
+        @inlinable
+        public init(filters: [NotifyTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, templateIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateIds = templateIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.templateIds?.forEach {
+                try validate($0, name: "templateIds[]", parent: name, max: 256)
+                try validate($0, name: "templateIds[]", parent: name, pattern: "^([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)$")
+            }
+            try self.validate(self.templateIds, name: "templateIds", parent: name, max: 10)
+            try self.validate(self.templateIds, name: "templateIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case templateIds = "TemplateIds"
+        }
+    }
+
+    public struct DescribeNotifyTemplatesResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+        public let nextToken: String?
+        /// An array of NotifyTemplateInformation objects that contain the results.
+        public let notifyTemplates: [NotifyTemplateInformation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, notifyTemplates: [NotifyTemplateInformation]? = nil) {
+            self.nextToken = nextToken
+            self.notifyTemplates = notifyTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notifyTemplates = "NotifyTemplates"
+        }
+    }
+
     public struct DescribeOptOutListsRequest: AWSEncodableShape {
         /// The maximum number of results to return per each request.
         public let maxResults: Int?
@@ -3028,8 +3945,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
             try self.poolIds?.forEach {
                 try validate($0, name: "poolIds[]", parent: name, max: 256)
-                try validate($0, name: "poolIds[]", parent: name, min: 1)
-                try validate($0, name: "poolIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+                try validate($0, name: "poolIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
             }
             try self.validate(self.poolIds, name: "poolIds", parent: name, max: 5)
         }
@@ -3120,6 +4036,149 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case protectConfigurations = "ProtectConfigurations"
+        }
+    }
+
+    public struct DescribeRcsAgentCountryLaunchStatusRequest: AWSEncodableShape {
+        /// An array of CountryLaunchStatusFilter objects to filter the results.
+        public let filters: [CountryLaunchStatusFilter]?
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, to filter the results.
+        public let isoCountryCodes: [String]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The unique identifier of the RCS agent. You can use either the RcsAgentId or RcsAgentArn.
+        public let rcsAgentId: String
+
+        @inlinable
+        public init(filters: [CountryLaunchStatusFilter]? = nil, isoCountryCodes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, rcsAgentId: String) {
+            self.filters = filters
+            self.isoCountryCodes = isoCountryCodes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.rcsAgentId = rcsAgentId
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.isoCountryCodes?.forEach {
+                try validate($0, name: "isoCountryCodes[]", parent: name, max: 2)
+                try validate($0, name: "isoCountryCodes[]", parent: name, min: 2)
+                try validate($0, name: "isoCountryCodes[]", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.validate(self.isoCountryCodes, name: "isoCountryCodes", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, max: 256)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, min: 1)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case isoCountryCodes = "IsoCountryCodes"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case rcsAgentId = "RcsAgentId"
+        }
+    }
+
+    public struct DescribeRcsAgentCountryLaunchStatusResult: AWSDecodableShape {
+        /// An array of CountryLaunchStatusInformation objects that contain the per-country launch status details.
+        public let countryLaunchStatus: [CountryLaunchStatusInformation]?
+        /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+        public let nextToken: String?
+        /// The Amazon Resource Name (ARN) of the RCS agent.
+        public let rcsAgentArn: String
+        /// The unique identifier for the RCS agent.
+        public let rcsAgentId: String
+
+        @inlinable
+        public init(countryLaunchStatus: [CountryLaunchStatusInformation]? = nil, nextToken: String? = nil, rcsAgentArn: String, rcsAgentId: String) {
+            self.countryLaunchStatus = countryLaunchStatus
+            self.nextToken = nextToken
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryLaunchStatus = "CountryLaunchStatus"
+            case nextToken = "NextToken"
+            case rcsAgentArn = "RcsAgentArn"
+            case rcsAgentId = "RcsAgentId"
+        }
+    }
+
+    public struct DescribeRcsAgentsRequest: AWSEncodableShape {
+        /// An array of RcsAgentFilter objects to filter the results.
+        public let filters: [RcsAgentFilter]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// Use SELF to filter the list of RCS agents to ones your account owns or use SHARED to filter on RCS agents shared with your account. The Owner and RcsAgentIds parameters can't be used at the same time.
+        public let owner: Owner?
+        /// An array of unique identifiers for the RCS agents. This is an array of strings that can be either the RcsAgentId or RcsAgentArn.
+        public let rcsAgentIds: [String]?
+
+        @inlinable
+        public init(filters: [RcsAgentFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Owner? = nil, rcsAgentIds: [String]? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.owner = owner
+            self.rcsAgentIds = rcsAgentIds
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.rcsAgentIds?.forEach {
+                try validate($0, name: "rcsAgentIds[]", parent: name, max: 256)
+                try validate($0, name: "rcsAgentIds[]", parent: name, min: 1)
+                try validate($0, name: "rcsAgentIds[]", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            }
+            try self.validate(self.rcsAgentIds, name: "rcsAgentIds", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case owner = "Owner"
+            case rcsAgentIds = "RcsAgentIds"
+        }
+    }
+
+    public struct DescribeRcsAgentsResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+        public let nextToken: String?
+        /// An array of RcsAgentInformation objects that contain the details for the requested RCS agents.
+        public let rcsAgents: [RcsAgentInformation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rcsAgents: [RcsAgentInformation]? = nil) {
+            self.nextToken = nextToken
+            self.rcsAgents = rcsAgents
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case rcsAgents = "RcsAgents"
         }
     }
 
@@ -3791,15 +4850,15 @@ extension PinpointSMSVoiceV2 {
     public struct DisassociateOriginationIdentityRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
         public let clientToken: String?
-        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
-        public let isoCountryCode: String
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. This field is optional and is not required for origination identity types that are not country-specific, such as RCS agents.
+        public let isoCountryCode: String?
         /// The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String
         /// The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
         public let poolId: String
 
         @inlinable
-        public init(clientToken: String? = DisassociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String, originationIdentity: String, poolId: String) {
+        public init(clientToken: String? = DisassociateOriginationIdentityRequest.idempotencyToken(), isoCountryCode: String? = nil, originationIdentity: String, poolId: String) {
             self.clientToken = clientToken
             self.isoCountryCode = isoCountryCode
             self.originationIdentity = originationIdentity
@@ -3817,8 +4876,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
             try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4182,6 +5240,66 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct ListNotifyCountriesRequest: AWSEncodableShape {
+        /// An array of channels to filter the results by.
+        public let channels: [NumberCapability]?
+        /// The maximum number of results to return per each request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
+        public let nextToken: String?
+        /// The tier to filter the results by.
+        public let tier: NotifyConfigurationTier?
+        /// An array of use cases to filter the results by.
+        public let useCases: [NotifyConfigurationUseCase]?
+
+        @inlinable
+        public init(channels: [NumberCapability]? = nil, maxResults: Int? = nil, nextToken: String? = nil, tier: NotifyConfigurationTier? = nil, useCases: [NotifyConfigurationUseCase]? = nil) {
+            self.channels = channels
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tier = tier
+            self.useCases = useCases
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channels, name: "channels", parent: name, max: 4)
+            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+            try self.validate(self.useCases, name: "useCases", parent: name, max: 4)
+            try self.validate(self.useCases, name: "useCases", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "Channels"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tier = "Tier"
+            case useCases = "UseCases"
+        }
+    }
+
+    public struct ListNotifyCountriesResult: AWSDecodableShape {
+        /// The token to be used for the next set of paginated results. If this field is empty then there are no more results.
+        public let nextToken: String?
+        /// An array of NotifyCountryInformation objects that contain the results.
+        public let notifyCountries: [NotifyCountryInformation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, notifyCountries: [NotifyCountryInformation]? = nil) {
+            self.nextToken = nextToken
+            self.notifyCountries = notifyCountries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case notifyCountries = "NotifyCountries"
+        }
+    }
+
     public struct ListPoolOriginationIdentitiesRequest: AWSEncodableShape {
         /// An array of PoolOriginationIdentitiesFilter objects to filter the results..
         public let filters: [PoolOriginationIdentitiesFilter]?
@@ -4211,8 +5329,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4425,6 +5542,220 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct NotifyConfigurationFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: NotifyConfigurationFilterName
+        /// An array values to filter for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: NotifyConfigurationFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct NotifyConfigurationInformation: AWSDecodableShape {
+        /// The time when the notify configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The default template identifier associated with the notify configuration.
+        public let defaultTemplateId: String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The display name associated with the notify configuration.
+        public let displayName: String
+        /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The Amazon Resource Name (ARN) for the notify configuration.
+        public let notifyConfigurationArn: String
+        /// The unique identifier for the notify configuration.
+        public let notifyConfigurationId: String
+        /// The identifier of the pool associated with the notify configuration.
+        public let poolId: String?
+        /// The reason the notify configuration was rejected, if applicable.
+        public let rejectionReason: String?
+        /// The current status of the notify configuration.
+        public let status: NotifyConfigurationStatus
+        /// The tier of the notify configuration.
+        public let tier: NotifyConfigurationTier
+        /// The tier upgrade status of the notify configuration.
+        public let tierUpgradeStatus: TierUpgradeStatus
+        /// The use case for the notify configuration.
+        public let useCase: NotifyConfigurationUseCase
+
+        @inlinable
+        public init(createdTimestamp: Date, defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool, displayName: String, enabledChannels: [NumberCapability], enabledCountries: [String]? = nil, notifyConfigurationArn: String, notifyConfigurationId: String, poolId: String? = nil, rejectionReason: String? = nil, status: NotifyConfigurationStatus, tier: NotifyConfigurationTier, tierUpgradeStatus: TierUpgradeStatus, useCase: NotifyConfigurationUseCase) {
+            self.createdTimestamp = createdTimestamp
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationArn = notifyConfigurationArn
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+            self.rejectionReason = rejectionReason
+            self.status = status
+            self.tier = tier
+            self.tierUpgradeStatus = tierUpgradeStatus
+            self.useCase = useCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case displayName = "DisplayName"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case notifyConfigurationArn = "NotifyConfigurationArn"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case poolId = "PoolId"
+            case rejectionReason = "RejectionReason"
+            case status = "Status"
+            case tier = "Tier"
+            case tierUpgradeStatus = "TierUpgradeStatus"
+            case useCase = "UseCase"
+        }
+    }
+
+    public struct NotifyCountryInformation: AWSDecodableShape {
+        /// The name of the country.
+        public let countryName: String
+        /// Whether a customer-owned identity is required to send notify messages to this country.
+        public let customerOwnedIdentityRequired: Bool
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        public let isoCountryCode: String
+        /// An array of supported channels for the country. Supported values include SMS and VOICE.
+        public let supportedChannels: [NumberCapability]
+        /// An array of supported tiers for the country.
+        public let supportedTiers: [NotifyConfigurationTier]
+        /// An array of supported use cases for the country.
+        public let supportedUseCases: [NotifyConfigurationUseCase]
+
+        @inlinable
+        public init(countryName: String, customerOwnedIdentityRequired: Bool, isoCountryCode: String, supportedChannels: [NumberCapability], supportedTiers: [NotifyConfigurationTier], supportedUseCases: [NotifyConfigurationUseCase]) {
+            self.countryName = countryName
+            self.customerOwnedIdentityRequired = customerOwnedIdentityRequired
+            self.isoCountryCode = isoCountryCode
+            self.supportedChannels = supportedChannels
+            self.supportedTiers = supportedTiers
+            self.supportedUseCases = supportedUseCases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case countryName = "CountryName"
+            case customerOwnedIdentityRequired = "CustomerOwnedIdentityRequired"
+            case isoCountryCode = "IsoCountryCode"
+            case supportedChannels = "SupportedChannels"
+            case supportedTiers = "SupportedTiers"
+            case supportedUseCases = "SupportedUseCases"
+        }
+    }
+
+    public struct NotifyTemplateFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: NotifyTemplateFilterName
+        /// An array values to filter for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: NotifyTemplateFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct NotifyTemplateInformation: AWSDecodableShape {
+        /// The channels for the template. Supported values are SMS and VOICE.
+        public let channels: [NumberCapability]
+        /// The content of the template.
+        public let content: String?
+        /// The time when the notify template was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The language code for the template.
+        public let languageCode: String?
+        /// The current status of the template.
+        public let status: NotifyTemplateStatus?
+        /// An array of supported country codes for the template.
+        public let supportedCountries: [String]?
+        /// An array of supported voice IDs for voice templates.
+        public let supportedVoiceIds: [VoiceId]?
+        /// The unique identifier for the template.
+        public let templateId: String
+        /// The type of the template.
+        public let templateType: NotifyTemplateType
+        /// The tier access level for the template.
+        public let tierAccess: [NotifyConfigurationTier]?
+        /// An array of template variable metadata for the template.
+        public let variables: [String: TemplateVariableMetadata]?
+        /// The version of the template.
+        public let version: Int
+
+        @inlinable
+        public init(channels: [NumberCapability], content: String? = nil, createdTimestamp: Date, languageCode: String? = nil, status: NotifyTemplateStatus? = nil, supportedCountries: [String]? = nil, supportedVoiceIds: [VoiceId]? = nil, templateId: String, templateType: NotifyTemplateType, tierAccess: [NotifyConfigurationTier]? = nil, variables: [String: TemplateVariableMetadata]? = nil, version: Int) {
+            self.channels = channels
+            self.content = content
+            self.createdTimestamp = createdTimestamp
+            self.languageCode = languageCode
+            self.status = status
+            self.supportedCountries = supportedCountries
+            self.supportedVoiceIds = supportedVoiceIds
+            self.templateId = templateId
+            self.templateType = templateType
+            self.tierAccess = tierAccess
+            self.variables = variables
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "Channels"
+            case content = "Content"
+            case createdTimestamp = "CreatedTimestamp"
+            case languageCode = "LanguageCode"
+            case status = "Status"
+            case supportedCountries = "SupportedCountries"
+            case supportedVoiceIds = "SupportedVoiceIds"
+            case templateId = "TemplateId"
+            case templateType = "TemplateType"
+            case tierAccess = "TierAccess"
+            case variables = "Variables"
+            case version = "Version"
+        }
+    }
+
     public struct OptOutListInformation: AWSDecodableShape {
         /// The time when the OutOutList was created, in UNIX epoch time format.
         public let createdTimestamp: Date
@@ -4498,7 +5829,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct OriginationIdentityMetadata: AWSDecodableShape {
-        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
+        /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region. This field is optional and may not be present for origination identity types that are not country-specific, such as RCS agents.
         public let isoCountryCode: String
         /// Describes if the origination identity can be used for text messages, voice calls or both.
         public let numberCapabilities: [NumberCapability]
@@ -5267,6 +6598,619 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct RcsAgentFilter: AWSEncodableShape {
+        /// The name of the attribute to filter on.
+        public let name: RcsAgentFilterName
+        /// An array values to filter for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: RcsAgentFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[/\\.:A-Za-z0-9+_-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct RcsAgentInformation: AWSDecodableShape {
+        /// The time when the RCS agent was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// When set to true the RCS agent can't be deleted.
+        public let deletionProtectionEnabled: Bool
+        /// The name of the OptOutList associated with the RCS agent.
+        public let optOutListName: String?
+        /// The unique identifier of the pool associated with the RCS agent.
+        public let poolId: String?
+        /// The Amazon Resource Name (ARN) of the RCS agent.
+        public let rcsAgentArn: String
+        /// The unique identifier for the RCS agent.
+        public let rcsAgentId: String
+        /// When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        public let selfManagedOptOutsEnabled: Bool
+        /// The current status of the RCS agent.
+        public let status: RcsAgentStatus
+        /// The testing agent information associated with the RCS agent.
+        public let testingAgent: TestingAgentInformation?
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
+        /// When set to true you can receive incoming text messages from your end recipients using the TwoWayChannelArn.
+        public let twoWayEnabled: Bool
+        /// The name of the S3 bucket where inbound RCS media files are stored.
+        public let twoWayMediaS3BucketName: String?
+        /// The key prefix used for inbound RCS media objects in the S3 bucket.
+        public let twoWayMediaS3KeyPrefix: String?
+        /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket.
+        public let twoWayMediaS3Role: String?
+        /// The list of RCS event types enabled for two-way messaging on the agent.
+        public let twoWayRcsEventsEnabled: [String]?
+
+        @inlinable
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, optOutListName: String? = nil, poolId: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, testingAgent: TestingAgentInformation? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.poolId = poolId
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.status = status
+            self.testingAgent = testingAgent
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+            self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+            self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+            self.twoWayMediaS3Role = twoWayMediaS3Role
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case poolId = "PoolId"
+            case rcsAgentArn = "RcsAgentArn"
+            case rcsAgentId = "RcsAgentId"
+            case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
+            case status = "Status"
+            case testingAgent = "TestingAgent"
+            case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
+            case twoWayEnabled = "TwoWayEnabled"
+            case twoWayMediaS3BucketName = "TwoWayMediaS3BucketName"
+            case twoWayMediaS3KeyPrefix = "TwoWayMediaS3KeyPrefix"
+            case twoWayMediaS3Role = "TwoWayMediaS3Role"
+            case twoWayRcsEventsEnabled = "TwoWayRcsEventsEnabled"
+        }
+    }
+
+    public struct RcsCardContent: AWSEncodableShape {
+        /// The description text of the card. Maximum 2000 characters.
+        public let description: String?
+        /// The media content of the card, including the file URL, optional thumbnail, and display height.
+        public let media: RcsCardMedia?
+        /// Card-level suggested actions. Maximum 4 suggestions per card.
+        public let suggestions: [RcsSuggestedAction]?
+        /// The title of the card. Maximum 200 characters.
+        public let title: String?
+
+        @inlinable
+        public init(description: String? = nil, media: RcsCardMedia? = nil, suggestions: [RcsSuggestedAction]? = nil, title: String? = nil) {
+            self.description = description
+            self.media = media
+            self.suggestions = suggestions
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.media?.validate(name: "\(name).media")
+            try self.suggestions?.forEach {
+                try $0.validate(name: "\(name).suggestions[]")
+            }
+            try self.validate(self.suggestions, name: "suggestions", parent: name, max: 4)
+            try self.validate(self.title, name: "title", parent: name, max: 200)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case media = "Media"
+            case suggestions = "Suggestions"
+            case title = "Title"
+        }
+    }
+
+    public struct RcsCardMedia: AWSEncodableShape {
+        /// The S3 URI of the media file for the card, in the format s3://bucket-name/key. Maximum 2000 characters.
+        public let fileUrl: String
+        /// The display height of the media in the card. Valid values are SHORT, MEDIUM, and TALL.
+        public let height: String?
+        /// The S3 URI of an optional thumbnail image for the card media. Maximum 2000 characters.
+        public let thumbnailUrl: String?
+
+        @inlinable
+        public init(fileUrl: String, height: String? = nil, thumbnailUrl: String? = nil) {
+            self.fileUrl = fileUrl
+            self.height = height
+            self.thumbnailUrl = thumbnailUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, max: 2000)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, min: 1)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, pattern: "^(https://|s3://).+$")
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, max: 2000)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, min: 1)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, pattern: "^(https://|s3://).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileUrl = "FileUrl"
+            case height = "Height"
+            case thumbnailUrl = "ThumbnailUrl"
+        }
+    }
+
+    public struct RcsCarousel: AWSEncodableShape {
+        /// The list of cards in the carousel. Minimum 2, maximum 10 cards.
+        public let cardContents: [RcsCarouselCardContent]
+        /// The width of cards in the carousel. Valid values are SMALL and MEDIUM.
+        public let cardWidth: String
+
+        @inlinable
+        public init(cardContents: [RcsCarouselCardContent], cardWidth: String) {
+            self.cardContents = cardContents
+            self.cardWidth = cardWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.cardContents.forEach {
+                try $0.validate(name: "\(name).cardContents[]")
+            }
+            try self.validate(self.cardContents, name: "cardContents", parent: name, max: 10)
+            try self.validate(self.cardContents, name: "cardContents", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardContents = "CardContents"
+            case cardWidth = "CardWidth"
+        }
+    }
+
+    public struct RcsCarouselCardContent: AWSEncodableShape {
+        /// The description text of the carousel card. Maximum 2000 characters.
+        public let description: String?
+        /// The media content of the carousel card. Media height is restricted to SHORT or MEDIUM (TALL is not supported in carousels).
+        public let media: RcsCarouselCardMedia?
+        /// Card-level suggested actions for this carousel card. Maximum 4 suggestions per card.
+        public let suggestions: [RcsSuggestedAction]?
+        /// The title of the carousel card. Maximum 200 characters.
+        public let title: String?
+
+        @inlinable
+        public init(description: String? = nil, media: RcsCarouselCardMedia? = nil, suggestions: [RcsSuggestedAction]? = nil, title: String? = nil) {
+            self.description = description
+            self.media = media
+            self.suggestions = suggestions
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.media?.validate(name: "\(name).media")
+            try self.suggestions?.forEach {
+                try $0.validate(name: "\(name).suggestions[]")
+            }
+            try self.validate(self.suggestions, name: "suggestions", parent: name, max: 4)
+            try self.validate(self.title, name: "title", parent: name, max: 200)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case media = "Media"
+            case suggestions = "Suggestions"
+            case title = "Title"
+        }
+    }
+
+    public struct RcsCarouselCardMedia: AWSEncodableShape {
+        /// The S3 URI of the media file for the carousel card. Maximum 2000 characters.
+        public let fileUrl: String
+        /// The display height of the media in the carousel card. Valid values are SHORT and MEDIUM.
+        public let height: String?
+        /// The S3 URI of an optional thumbnail image for the carousel card media. Maximum 2000 characters.
+        public let thumbnailUrl: String?
+
+        @inlinable
+        public init(fileUrl: String, height: String? = nil, thumbnailUrl: String? = nil) {
+            self.fileUrl = fileUrl
+            self.height = height
+            self.thumbnailUrl = thumbnailUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, max: 2000)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, min: 1)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, pattern: "^(https://|s3://).+$")
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, max: 2000)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, min: 1)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, pattern: "^(https://|s3://).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileUrl = "FileUrl"
+            case height = "Height"
+            case thumbnailUrl = "ThumbnailUrl"
+        }
+    }
+
+    public struct RcsCreateCalendarEventAction: AWSEncodableShape {
+        /// An optional description for the calendar event. Maximum 500 characters.
+        public let description: String?
+        /// The end time of the calendar event in ISO 8601 format.
+        public let endTime: Date
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        public let postbackData: String
+        /// The start time of the calendar event in ISO 8601 format.
+        public let startTime: Date
+        /// The display text of the action. Maximum 25 characters.
+        public let text: String
+        /// The title of the calendar event. Maximum 100 characters.
+        public let title: String
+
+        @inlinable
+        public init(description: String? = nil, endTime: Date, postbackData: String, startTime: Date, text: String, title: String) {
+            self.description = description
+            self.endTime = endTime
+            self.postbackData = postbackData
+            self.startTime = startTime
+            self.text = text
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, max: 100)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endTime = "EndTime"
+            case postbackData = "PostbackData"
+            case startTime = "StartTime"
+            case text = "Text"
+            case title = "Title"
+        }
+    }
+
+    public struct RcsDialPhoneAction: AWSEncodableShape {
+        /// The phone number to dial in E.164 format.
+        public let phoneNumber: String
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        public let postbackData: String
+        /// The display text of the action. Maximum 25 characters.
+        public let text: String
+
+        @inlinable
+        public init(phoneNumber: String, postbackData: String, text: String) {
+            self.phoneNumber = phoneNumber
+            self.postbackData = postbackData
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 20)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phoneNumber = "PhoneNumber"
+            case postbackData = "PostbackData"
+            case text = "Text"
+        }
+    }
+
+    public struct RcsFallbackConfiguration: AWSEncodableShape {
+        /// The fallback channel to use when RCS delivery fails. Valid values are SMS and MMS. SMS and MMS are mutually exclusive.
+        public let channel: RcsFallbackChannel
+        /// An array of S3 URIs to media files for MMS fallback. Only valid when Channel is MMS.
+        public let mediaUrls: [String]?
+        /// The text body of the fallback message. Required for SMS fallback. For MMS fallback, at least one of MessageBody or MediaUrls must be provided.
+        public let messageBody: String?
+        /// The origination identity to use for the fallback message. This can be a PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. Pool IDs and pool ARNs are not accepted. If not specified and the original message was sent via a pool, the service selects a suitable number from the pool.
+        public let originationIdentity: String?
+
+        @inlinable
+        public init(channel: RcsFallbackChannel, mediaUrls: [String]? = nil, messageBody: String? = nil, originationIdentity: String? = nil) {
+            self.channel = channel
+            self.mediaUrls = mediaUrls
+            self.messageBody = messageBody
+            self.originationIdentity = originationIdentity
+        }
+
+        public func validate(name: String) throws {
+            try self.mediaUrls?.forEach {
+                try validate($0, name: "mediaUrls[]", parent: name, max: 2048)
+                try validate($0, name: "mediaUrls[]", parent: name, min: 1)
+                try validate($0, name: "mediaUrls[]", parent: name, pattern: "^s3://([a-z0-9\\.-]{3,63})/(.+)$")
+            }
+            try self.validate(self.mediaUrls, name: "mediaUrls", parent: name, max: 1)
+            try self.validate(self.mediaUrls, name: "mediaUrls", parent: name, min: 1)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, max: 1600)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, min: 1)
+            try self.validate(self.messageBody, name: "messageBody", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channel = "Channel"
+            case mediaUrls = "MediaUrls"
+            case messageBody = "MessageBody"
+            case originationIdentity = "OriginationIdentity"
+        }
+    }
+
+    public struct RcsFileMessage: AWSEncodableShape {
+        /// The S3 URI of the media file to send, in the format s3://bucket-name/key. The service downloads the file from your S3 bucket, rehosts it, and generates a presigned URL for the aggregator. Maximum 2000 characters.
+        public let fileUrl: String
+        /// The S3 URI of an optional thumbnail image for the media file, in the format s3://bucket-name/key. Maximum 2000 characters.
+        public let thumbnailUrl: String?
+
+        @inlinable
+        public init(fileUrl: String, thumbnailUrl: String? = nil) {
+            self.fileUrl = fileUrl
+            self.thumbnailUrl = thumbnailUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, max: 2000)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, min: 1)
+            try self.validate(self.fileUrl, name: "fileUrl", parent: name, pattern: "^(https://|s3://).+$")
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, max: 2000)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, min: 1)
+            try self.validate(self.thumbnailUrl, name: "thumbnailUrl", parent: name, pattern: "^(https://|s3://).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileUrl = "FileUrl"
+            case thumbnailUrl = "ThumbnailUrl"
+        }
+    }
+
+    public struct RcsMessageContent: AWSEncodableShape {
+        /// The content of the RCS message. Exactly one content type must be specified: TextMessage, FileMessage, RichCard, or Carousel.
+        public let content: RcsContent
+        /// Message-level suggested actions displayed to the recipient. Maximum 11 suggestions per message.
+        public let suggestions: [RcsSuggestedAction]?
+
+        @inlinable
+        public init(content: RcsContent, suggestions: [RcsSuggestedAction]? = nil) {
+            self.content = content
+            self.suggestions = suggestions
+        }
+
+        public func validate(name: String) throws {
+            try self.content.validate(name: "\(name).content")
+            try self.suggestions?.forEach {
+                try $0.validate(name: "\(name).suggestions[]")
+            }
+            try self.validate(self.suggestions, name: "suggestions", parent: name, max: 11)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case suggestions = "Suggestions"
+        }
+    }
+
+    public struct RcsOpenUrlAction: AWSEncodableShape {
+        /// How to open the URL. BROWSER opens in the device's default browser. WEBVIEW opens in an in-app webview.
+        public let application: String?
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        public let postbackData: String
+        /// The display text of the action. Maximum 25 characters.
+        public let text: String
+        /// The URL to open. Must start with https://. Maximum 2048 characters.
+        public let url: String
+        /// The display mode of the webview. Valid values are FULL, HALF, and TALL. Only applicable when Application is WEBVIEW.
+        public let webviewViewMode: String?
+
+        @inlinable
+        public init(application: String? = nil, postbackData: String, text: String, url: String, webviewViewMode: String? = nil) {
+            self.application = application
+            self.postbackData = postbackData
+            self.text = text
+            self.url = url
+            self.webviewViewMode = webviewViewMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, max: 2048)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^https://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case application = "Application"
+            case postbackData = "PostbackData"
+            case text = "Text"
+            case url = "Url"
+            case webviewViewMode = "WebviewViewMode"
+        }
+    }
+
+    public struct RcsReplyAction: AWSEncodableShape {
+        /// The postback data sent to your webhook when the user taps this reply. Maximum 2048 characters.
+        public let postbackData: String
+        /// The display text of the suggested reply. Maximum 25 characters.
+        public let text: String
+
+        @inlinable
+        public init(postbackData: String, text: String) {
+            self.postbackData = postbackData
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postbackData = "PostbackData"
+            case text = "Text"
+        }
+    }
+
+    public struct RcsRequestLocationAction: AWSEncodableShape {
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        public let postbackData: String
+        /// The display text of the action. Maximum 25 characters.
+        public let text: String
+
+        @inlinable
+        public init(postbackData: String, text: String) {
+            self.postbackData = postbackData
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postbackData = "PostbackData"
+            case text = "Text"
+        }
+    }
+
+    public struct RcsShowLocationAction: AWSEncodableShape {
+        /// An optional label for the location pin. Maximum 100 characters.
+        public let label: String?
+        /// The latitude of the location. Valid values are -90 to 90.
+        public let latitude: Double
+        /// The longitude of the location. Valid values are -180 to 180.
+        public let longitude: Double
+        /// The postback data sent to your webhook when the user taps this action. Maximum 2048 characters.
+        public let postbackData: String
+        /// The display text of the action. Maximum 25 characters.
+        public let text: String
+
+        @inlinable
+        public init(label: String? = nil, latitude: Double, longitude: Double, postbackData: String, text: String) {
+            self.label = label
+            self.latitude = latitude
+            self.longitude = longitude
+            self.postbackData = postbackData
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.label, name: "label", parent: name, max: 100)
+            try self.validate(self.label, name: "label", parent: name, min: 1)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, max: 2048)
+            try self.validate(self.postbackData, name: "postbackData", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 25)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+            case latitude = "Latitude"
+            case longitude = "Longitude"
+            case postbackData = "PostbackData"
+            case text = "Text"
+        }
+    }
+
+    public struct RcsStandaloneCard: AWSEncodableShape {
+        /// The content of the rich card, including title, description, media, and card-level suggested actions.
+        public let cardContent: RcsCardContent
+        /// The orientation of the rich card. Valid values are HORIZONTAL and VERTICAL.
+        public let cardOrientation: String
+        /// The alignment of the thumbnail image in a horizontal card. Valid values are LEFT and RIGHT. Only applicable when CardOrientation is HORIZONTAL.
+        public let thumbnailImageAlignment: String?
+
+        @inlinable
+        public init(cardContent: RcsCardContent, cardOrientation: String, thumbnailImageAlignment: String? = nil) {
+            self.cardContent = cardContent
+            self.cardOrientation = cardOrientation
+            self.thumbnailImageAlignment = thumbnailImageAlignment
+        }
+
+        public func validate(name: String) throws {
+            try self.cardContent.validate(name: "\(name).cardContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardContent = "CardContent"
+            case cardOrientation = "CardOrientation"
+            case thumbnailImageAlignment = "ThumbnailImageAlignment"
+        }
+    }
+
+    public struct RcsTextMessage: AWSEncodableShape {
+        /// The text body of the RCS message. Maximum 3072 characters.
+        public let body: String
+
+        @inlinable
+        public init(body: String) {
+            self.body = body
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 3072)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+            try self.validate(self.body, name: "body", parent: name, pattern: "^(?!\\s*$)[\\s\\S]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+        }
+    }
+
     public struct RegistrationAssociationFilter: AWSEncodableShape {
         /// The name of the attribute to filter on.
         public let name: RegistrationAssociationFilterName
@@ -5358,6 +7302,8 @@ extension PinpointSMSVoiceV2 {
         public let attachmentStatus: AttachmentStatus
         /// A description of why the upload didn't successfully complete.
         public let attachmentUploadErrorReason: AttachmentUploadErrorReason?
+        /// The URL to the document that's associated with the registration attachment.
+        public let attachmentUrl: String?
         /// The time when the registration attachment was created, in UNIX epoch time format.
         public let createdTimestamp: Date
         /// The Amazon Resource Name (ARN) for the registration attachment.
@@ -5366,9 +7312,10 @@ extension PinpointSMSVoiceV2 {
         public let registrationAttachmentId: String
 
         @inlinable
-        public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
+        public init(attachmentStatus: AttachmentStatus, attachmentUploadErrorReason: AttachmentUploadErrorReason? = nil, attachmentUrl: String? = nil, createdTimestamp: Date, registrationAttachmentArn: String, registrationAttachmentId: String) {
             self.attachmentStatus = attachmentStatus
             self.attachmentUploadErrorReason = attachmentUploadErrorReason
+            self.attachmentUrl = attachmentUrl
             self.createdTimestamp = createdTimestamp
             self.registrationAttachmentArn = registrationAttachmentArn
             self.registrationAttachmentId = registrationAttachmentId
@@ -5377,6 +7324,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case attachmentStatus = "AttachmentStatus"
             case attachmentUploadErrorReason = "AttachmentUploadErrorReason"
+            case attachmentUrl = "AttachmentUrl"
             case createdTimestamp = "CreatedTimestamp"
             case registrationAttachmentArn = "RegistrationAttachmentArn"
             case registrationAttachmentId = "RegistrationAttachmentId"
@@ -5496,7 +7444,7 @@ extension PinpointSMSVoiceV2 {
     public struct RegistrationFieldValueInformation: AWSDecodableShape {
         /// A description of why the registration was denied.
         public let deniedReason: String?
-        /// Feedback provided for this specific field during the registration review process. This may include validation errors, suggestions for improvement, or additional requirements.
+        /// Generative AI feedback information provided for this specific field during the registration review process. This may include validation errors, suggestions for improvement, or additional requirements.
         public let feedback: String?
         /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
         public let fieldPath: String
@@ -5760,7 +7708,7 @@ extension PinpointSMSVoiceV2 {
     public struct RegistrationVersionInformation: AWSDecodableShape {
         /// An array of RegistrationDeniedReasonInformation objects.
         public let deniedReasons: [RegistrationDeniedReasonInformation]?
-        /// Feedback information provided during the registration review process. This includes comments, suggestions, or additional requirements.
+        /// Generative AI feedback information provided during the registration review process. This includes comments, suggestions, or additional requirements.
         public let feedback: String?
         /// The status of the registration.    APPROVED: Your registration has been approved.    ARCHIVED: Your previously approved registration version moves into this status when a more recently submitted version is approved.    DENIED: You must fix your registration and resubmit it.    DISCARDED: You've abandon this version of their registration to start over with a new version.     DRAFT: The initial status of a registration version after it’s created.    REQUIRES_AUTHENTICATION: You need to complete email authentication.    REVIEWING: Your registration has been accepted and is being reviewed.    REVOKED: Your previously approved registration has been revoked.    SUBMITTED: Your registration has been submitted.
         public let registrationVersionStatus: RegistrationVersionStatus
@@ -6042,14 +7990,13 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, max: 2)
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, min: 2)
             try self.validate(self.isoCountryCode, name: "isoCountryCode", parent: name, pattern: "^[A-Z]{2}$")
-            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 3)
+            try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, max: 4)
             try self.validate(self.numberCapabilities, name: "numberCapabilities", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, max: 256)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
             try self.validate(self.registrationId, name: "registrationId", parent: name, max: 256)
             try self.validate(self.registrationId, name: "registrationId", parent: name, min: 1)
             try self.validate(self.registrationId, name: "registrationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
@@ -6173,7 +8120,7 @@ extension PinpointSMSVoiceV2 {
         public let isoCountryCode: String
         /// The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageTypes: [MessageType]?
-        /// The sender ID string to request.
+        /// The sender ID string to request. The sender ID can be 1-11 alphanumeric characters including letters (A-Z, a-z), numbers (0-9), or hyphens (-). The sender ID must contain at least one letter and cannot start or end with a hyphen.
         public let senderId: String
         /// An array of tags (key and value pairs) to associate with the sender ID.
         public let tags: [Tag]?
@@ -6508,6 +8455,317 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct SendNotifyTextMessageRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String?
+        /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+        public let context: [String: String]?
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+        public let dryRun: Bool?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
+        /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+        public let notifyConfigurationId: String
+        /// The unique identifier of the template to use for the message.
+        public let templateId: String?
+        /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+        public let templateVariables: [String: String]
+        /// How long the text message is valid for, in seconds. By default this is 72 hours.
+        public let timeToLive: Int?
+
+        @inlinable
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, messageFeedbackEnabled: Bool? = nil, notifyConfigurationId: String, templateId: String? = nil, templateVariables: [String: String], timeToLive: Int? = nil) {
+            self.configurationSetName = configurationSetName
+            self.context = context
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.dryRun = dryRun
+            self.messageFeedbackEnabled = messageFeedbackEnabled
+            self.notifyConfigurationId = notifyConfigurationId
+            self.templateId = templateId
+            self.templateVariables = templateVariables
+            self.timeToLive = timeToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 100)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
+            }
+            try self.validate(self.context, name: "context", parent: name, max: 5)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, max: 256)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, min: 1)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 256)
+            try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)$")
+            try self.templateVariables.forEach {
+                try validate($0.key, name: "templateVariables.key", parent: name, max: 64)
+                try validate($0.key, name: "templateVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "templateVariables.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
+                try validate($0.value, name: "templateVariables[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "templateVariables[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.templateVariables, name: "templateVariables", parent: name, max: 20)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case context = "Context"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case dryRun = "DryRun"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case templateId = "TemplateId"
+            case templateVariables = "TemplateVariables"
+            case timeToLive = "TimeToLive"
+        }
+    }
+
+    public struct SendNotifyTextMessageResult: AWSDecodableShape {
+        /// The unique identifier for the message.
+        public let messageId: String?
+        /// The message body after template variable substitution has been applied.
+        public let resolvedMessageBody: String?
+        /// The unique identifier of the template used for the message.
+        public let templateId: String?
+
+        @inlinable
+        public init(messageId: String? = nil, resolvedMessageBody: String? = nil, templateId: String? = nil) {
+            self.messageId = messageId
+            self.resolvedMessageBody = resolvedMessageBody
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+            case resolvedMessageBody = "ResolvedMessageBody"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct SendNotifyVoiceMessageRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String?
+        /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+        public let context: [String: String]?
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+        public let dryRun: Bool?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
+        /// The unique identifier of the notify configuration to use for sending the message. This can be either the NotifyConfigurationId or NotifyConfigurationArn.
+        public let notifyConfigurationId: String
+        /// The unique identifier of the template to use for the message.
+        public let templateId: String?
+        /// A map of template variable names and their values. All variable values are passed as strings regardless of the declared variable type. For example, pass INTEGER values as "42" and BOOLEAN values as "true" or "false".
+        public let templateVariables: [String: String]
+        /// How long the voice message is valid for, in seconds. By default this is 72 hours.
+        public let timeToLive: Int?
+        /// The voice ID to use for the voice message.
+        public let voiceId: VoiceId?
+
+        @inlinable
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, messageFeedbackEnabled: Bool? = nil, notifyConfigurationId: String, templateId: String? = nil, templateVariables: [String: String], timeToLive: Int? = nil, voiceId: VoiceId? = nil) {
+            self.configurationSetName = configurationSetName
+            self.context = context
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.dryRun = dryRun
+            self.messageFeedbackEnabled = messageFeedbackEnabled
+            self.notifyConfigurationId = notifyConfigurationId
+            self.templateId = templateId
+            self.templateVariables = templateVariables
+            self.timeToLive = timeToLive
+            self.voiceId = voiceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 100)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
+            }
+            try self.validate(self.context, name: "context", parent: name, max: 5)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, max: 256)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, min: 1)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.templateId, name: "templateId", parent: name, max: 256)
+            try self.validate(self.templateId, name: "templateId", parent: name, pattern: "^([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)$")
+            try self.templateVariables.forEach {
+                try validate($0.key, name: "templateVariables.key", parent: name, max: 64)
+                try validate($0.key, name: "templateVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "templateVariables.key", parent: name, pattern: "^[A-Za-z0-9_]+$")
+                try validate($0.value, name: "templateVariables[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "templateVariables[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.templateVariables, name: "templateVariables", parent: name, max: 20)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 259200)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case context = "Context"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case dryRun = "DryRun"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case templateId = "TemplateId"
+            case templateVariables = "TemplateVariables"
+            case timeToLive = "TimeToLive"
+            case voiceId = "VoiceId"
+        }
+    }
+
+    public struct SendNotifyVoiceMessageResult: AWSDecodableShape {
+        /// The unique identifier for the message.
+        public let messageId: String?
+        /// The message body after template variable substitution has been applied.
+        public let resolvedMessageBody: String?
+        /// The unique identifier of the template used for the message.
+        public let templateId: String?
+
+        @inlinable
+        public init(messageId: String? = nil, resolvedMessageBody: String? = nil, templateId: String? = nil) {
+            self.messageId = messageId
+            self.resolvedMessageBody = resolvedMessageBody
+            self.templateId = templateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+            case resolvedMessageBody = "ResolvedMessageBody"
+            case templateId = "TemplateId"
+        }
+    }
+
+    public struct SendRcsMessageRequest: AWSEncodableShape {
+        /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
+        public let configurationSetName: String?
+        /// You can specify custom data in this field. If you do, that data is logged to the event destination.
+        public let context: [String: String]?
+        /// The destination phone number in E.164 format.
+        public let destinationPhoneNumber: String
+        /// When set to true, the message is checked and validated, but isn't sent to the end recipient.
+        public let dryRun: Bool?
+        /// Configuration for SMS or MMS fallback when RCS delivery fails. If provided, the service sends a fallback message via the specified channel when the RCS message fails or the TimeToLive expires.
+        public let fallbackConfiguration: RcsFallbackConfiguration?
+        /// The maximum amount that you want to spend, in US dollars, per each RCS message.
+        public let maxPrice: String?
+        /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
+        public let messageFeedbackEnabled: Bool?
+        /// The traffic type of the RCS message. Valid values are AUTHENTICATION, TRANSACTION, PROMOTION, SERVICE_REQUEST, and ACKNOWLEDGEMENT. This field is reserved for future use.
+        public let messageTrafficType: String?
+        /// The origination identity of the message. This can be either the RcsAgentId, RcsAgentArn, PoolId, or PoolArn.
+        public let originationIdentity: String
+        /// The unique identifier of the protect configuration to use.
+        public let protectConfigurationId: String?
+        /// The content of the RCS message. Contains the message content (text, file, rich card, or carousel) and optional message-level suggested actions.
+        public let rcsMessageContent: RcsMessageContent?
+        /// The duration in seconds that the RCS message is valid for delivery. If the message cannot be delivered within this duration, it is considered expired. Valid values are 1 to 172800 (48 hours). If a FallbackConfiguration is provided, the fallback is triggered when the duration expires without delivery confirmation.
+        public let timeToLive: Int?
+
+        @inlinable
+        public init(configurationSetName: String? = nil, context: [String: String]? = nil, destinationPhoneNumber: String, dryRun: Bool? = nil, fallbackConfiguration: RcsFallbackConfiguration? = nil, maxPrice: String? = nil, messageFeedbackEnabled: Bool? = nil, messageTrafficType: String? = nil, originationIdentity: String, protectConfigurationId: String? = nil, rcsMessageContent: RcsMessageContent? = nil, timeToLive: Int? = nil) {
+            self.configurationSetName = configurationSetName
+            self.context = context
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.dryRun = dryRun
+            self.fallbackConfiguration = fallbackConfiguration
+            self.maxPrice = maxPrice
+            self.messageFeedbackEnabled = messageFeedbackEnabled
+            self.messageTrafficType = messageTrafficType
+            self.originationIdentity = originationIdentity
+            self.protectConfigurationId = protectConfigurationId
+            self.rcsMessageContent = rcsMessageContent
+            self.timeToLive = timeToLive
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, max: 256)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, min: 1)
+            try self.validate(self.configurationSetName, name: "configurationSetName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 100)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^\\S+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 800)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, pattern: "^(?!\\s)^[\\s\\S]+(?<!\\s)$")
+            }
+            try self.validate(self.context, name: "context", parent: name, max: 5)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, min: 1)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^\\+?[1-9][0-9]{1,18}$")
+            try self.fallbackConfiguration?.validate(name: "\(name).fallbackConfiguration")
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, max: 8)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, min: 2)
+            try self.validate(self.maxPrice, name: "maxPrice", parent: name, pattern: "^[0-9]{0,2}\\.[0-9]{1,5}$")
+            try self.validate(self.messageTrafficType, name: "messageTrafficType", parent: name, max: 50)
+            try self.validate(self.messageTrafficType, name: "messageTrafficType", parent: name, min: 1)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, max: 256)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, min: 1)
+            try self.validate(self.originationIdentity, name: "originationIdentity", parent: name, pattern: "^[A-Za-z0-9_:/\\+-]+$")
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, max: 256)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, min: 1)
+            try self.validate(self.protectConfigurationId, name: "protectConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.rcsMessageContent?.validate(name: "\(name).rcsMessageContent")
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, max: 172800)
+            try self.validate(self.timeToLive, name: "timeToLive", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSetName = "ConfigurationSetName"
+            case context = "Context"
+            case destinationPhoneNumber = "DestinationPhoneNumber"
+            case dryRun = "DryRun"
+            case fallbackConfiguration = "FallbackConfiguration"
+            case maxPrice = "MaxPrice"
+            case messageFeedbackEnabled = "MessageFeedbackEnabled"
+            case messageTrafficType = "MessageTrafficType"
+            case originationIdentity = "OriginationIdentity"
+            case protectConfigurationId = "ProtectConfigurationId"
+            case rcsMessageContent = "RcsMessageContent"
+            case timeToLive = "TimeToLive"
+        }
+    }
+
+    public struct SendRcsMessageResult: AWSDecodableShape {
+        /// The unique identifier for the message.
+        public let messageId: String?
+
+        @inlinable
+        public init(messageId: String? = nil) {
+            self.messageId = messageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageId = "MessageId"
+        }
+    }
+
     public struct SendTextMessageRequest: AWSEncodableShape {
         /// The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
         public let configurationSetName: String?
@@ -6529,7 +8787,7 @@ extension PinpointSMSVoiceV2 {
         public let messageFeedbackEnabled: Bool?
         /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType?
-        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
+        /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, RcsAgentId, RcsAgentArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User Messaging SMS resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String?
         /// The unique identifier for the protect configuration.
         public let protectConfigurationId: String?
@@ -7055,6 +9313,72 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct SetNotifyMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        /// The new monthly limit to enforce on notify messages.
+        public let monthlyLimit: Int64
+
+        @inlinable
+        public init(monthlyLimit: Int64) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1000000000)
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
+    public struct SetNotifyMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit, in US dollars.
+        public let monthlyLimit: Int64?
+
+        @inlinable
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
+    public struct SetRcsMessageSpendLimitOverrideRequest: AWSEncodableShape {
+        /// The new monthly limit to enforce on RCS message spending.
+        public let monthlyLimit: Int64
+
+        @inlinable
+        public init(monthlyLimit: Int64) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, max: 1000000000)
+            try self.validate(self.monthlyLimit, name: "monthlyLimit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
+    public struct SetRcsMessageSpendLimitOverrideResult: AWSDecodableShape {
+        /// The current monthly limit to enforce on RCS message spending.
+        public let monthlyLimit: Int64?
+
+        @inlinable
+        public init(monthlyLimit: Int64? = nil) {
+            self.monthlyLimit = monthlyLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monthlyLimit = "MonthlyLimit"
+        }
+    }
+
     public struct SetTextMessageSpendLimitOverrideRequest: AWSEncodableShape {
         /// The new monthly limit to enforce on text messages.
         public let monthlyLimit: Int64
@@ -7310,6 +9634,78 @@ extension PinpointSMSVoiceV2 {
         public init() {}
     }
 
+    public struct TemplateVariableMetadata: AWSDecodableShape {
+        /// The default value for the variable.
+        public let defaultValue: String?
+        /// A description of the variable.
+        public let description: String?
+        /// The maximum length for string variables.
+        public let maxLength: Int?
+        /// The maximum value for numeric variables.
+        public let maxValue: Int?
+        /// The minimum value for numeric variables.
+        public let minValue: Int?
+        /// The regex pattern the variable value must match.
+        public let pattern: String?
+        /// Whether the variable is required.
+        public let required: Bool
+        /// A sample value for the variable.
+        public let sample: String?
+        /// The source of the variable, either CUSTOMER or SYSTEM.
+        public let source: TemplateVariableSource?
+        /// The type of the variable.
+        public let type: TemplateVariableType
+
+        @inlinable
+        public init(defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minValue: Int? = nil, pattern: String? = nil, required: Bool, sample: String? = nil, source: TemplateVariableSource? = nil, type: TemplateVariableType) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.maxLength = maxLength
+            self.maxValue = maxValue
+            self.minValue = minValue
+            self.pattern = pattern
+            self.required = required
+            self.sample = sample
+            self.source = source
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case description = "Description"
+            case maxLength = "MaxLength"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+            case pattern = "Pattern"
+            case required = "Required"
+            case sample = "Sample"
+            case source = "Source"
+            case type = "Type"
+        }
+    }
+
+    public struct TestingAgentInformation: AWSDecodableShape {
+        /// The unique identifier of the registration associated with the testing agent.
+        public let registrationId: String
+        /// The current status of the testing agent.
+        public let status: TestingAgentStatus
+        /// The unique identifier for the testing agent.
+        public let testingAgentId: String?
+
+        @inlinable
+        public init(registrationId: String, status: TestingAgentStatus, testingAgentId: String? = nil) {
+            self.registrationId = registrationId
+            self.status = status
+            self.testingAgentId = testingAgentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registrationId = "RegistrationId"
+            case status = "Status"
+            case testingAgentId = "TestingAgentId"
+        }
+    }
+
     public struct TextValidation: AWSDecodableShape {
         /// The maximum number of characters for the text field.
         public let maxLength: Int
@@ -7403,7 +9799,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, min: 1)
             try self.validate(self.eventDestinationName, name: "eventDestinationName", parent: name, pattern: "^[A-Za-z0-9_-]+$")
             try self.kinesisFirehoseDestination?.validate(name: "\(name).kinesisFirehoseDestination")
-            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 43)
+            try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, max: 52)
             try self.validate(self.matchingEventTypes, name: "matchingEventTypes", parent: name, min: 1)
             try self.snsDestination?.validate(name: "\(name).snsDestination")
         }
@@ -7438,6 +9834,125 @@ extension PinpointSMSVoiceV2 {
             case configurationSetArn = "ConfigurationSetArn"
             case configurationSetName = "ConfigurationSetName"
             case eventDestination = "EventDestination"
+        }
+    }
+
+    public struct UpdateNotifyConfigurationRequest: AWSEncodableShape {
+        /// The default template identifier to associate with the notify configuration. If specified, this template is used when sending messages without an explicit template identifier. Pass the special value UNSET_DEFAULT_TEMPLATE to clear the current default template from the notify configuration.
+        public let defaultTemplateId: String?
+        /// When set to true the notify configuration can't be deleted.
+        public let deletionProtectionEnabled: Bool?
+        /// An array of channels to enable for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]?
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The identifier of the notify configuration to update. The NotifyConfigurationId can be found using the DescribeNotifyConfigurations operation.
+        public let notifyConfigurationId: String
+        /// The pool identifier or Amazon Resource Name (ARN) to associate with the notify configuration. Pass the special value UNSET_DEFAULT_POOL_FOR_NOTIFY to clear the current default pool from the notify configuration.
+        public let poolId: String?
+
+        @inlinable
+        public init(defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool? = nil, enabledChannels: [NumberCapability]? = nil, enabledCountries: [String]? = nil, notifyConfigurationId: String, poolId: String? = nil) {
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultTemplateId, name: "defaultTemplateId", parent: name, max: 256)
+            try self.validate(self.defaultTemplateId, name: "defaultTemplateId", parent: name, pattern: "^([A-Za-z0-9_-]*|UNSET_DEFAULT_TEMPLATE)$")
+            try self.validate(self.enabledChannels, name: "enabledChannels", parent: name, max: 4)
+            try self.validate(self.enabledChannels, name: "enabledChannels", parent: name, min: 1)
+            try self.enabledCountries?.forEach {
+                try validate($0, name: "enabledCountries[]", parent: name, max: 2)
+                try validate($0, name: "enabledCountries[]", parent: name, min: 2)
+                try validate($0, name: "enabledCountries[]", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.validate(self.enabledCountries, name: "enabledCountries", parent: name, max: 300)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, max: 256)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, min: 1)
+            try self.validate(self.notifyConfigurationId, name: "notifyConfigurationId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
+            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^([A-Za-z0-9_:/-]+|UNSET_DEFAULT_POOL_FOR_NOTIFY)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case poolId = "PoolId"
+        }
+    }
+
+    public struct UpdateNotifyConfigurationResult: AWSDecodableShape {
+        /// The time when the notify configuration was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// The default template identifier associated with the notify configuration.
+        public let defaultTemplateId: String?
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The display name associated with the notify configuration.
+        public let displayName: String
+        /// An array of channels enabled for the notify configuration. Supported values include SMS and VOICE.
+        public let enabledChannels: [NumberCapability]
+        /// An array of two-character ISO country codes, in ISO 3166-1 alpha-2 format, that are enabled for the notify configuration.
+        public let enabledCountries: [String]?
+        /// The Amazon Resource Name (ARN) for the notify configuration.
+        public let notifyConfigurationArn: String
+        /// The unique identifier for the notify configuration.
+        public let notifyConfigurationId: String
+        /// The identifier of the pool associated with the notify configuration.
+        public let poolId: String?
+        /// The reason the notify configuration was rejected, if applicable.
+        public let rejectionReason: String?
+        /// The current status of the notify configuration.
+        public let status: NotifyConfigurationStatus
+        /// The tier of the notify configuration.
+        public let tier: NotifyConfigurationTier
+        /// The tier upgrade status of the notify configuration.
+        public let tierUpgradeStatus: TierUpgradeStatus
+        /// The use case for the notify configuration.
+        public let useCase: NotifyConfigurationUseCase
+
+        @inlinable
+        public init(createdTimestamp: Date, defaultTemplateId: String? = nil, deletionProtectionEnabled: Bool, displayName: String, enabledChannels: [NumberCapability], enabledCountries: [String]? = nil, notifyConfigurationArn: String, notifyConfigurationId: String, poolId: String? = nil, rejectionReason: String? = nil, status: NotifyConfigurationStatus, tier: NotifyConfigurationTier, tierUpgradeStatus: TierUpgradeStatus, useCase: NotifyConfigurationUseCase) {
+            self.createdTimestamp = createdTimestamp
+            self.defaultTemplateId = defaultTemplateId
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.displayName = displayName
+            self.enabledChannels = enabledChannels
+            self.enabledCountries = enabledCountries
+            self.notifyConfigurationArn = notifyConfigurationArn
+            self.notifyConfigurationId = notifyConfigurationId
+            self.poolId = poolId
+            self.rejectionReason = rejectionReason
+            self.status = status
+            self.tier = tier
+            self.tierUpgradeStatus = tierUpgradeStatus
+            self.useCase = useCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case defaultTemplateId = "DefaultTemplateId"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case displayName = "DisplayName"
+            case enabledChannels = "EnabledChannels"
+            case enabledCountries = "EnabledCountries"
+            case notifyConfigurationArn = "NotifyConfigurationArn"
+            case notifyConfigurationId = "NotifyConfigurationId"
+            case poolId = "PoolId"
+            case rejectionReason = "RejectionReason"
+            case status = "Status"
+            case tier = "Tier"
+            case tierUpgradeStatus = "TierUpgradeStatus"
+            case useCase = "UseCase"
         }
     }
 
@@ -7615,8 +10130,7 @@ extension PinpointSMSVoiceV2 {
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
             try self.validate(self.optOutListName, name: "optOutListName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 256)
-            try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
-            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.poolId, name: "poolId", parent: name, pattern: "^[A-Za-z0-9_:/-]*$")
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, max: 2048)
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, min: 20)
             try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^\\S+$")
@@ -7810,6 +10324,155 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct UpdateRcsAgentRequest: AWSEncodableShape {
+        /// By default this is set to false. When set to true the RCS agent can't be deleted.
+        public let deletionProtectionEnabled: Bool?
+        /// The OptOutList to associate with the RCS agent. Valid values are either OptOutListName or OptOutListArn.
+        public let optOutListName: String?
+        /// The unique identifier of the RCS agent to update. You can use either the RcsAgentId or RcsAgentArn.
+        public let rcsAgentId: String
+        /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        public let selfManagedOptOutsEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
+        /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+        public let twoWayEnabled: Bool?
+        /// The name of the S3 bucket where inbound RCS media files are stored. Two-way messaging must be enabled on the agent. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3Role.
+        public let twoWayMediaS3BucketName: String?
+        /// The key prefix used for inbound RCS media objects in the S3 bucket.
+        public let twoWayMediaS3KeyPrefix: String?
+        /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket. The role must have s3:PutObject permission on the bucket and a trust policy allowing sms-voice.amazonaws.com to assume it. To remove the media configuration, pass the sentinel value UNSET_RCS_MEDIA_CONFIGURATION for both this field and TwoWayMediaS3BucketName.
+        public let twoWayMediaS3Role: String?
+        /// The list of RCS event types to enable for two-way messaging. Pass an empty list to disable all event types. The special value ALL enables all current and future event types and must be the sole element if used.
+        public let twoWayRcsEventsEnabled: [String]?
+
+        @inlinable
+        public init(deletionProtectionEnabled: Bool? = nil, optOutListName: String? = nil, rcsAgentId: String, selfManagedOptOutsEnabled: Bool? = nil, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool? = nil, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+            self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+            self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+            self.twoWayMediaS3Role = twoWayMediaS3Role
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, max: 256)
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, min: 1)
+            try self.validate(self.optOutListName, name: "optOutListName", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, max: 256)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, min: 1)
+            try self.validate(self.rcsAgentId, name: "rcsAgentId", parent: name, pattern: "^[A-Za-z0-9_:/-]+$")
+            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, max: 2048)
+            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, min: 20)
+            try self.validate(self.twoWayChannelArn, name: "twoWayChannelArn", parent: name, pattern: "^\\S+$")
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, max: 2048)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, min: 20)
+            try self.validate(self.twoWayChannelRole, name: "twoWayChannelRole", parent: name, pattern: "^arn:\\S+$")
+            try self.validate(self.twoWayMediaS3BucketName, name: "twoWayMediaS3BucketName", parent: name, max: 63)
+            try self.validate(self.twoWayMediaS3BucketName, name: "twoWayMediaS3BucketName", parent: name, min: 3)
+            try self.validate(self.twoWayMediaS3BucketName, name: "twoWayMediaS3BucketName", parent: name, pattern: "^([a-z0-9][a-z0-9.-]*[a-z0-9]|UNSET_RCS_MEDIA_CONFIGURATION)$")
+            try self.validate(self.twoWayMediaS3KeyPrefix, name: "twoWayMediaS3KeyPrefix", parent: name, max: 1024)
+            try self.validate(self.twoWayMediaS3KeyPrefix, name: "twoWayMediaS3KeyPrefix", parent: name, min: 1)
+            try self.validate(self.twoWayMediaS3KeyPrefix, name: "twoWayMediaS3KeyPrefix", parent: name, pattern: "^[\\S]+$")
+            try self.validate(self.twoWayMediaS3Role, name: "twoWayMediaS3Role", parent: name, max: 2048)
+            try self.validate(self.twoWayMediaS3Role, name: "twoWayMediaS3Role", parent: name, min: 20)
+            try self.validate(self.twoWayMediaS3Role, name: "twoWayMediaS3Role", parent: name, pattern: "^(arn:\\S+|UNSET_RCS_MEDIA_CONFIGURATION)$")
+            try self.twoWayRcsEventsEnabled?.forEach {
+                try validate($0, name: "twoWayRcsEventsEnabled[]", parent: name, max: 50)
+                try validate($0, name: "twoWayRcsEventsEnabled[]", parent: name, min: 1)
+            }
+            try self.validate(self.twoWayRcsEventsEnabled, name: "twoWayRcsEventsEnabled", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case rcsAgentId = "RcsAgentId"
+            case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
+            case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
+            case twoWayEnabled = "TwoWayEnabled"
+            case twoWayMediaS3BucketName = "TwoWayMediaS3BucketName"
+            case twoWayMediaS3KeyPrefix = "TwoWayMediaS3KeyPrefix"
+            case twoWayMediaS3Role = "TwoWayMediaS3Role"
+            case twoWayRcsEventsEnabled = "TwoWayRcsEventsEnabled"
+        }
+    }
+
+    public struct UpdateRcsAgentResult: AWSDecodableShape {
+        /// The time when the RCS agent was created, in UNIX epoch time format.
+        public let createdTimestamp: Date
+        /// When set to true deletion protection is enabled. By default this is set to false.
+        public let deletionProtectionEnabled: Bool
+        /// The name of the OptOutList associated with the RCS agent.
+        public let optOutListName: String?
+        /// The Amazon Resource Name (ARN) of the updated RCS agent.
+        public let rcsAgentArn: String
+        /// The unique identifier for the RCS agent.
+        public let rcsAgentId: String
+        /// By default this is set to false. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+        public let selfManagedOptOutsEnabled: Bool
+        /// The current status of the RCS agent.
+        public let status: RcsAgentStatus
+        /// The Amazon Resource Name (ARN) of the two way channel.
+        public let twoWayChannelArn: String?
+        /// An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
+        public let twoWayChannelRole: String?
+        /// By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
+        public let twoWayEnabled: Bool
+        /// The name of the S3 bucket where inbound RCS media files are stored.
+        public let twoWayMediaS3BucketName: String?
+        /// The key prefix used for inbound RCS media objects in the S3 bucket.
+        public let twoWayMediaS3KeyPrefix: String?
+        /// The ARN of the IAM role used to write inbound RCS media files to the S3 bucket.
+        public let twoWayMediaS3Role: String?
+        /// The list of RCS event types enabled for two-way messaging on the agent.
+        public let twoWayRcsEventsEnabled: [String]?
+
+        @inlinable
+        public init(createdTimestamp: Date, deletionProtectionEnabled: Bool, optOutListName: String? = nil, rcsAgentArn: String, rcsAgentId: String, selfManagedOptOutsEnabled: Bool, status: RcsAgentStatus, twoWayChannelArn: String? = nil, twoWayChannelRole: String? = nil, twoWayEnabled: Bool, twoWayMediaS3BucketName: String? = nil, twoWayMediaS3KeyPrefix: String? = nil, twoWayMediaS3Role: String? = nil, twoWayRcsEventsEnabled: [String]? = nil) {
+            self.createdTimestamp = createdTimestamp
+            self.deletionProtectionEnabled = deletionProtectionEnabled
+            self.optOutListName = optOutListName
+            self.rcsAgentArn = rcsAgentArn
+            self.rcsAgentId = rcsAgentId
+            self.selfManagedOptOutsEnabled = selfManagedOptOutsEnabled
+            self.status = status
+            self.twoWayChannelArn = twoWayChannelArn
+            self.twoWayChannelRole = twoWayChannelRole
+            self.twoWayEnabled = twoWayEnabled
+            self.twoWayMediaS3BucketName = twoWayMediaS3BucketName
+            self.twoWayMediaS3KeyPrefix = twoWayMediaS3KeyPrefix
+            self.twoWayMediaS3Role = twoWayMediaS3Role
+            self.twoWayRcsEventsEnabled = twoWayRcsEventsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTimestamp = "CreatedTimestamp"
+            case deletionProtectionEnabled = "DeletionProtectionEnabled"
+            case optOutListName = "OptOutListName"
+            case rcsAgentArn = "RcsAgentArn"
+            case rcsAgentId = "RcsAgentId"
+            case selfManagedOptOutsEnabled = "SelfManagedOptOutsEnabled"
+            case status = "Status"
+            case twoWayChannelArn = "TwoWayChannelArn"
+            case twoWayChannelRole = "TwoWayChannelRole"
+            case twoWayEnabled = "TwoWayEnabled"
+            case twoWayMediaS3BucketName = "TwoWayMediaS3BucketName"
+            case twoWayMediaS3KeyPrefix = "TwoWayMediaS3KeyPrefix"
+            case twoWayMediaS3Role = "TwoWayMediaS3Role"
+            case twoWayRcsEventsEnabled = "TwoWayRcsEventsEnabled"
+        }
+    }
+
     public struct UpdateSenderIdRequest: AWSEncodableShape {
         /// By default this is set to false. When set to true the sender ID can't be deleted.
         public let deletionProtectionEnabled: Bool?
@@ -7955,6 +10618,8 @@ extension PinpointSMSVoiceV2 {
         public let createdTimestamp: Date
         /// The verified destination phone number, in E.164 format.
         public let destinationPhoneNumber: String
+        /// The unique identifier of the RCS agent associated with the verified destination number.
+        public let rcsAgentId: String?
         /// The status of the verified destination phone number.    PENDING: The phone number hasn't been verified yet.    VERIFIED: The phone number is verified and can receive messages.
         public let status: VerificationStatus
         /// The Amazon Resource Name (ARN) for the verified destination phone number.
@@ -7963,9 +10628,10 @@ extension PinpointSMSVoiceV2 {
         public let verifiedDestinationNumberId: String
 
         @inlinable
-        public init(createdTimestamp: Date, destinationPhoneNumber: String, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
+        public init(createdTimestamp: Date, destinationPhoneNumber: String, rcsAgentId: String? = nil, status: VerificationStatus, verifiedDestinationNumberArn: String, verifiedDestinationNumberId: String) {
             self.createdTimestamp = createdTimestamp
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.rcsAgentId = rcsAgentId
             self.status = status
             self.verifiedDestinationNumberArn = verifiedDestinationNumberArn
             self.verifiedDestinationNumberId = verifiedDestinationNumberId
@@ -7974,6 +10640,7 @@ extension PinpointSMSVoiceV2 {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case destinationPhoneNumber = "DestinationPhoneNumber"
+            case rcsAgentId = "RcsAgentId"
             case status = "Status"
             case verifiedDestinationNumberArn = "VerifiedDestinationNumberArn"
             case verifiedDestinationNumberId = "VerifiedDestinationNumberId"

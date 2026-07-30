@@ -52,19 +52,23 @@ extension ResourceGroupsTaggingAPI {
         public let complianceStatus: Bool?
         /// These are keys defined in the effective policy that are on the resource with either incorrect case treatment or noncompliant values.
         public let keysWithNoncompliantValues: [String]?
+        /// These tag keys are defined as required in the report_required_tag_for block of the effective tag policy, but are missing from the resource.
+        public let missingTagKeys: [String]?
         /// These tag keys on the resource are noncompliant with the effective tag policy.
         public let noncompliantKeys: [String]?
 
         @inlinable
-        public init(complianceStatus: Bool? = nil, keysWithNoncompliantValues: [String]? = nil, noncompliantKeys: [String]? = nil) {
+        public init(complianceStatus: Bool? = nil, keysWithNoncompliantValues: [String]? = nil, missingTagKeys: [String]? = nil, noncompliantKeys: [String]? = nil) {
             self.complianceStatus = complianceStatus
             self.keysWithNoncompliantValues = keysWithNoncompliantValues
+            self.missingTagKeys = missingTagKeys
             self.noncompliantKeys = noncompliantKeys
         }
 
         private enum CodingKeys: String, CodingKey {
             case complianceStatus = "ComplianceStatus"
             case keysWithNoncompliantValues = "KeysWithNoncompliantValues"
+            case missingTagKeys = "MissingTagKeys"
             case noncompliantKeys = "NoncompliantKeys"
         }
     }

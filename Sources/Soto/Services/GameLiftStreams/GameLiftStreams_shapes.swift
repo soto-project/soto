@@ -54,10 +54,25 @@ extension GameLiftStreams {
         public var description: String { return self.rawValue }
     }
 
+    public enum RevocationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case revokeAndTerminateSessions = "REVOKE_AND_TERMINATE_SESSIONS"
+        case revokeUrl = "REVOKE_URL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuntimeEnvironmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case proton = "PROTON"
         case ubuntu = "UBUNTU"
         case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShaderCacheStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleting = "DELETING"
+        case error = "ERROR"
+        case initialized = "INITIALIZED"
+        case processing = "PROCESSING"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
@@ -123,6 +138,7 @@ extension GameLiftStreams {
         case apiTerminated = "apiTerminated"
         case appLogS3DestinationError = "applicationLogS3DestinationError"
         case applicationExit = "applicationExit"
+        case assumeRoleFailed = "assumeRoleFailed"
         case connectionTimeout = "connectionTimeout"
         case idleTimeout = "idleTimeout"
         case internalError = "internalError"
@@ -130,6 +146,23 @@ extension GameLiftStreams {
         case maxSessionLengthTimeout = "maxSessionLengthTimeout"
         case placementTimeout = "placementTimeout"
         case reconnectionTimeout = "reconnectionTimeout"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamUrlStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case limitReached = "LIMIT_REACHED"
+        case revoked = "REVOKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamUrlStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationDeleted = "applicationDeleted"
+        case revokedAndSessionsTerminated = "revokedAndSessionsTerminated"
+        case revokedAndTerminatingSessions = "revokedAndTerminatingSessions"
+        case streamGroupDeleted = "streamGroupDeleted"
+        case userRevoked = "userRevoked"
         public var description: String { return self.rawValue }
     }
 
@@ -204,7 +237,7 @@ extension GameLiftStreams {
         public let id: String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
-        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 10.0-4 (Type=PROTON, Version=20260204)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. For more information about the error, call GetApplication and refer to StatusReason.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -289,7 +322,7 @@ extension GameLiftStreams {
     public struct CreateApplicationInput: AWSEncodableShape {
         /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide.
         public let applicationLogOutputUri: String?
-        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
+        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt, .log, and .utrace. To collect files with other extensions, specify the exact file path. The copy operation is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
         /// The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application.  The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
         public let applicationSourceUri: String
@@ -299,7 +332,7 @@ extension GameLiftStreams {
         public let description: String
         /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri. The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#!').
         public let executablePath: String
-        /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 10.0-4 (Type=PROTON, Version=20260204)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment
         /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources.
         public let tags: [String: String]?
@@ -378,7 +411,7 @@ extension GameLiftStreams {
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 10.0-4 (Type=PROTON, Version=20260204)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -430,7 +463,7 @@ extension GameLiftStreams {
         public let description: String
         ///  A set of one or more locations and the streaming capacity for each location.
         public let locationConfigurations: [LocationConfiguration]?
-        /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available:  A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available:  A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass
         /// A list of labels to assign to the new stream group resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources.
         public let tags: [String: String]?
@@ -502,7 +535,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -534,6 +567,59 @@ extension GameLiftStreams {
             case status = "Status"
             case statusReason = "StatusReason"
             case streamClass = "StreamClass"
+        }
+    }
+
+    public struct CreateStreamSessionAdminShellInput: AWSEncodableShape {
+        /// The stream group that runs this stream session. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+        public let identifier: String
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamsession/sg-1AB2C3De4/ABC123def4567. Example ID: ABC123def4567.
+        public let streamSessionIdentifier: String
+
+        @inlinable
+        public init(identifier: String, streamSessionIdentifier: String) {
+            self.identifier = identifier
+            self.streamSessionIdentifier = streamSessionIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodePath(self.streamSessionIdentifier, key: "StreamSessionIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+            try self.validate(self.streamSessionIdentifier, name: "streamSessionIdentifier", parent: name, max: 128)
+            try self.validate(self.streamSessionIdentifier, name: "streamSessionIdentifier", parent: name, min: 1)
+            try self.validate(self.streamSessionIdentifier, name: "streamSessionIdentifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateStreamSessionAdminShellOutput: AWSDecodableShape {
+        /// An Amazon Web Services Systems Manager session identifier that uniquely identifies the requested terminal session. Use this value with the Amazon Web Services Systems Manager Session Manager plugin.
+        public let sessionId: String?
+        /// An Amazon Web Services Systems Manager WebSocket connection endpoint for the requested terminal session.
+        public let streamUrl: String?
+        /// An Amazon Web Services Systems Manager authentication token that authenticates your access to the session ID and WebSocket URL. This token must be treated with the same level of security as other user credentials. The token value is only valid for establishing a new connection within 60 seconds of generation.
+        public let tokenValue: String?
+
+        @inlinable
+        public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
+            self.sessionId = sessionId
+            self.streamUrl = streamUrl
+            self.tokenValue = tokenValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+            case streamUrl = "StreamUrl"
+            case tokenValue = "TokenValue"
         }
     }
 
@@ -594,6 +680,202 @@ extension GameLiftStreams {
 
         private enum CodingKeys: String, CodingKey {
             case signalResponse = "SignalResponse"
+        }
+    }
+
+    public struct CreateStreamUrlInput: AWSEncodableShape {
+        /// A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client.  If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide.   AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+        public let additionalEnvironmentVariables: [String: String]?
+        /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
+        public let additionalLaunchArgs: [String]?
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.  This application must be associated with the stream group.
+        public let applicationIdentifier: String
+        /// A unique, case-sensitive identifier that you provide to ensure this request is idempotent. If you retry a request with the same ClientToken, Amazon GameLift Streams returns the original response without performing the operation again.
+        public let clientToken: String?
+        /// A descriptive label for the stream URL.
+        public let description: String?
+        /// The display settings, such as resolution, for stream sessions started from this stream URL.
+        public let displayConfiguration: DisplayConfiguration?
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.  The stream session runs in this stream group.
+        public let identifier: String
+        /// A list of locations, in order of preference, where Amazon GameLift Streams can place the stream session. Specify each location by its Amazon Web Services Region code, for example us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
+        public let locations: [String]
+        /// The data transport protocol for the stream session. Amazon GameLift Streams supports WebRTC.
+        public let `protocol`: `Protocol`
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see Provide AWS credentials to your streaming application in the Amazon GameLift Streams Developer Guide.
+        public let roleArn: String?
+        /// The maximum length of time, in seconds, that a stream session started from this stream URL can run. Valid values are 1-86400 seconds (1 second to 24 hours). The default is 43200 seconds (12 hours).
+        public let sessionLengthSeconds: Int?
+        /// The number of minutes after creation that the stream URL remains valid. After this period, the status of the stream URL changes to EXPIRED and it can no longer start stream sessions. The minimum is 1 minute. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
+        public let urlExpiresAfterMinutes: Int
+        /// The maximum number of times the stream URL can start a stream session. Each successful use reduces the remaining uses by one. The minimum is 1, and the default is 1. For the maximum, see Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
+        public let usageLimit: Int?
+
+        @inlinable
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationIdentifier: String, clientToken: String? = CreateStreamUrlInput.idempotencyToken(), description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, identifier: String, locations: [String], protocol: `Protocol`, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, urlExpiresAfterMinutes: Int, usageLimit: Int? = nil) {
+            self.additionalEnvironmentVariables = additionalEnvironmentVariables
+            self.additionalLaunchArgs = additionalLaunchArgs
+            self.applicationIdentifier = applicationIdentifier
+            self.clientToken = clientToken
+            self.description = description
+            self.displayConfiguration = displayConfiguration
+            self.identifier = identifier
+            self.locations = locations
+            self.`protocol` = `protocol`
+            self.roleArn = roleArn
+            self.sessionLengthSeconds = sessionLengthSeconds
+            self.urlExpiresAfterMinutes = urlExpiresAfterMinutes
+            self.usageLimit = usageLimit
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.additionalEnvironmentVariables, forKey: .additionalEnvironmentVariables)
+            try container.encodeIfPresent(self.additionalLaunchArgs, forKey: .additionalLaunchArgs)
+            try container.encode(self.applicationIdentifier, forKey: .applicationIdentifier)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayConfiguration, forKey: .displayConfiguration)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encode(self.locations, forKey: .locations)
+            try container.encode(self.`protocol`, forKey: .`protocol`)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.sessionLengthSeconds, forKey: .sessionLengthSeconds)
+            try container.encode(self.urlExpiresAfterMinutes, forKey: .urlExpiresAfterMinutes)
+            try container.encodeIfPresent(self.usageLimit, forKey: .usageLimit)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalEnvironmentVariables, name: "additionalEnvironmentVariables", parent: name, max: 50)
+            try self.validate(self.additionalLaunchArgs, name: "additionalLaunchArgs", parent: name, max: 100)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, max: 128)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 32)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 80)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*$")
+            try self.displayConfiguration?.validate(name: "\(name).displayConfiguration")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+            try self.locations.forEach {
+                try validate($0, name: "locations[]", parent: name, max: 20)
+                try validate($0, name: "locations[]", parent: name, min: 1)
+                try validate($0, name: "locations[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.locations, name: "locations", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role/.+$")
+            try self.validate(self.sessionLengthSeconds, name: "sessionLengthSeconds", parent: name, max: 86400)
+            try self.validate(self.sessionLengthSeconds, name: "sessionLengthSeconds", parent: name, min: 1)
+            try self.validate(self.urlExpiresAfterMinutes, name: "urlExpiresAfterMinutes", parent: name, min: 1)
+            try self.validate(self.usageLimit, name: "usageLimit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEnvironmentVariables = "AdditionalEnvironmentVariables"
+            case additionalLaunchArgs = "AdditionalLaunchArgs"
+            case applicationIdentifier = "ApplicationIdentifier"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
+            case locations = "Locations"
+            case `protocol` = "Protocol"
+            case roleArn = "RoleArn"
+            case sessionLengthSeconds = "SessionLengthSeconds"
+            case urlExpiresAfterMinutes = "UrlExpiresAfterMinutes"
+            case usageLimit = "UsageLimit"
+        }
+    }
+
+    public struct CreateStreamUrlOutput: AWSDecodableShape {
+        /// The environment variables made available to the application when a stream session starts.
+        public let additionalEnvironmentVariables: [String: String]?
+        /// The command-line arguments passed to the application when a stream session starts.
+        public let additionalLaunchArgs: [String]?
+        /// The application that runs in the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+        public let arn: String
+        /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let createdAt: Date?
+        /// The descriptive label for the stream URL.
+        public let description: String?
+        /// The display settings, such as resolution, for stream sessions started from this stream URL.
+        public let displayConfiguration: DisplayConfiguration?
+        /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let expiresAt: Date?
+        /// The list of locations, in order of preference, where Amazon GameLift Streams places the stream session. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
+        public let locations: [String]?
+        /// The data transport protocol used for stream sessions started from this stream URL.
+        public let `protocol`: `Protocol`?
+        /// The number of times the stream URL can still be used to start a stream session.
+        public let remainingUses: Int?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see Provide AWS credentials to your streaming application in the Amazon GameLift Streams Developer Guide.
+        public let roleArn: String?
+        /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+        public let sessionLengthSeconds: Int?
+        /// The current status of the stream URL. Possible statuses include the following:    ACTIVE: The stream URL is valid and can start stream sessions.    EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.    REVOKED: The stream URL was revoked and can no longer start stream sessions.    LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+        public let status: StreamUrlStatus?
+        /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:    userRevoked: You revoked the stream URL.    revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.    revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.    streamGroupDeleted: The stream group was deleted, which revoked the stream URL.    applicationDeleted: The application was deleted, which revoked the stream URL.
+        public let statusReason: StreamUrlStatusReason?
+        /// The stream group that runs the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public let streamGroupArn: String?
+        /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+        public let streamUrl: String?
+        /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+        public let streamUrlId: String?
+        /// The maximum number of times the stream URL can start a stream session.
+        public let usageLimit: Int?
+
+        @inlinable
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, expiresAt: Date? = nil, locations: [String]? = nil, protocol: `Protocol`? = nil, remainingUses: Int? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, status: StreamUrlStatus? = nil, statusReason: StreamUrlStatusReason? = nil, streamGroupArn: String? = nil, streamUrl: String? = nil, streamUrlId: String? = nil, usageLimit: Int? = nil) {
+            self.additionalEnvironmentVariables = additionalEnvironmentVariables
+            self.additionalLaunchArgs = additionalLaunchArgs
+            self.applicationArn = applicationArn
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.displayConfiguration = displayConfiguration
+            self.expiresAt = expiresAt
+            self.locations = locations
+            self.`protocol` = `protocol`
+            self.remainingUses = remainingUses
+            self.roleArn = roleArn
+            self.sessionLengthSeconds = sessionLengthSeconds
+            self.status = status
+            self.statusReason = statusReason
+            self.streamGroupArn = streamGroupArn
+            self.streamUrl = streamUrl
+            self.streamUrlId = streamUrlId
+            self.usageLimit = usageLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEnvironmentVariables = "AdditionalEnvironmentVariables"
+            case additionalLaunchArgs = "AdditionalLaunchArgs"
+            case applicationArn = "ApplicationArn"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
+            case expiresAt = "ExpiresAt"
+            case locations = "Locations"
+            case `protocol` = "Protocol"
+            case remainingUses = "RemainingUses"
+            case roleArn = "RoleArn"
+            case sessionLengthSeconds = "SessionLengthSeconds"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case streamGroupArn = "StreamGroupArn"
+            case streamUrl = "StreamUrl"
+            case streamUrlId = "StreamUrlId"
+            case usageLimit = "UsageLimit"
         }
     }
 
@@ -718,6 +1000,24 @@ extension GameLiftStreams {
         }
     }
 
+    public struct DisplayConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The resolution to apply to the stream session's virtual monitor. When specified, this value overrides the default resolution of 1920 × 1080.
+        public let resolution: Resolution?
+
+        @inlinable
+        public init(resolution: Resolution? = nil) {
+            self.resolution = resolution
+        }
+
+        public func validate(name: String) throws {
+            try self.resolution?.validate(name: "\(name).resolution")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resolution = "Resolution"
+        }
+    }
+
     public struct ExportFilesMetadata: AWSDecodableShape {
         ///  The S3 bucket URI where Amazon GameLift Streams uploaded the set of compressed exported files for a stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension.  Example 1: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.   Example 2: If you provide an S3 URI called s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://amzn-s3-demo-destination-bucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
         public let outputUri: String?
@@ -830,7 +1130,7 @@ extension GameLiftStreams {
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 10.0-4 (Type=PROTON, Version=20260204)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -920,7 +1220,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -1001,6 +1301,8 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the stream session. You can update this value at any time.
         public let description: String?
+        /// The configuration for the stream session's virtual monitor.
+        public let displayConfiguration: DisplayConfiguration?
         /// Provides details about the stream session's exported files.
         public let exportFilesMetadata: ExportFilesMetadata?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -1013,6 +1315,8 @@ extension GameLiftStreams {
         public let performanceStatsConfiguration: PerformanceStatsConfiguration?
         /// The data transfer protocol in use with the stream session.
         public let `protocol`: `Protocol`?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on behalf of your application during the stream session.
+        public let roleArn: String?
         /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections.
         public let sessionLengthSeconds: Int?
         /// The WebRTC ICE offer string that a client generates to initiate a connection to the stream session.
@@ -1021,7 +1325,7 @@ extension GameLiftStreams {
         public let signalResponse: String?
         /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
-        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
@@ -1031,7 +1335,7 @@ extension GameLiftStreams {
         public let webSdkProtocolUrl: String?
 
         @inlinable
-        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
             self.additionalEnvironmentVariables = additionalEnvironmentVariables
             self.additionalLaunchArgs = additionalLaunchArgs
             self.applicationArn = applicationArn
@@ -1039,12 +1343,14 @@ extension GameLiftStreams {
             self.connectionTimeoutSeconds = connectionTimeoutSeconds
             self.createdAt = createdAt
             self.description = description
+            self.displayConfiguration = displayConfiguration
             self.exportFilesMetadata = exportFilesMetadata
             self.lastUpdatedAt = lastUpdatedAt
             self.location = location
             self.logFileLocationUri = logFileLocationUri
             self.performanceStatsConfiguration = performanceStatsConfiguration
             self.`protocol` = `protocol`
+            self.roleArn = roleArn
             self.sessionLengthSeconds = sessionLengthSeconds
             self.signalRequest = signalRequest
             self.signalResponse = signalResponse
@@ -1063,12 +1369,14 @@ extension GameLiftStreams {
             case connectionTimeoutSeconds = "ConnectionTimeoutSeconds"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
             case exportFilesMetadata = "ExportFilesMetadata"
             case lastUpdatedAt = "LastUpdatedAt"
             case location = "Location"
             case logFileLocationUri = "LogFileLocationUri"
             case performanceStatsConfiguration = "PerformanceStatsConfiguration"
             case `protocol` = "Protocol"
+            case roleArn = "RoleArn"
             case sessionLengthSeconds = "SessionLengthSeconds"
             case signalRequest = "SignalRequest"
             case signalResponse = "SignalResponse"
@@ -1077,6 +1385,165 @@ extension GameLiftStreams {
             case streamGroupId = "StreamGroupId"
             case userId = "UserId"
             case webSdkProtocolUrl = "WebSdkProtocolUrl"
+        }
+    }
+
+    public struct GetStreamUrlInput: AWSEncodableShape {
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.  This is the stream group that owns the stream URL.
+        public let identifier: String
+        /// The unique identifier of the stream URL. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4. Example ID: su-1AB2C3De4.
+        public let streamUrlIdentifier: String
+
+        @inlinable
+        public init(identifier: String, streamUrlIdentifier: String) {
+            self.identifier = identifier
+            self.streamUrlIdentifier = streamUrlIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            request.encodePath(self.streamUrlIdentifier, key: "StreamUrlIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, max: 128)
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, min: 1)
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStreamUrlOutput: AWSDecodableShape {
+        /// The environment variables made available to the application when a stream session starts.
+        public let additionalEnvironmentVariables: [String: String]?
+        /// The command-line arguments passed to the application when a stream session starts.
+        public let additionalLaunchArgs: [String]?
+        /// The application that runs in the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+        public let arn: String
+        /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let createdAt: Date?
+        /// The descriptive label for the stream URL.
+        public let description: String?
+        /// The display settings, such as resolution, for stream sessions started from this stream URL.
+        public let displayConfiguration: DisplayConfiguration?
+        /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let expiresAt: Date?
+        /// The list of locations, in order of preference, where Amazon GameLift Streams places the stream session. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
+        public let locations: [String]?
+        /// The data transport protocol used for stream sessions started from this stream URL.
+        public let `protocol`: `Protocol`?
+        /// The number of times the stream URL can still be used to start a stream session.
+        public let remainingUses: Int?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon GameLift Streams assumes during stream sessions started from this stream URL. For more information, see Provide AWS credentials to your streaming application in the Amazon GameLift Streams Developer Guide.
+        public let roleArn: String?
+        /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+        public let sessionLengthSeconds: Int?
+        /// The current status of the stream URL. Possible statuses include the following:    ACTIVE: The stream URL is valid and can start stream sessions.    EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.    REVOKED: The stream URL was revoked and can no longer start stream sessions.    LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+        public let status: StreamUrlStatus?
+        /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:    userRevoked: You revoked the stream URL.    revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.    revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.    streamGroupDeleted: The stream group was deleted, which revoked the stream URL.    applicationDeleted: The application was deleted, which revoked the stream URL.
+        public let statusReason: StreamUrlStatusReason?
+        /// The stream group that runs the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public let streamGroupArn: String?
+        /// A list of the stream sessions that have been started through this stream URL.
+        public let streamSessions: [StreamSessionSummary]?
+        /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+        public let streamUrl: String?
+        /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+        public let streamUrlId: String?
+        /// The maximum number of times the stream URL can start a stream session.
+        public let usageLimit: Int?
+
+        @inlinable
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, expiresAt: Date? = nil, locations: [String]? = nil, protocol: `Protocol`? = nil, remainingUses: Int? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, status: StreamUrlStatus? = nil, statusReason: StreamUrlStatusReason? = nil, streamGroupArn: String? = nil, streamSessions: [StreamSessionSummary]? = nil, streamUrl: String? = nil, streamUrlId: String? = nil, usageLimit: Int? = nil) {
+            self.additionalEnvironmentVariables = additionalEnvironmentVariables
+            self.additionalLaunchArgs = additionalLaunchArgs
+            self.applicationArn = applicationArn
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.displayConfiguration = displayConfiguration
+            self.expiresAt = expiresAt
+            self.locations = locations
+            self.`protocol` = `protocol`
+            self.remainingUses = remainingUses
+            self.roleArn = roleArn
+            self.sessionLengthSeconds = sessionLengthSeconds
+            self.status = status
+            self.statusReason = statusReason
+            self.streamGroupArn = streamGroupArn
+            self.streamSessions = streamSessions
+            self.streamUrl = streamUrl
+            self.streamUrlId = streamUrlId
+            self.usageLimit = usageLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalEnvironmentVariables = "AdditionalEnvironmentVariables"
+            case additionalLaunchArgs = "AdditionalLaunchArgs"
+            case applicationArn = "ApplicationArn"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
+            case expiresAt = "ExpiresAt"
+            case locations = "Locations"
+            case `protocol` = "Protocol"
+            case remainingUses = "RemainingUses"
+            case roleArn = "RoleArn"
+            case sessionLengthSeconds = "SessionLengthSeconds"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case streamGroupArn = "StreamGroupArn"
+            case streamSessions = "StreamSessions"
+            case streamUrl = "StreamUrl"
+            case streamUrlId = "StreamUrlId"
+            case usageLimit = "UsageLimit"
+        }
+    }
+
+    public struct ListApplicationShaderCachesInput: AWSEncodableShape {
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6. Example ID: a-9ZY8X7Wv6.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListApplicationShaderCachesOutput: AWSDecodableShape {
+        /// A collection of shader cache metadata for the specified Amazon GameLift Streams application. Each item includes the shader cache status, associated stream groups, and storage size.
+        public let items: [ShaderCacheSummary]?
+
+        @inlinable
+        public init(items: [ShaderCacheSummary]? = nil) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
         }
     }
 
@@ -1273,6 +1740,62 @@ extension GameLiftStreams {
 
         @inlinable
         public init(items: [StreamSessionSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListStreamUrlsInput: AWSEncodableShape {
+        /// The maximum number of results to return per page. Valid values are 1-100. The default is 25.
+        public let maxResults: Int?
+        /// The token that marks the start of the next set of results. Use this token when you retrieve results as sequential pages. To get the first page of results, omit a token value. To get the remaining pages, provide the token returned with the previous result set.
+        public let nextToken: String?
+        /// Filters the list to stream URLs with the specified status.    ACTIVE: The stream URL is valid and can start stream sessions.    EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.    REVOKED: The stream URL was revoked and can no longer start stream sessions.    LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+        public let status: StreamUrlStatus?
+        /// Filters the list to stream URLs that belong to the specified stream group. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
+        public let streamGroupIdentifier: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: StreamUrlStatus? = nil, streamGroupIdentifier: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.streamGroupIdentifier = streamGroupIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.status, key: "Status")
+            request.encodeQuery(self.streamGroupIdentifier, key: "StreamGroupIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.streamGroupIdentifier, name: "streamGroupIdentifier", parent: name, max: 128)
+            try self.validate(self.streamGroupIdentifier, name: "streamGroupIdentifier", parent: name, min: 1)
+            try self.validate(self.streamGroupIdentifier, name: "streamGroupIdentifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStreamUrlsOutput: AWSDecodableShape {
+        /// A collection of stream URL summaries. Each summary includes the identity, status, and usage of the stream URL, but not its full configuration.
+        public let items: [StreamUrlSummary]?
+        /// A token that marks the start of the next sequential page of results. If an operation doesn't return a token, you've reached the end of the list.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [StreamUrlSummary]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1493,6 +2016,68 @@ extension GameLiftStreams {
         }
     }
 
+    public struct Resolution: AWSEncodableShape & AWSDecodableShape {
+        /// The height of the stream session's virtual monitor, in pixels. The value must be an even number.
+        public let height: Int
+        /// The width of the stream session's virtual monitor, in pixels. The value must be an even number.
+        public let width: Int
+
+        @inlinable
+        public init(height: Int, width: Int) {
+            self.height = height
+            self.width = width
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.height, name: "height", parent: name, max: 4096)
+            try self.validate(self.height, name: "height", parent: name, min: 320)
+            try self.validate(self.width, name: "width", parent: name, max: 4096)
+            try self.validate(self.width, name: "width", parent: name, min: 320)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "Height"
+            case width = "Width"
+        }
+    }
+
+    public struct RevokeStreamUrlInput: AWSEncodableShape {
+        /// An Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.  This is the stream group that owns the stream URL.
+        public let identifier: String
+        /// Controls what happens to running stream sessions when you revoke the stream URL. If you do not specify a value, the default is REVOKE_URL. Possible values include the following:    REVOKE_URL: Stops the stream URL from starting new stream sessions. Running sessions continue until they end.    REVOKE_AND_TERMINATE_SESSIONS: Stops new stream sessions and ends any running stream sessions.
+        public let revocationMode: RevocationMode?
+        /// The unique identifier of the stream URL to revoke. Specify a stream URL ID or Amazon Resource Name (ARN). Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamurl/sg-1AB2C3De4/su-1AB2C3De4. Example ID: su-1AB2C3De4.
+        public let streamUrlIdentifier: String
+
+        @inlinable
+        public init(identifier: String, revocationMode: RevocationMode? = nil, streamUrlIdentifier: String) {
+            self.identifier = identifier
+            self.revocationMode = revocationMode
+            self.streamUrlIdentifier = streamUrlIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+            try container.encodeIfPresent(self.revocationMode, forKey: .revocationMode)
+            request.encodePath(self.streamUrlIdentifier, key: "StreamUrlIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, max: 128)
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, min: 1)
+            try self.validate(self.streamUrlIdentifier, name: "streamUrlIdentifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revocationMode = "RevocationMode"
+        }
+    }
+
     public struct RuntimeEnvironment: AWSEncodableShape & AWSDecodableShape {
         /// The operating system and other drivers. For Proton, this also includes the Proton compatibility layer.
         public let type: RuntimeEnvironmentType
@@ -1516,6 +2101,40 @@ extension GameLiftStreams {
         }
     }
 
+    public struct ShaderCacheSummary: AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        public let applicationArn: String
+        /// The stream groups compatible with this shader cache. Compatibility is based on GPU type and GPU driver version. For more information on shader cache compatibility, see Shader caches in the Amazon GameLift Streams Developer Guide. This value is a set of Amazon Resource Names (ARNs) that uniquely identify stream group resources. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public let associatedStreamGroups: [String]?
+        /// A unique identifier for the shader cache, formatted as a 32-character hexadecimal string. Format is 1271e693c50b940e228582f1ccdd4e27.
+        public let identifier: String
+        /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let lastUpdatedAt: Date?
+        /// The current status of the shader cache. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams received the request and is preparing the shader cache.    PROCESSING: Amazon GameLift Streams is replicating the shader cache to the streaming locations in the associated stream groups.    READY: The shader cache is replicated and available for use in stream sessions.    DELETING: Amazon GameLift Streams is deleting the shader cache.    ERROR: An error occurred during shader cache processing. Create a new shader cache to try again.
+        public let status: ShaderCacheStatus?
+        /// The total storage used by all compiled shader files in this shader cache, in bytes.
+        public let storageBytes: Int64?
+
+        @inlinable
+        public init(applicationArn: String, associatedStreamGroups: [String]? = nil, identifier: String, lastUpdatedAt: Date? = nil, status: ShaderCacheStatus? = nil, storageBytes: Int64? = nil) {
+            self.applicationArn = applicationArn
+            self.associatedStreamGroups = associatedStreamGroups
+            self.identifier = identifier
+            self.lastUpdatedAt = lastUpdatedAt
+            self.status = status
+            self.storageBytes = storageBytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case associatedStreamGroups = "AssociatedStreamGroups"
+            case identifier = "Identifier"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case status = "Status"
+            case storageBytes = "StorageBytes"
+        }
+    }
+
     public struct StartStreamSessionInput: AWSEncodableShape {
         /// A set of options that you can use to control the stream session runtime environment, expressed as a set of key-value pairs. You can use this to configure the application or stream session details. You can also provide custom environment variables that Amazon GameLift Streams passes to your game client.  If you want to debug your application with environment variables, we recommend that you do so in a local environment outside of Amazon GameLift Streams. For more information, refer to the Compatibility Guidance in the troubleshooting section of the Developer Guide.   AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes. AdditionalEnvironmentVariables passes data using environment variables; while AdditionalLaunchArgs passes data using command-line arguments.
         public let additionalEnvironmentVariables: [String: String]?
@@ -1529,6 +2148,8 @@ extension GameLiftStreams {
         public let connectionTimeoutSeconds: Int?
         /// A human-readable label for the stream session. You can update this value later.
         public let description: String?
+        /// The configuration for the stream session's virtual monitor, including the resolution settings. If not specified, Amazon GameLift Streams uses the default resolution of 1920 × 1080.
+        public let displayConfiguration: DisplayConfiguration?
         /// The stream group to run this stream session with. This value is an Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4. Example ID: sg-1AB2C3De4.
         public let identifier: String
         ///  A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. For example, us-east-1. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location.   For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
@@ -1537,6 +2158,8 @@ extension GameLiftStreams {
         public let performanceStatsConfiguration: PerformanceStatsConfiguration?
         /// The data transport protocol to use for the stream session.
         public let `protocol`: `Protocol`
+        /// The ARN of an AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on your behalf during the stream session. The role grants Amazon GameLift Streams permission to obtain temporary credentials for your application. The role's trust policy must allow the gameliftstreams.amazonaws.com service principal to assume it. The role name must start with GameLiftStreams-.
+        public let roleArn: String?
         /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections. Default value is 43200 (12 hours).
         public let sessionLengthSeconds: Int?
         /// A WebRTC ICE offer string to use when initializing a WebRTC connection. Typically, the offer is a very long JSON string. Provide the string as a text value in quotes. Amazon GameLift Streams also supports setting the field to "NO_CLIENT_CONNECTION". This will create a session without needing any browser request or Web SDK integration. The session starts up as usual and waits for a reconnection from a browser, which is accomplished using CreateStreamSessionConnection.
@@ -1545,17 +2168,19 @@ extension GameLiftStreams {
         public let userId: String?
 
         @inlinable
-        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationIdentifier: String, clientToken: String? = StartStreamSessionInput.idempotencyToken(), connectionTimeoutSeconds: Int? = nil, description: String? = nil, identifier: String, locations: [String]? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`, sessionLengthSeconds: Int? = nil, signalRequest: String, userId: String? = nil) {
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationIdentifier: String, clientToken: String? = StartStreamSessionInput.idempotencyToken(), connectionTimeoutSeconds: Int? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, identifier: String, locations: [String]? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String, userId: String? = nil) {
             self.additionalEnvironmentVariables = additionalEnvironmentVariables
             self.additionalLaunchArgs = additionalLaunchArgs
             self.applicationIdentifier = applicationIdentifier
             self.clientToken = clientToken
             self.connectionTimeoutSeconds = connectionTimeoutSeconds
             self.description = description
+            self.displayConfiguration = displayConfiguration
             self.identifier = identifier
             self.locations = locations
             self.performanceStatsConfiguration = performanceStatsConfiguration
             self.`protocol` = `protocol`
+            self.roleArn = roleArn
             self.sessionLengthSeconds = sessionLengthSeconds
             self.signalRequest = signalRequest
             self.userId = userId
@@ -1570,10 +2195,12 @@ extension GameLiftStreams {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.connectionTimeoutSeconds, forKey: .connectionTimeoutSeconds)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayConfiguration, forKey: .displayConfiguration)
             request.encodePath(self.identifier, key: "Identifier")
             try container.encodeIfPresent(self.locations, forKey: .locations)
             try container.encodeIfPresent(self.performanceStatsConfiguration, forKey: .performanceStatsConfiguration)
             try container.encode(self.`protocol`, forKey: .`protocol`)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.sessionLengthSeconds, forKey: .sessionLengthSeconds)
             try container.encode(self.signalRequest, forKey: .signalRequest)
             try container.encodeIfPresent(self.userId, forKey: .userId)
@@ -1593,6 +2220,7 @@ extension GameLiftStreams {
             try self.validate(self.description, name: "description", parent: name, max: 80)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9-_.!+@/][a-zA-Z0-9-_.!+@/ ]*$")
+            try self.displayConfiguration?.validate(name: "\(name).displayConfiguration")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 128)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(^[a-zA-Z0-9-]+$)|(^arn:aws:gameliftstreams:([^:\n]*):([0-9]{12}):([^:\n]*)$)$")
@@ -1602,6 +2230,9 @@ extension GameLiftStreams {
                 try validate($0, name: "locations[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             }
             try self.validate(self.locations, name: "locations", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role/.+$")
             try self.validate(self.sessionLengthSeconds, name: "sessionLengthSeconds", parent: name, max: 86400)
             try self.validate(self.sessionLengthSeconds, name: "sessionLengthSeconds", parent: name, min: 1)
             try self.validate(self.signalRequest, name: "signalRequest", parent: name, min: 1)
@@ -1616,9 +2247,11 @@ extension GameLiftStreams {
             case clientToken = "ClientToken"
             case connectionTimeoutSeconds = "ConnectionTimeoutSeconds"
             case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
             case locations = "Locations"
             case performanceStatsConfiguration = "PerformanceStatsConfiguration"
             case `protocol` = "Protocol"
+            case roleArn = "RoleArn"
             case sessionLengthSeconds = "SessionLengthSeconds"
             case signalRequest = "SignalRequest"
             case userId = "UserId"
@@ -1640,6 +2273,8 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the stream session. You can update this value at any time.
         public let description: String?
+        /// The configuration for the stream session's virtual monitor.
+        public let displayConfiguration: DisplayConfiguration?
         /// Provides details about the stream session's exported files.
         public let exportFilesMetadata: ExportFilesMetadata?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -1652,6 +2287,8 @@ extension GameLiftStreams {
         public let performanceStatsConfiguration: PerformanceStatsConfiguration?
         /// The data transfer protocol in use with the stream session.
         public let `protocol`: `Protocol`?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on behalf of your application during the stream session.
+        public let roleArn: String?
         /// The maximum duration of a session. Amazon GameLift Streams will automatically terminate a session after this amount of time has elapsed, regardless of any existing client connections.
         public let sessionLengthSeconds: Int?
         /// The WebRTC ICE offer string that a client generates to initiate a connection to the stream session.
@@ -1660,7 +2297,7 @@ extension GameLiftStreams {
         public let signalResponse: String?
         /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
-        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
@@ -1670,7 +2307,7 @@ extension GameLiftStreams {
         public let webSdkProtocolUrl: String?
 
         @inlinable
-        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
+        public init(additionalEnvironmentVariables: [String: String]? = nil, additionalLaunchArgs: [String]? = nil, applicationArn: String? = nil, arn: String? = nil, connectionTimeoutSeconds: Int? = nil, createdAt: Date? = nil, description: String? = nil, displayConfiguration: DisplayConfiguration? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, logFileLocationUri: String? = nil, performanceStatsConfiguration: PerformanceStatsConfiguration? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, sessionLengthSeconds: Int? = nil, signalRequest: String? = nil, signalResponse: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, streamGroupId: String? = nil, userId: String? = nil, webSdkProtocolUrl: String? = nil) {
             self.additionalEnvironmentVariables = additionalEnvironmentVariables
             self.additionalLaunchArgs = additionalLaunchArgs
             self.applicationArn = applicationArn
@@ -1678,12 +2315,14 @@ extension GameLiftStreams {
             self.connectionTimeoutSeconds = connectionTimeoutSeconds
             self.createdAt = createdAt
             self.description = description
+            self.displayConfiguration = displayConfiguration
             self.exportFilesMetadata = exportFilesMetadata
             self.lastUpdatedAt = lastUpdatedAt
             self.location = location
             self.logFileLocationUri = logFileLocationUri
             self.performanceStatsConfiguration = performanceStatsConfiguration
             self.`protocol` = `protocol`
+            self.roleArn = roleArn
             self.sessionLengthSeconds = sessionLengthSeconds
             self.signalRequest = signalRequest
             self.signalResponse = signalResponse
@@ -1702,12 +2341,14 @@ extension GameLiftStreams {
             case connectionTimeoutSeconds = "ConnectionTimeoutSeconds"
             case createdAt = "CreatedAt"
             case description = "Description"
+            case displayConfiguration = "DisplayConfiguration"
             case exportFilesMetadata = "ExportFilesMetadata"
             case lastUpdatedAt = "LastUpdatedAt"
             case location = "Location"
             case logFileLocationUri = "LogFileLocationUri"
             case performanceStatsConfiguration = "PerformanceStatsConfiguration"
             case `protocol` = "Protocol"
+            case roleArn = "RoleArn"
             case sessionLengthSeconds = "SessionLengthSeconds"
             case signalRequest = "SignalRequest"
             case signalResponse = "SignalResponse"
@@ -1736,7 +2377,7 @@ extension GameLiftStreams {
         public let lastUpdatedAt: Date?
         /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.     EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
-        /// The target stream quality for the stream group.  A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group.  A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -1780,15 +2421,17 @@ extension GameLiftStreams {
         public let location: String?
         /// The data transfer protocol in use with the stream session.
         public let `protocol`: `Protocol`?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that Amazon GameLift Streams assumes on behalf of your application during the stream session.
+        public let roleArn: String?
         /// The current status of the stream session resource.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
-        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
         public let statusReason: StreamSessionStatusReason?
         ///  An opaque, unique identifier for an end-user, defined by the developer.
         public let userId: String?
 
         @inlinable
-        public init(applicationArn: String? = nil, arn: String? = nil, createdAt: Date? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, protocol: `Protocol`? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, userId: String? = nil) {
+        public init(applicationArn: String? = nil, arn: String? = nil, createdAt: Date? = nil, exportFilesMetadata: ExportFilesMetadata? = nil, lastUpdatedAt: Date? = nil, location: String? = nil, protocol: `Protocol`? = nil, roleArn: String? = nil, status: StreamSessionStatus? = nil, statusReason: StreamSessionStatusReason? = nil, userId: String? = nil) {
             self.applicationArn = applicationArn
             self.arn = arn
             self.createdAt = createdAt
@@ -1796,6 +2439,7 @@ extension GameLiftStreams {
             self.lastUpdatedAt = lastUpdatedAt
             self.location = location
             self.`protocol` = `protocol`
+            self.roleArn = roleArn
             self.status = status
             self.statusReason = statusReason
             self.userId = userId
@@ -1809,9 +2453,72 @@ extension GameLiftStreams {
             case lastUpdatedAt = "LastUpdatedAt"
             case location = "Location"
             case `protocol` = "Protocol"
+            case roleArn = "RoleArn"
             case status = "Status"
             case statusReason = "StatusReason"
             case userId = "UserId"
+        }
+    }
+
+    public struct StreamUrlSummary: AWSDecodableShape {
+        /// The application that runs in the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the application resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:application/a-9ZY8X7Wv6.
+        public let applicationArn: String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the stream URL across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamurl/[stream group resource ID]/[stream URL resource ID].
+        public let arn: String
+        /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let createdAt: Date?
+        /// The descriptive label for the stream URL.
+        public let description: String?
+        /// The date and time when the stream URL expires and stops accepting new stream sessions. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
+        public let expiresAt: Date?
+        /// The number of times the stream URL can still be used to start a stream session.
+        public let remainingUses: Int?
+        /// The maximum length of time, in seconds, that a stream session started from this stream URL can run.
+        public let sessionLengthSeconds: Int?
+        /// The current status of the stream URL. Possible statuses include the following:    ACTIVE: The stream URL is valid and can start stream sessions.    EXPIRED: The stream URL has passed its expiration time and can no longer start stream sessions.    REVOKED: The stream URL was revoked and can no longer start stream sessions.    LIMIT_REACHED: The stream URL has been used the maximum number of times and can no longer start stream sessions.
+        public let status: StreamUrlStatus?
+        /// Additional information about why the stream URL is in its current status. Amazon GameLift Streams populates this value when the status is REVOKED. Possible values include the following:    userRevoked: You revoked the stream URL.    revokedAndTerminatingSessions: You revoked the stream URL and Amazon GameLift Streams is ending its running stream sessions.    revokedAndSessionsTerminated: You revoked the stream URL and its running stream sessions have ended.    streamGroupDeleted: The stream group was deleted, which revoked the stream URL.    applicationDeleted: The application was deleted, which revoked the stream URL.
+        public let statusReason: StreamUrlStatusReason?
+        /// The stream group that runs the stream sessions. This value is an Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Example ARN: arn:aws:gameliftstreams:us-west-2:111122223333:streamgroup/sg-1AB2C3De4.
+        public let streamGroupArn: String?
+        /// The shareable stream URL. Distribute this URL to end users so that they can start and play a stream session in a hosted web player. Treat the stream URL as a secret. Anyone who has it can start a stream session until the stream URL expires, is revoked, or reaches its usage limit.
+        public let streamUrl: String?
+        /// The unique identifier for the stream URL resource, for example su-1AB2C3De4.
+        public let streamUrlId: String?
+        /// The maximum number of times the stream URL can start a stream session.
+        public let usageLimit: Int?
+
+        @inlinable
+        public init(applicationArn: String? = nil, arn: String, createdAt: Date? = nil, description: String? = nil, expiresAt: Date? = nil, remainingUses: Int? = nil, sessionLengthSeconds: Int? = nil, status: StreamUrlStatus? = nil, statusReason: StreamUrlStatusReason? = nil, streamGroupArn: String? = nil, streamUrl: String? = nil, streamUrlId: String? = nil, usageLimit: Int? = nil) {
+            self.applicationArn = applicationArn
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.expiresAt = expiresAt
+            self.remainingUses = remainingUses
+            self.sessionLengthSeconds = sessionLengthSeconds
+            self.status = status
+            self.statusReason = statusReason
+            self.streamGroupArn = streamGroupArn
+            self.streamUrl = streamUrl
+            self.streamUrlId = streamUrlId
+            self.usageLimit = usageLimit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case expiresAt = "ExpiresAt"
+            case remainingUses = "RemainingUses"
+            case sessionLengthSeconds = "SessionLengthSeconds"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case streamGroupArn = "StreamGroupArn"
+            case streamUrl = "StreamUrl"
+            case streamUrlId = "StreamUrlId"
+            case usageLimit = "UsageLimit"
         }
     }
 
@@ -1927,7 +2634,7 @@ extension GameLiftStreams {
     public struct UpdateApplicationInput: AWSEncodableShape {
         /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Application log bucket permission policy in the Amazon GameLift Streams Developer Guide.
         public let applicationLogOutputUri: String?
-        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
+        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location, or relative to the user's home directory when using a supported path variable. You can specify up to 10 log paths. Each individual log file cannot exceed 50 MB in size. Each path can be a directory or an exact file path. When you specify a directory, Amazon GameLift Streams collects only files with the following extensions: .txt, .log, and .utrace. To collect files with other extensions, specify the exact file path. The copy operation is not performed recursively in subfolders. The following path variables are recognized when they appear as the first component of a path: %USERPROFILE% (Windows and Proton), $HOME or ~ (Linux). Use a path variable when your application writes logs outside of the application directory. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri at the end of a stream session. To retrieve stored log files, call GetStreamSession and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
         /// A human-readable label for the application.
         public let description: String?
@@ -1996,7 +2703,7 @@ extension GameLiftStreams {
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 10.0-4 (Type=PROTON, Version=20260204)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -2113,7 +2820,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Uses NVIDIA L4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor Core GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen6n_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 64 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra_win2022 (NVIDIA, ultra) Supports applications with high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen6n_medium (NVIDIA, medium) Supports applications with moderate 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 6 GB VRAM   Tenancy: Supports up to 4 concurrent stream sessions       gen6n_small (NVIDIA, small) Supports applications with lightweight 3D scene complexity and low CPU usage. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 1 vCPUs, 4 GB RAM, 2 GB VRAM   Tenancy: Supports up to 12 concurrent stream sessions       gen6n_medium_win2022 (NVIDIA, medium) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 6 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6n_small_win2022 (NVIDIA, small) Supports applications with low 3D scene complexity. Powered by NVIDIA L4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 2 vCPUs, 8 GB RAM, 3 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro_win2022 (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen6e_pro (NVIDIA, pro) Supports applications with extremely high 3D scene complexity which require maximum resources. Powered by NVIDIA L40S Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 16 vCPUs, 128 GB RAM, 48 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Powered by NVIDIA A10G Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.6, 32 and 64-bit applications, and anti-cheat technology. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Powered by NVIDIA T4 Tensor Core GPUs.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -2213,6 +2920,7 @@ public struct GameLiftStreamsErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case streamSessionAccessNotReadyException = "StreamSessionAccessNotReadyException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -2245,6 +2953,8 @@ public struct GameLiftStreamsErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request would cause the resource to exceed an allowed service quota. Resolve the issue before you try again.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The terminal connection to the stream session is not yet available. Wait before retrying the request.
+    public static var streamSessionAccessNotReadyException: Self { .init(.streamSessionAccessNotReadyException) }
     /// The request was denied due to request throttling. Retry the request after the suggested wait time.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.

@@ -273,6 +273,47 @@ public struct NetworkFirewall: AWSService {
         return try await self.attachRuleGroupsToProxyConfiguration(input, logger: logger)
     }
 
+    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about container associations, use ListContainerAssociations and DescribeContainerAssociation.
+    @Sendable
+    @inlinable
+    public func createContainerAssociation(_ input: CreateContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContainerAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateContainerAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a container association for Network Firewall. A container association links container clusters (ECS or EKS) to Network Firewall, enabling dynamic IP resolution for firewall rules based on container attributes. To manage a container association's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about container associations, use ListContainerAssociations and DescribeContainerAssociation.
+    ///
+    /// Parameters:
+    ///   - containerAssociationName: The descriptive name of the container association. You can't change the name of a container association after you create it.
+    ///   - containerMonitoringConfigurations: The list of container monitoring configurations that define which clusters and container attributes to monitor.
+    ///   - description: A description of the container association.
+    ///   - tags: The key:value pairs to associate with the resource.
+    ///   - type: The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createContainerAssociation(
+        containerAssociationName: String,
+        containerMonitoringConfigurations: [ContainerMonitoringConfiguration],
+        description: String? = nil,
+        tags: [Tag]? = nil,
+        type: ContainerMonitoringType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateContainerAssociationResponse {
+        let input = CreateContainerAssociationRequest(
+            containerAssociationName: containerAssociationName, 
+            containerMonitoringConfigurations: containerMonitoringConfigurations, 
+            description: description, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.createContainerAssociation(input, logger: logger)
+    }
+
     /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
     @Sendable
     @inlinable
@@ -695,6 +736,38 @@ public struct NetworkFirewall: AWSService {
         return try await self.createVpcEndpointAssociation(input, logger: logger)
     }
 
+    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    @Sendable
+    @inlinable
+    public func deleteContainerAssociation(_ input: DeleteContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContainerAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteContainerAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified container association. When you delete a container association, Network Firewall stops monitoring the associated container clusters and removes the resolved IP addresses from firewall rules.
+    ///
+    /// Parameters:
+    ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - containerAssociationName: The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteContainerAssociation(
+        containerAssociationArn: String? = nil,
+        containerAssociationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteContainerAssociationResponse {
+        let input = DeleteContainerAssociationRequest(
+            containerAssociationArn: containerAssociationArn, 
+            containerAssociationName: containerAssociationName
+        )
+        return try await self.deleteContainerAssociation(input, logger: logger)
+    }
+
     /// Deletes the specified Firewall and its FirewallStatus. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation.  You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling DescribeFirewall. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using UpdateFirewallDeleteProtection, then delete the firewall by calling DeleteFirewall.
     @Sendable
     @inlinable
@@ -1045,6 +1118,38 @@ public struct NetworkFirewall: AWSService {
             vpcEndpointAssociationArn: vpcEndpointAssociationArn
         )
         return try await self.deleteVpcEndpointAssociation(input, logger: logger)
+    }
+
+    /// Returns the properties of a container association.
+    @Sendable
+    @inlinable
+    public func describeContainerAssociation(_ input: DescribeContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContainerAssociationResponse {
+        try await self.client.execute(
+            operation: "DescribeContainerAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the properties of a container association.
+    ///
+    /// Parameters:
+    ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - containerAssociationName: The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeContainerAssociation(
+        containerAssociationArn: String? = nil,
+        containerAssociationName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeContainerAssociationResponse {
+        let input = DescribeContainerAssociationRequest(
+            containerAssociationArn: containerAssociationArn, 
+            containerAssociationName: containerAssociationName
+        )
+        return try await self.describeContainerAssociation(input, logger: logger)
     }
 
     /// Returns the data objects for the specified firewall.
@@ -1736,6 +1841,38 @@ public struct NetworkFirewall: AWSService {
             nextToken: nextToken
         )
         return try await self.listAnalysisReports(input, logger: logger)
+    }
+
+    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    @Sendable
+    @inlinable
+    public func listContainerAssociations(_ input: ListContainerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContainerAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListContainerAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata for the container associations that you have defined. You can optionally page through results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContainerAssociations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContainerAssociationsResponse {
+        let input = ListContainerAssociationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContainerAssociations(input, logger: logger)
     }
 
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
@@ -2431,6 +2568,53 @@ public struct NetworkFirewall: AWSService {
             updateToken: updateToken
         )
         return try await self.updateAvailabilityZoneChangeProtection(input, logger: logger)
+    }
+
+    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    @Sendable
+    @inlinable
+    public func updateContainerAssociation(_ input: UpdateContainerAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContainerAssociationResponse {
+        try await self.client.execute(
+            operation: "UpdateContainerAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing container association. Use this to modify the container monitoring configurations or description.
+    ///
+    /// Parameters:
+    ///   - containerAssociationArn: The Amazon Resource Name (ARN) of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - containerAssociationName: The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
+    ///   - containerMonitoringConfigurations: The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
+    ///   - description: A description of the container association.
+    ///   - tags: The key:value pairs associated with the resource.
+    ///   - type: The type of container orchestration platform. This must match the type specified when the container association was created.
+    ///   - updateToken: A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateContainerAssociation(
+        containerAssociationArn: String? = nil,
+        containerAssociationName: String? = nil,
+        containerMonitoringConfigurations: [ContainerMonitoringConfiguration],
+        description: String? = nil,
+        tags: [Tag]? = nil,
+        type: ContainerMonitoringType,
+        updateToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateContainerAssociationResponse {
+        let input = UpdateContainerAssociationRequest(
+            containerAssociationArn: containerAssociationArn, 
+            containerAssociationName: containerAssociationName, 
+            containerMonitoringConfigurations: containerMonitoringConfigurations, 
+            description: description, 
+            tags: tags, 
+            type: type, 
+            updateToken: updateToken
+        )
+        return try await self.updateContainerAssociation(input, logger: logger)
     }
 
     /// Enables specific types of firewall analysis on a specific firewall you define.
@@ -3161,6 +3345,40 @@ extension NetworkFirewall {
         return self.listAnalysisReportsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listContainerAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContainerAssociationsPaginator(
+        _ input: ListContainerAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContainerAssociationsRequest, ListContainerAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listContainerAssociations,
+            inputKey: \ListContainerAssociationsRequest.nextToken,
+            outputKey: \ListContainerAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContainerAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContainerAssociationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContainerAssociationsRequest, ListContainerAssociationsResponse> {
+        let input = ListContainerAssociationsRequest(
+            maxResults: maxResults
+        )
+        return self.listContainerAssociationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFirewallPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -3606,6 +3824,16 @@ extension NetworkFirewall.ListAnalysisReportsRequest: AWSPaginateToken {
         return .init(
             firewallArn: self.firewallArn,
             firewallName: self.firewallName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkFirewall.ListContainerAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListContainerAssociationsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

@@ -62,6 +62,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConsumerGroupOffsetSyncMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enhanced = "ENHANCED"
+        case legacy = "LEGACY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomerActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case actionRecommended = "ACTION_RECOMMENDED"
         case criticalActionRequired = "CRITICAL_ACTION_REQUIRED"
@@ -74,6 +80,17 @@ extension Kafka {
         case perBroker = "PER_BROKER"
         case perTopicPerBroker = "PER_TOPIC_PER_BROKER"
         case perTopicPerPartition = "PER_TOPIC_PER_PARTITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KafkaClusterEncryptionInTransitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tls = "TLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KafkaClusterSaslScramMechanism: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sha256 = "SHA256"
+        case sha512 = "SHA512"
         public var description: String { return self.rawValue }
     }
 
@@ -175,6 +192,24 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case mskClusterArn = "mskClusterArn"
+        }
+    }
+
+    public struct ApacheKafkaCluster: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Apache Kafka cluster.
+        public let apacheKafkaClusterId: String?
+        /// The bootstrap broker string of the Apache Kafka cluster.
+        public let bootstrapBrokerString: String?
+
+        @inlinable
+        public init(apacheKafkaClusterId: String? = nil, bootstrapBrokerString: String? = nil) {
+            self.apacheKafkaClusterId = apacheKafkaClusterId
+            self.bootstrapBrokerString = bootstrapBrokerString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apacheKafkaClusterId = "apacheKafkaClusterId"
+            case bootstrapBrokerString = "bootstrapBrokerString"
         }
     }
 
@@ -1046,6 +1081,8 @@ extension Kafka {
     }
 
     public struct ConsumerGroupReplication: AWSEncodableShape & AWSDecodableShape {
+        /// The consumer group offset synchronization mode. With LEGACY, offsets are synchronized when producers write to the source cluster. With ENHANCED, consumer offsets are synchronized regardless of producer location. ENHANCED requires a corresponding replicator that replicates data from the target cluster to the source cluster.
+        public let consumerGroupOffsetSyncMode: ConsumerGroupOffsetSyncMode?
         /// List of regular expression patterns indicating the consumer groups that should not be replicated.
         public let consumerGroupsToExclude: [String]?
         /// List of regular expression patterns indicating the consumer groups to copy.
@@ -1056,7 +1093,8 @@ extension Kafka {
         public let synchroniseConsumerGroupOffsets: Bool?
 
         @inlinable
-        public init(consumerGroupsToExclude: [String]? = nil, consumerGroupsToReplicate: [String]? = nil, detectAndCopyNewConsumerGroups: Bool? = nil, synchroniseConsumerGroupOffsets: Bool? = nil) {
+        public init(consumerGroupOffsetSyncMode: ConsumerGroupOffsetSyncMode? = nil, consumerGroupsToExclude: [String]? = nil, consumerGroupsToReplicate: [String]? = nil, detectAndCopyNewConsumerGroups: Bool? = nil, synchroniseConsumerGroupOffsets: Bool? = nil) {
+            self.consumerGroupOffsetSyncMode = consumerGroupOffsetSyncMode
             self.consumerGroupsToExclude = consumerGroupsToExclude
             self.consumerGroupsToReplicate = consumerGroupsToReplicate
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
@@ -1073,6 +1111,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumerGroupOffsetSyncMode = "consumerGroupOffsetSyncMode"
             case consumerGroupsToExclude = "consumerGroupsToExclude"
             case consumerGroupsToReplicate = "consumerGroupsToReplicate"
             case detectAndCopyNewConsumerGroups = "detectAndCopyNewConsumerGroups"
@@ -1360,6 +1399,8 @@ extension Kafka {
         public let description: String?
         /// Kafka Clusters to use in setting up sources / targets for replication.
         public let kafkaClusters: [KafkaCluster]?
+        /// Configuration for delivering replicator logs to customer destinations.
+        public let logDelivery: LogDelivery?
         /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
         public let replicationInfoList: [ReplicationInfo]?
         /// The name of the replicator. Alpha-numeric characters with '-' are allowed.
@@ -1370,9 +1411,10 @@ extension Kafka {
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, kafkaClusters: [KafkaCluster]? = nil, replicationInfoList: [ReplicationInfo]? = nil, replicatorName: String? = nil, serviceExecutionRoleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(description: String? = nil, kafkaClusters: [KafkaCluster]? = nil, logDelivery: LogDelivery? = nil, replicationInfoList: [ReplicationInfo]? = nil, replicatorName: String? = nil, serviceExecutionRoleArn: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.kafkaClusters = kafkaClusters
+            self.logDelivery = logDelivery
             self.replicationInfoList = replicationInfoList
             self.replicatorName = replicatorName
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
@@ -1392,6 +1434,7 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case kafkaClusters = "kafkaClusters"
+            case logDelivery = "logDelivery"
             case replicationInfoList = "replicationInfoList"
             case replicatorName = "replicatorName"
             case serviceExecutionRoleArn = "serviceExecutionRoleArn"
@@ -2048,6 +2091,8 @@ extension Kafka {
         public let isReplicatorReference: Bool?
         /// Kafka Clusters used in setting up sources / targets for replication.
         public let kafkaClusters: [KafkaClusterDescription]?
+        /// Configuration for log delivery.
+        public let logDelivery: LogDelivery?
         /// A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
         public let replicationInfoList: [ReplicationInfoDescription]?
         /// The Amazon Resource Name (ARN) of the replicator.
@@ -2068,11 +2113,12 @@ extension Kafka {
         public let tags: [String: String]?
 
         @inlinable
-        public init(creationTime: Date? = nil, currentVersion: String? = nil, isReplicatorReference: Bool? = nil, kafkaClusters: [KafkaClusterDescription]? = nil, replicationInfoList: [ReplicationInfoDescription]? = nil, replicatorArn: String? = nil, replicatorDescription: String? = nil, replicatorName: String? = nil, replicatorResourceArn: String? = nil, replicatorState: ReplicatorState? = nil, serviceExecutionRoleArn: String? = nil, stateInfo: ReplicationStateInfo? = nil, tags: [String: String]? = nil) {
+        public init(creationTime: Date? = nil, currentVersion: String? = nil, isReplicatorReference: Bool? = nil, kafkaClusters: [KafkaClusterDescription]? = nil, logDelivery: LogDelivery? = nil, replicationInfoList: [ReplicationInfoDescription]? = nil, replicatorArn: String? = nil, replicatorDescription: String? = nil, replicatorName: String? = nil, replicatorResourceArn: String? = nil, replicatorState: ReplicatorState? = nil, serviceExecutionRoleArn: String? = nil, stateInfo: ReplicationStateInfo? = nil, tags: [String: String]? = nil) {
             self.creationTime = creationTime
             self.currentVersion = currentVersion
             self.isReplicatorReference = isReplicatorReference
             self.kafkaClusters = kafkaClusters
+            self.logDelivery = logDelivery
             self.replicationInfoList = replicationInfoList
             self.replicatorArn = replicatorArn
             self.replicatorDescription = replicatorDescription
@@ -2089,6 +2135,7 @@ extension Kafka {
             case currentVersion = "currentVersion"
             case isReplicatorReference = "isReplicatorReference"
             case kafkaClusters = "kafkaClusters"
+            case logDelivery = "logDelivery"
             case replicationInfoList = "replicationInfoList"
             case replicatorArn = "replicatorArn"
             case replicatorDescription = "replicatorDescription"
@@ -2633,18 +2680,48 @@ extension Kafka {
     public struct KafkaCluster: AWSEncodableShape {
         /// Details of an Amazon MSK Cluster.
         public let amazonMskCluster: AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public let apacheKafkaCluster: ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public let clientAuthentication: KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public let encryptionInTransit: KafkaClusterEncryptionInTransit?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpcConfig: KafkaClusterClientVpcConfig?
 
         @inlinable
-        public init(amazonMskCluster: AmazonMskCluster? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
+        public init(amazonMskCluster: AmazonMskCluster? = nil, apacheKafkaCluster: ApacheKafkaCluster? = nil, clientAuthentication: KafkaClusterClientAuthentication? = nil, encryptionInTransit: KafkaClusterEncryptionInTransit? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonMskCluster = "amazonMskCluster"
+            case apacheKafkaCluster = "apacheKafkaCluster"
+            case clientAuthentication = "clientAuthentication"
+            case encryptionInTransit = "encryptionInTransit"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct KafkaClusterClientAuthentication: AWSEncodableShape & AWSDecodableShape {
+        /// Details for mTLS client authentication.
+        public let mtls: KafkaClusterMTLSAuthentication?
+        /// Details for SASL/SCRAM client authentication.
+        public let saslScram: KafkaClusterSaslScramAuthentication?
+
+        @inlinable
+        public init(mtls: KafkaClusterMTLSAuthentication? = nil, saslScram: KafkaClusterSaslScramAuthentication? = nil) {
+            self.mtls = mtls
+            self.saslScram = saslScram
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mtls = "mTLS"
+            case saslScram = "saslScram"
         }
     }
 
@@ -2669,39 +2746,105 @@ extension Kafka {
     public struct KafkaClusterDescription: AWSDecodableShape {
         /// Details of an Amazon MSK Cluster.
         public let amazonMskCluster: AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public let apacheKafkaCluster: ApacheKafkaCluster?
+        /// Details of the client authentication used by the Apache Kafka cluster.
+        public let clientAuthentication: KafkaClusterClientAuthentication?
+        /// Details of encryption in transit to the Apache Kafka cluster.
+        public let encryptionInTransit: KafkaClusterEncryptionInTransit?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public let kafkaClusterAlias: String?
         /// Details of an Amazon VPC which has network connectivity to the Apache Kafka cluster.
         public let vpcConfig: KafkaClusterClientVpcConfig?
 
         @inlinable
-        public init(amazonMskCluster: AmazonMskCluster? = nil, kafkaClusterAlias: String? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
+        public init(amazonMskCluster: AmazonMskCluster? = nil, apacheKafkaCluster: ApacheKafkaCluster? = nil, clientAuthentication: KafkaClusterClientAuthentication? = nil, encryptionInTransit: KafkaClusterEncryptionInTransit? = nil, kafkaClusterAlias: String? = nil, vpcConfig: KafkaClusterClientVpcConfig? = nil) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
+            self.clientAuthentication = clientAuthentication
+            self.encryptionInTransit = encryptionInTransit
             self.kafkaClusterAlias = kafkaClusterAlias
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonMskCluster = "amazonMskCluster"
+            case apacheKafkaCluster = "apacheKafkaCluster"
+            case clientAuthentication = "clientAuthentication"
+            case encryptionInTransit = "encryptionInTransit"
             case kafkaClusterAlias = "kafkaClusterAlias"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct KafkaClusterEncryptionInTransit: AWSEncodableShape & AWSDecodableShape {
+        /// The type of encryption in transit to the Apache Kafka cluster.
+        public let encryptionType: KafkaClusterEncryptionInTransitType?
+        /// The root CA certificate.
+        public let rootCaCertificate: String?
+
+        @inlinable
+        public init(encryptionType: KafkaClusterEncryptionInTransitType? = nil, rootCaCertificate: String? = nil) {
+            self.encryptionType = encryptionType
+            self.rootCaCertificate = rootCaCertificate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "encryptionType"
+            case rootCaCertificate = "rootCaCertificate"
+        }
+    }
+
+    public struct KafkaClusterMTLSAuthentication: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+        public let secretArn: String?
+
+        @inlinable
+        public init(secretArn: String? = nil) {
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct KafkaClusterSaslScramAuthentication: AWSEncodableShape & AWSDecodableShape {
+        /// The SASL/SCRAM authentication mechanism.
+        public let mechanism: KafkaClusterSaslScramMechanism?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret.
+        public let secretArn: String?
+
+        @inlinable
+        public init(mechanism: KafkaClusterSaslScramMechanism? = nil, secretArn: String? = nil) {
+            self.mechanism = mechanism
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mechanism = "mechanism"
+            case secretArn = "secretArn"
         }
     }
 
     public struct KafkaClusterSummary: AWSDecodableShape {
         /// Details of an Amazon MSK Cluster.
         public let amazonMskCluster: AmazonMskCluster?
+        /// Details of an Apache Kafka Cluster.
+        public let apacheKafkaCluster: ApacheKafkaCluster?
         /// The alias of the Kafka cluster. Used to prefix names of replicated topics.
         public let kafkaClusterAlias: String?
 
         @inlinable
-        public init(amazonMskCluster: AmazonMskCluster? = nil, kafkaClusterAlias: String? = nil) {
+        public init(amazonMskCluster: AmazonMskCluster? = nil, apacheKafkaCluster: ApacheKafkaCluster? = nil, kafkaClusterAlias: String? = nil) {
             self.amazonMskCluster = amazonMskCluster
+            self.apacheKafkaCluster = apacheKafkaCluster
             self.kafkaClusterAlias = kafkaClusterAlias
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonMskCluster = "amazonMskCluster"
+            case apacheKafkaCluster = "apacheKafkaCluster"
             case kafkaClusterAlias = "kafkaClusterAlias"
         }
     }
@@ -3421,6 +3564,20 @@ extension Kafka {
         }
     }
 
+    public struct LogDelivery: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for replicator log delivery.
+        public let replicatorLogDelivery: ReplicatorLogDelivery?
+
+        @inlinable
+        public init(replicatorLogDelivery: ReplicatorLogDelivery? = nil) {
+            self.replicatorLogDelivery = replicatorLogDelivery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicatorLogDelivery = "replicatorLogDelivery"
+        }
+    }
+
     public struct LoggingInfo: AWSEncodableShape & AWSDecodableShape {
         public let brokerLogs: BrokerLogs?
 
@@ -3463,9 +3620,11 @@ extension Kafka {
         public let rebalancing: Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
+        /// Access control settings for zookeeper
+        public let zookeeperAccess: ZookeeperAccess?
 
         @inlinable
-        public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil) {
+        public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil, zookeeperAccess: ZookeeperAccess? = nil) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
@@ -3480,6 +3639,7 @@ extension Kafka {
             self.openMonitoring = openMonitoring
             self.rebalancing = rebalancing
             self.storageMode = storageMode
+            self.zookeeperAccess = zookeeperAccess
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3497,6 +3657,7 @@ extension Kafka {
             case openMonitoring = "openMonitoring"
             case rebalancing = "rebalancing"
             case storageMode = "storageMode"
+            case zookeeperAccess = "zookeeperAccess"
         }
     }
 
@@ -3972,19 +4133,25 @@ extension Kafka {
         public let consumerGroupReplication: ConsumerGroupReplication?
         /// The ARN of the source Kafka cluster.
         public let sourceKafkaClusterArn: String?
+        /// The ID of the source Kafka cluster.
+        public let sourceKafkaClusterId: String?
         /// The compression type to use when producing records to target cluster.
         public let targetCompressionType: TargetCompressionType?
         /// The ARN of the target Kafka cluster.
         public let targetKafkaClusterArn: String?
+        /// The ID of the target Kafka cluster.
+        public let targetKafkaClusterId: String?
         /// Configuration relating to topic replication.
         public let topicReplication: TopicReplication?
 
         @inlinable
-        public init(consumerGroupReplication: ConsumerGroupReplication? = nil, sourceKafkaClusterArn: String? = nil, targetCompressionType: TargetCompressionType? = nil, targetKafkaClusterArn: String? = nil, topicReplication: TopicReplication? = nil) {
+        public init(consumerGroupReplication: ConsumerGroupReplication? = nil, sourceKafkaClusterArn: String? = nil, sourceKafkaClusterId: String? = nil, targetCompressionType: TargetCompressionType? = nil, targetKafkaClusterArn: String? = nil, targetKafkaClusterId: String? = nil, topicReplication: TopicReplication? = nil) {
             self.consumerGroupReplication = consumerGroupReplication
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
+            self.sourceKafkaClusterId = sourceKafkaClusterId
             self.targetCompressionType = targetCompressionType
             self.targetKafkaClusterArn = targetKafkaClusterArn
+            self.targetKafkaClusterId = targetKafkaClusterId
             self.topicReplication = topicReplication
         }
 
@@ -3996,8 +4163,10 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case consumerGroupReplication = "consumerGroupReplication"
             case sourceKafkaClusterArn = "sourceKafkaClusterArn"
+            case sourceKafkaClusterId = "sourceKafkaClusterId"
             case targetCompressionType = "targetCompressionType"
             case targetKafkaClusterArn = "targetKafkaClusterArn"
+            case targetKafkaClusterId = "targetKafkaClusterId"
             case topicReplication = "topicReplication"
         }
     }
@@ -4093,6 +4262,86 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case type = "type"
+        }
+    }
+
+    public struct ReplicatorCloudWatchLogs: AWSEncodableShape & AWSDecodableShape {
+        /// Whether log delivery to CloudWatch Logs is enabled.
+        public let enabled: Bool?
+        /// The CloudWatch log group that is the destination for log delivery.
+        public let logGroup: String?
+
+        @inlinable
+        public init(enabled: Bool? = nil, logGroup: String? = nil) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case logGroup = "logGroup"
+        }
+    }
+
+    public struct ReplicatorFirehose: AWSEncodableShape & AWSDecodableShape {
+        /// The Firehose delivery stream that is the destination for log delivery.
+        public let deliveryStream: String?
+        /// Whether log delivery to Firehose is enabled.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(deliveryStream: String? = nil, enabled: Bool? = nil) {
+            self.deliveryStream = deliveryStream
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryStream = "deliveryStream"
+            case enabled = "enabled"
+        }
+    }
+
+    public struct ReplicatorLogDelivery: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for CloudWatch Logs delivery.
+        public let cloudWatchLogs: ReplicatorCloudWatchLogs?
+        /// Configuration for Firehose delivery.
+        public let firehose: ReplicatorFirehose?
+        /// Configuration for S3 delivery.
+        public let s3: ReplicatorS3?
+
+        @inlinable
+        public init(cloudWatchLogs: ReplicatorCloudWatchLogs? = nil, firehose: ReplicatorFirehose? = nil, s3: ReplicatorS3? = nil) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.firehose = firehose
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "cloudWatchLogs"
+            case firehose = "firehose"
+            case s3 = "s3"
+        }
+    }
+
+    public struct ReplicatorS3: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 bucket that is the destination for log delivery.
+        public let bucket: String?
+        /// Whether log delivery to S3 is enabled.
+        public let enabled: Bool?
+        /// The S3 prefix that is the destination for log delivery.
+        public let prefix: String?
+
+        @inlinable
+        public init(bucket: String? = nil, enabled: Bool? = nil, prefix: String? = nil) {
+            self.bucket = bucket
+            self.enabled = enabled
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case enabled = "enabled"
+            case prefix = "prefix"
         }
     }
 
@@ -4941,12 +5190,15 @@ extension Kafka {
         public let connectivityInfo: ConnectivityInfo?
         /// The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
         public let currentVersion: String?
+        /// Access control settings for zookeeper
+        public let zookeeperAccess: ZookeeperAccess?
 
         @inlinable
-        public init(clusterArn: String, connectivityInfo: ConnectivityInfo? = nil, currentVersion: String? = nil) {
+        public init(clusterArn: String, connectivityInfo: ConnectivityInfo? = nil, currentVersion: String? = nil, zookeeperAccess: ZookeeperAccess? = nil) {
             self.clusterArn = clusterArn
             self.connectivityInfo = connectivityInfo
             self.currentVersion = currentVersion
+            self.zookeeperAccess = zookeeperAccess
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4955,11 +5207,13 @@ extension Kafka {
             request.encodePath(self.clusterArn, key: "ClusterArn")
             try container.encodeIfPresent(self.connectivityInfo, forKey: .connectivityInfo)
             try container.encodeIfPresent(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.zookeeperAccess, forKey: .zookeeperAccess)
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectivityInfo = "connectivityInfo"
             case currentVersion = "currentVersion"
+            case zookeeperAccess = "zookeeperAccess"
         }
     }
 
@@ -5089,22 +5343,31 @@ extension Kafka {
         public let consumerGroupReplication: ConsumerGroupReplicationUpdate?
         /// Current replicator version.
         public let currentVersion: String?
+        /// Configuration for delivering replicator logs to customer destinations.
+        public let logDelivery: LogDelivery?
         /// The Amazon Resource Name (ARN) of the replicator to be updated.
         public let replicatorArn: String
         /// The ARN of the source Kafka cluster.
         public let sourceKafkaClusterArn: String?
+        /// The ID of the source Kafka cluster.
+        public let sourceKafkaClusterId: String?
         /// The ARN of the target Kafka cluster.
         public let targetKafkaClusterArn: String?
+        /// The ID of the target Kafka cluster.
+        public let targetKafkaClusterId: String?
         /// Updated topic replication information.
         public let topicReplication: TopicReplicationUpdate?
 
         @inlinable
-        public init(consumerGroupReplication: ConsumerGroupReplicationUpdate? = nil, currentVersion: String? = nil, replicatorArn: String, sourceKafkaClusterArn: String? = nil, targetKafkaClusterArn: String? = nil, topicReplication: TopicReplicationUpdate? = nil) {
+        public init(consumerGroupReplication: ConsumerGroupReplicationUpdate? = nil, currentVersion: String? = nil, logDelivery: LogDelivery? = nil, replicatorArn: String, sourceKafkaClusterArn: String? = nil, sourceKafkaClusterId: String? = nil, targetKafkaClusterArn: String? = nil, targetKafkaClusterId: String? = nil, topicReplication: TopicReplicationUpdate? = nil) {
             self.consumerGroupReplication = consumerGroupReplication
             self.currentVersion = currentVersion
+            self.logDelivery = logDelivery
             self.replicatorArn = replicatorArn
             self.sourceKafkaClusterArn = sourceKafkaClusterArn
+            self.sourceKafkaClusterId = sourceKafkaClusterId
             self.targetKafkaClusterArn = targetKafkaClusterArn
+            self.targetKafkaClusterId = targetKafkaClusterId
             self.topicReplication = topicReplication
         }
 
@@ -5113,9 +5376,12 @@ extension Kafka {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.consumerGroupReplication, forKey: .consumerGroupReplication)
             try container.encodeIfPresent(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.logDelivery, forKey: .logDelivery)
             request.encodePath(self.replicatorArn, key: "ReplicatorArn")
             try container.encodeIfPresent(self.sourceKafkaClusterArn, forKey: .sourceKafkaClusterArn)
+            try container.encodeIfPresent(self.sourceKafkaClusterId, forKey: .sourceKafkaClusterId)
             try container.encodeIfPresent(self.targetKafkaClusterArn, forKey: .targetKafkaClusterArn)
+            try container.encodeIfPresent(self.targetKafkaClusterId, forKey: .targetKafkaClusterId)
             try container.encodeIfPresent(self.topicReplication, forKey: .topicReplication)
         }
 
@@ -5127,8 +5393,11 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case consumerGroupReplication = "consumerGroupReplication"
             case currentVersion = "currentVersion"
+            case logDelivery = "logDelivery"
             case sourceKafkaClusterArn = "sourceKafkaClusterArn"
+            case sourceKafkaClusterId = "sourceKafkaClusterId"
             case targetKafkaClusterArn = "targetKafkaClusterArn"
+            case targetKafkaClusterId = "targetKafkaClusterId"
             case topicReplication = "topicReplication"
         }
     }
@@ -5520,6 +5789,20 @@ extension Kafka {
 
     public struct VpcConnectivityTls: AWSEncodableShape & AWSDecodableShape {
         /// TLS authentication is on or off for VPC connectivity.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+        }
+    }
+
+    public struct ZookeeperAccess: AWSEncodableShape & AWSDecodableShape {
+        /// Zookeeper Access was on or off for the cluster
         public let enabled: Bool?
 
         @inlinable

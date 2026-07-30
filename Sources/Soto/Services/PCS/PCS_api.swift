@@ -149,7 +149,8 @@ public struct PCS: AWSService {
     ///   - customLaunchTemplate: 
     ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
     ///   - instanceConfigs: A list of EC2 instance configurations that PCS can provision in the compute node group.
-    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
+    ///   - nodeLifecycleActions: The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - spotOptions: 
@@ -165,6 +166,7 @@ public struct PCS: AWSService {
         customLaunchTemplate: CustomLaunchTemplate,
         iamInstanceProfileArn: String,
         instanceConfigs: [InstanceConfig],
+        nodeLifecycleActions: NodeLifecycleActionsRequest? = nil,
         purchaseOption: PurchaseOption? = nil,
         scalingConfiguration: ScalingConfigurationRequest,
         slurmConfiguration: ComputeNodeGroupSlurmConfigurationRequest? = nil,
@@ -181,6 +183,7 @@ public struct PCS: AWSService {
             customLaunchTemplate: customLaunchTemplate, 
             iamInstanceProfileArn: iamInstanceProfileArn, 
             instanceConfigs: instanceConfigs, 
+            nodeLifecycleActions: nodeLifecycleActions, 
             purchaseOption: purchaseOption, 
             scalingConfiguration: scalingConfiguration, 
             slurmConfiguration: slurmConfiguration, 
@@ -657,7 +660,7 @@ public struct PCS: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    /// Updates a cluster configuration. You can update the scheduler version, modify scheduler settings, and update accounting configuration for an existing cluster. For more information about updating the scheduler version, see Updating the scheduler version on a cluster in the PCS User Guide.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
     @Sendable
     @inlinable
     public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
@@ -670,23 +673,26 @@ public struct PCS: AWSService {
             logger: logger
         )
     }
-    /// Updates a cluster configuration. You can modify Slurm scheduler settings, accounting configuration, and security groups for an existing cluster.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
+    /// Updates a cluster configuration. You can update the scheduler version, modify scheduler settings, and update accounting configuration for an existing cluster. For more information about updating the scheduler version, see Updating the scheduler version on a cluster in the PCS User Guide.   You can only update clusters that are in ACTIVE, UPDATE_FAILED, or SUSPENDED state. All associated resources (queues and compute node groups) must be in ACTIVE state before you can update the cluster.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     ///   - clusterIdentifier: The name or ID of the cluster to update.
+    ///   - scheduler: The scheduler configuration to update for the cluster. Use this to update the scheduler version. For more information, see Updating the scheduler version on a cluster in the PCS User Guide.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(
         clientToken: String? = UpdateClusterRequest.idempotencyToken(),
         clusterIdentifier: String,
+        scheduler: UpdateSchedulerRequest? = nil,
         slurmConfiguration: UpdateClusterSlurmConfigurationRequest? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterResponse {
         let input = UpdateClusterRequest(
             clientToken: clientToken, 
             clusterIdentifier: clusterIdentifier, 
+            scheduler: scheduler, 
             slurmConfiguration: slurmConfiguration
         )
         return try await self.updateCluster(input, logger: logger)
@@ -714,7 +720,8 @@ public struct PCS: AWSService {
     ///   - computeNodeGroupIdentifier: The name or ID of the compute node group.
     ///   - customLaunchTemplate: 
     ///   - iamInstanceProfileArn: The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see IAM instance profiles for PCS in the PCS User Guide.
-    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. If you don't provide this option, it defaults to On-Demand.
+    ///   - nodeLifecycleActions: The lifecycle actions to run on compute nodes in the compute node group. Use lifecycle actions to run custom scripts at defined stages of a compute node's lifecycle, such as when a compute node finishes bootstrapping or becomes ready to accept jobs.
+    ///   - purchaseOption: Specifies how EC2 instances are purchased on your behalf. PCS supports On-Demand Instances, Spot Instances, Interruptible Capacity Reservations, On-Demand Capacity Reservations, and Amazon EC2 Capacity Blocks for ML. For more information, see Amazon EC2 billing and purchasing options in the Amazon Elastic Compute Cloud User Guide. For more information about PCS support for Capacity Blocks, see Using Amazon EC2 Capacity Blocks for ML with PCS in the PCS User Guide. For more information about PCS support for interruptible capacity reservations, see Using I-ODCRs with PCS in the PCS User Guide. Choose On-Demand if you plan to use an On-Demand Capacity Reservation (ODCR). For more information, see Using ODCRs with PCS. If you don't provide this option, it defaults to On-Demand.
     ///   - scalingConfiguration: Specifies the boundaries of the compute node group auto scaling.
     ///   - slurmConfiguration: Additional options related to the Slurm scheduler.
     ///   - spotOptions: 
@@ -728,6 +735,7 @@ public struct PCS: AWSService {
         computeNodeGroupIdentifier: String,
         customLaunchTemplate: CustomLaunchTemplate? = nil,
         iamInstanceProfileArn: String? = nil,
+        nodeLifecycleActions: UpdateNodeLifecycleActionsRequest? = nil,
         purchaseOption: PurchaseOption? = nil,
         scalingConfiguration: ScalingConfigurationRequest? = nil,
         slurmConfiguration: UpdateComputeNodeGroupSlurmConfigurationRequest? = nil,
@@ -742,6 +750,7 @@ public struct PCS: AWSService {
             computeNodeGroupIdentifier: computeNodeGroupIdentifier, 
             customLaunchTemplate: customLaunchTemplate, 
             iamInstanceProfileArn: iamInstanceProfileArn, 
+            nodeLifecycleActions: nodeLifecycleActions, 
             purchaseOption: purchaseOption, 
             scalingConfiguration: scalingConfiguration, 
             slurmConfiguration: slurmConfiguration, 

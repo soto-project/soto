@@ -557,7 +557,7 @@ public struct Redshift: AWSService {
     ///   - additionalInfo: Reserved.
     ///   - allowVersionUpgrade: If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster. When a new major version of the Amazon Redshift engine is released, you can request that the service automatically apply upgrades during the maintenance window to the Amazon Redshift engine that is running on your cluster. Default: true
     ///   - aquaConfigurationStatus: This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
-    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
+    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
     ///   - availabilityZone: The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
     ///   - availabilityZoneRelocation: The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
     ///   - catalogName: The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
@@ -586,9 +586,9 @@ public struct Redshift: AWSService {
     ///   - masterUsername: The user name associated with the admin user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens. The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
     ///   - masterUserPassword: The password associated with the admin user account for the cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is true. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
     ///   - multiAZ: If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
-    ///   - nodeType: The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+    ///   - nodeType: The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge |  ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
     ///   - numberOfNodes: The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
-    ///   - port: The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
+    ///   - port: The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with RG or RA3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     ///   - publiclyAccessible: If true, the cluster can be accessed from a public network.  Default: false
     ///   - redshiftIdcApplicationArn: The Amazon resource name (ARN) of the Amazon Redshift IAM Identity Center application.
@@ -1110,6 +1110,44 @@ public struct Redshift: AWSService {
             targetArn: targetArn
         )
         return try await self.createIntegration(input, logger: logger)
+    }
+
+    /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    @Sendable
+    @inlinable
+    public func createQev2IdcApplication(_ input: CreateQev2IdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQev2IdcApplicationResult {
+        try await self.client.execute(
+            operation: "CreateQev2IdcApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    ///
+    /// Parameters:
+    ///   - idcDisplayName: The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+    ///   - idcInstanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance used to create the Amazon Redshift Query Editor (QEV2) managed application.
+    ///   - qev2IdcApplicationName: The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center.
+    ///   - tags: A list of tags to associate with the application. Tags are key-value pairs that you can use to organize and identify your resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createQev2IdcApplication(
+        idcDisplayName: String? = nil,
+        idcInstanceArn: String? = nil,
+        qev2IdcApplicationName: String? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateQev2IdcApplicationResult {
+        let input = CreateQev2IdcApplicationMessage(
+            idcDisplayName: idcDisplayName, 
+            idcInstanceArn: idcInstanceArn, 
+            qev2IdcApplicationName: qev2IdcApplicationName, 
+            tags: tags
+        )
+        return try await self.createQev2IdcApplication(input, logger: logger)
     }
 
     /// Creates an Amazon Redshift application for use with IAM Identity Center.
@@ -1831,6 +1869,35 @@ public struct Redshift: AWSService {
             partnerName: partnerName
         )
         return try await self.deletePartner(input, logger: logger)
+    }
+
+    /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    @Sendable
+    @inlinable
+    public func deleteQev2IdcApplication(_ input: DeleteQev2IdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteQev2IdcApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    ///
+    /// Parameters:
+    ///   - qev2IdcApplicationArn: The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteQev2IdcApplication(
+        qev2IdcApplicationArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteQev2IdcApplicationMessage(
+            qev2IdcApplicationArn: qev2IdcApplicationArn
+        )
+        return try await self.deleteQev2IdcApplication(input, logger: logger)
     }
 
     /// Deletes an Amazon Redshift IAM Identity Center application.
@@ -3245,6 +3312,41 @@ public struct Redshift: AWSService {
         return try await self.describePartners(input, logger: logger)
     }
 
+    /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters.
+    @Sendable
+    @inlinable
+    public func describeQev2IdcApplications(_ input: DescribeQev2IdcApplicationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQev2IdcApplicationsResult {
+        try await self.client.execute(
+            operation: "DescribeQev2IdcApplications", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the Amazon Redshift Query Editor (QEV2) IAM Identity Center applications. To retrieve additional results, use the MaxRecords and Marker parameters.
+    ///
+    /// Parameters:
+    ///   - marker: A value that indicates the starting point for the next set of response records in a subsequent request. If a  value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+    ///   - maxRecords: The maximum number of response records to return in each call. If the number of remaining response records  exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve  the next set of records by retrying the command with the returned marker value.
+    ///   - qev2IdcApplicationArn: The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQev2IdcApplications(
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        qev2IdcApplicationArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQev2IdcApplicationsResult {
+        let input = DescribeQev2IdcApplicationsMessage(
+            marker: marker, 
+            maxRecords: maxRecords, 
+            qev2IdcApplicationArn: qev2IdcApplicationArn
+        )
+        return try await self.describeQev2IdcApplications(input, logger: logger)
+    }
+
     /// Lists the Amazon Redshift IAM Identity Center applications.
     @Sendable
     @inlinable
@@ -4257,7 +4359,7 @@ public struct Redshift: AWSService {
     ///
     /// Parameters:
     ///   - allowVersionUpgrade: If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false
-    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
+    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
     ///   - availabilityZone: The option to initiate relocation for an Amazon Redshift cluster to the target Availability Zone.
     ///   - availabilityZoneRelocation: The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster modification is complete.
     ///   - clusterIdentifier: The unique identifier of the cluster to be modified. Example: examplecluster
@@ -4282,7 +4384,7 @@ public struct Redshift: AWSService {
     ///   - newClusterIdentifier: The new identifier for the cluster. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: examplecluster
     ///   - nodeType: The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.
     ///   - numberOfNodes: The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.
-    ///   - port: The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
+    ///   - port: The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with RG or RA3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
     ///   - publiclyAccessible: If true, the cluster can be accessed from a public network. Only clusters in VPCs can be set to be publicly available. Default: false
     ///   - vpcSecurityGroupIds: A list of virtual private cloud (VPC) security groups to be associated with the cluster. This change is asynchronously applied as soon as possible.
@@ -4806,6 +4908,38 @@ public struct Redshift: AWSService {
         return try await self.modifyLakehouseConfiguration(input, logger: logger)
     }
 
+    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    @Sendable
+    @inlinable
+    public func modifyQev2IdcApplication(_ input: ModifyQev2IdcApplicationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyQev2IdcApplicationResult {
+        try await self.client.execute(
+            operation: "ModifyQev2IdcApplication", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+    ///
+    /// Parameters:
+    ///   - idcDisplayName: The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+    ///   - qev2IdcApplicationArn: The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyQev2IdcApplication(
+        idcDisplayName: String? = nil,
+        qev2IdcApplicationArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyQev2IdcApplicationResult {
+        let input = ModifyQev2IdcApplicationMessage(
+            idcDisplayName: idcDisplayName, 
+            qev2IdcApplicationArn: qev2IdcApplicationArn
+        )
+        return try await self.modifyQev2IdcApplication(input, logger: logger)
+    }
+
     /// Changes an existing Amazon Redshift IAM Identity Center application.
     @Sendable
     @inlinable
@@ -5232,7 +5366,7 @@ public struct Redshift: AWSService {
         return try await self.resetClusterParameterGroup(input, logger: logger)
     }
 
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   rg.large   rg.xlarge   rg.4xlarge   rg.12xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
     @Sendable
     @inlinable
     public func resizeCluster(_ input: ResizeClusterMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ResizeClusterResult {
@@ -5245,7 +5379,7 @@ public struct Redshift: AWSService {
             logger: logger
         )
     }
-    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
+    /// Changes the size of the cluster. You can change the cluster's type, or change the number or type of nodes. The default behavior is to use the elastic resize method. With an elastic resize, your cluster is available for read and write operations more quickly than with the classic resize method.  Elastic resize operations have the following restrictions:   You can only resize clusters of the following types:   dc2.large   dc2.8xlarge   rg.large   rg.xlarge   rg.4xlarge   rg.12xlarge   ra3.large   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for the cluster.
     ///
     /// Parameters:
     ///   - classic: A boolean value indicating whether the resize operation is using the classic resize process. If you don't provide this parameter or set the value to false, the resize type is elastic.
@@ -5304,7 +5438,7 @@ public struct Redshift: AWSService {
     ///   - additionalInfo: Reserved.
     ///   - allowVersionUpgrade: If true, major version upgrades can be applied during the maintenance window to the Amazon Redshift engine that is running on the cluster.  Default: true
     ///   - aquaConfigurationStatus: This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
-    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
+    ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
     ///   - availabilityZone: The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a
     ///   - availabilityZoneRelocation: The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
     ///   - catalogName: The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
@@ -5329,7 +5463,7 @@ public struct Redshift: AWSService {
     ///   - nodeType: The node type that the restored cluster will be provisioned with. If you have a DC instance type, you must restore into that same instance type and size. In other words, you can only restore a dc2.large node type into another dc2 type. For more information about node types, see   About Clusters and Nodes in the Amazon Redshift Cluster Management Guide.
     ///   - numberOfNodes: The number of nodes specified when provisioning the restored cluster.
     ///   - ownerAccount: The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
-    ///   - port: The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
+    ///   - port: The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with RG or RA3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     ///   - publiclyAccessible: If true, the cluster can be accessed from a public network.  Default: false
     ///   - redshiftIdcApplicationArn: The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
@@ -6749,6 +6883,43 @@ extension Redshift {
         return self.describeOrderableClusterOptionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeQev2IdcApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeQev2IdcApplicationsPaginator(
+        _ input: DescribeQev2IdcApplicationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeQev2IdcApplicationsMessage, DescribeQev2IdcApplicationsResult> {
+        return .init(
+            input: input,
+            command: self.describeQev2IdcApplications,
+            inputKey: \DescribeQev2IdcApplicationsMessage.marker,
+            outputKey: \DescribeQev2IdcApplicationsResult.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeQev2IdcApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxRecords: The maximum number of response records to return in each call. If the number of remaining response records  exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve  the next set of records by retrying the command with the returned marker value.
+    ///   - qev2IdcApplicationArn: The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeQev2IdcApplicationsPaginator(
+        maxRecords: Int? = nil,
+        qev2IdcApplicationArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeQev2IdcApplicationsMessage, DescribeQev2IdcApplicationsResult> {
+        let input = DescribeQev2IdcApplicationsMessage(
+            maxRecords: maxRecords, 
+            qev2IdcApplicationArn: qev2IdcApplicationArn
+        )
+        return self.describeQev2IdcApplicationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeRedshiftIdcApplications(_:logger:)``.
     ///
     /// - Parameters:
@@ -7603,6 +7774,17 @@ extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateToken {
             marker: token,
             maxRecords: self.maxRecords,
             nodeType: self.nodeType
+        )
+    }
+}
+
+extension Redshift.DescribeQev2IdcApplicationsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeQev2IdcApplicationsMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            qev2IdcApplicationArn: self.qev2IdcApplicationArn
         )
     }
 }

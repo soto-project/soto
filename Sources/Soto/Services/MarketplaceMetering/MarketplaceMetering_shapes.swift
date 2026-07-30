@@ -197,7 +197,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerRequest: AWSEncodableShape {
-        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.
+        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId, ProductCode, and LicenseArn.  For new SaaS product integrations, the CustomerIdentifier field is not populated. Use CustomerAWSAccountId and LicenseArn for customer identification.
         public let registrationToken: String
 
         @inlinable
@@ -217,7 +217,7 @@ extension MarketplaceMetering {
     public struct ResolveCustomerResult: AWSDecodableShape {
         /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer. Calls to BatchMeterUsage require CustomerAWSAccountId for each UsageRecord.
         public let customerAWSAccountId: String?
-        /// The CustomerIdentifier is used to identify an individual customer in your application.
+        /// The CustomerIdentifier is used to identify an individual customer in your application.  For new SaaS product integrations, this field is not populated. Use CustomerAWSAccountId and LicenseArn to identify customers instead.
         public let customerIdentifier: String?
         /// The LicenseArn is a unique identifier for a specific granted license. These are typically used for software purchased through Amazon Web Services Marketplace. Calls to BatchMeterUsage require LicenseArn for each UsageRecord.  Once you receive the CustomerAWSAccountId and LicenseArn in the response, store that for future purposes/API calls/integrations.
         public let licenseArn: String?
@@ -298,7 +298,7 @@ extension MarketplaceMetering {
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
         /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.  For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see Account Feeds.
         public let customerAWSAccountId: String?
-        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
+        /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.   CustomerIdentifier is not supported for new SaaS product integrations. Use CustomerAWSAccountId to identify the buyer.
         public let customerIdentifier: String?
         /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         public let dimension: String
@@ -306,7 +306,7 @@ extension MarketplaceMetering {
         public let licenseArn: String?
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public let quantity: Int?
-        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to 24 hours in the past. Make sure the timestamp value is not before the start of the software usage. At the end of each billing cycle, you have a 6-hour grace period to submit usage records for the previous billing month before 06:00 UTC on the first day of the next month.
         public let timestamp: Date
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
         public let usageAllocations: [UsageAllocation]?

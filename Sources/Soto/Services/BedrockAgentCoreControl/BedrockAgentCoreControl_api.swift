@@ -79,6 +79,41 @@ public struct BedrockAgentCoreControl: AWSService {
 
     // MARK: API Calls
 
+    ///  Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
+    @Sendable
+    @inlinable
+    public func addDatasetExamples(_ input: AddDatasetExamplesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDatasetExamplesResponse {
+        try await self.client.execute(
+            operation: "AddDatasetExamples", 
+            path: "/datasets/{datasetId}/examples/add", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Adds examples to the dataset's DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetId:  The unique identifier of the dataset to add examples to.
+    ///   - source:  Source of examples to add. Provide either inline examples or an S3 URI pointing to a JSONL file.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func addDatasetExamples(
+        clientToken: String? = AddDatasetExamplesRequest.idempotencyToken(),
+        datasetId: String,
+        source: DataSourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AddDatasetExamplesResponse {
+        let input = AddDatasetExamplesRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            source: source
+        )
+        return try await self.addDatasetExamples(input, logger: logger)
+    }
+
     /// Creates an Amazon Bedrock AgentCore Runtime.
     @Sendable
     @inlinable
@@ -101,6 +136,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: The description of the AgentCore Runtime.
     ///   - environmentVariables: Environment variables to set in the AgentCore Runtime environment.
+    ///   - filesystemConfigurations: The filesystem configurations to mount into the AgentCore Runtime. Use filesystem configurations to provide persistent storage to your AgentCore Runtime sessions.
     ///   - lifecycleConfiguration: The life cycle configuration for the AgentCore Runtime.
     ///   - networkConfiguration: The network configuration for the AgentCore Runtime.
     ///   - protocolConfiguration: 
@@ -116,6 +152,7 @@ public struct BedrockAgentCoreControl: AWSService {
         clientToken: String? = CreateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
+        filesystemConfigurations: [FilesystemConfiguration]? = nil,
         lifecycleConfiguration: LifecycleConfiguration? = nil,
         networkConfiguration: NetworkConfiguration,
         protocolConfiguration: ProtocolConfiguration? = nil,
@@ -131,6 +168,7 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
+            filesystemConfigurations: filesystemConfigurations, 
             lifecycleConfiguration: lifecycleConfiguration, 
             networkConfiguration: networkConfiguration, 
             protocolConfiguration: protocolConfiguration, 
@@ -202,18 +240,24 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - apiKey: The API key to use for authentication. This value is encrypted and stored securely.
+    ///   - apiKeySecretConfig: A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL.
+    ///   - apiKeySecretSource: The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager.
     ///   - name: The name of the API key credential provider. The name must be unique within your account.
     ///   - tags: A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createApiKeyCredentialProvider(
-        apiKey: String,
+        apiKey: String? = nil,
+        apiKeySecretConfig: SecretReference? = nil,
+        apiKeySecretSource: SecretSourceType? = nil,
         name: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateApiKeyCredentialProviderResponse {
         let input = CreateApiKeyCredentialProviderRequest(
             apiKey: apiKey, 
+            apiKeySecretConfig: apiKeySecretConfig, 
+            apiKeySecretSource: apiKeySecretSource, 
             name: name, 
             tags: tags
         )
@@ -237,9 +281,12 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - browserSigning: The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
+    ///   - certificates: A list of certificates to install in the browser.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     ///   - description: The description of the browser.
+    ///   - enterprisePolicies: A list of enterprise policy files for the browser.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the browser to access Amazon Web Services services.
+    ///   - filesystemConfigurations: The file system configurations to mount into the browser. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your sessions can then access your data. If you don't specify this field, no file systems are mounted.
     ///   - name: The name of the browser. The name must be unique within your account.
     ///   - networkConfiguration: The network configuration for the browser. This configuration specifies the network mode for the browser.
     ///   - recording: The recording configuration for the browser. When enabled, browser sessions are recorded and stored in the specified Amazon S3 location.
@@ -248,9 +295,12 @@ public struct BedrockAgentCoreControl: AWSService {
     @inlinable
     public func createBrowser(
         browserSigning: BrowserSigningConfigInput? = nil,
+        certificates: [Certificate]? = nil,
         clientToken: String? = CreateBrowserRequest.idempotencyToken(),
         description: String? = nil,
+        enterprisePolicies: [BrowserEnterprisePolicy]? = nil,
         executionRoleArn: String? = nil,
+        filesystemConfigurations: [ToolsFileSystemConfiguration]? = nil,
         name: String,
         networkConfiguration: BrowserNetworkConfiguration,
         recording: RecordingConfig? = nil,
@@ -259,9 +309,12 @@ public struct BedrockAgentCoreControl: AWSService {
     ) async throws -> CreateBrowserResponse {
         let input = CreateBrowserRequest(
             browserSigning: browserSigning, 
+            certificates: certificates, 
             clientToken: clientToken, 
             description: description, 
+            enterprisePolicies: enterprisePolicies, 
             executionRoleArn: executionRoleArn, 
+            filesystemConfigurations: filesystemConfigurations, 
             name: name, 
             networkConfiguration: networkConfiguration, 
             recording: recording, 
@@ -324,27 +377,33 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a custom code interpreter.
     ///
     /// Parameters:
+    ///   - certificates: A list of certificates to install in the code interpreter.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     ///   - description: The description of the code interpreter.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the code interpreter to access Amazon Web Services services.
+    ///   - filesystemConfigurations: The file system configurations to mount into the code interpreter. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your sessions can then access your data. If you don't specify this field, no file systems are mounted.
     ///   - name: The name of the code interpreter. The name must be unique within your account.
     ///   - networkConfiguration: The network configuration for the code interpreter. This configuration specifies the network mode for the code interpreter.
     ///   - tags: A map of tag keys and values to assign to the code interpreter. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCodeInterpreter(
+        certificates: [Certificate]? = nil,
         clientToken: String? = CreateCodeInterpreterRequest.idempotencyToken(),
         description: String? = nil,
         executionRoleArn: String? = nil,
+        filesystemConfigurations: [ToolsFileSystemConfiguration]? = nil,
         name: String,
         networkConfiguration: CodeInterpreterNetworkConfiguration,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCodeInterpreterResponse {
         let input = CreateCodeInterpreterRequest(
+            certificates: certificates, 
             clientToken: clientToken, 
             description: description, 
             executionRoleArn: executionRoleArn, 
+            filesystemConfigurations: filesystemConfigurations, 
             name: name, 
             networkConfiguration: networkConfiguration, 
             tags: tags
@@ -352,7 +411,139 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createCodeInterpreter(input, logger: logger)
     }
 
-    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows.
+    @Sendable
+    @inlinable
+    public func createConfigurationBundle(_ input: CreateConfigurationBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationBundleResponse {
+        try await self.client.execute(
+            operation: "CreateConfigurationBundle", 
+            path: "/configuration-bundles/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new configuration bundle resource. A configuration bundle stores versioned component configurations for agent evaluation workflows.
+    ///
+    /// Parameters:
+    ///   - branchName: The branch name for version tracking. Defaults to mainline if not specified.
+    ///   - bundleName: The name for the configuration bundle. Names must be unique within your account.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - commitMessage: A commit message describing the initial version of the configuration bundle.
+    ///   - components: A map of component identifiers to their configurations. Each component represents a configurable element within the bundle.
+    ///   - createdBy: The source that created this version, including the source name and optional ARN.
+    ///   - description: The description for the configuration bundle.
+    ///   - kmsKeyArn: Optional KMS key ARN for encrypting component configurations.
+    ///   - tags: A map of tag keys and values to assign to the configuration bundle. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConfigurationBundle(
+        branchName: String? = nil,
+        bundleName: String,
+        clientToken: String? = CreateConfigurationBundleRequest.idempotencyToken(),
+        commitMessage: String? = nil,
+        components: [String: ComponentConfiguration],
+        createdBy: VersionCreatedBySource? = nil,
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConfigurationBundleResponse {
+        let input = CreateConfigurationBundleRequest(
+            branchName: branchName, 
+            bundleName: bundleName, 
+            clientToken: clientToken, 
+            commitMessage: commitMessage, 
+            components: components, 
+            createdBy: createdBy, 
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            tags: tags
+        )
+        return try await self.createConfigurationBundle(input, logger: logger)
+    }
+
+    ///  Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
+    @Sendable
+    @inlinable
+    public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
+        try await self.client.execute(
+            operation: "CreateDataset", 
+            path: "/datasets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates a new dataset resource asynchronously. Returns immediately with status CREATING. Poll GetDataset until status transitions to ACTIVE or CREATE_FAILED.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetName:  Human-readable name for the dataset. Must be unique within the account. Immutable after creation.
+    ///   - description:  A description of the dataset.
+    ///   - kmsKeyArn:  Optional KMS key ARN for server-side encryption on service Amazon S3 writes.
+    ///   - schemaType:  Versioned schema type governing the structure of examples. Immutable after creation.
+    ///   - source:  Source of initial examples. Provide either inline examples or an S3 URI pointing to a JSONL file.
+    ///   - tags:  A map of tag keys and values to assign to the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataset(
+        clientToken: String? = CreateDatasetRequest.idempotencyToken(),
+        datasetName: String,
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        schemaType: DatasetSchemaType,
+        source: DataSourceType,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDatasetResponse {
+        let input = CreateDatasetRequest(
+            clientToken: clientToken, 
+            datasetName: datasetName, 
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            schemaType: schemaType, 
+            source: source, 
+            tags: tags
+        )
+        return try await self.createDataset(input, logger: logger)
+    }
+
+    ///  Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED.
+    @Sendable
+    @inlinable
+    public func createDatasetVersion(_ input: CreateDatasetVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetVersionResponse {
+        try await self.client.execute(
+            operation: "CreateDatasetVersion", 
+            path: "/datasets/{datasetId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Publishes the current DRAFT as a new numbered version. The DRAFT is preserved and remains editable after publishing. Returns immediately with status UPDATING. Poll GetDataset until status transitions to ACTIVE or UPDATE_FAILED.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetId:  The unique identifier of the dataset to publish a version for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDatasetVersion(
+        clientToken: String? = CreateDatasetVersionRequest.idempotencyToken(),
+        datasetId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDatasetVersionResponse {
+        let input = CreateDatasetVersionRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId
+        )
+        return try await self.createDatasetVersion(input, logger: logger)
+    }
+
+    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
     @Sendable
     @inlinable
     public func createEvaluator(_ input: CreateEvaluatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluatorResponse {
@@ -365,13 +556,14 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators can use either LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings, or code-based configurations with customer-managed Lambda functions to evaluate agent performance at tool call, trace, or session levels.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description:  The description of the evaluator that explains its purpose and evaluation criteria.
-    ///   - evaluatorConfig:  The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    ///   - evaluatorConfig:  The configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function.
     ///   - evaluatorName:  The name of the evaluator. Must be unique within your account.
+    ///   - kmsKeyArn:  The Amazon Resource Name (ARN) of a customer managed KMS key to use for encrypting sensitive evaluator data, including instructions and rating scale. If you don't specify a KMS key, the evaluator data is encrypted with an Amazon Web Services owned key. Only symmetric encryption KMS keys are supported. For more information, see Encryption at rest for AgentCore Evaluations.
     ///   - level:  The evaluation level that determines the scope of evaluation. Valid values are TOOL_CALL for individual tool invocations, TRACE for single request-response interactions, or SESSION for entire conversation sessions.
     ///   - tags: A map of tag keys and values to assign to an AgentCore Evaluator. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
@@ -381,6 +573,7 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         evaluatorConfig: EvaluatorConfig,
         evaluatorName: String,
+        kmsKeyArn: String? = nil,
         level: EvaluatorLevel,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -390,6 +583,7 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             evaluatorConfig: evaluatorConfig, 
             evaluatorName: evaluatorName, 
+            kmsKeyArn: kmsKeyArn, 
             level: level, 
             tags: tags
         )
@@ -438,7 +632,7 @@ public struct BedrockAgentCoreControl: AWSService {
         name: String,
         policyEngineConfiguration: GatewayPolicyEngineConfiguration? = nil,
         protocolConfiguration: GatewayProtocolConfiguration? = nil,
-        protocolType: GatewayProtocolType,
+        protocolType: GatewayProtocolType? = nil,
         roleArn: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -459,6 +653,50 @@ public struct BedrockAgentCoreControl: AWSService {
             tags: tags
         )
         return try await self.createGateway(input, logger: logger)
+    }
+
+    /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, including principal-based access control and path-based routing.
+    @Sendable
+    @inlinable
+    public func createGatewayRule(_ input: CreateGatewayRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayRuleResponse {
+        try await self.client.execute(
+            operation: "CreateGatewayRule", 
+            path: "/gateways/{gatewayIdentifier}/rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a rule for a gateway. Rules define conditions and actions that control how requests are routed and processed through the gateway, including principal-based access control and path-based routing.
+    ///
+    /// Parameters:
+    ///   - actions: The actions to take when the rule conditions are met. Actions can route to a specific target or apply a configuration bundle override.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - conditions: The conditions that must be met for the rule to apply. Conditions can match on principals (IAM ARNs) or request paths.
+    ///   - description: The description of the gateway rule.
+    ///   - gatewayIdentifier: The identifier of the gateway to create a rule for.
+    ///   - priority: The priority of the rule. Rules are evaluated in order of priority, with lower numbers evaluated first. Must be between 1 and 1,000,000.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createGatewayRule(
+        actions: [Action],
+        clientToken: String? = CreateGatewayRuleRequest.idempotencyToken(),
+        conditions: [Condition]? = nil,
+        description: String? = nil,
+        gatewayIdentifier: String,
+        priority: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateGatewayRuleResponse {
+        let input = CreateGatewayRuleRequest(
+            actions: actions, 
+            clientToken: clientToken, 
+            conditions: conditions, 
+            description: description, 
+            gatewayIdentifier: gatewayIdentifier, 
+            priority: priority
+        )
+        return try await self.createGatewayRule(input, logger: logger)
     }
 
     /// Creates a target for a gateway. A target defines an endpoint that the gateway can connect to.
@@ -483,6 +721,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - gatewayIdentifier: The identifier of the gateway to create a target for.
     ///   - metadataConfiguration: Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
     ///   - name: The name of the gateway target. The name must be unique within the gateway.
+    ///   - privateEndpoint: The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
     ///   - targetConfiguration: The configuration settings for the target, including endpoint information and schema definitions.
     ///   - logger: Logger use during operation
     @inlinable
@@ -492,7 +731,8 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         gatewayIdentifier: String,
         metadataConfiguration: MetadataConfiguration? = nil,
-        name: String,
+        name: String? = nil,
+        privateEndpoint: PrivateEndpoint? = nil,
         targetConfiguration: TargetConfiguration,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGatewayTargetResponse {
@@ -503,9 +743,134 @@ public struct BedrockAgentCoreControl: AWSService {
             gatewayIdentifier: gatewayIdentifier, 
             metadataConfiguration: metadataConfiguration, 
             name: name, 
+            privateEndpoint: privateEndpoint, 
             targetConfiguration: targetConfiguration
         )
         return try await self.createGatewayTarget(input, logger: logger)
+    }
+
+    /// Operation to create a harness.
+    @Sendable
+    @inlinable
+    public func createHarness(_ input: CreateHarnessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHarnessResponse {
+        try await self.client.execute(
+            operation: "CreateHarness", 
+            path: "/harnesses", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to create a harness.
+    ///
+    /// Parameters:
+    ///   - allowedTools: The tools that the agent is allowed to use. Supports glob patterns such as * for all tools, @builtin for all built-in tools, or @serverName/toolName for specific MCP server tools.
+    ///   - authorizerConfiguration: 
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - environment: The compute environment configuration for the harness, including network and lifecycle settings.
+    ///   - environmentArtifact: The environment artifact for the harness, such as a custom container image containing additional dependencies.
+    ///   - environmentVariables: Environment variables to set in the harness runtime environment.
+    ///   - executionRoleArn: The ARN of the IAM role that the harness assumes when running. This role must have permissions for the services the agent needs to access, such as Amazon Bedrock for model invocation.
+    ///   - harnessName: The name of the harness. Must start with a letter and contain only alphanumeric characters and underscores.
+    ///   - maxIterations: The maximum number of iterations the agent loop can execute per invocation.
+    ///   - maxTokens: The maximum total number of output tokens the agent can generate across all model calls within a single invocation.
+    ///   - memory: The AgentCore Memory configuration for persisting conversation context across sessions.
+    ///   - model: The model configuration for the harness. Supports Amazon Bedrock, OpenAI, and Google Gemini model providers.
+    ///   - skills: The skills available to the agent. Skills are bundles of files that the agent can pull into its context on demand.
+    ///   - systemPrompt: The system prompt that defines the agent's behavior and instructions.
+    ///   - tags: Tags to apply to the harness resource.
+    ///   - timeoutSeconds: The maximum duration in seconds for the agent loop execution per invocation.
+    ///   - tools: The tools available to the agent, such as remote MCP servers, AgentCore Gateway, AgentCore Browser, Code Interpreter, or inline functions.
+    ///   - truncation: The truncation configuration for managing conversation context when it exceeds model limits.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHarness(
+        allowedTools: [String]? = nil,
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
+        clientToken: String? = CreateHarnessRequest.idempotencyToken(),
+        environment: HarnessEnvironmentProviderRequest? = nil,
+        environmentArtifact: HarnessEnvironmentArtifact? = nil,
+        environmentVariables: [String: String]? = nil,
+        executionRoleArn: String,
+        harnessName: String,
+        maxIterations: Int? = nil,
+        maxTokens: Int? = nil,
+        memory: HarnessMemoryConfiguration? = nil,
+        model: HarnessModelConfiguration? = nil,
+        skills: [HarnessSkill]? = nil,
+        systemPrompt: [HarnessSystemContentBlock]? = nil,
+        tags: [String: String]? = nil,
+        timeoutSeconds: Int? = nil,
+        tools: [HarnessTool]? = nil,
+        truncation: HarnessTruncationConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHarnessResponse {
+        let input = CreateHarnessRequest(
+            allowedTools: allowedTools, 
+            authorizerConfiguration: authorizerConfiguration, 
+            clientToken: clientToken, 
+            environment: environment, 
+            environmentArtifact: environmentArtifact, 
+            environmentVariables: environmentVariables, 
+            executionRoleArn: executionRoleArn, 
+            harnessName: harnessName, 
+            maxIterations: maxIterations, 
+            maxTokens: maxTokens, 
+            memory: memory, 
+            model: model, 
+            skills: skills, 
+            systemPrompt: systemPrompt, 
+            tags: tags, 
+            timeoutSeconds: timeoutSeconds, 
+            tools: tools, 
+            truncation: truncation
+        )
+        return try await self.createHarness(input, logger: logger)
+    }
+
+    /// Operation to create a harness endpoint.
+    @Sendable
+    @inlinable
+    public func createHarnessEndpoint(_ input: CreateHarnessEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHarnessEndpointResponse {
+        try await self.client.execute(
+            operation: "CreateHarnessEndpoint", 
+            path: "/harnesses/{harnessId}/endpoints", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to create a harness endpoint.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - description: A description of the endpoint.
+    ///   - endpointName: The name of the endpoint. Must start with a letter and contain only alphanumeric characters and underscores.
+    ///   - harnessId: The ID of the harness to create an endpoint for.
+    ///   - tags: Tags to apply to the endpoint resource.
+    ///   - targetVersion: The harness version that the endpoint points to and serves invocations from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createHarnessEndpoint(
+        clientToken: String? = CreateHarnessEndpointRequest.idempotencyToken(),
+        description: String? = nil,
+        endpointName: String,
+        harnessId: String,
+        tags: [String: String]? = nil,
+        targetVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateHarnessEndpointResponse {
+        let input = CreateHarnessEndpointRequest(
+            clientToken: clientToken, 
+            description: description, 
+            endpointName: endpointName, 
+            harnessId: harnessId, 
+            tags: tags, 
+            targetVersion: targetVersion
+        )
+        return try await self.createHarnessEndpoint(input, logger: logger)
     }
 
     /// Creates a new Amazon Bedrock AgentCore Memory resource.
@@ -528,6 +893,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - description: The description of the memory.
     ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt the memory data.
     ///   - eventExpiryDuration: The duration after which memory events expire. Specified as an ISO 8601 duration.
+    ///   - indexedKeys: Metadata keys to index for filtering. Once declared, indexed keys cannot be removed.
     ///   - memoryExecutionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the memory to access Amazon Web Services services.
     ///   - memoryStrategies: The memory strategies to use for this memory. Strategies define how information is extracted, processed, and consolidated.
     ///   - name: The name of the memory. The name must be unique within your account.
@@ -540,6 +906,7 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         encryptionKeyArn: String? = nil,
         eventExpiryDuration: Int,
+        indexedKeys: [IndexedKey]? = nil,
         memoryExecutionRoleArn: String? = nil,
         memoryStrategies: [MemoryStrategyInput]? = nil,
         name: String,
@@ -552,6 +919,7 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             encryptionKeyArn: encryptionKeyArn, 
             eventExpiryDuration: eventExpiryDuration, 
+            indexedKeys: indexedKeys, 
             memoryExecutionRoleArn: memoryExecutionRoleArn, 
             memoryStrategies: memoryStrategies, 
             name: name, 
@@ -616,11 +984,13 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - clusteringConfig: Configuration for periodic batch evaluation clustering of insight results.
     ///   - dataSourceConfig:  The data source configuration that specifies CloudWatch log groups and service names to monitor for agent traces.
     ///   - description:  The description of the online evaluation configuration that explains its monitoring purpose and scope.
     ///   - enableOnCreate:  Whether to enable the online evaluation configuration immediately upon creation. If true, evaluation begins automatically.
-    ///   - evaluationExecutionRoleArn:  The Amazon Resource Name (ARN) of the IAM role that grants permissions to read from CloudWatch logs, write evaluation results, and invoke Amazon Bedrock models for evaluation.
+    ///   - evaluationExecutionRoleArn:  The Amazon Resource Name (ARN) of the IAM role that grants permissions to read from CloudWatch logs, write evaluation results, and invoke Amazon Bedrock models for evaluation. If the configuration references evaluators encrypted with a customer managed KMS key, this role must also have kms:Decrypt permission on the KMS key. The service validates this permission at configuration creation time. For more information, see Encryption at rest for AgentCore Evaluations.
     ///   - evaluators:  The list of evaluators to apply during online evaluation. Can include both built-in evaluators and custom evaluators created with CreateEvaluator.
+    ///   - insights: The list of insight types to run against agent sessions.
     ///   - onlineEvaluationConfigName:  The name of the online evaluation configuration. Must be unique within your account.
     ///   - rule:  The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
     ///   - tags: A map of tag keys and values to assign to an AgentCore Online Evaluation Config. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
@@ -628,11 +998,13 @@ public struct BedrockAgentCoreControl: AWSService {
     @inlinable
     public func createOnlineEvaluationConfig(
         clientToken: String? = CreateOnlineEvaluationConfigRequest.idempotencyToken(),
+        clusteringConfig: ClusteringConfig? = nil,
         dataSourceConfig: DataSourceConfig,
         description: String? = nil,
         enableOnCreate: Bool,
         evaluationExecutionRoleArn: String,
-        evaluators: [EvaluatorReference],
+        evaluators: [EvaluatorReference]? = nil,
+        insights: [Insight]? = nil,
         onlineEvaluationConfigName: String,
         rule: Rule,
         tags: [String: String]? = nil,
@@ -640,16 +1012,147 @@ public struct BedrockAgentCoreControl: AWSService {
     ) async throws -> CreateOnlineEvaluationConfigResponse {
         let input = CreateOnlineEvaluationConfigRequest(
             clientToken: clientToken, 
+            clusteringConfig: clusteringConfig, 
             dataSourceConfig: dataSourceConfig, 
             description: description, 
             enableOnCreate: enableOnCreate, 
             evaluationExecutionRoleArn: evaluationExecutionRoleArn, 
             evaluators: evaluators, 
+            insights: insights, 
             onlineEvaluationConfigName: onlineEvaluationConfigName, 
             rule: rule, 
             tags: tags
         )
         return try await self.createOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities.
+    @Sendable
+    @inlinable
+    public func createPaymentConnector(_ input: CreatePaymentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePaymentConnectorResponse {
+        try await self.client.execute(
+            operation: "CreatePaymentConnector", 
+            path: "/payments/managers/{paymentManagerId}/connectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new payment connector for a payment manager. A payment connector integrates with a supported payment provider to enable payment processing capabilities.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - credentialProviderConfigurations: The credential provider configurations for the payment connector. These configurations specify how the connector authenticates with the payment provider.
+    ///   - description: A description of the payment connector.
+    ///   - name: The name of the payment connector.
+    ///   - paymentManagerId: The unique identifier of the payment manager to create the connector for.
+    ///   - type: The type of payment connector, which determines the payment provider integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPaymentConnector(
+        clientToken: String? = CreatePaymentConnectorRequest.idempotencyToken(),
+        credentialProviderConfigurations: [CredentialsProviderConfiguration],
+        description: String? = nil,
+        name: String,
+        paymentManagerId: String,
+        type: PaymentConnectorType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePaymentConnectorResponse {
+        let input = CreatePaymentConnectorRequest(
+            clientToken: clientToken, 
+            credentialProviderConfigurations: credentialProviderConfigurations, 
+            description: description, 
+            name: name, 
+            paymentManagerId: paymentManagerId, 
+            type: type
+        )
+        return try await self.createPaymentConnector(input, logger: logger)
+    }
+
+    /// Creates a new payment credential provider for storing authentication credentials used by payment connectors to communicate with external payment providers.
+    @Sendable
+    @inlinable
+    public func createPaymentCredentialProvider(_ input: CreatePaymentCredentialProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePaymentCredentialProviderResponse {
+        try await self.client.execute(
+            operation: "CreatePaymentCredentialProvider", 
+            path: "/identities/CreatePaymentCredentialProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new payment credential provider for storing authentication credentials used by payment connectors to communicate with external payment providers.
+    ///
+    /// Parameters:
+    ///   - credentialProviderVendor: The vendor type for the payment credential provider (e.g., CoinbaseCDP, StripePrivy).
+    ///   - name: Unique name for the payment credential provider.
+    ///   - providerConfigurationInput: Configuration specific to the vendor, including API credentials.
+    ///   - tags: Optional tags for resource organization.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPaymentCredentialProvider(
+        credentialProviderVendor: PaymentCredentialProviderVendorType,
+        name: String,
+        providerConfigurationInput: PaymentProviderConfigurationInput,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePaymentCredentialProviderResponse {
+        let input = CreatePaymentCredentialProviderRequest(
+            credentialProviderVendor: credentialProviderVendor, 
+            name: name, 
+            providerConfigurationInput: providerConfigurationInput, 
+            tags: tags
+        )
+        return try await self.createPaymentCredentialProvider(input, logger: logger)
+    }
+
+    /// Creates a new payment manager in your Amazon Web Services account. A payment manager serves as the top-level resource for managing payment processing capabilities, including payment connectors that integrate with supported payment providers. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
+    @Sendable
+    @inlinable
+    public func createPaymentManager(_ input: CreatePaymentManagerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePaymentManagerResponse {
+        try await self.client.execute(
+            operation: "CreatePaymentManager", 
+            path: "/payments/managers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new payment manager in your Amazon Web Services account. A payment manager serves as the top-level resource for managing payment processing capabilities, including payment connectors that integrate with supported payment providers. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
+    ///
+    /// Parameters:
+    ///   - authorizerConfiguration: The authorizer configuration for the payment manager.
+    ///   - authorizerType: The type of authorizer to use for the payment manager.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: A description of the payment manager.
+    ///   - name: The name of the payment manager.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the payment manager assumes to access resources on your behalf.
+    ///   - tags: A map of tag keys and values to assign to the payment manager.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPaymentManager(
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
+        authorizerType: PaymentsAuthorizerType,
+        clientToken: String? = CreatePaymentManagerRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePaymentManagerResponse {
+        let input = CreatePaymentManagerRequest(
+            authorizerConfiguration: authorizerConfiguration, 
+            authorizerType: authorizerType, 
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createPaymentManager(input, logger: logger)
     }
 
     /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
@@ -671,6 +1174,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
     ///   - definition: The Cedar policy statement that defines the access control rules. This contains the actual policy logic written in Cedar policy language, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
     ///   - description: A human-readable description of the policy's purpose and functionality (1-4,096 characters). This helps policy administrators understand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business requirement it addresses, and any special considerations for maintenance. Clear descriptions are essential for policy governance, auditing, and troubleshooting.
+    ///   - enforcementMode: The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE. Defaults to ACTIVE.
     ///   - name: The customer-assigned immutable name for the policy. Must be unique within the account. This name is used for policy identification and cannot be changed after creation.
     ///   - policyEngineId: The identifier of the policy engine which contains this policy. Policy engines group related policies and provide the execution context for policy evaluation.
     ///   - validationMode: The validation mode for the policy creation. Determines how Cedar analyzer validation results are handled during policy creation. FAIL_ON_ANY_FINDINGS (default) runs the Cedar analyzer to validate the policy against the Cedar schema and tool context, failing creation if the analyzer detects any validation issues to ensure strict conformance. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows policy creation even if validation issues are detected, useful for testing or when the policy schema is evolving. Use FAIL_ON_ANY_FINDINGS for production policies to ensure correctness, and IGNORE_ALL_FINDINGS only when you understand and accept the analyzer findings.
@@ -680,6 +1184,7 @@ public struct BedrockAgentCoreControl: AWSService {
         clientToken: String? = CreatePolicyRequest.idempotencyToken(),
         definition: PolicyDefinition,
         description: String? = nil,
+        enforcementMode: EnforcementMode? = nil,
         name: String,
         policyEngineId: String,
         validationMode: PolicyValidationMode? = nil,
@@ -689,6 +1194,7 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             definition: definition, 
             description: description, 
+            enforcementMode: enforcementMode, 
             name: name, 
             policyEngineId: policyEngineId, 
             validationMode: validationMode
@@ -735,6 +1241,103 @@ public struct BedrockAgentCoreControl: AWSService {
             tags: tags
         )
         return try await self.createPolicyEngine(input, logger: logger)
+    }
+
+    /// Creates a new registry in your Amazon Web Services account. A registry serves as a centralized catalog for organizing and managing registry records, including MCP servers, A2A agents, agent skills, and custom resource types. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
+    @Sendable
+    @inlinable
+    public func createRegistry(_ input: CreateRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistryResponse {
+        try await self.client.execute(
+            operation: "CreateRegistry", 
+            path: "/registries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new registry in your Amazon Web Services account. A registry serves as a centralized catalog for organizing and managing registry records, including MCP servers, A2A agents, agent skills, and custom resource types. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
+    ///
+    /// Parameters:
+    ///   - approvalConfiguration: The approval configuration for registry records. Controls whether records require explicit approval before becoming active. See the ApprovalConfiguration data type for supported configuration options.
+    ///   - authorizerConfiguration: The authorizer configuration for the registry. Required if authorizerType is CUSTOM_JWT. For details, see the AuthorizerConfiguration data type.
+    ///   - authorizerType: The type of authorizer to use for the registry. This controls the authorization method for the Search and Invoke APIs used by consumers, and does not affect the standard CRUDL APIs for registry and registry record management used by administrators.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: A description of the registry.
+    ///   - name: The name of the registry. The name must be unique within your account and can contain alphanumeric characters and underscores.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRegistry(
+        approvalConfiguration: ApprovalConfiguration? = nil,
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
+        authorizerType: RegistryAuthorizerType? = nil,
+        clientToken: String? = CreateRegistryRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRegistryResponse {
+        let input = CreateRegistryRequest(
+            approvalConfiguration: approvalConfiguration, 
+            authorizerConfiguration: authorizerConfiguration, 
+            authorizerType: authorizerType, 
+            clientToken: clientToken, 
+            description: description, 
+            name: name
+        )
+        return try await self.createRegistry(input, logger: logger)
+    }
+
+    /// Creates a new registry record within the specified registry. A registry record represents an individual AI resource's metadata in the registry. This could be an MCP server (and associated tools), A2A agent, agent skill, or a custom resource with a custom schema. The record is processed asynchronously and returns HTTP 202 Accepted.
+    @Sendable
+    @inlinable
+    public func createRegistryRecord(_ input: CreateRegistryRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistryRecordResponse {
+        try await self.client.execute(
+            operation: "CreateRegistryRecord", 
+            path: "/registries/{registryId}/records", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new registry record within the specified registry. A registry record represents an individual AI resource's metadata in the registry. This could be an MCP server (and associated tools), A2A agent, agent skill, or a custom resource with a custom schema. The record is processed asynchronously and returns HTTP 202 Accepted.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: A description of the registry record.
+    ///   - descriptors: The descriptor-type-specific configuration containing the resource schema and metadata. The structure of this field depends on the descriptorType you specify.
+    ///   - descriptorType: The descriptor type of the registry record.    MCP - Model Context Protocol descriptor for MCP-compatible servers and tools.    A2A - Agent-to-Agent protocol descriptor.    CUSTOM - Custom descriptor type for resources such as APIs, Lambda functions, or servers not conforming to a standard protocol.    AGENT_SKILLS - Agent skills descriptor for defining agent skill definitions.
+    ///   - name: The name of the registry record.
+    ///   - recordVersion: The version of the registry record. Use this to track different versions of the record's content.
+    ///   - registryId: The identifier of the registry where the record will be created. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - synchronizationConfiguration: The configuration for synchronizing registry record metadata from an external source, such as a URL-based MCP server.
+    ///   - synchronizationType: The type of synchronization to use for keeping the record metadata up to date from an external source. Possible values include FROM_URL and NONE.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRegistryRecord(
+        clientToken: String? = CreateRegistryRecordRequest.idempotencyToken(),
+        description: String? = nil,
+        descriptors: Descriptors? = nil,
+        descriptorType: DescriptorType,
+        name: String,
+        recordVersion: String? = nil,
+        registryId: String,
+        synchronizationConfiguration: SynchronizationConfiguration? = nil,
+        synchronizationType: SynchronizationType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRegistryRecordResponse {
+        let input = CreateRegistryRecordRequest(
+            clientToken: clientToken, 
+            description: description, 
+            descriptors: descriptors, 
+            descriptorType: descriptorType, 
+            name: name, 
+            recordVersion: recordVersion, 
+            registryId: registryId, 
+            synchronizationConfiguration: synchronizationConfiguration, 
+            synchronizationType: synchronizationType
+        )
+        return try await self.createRegistryRecord(input, logger: logger)
     }
 
     /// Creates a new workload identity.
@@ -964,6 +1567,102 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteCodeInterpreter(input, logger: logger)
     }
 
+    /// Deletes a configuration bundle and all of its versions.
+    @Sendable
+    @inlinable
+    public func deleteConfigurationBundle(_ input: DeleteConfigurationBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationBundleResponse {
+        try await self.client.execute(
+            operation: "DeleteConfigurationBundle", 
+            path: "/configuration-bundles/{bundleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a configuration bundle and all of its versions.
+    ///
+    /// Parameters:
+    ///   - bundleId: The unique identifier of the configuration bundle to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConfigurationBundle(
+        bundleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConfigurationBundleResponse {
+        let input = DeleteConfigurationBundleRequest(
+            bundleId: bundleId
+        )
+        return try await self.deleteConfigurationBundle(input, logger: logger)
+    }
+
+    ///  Deletes a dataset version or an entire dataset asynchronously. If datasetVersion is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version.
+    @Sendable
+    @inlinable
+    public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetResponse {
+        try await self.client.execute(
+            operation: "DeleteDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes a dataset version or an entire dataset asynchronously. If datasetVersion is absent, deletes all versions and the dataset record itself. If provided, deletes only that specific version.
+    ///
+    /// Parameters:
+    ///   - datasetId:  The unique identifier of the dataset to delete.
+    ///   - datasetVersion:  Optional version to delete. If absent, deletes the entire dataset. If provided, deletes only that specific version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataset(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDatasetResponse {
+        let input = DeleteDatasetRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion
+        )
+        return try await self.deleteDataset(input, logger: logger)
+    }
+
+    ///  Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics).
+    @Sendable
+    @inlinable
+    public func deleteDatasetExamples(_ input: DeleteDatasetExamplesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetExamplesResponse {
+        try await self.client.execute(
+            operation: "DeleteDatasetExamples", 
+            path: "/datasets/{datasetId}/examples/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes specific examples by ID from DRAFT. All example IDs are validated before any deletes occur. If any ID does not exist in DRAFT, the entire batch is rejected (all-or-nothing semantics).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - exampleIds:  The IDs of the examples to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDatasetExamples(
+        clientToken: String? = DeleteDatasetExamplesRequest.idempotencyToken(),
+        datasetId: String,
+        exampleIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDatasetExamplesResponse {
+        let input = DeleteDatasetExamplesRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            exampleIds: exampleIds
+        )
+        return try await self.deleteDatasetExamples(input, logger: logger)
+    }
+
     ///  Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
     @Sendable
     @inlinable
@@ -1022,7 +1721,39 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteGateway(input, logger: logger)
     }
 
-    /// Deletes a gateway target.
+    /// Deletes a gateway rule.
+    @Sendable
+    @inlinable
+    public func deleteGatewayRule(_ input: DeleteGatewayRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayRuleResponse {
+        try await self.client.execute(
+            operation: "DeleteGatewayRule", 
+            path: "/gateways/{gatewayIdentifier}/rules/{ruleId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a gateway rule.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The identifier of the gateway containing the rule.
+    ///   - ruleId: The unique identifier of the rule to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteGatewayRule(
+        gatewayIdentifier: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteGatewayRuleResponse {
+        let input = DeleteGatewayRuleRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            ruleId: ruleId
+        )
+        return try await self.deleteGatewayRule(input, logger: logger)
+    }
+
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before deleting the target.
     @Sendable
     @inlinable
     public func deleteGatewayTarget(_ input: DeleteGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayTargetResponse {
@@ -1035,7 +1766,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Deletes a gateway target.
+    /// Deletes a gateway target. You cannot delete a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before deleting the target.
     ///
     /// Parameters:
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
@@ -1052,6 +1783,76 @@ public struct BedrockAgentCoreControl: AWSService {
             targetId: targetId
         )
         return try await self.deleteGatewayTarget(input, logger: logger)
+    }
+
+    /// Operation to delete a Harness.
+    @Sendable
+    @inlinable
+    public func deleteHarness(_ input: DeleteHarnessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHarnessResponse {
+        try await self.client.execute(
+            operation: "DeleteHarness", 
+            path: "/harnesses/{harnessId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to delete a Harness.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - deleteManagedMemory: Whether to delete the managed memory on harness deletion. Default: true. If false, the memory is disassociated and becomes a regular customer-owned resource.
+    ///   - harnessId: The ID of the harness to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteHarness(
+        clientToken: String? = DeleteHarnessRequest.idempotencyToken(),
+        deleteManagedMemory: Bool? = nil,
+        harnessId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteHarnessResponse {
+        let input = DeleteHarnessRequest(
+            clientToken: clientToken, 
+            deleteManagedMemory: deleteManagedMemory, 
+            harnessId: harnessId
+        )
+        return try await self.deleteHarness(input, logger: logger)
+    }
+
+    /// Operation to delete a harness endpoint.
+    @Sendable
+    @inlinable
+    public func deleteHarnessEndpoint(_ input: DeleteHarnessEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteHarnessEndpointResponse {
+        try await self.client.execute(
+            operation: "DeleteHarnessEndpoint", 
+            path: "/harnesses/{harnessId}/endpoints/{endpointName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to delete a harness endpoint.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - endpointName: The name of the endpoint to delete.
+    ///   - harnessId: The ID of the harness that the endpoint belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteHarnessEndpoint(
+        clientToken: String? = DeleteHarnessEndpointRequest.idempotencyToken(),
+        endpointName: String,
+        harnessId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteHarnessEndpointResponse {
+        let input = DeleteHarnessEndpointRequest(
+            clientToken: clientToken, 
+            endpointName: endpointName, 
+            harnessId: harnessId
+        )
+        return try await self.deleteHarnessEndpoint(input, logger: logger)
     }
 
     /// Deletes an Amazon Bedrock AgentCore Memory resource.
@@ -1144,6 +1945,102 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteOnlineEvaluationConfig(input, logger: logger)
     }
 
+    /// Deletes a payment connector.
+    @Sendable
+    @inlinable
+    public func deletePaymentConnector(_ input: DeletePaymentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePaymentConnectorResponse {
+        try await self.client.execute(
+            operation: "DeletePaymentConnector", 
+            path: "/payments/managers/{paymentManagerId}/connectors/{paymentConnectorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a payment connector.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - paymentConnectorId: The unique identifier of the payment connector to delete.
+    ///   - paymentManagerId: The unique identifier of the parent payment manager.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePaymentConnector(
+        clientToken: String? = DeletePaymentConnectorRequest.idempotencyToken(),
+        paymentConnectorId: String,
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePaymentConnectorResponse {
+        let input = DeletePaymentConnectorRequest(
+            clientToken: clientToken, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentManagerId: paymentManagerId
+        )
+        return try await self.deletePaymentConnector(input, logger: logger)
+    }
+
+    /// Deletes a payment credential provider and its associated stored credentials.
+    @Sendable
+    @inlinable
+    public func deletePaymentCredentialProvider(_ input: DeletePaymentCredentialProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePaymentCredentialProviderResponse {
+        try await self.client.execute(
+            operation: "DeletePaymentCredentialProvider", 
+            path: "/identities/DeletePaymentCredentialProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a payment credential provider and its associated stored credentials.
+    ///
+    /// Parameters:
+    ///   - name: The name of the payment credential provider to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePaymentCredentialProvider(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePaymentCredentialProviderResponse {
+        let input = DeletePaymentCredentialProviderRequest(
+            name: name
+        )
+        return try await self.deletePaymentCredentialProvider(input, logger: logger)
+    }
+
+    /// Deletes a payment manager. All payment connectors associated with the payment manager must be deleted before the payment manager can be deleted. This operation initiates the deletion process asynchronously.
+    @Sendable
+    @inlinable
+    public func deletePaymentManager(_ input: DeletePaymentManagerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePaymentManagerResponse {
+        try await self.client.execute(
+            operation: "DeletePaymentManager", 
+            path: "/payments/managers/{paymentManagerId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a payment manager. All payment connectors associated with the payment manager must be deleted before the payment manager can be deleted. This operation initiates the deletion process asynchronously.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - paymentManagerId: The unique identifier of the payment manager to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePaymentManager(
+        clientToken: String? = DeletePaymentManagerRequest.idempotencyToken(),
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePaymentManagerResponse {
+        let input = DeletePaymentManagerRequest(
+            clientToken: clientToken, 
+            paymentManagerId: paymentManagerId
+        )
+        return try await self.deletePaymentManager(input, logger: logger)
+    }
+
     /// Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
     @Sendable
     @inlinable
@@ -1203,6 +2100,67 @@ public struct BedrockAgentCoreControl: AWSService {
             policyEngineId: policyEngineId
         )
         return try await self.deletePolicyEngine(input, logger: logger)
+    }
+
+    /// Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchronously.
+    @Sendable
+    @inlinable
+    public func deleteRegistry(_ input: DeleteRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistryResponse {
+        try await self.client.execute(
+            operation: "DeleteRegistry", 
+            path: "/registries/{registryId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a registry. The registry must contain zero records before it can be deleted. This operation initiates the deletion process asynchronously.
+    ///
+    /// Parameters:
+    ///   - registryId: The identifier of the registry to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRegistry(
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRegistryResponse {
+        let input = DeleteRegistryRequest(
+            registryId: registryId
+        )
+        return try await self.deleteRegistry(input, logger: logger)
+    }
+
+    /// Deletes a registry record. The record's status transitions to DELETING and the record is removed asynchronously.
+    @Sendable
+    @inlinable
+    public func deleteRegistryRecord(_ input: DeleteRegistryRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRegistryRecordResponse {
+        try await self.client.execute(
+            operation: "DeleteRegistryRecord", 
+            path: "/registries/{registryId}/records/{recordId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a registry record. The record's status transitions to DELETING and the record is removed asynchronously.
+    ///
+    /// Parameters:
+    ///   - recordId: The identifier of the registry record to delete. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    ///   - registryId: The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRegistryRecord(
+        recordId: String,
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRegistryRecordResponse {
+        let input = DeleteRegistryRecordRequest(
+            recordId: recordId, 
+            registryId: registryId
+        )
+        return try await self.deleteRegistryRecord(input, logger: logger)
     }
 
     /// Deletes the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
@@ -1443,6 +2401,102 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getCodeInterpreter(input, logger: logger)
     }
 
+    /// Gets the latest version of a configuration bundle. By default, returns the latest version on the mainline branch. Use GetConfigurationBundleVersion to retrieve a specific historical version.
+    @Sendable
+    @inlinable
+    public func getConfigurationBundle(_ input: GetConfigurationBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationBundleResponse {
+        try await self.client.execute(
+            operation: "GetConfigurationBundle", 
+            path: "/configuration-bundles/{bundleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the latest version of a configuration bundle. By default, returns the latest version on the mainline branch. Use GetConfigurationBundleVersion to retrieve a specific historical version.
+    ///
+    /// Parameters:
+    ///   - branchName: The branch name to get the latest version from. If not specified, returns the latest version on the mainline branch.
+    ///   - bundleId: The unique identifier of the configuration bundle to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfigurationBundle(
+        branchName: String? = nil,
+        bundleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfigurationBundleResponse {
+        let input = GetConfigurationBundleRequest(
+            branchName: branchName, 
+            bundleId: bundleId
+        )
+        return try await self.getConfigurationBundle(input, logger: logger)
+    }
+
+    /// Gets a specific version of a configuration bundle by its version identifier.
+    @Sendable
+    @inlinable
+    public func getConfigurationBundleVersion(_ input: GetConfigurationBundleVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationBundleVersionResponse {
+        try await self.client.execute(
+            operation: "GetConfigurationBundleVersion", 
+            path: "/configuration-bundles/{bundleId}/versions/{versionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a specific version of a configuration bundle by its version identifier.
+    ///
+    /// Parameters:
+    ///   - bundleId: The unique identifier of the configuration bundle.
+    ///   - versionId: The version identifier of the configuration bundle version to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConfigurationBundleVersion(
+        bundleId: String,
+        versionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConfigurationBundleVersionResponse {
+        let input = GetConfigurationBundleVersionRequest(
+            bundleId: bundleId, 
+            versionId: versionId
+        )
+        return try await self.getConfigurationBundleVersion(input, logger: logger)
+    }
+
+    ///  Retrieves dataset metadata. Use the datasetVersion query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use ListDatasetExamples.
+    @Sendable
+    @inlinable
+    public func getDataset(_ input: GetDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDatasetResponse {
+        try await self.client.execute(
+            operation: "GetDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves dataset metadata. Use the datasetVersion query parameter to retrieve a specific version's metadata. If absent, defaults to DRAFT. For paginated example content, use ListDatasetExamples.
+    ///
+    /// Parameters:
+    ///   - datasetId:  The unique identifier of the dataset to retrieve.
+    ///   - datasetVersion:  Version to retrieve: "DRAFT" or a version number. Defaults to DRAFT if absent.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataset(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDatasetResponse {
+        let input = GetDatasetRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion
+        )
+        return try await self.getDataset(input, logger: logger)
+    }
+
     ///  Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
     @Sendable
     @inlinable
@@ -1460,14 +2514,17 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - evaluatorId:  The unique identifier of the evaluator to retrieve. Can be a built-in evaluator ID (e.g., Builtin.Helpfulness) or a custom evaluator ID.
+    ///   - includedData:  Controls which data is returned in the response. ALL_DATA (default) returns the full evaluator including decrypted instructions and rating scale. For evaluators encrypted with a customer managed KMS key, this requires kms:Decrypt permission on the key. METADATA_ONLY returns evaluator metadata and model configuration without instructions or rating scale, and does not require any KMS permissions.
     ///   - logger: Logger use during operation
     @inlinable
     public func getEvaluator(
         evaluatorId: String,
+        includedData: IncludedData? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetEvaluatorResponse {
         let input = GetEvaluatorRequest(
-            evaluatorId: evaluatorId
+            evaluatorId: evaluatorId, 
+            includedData: includedData
         )
         return try await self.getEvaluator(input, logger: logger)
     }
@@ -1501,6 +2558,38 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getGateway(input, logger: logger)
     }
 
+    /// Retrieves detailed information about a specific gateway rule.
+    @Sendable
+    @inlinable
+    public func getGatewayRule(_ input: GetGatewayRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGatewayRuleResponse {
+        try await self.client.execute(
+            operation: "GetGatewayRule", 
+            path: "/gateways/{gatewayIdentifier}/rules/{ruleId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific gateway rule.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The identifier of the gateway containing the rule.
+    ///   - ruleId: The unique identifier of the rule to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getGatewayRule(
+        gatewayIdentifier: String,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetGatewayRuleResponse {
+        let input = GetGatewayRuleRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            ruleId: ruleId
+        )
+        return try await self.getGatewayRule(input, logger: logger)
+    }
+
     /// Retrieves information about a specific gateway target.
     @Sendable
     @inlinable
@@ -1531,6 +2620,70 @@ public struct BedrockAgentCoreControl: AWSService {
             targetId: targetId
         )
         return try await self.getGatewayTarget(input, logger: logger)
+    }
+
+    /// Operation to get a single harness.
+    @Sendable
+    @inlinable
+    public func getHarness(_ input: GetHarnessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHarnessResponse {
+        try await self.client.execute(
+            operation: "GetHarness", 
+            path: "/harnesses/{harnessId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to get a single harness.
+    ///
+    /// Parameters:
+    ///   - harnessId: The ID of the harness to retrieve.
+    ///   - harnessVersion: Specific version of the harness to retrieve. If omitted, returns the current Harness configuration, including its status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getHarness(
+        harnessId: String,
+        harnessVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetHarnessResponse {
+        let input = GetHarnessRequest(
+            harnessId: harnessId, 
+            harnessVersion: harnessVersion
+        )
+        return try await self.getHarness(input, logger: logger)
+    }
+
+    /// Operation to get a single harness endpoint.
+    @Sendable
+    @inlinable
+    public func getHarnessEndpoint(_ input: GetHarnessEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHarnessEndpointResponse {
+        try await self.client.execute(
+            operation: "GetHarnessEndpoint", 
+            path: "/harnesses/{harnessId}/endpoints/{endpointName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to get a single harness endpoint.
+    ///
+    /// Parameters:
+    ///   - endpointName: The name of the endpoint to retrieve.
+    ///   - harnessId: The ID of the harness that the endpoint belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getHarnessEndpoint(
+        endpointName: String,
+        harnessId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetHarnessEndpointResponse {
+        let input = GetHarnessEndpointRequest(
+            endpointName: endpointName, 
+            harnessId: harnessId
+        )
+        return try await self.getHarnessEndpoint(input, logger: logger)
     }
 
     /// Retrieve an existing Amazon Bedrock AgentCore Memory resource.
@@ -1623,6 +2776,96 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getOnlineEvaluationConfig(input, logger: logger)
     }
 
+    /// Retrieves information about a specific payment connector.
+    @Sendable
+    @inlinable
+    public func getPaymentConnector(_ input: GetPaymentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentConnectorResponse {
+        try await self.client.execute(
+            operation: "GetPaymentConnector", 
+            path: "/payments/managers/{paymentManagerId}/connectors/{paymentConnectorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific payment connector.
+    ///
+    /// Parameters:
+    ///   - paymentConnectorId: The unique identifier of the payment connector to retrieve.
+    ///   - paymentManagerId: The unique identifier of the parent payment manager.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentConnector(
+        paymentConnectorId: String,
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentConnectorResponse {
+        let input = GetPaymentConnectorRequest(
+            paymentConnectorId: paymentConnectorId, 
+            paymentManagerId: paymentManagerId
+        )
+        return try await self.getPaymentConnector(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific payment credential provider.
+    @Sendable
+    @inlinable
+    public func getPaymentCredentialProvider(_ input: GetPaymentCredentialProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentCredentialProviderResponse {
+        try await self.client.execute(
+            operation: "GetPaymentCredentialProvider", 
+            path: "/identities/GetPaymentCredentialProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific payment credential provider.
+    ///
+    /// Parameters:
+    ///   - name: The name of the payment credential provider to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentCredentialProvider(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentCredentialProviderResponse {
+        let input = GetPaymentCredentialProviderRequest(
+            name: name
+        )
+        return try await self.getPaymentCredentialProvider(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific payment manager.
+    @Sendable
+    @inlinable
+    public func getPaymentManager(_ input: GetPaymentManagerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentManagerResponse {
+        try await self.client.execute(
+            operation: "GetPaymentManager", 
+            path: "/payments/managers/{paymentManagerId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific payment manager.
+    ///
+    /// Parameters:
+    ///   - paymentManagerId: The unique identifier of the payment manager to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentManager(
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentManagerResponse {
+        let input = GetPaymentManagerRequest(
+            paymentManagerId: paymentManagerId
+        )
+        return try await self.getPaymentManager(input, logger: logger)
+    }
+
     /// Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
     @Sendable
     @inlinable
@@ -1684,6 +2927,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getPolicyEngine(input, logger: logger)
     }
 
+    /// Retrieves a metadata-only summary of a specific policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and the encryption key ARN, but does not include the description or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func getPolicyEngineSummary(_ input: GetPolicyEngineSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyEngineSummaryResponse {
+        try await self.client.execute(
+            operation: "GetPolicyEngineSummary", 
+            path: "/policy-engine-summaries/{policyEngineId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a metadata-only summary of a specific policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and the encryption key ARN, but does not include the description or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The unique identifier of the policy engine to retrieve the summary for. This must be a valid policy engine ID that exists within the account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicyEngineSummary(
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyEngineSummaryResponse {
+        let input = GetPolicyEngineSummaryRequest(
+            policyEngineId: policyEngineId
+        )
+        return try await self.getPolicyEngineSummary(input, logger: logger)
+    }
+
     /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
     @Sendable
     @inlinable
@@ -1714,6 +2986,131 @@ public struct BedrockAgentCoreControl: AWSService {
             policyGenerationId: policyGenerationId
         )
         return try await self.getPolicyGeneration(input, logger: logger)
+    }
+
+    /// Retrieves a metadata-only summary of a specific policy generation request without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func getPolicyGenerationSummary(_ input: GetPolicyGenerationSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyGenerationSummaryResponse {
+        try await self.client.execute(
+            operation: "GetPolicyGenerationSummary", 
+            path: "/policy-engines/{policyEngineId}/policy-generation-summaries/{policyGenerationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a metadata-only summary of a specific policy generation request without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The identifier of the policy engine associated with the policy generation request.
+    ///   - policyGenerationId: The unique identifier of the policy generation request to retrieve the summary for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicyGenerationSummary(
+        policyEngineId: String,
+        policyGenerationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyGenerationSummaryResponse {
+        let input = GetPolicyGenerationSummaryRequest(
+            policyEngineId: policyEngineId, 
+            policyGenerationId: policyGenerationId
+        )
+        return try await self.getPolicyGenerationSummary(input, logger: logger)
+    }
+
+    /// Retrieves a metadata-only summary of a specific policy without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func getPolicySummary(_ input: GetPolicySummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicySummaryResponse {
+        try await self.client.execute(
+            operation: "GetPolicySummary", 
+            path: "/policy-engines/{policyEngineId}/policy-summaries/{policyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a metadata-only summary of a specific policy without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps, but does not include the policy definition, description, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to retrieve the summary for.
+    ///   - policyId: The unique identifier of the policy to retrieve the summary for. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicySummary(
+        policyEngineId: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicySummaryResponse {
+        let input = GetPolicySummaryRequest(
+            policyEngineId: policyEngineId, 
+            policyId: policyId
+        )
+        return try await self.getPolicySummary(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific registry.
+    @Sendable
+    @inlinable
+    public func getRegistry(_ input: GetRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryResponse {
+        try await self.client.execute(
+            operation: "GetRegistry", 
+            path: "/registries/{registryId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific registry.
+    ///
+    /// Parameters:
+    ///   - registryId: The identifier of the registry to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRegistry(
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRegistryResponse {
+        let input = GetRegistryRequest(
+            registryId: registryId
+        )
+        return try await self.getRegistry(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific registry record.
+    @Sendable
+    @inlinable
+    public func getRegistryRecord(_ input: GetRegistryRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRegistryRecordResponse {
+        try await self.client.execute(
+            operation: "GetRegistryRecord", 
+            path: "/registries/{registryId}/records/{recordId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific registry record.
+    ///
+    /// Parameters:
+    ///   - recordId: The identifier of the registry record to retrieve. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    ///   - registryId: The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRegistryRecord(
+        recordId: String,
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRegistryRecordResponse {
+        let input = GetRegistryRecordRequest(
+            recordId: recordId, 
+            registryId: registryId
+        )
+        return try await self.getRegistryRecord(input, logger: logger)
     }
 
     /// Retrieves the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
@@ -1954,16 +3351,19 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in the response.
+    ///   - name: The name of the browser profile to filter results by.
     ///   - nextToken: A token to retrieve the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listBrowserProfiles(
         maxResults: Int? = nil,
+        name: String? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListBrowserProfilesResponse {
         let input = ListBrowserProfilesRequest(
             maxResults: maxResults, 
+            name: name, 
             nextToken: nextToken
         )
         return try await self.listBrowserProfiles(input, logger: logger)
@@ -2039,6 +3439,181 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listCodeInterpreters(input, logger: logger)
     }
 
+    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source.
+    @Sendable
+    @inlinable
+    public func listConfigurationBundleVersions(_ input: ListConfigurationBundleVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationBundleVersionsResponse {
+        try await self.client.execute(
+            operation: "ListConfigurationBundleVersions", 
+            path: "/configuration-bundles/{bundleId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all versions of a configuration bundle, with optional filtering by branch name or creation source.
+    ///
+    /// Parameters:
+    ///   - bundleId: The unique identifier of the configuration bundle to list versions for.
+    ///   - filter: An optional filter for listing versions, including branch name, creation source, and whether to return only the latest version per branch.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurationBundleVersions(
+        bundleId: String,
+        filter: VersionFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationBundleVersionsResponse {
+        let input = ListConfigurationBundleVersionsRequest(
+            bundleId: bundleId, 
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfigurationBundleVersions(input, logger: logger)
+    }
+
+    /// Lists all configuration bundles in the account.
+    @Sendable
+    @inlinable
+    public func listConfigurationBundles(_ input: ListConfigurationBundlesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationBundlesResponse {
+        try await self.client.execute(
+            operation: "ListConfigurationBundles", 
+            path: "/configuration-bundles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all configuration bundles in the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConfigurationBundles(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConfigurationBundlesResponse {
+        let input = ListConfigurationBundlesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConfigurationBundles(input, logger: logger)
+    }
+
+    ///  Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
+    @Sendable
+    @inlinable
+    public func listDatasetExamples(_ input: ListDatasetExamplesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetExamplesResponse {
+        try await self.client.execute(
+            operation: "ListDatasetExamples", 
+            path: "/datasets/{datasetId}/examples", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns paginated examples from the dataset. The server embeds the resolved version in the pagination token. Once pagination begins, all subsequent pages are pinned to that version regardless of concurrent mutations.
+    ///
+    /// Parameters:
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - datasetVersion:  Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token.
+    ///   - maxResults:  Maximum number of examples to return per page.
+    ///   - nextToken:  The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetExamples(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetExamplesResponse {
+        let input = ListDatasetExamplesRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDatasetExamples(input, logger: logger)
+    }
+
+    ///  Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy.
+    @Sendable
+    @inlinable
+    public func listDatasetVersions(_ input: ListDatasetVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetVersionsResponse {
+        try await self.client.execute(
+            operation: "ListDatasetVersions", 
+            path: "/datasets/{datasetId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all published versions of a dataset, sorted by version number descending (newest first). Does not include the DRAFT working copy.
+    ///
+    /// Parameters:
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - maxResults:  The maximum number of versions to return per page.
+    ///   - nextToken:  The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetVersions(
+        datasetId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetVersionsResponse {
+        let input = ListDatasetVersionsRequest(
+            datasetId: datasetId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDatasetVersions(input, logger: logger)
+    }
+
+    ///  Lists all datasets in the caller's account, paginated.
+    @Sendable
+    @inlinable
+    public func listDatasets(_ input: ListDatasetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetsResponse {
+        try await self.client.execute(
+            operation: "ListDatasets", 
+            path: "/datasets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all datasets in the caller's account, paginated.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of datasets to return per page.
+    ///   - nextToken:  The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasets(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetsResponse {
+        let input = ListDatasetsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDatasets(input, logger: logger)
+    }
+
     ///  Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
     @Sendable
     @inlinable
@@ -2069,6 +3644,41 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listEvaluators(input, logger: logger)
+    }
+
+    /// Lists all rules for a gateway.
+    @Sendable
+    @inlinable
+    public func listGatewayRules(_ input: ListGatewayRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayRulesResponse {
+        try await self.client.execute(
+            operation: "ListGatewayRules", 
+            path: "/gateways/{gatewayIdentifier}/rules", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all rules for a gateway.
+    ///
+    /// Parameters:
+    ///   - gatewayIdentifier: The identifier of the gateway to list rules for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: The pagination token from a previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGatewayRules(
+        gatewayIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGatewayRulesResponse {
+        let input = ListGatewayRulesRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listGatewayRules(input, logger: logger)
     }
 
     /// Lists all targets for a specific gateway.
@@ -2136,6 +3746,108 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listGateways(input, logger: logger)
+    }
+
+    /// Operation to list the endpoints of a harness.
+    @Sendable
+    @inlinable
+    public func listHarnessEndpoints(_ input: ListHarnessEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHarnessEndpointsResponse {
+        try await self.client.execute(
+            operation: "ListHarnessEndpoints", 
+            path: "/harnesses/{harnessId}/endpoints", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to list the endpoints of a harness.
+    ///
+    /// Parameters:
+    ///   - harnessId: The ID of the harness whose endpoints are listed.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHarnessEndpoints(
+        harnessId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHarnessEndpointsResponse {
+        let input = ListHarnessEndpointsRequest(
+            harnessId: harnessId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listHarnessEndpoints(input, logger: logger)
+    }
+
+    /// Operation to list the versions of a Harness.
+    @Sendable
+    @inlinable
+    public func listHarnessVersions(_ input: ListHarnessVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHarnessVersionsResponse {
+        try await self.client.execute(
+            operation: "ListHarnessVersions", 
+            path: "/harnesses/{harnessId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to list the versions of a Harness.
+    ///
+    /// Parameters:
+    ///   - harnessId: The ID of the harness whose versions are listed.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHarnessVersions(
+        harnessId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHarnessVersionsResponse {
+        let input = ListHarnessVersionsRequest(
+            harnessId: harnessId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listHarnessVersions(input, logger: logger)
+    }
+
+    /// Operation to list harnesses.
+    @Sendable
+    @inlinable
+    public func listHarnesses(_ input: ListHarnessesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHarnessesResponse {
+        try await self.client.execute(
+            operation: "ListHarnesses", 
+            path: "/harnesses", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to list harnesses.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listHarnesses(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListHarnessesResponse {
+        let input = ListHarnessesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listHarnesses(input, logger: logger)
     }
 
     /// Lists the available Amazon Bedrock AgentCore Memory resources in the current Amazon Web Services Region.
@@ -2234,6 +3946,105 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listOnlineEvaluationConfigs(input, logger: logger)
     }
 
+    /// Lists all payment connectors for a specified payment manager.
+    @Sendable
+    @inlinable
+    public func listPaymentConnectors(_ input: ListPaymentConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPaymentConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListPaymentConnectors", 
+            path: "/payments/managers/{paymentManagerId}/connectors-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all payment connectors for a specified payment manager.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - paymentManagerId: The unique identifier of the payment manager whose connectors to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPaymentConnectors(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPaymentConnectorsResponse {
+        let input = ListPaymentConnectorsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            paymentManagerId: paymentManagerId
+        )
+        return try await self.listPaymentConnectors(input, logger: logger)
+    }
+
+    /// Lists all payment credential providers in the account.
+    @Sendable
+    @inlinable
+    public func listPaymentCredentialProviders(_ input: ListPaymentCredentialProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPaymentCredentialProvidersResponse {
+        try await self.client.execute(
+            operation: "ListPaymentCredentialProviders", 
+            path: "/identities/ListPaymentCredentialProviders", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all payment credential providers in the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: Pagination token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPaymentCredentialProviders(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPaymentCredentialProvidersResponse {
+        let input = ListPaymentCredentialProvidersRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPaymentCredentialProviders(input, logger: logger)
+    }
+
+    /// Lists all payment managers in the account.
+    @Sendable
+    @inlinable
+    public func listPaymentManagers(_ input: ListPaymentManagersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPaymentManagersResponse {
+        try await self.client.execute(
+            operation: "ListPaymentManagers", 
+            path: "/payments/managers-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all payment managers in the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPaymentManagers(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPaymentManagersResponse {
+        let input = ListPaymentManagersRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPaymentManagers(input, logger: logger)
+    }
+
     /// Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
     @Sendable
     @inlinable
@@ -2270,6 +4081,38 @@ public struct BedrockAgentCoreControl: AWSService {
             targetResourceScope: targetResourceScope
         )
         return try await self.listPolicies(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of metadata-only policy engine summaries without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy engine, but does not include descriptions or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func listPolicyEngineSummaries(_ input: ListPolicyEngineSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyEngineSummariesResponse {
+        try await self.client.execute(
+            operation: "ListPolicyEngineSummaries", 
+            path: "/policy-engine-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of metadata-only policy engine summaries without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy engine, but does not include descriptions or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy engine summaries to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous ListPolicyEngineSummaries call. Use this token to retrieve the next page of results when the response is paginated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyEngineSummaries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyEngineSummariesResponse {
+        let input = ListPolicyEngineSummariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPolicyEngineSummaries(input, logger: logger)
     }
 
     /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
@@ -2342,6 +4185,41 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listPolicyGenerationAssets(input, logger: logger)
     }
 
+    /// Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func listPolicyGenerationSummaries(_ input: ListPolicyGenerationSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyGenerationSummariesResponse {
+        try await self.client.execute(
+            operation: "ListPolicyGenerationSummaries", 
+            path: "/policy-engines/{policyEngineId}/policy-generation-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of metadata-only policy generation summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, timestamps, and findings for each policy generation, but does not include status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy generation summaries to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous ListPolicyGenerationSummaries call. Use this token to retrieve the next page of results when the response is paginated.
+    ///   - policyEngineId: The identifier of the policy engine whose policy generation summaries to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyGenerationSummaries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyGenerationSummariesResponse {
+        let input = ListPolicyGenerationSummariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyEngineId: policyEngineId
+        )
+        return try await self.listPolicyGenerationSummaries(input, logger: logger)
+    }
+
     /// Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
     @Sendable
     @inlinable
@@ -2375,6 +4253,126 @@ public struct BedrockAgentCoreControl: AWSService {
             policyEngineId: policyEngineId
         )
         return try await self.listPolicyGenerations(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of metadata-only policy summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy, but does not include policy definitions, descriptions, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    @Sendable
+    @inlinable
+    public func listPolicySummaries(_ input: ListPolicySummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicySummariesResponse {
+        try await self.client.execute(
+            operation: "ListPolicySummaries", 
+            path: "/policy-engines/{policyEngineId}/policy-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of metadata-only policy summaries within a policy engine without decrypting customer content. This lightweight read operation returns resource identifiers, status, and timestamps for each policy, but does not include policy definitions, descriptions, or status reasons. Because this operation does not require access to the customer's KMS key, it is suitable for resource discovery, inventory, and integration scenarios where only metadata is needed.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy summaries to return in a single response.
+    ///   - nextToken: A pagination token returned from a previous ListPolicySummaries call. Use this token to retrieve the next page of results when the response is paginated.
+    ///   - policyEngineId: The identifier of the policy engine whose policy summaries to retrieve.
+    ///   - targetResourceScope: Optional filter to list policy summaries that apply to a specific resource scope or resource type. This helps narrow down results to those relevant for particular Amazon Web Services resources, agent tools, or operational contexts within the policy engine ecosystem.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicySummaries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyEngineId: String,
+        targetResourceScope: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicySummariesResponse {
+        let input = ListPolicySummariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyEngineId: policyEngineId, 
+            targetResourceScope: targetResourceScope
+        )
+        return try await self.listPolicySummaries(input, logger: logger)
+    }
+
+    /// Lists all registries in the account. You can optionally filter results by status using the status parameter, or by authorizer type using the authorizerType parameter.
+    @Sendable
+    @inlinable
+    public func listRegistries(_ input: ListRegistriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegistriesResponse {
+        try await self.client.execute(
+            operation: "ListRegistries", 
+            path: "/registries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all registries in the account. You can optionally filter results by status using the status parameter, or by authorizer type using the authorizerType parameter.
+    ///
+    /// Parameters:
+    ///   - authorizerType: Filter registries by their authorizer type. Possible values are CUSTOM_JWT and AWS_IAM. For more information about authorizer types, see the RegistryAuthorizerType enum.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - status: Filter registries by their current status. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRegistries(
+        authorizerType: RegistryAuthorizerType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: RegistryStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRegistriesResponse {
+        let input = ListRegistriesRequest(
+            authorizerType: authorizerType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listRegistries(input, logger: logger)
+    }
+
+    /// Lists registry records within a registry. You can optionally filter results using the name, status, and descriptorType parameters. When multiple filters are specified, they are combined using AND logic.
+    @Sendable
+    @inlinable
+    public func listRegistryRecords(_ input: ListRegistryRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegistryRecordsResponse {
+        try await self.client.execute(
+            operation: "ListRegistryRecords", 
+            path: "/registries/{registryId}/records", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists registry records within a registry. You can optionally filter results using the name, status, and descriptorType parameters. When multiple filters are specified, they are combined using AND logic.
+    ///
+    /// Parameters:
+    ///   - descriptorType: Filter registry records by their descriptor type. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - name: Filter registry records by name.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - registryId: The identifier of the registry to list records from. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - status: Filter registry records by their current status. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRegistryRecords(
+        descriptorType: DescriptorType? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        nextToken: String? = nil,
+        registryId: String,
+        status: RegistryRecordStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRegistryRecordsResponse {
+        let input = ListRegistryRecordsRequest(
+            descriptorType: descriptorType, 
+            maxResults: maxResults, 
+            name: name, 
+            nextToken: nextToken, 
+            registryId: registryId, 
+            status: status
+        )
+        return try await self.listRegistryRecords(input, logger: logger)
     }
 
     /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
@@ -2543,7 +4541,39 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.startPolicyGeneration(input, logger: logger)
     }
 
-    /// The gateway targets.
+    /// Submits a registry record for approval. This transitions the record from DRAFT status to PENDING_APPROVAL status. If the registry has auto-approval enabled, the record is automatically approved.
+    @Sendable
+    @inlinable
+    public func submitRegistryRecordForApproval(_ input: SubmitRegistryRecordForApprovalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitRegistryRecordForApprovalResponse {
+        try await self.client.execute(
+            operation: "SubmitRegistryRecordForApproval", 
+            path: "/registries/{registryId}/records/{recordId}/submit-for-approval", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits a registry record for approval. This transitions the record from DRAFT status to PENDING_APPROVAL status. If the registry has auto-approval enabled, the record is automatically approved.
+    ///
+    /// Parameters:
+    ///   - recordId: The identifier of the registry record to submit for approval. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    ///   - registryId: The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func submitRegistryRecordForApproval(
+        recordId: String,
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SubmitRegistryRecordForApprovalResponse {
+        let input = SubmitRegistryRecordForApprovalRequest(
+            recordId: recordId, 
+            registryId: registryId
+        )
+        return try await self.submitRegistryRecordForApproval(input, logger: logger)
+    }
+
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchronization.
     @Sendable
     @inlinable
     public func synchronizeGatewayTargets(_ input: SynchronizeGatewayTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SynchronizeGatewayTargetsResponse {
@@ -2556,7 +4586,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// The gateway targets.
+    /// Synchronizes the gateway targets by fetching the latest tool definitions from the target endpoints. You cannot synchronize a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before synchronizing. You cannot synchronize a target that has a static tool schema (mcpToolSchema) configured. Remove the static schema through an UpdateGatewayTarget call to enable dynamic tool synchronization.
     ///
     /// Parameters:
     ///   - gatewayIdentifier: The gateway Identifier.
@@ -2661,6 +4691,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: The updated description of the AgentCore Runtime.
     ///   - environmentVariables: Updated environment variables to set in the AgentCore Runtime environment.
+    ///   - filesystemConfigurations: The updated filesystem configurations to mount into the AgentCore Runtime.
     ///   - lifecycleConfiguration: The updated life cycle configuration for the AgentCore Runtime.
     ///   - metadataConfiguration: The updated configuration for microVM Metadata Service (MMDS) settings for the AgentCore Runtime.
     ///   - networkConfiguration: The updated network configuration for the AgentCore Runtime.
@@ -2676,6 +4707,7 @@ public struct BedrockAgentCoreControl: AWSService {
         clientToken: String? = UpdateAgentRuntimeRequest.idempotencyToken(),
         description: String? = nil,
         environmentVariables: [String: String]? = nil,
+        filesystemConfigurations: [FilesystemConfiguration]? = nil,
         lifecycleConfiguration: LifecycleConfiguration? = nil,
         metadataConfiguration: RuntimeMetadataConfiguration? = nil,
         networkConfiguration: NetworkConfiguration,
@@ -2691,6 +4723,7 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             description: description, 
             environmentVariables: environmentVariables, 
+            filesystemConfigurations: filesystemConfigurations, 
             lifecycleConfiguration: lifecycleConfiguration, 
             metadataConfiguration: metadataConfiguration, 
             networkConfiguration: networkConfiguration, 
@@ -2759,19 +4792,151 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - apiKey: The new API key to use for authentication. This value replaces the existing API key and is encrypted and stored securely.
+    ///   - apiKeySecretConfig: A reference to the Amazon Web Services Secrets Manager secret that stores the API key. This includes the secret ID and the JSON key used to extract the API key value from the secret. Required when apiKeySecretSource is set to EXTERNAL.
+    ///   - apiKeySecretSource: The source type of the API key secret. Use MANAGED if the secret is managed by the service, or EXTERNAL if you manage the secret yourself in Amazon Web Services Secrets Manager.
     ///   - name: The name of the API key credential provider to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApiKeyCredentialProvider(
-        apiKey: String,
+        apiKey: String? = nil,
+        apiKeySecretConfig: SecretReference? = nil,
+        apiKeySecretSource: SecretSourceType? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApiKeyCredentialProviderResponse {
         let input = UpdateApiKeyCredentialProviderRequest(
             apiKey: apiKey, 
+            apiKeySecretConfig: apiKeySecretConfig, 
+            apiKeySecretSource: apiKeySecretSource, 
             name: name
         )
         return try await self.updateApiKeyCredentialProvider(input, logger: logger)
+    }
+
+    /// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history.
+    @Sendable
+    @inlinable
+    public func updateConfigurationBundle(_ input: UpdateConfigurationBundleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationBundleResponse {
+        try await self.client.execute(
+            operation: "UpdateConfigurationBundle", 
+            path: "/configuration-bundles/{bundleId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a configuration bundle by creating a new version with the specified changes. Each update creates a new version in the version history.
+    ///
+    /// Parameters:
+    ///   - branchName: The branch name for this version. If not specified, inherits the parent's branch or defaults to mainline.
+    ///   - bundleId: The unique identifier of the configuration bundle to update.
+    ///   - bundleName: The updated name for the configuration bundle.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - commitMessage: A commit message describing the changes in this version.
+    ///   - components: The updated component configurations. Creates a new version of the bundle.
+    ///   - createdBy: The source that created this version, including the source name and optional ARN.
+    ///   - description: The updated description for the configuration bundle.
+    ///   - kmsKeyArn: Optional KMS key ARN for encrypting component configurations. If provided, components will be encrypted with this key. If the bundle already has a KMS key, this rotates to the new key.
+    ///   - parentVersionIds: A list of parent version identifiers for lineage tracking. Regular commits have a single parent. Merge commits have two parents: the target branch parent and the source branch parent. If the branch already exists, the first parent must be the latest version on that branch.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConfigurationBundle(
+        branchName: String? = nil,
+        bundleId: String,
+        bundleName: String? = nil,
+        clientToken: String? = UpdateConfigurationBundleRequest.idempotencyToken(),
+        commitMessage: String? = nil,
+        components: [String: ComponentConfiguration]? = nil,
+        createdBy: VersionCreatedBySource? = nil,
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        parentVersionIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConfigurationBundleResponse {
+        let input = UpdateConfigurationBundleRequest(
+            branchName: branchName, 
+            bundleId: bundleId, 
+            bundleName: bundleName, 
+            clientToken: clientToken, 
+            commitMessage: commitMessage, 
+            components: components, 
+            createdBy: createdBy, 
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            parentVersionIds: parentVersionIds
+        )
+        return try await self.updateConfigurationBundle(input, logger: logger)
+    }
+
+    ///  Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples.
+    @Sendable
+    @inlinable
+    public func updateDataset(_ input: UpdateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetResponse {
+        try await self.client.execute(
+            operation: "UpdateDataset", 
+            path: "/datasets/{datasetId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates a dataset's metadata. Synchronous operation. Only provided fields are updated; omitted fields remain unchanged. To modify dataset content, use AddDatasetExamples, UpdateDatasetExamples, or DeleteDatasetExamples.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetId:  The unique identifier of the dataset to update.
+    ///   - description:  The updated description for the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataset(
+        clientToken: String? = UpdateDatasetRequest.idempotencyToken(),
+        datasetId: String,
+        description: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDatasetResponse {
+        let input = UpdateDatasetRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            description: description
+        )
+        return try await self.updateDataset(input, logger: logger)
+    }
+
+    ///  Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
+    @Sendable
+    @inlinable
+    public func updateDatasetExamples(_ input: UpdateDatasetExamplesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDatasetExamplesResponse {
+        try await self.client.execute(
+            operation: "UpdateDatasetExamples", 
+            path: "/datasets/{datasetId}/examples/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates multiple existing examples in-place on DRAFT. All examples are validated against the dataset's schema type before any writes occur. If any example fails validation, the entire batch is rejected (all-or-nothing semantics).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - examples:  Examples to update. Each element is a JSON object containing a required exampleId field identifying the existing example, plus the replacement fields. Maximum 1000 examples per call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDatasetExamples(
+        clientToken: String? = UpdateDatasetExamplesRequest.idempotencyToken(),
+        datasetId: String,
+        examples: [AWSDocument],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDatasetExamplesResponse {
+        let input = UpdateDatasetExamplesRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            examples: examples
+        )
+        return try await self.updateDatasetExamples(input, logger: logger)
     }
 
     ///  Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
@@ -2792,8 +4957,9 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description:  The updated description of the evaluator.
-    ///   - evaluatorConfig:  The updated configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    ///   - evaluatorConfig:  The updated configuration for the evaluator. Specify either LLM-as-a-Judge settings with instructions, rating scale, and model configuration, or code-based settings with a customer-managed Lambda function.
     ///   - evaluatorId:  The unique identifier of the evaluator to update.
+    ///   - kmsKeyArn:  The Amazon Resource Name (ARN) of a customer managed KMS key to use for encrypting sensitive evaluator data. Specify a new key ARN to rotate the encryption key, or specify a key ARN to add encryption to an evaluator that was previously created without one. When you rotate to a new key, the service decrypts the existing data with the old key and re-encrypts it with the new key. Only symmetric encryption KMS keys are supported. For more information, see Encryption at rest for AgentCore Evaluations.
     ///   - level:  The updated evaluation level (TOOL_CALL, TRACE, or SESSION) that determines the scope of evaluation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2802,6 +4968,7 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         evaluatorConfig: EvaluatorConfig? = nil,
         evaluatorId: String,
+        kmsKeyArn: String? = nil,
         level: EvaluatorLevel? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateEvaluatorResponse {
@@ -2810,6 +4977,7 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             evaluatorConfig: evaluatorConfig, 
             evaluatorId: evaluatorId, 
+            kmsKeyArn: kmsKeyArn, 
             level: level
         )
         return try await self.updateEvaluator(input, logger: logger)
@@ -2833,6 +5001,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - authorizerConfiguration: The updated authorizer configuration for the gateway.
     ///   - authorizerType: The updated authorizer type for the gateway.
+    ///   - customTransformConfiguration: The updated custom transformation configuration for the gateway. This configuration defines how the gateway transforms requests and responses.
     ///   - description: The updated description for the gateway.
     ///   - exceptionLevel: The level of detail in error messages returned when invoking the gateway.   If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.   If the value is omitted, a generic error message is returned to the end user.
     ///   - gatewayIdentifier: The identifier of the gateway to update.
@@ -2843,11 +5012,13 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - protocolConfiguration: 
     ///   - protocolType: The updated protocol type for the gateway.
     ///   - roleArn: The updated IAM role ARN that provides permissions for the gateway.
+    ///   - wafConfiguration: The updated Amazon Web Services WAF configuration for the gateway.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGateway(
         authorizerConfiguration: AuthorizerConfiguration? = nil,
         authorizerType: AuthorizerType,
+        customTransformConfiguration: CustomTransformConfiguration? = nil,
         description: String? = nil,
         exceptionLevel: ExceptionLevel? = nil,
         gatewayIdentifier: String,
@@ -2856,13 +5027,15 @@ public struct BedrockAgentCoreControl: AWSService {
         name: String,
         policyEngineConfiguration: GatewayPolicyEngineConfiguration? = nil,
         protocolConfiguration: GatewayProtocolConfiguration? = nil,
-        protocolType: GatewayProtocolType,
+        protocolType: GatewayProtocolType? = nil,
         roleArn: String,
+        wafConfiguration: WafConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGatewayResponse {
         let input = UpdateGatewayRequest(
             authorizerConfiguration: authorizerConfiguration, 
             authorizerType: authorizerType, 
+            customTransformConfiguration: customTransformConfiguration, 
             description: description, 
             exceptionLevel: exceptionLevel, 
             gatewayIdentifier: gatewayIdentifier, 
@@ -2872,12 +5045,57 @@ public struct BedrockAgentCoreControl: AWSService {
             policyEngineConfiguration: policyEngineConfiguration, 
             protocolConfiguration: protocolConfiguration, 
             protocolType: protocolType, 
-            roleArn: roleArn
+            roleArn: roleArn, 
+            wafConfiguration: wafConfiguration
         )
         return try await self.updateGateway(input, logger: logger)
     }
 
-    /// Updates an existing gateway target.
+    /// Updates a gateway rule's priority, conditions, actions, or description.
+    @Sendable
+    @inlinable
+    public func updateGatewayRule(_ input: UpdateGatewayRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayRuleResponse {
+        try await self.client.execute(
+            operation: "UpdateGatewayRule", 
+            path: "/gateways/{gatewayIdentifier}/rules/{ruleId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a gateway rule's priority, conditions, actions, or description.
+    ///
+    /// Parameters:
+    ///   - actions: The updated actions for the rule.
+    ///   - conditions: The updated conditions for the rule.
+    ///   - description: The updated description of the rule.
+    ///   - gatewayIdentifier: The identifier of the gateway containing the rule.
+    ///   - priority: The updated priority of the rule.
+    ///   - ruleId: The unique identifier of the rule to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateGatewayRule(
+        actions: [Action]? = nil,
+        conditions: [Condition]? = nil,
+        description: String? = nil,
+        gatewayIdentifier: String,
+        priority: Int? = nil,
+        ruleId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateGatewayRuleResponse {
+        let input = UpdateGatewayRuleRequest(
+            actions: actions, 
+            conditions: conditions, 
+            description: description, 
+            gatewayIdentifier: gatewayIdentifier, 
+            priority: priority, 
+            ruleId: ruleId
+        )
+        return try await self.updateGatewayRule(input, logger: logger)
+    }
+
+    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     @Sendable
     @inlinable
     public func updateGatewayTarget(_ input: UpdateGatewayTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayTargetResponse {
@@ -2890,7 +5108,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing gateway target.
+    /// Updates an existing gateway target. You cannot update a target that is in a pending authorization state (CREATE_PENDING_AUTH, UPDATE_PENDING_AUTH, or SYNCHRONIZE_PENDING_AUTH). Wait for the authorization to complete or fail before updating the target.
     ///
     /// Parameters:
     ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
@@ -2898,6 +5116,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
     ///   - metadataConfiguration: Configuration for HTTP header and query parameter propagation to the gateway target.
     ///   - name: The updated name for the gateway target.
+    ///   - privateEndpoint: The private endpoint configuration for the gateway target. Use this to connect the gateway to private resources in your VPC.
     ///   - targetConfiguration: 
     ///   - targetId: The unique identifier of the gateway target to update.
     ///   - logger: Logger use during operation
@@ -2907,7 +5126,8 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         gatewayIdentifier: String,
         metadataConfiguration: MetadataConfiguration? = nil,
-        name: String,
+        name: String? = nil,
+        privateEndpoint: PrivateEndpoint? = nil,
         targetConfiguration: TargetConfiguration,
         targetId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2918,10 +5138,129 @@ public struct BedrockAgentCoreControl: AWSService {
             gatewayIdentifier: gatewayIdentifier, 
             metadataConfiguration: metadataConfiguration, 
             name: name, 
+            privateEndpoint: privateEndpoint, 
             targetConfiguration: targetConfiguration, 
             targetId: targetId
         )
         return try await self.updateGatewayTarget(input, logger: logger)
+    }
+
+    /// Operation to update a harness.
+    @Sendable
+    @inlinable
+    public func updateHarness(_ input: UpdateHarnessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHarnessResponse {
+        try await self.client.execute(
+            operation: "UpdateHarness", 
+            path: "/harnesses/{harnessId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to update a harness.
+    ///
+    /// Parameters:
+    ///   - allowedTools: The tools that the agent is allowed to use. If specified, this replaces all existing allowed tools. If not specified, the existing value is retained.
+    ///   - authorizerConfiguration: 
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - environment: The compute environment configuration for the harness. If not specified, the existing value is retained.
+    ///   - environmentArtifact: The environment artifact for the harness. Use the optionalValue wrapper to set a new value, or set it to null to clear the existing configuration.
+    ///   - environmentVariables: Environment variables to set in the harness runtime environment. If specified, this replaces all existing environment variables. If not specified, the existing value is retained.
+    ///   - executionRoleArn: The ARN of the IAM role that the harness assumes when running. If not specified, the existing value is retained.
+    ///   - harnessId: The ID of the harness to update.
+    ///   - maxIterations: The maximum number of iterations the agent loop can execute per invocation. If not specified, the existing value is retained.
+    ///   - maxTokens: The maximum total number of output tokens the agent can generate across all model calls within a single invocation. If not specified, the existing value is retained.
+    ///   - memory: The AgentCore Memory configuration. Use the optionalValue wrapper to set a new value, or set it to null to clear the existing configuration.
+    ///   - model: The model configuration for the harness. If not specified, the existing value is retained.
+    ///   - skills: The skills available to the agent. If specified, this replaces all existing skills. If not specified, the existing value is retained.
+    ///   - systemPrompt: The system prompt that defines the agent's behavior. If not specified, the existing value is retained.
+    ///   - timeoutSeconds: The maximum duration in seconds for the agent loop execution per invocation. If not specified, the existing value is retained.
+    ///   - tools: The tools available to the agent. If specified, this replaces all existing tools. If not specified, the existing value is retained.
+    ///   - truncation: The truncation configuration for managing conversation context. If not specified, the existing value is retained.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateHarness(
+        allowedTools: [String]? = nil,
+        authorizerConfiguration: UpdatedAuthorizerConfiguration? = nil,
+        clientToken: String? = UpdateHarnessRequest.idempotencyToken(),
+        environment: HarnessEnvironmentProviderRequest? = nil,
+        environmentArtifact: UpdatedHarnessEnvironmentArtifact? = nil,
+        environmentVariables: [String: String]? = nil,
+        executionRoleArn: String? = nil,
+        harnessId: String,
+        maxIterations: Int? = nil,
+        maxTokens: Int? = nil,
+        memory: UpdatedHarnessMemoryConfiguration? = nil,
+        model: HarnessModelConfiguration? = nil,
+        skills: [HarnessSkill]? = nil,
+        systemPrompt: [HarnessSystemContentBlock]? = nil,
+        timeoutSeconds: Int? = nil,
+        tools: [HarnessTool]? = nil,
+        truncation: HarnessTruncationConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateHarnessResponse {
+        let input = UpdateHarnessRequest(
+            allowedTools: allowedTools, 
+            authorizerConfiguration: authorizerConfiguration, 
+            clientToken: clientToken, 
+            environment: environment, 
+            environmentArtifact: environmentArtifact, 
+            environmentVariables: environmentVariables, 
+            executionRoleArn: executionRoleArn, 
+            harnessId: harnessId, 
+            maxIterations: maxIterations, 
+            maxTokens: maxTokens, 
+            memory: memory, 
+            model: model, 
+            skills: skills, 
+            systemPrompt: systemPrompt, 
+            timeoutSeconds: timeoutSeconds, 
+            tools: tools, 
+            truncation: truncation
+        )
+        return try await self.updateHarness(input, logger: logger)
+    }
+
+    /// Operation to update a harness endpoint.
+    @Sendable
+    @inlinable
+    public func updateHarnessEndpoint(_ input: UpdateHarnessEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHarnessEndpointResponse {
+        try await self.client.execute(
+            operation: "UpdateHarnessEndpoint", 
+            path: "/harnesses/{harnessId}/endpoints/{endpointName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to update a harness endpoint.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - description: A description of the endpoint. If not specified, the existing value is retained.
+    ///   - endpointName: The name of the endpoint to update.
+    ///   - harnessId: The ID of the harness that the endpoint belongs to.
+    ///   - targetVersion: The harness version that the endpoint points to. If not specified, the existing value is retained.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateHarnessEndpoint(
+        clientToken: String? = UpdateHarnessEndpointRequest.idempotencyToken(),
+        description: String? = nil,
+        endpointName: String,
+        harnessId: String,
+        targetVersion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateHarnessEndpointResponse {
+        let input = UpdateHarnessEndpointRequest(
+            clientToken: clientToken, 
+            description: description, 
+            endpointName: endpointName, 
+            harnessId: harnessId, 
+            targetVersion: targetVersion
+        )
+        return try await self.updateHarnessEndpoint(input, logger: logger)
     }
 
     /// Update an Amazon Bedrock AgentCore Memory resource memory.
@@ -2940,6 +5279,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Update an Amazon Bedrock AgentCore Memory resource memory.
     ///
     /// Parameters:
+    ///   - addIndexedKeys: Additional metadata keys to index. Previously indexed keys cannot be removed.
     ///   - clientToken: A client token is used for keeping track of idempotent requests. It can contain a session id which can be around 250 chars, combined with a unique AWS identifier.
     ///   - description: The updated description of the AgentCore Memory resource.
     ///   - eventExpiryDuration: The number of days after which memory events will expire, between 7 and 365 days.
@@ -2950,6 +5290,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMemory(
+        addIndexedKeys: [IndexedKey]? = nil,
         clientToken: String? = UpdateMemoryInput.idempotencyToken(),
         description: String? = nil,
         eventExpiryDuration: Int? = nil,
@@ -2960,6 +5301,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMemoryOutput {
         let input = UpdateMemoryInput(
+            addIndexedKeys: addIndexedKeys, 
             clientToken: clientToken, 
             description: description, 
             eventExpiryDuration: eventExpiryDuration, 
@@ -3023,37 +5365,166 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - clusteringConfig: The updated clustering configuration for periodic batch evaluation.
     ///   - dataSourceConfig:  The updated data source configuration specifying CloudWatch log groups and service names to monitor.
     ///   - description:  The updated description of the online evaluation configuration.
     ///   - evaluationExecutionRoleArn:  The updated Amazon Resource Name (ARN) of the IAM role used for evaluation execution.
     ///   - evaluators:  The updated list of evaluators to apply during online evaluation.
     ///   - executionStatus:  The updated execution status to enable or disable the online evaluation.
+    ///   - insights: The updated list of insight types to run against agent sessions.
     ///   - onlineEvaluationConfigId:  The unique identifier of the online evaluation configuration to update.
     ///   - rule:  The updated evaluation rule containing sampling configuration, filters, and session settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateOnlineEvaluationConfig(
         clientToken: String? = UpdateOnlineEvaluationConfigRequest.idempotencyToken(),
+        clusteringConfig: ClusteringConfig? = nil,
         dataSourceConfig: DataSourceConfig? = nil,
         description: String? = nil,
         evaluationExecutionRoleArn: String? = nil,
         evaluators: [EvaluatorReference]? = nil,
         executionStatus: OnlineEvaluationExecutionStatus? = nil,
+        insights: [Insight]? = nil,
         onlineEvaluationConfigId: String,
         rule: Rule? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateOnlineEvaluationConfigResponse {
         let input = UpdateOnlineEvaluationConfigRequest(
             clientToken: clientToken, 
+            clusteringConfig: clusteringConfig, 
             dataSourceConfig: dataSourceConfig, 
             description: description, 
             evaluationExecutionRoleArn: evaluationExecutionRoleArn, 
             evaluators: evaluators, 
             executionStatus: executionStatus, 
+            insights: insights, 
             onlineEvaluationConfigId: onlineEvaluationConfigId, 
             rule: rule
         )
         return try await self.updateOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    @Sendable
+    @inlinable
+    public func updatePaymentConnector(_ input: UpdatePaymentConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePaymentConnectorResponse {
+        try await self.client.execute(
+            operation: "UpdatePaymentConnector", 
+            path: "/payments/managers/{paymentManagerId}/connectors/{paymentConnectorId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing payment connector. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - credentialProviderConfigurations: The updated credential provider configurations for the payment connector.
+    ///   - description: The updated description of the payment connector.
+    ///   - paymentConnectorId: The unique identifier of the payment connector to update.
+    ///   - paymentManagerId: The unique identifier of the parent payment manager.
+    ///   - type: The updated type of the payment connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePaymentConnector(
+        clientToken: String? = UpdatePaymentConnectorRequest.idempotencyToken(),
+        credentialProviderConfigurations: [CredentialsProviderConfiguration]? = nil,
+        description: String? = nil,
+        paymentConnectorId: String,
+        paymentManagerId: String,
+        type: PaymentConnectorType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePaymentConnectorResponse {
+        let input = UpdatePaymentConnectorRequest(
+            clientToken: clientToken, 
+            credentialProviderConfigurations: credentialProviderConfigurations, 
+            description: description, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentManagerId: paymentManagerId, 
+            type: type
+        )
+        return try await self.updatePaymentConnector(input, logger: logger)
+    }
+
+    /// Updates an existing payment credential provider with new authentication credentials.
+    @Sendable
+    @inlinable
+    public func updatePaymentCredentialProvider(_ input: UpdatePaymentCredentialProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePaymentCredentialProviderResponse {
+        try await self.client.execute(
+            operation: "UpdatePaymentCredentialProvider", 
+            path: "/identities/UpdatePaymentCredentialProvider", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing payment credential provider with new authentication credentials.
+    ///
+    /// Parameters:
+    ///   - credentialProviderVendor: The vendor type for the payment credential provider (e.g., CoinbaseCDP, StripePrivy).
+    ///   - name: The name of the payment credential provider to update.
+    ///   - providerConfigurationInput: Configuration specific to the vendor, including API credentials.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePaymentCredentialProvider(
+        credentialProviderVendor: PaymentCredentialProviderVendorType,
+        name: String,
+        providerConfigurationInput: PaymentProviderConfigurationInput,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePaymentCredentialProviderResponse {
+        let input = UpdatePaymentCredentialProviderRequest(
+            credentialProviderVendor: credentialProviderVendor, 
+            name: name, 
+            providerConfigurationInput: providerConfigurationInput
+        )
+        return try await self.updatePaymentCredentialProvider(input, logger: logger)
+    }
+
+    /// Updates an existing payment manager. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    @Sendable
+    @inlinable
+    public func updatePaymentManager(_ input: UpdatePaymentManagerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePaymentManagerResponse {
+        try await self.client.execute(
+            operation: "UpdatePaymentManager", 
+            path: "/payments/managers/{paymentManagerId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing payment manager. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    ///
+    /// Parameters:
+    ///   - authorizerConfiguration: The updated authorizer configuration for the payment manager.
+    ///   - authorizerType: The updated authorizer type for the payment manager.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description: The updated description of the payment manager.
+    ///   - paymentManagerId: The unique identifier of the payment manager to update.
+    ///   - roleArn: The updated Amazon Resource Name (ARN) of the IAM role for the payment manager.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePaymentManager(
+        authorizerConfiguration: AuthorizerConfiguration? = nil,
+        authorizerType: PaymentsAuthorizerType? = nil,
+        clientToken: String? = UpdatePaymentManagerRequest.idempotencyToken(),
+        description: String? = nil,
+        paymentManagerId: String,
+        roleArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePaymentManagerResponse {
+        let input = UpdatePaymentManagerRequest(
+            authorizerConfiguration: authorizerConfiguration, 
+            authorizerType: authorizerType, 
+            clientToken: clientToken, 
+            description: description, 
+            paymentManagerId: paymentManagerId, 
+            roleArn: roleArn
+        )
+        return try await self.updatePaymentManager(input, logger: logger)
     }
 
     /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
@@ -3074,6 +5545,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Parameters:
     ///   - definition: The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
     ///   - description: The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
+    ///   - enforcementMode: The enforcement mode for the policy. Run this policy in LOG_ONLY mode to collect data on how it affects your application. Once you are satisfied with the data gathered, switch the policy to ACTIVE. If you omit this field, the policy's existing enforcement mode is unchanged.
     ///   - policyEngineId: The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context.
     ///   - policyId: The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine.
     ///   - validationMode: The validation mode for the policy update. Determines how Cedar analyzer validation results are handled during policy updates. FAIL_ON_ANY_FINDINGS runs the Cedar analyzer and fails the update if validation issues are detected, ensuring the policy conforms to the Cedar schema and tool context. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows updates despite validation warnings. Use FAIL_ON_ANY_FINDINGS to ensure policy correctness during updates, especially when modifying policy logic or conditions.
@@ -3082,6 +5554,7 @@ public struct BedrockAgentCoreControl: AWSService {
     public func updatePolicy(
         definition: PolicyDefinition? = nil,
         description: UpdatedDescription? = nil,
+        enforcementMode: EnforcementMode? = nil,
         policyEngineId: String,
         policyId: String,
         validationMode: PolicyValidationMode? = nil,
@@ -3090,6 +5563,7 @@ public struct BedrockAgentCoreControl: AWSService {
         let input = UpdatePolicyRequest(
             definition: definition, 
             description: description, 
+            enforcementMode: enforcementMode, 
             policyEngineId: policyEngineId, 
             policyId: policyId, 
             validationMode: validationMode
@@ -3127,6 +5601,141 @@ public struct BedrockAgentCoreControl: AWSService {
             policyEngineId: policyEngineId
         )
         return try await self.updatePolicyEngine(input, logger: logger)
+    }
+
+    /// Updates an existing registry. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    @Sendable
+    @inlinable
+    public func updateRegistry(_ input: UpdateRegistryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegistryResponse {
+        try await self.client.execute(
+            operation: "UpdateRegistry", 
+            path: "/registries/{registryId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing registry. This operation uses PATCH semantics, so you only need to specify the fields you want to change.
+    ///
+    /// Parameters:
+    ///   - approvalConfiguration: The updated approval configuration for registry records. The updated configuration only affects new records that move to PENDING_APPROVAL status after the change. Existing records already in PENDING_APPROVAL status are not affected.
+    ///   - authorizerConfiguration: The updated authorizer configuration for the registry. Changing the authorizer configuration can break existing consumers of the registry who are using the authorization type prior to the update.
+    ///   - description: The updated description of the registry. To clear the description, include the UpdatedDescription wrapper with optionalValue not specified.
+    ///   - name: The updated name of the registry.
+    ///   - registryId: The identifier of the registry to update. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRegistry(
+        approvalConfiguration: UpdatedApprovalConfiguration? = nil,
+        authorizerConfiguration: UpdatedAuthorizerConfiguration? = nil,
+        description: UpdatedDescription? = nil,
+        name: String? = nil,
+        registryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRegistryResponse {
+        let input = UpdateRegistryRequest(
+            approvalConfiguration: approvalConfiguration, 
+            authorizerConfiguration: authorizerConfiguration, 
+            description: description, 
+            name: name, 
+            registryId: registryId
+        )
+        return try await self.updateRegistry(input, logger: logger)
+    }
+
+    /// Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted.
+    @Sendable
+    @inlinable
+    public func updateRegistryRecord(_ input: UpdateRegistryRecordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegistryRecordResponse {
+        try await self.client.execute(
+            operation: "UpdateRegistryRecord", 
+            path: "/registries/{registryId}/records/{recordId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing registry record. This operation uses PATCH semantics, so you only need to specify the fields you want to change. The update is processed asynchronously and returns HTTP 202 Accepted.
+    ///
+    /// Parameters:
+    ///   - description: The updated description for the registry record. To clear the description, include the UpdatedDescription wrapper with optionalValue not specified.
+    ///   - descriptors: The updated descriptor-type-specific configuration containing the resource schema and metadata. Uses PATCH semantics where individual descriptor fields can be updated independently.
+    ///   - descriptorType: The updated descriptor type for the registry record. Changing the descriptor type may require updating the descriptors field to match the new type's schema requirements.
+    ///   - name: The updated name for the registry record.
+    ///   - recordId: The identifier of the registry record to update. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    ///   - recordVersion: The version of the registry record for optimistic locking. If provided, it must match the current version of the record. The service automatically increments the version after a successful update.
+    ///   - registryId: The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - synchronizationConfiguration: The updated synchronization configuration for the registry record.
+    ///   - synchronizationType: The updated synchronization type for the registry record.
+    ///   - triggerSynchronization: Whether to trigger synchronization using the stored or provided configuration. When set to true, the service will synchronize the record metadata from the configured external source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRegistryRecord(
+        description: UpdatedDescription? = nil,
+        descriptors: UpdatedDescriptors? = nil,
+        descriptorType: DescriptorType? = nil,
+        name: String? = nil,
+        recordId: String,
+        recordVersion: String? = nil,
+        registryId: String,
+        synchronizationConfiguration: UpdatedSynchronizationConfiguration? = nil,
+        synchronizationType: UpdatedSynchronizationType? = nil,
+        triggerSynchronization: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRegistryRecordResponse {
+        let input = UpdateRegistryRecordRequest(
+            description: description, 
+            descriptors: descriptors, 
+            descriptorType: descriptorType, 
+            name: name, 
+            recordId: recordId, 
+            recordVersion: recordVersion, 
+            registryId: registryId, 
+            synchronizationConfiguration: synchronizationConfiguration, 
+            synchronizationType: synchronizationType, 
+            triggerSynchronization: triggerSynchronization
+        )
+        return try await self.updateRegistryRecord(input, logger: logger)
+    }
+
+    /// Updates the status of a registry record. Use this operation to approve, reject, or deprecate a registry record.
+    @Sendable
+    @inlinable
+    public func updateRegistryRecordStatus(_ input: UpdateRegistryRecordStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRegistryRecordStatusResponse {
+        try await self.client.execute(
+            operation: "UpdateRegistryRecordStatus", 
+            path: "/registries/{registryId}/records/{recordId}/status", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the status of a registry record. Use this operation to approve, reject, or deprecate a registry record.
+    ///
+    /// Parameters:
+    ///   - recordId: The identifier of the registry record to update the status for. You can specify either the Amazon Resource Name (ARN) or the ID of the record.
+    ///   - registryId: The identifier of the registry containing the record. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - status: The target status for the registry record.
+    ///   - statusReason: The reason for the status change, such as why the record was approved or rejected.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRegistryRecordStatus(
+        recordId: String,
+        registryId: String,
+        status: RegistryRecordStatus,
+        statusReason: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRegistryRecordStatusResponse {
+        let input = UpdateRegistryRecordStatusRequest(
+            recordId: recordId, 
+            registryId: registryId, 
+            status: status, 
+            statusReason: statusReason
+        )
+        return try await self.updateRegistryRecordStatus(input, logger: logger)
     }
 
     /// Updates an existing workload identity.
@@ -3339,14 +5948,17 @@ extension BedrockAgentCoreControl {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in the response.
+    ///   - name: The name of the browser profile to filter results by.
     ///   - logger: Logger used for logging
     @inlinable
     public func listBrowserProfilesPaginator(
         maxResults: Int? = nil,
+        name: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListBrowserProfilesRequest, ListBrowserProfilesResponse> {
         let input = ListBrowserProfilesRequest(
-            maxResults: maxResults
+            maxResults: maxResults, 
+            name: name
         )
         return self.listBrowserProfilesPaginator(input, logger: logger)
     }
@@ -3425,6 +6037,191 @@ extension BedrockAgentCoreControl {
         return self.listCodeInterpretersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConfigurationBundleVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationBundleVersionsPaginator(
+        _ input: ListConfigurationBundleVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationBundleVersionsRequest, ListConfigurationBundleVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurationBundleVersions,
+            inputKey: \ListConfigurationBundleVersionsRequest.nextToken,
+            outputKey: \ListConfigurationBundleVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurationBundleVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - bundleId: The unique identifier of the configuration bundle to list versions for.
+    ///   - filter: An optional filter for listing versions, including branch name, creation source, and whether to return only the latest version per branch.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationBundleVersionsPaginator(
+        bundleId: String,
+        filter: VersionFilter? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationBundleVersionsRequest, ListConfigurationBundleVersionsResponse> {
+        let input = ListConfigurationBundleVersionsRequest(
+            bundleId: bundleId, 
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.listConfigurationBundleVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConfigurationBundles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationBundlesPaginator(
+        _ input: ListConfigurationBundlesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConfigurationBundlesRequest, ListConfigurationBundlesResponse> {
+        return .init(
+            input: input,
+            command: self.listConfigurationBundles,
+            inputKey: \ListConfigurationBundlesRequest.nextToken,
+            outputKey: \ListConfigurationBundlesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConfigurationBundles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConfigurationBundlesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConfigurationBundlesRequest, ListConfigurationBundlesResponse> {
+        let input = ListConfigurationBundlesRequest(
+            maxResults: maxResults
+        )
+        return self.listConfigurationBundlesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasetExamples(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetExamplesPaginator(
+        _ input: ListDatasetExamplesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetExamplesRequest, ListDatasetExamplesResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasetExamples,
+            inputKey: \ListDatasetExamplesRequest.nextToken,
+            outputKey: \ListDatasetExamplesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetExamples(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - datasetVersion:  Version to paginate: "DRAFT" or a version number. Defaults to DRAFT if absent. Only used on the first request; for subsequent pages, the version is extracted from the pagination token.
+    ///   - maxResults:  Maximum number of examples to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetExamplesPaginator(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetExamplesRequest, ListDatasetExamplesResponse> {
+        let input = ListDatasetExamplesRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion, 
+            maxResults: maxResults
+        )
+        return self.listDatasetExamplesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasetVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetVersionsPaginator(
+        _ input: ListDatasetVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetVersionsRequest, ListDatasetVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasetVersions,
+            inputKey: \ListDatasetVersionsRequest.nextToken,
+            outputKey: \ListDatasetVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datasetId:  The unique identifier of the dataset.
+    ///   - maxResults:  The maximum number of versions to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetVersionsPaginator(
+        datasetId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetVersionsRequest, ListDatasetVersionsResponse> {
+        let input = ListDatasetVersionsRequest(
+            datasetId: datasetId, 
+            maxResults: maxResults
+        )
+        return self.listDatasetVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetsPaginator(
+        _ input: ListDatasetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasets,
+            inputKey: \ListDatasetsRequest.nextToken,
+            outputKey: \ListDatasetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of datasets to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
+        let input = ListDatasetsRequest(
+            maxResults: maxResults
+        )
+        return self.listDatasetsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEvaluators(_:logger:)``.
     ///
     /// - Parameters:
@@ -3457,6 +6254,43 @@ extension BedrockAgentCoreControl {
             maxResults: maxResults
         )
         return self.listEvaluatorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGatewayRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRulesPaginator(
+        _ input: ListGatewayRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGatewayRulesRequest, ListGatewayRulesResponse> {
+        return .init(
+            input: input,
+            command: self.listGatewayRules,
+            inputKey: \ListGatewayRulesRequest.nextToken,
+            outputKey: \ListGatewayRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGatewayRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - gatewayIdentifier: The identifier of the gateway to list rules for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGatewayRulesPaginator(
+        gatewayIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGatewayRulesRequest, ListGatewayRulesResponse> {
+        let input = ListGatewayRulesRequest(
+            gatewayIdentifier: gatewayIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listGatewayRulesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listGatewayTargets(_:logger:)``.
@@ -3528,6 +6362,114 @@ extension BedrockAgentCoreControl {
             maxResults: maxResults
         )
         return self.listGatewaysPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listHarnessEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessEndpointsPaginator(
+        _ input: ListHarnessEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHarnessEndpointsRequest, ListHarnessEndpointsResponse> {
+        return .init(
+            input: input,
+            command: self.listHarnessEndpoints,
+            inputKey: \ListHarnessEndpointsRequest.nextToken,
+            outputKey: \ListHarnessEndpointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listHarnessEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - harnessId: The ID of the harness whose endpoints are listed.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessEndpointsPaginator(
+        harnessId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListHarnessEndpointsRequest, ListHarnessEndpointsResponse> {
+        let input = ListHarnessEndpointsRequest(
+            harnessId: harnessId, 
+            maxResults: maxResults
+        )
+        return self.listHarnessEndpointsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listHarnessVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessVersionsPaginator(
+        _ input: ListHarnessVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHarnessVersionsRequest, ListHarnessVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listHarnessVersions,
+            inputKey: \ListHarnessVersionsRequest.nextToken,
+            outputKey: \ListHarnessVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listHarnessVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - harnessId: The ID of the harness whose versions are listed.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessVersionsPaginator(
+        harnessId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListHarnessVersionsRequest, ListHarnessVersionsResponse> {
+        let input = ListHarnessVersionsRequest(
+            harnessId: harnessId, 
+            maxResults: maxResults
+        )
+        return self.listHarnessVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listHarnesses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessesPaginator(
+        _ input: ListHarnessesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListHarnessesRequest, ListHarnessesResponse> {
+        return .init(
+            input: input,
+            command: self.listHarnesses,
+            inputKey: \ListHarnessesRequest.nextToken,
+            outputKey: \ListHarnessesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listHarnesses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listHarnessesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListHarnessesRequest, ListHarnessesResponse> {
+        let input = ListHarnessesRequest(
+            maxResults: maxResults
+        )
+        return self.listHarnessesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMemories(_:logger:)``.
@@ -3632,6 +6574,111 @@ extension BedrockAgentCoreControl {
         return self.listOnlineEvaluationConfigsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPaymentConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentConnectorsPaginator(
+        _ input: ListPaymentConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPaymentConnectorsRequest, ListPaymentConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listPaymentConnectors,
+            inputKey: \ListPaymentConnectorsRequest.nextToken,
+            outputKey: \ListPaymentConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPaymentConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - paymentManagerId: The unique identifier of the payment manager whose connectors to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentConnectorsPaginator(
+        maxResults: Int? = nil,
+        paymentManagerId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPaymentConnectorsRequest, ListPaymentConnectorsResponse> {
+        let input = ListPaymentConnectorsRequest(
+            maxResults: maxResults, 
+            paymentManagerId: paymentManagerId
+        )
+        return self.listPaymentConnectorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPaymentCredentialProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentCredentialProvidersPaginator(
+        _ input: ListPaymentCredentialProvidersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPaymentCredentialProvidersRequest, ListPaymentCredentialProvidersResponse> {
+        return .init(
+            input: input,
+            command: self.listPaymentCredentialProviders,
+            inputKey: \ListPaymentCredentialProvidersRequest.nextToken,
+            outputKey: \ListPaymentCredentialProvidersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPaymentCredentialProviders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentCredentialProvidersPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPaymentCredentialProvidersRequest, ListPaymentCredentialProvidersResponse> {
+        let input = ListPaymentCredentialProvidersRequest(
+            maxResults: maxResults
+        )
+        return self.listPaymentCredentialProvidersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPaymentManagers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentManagersPaginator(
+        _ input: ListPaymentManagersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPaymentManagersRequest, ListPaymentManagersResponse> {
+        return .init(
+            input: input,
+            command: self.listPaymentManagers,
+            inputKey: \ListPaymentManagersRequest.nextToken,
+            outputKey: \ListPaymentManagersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPaymentManagers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentManagersPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPaymentManagersRequest, ListPaymentManagersResponse> {
+        let input = ListPaymentManagersRequest(
+            maxResults: maxResults
+        )
+        return self.listPaymentManagersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -3670,6 +6717,40 @@ extension BedrockAgentCoreControl {
             targetResourceScope: targetResourceScope
         )
         return self.listPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicyEngineSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyEngineSummariesPaginator(
+        _ input: ListPolicyEngineSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyEngineSummariesRequest, ListPolicyEngineSummariesResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyEngineSummaries,
+            inputKey: \ListPolicyEngineSummariesRequest.nextToken,
+            outputKey: \ListPolicyEngineSummariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyEngineSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy engine summaries to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyEngineSummariesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyEngineSummariesRequest, ListPolicyEngineSummariesResponse> {
+        let input = ListPolicyEngineSummariesRequest(
+            maxResults: maxResults
+        )
+        return self.listPolicyEngineSummariesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPolicyEngines(_:logger:)``.
@@ -3746,6 +6827,43 @@ extension BedrockAgentCoreControl {
         return self.listPolicyGenerationAssetsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPolicyGenerationSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationSummariesPaginator(
+        _ input: ListPolicyGenerationSummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationSummariesRequest, ListPolicyGenerationSummariesResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyGenerationSummaries,
+            inputKey: \ListPolicyGenerationSummariesRequest.nextToken,
+            outputKey: \ListPolicyGenerationSummariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyGenerationSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy generation summaries to return in a single response.
+    ///   - policyEngineId: The identifier of the policy engine whose policy generation summaries to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationSummariesPaginator(
+        maxResults: Int? = nil,
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationSummariesRequest, ListPolicyGenerationSummariesResponse> {
+        let input = ListPolicyGenerationSummariesRequest(
+            maxResults: maxResults, 
+            policyEngineId: policyEngineId
+        )
+        return self.listPolicyGenerationSummariesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPolicyGenerations(_:logger:)``.
     ///
     /// - Parameters:
@@ -3781,6 +6899,132 @@ extension BedrockAgentCoreControl {
             policyEngineId: policyEngineId
         )
         return self.listPolicyGenerationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicySummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicySummariesPaginator(
+        _ input: ListPolicySummariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicySummariesRequest, ListPolicySummariesResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicySummaries,
+            inputKey: \ListPolicySummariesRequest.nextToken,
+            outputKey: \ListPolicySummariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicySummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy summaries to return in a single response.
+    ///   - policyEngineId: The identifier of the policy engine whose policy summaries to retrieve.
+    ///   - targetResourceScope: Optional filter to list policy summaries that apply to a specific resource scope or resource type. This helps narrow down results to those relevant for particular Amazon Web Services resources, agent tools, or operational contexts within the policy engine ecosystem.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicySummariesPaginator(
+        maxResults: Int? = nil,
+        policyEngineId: String,
+        targetResourceScope: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicySummariesRequest, ListPolicySummariesResponse> {
+        let input = ListPolicySummariesRequest(
+            maxResults: maxResults, 
+            policyEngineId: policyEngineId, 
+            targetResourceScope: targetResourceScope
+        )
+        return self.listPolicySummariesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRegistries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegistriesPaginator(
+        _ input: ListRegistriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRegistriesRequest, ListRegistriesResponse> {
+        return .init(
+            input: input,
+            command: self.listRegistries,
+            inputKey: \ListRegistriesRequest.nextToken,
+            outputKey: \ListRegistriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRegistries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - authorizerType: Filter registries by their authorizer type. Possible values are CUSTOM_JWT and AWS_IAM. For more information about authorizer types, see the RegistryAuthorizerType enum.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - status: Filter registries by their current status. Possible values include CREATING, READY, UPDATING, CREATE_FAILED, UPDATE_FAILED, DELETING, and DELETE_FAILED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegistriesPaginator(
+        authorizerType: RegistryAuthorizerType? = nil,
+        maxResults: Int? = nil,
+        status: RegistryStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRegistriesRequest, ListRegistriesResponse> {
+        let input = ListRegistriesRequest(
+            authorizerType: authorizerType, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listRegistriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRegistryRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegistryRecordsPaginator(
+        _ input: ListRegistryRecordsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRegistryRecordsRequest, ListRegistryRecordsResponse> {
+        return .init(
+            input: input,
+            command: self.listRegistryRecords,
+            inputKey: \ListRegistryRecordsRequest.nextToken,
+            outputKey: \ListRegistryRecordsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRegistryRecords(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - descriptorType: Filter registry records by their descriptor type. Possible values are MCP, A2A, CUSTOM, and AGENT_SKILLS.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - name: Filter registry records by name.
+    ///   - registryId: The identifier of the registry to list records from. You can specify either the Amazon Resource Name (ARN) or the ID of the registry.
+    ///   - status: Filter registry records by their current status. Possible values include CREATING, DRAFT, APPROVED, PENDING_APPROVAL, REJECTED, DEPRECATED, UPDATING, CREATE_FAILED, and UPDATE_FAILED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegistryRecordsPaginator(
+        descriptorType: DescriptorType? = nil,
+        maxResults: Int? = nil,
+        name: String? = nil,
+        registryId: String,
+        status: RegistryRecordStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRegistryRecordsRequest, ListRegistryRecordsResponse> {
+        let input = ListRegistryRecordsRequest(
+            descriptorType: descriptorType, 
+            maxResults: maxResults, 
+            name: name, 
+            registryId: registryId, 
+            status: status
+        )
+        return self.listRegistryRecordsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listWorkloadIdentities(_:logger:)``.
@@ -3865,6 +7109,7 @@ extension BedrockAgentCoreControl.ListBrowserProfilesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListBrowserProfilesRequest {
         return .init(
             maxResults: self.maxResults,
+            name: self.name,
             nextToken: token
         )
     }
@@ -3892,10 +7137,76 @@ extension BedrockAgentCoreControl.ListCodeInterpretersRequest: AWSPaginateToken 
     }
 }
 
+extension BedrockAgentCoreControl.ListConfigurationBundleVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListConfigurationBundleVersionsRequest {
+        return .init(
+            bundleId: self.bundleId,
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListConfigurationBundlesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListConfigurationBundlesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListDatasetExamplesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListDatasetExamplesRequest {
+        return .init(
+            datasetId: self.datasetId,
+            datasetVersion: self.datasetVersion,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListDatasetVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListDatasetVersionsRequest {
+        return .init(
+            datasetId: self.datasetId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListDatasetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListDatasetsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListEvaluatorsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListEvaluatorsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListGatewayRulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListGatewayRulesRequest {
+        return .init(
+            gatewayIdentifier: self.gatewayIdentifier,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -3916,6 +7227,38 @@ extension BedrockAgentCoreControl.ListGatewayTargetsRequest: AWSPaginateToken {
 extension BedrockAgentCoreControl.ListGatewaysRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListGatewaysRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListHarnessEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListHarnessEndpointsRequest {
+        return .init(
+            harnessId: self.harnessId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListHarnessVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListHarnessVersionsRequest {
+        return .init(
+            harnessId: self.harnessId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListHarnessesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListHarnessesRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
@@ -3953,6 +7296,37 @@ extension BedrockAgentCoreControl.ListOnlineEvaluationConfigsRequest: AWSPaginat
     }
 }
 
+extension BedrockAgentCoreControl.ListPaymentConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPaymentConnectorsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            paymentManagerId: self.paymentManagerId
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPaymentCredentialProvidersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPaymentCredentialProvidersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPaymentManagersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPaymentManagersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListPoliciesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPoliciesRequest {
@@ -3961,6 +7335,16 @@ extension BedrockAgentCoreControl.ListPoliciesRequest: AWSPaginateToken {
             nextToken: token,
             policyEngineId: self.policyEngineId,
             targetResourceScope: self.targetResourceScope
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPolicyEngineSummariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyEngineSummariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -3987,6 +7371,17 @@ extension BedrockAgentCoreControl.ListPolicyGenerationAssetsRequest: AWSPaginate
     }
 }
 
+extension BedrockAgentCoreControl.ListPolicyGenerationSummariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyGenerationSummariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyEngineId: self.policyEngineId
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListPolicyGenerationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyGenerationsRequest {
@@ -3994,6 +7389,44 @@ extension BedrockAgentCoreControl.ListPolicyGenerationsRequest: AWSPaginateToken
             maxResults: self.maxResults,
             nextToken: token,
             policyEngineId: self.policyEngineId
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPolicySummariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicySummariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyEngineId: self.policyEngineId,
+            targetResourceScope: self.targetResourceScope
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListRegistriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListRegistriesRequest {
+        return .init(
+            authorizerType: self.authorizerType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListRegistryRecordsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListRegistryRecordsRequest {
+        return .init(
+            descriptorType: self.descriptorType,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            registryId: self.registryId,
+            status: self.status
         )
     }
 }

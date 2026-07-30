@@ -172,6 +172,8 @@ public struct Outposts: AWSService {
     ///   - outpostIdentifier:  The ID or the Amazon Resource Name (ARN) of the Outpost.
     ///   - paymentOption: The payment option.
     ///   - paymentTerm: The payment terms.
+    ///   - quoteIdentifier: The ID of the quote to use for the order.
+    ///   - quoteOptionIdentifier: The ID of the quote option to use for the order.
     ///   - logger: Logger use during operation
     @inlinable
     public func createOrder(
@@ -179,13 +181,17 @@ public struct Outposts: AWSService {
         outpostIdentifier: String,
         paymentOption: PaymentOption,
         paymentTerm: PaymentTerm? = nil,
+        quoteIdentifier: String? = nil,
+        quoteOptionIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOrderOutput {
         let input = CreateOrderInput(
             lineItems: lineItems, 
             outpostIdentifier: outpostIdentifier, 
             paymentOption: paymentOption, 
-            paymentTerm: paymentTerm
+            paymentTerm: paymentTerm, 
+            quoteIdentifier: quoteIdentifier, 
+            quoteOptionIdentifier: quoteOptionIdentifier
         )
         return try await self.createOrder(input, logger: logger)
     }
@@ -235,6 +241,91 @@ public struct Outposts: AWSService {
             tags: tags
         )
         return try await self.createOutpost(input, logger: logger)
+    }
+
+    /// Creates a quote for an Outpost. A quote provides pricing and configuration options based on the requested capacity. You can optionally associate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities.
+    @Sendable
+    @inlinable
+    public func createQuote(_ input: CreateQuoteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuoteOutput {
+        try await self.client.execute(
+            operation: "CreateQuote", 
+            path: "/quotes", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a quote for an Outpost. A quote provides pricing and configuration options based on the requested capacity. You can optionally associate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities.
+    ///
+    /// Parameters:
+    ///   - countryCode: The country code for the Outpost site location.
+    ///   - description: A description for the quote.
+    ///   - outpostIdentifier: The ID or ARN of the Outpost to associate with the quote. If not specified, the quote is created without an Outpost association.
+    ///   - requestedCapacities: The capacity requirements for the quote. Each entry specifies a capacity type (such as Amazon EC2), the unit, and the quantity. For Amazon EC2, the quantity is the number of additional instances to add to the Outpost. For Amazon EBS and Amazon S3, the quantity is the total desired end-state capacity of the Outpost.
+    ///   - requestedConstraints: The physical constraints for the quote, such as maximum number of racks, maximum power draw per rack, or maximum weight per rack.
+    ///   - requestedPaymentOptions: The payment options to include in the quote pricing. If not specified, all available payment options are returned.
+    ///   - requestedPaymentTerms: The payment terms to include in the quote pricing. If not specified, all available payment terms are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createQuote(
+        countryCode: String,
+        description: String? = nil,
+        outpostIdentifier: String? = nil,
+        requestedCapacities: [QuoteCapacity],
+        requestedConstraints: [QuoteConstraint]? = nil,
+        requestedPaymentOptions: [PaymentOption]? = nil,
+        requestedPaymentTerms: [PaymentTerm]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateQuoteOutput {
+        let input = CreateQuoteInput(
+            countryCode: countryCode, 
+            description: description, 
+            outpostIdentifier: outpostIdentifier, 
+            requestedCapacities: requestedCapacities, 
+            requestedConstraints: requestedConstraints, 
+            requestedPaymentOptions: requestedPaymentOptions, 
+            requestedPaymentTerms: requestedPaymentTerms
+        )
+        return try await self.createQuote(input, logger: logger)
+    }
+
+    /// Creates a renewal contract for the specified Outpost.
+    @Sendable
+    @inlinable
+    public func createRenewal(_ input: CreateRenewalInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRenewalOutput {
+        try await self.client.execute(
+            operation: "CreateRenewal", 
+            path: "/renewals", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a renewal contract for the specified Outpost.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - outpostIdentifier: The ID or ARN of the Outpost.
+    ///   - paymentOption: The payment option.
+    ///   - paymentTerm: The payment term.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRenewal(
+        clientToken: String? = CreateRenewalInput.idempotencyToken(),
+        outpostIdentifier: String,
+        paymentOption: PaymentOption,
+        paymentTerm: PaymentTerm,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRenewalOutput {
+        let input = CreateRenewalInput(
+            clientToken: clientToken, 
+            outpostIdentifier: outpostIdentifier, 
+            paymentOption: paymentOption, 
+            paymentTerm: paymentTerm
+        )
+        return try await self.createRenewal(input, logger: logger)
     }
 
     ///  Creates a site for an Outpost.
@@ -311,6 +402,35 @@ public struct Outposts: AWSService {
             outpostId: outpostId
         )
         return try await self.deleteOutpost(input, logger: logger)
+    }
+
+    /// Deletes the specified quote.
+    @Sendable
+    @inlinable
+    public func deleteQuote(_ input: DeleteQuoteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQuoteOutput {
+        try await self.client.execute(
+            operation: "DeleteQuote", 
+            path: "/quotes/{QuoteIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified quote.
+    ///
+    /// Parameters:
+    ///   - quoteIdentifier: The ID of the quote.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteQuote(
+        quoteIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteQuoteOutput {
+        let input = DeleteQuoteInput(
+            quoteIdentifier: quoteIdentifier
+        )
+        return try await self.deleteQuote(input, logger: logger)
     }
 
     /// Deletes the specified site.
@@ -601,6 +721,64 @@ public struct Outposts: AWSService {
         return try await self.getOutpostSupportedInstanceTypes(input, logger: logger)
     }
 
+    /// Gets information about the specified quote.
+    @Sendable
+    @inlinable
+    public func getQuote(_ input: GetQuoteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQuoteOutput {
+        try await self.client.execute(
+            operation: "GetQuote", 
+            path: "/quotes/{QuoteIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the specified quote.
+    ///
+    /// Parameters:
+    ///   - quoteIdentifier: The ID of the quote.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQuote(
+        quoteIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQuoteOutput {
+        let input = GetQuoteInput(
+            quoteIdentifier: quoteIdentifier
+        )
+        return try await self.getQuote(input, logger: logger)
+    }
+
+    /// Gets all available renewal pricing options for the specified Outpost.
+    @Sendable
+    @inlinable
+    public func getRenewalPricing(_ input: GetRenewalPricingInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRenewalPricingOutput {
+        try await self.client.execute(
+            operation: "GetRenewalPricing", 
+            path: "/outpost/{OutpostIdentifier}/renewal-pricing", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets all available renewal pricing options for the specified Outpost.
+    ///
+    /// Parameters:
+    ///   - outpostIdentifier: The ID or ARN of the Outpost.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRenewalPricing(
+        outpostIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRenewalPricingOutput {
+        let input = GetRenewalPricingInput(
+            outpostIdentifier: outpostIdentifier
+        )
+        return try await self.getRenewalPricing(input, logger: logger)
+    }
+
     /// Gets information about the specified Outpost site.
     @Sendable
     @inlinable
@@ -725,6 +903,7 @@ public struct Outposts: AWSService {
     /// Lists the hardware assets for the specified Outpost. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
     ///
     /// Parameters:
+    ///   - assetTypeFilter: Filters the results by asset type.   COMPUTE - Server asset used for customer compute    STORAGE - Server asset used by storage services    POWERSHELF - Powershelf assets    SWITCH - Switch assets    NETWORKING - Asset managed by Amazon Web Services for networking purposes
     ///   - hostIdFilter: Filters the results by the host ID of a Dedicated Host.
     ///   - maxResults: 
     ///   - nextToken: 
@@ -733,6 +912,7 @@ public struct Outposts: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listAssets(
+        assetTypeFilter: [AssetType]? = nil,
         hostIdFilter: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -741,6 +921,7 @@ public struct Outposts: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListAssetsOutput {
         let input = ListAssetsInput(
+            assetTypeFilter: assetTypeFilter, 
             hostIdFilter: hostIdFilter, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -867,6 +1048,41 @@ public struct Outposts: AWSService {
         return try await self.listCatalogItems(input, logger: logger)
     }
 
+    /// Lists the instance types that can be ordered for an Outpost. You can filter the results by Outpost generation.
+    @Sendable
+    @inlinable
+    public func listOrderableInstanceTypes(_ input: ListOrderableInstanceTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrderableInstanceTypesOutput {
+        try await self.client.execute(
+            operation: "ListOrderableInstanceTypes", 
+            path: "/instanceTypes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the instance types that can be ordered for an Outpost. You can filter the results by Outpost generation.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: The pagination token.
+    ///   - outpostGenerationFilter: Filters the results by Outpost generation. Specify GENERATION_1 for first-generation rack deployments or GENERATION_2 for second-generation rack deployments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOrderableInstanceTypes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        outpostGenerationFilter: OutpostGeneration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOrderableInstanceTypesOutput {
+        let input = ListOrderableInstanceTypesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            outpostGenerationFilter: outpostGenerationFilter
+        )
+        return try await self.listOrderableInstanceTypes(input, logger: logger)
+    }
+
     /// Lists the Outpost orders for your Amazon Web Services account.
     @Sendable
     @inlinable
@@ -941,6 +1157,38 @@ public struct Outposts: AWSService {
             nextToken: nextToken
         )
         return try await self.listOutposts(input, logger: logger)
+    }
+
+    /// Lists the quotes for your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listQuotes(_ input: ListQuotesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQuotesOutput {
+        try await self.client.execute(
+            operation: "ListQuotes", 
+            path: "/quotes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the quotes for your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - nextToken: The pagination token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQuotes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQuotesOutput {
+        let input = ListQuotesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listQuotes(input, logger: logger)
     }
 
     /// Lists the Outpost sites for your Amazon Web Services account. Use filters to return specific results. Use filters to return specific results. If you specify multiple filters, the results include only the resources that match  all of the specified filters. For a filter where you can specify multiple values, the results include  items that match any of the values that you specify for the filter.
@@ -1230,6 +1478,56 @@ public struct Outposts: AWSService {
             supportedHardwareType: supportedHardwareType
         )
         return try await self.updateOutpost(input, logger: logger)
+    }
+
+    /// Updates the specified quote. You can modify the requested capacities, constraints, payment options, payment terms, or Outpost association.
+    @Sendable
+    @inlinable
+    public func updateQuote(_ input: UpdateQuoteInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQuoteOutput {
+        try await self.client.execute(
+            operation: "UpdateQuote", 
+            path: "/quotes/{QuoteIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified quote. You can modify the requested capacities, constraints, payment options, payment terms, or Outpost association.
+    ///
+    /// Parameters:
+    ///   - countryCode: The country code for the Outpost site location.
+    ///   - description: A description for the quote.
+    ///   - outpostIdentifier: The ID or ARN of the Outpost to associate with the quote. Specify an empty string to remove the Outpost association.
+    ///   - quoteIdentifier: The ID of the quote.
+    ///   - requestedCapacities: The updated capacity requirements for the quote.
+    ///   - requestedConstraints: The updated physical constraints for the quote.
+    ///   - requestedPaymentOptions: The updated payment options to include in the quote pricing.
+    ///   - requestedPaymentTerms: The updated payment terms to include in the quote pricing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQuote(
+        countryCode: String? = nil,
+        description: String? = nil,
+        outpostIdentifier: String? = nil,
+        quoteIdentifier: String,
+        requestedCapacities: [QuoteCapacity]? = nil,
+        requestedConstraints: [QuoteConstraint]? = nil,
+        requestedPaymentOptions: [PaymentOption]? = nil,
+        requestedPaymentTerms: [PaymentTerm]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQuoteOutput {
+        let input = UpdateQuoteInput(
+            countryCode: countryCode, 
+            description: description, 
+            outpostIdentifier: outpostIdentifier, 
+            quoteIdentifier: quoteIdentifier, 
+            requestedCapacities: requestedCapacities, 
+            requestedConstraints: requestedConstraints, 
+            requestedPaymentOptions: requestedPaymentOptions, 
+            requestedPaymentTerms: requestedPaymentTerms
+        )
+        return try await self.updateQuote(input, logger: logger)
     }
 
     /// Updates the specified site.
@@ -1562,6 +1860,7 @@ extension Outposts {
     /// Return PaginatorSequence for operation ``listAssets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - assetTypeFilter: Filters the results by asset type.   COMPUTE - Server asset used for customer compute    STORAGE - Server asset used by storage services    POWERSHELF - Powershelf assets    SWITCH - Switch assets    NETWORKING - Asset managed by Amazon Web Services for networking purposes
     ///   - hostIdFilter: Filters the results by the host ID of a Dedicated Host.
     ///   - maxResults: 
     ///   - outpostIdentifier:  The ID or the Amazon Resource Name (ARN) of the Outpost.
@@ -1569,6 +1868,7 @@ extension Outposts {
     ///   - logger: Logger used for logging
     @inlinable
     public func listAssetsPaginator(
+        assetTypeFilter: [AssetType]? = nil,
         hostIdFilter: [String]? = nil,
         maxResults: Int? = nil,
         outpostIdentifier: String,
@@ -1576,6 +1876,7 @@ extension Outposts {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListAssetsInput, ListAssetsOutput> {
         let input = ListAssetsInput(
+            assetTypeFilter: assetTypeFilter, 
             hostIdFilter: hostIdFilter, 
             maxResults: maxResults, 
             outpostIdentifier: outpostIdentifier, 
@@ -1707,6 +2008,43 @@ extension Outposts {
         return self.listCatalogItemsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listOrderableInstanceTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOrderableInstanceTypesPaginator(
+        _ input: ListOrderableInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOrderableInstanceTypesInput, ListOrderableInstanceTypesOutput> {
+        return .init(
+            input: input,
+            command: self.listOrderableInstanceTypes,
+            inputKey: \ListOrderableInstanceTypesInput.nextToken,
+            outputKey: \ListOrderableInstanceTypesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOrderableInstanceTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - outpostGenerationFilter: Filters the results by Outpost generation. Specify GENERATION_1 for first-generation rack deployments or GENERATION_2 for second-generation rack deployments.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOrderableInstanceTypesPaginator(
+        maxResults: Int? = nil,
+        outpostGenerationFilter: OutpostGeneration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOrderableInstanceTypesInput, ListOrderableInstanceTypesOutput> {
+        let input = ListOrderableInstanceTypesInput(
+            maxResults: maxResults, 
+            outpostGenerationFilter: outpostGenerationFilter
+        )
+        return self.listOrderableInstanceTypesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listOrders(_:logger:)``.
     ///
     /// - Parameters:
@@ -1785,6 +2123,40 @@ extension Outposts {
             maxResults: maxResults
         )
         return self.listOutpostsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listQuotes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQuotesPaginator(
+        _ input: ListQuotesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQuotesInput, ListQuotesOutput> {
+        return .init(
+            input: input,
+            command: self.listQuotes,
+            inputKey: \ListQuotesInput.nextToken,
+            outputKey: \ListQuotesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listQuotes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum page size.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQuotesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListQuotesInput, ListQuotesOutput> {
+        let input = ListQuotesInput(
+            maxResults: maxResults
+        )
+        return self.listQuotesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSites(_:logger:)``.
@@ -1885,6 +2257,7 @@ extension Outposts.ListAssetsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Outposts.ListAssetsInput {
         return .init(
+            assetTypeFilter: self.assetTypeFilter,
             hostIdFilter: self.hostIdFilter,
             maxResults: self.maxResults,
             nextToken: token,
@@ -1931,6 +2304,17 @@ extension Outposts.ListCatalogItemsInput: AWSPaginateToken {
     }
 }
 
+extension Outposts.ListOrderableInstanceTypesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Outposts.ListOrderableInstanceTypesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostGenerationFilter: self.outpostGenerationFilter
+        )
+    }
+}
+
 extension Outposts.ListOrdersInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Outposts.ListOrdersInput {
@@ -1949,6 +2333,16 @@ extension Outposts.ListOutpostsInput: AWSPaginateToken {
             availabilityZoneFilter: self.availabilityZoneFilter,
             availabilityZoneIdFilter: self.availabilityZoneIdFilter,
             lifeCycleStatusFilter: self.lifeCycleStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Outposts.ListQuotesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Outposts.ListQuotesInput {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

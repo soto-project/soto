@@ -96,6 +96,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The ID of the farm to associate with the member.
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
     ///   - identityStoreId: The identity store ID of the member to associate with the farm.
     ///   - membershipLevel: The principal's membership level for the associated farm.
     ///   - principalId: The member's principal ID to associate with the farm.
@@ -104,6 +105,7 @@ public struct Deadline: AWSService {
     @inlinable
     public func associateMemberToFarm(
         farmId: String,
+        identityCenterRegion: String? = nil,
         identityStoreId: String,
         membershipLevel: MembershipLevel,
         principalId: String,
@@ -112,6 +114,7 @@ public struct Deadline: AWSService {
     ) async throws -> AssociateMemberToFarmResponse {
         let input = AssociateMemberToFarmRequest(
             farmId: farmId, 
+            identityCenterRegion: identityCenterRegion, 
             identityStoreId: identityStoreId, 
             membershipLevel: membershipLevel, 
             principalId: principalId, 
@@ -139,6 +142,7 @@ public struct Deadline: AWSService {
     /// Parameters:
     ///   - farmId: The farm ID of the fleet to associate with the member.
     ///   - fleetId: The ID of the fleet to associate with a member.
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
     ///   - identityStoreId: The member's identity store ID to associate with the fleet.
     ///   - membershipLevel: The principal's membership level for the associated fleet.
     ///   - principalId: The member's principal ID to associate with a fleet.
@@ -148,6 +152,7 @@ public struct Deadline: AWSService {
     public func associateMemberToFleet(
         farmId: String,
         fleetId: String,
+        identityCenterRegion: String? = nil,
         identityStoreId: String,
         membershipLevel: MembershipLevel,
         principalId: String,
@@ -157,6 +162,7 @@ public struct Deadline: AWSService {
         let input = AssociateMemberToFleetRequest(
             farmId: farmId, 
             fleetId: fleetId, 
+            identityCenterRegion: identityCenterRegion, 
             identityStoreId: identityStoreId, 
             membershipLevel: membershipLevel, 
             principalId: principalId, 
@@ -183,6 +189,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the job to associate with the member.
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
     ///   - identityStoreId: The member's identity store ID to associate with the job.
     ///   - jobId: The job ID to associate with the member.
     ///   - membershipLevel: The principal's membership level for the associated job.
@@ -193,6 +200,7 @@ public struct Deadline: AWSService {
     @inlinable
     public func associateMemberToJob(
         farmId: String,
+        identityCenterRegion: String? = nil,
         identityStoreId: String,
         jobId: String,
         membershipLevel: MembershipLevel,
@@ -203,6 +211,7 @@ public struct Deadline: AWSService {
     ) async throws -> AssociateMemberToJobResponse {
         let input = AssociateMemberToJobRequest(
             farmId: farmId, 
+            identityCenterRegion: identityCenterRegion, 
             identityStoreId: identityStoreId, 
             jobId: jobId, 
             membershipLevel: membershipLevel, 
@@ -231,6 +240,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the queue to associate with the member.
+    ///   - identityCenterRegion: The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
     ///   - identityStoreId: The member's identity store ID to associate with the queue.
     ///   - membershipLevel: The principal's membership level for the associated queue.
     ///   - principalId: The member's principal ID to associate with the queue.
@@ -240,6 +250,7 @@ public struct Deadline: AWSService {
     @inlinable
     public func associateMemberToQueue(
         farmId: String,
+        identityCenterRegion: String? = nil,
         identityStoreId: String,
         membershipLevel: MembershipLevel,
         principalId: String,
@@ -249,6 +260,7 @@ public struct Deadline: AWSService {
     ) async throws -> AssociateMemberToQueueResponse {
         let input = AssociateMemberToQueueRequest(
             farmId: farmId, 
+            identityCenterRegion: identityCenterRegion, 
             identityStoreId: identityStoreId, 
             membershipLevel: membershipLevel, 
             principalId: principalId, 
@@ -432,6 +444,36 @@ public struct Deadline: AWSService {
         return try await self.assumeQueueRoleForWorker(input, logger: logger)
     }
 
+    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API. The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetJob(_ input: BatchGetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetJobResponse {
+        try await self.client.execute(
+            operation: "BatchGetJob", 
+            path: "/2023-10-12/batch-get-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple jobs in a single request. This is a batch version of the GetJob API. The result of getting each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of job identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetJob(
+        identifiers: [BatchGetJobIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetJobResponse {
+        let input = BatchGetJobRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetJob(input, logger: logger)
+    }
+
     /// Get batched job details for a worker.
     @Sendable
     @inlinable
@@ -469,6 +511,222 @@ public struct Deadline: AWSService {
             workerId: workerId
         )
         return try await self.batchGetJobEntity(input, logger: logger)
+    }
+
+    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API. The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetSession(_ input: BatchGetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSessionResponse {
+        try await self.client.execute(
+            operation: "BatchGetSession", 
+            path: "/2023-10-12/batch-get-session", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple sessions in a single request. This is a batch version of the GetSession API. The result of getting each session is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of session identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetSession(
+        identifiers: [BatchGetSessionIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetSessionResponse {
+        let input = BatchGetSessionRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetSession(input, logger: logger)
+    }
+
+    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetSessionAction(_ input: BatchGetSessionActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSessionActionResponse {
+        try await self.client.execute(
+            operation: "BatchGetSessionAction", 
+            path: "/2023-10-12/batch-get-session-action", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple session actions in a single request. This is a batch version of the GetSessionAction API. The result of getting each session action is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetSessionAction(
+        identifiers: [BatchGetSessionActionIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetSessionActionResponse {
+        let input = BatchGetSessionActionRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetSessionAction(input, logger: logger)
+    }
+
+    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API. The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetStep(_ input: BatchGetStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetStepResponse {
+        try await self.client.execute(
+            operation: "BatchGetStep", 
+            path: "/2023-10-12/batch-get-step", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple steps in a single request. This is a batch version of the GetStep API. The result of getting each step is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of step identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetStep(
+        identifiers: [BatchGetStepIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetStepResponse {
+        let input = BatchGetStepRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetStep(input, logger: logger)
+    }
+
+    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API. The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetTask(_ input: BatchGetTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTaskResponse {
+        try await self.client.execute(
+            operation: "BatchGetTask", 
+            path: "/2023-10-12/batch-get-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple tasks in a single request. This is a batch version of the GetTask API. The result of getting each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of task identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetTask(
+        identifiers: [BatchGetTaskIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetTaskResponse {
+        let input = BatchGetTaskRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetTask(input, logger: logger)
+    }
+
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchGetWorker(_ input: BatchGetWorkerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetWorkerResponse {
+        try await self.client.execute(
+            operation: "BatchGetWorker", 
+            path: "/2023-10-12/batch-get-worker", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Retrieves multiple workers in a single request. This is a batch version of the GetWorker API. The result of getting each worker is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - identifiers: The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetWorker(
+        identifiers: [BatchGetWorkerIdentifier],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetWorkerResponse {
+        let input = BatchGetWorkerRequest(
+            identifiers: identifiers
+        )
+        return try await self.batchGetWorker(input, logger: logger)
+    }
+
+    /// Updates multiple jobs in a single request. This is a batch version of the UpdateJob API. The result of updating each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. When you change the status of a job to ARCHIVED, the job can't be scheduled or archived.  An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+    @Sendable
+    @inlinable
+    public func batchUpdateJob(_ input: BatchUpdateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateJobResponse {
+        try await self.client.execute(
+            operation: "BatchUpdateJob", 
+            path: "/2023-10-12/batch-update-job", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Updates multiple jobs in a single request. This is a batch version of the UpdateJob API. The result of updating each job is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. When you change the status of a job to ARCHIVED, the job can't be scheduled or archived.  An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+    ///
+    /// Parameters:
+    ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - jobs: The list of jobs to update. You can specify up to 100 jobs per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateJob(
+        clientToken: String? = BatchUpdateJobRequest.idempotencyToken(),
+        jobs: [BatchUpdateJobItem],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateJobResponse {
+        let input = BatchUpdateJobRequest(
+            clientToken: clientToken, 
+            jobs: jobs
+        )
+        return try await self.batchUpdateJob(input, logger: logger)
+    }
+
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    @Sendable
+    @inlinable
+    public func batchUpdateTask(_ input: BatchUpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateTaskResponse {
+        try await self.client.execute(
+            operation: "BatchUpdateTask", 
+            path: "/2023-10-12/batch-update-task", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Updates multiple tasks in a single request. This is a batch version of the UpdateTask API. The result of updating each task is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200.
+    ///
+    /// Parameters:
+    ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - tasks: The list of tasks to update. You can specify up to 100 tasks per request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateTask(
+        clientToken: String? = BatchUpdateTaskRequest.idempotencyToken(),
+        tasks: [BatchUpdateTaskItem],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateTaskResponse {
+        let input = BatchUpdateTaskRequest(
+            clientToken: clientToken, 
+            tasks: tasks
+        )
+        return try await self.batchUpdateTask(input, logger: logger)
     }
 
     /// Copies a job template to an Amazon S3 bucket.
@@ -582,7 +840,7 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
-    ///   - costScaleFactor: The cost scale factor to apply on the farm.
+    ///   - costScaleFactor: A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment. The default value is 1.
     ///   - description: The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - displayName: The display name of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - kmsKeyArn: The ARN of the KMS key to use on the farm.
@@ -851,6 +1109,7 @@ public struct Deadline: AWSService {
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
     ///   - displayName: The name that you give the monitor that is displayed in the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - identityCenterInstanceArn: The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
+    ///   - identityCenterRegion: The Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor.
     ///   - roleArn: The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     ///   - subdomain: The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
     ///   - tags: The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
@@ -860,6 +1119,7 @@ public struct Deadline: AWSService {
         clientToken: String? = CreateMonitorRequest.idempotencyToken(),
         displayName: String,
         identityCenterInstanceArn: String,
+        identityCenterRegion: String? = nil,
         roleArn: String,
         subdomain: String,
         tags: [String: String]? = nil,
@@ -869,6 +1129,7 @@ public struct Deadline: AWSService {
             clientToken: clientToken, 
             displayName: displayName, 
             identityCenterInstanceArn: identityCenterInstanceArn, 
+            identityCenterRegion: identityCenterRegion, 
             roleArn: roleArn, 
             subdomain: subdomain, 
             tags: tags
@@ -903,6 +1164,7 @@ public struct Deadline: AWSService {
     ///   - jobRunAsUser: The jobs in the queue run as the specified POSIX user.
     ///   - requiredFileSystemLocationNames: The file system location name to include in the queue.
     ///   - roleArn: The IAM role ARN that workers will use while running jobs for this queue.
+    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. If not specified, the queue defaults to the priorityFifo scheduling configuration.
     ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
     @inlinable
@@ -917,6 +1179,7 @@ public struct Deadline: AWSService {
         jobRunAsUser: JobRunAsUser? = nil,
         requiredFileSystemLocationNames: [String]? = nil,
         roleArn: String? = nil,
+        schedulingConfiguration: SchedulingConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateQueueResponse {
@@ -931,6 +1194,7 @@ public struct Deadline: AWSService {
             jobRunAsUser: jobRunAsUser, 
             requiredFileSystemLocationNames: requiredFileSystemLocationNames, 
             roleArn: roleArn, 
+            schedulingConfiguration: schedulingConfiguration, 
             tags: tags
         )
         return try await self.createQueue(input, logger: logger)
@@ -1536,6 +1800,42 @@ public struct Deadline: AWSService {
         return try await self.deleteStorageProfile(input, logger: logger)
     }
 
+    /// Deletes a persistent volume.
+    @Sendable
+    @inlinable
+    public func deleteVolume(_ input: DeleteVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVolumeResponse {
+        try await self.client.execute(
+            operation: "DeleteVolume", 
+            path: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Deletes a persistent volume.
+    ///
+    /// Parameters:
+    ///   - farmId: The farm ID of the farm that contains the fleet.
+    ///   - fleetId: The fleet ID of the fleet that contains the volume.
+    ///   - volumeId: The volume ID of the volume to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteVolume(
+        farmId: String,
+        fleetId: String,
+        volumeId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteVolumeResponse {
+        let input = DeleteVolumeRequest(
+            farmId: farmId, 
+            fleetId: fleetId, 
+            volumeId: volumeId
+        )
+        return try await self.deleteVolume(input, logger: logger)
+    }
+
     /// Deletes a worker.
     @Sendable
     @inlinable
@@ -1939,6 +2239,36 @@ public struct Deadline: AWSService {
             monitorId: monitorId
         )
         return try await self.getMonitor(input, logger: logger)
+    }
+
+    /// Gets the settings for a Deadline Cloud monitor.
+    @Sendable
+    @inlinable
+    public func getMonitorSettings(_ input: GetMonitorSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMonitorSettingsResponse {
+        try await self.client.execute(
+            operation: "GetMonitorSettings", 
+            path: "/2023-10-12/monitors/{monitorId}/settings", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets the settings for a Deadline Cloud monitor.
+    ///
+    /// Parameters:
+    ///   - monitorId: The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the ListMonitors operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMonitorSettings(
+        monitorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMonitorSettingsResponse {
+        let input = GetMonitorSettingsRequest(
+            monitorId: monitorId
+        )
+        return try await self.getMonitorSettings(input, logger: logger)
     }
 
     /// Gets a queue.
@@ -2347,6 +2677,42 @@ public struct Deadline: AWSService {
             taskId: taskId
         )
         return try await self.getTask(input, logger: logger)
+    }
+
+    /// Gets a persistent volume.
+    @Sendable
+    @inlinable
+    public func getVolume(_ input: GetVolumeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVolumeResponse {
+        try await self.client.execute(
+            operation: "GetVolume", 
+            path: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes/{volumeId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets a persistent volume.
+    ///
+    /// Parameters:
+    ///   - farmId: The farm ID of the farm that contains the fleet.
+    ///   - fleetId: The fleet ID of the fleet that contains the volume.
+    ///   - volumeId: The volume ID of the volume to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVolume(
+        farmId: String,
+        fleetId: String,
+        volumeId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVolumeResponse {
+        let input = GetVolumeRequest(
+            farmId: farmId, 
+            fleetId: fleetId, 
+            volumeId: volumeId
+        )
+        return try await self.getVolume(input, logger: logger)
     }
 
     /// Gets a worker.
@@ -3495,6 +3861,45 @@ public struct Deadline: AWSService {
         return try await self.listTasks(input, logger: logger)
     }
 
+    /// Lists the persistent volumes in a fleet.
+    @Sendable
+    @inlinable
+    public func listVolumes(_ input: ListVolumesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVolumesResponse {
+        try await self.client.execute(
+            operation: "ListVolumes", 
+            path: "/2023-10-12/farms/{farmId}/fleets/{fleetId}/volumes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Lists the persistent volumes in a fleet.
+    ///
+    /// Parameters:
+    ///   - farmId: The farm ID of the farm that contains the fleet.
+    ///   - fleetId: The fleet ID of the fleet that contains the volumes.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVolumes(
+        farmId: String,
+        fleetId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVolumesResponse {
+        let input = ListVolumesRequest(
+            farmId: farmId, 
+            fleetId: fleetId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listVolumes(input, logger: logger)
+    }
+
     /// Lists workers.
     @Sendable
     @inlinable
@@ -3944,7 +4349,7 @@ public struct Deadline: AWSService {
     /// Updates a farm.
     ///
     /// Parameters:
-    ///   - costScaleFactor: The cost scale factor of the farm to update.
+    ///   - costScaleFactor: A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
     ///   - description: The description of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - displayName: The display name of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID to update.
@@ -4167,6 +4572,39 @@ public struct Deadline: AWSService {
         return try await self.updateMonitor(input, logger: logger)
     }
 
+    /// Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    @Sendable
+    @inlinable
+    public func updateMonitorSettings(_ input: UpdateMonitorSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMonitorSettingsResponse {
+        try await self.client.execute(
+            operation: "UpdateMonitorSettings", 
+            path: "/2023-10-12/monitors/{monitorId}/settings", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Updates the settings for a Deadline Cloud monitor. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    ///
+    /// Parameters:
+    ///   - monitorId: The unique identifier of the monitor to update settings for.
+    ///   - settings: The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMonitorSettings(
+        monitorId: String,
+        settings: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMonitorSettingsResponse {
+        let input = UpdateMonitorSettingsRequest(
+            monitorId: monitorId, 
+            settings: settings
+        )
+        return try await self.updateMonitorSettings(input, logger: logger)
+    }
+
     /// Updates a queue.
     @Sendable
     @inlinable
@@ -4197,6 +4635,7 @@ public struct Deadline: AWSService {
     ///   - requiredFileSystemLocationNamesToAdd: The required file system location names to add to the queue.
     ///   - requiredFileSystemLocationNamesToRemove: The required file system location names to remove from the queue.
     ///   - roleArn: The IAM role ARN that's used to run jobs from this queue.
+    ///   - schedulingConfiguration: The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. When updating the scheduling configuration, the entire configuration is replaced. In-progress tasks run to completion before the new scheduling configuration takes effect.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateQueue(
@@ -4213,6 +4652,7 @@ public struct Deadline: AWSService {
         requiredFileSystemLocationNamesToAdd: [String]? = nil,
         requiredFileSystemLocationNamesToRemove: [String]? = nil,
         roleArn: String? = nil,
+        schedulingConfiguration: SchedulingConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateQueueResponse {
         let input = UpdateQueueRequest(
@@ -4228,7 +4668,8 @@ public struct Deadline: AWSService {
             queueId: queueId, 
             requiredFileSystemLocationNamesToAdd: requiredFileSystemLocationNamesToAdd, 
             requiredFileSystemLocationNamesToRemove: requiredFileSystemLocationNamesToRemove, 
-            roleArn: roleArn
+            roleArn: roleArn, 
+            schedulingConfiguration: schedulingConfiguration
         )
         return try await self.updateQueue(input, logger: logger)
     }
@@ -5790,6 +6231,46 @@ extension Deadline {
         return self.listTasksPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listVolumes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVolumesPaginator(
+        _ input: ListVolumesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListVolumesRequest, ListVolumesResponse> {
+        return .init(
+            input: input,
+            command: self.listVolumes,
+            inputKey: \ListVolumesRequest.nextToken,
+            outputKey: \ListVolumesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listVolumes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The farm ID of the farm that contains the fleet.
+    ///   - fleetId: The fleet ID of the fleet that contains the volumes.
+    ///   - maxResults: The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listVolumesPaginator(
+        farmId: String,
+        fleetId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListVolumesRequest, ListVolumesResponse> {
+        let input = ListVolumesRequest(
+            farmId: farmId, 
+            fleetId: fleetId, 
+            maxResults: maxResults
+        )
+        return self.listVolumesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listWorkers(_:logger:)``.
     ///
     /// - Parameters:
@@ -6172,6 +6653,18 @@ extension Deadline.ListTasksRequest: AWSPaginateToken {
             nextToken: token,
             queueId: self.queueId,
             stepId: self.stepId
+        )
+    }
+}
+
+extension Deadline.ListVolumesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListVolumesRequest {
+        return .init(
+            farmId: self.farmId,
+            fleetId: self.fleetId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

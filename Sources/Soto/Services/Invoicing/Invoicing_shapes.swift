@@ -25,6 +25,19 @@ import Foundation
 extension Invoicing {
     // MARK: Enums
 
+    public enum BillType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anniversary = "ANNIVERSARY"
+        case purchase = "PURCHASE"
+        case refund = "REFUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingEntity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case awsMarketplace = "AWS_MARKETPLACE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BuyerDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case networkID = "NetworkID"
         public var description: String { return self.rawValue }
@@ -51,9 +64,22 @@ extension Invoicing {
         public var description: String { return self.rawValue }
     }
 
+    public enum EinvoiceDeliveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delivered = "DELIVERED"
+        case notDelivered = "NOT_DELIVERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvoiceFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case oneTime = "ONE_TIME"
+        case recurring = "RECURRING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InvoiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creditMemo = "CREDIT_MEMO"
         case invoice = "INVOICE"
+        case paymentReceipt = "PAYMENT_RECEIPT"
         public var description: String { return self.rawValue }
     }
 
@@ -76,6 +102,7 @@ extension Invoicing {
         case testFailed = "TEST_FAILED"
         case testInitializationFailed = "TEST_INITIALIZATION_FAILED"
         case testInitialized = "TEST_INITIALIZED"
+        case validated = "VALIDATED"
         public var description: String { return self.rawValue }
     }
 
@@ -85,8 +112,29 @@ extension Invoicing {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReceiverRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buyer = "BUYER"
+        case reseller = "RESELLER"
+        case seller = "SELLER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupplementalDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case governmentInvoice = "GOVERNMENT_INVOICE"
+        case paymentReceipt = "PAYMENT_RECEIPT"
+        case supplement = "SUPPLEMENT"
+        case taxEInvoice = "TAX_E_INVOICE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupplierDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case networkID = "NetworkID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaxAuthorityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case issued = "ISSUED"
         public var description: String { return self.rawValue }
     }
 
@@ -267,6 +315,8 @@ extension Invoicing {
     }
 
     public struct CreateInvoiceUnitRequest: AWSEncodableShape {
+        ///  A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         ///  The invoice unit's description. This can be changed at a later time.
         public let description: String?
         ///  The Amazon Web Services account ID chosen to be the receiver of an invoice unit. All invoices generated for that invoice unit will be sent to this account ID.
@@ -281,7 +331,8 @@ extension Invoicing {
         public let taxInheritanceDisabled: Bool?
 
         @inlinable
-        public init(description: String? = nil, invoiceReceiver: String, name: String, resourceTags: [ResourceTag]? = nil, rule: InvoiceUnitRule, taxInheritanceDisabled: Bool? = nil) {
+        public init(clientToken: String? = CreateInvoiceUnitRequest.idempotencyToken(), description: String? = nil, invoiceReceiver: String, name: String, resourceTags: [ResourceTag]? = nil, rule: InvoiceUnitRule, taxInheritanceDisabled: Bool? = nil) {
+            self.clientToken = clientToken
             self.description = description
             self.invoiceReceiver = invoiceReceiver
             self.name = name
@@ -291,6 +342,8 @@ extension Invoicing {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.invoiceReceiver, name: "invoiceReceiver", parent: name, pattern: "^\\d{12}$")
@@ -305,6 +358,7 @@ extension Invoicing {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case description = "Description"
             case invoiceReceiver = "InvoiceReceiver"
             case name = "Name"
@@ -477,21 +531,27 @@ extension Invoicing {
     }
 
     public struct DeleteInvoiceUnitRequest: AWSEncodableShape {
+        ///  A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         ///  The ARN to identify an invoice unit. This information can't be modified or deleted.
         public let invoiceUnitArn: String
 
         @inlinable
-        public init(invoiceUnitArn: String) {
+        public init(clientToken: String? = DeleteInvoiceUnitRequest.idempotencyToken(), invoiceUnitArn: String) {
+            self.clientToken = clientToken
             self.invoiceUnitArn = invoiceUnitArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.invoiceUnitArn, name: "invoiceUnitArn", parent: name, max: 256)
             try self.validate(self.invoiceUnitArn, name: "invoiceUnitArn", parent: name, min: 1)
             try self.validate(self.invoiceUnitArn, name: "invoiceUnitArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case invoiceUnitArn = "InvoiceUnitArn"
         }
     }
@@ -511,21 +571,27 @@ extension Invoicing {
     }
 
     public struct DeleteProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the procurement portal preference to delete.
         public let procurementPortalPreferenceArn: String
 
         @inlinable
-        public init(procurementPortalPreferenceArn: String) {
+        public init(clientToken: String? = DeleteProcurementPortalPreferenceRequest.idempotencyToken(), procurementPortalPreferenceArn: String) {
+            self.clientToken = clientToken
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
             try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
             try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
         }
     }
@@ -623,15 +689,19 @@ extension Invoicing {
     }
 
     public struct Entity: AWSDecodableShape {
+        /// Helps you identify whether your invoices are for Amazon Web Services Marketplace or for purchases of other Amazon Web Services services.
+        public let billingEntity: BillingEntity?
         /// The name of the entity that issues the Amazon Web Services invoice.
         public let invoicingEntity: String?
 
         @inlinable
-        public init(invoicingEntity: String? = nil) {
+        public init(billingEntity: BillingEntity? = nil, invoicingEntity: String? = nil) {
+            self.billingEntity = billingEntity
             self.invoicingEntity = invoicingEntity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingEntity = "BillingEntity"
             case invoicingEntity = "InvoicingEntity"
         }
     }
@@ -679,7 +749,7 @@ extension Invoicing {
     public struct Filters: AWSEncodableShape {
         ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public let accounts: [String]?
-        ///  A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        ///  A list of Amazon Web Services account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
         public let billSourceAccounts: [String]?
         ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public let invoiceReceivers: [String]?
@@ -971,13 +1041,16 @@ extension Invoicing {
         public let billingPeriod: BillingPeriod?
         /// The name of the entity that issues the Amazon Web Services invoice.
         public let invoicingEntity: String?
+        /// The role of the invoice receiver to filter by.  When ReceiverRole is specified:   Data is available starting 2025-06-01. Queries for periods before 2025-06-01 return a validation error.    TimeInterval supports a time interval of up to 5 years. Without ReceiverRole, TimeInterval is limited to one month.
+        public let receiverRole: ReceiverRole?
         /// The date range for invoice summary retrieval.
         public let timeInterval: DateInterval?
 
         @inlinable
-        public init(billingPeriod: BillingPeriod? = nil, invoicingEntity: String? = nil, timeInterval: DateInterval? = nil) {
+        public init(billingPeriod: BillingPeriod? = nil, invoicingEntity: String? = nil, receiverRole: ReceiverRole? = nil, timeInterval: DateInterval? = nil) {
             self.billingPeriod = billingPeriod
             self.invoicingEntity = invoicingEntity
+            self.receiverRole = receiverRole
             self.timeInterval = timeInterval
         }
 
@@ -990,6 +1063,7 @@ extension Invoicing {
         private enum CodingKeys: String, CodingKey {
             case billingPeriod = "BillingPeriod"
             case invoicingEntity = "InvoicingEntity"
+            case receiverRole = "ReceiverRole"
             case timeInterval = "TimeInterval"
         }
     }
@@ -1024,10 +1098,22 @@ extension Invoicing {
         public let baseCurrencyAmount: InvoiceCurrencyAmount?
         ///  The billing period of the invoice-related document.
         public let billingPeriod: BillingPeriod?
+        ///  The list of Amazon Web Services account IDs that are the bill source of the invoice. Currently, only a single bill source account is returned.
+        public let billSourceAccounts: [String]?
+        ///  The total number of accounts that are the bill source of the invoice.
+        public let billSourceAccountsTotalCount: Int?
+        ///  The type of the bill.
+        public let billType: BillType?
+        ///  The commercial invoice ID. This is only applicable for tax invoices and identifies the associated commercial invoice.
+        public let commercialInvoiceId: String?
         ///  The invoice due date.
         public let dueDate: Date?
+        ///  The e-invoice delivery status.
+        public let einvoiceDeliveryStatus: EinvoiceDeliveryStatus?
         /// The organization name providing Amazon Web Services services.
         public let entity: Entity?
+        ///  The frequency of the invoice.
+        public let invoiceFrequency: InvoiceFrequency?
         ///  The invoice ID.
         public let invoiceId: String?
         ///  The type of invoice.
@@ -1040,22 +1126,34 @@ extension Invoicing {
         public let paymentCurrencyAmount: InvoiceCurrencyAmount?
         ///  The purchase order number associated to the invoice.
         public let purchaseOrderNumber: String?
+        /// The role of the invoice receiver.
+        public let receiverRole: ReceiverRole?
+        ///  The current status of an invoice as reported to the tax authority. This captures scenarios where an invoice may be cancelled after issuance.
+        public let taxAuthorityStatus: TaxAuthorityStatus?
         ///  The summary with the tax currency.
         public let taxCurrencyAmount: InvoiceCurrencyAmount?
 
         @inlinable
-        public init(accountId: String? = nil, baseCurrencyAmount: InvoiceCurrencyAmount? = nil, billingPeriod: BillingPeriod? = nil, dueDate: Date? = nil, entity: Entity? = nil, invoiceId: String? = nil, invoiceType: InvoiceType? = nil, issuedDate: Date? = nil, originalInvoiceId: String? = nil, paymentCurrencyAmount: InvoiceCurrencyAmount? = nil, purchaseOrderNumber: String? = nil, taxCurrencyAmount: InvoiceCurrencyAmount? = nil) {
+        public init(accountId: String? = nil, baseCurrencyAmount: InvoiceCurrencyAmount? = nil, billingPeriod: BillingPeriod? = nil, billSourceAccounts: [String]? = nil, billSourceAccountsTotalCount: Int? = nil, billType: BillType? = nil, commercialInvoiceId: String? = nil, dueDate: Date? = nil, einvoiceDeliveryStatus: EinvoiceDeliveryStatus? = nil, entity: Entity? = nil, invoiceFrequency: InvoiceFrequency? = nil, invoiceId: String? = nil, invoiceType: InvoiceType? = nil, issuedDate: Date? = nil, originalInvoiceId: String? = nil, paymentCurrencyAmount: InvoiceCurrencyAmount? = nil, purchaseOrderNumber: String? = nil, receiverRole: ReceiverRole? = nil, taxAuthorityStatus: TaxAuthorityStatus? = nil, taxCurrencyAmount: InvoiceCurrencyAmount? = nil) {
             self.accountId = accountId
             self.baseCurrencyAmount = baseCurrencyAmount
             self.billingPeriod = billingPeriod
+            self.billSourceAccounts = billSourceAccounts
+            self.billSourceAccountsTotalCount = billSourceAccountsTotalCount
+            self.billType = billType
+            self.commercialInvoiceId = commercialInvoiceId
             self.dueDate = dueDate
+            self.einvoiceDeliveryStatus = einvoiceDeliveryStatus
             self.entity = entity
+            self.invoiceFrequency = invoiceFrequency
             self.invoiceId = invoiceId
             self.invoiceType = invoiceType
             self.issuedDate = issuedDate
             self.originalInvoiceId = originalInvoiceId
             self.paymentCurrencyAmount = paymentCurrencyAmount
             self.purchaseOrderNumber = purchaseOrderNumber
+            self.receiverRole = receiverRole
+            self.taxAuthorityStatus = taxAuthorityStatus
             self.taxCurrencyAmount = taxCurrencyAmount
         }
 
@@ -1063,14 +1161,22 @@ extension Invoicing {
             case accountId = "AccountId"
             case baseCurrencyAmount = "BaseCurrencyAmount"
             case billingPeriod = "BillingPeriod"
+            case billSourceAccounts = "BillSourceAccounts"
+            case billSourceAccountsTotalCount = "BillSourceAccountsTotalCount"
+            case billType = "BillType"
+            case commercialInvoiceId = "CommercialInvoiceId"
             case dueDate = "DueDate"
+            case einvoiceDeliveryStatus = "EinvoiceDeliveryStatus"
             case entity = "Entity"
+            case invoiceFrequency = "InvoiceFrequency"
             case invoiceId = "InvoiceId"
             case invoiceType = "InvoiceType"
             case issuedDate = "IssuedDate"
             case originalInvoiceId = "OriginalInvoiceId"
             case paymentCurrencyAmount = "PaymentCurrencyAmount"
             case purchaseOrderNumber = "PurchaseOrderNumber"
+            case receiverRole = "ReceiverRole"
+            case taxAuthorityStatus = "TaxAuthorityStatus"
             case taxCurrencyAmount = "TaxCurrencyAmount"
         }
     }
@@ -1114,7 +1220,7 @@ extension Invoicing {
     }
 
     public struct InvoiceUnitRule: AWSEncodableShape & AWSDecodableShape {
-        ///  A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        ///  A list of Amazon Web Services account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
         public let billSourceAccounts: [String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public let linkedAccounts: [String]?
@@ -1147,7 +1253,7 @@ extension Invoicing {
         public let filter: InvoiceSummariesFilter?
         /// The maximum number of invoice summaries a paginated response can contain.
         public let maxResults: Int?
-        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        /// The token for the next set of results. (You received this token from a previous call.)
         public let nextToken: String?
         /// The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
         public let selector: InvoiceSummariesSelector
@@ -1180,7 +1286,7 @@ extension Invoicing {
     public struct ListInvoiceSummariesResponse: AWSDecodableShape {
         /// List of key (summary level) invoice details without line item details.
         public let invoiceSummaries: [InvoiceSummary]
-        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        /// The token to use to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         @inlinable
@@ -1553,6 +1659,8 @@ extension Invoicing {
     }
 
     public struct PutProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         /// Updated list of contact information for portal administrators and technical contacts.
         public let contacts: [Contact]
         /// Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
@@ -1572,7 +1680,8 @@ extension Invoicing {
         public let testEnvPreference: TestEnvPreferenceInput?
 
         @inlinable
-        public init(contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, selector: ProcurementPortalPreferenceSelector? = nil, testEnvPreference: TestEnvPreferenceInput? = nil) {
+        public init(clientToken: String? = PutProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, selector: ProcurementPortalPreferenceSelector? = nil, testEnvPreference: TestEnvPreferenceInput? = nil) {
+            self.clientToken = clientToken
             self.contacts = contacts
             self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
             self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
@@ -1585,6 +1694,8 @@ extension Invoicing {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.contacts.forEach {
                 try $0.validate(name: "\(name).contacts[]")
             }
@@ -1603,6 +1714,7 @@ extension Invoicing {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case contacts = "Contacts"
             case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
             case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
@@ -1716,19 +1828,67 @@ extension Invoicing {
         }
     }
 
+    public struct SendProcurementPortalValidationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to validate.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(clientToken: String? = SendProcurementPortalValidationRequest.idempotencyToken(), procurementPortalPreferenceArn: String) {
+            self.clientToken = clientToken
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
+    public struct SendProcurementPortalValidationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the procurement portal preference for which the validation request was sent.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
     public struct SupplementalDocument: AWSDecodableShape {
+        /// The ID of the supplemental document.
+        public let documentId: String?
+        /// The type of supplemental document.
+        public let documentType: SupplementalDocumentType?
         /// The pre-signed URL to download invoice supplemental document.
         public let documentUrl: String?
         /// The pre-signed URL expiration date of invoice supplemental document.
         public let documentUrlExpirationDate: Date?
 
         @inlinable
-        public init(documentUrl: String? = nil, documentUrlExpirationDate: Date? = nil) {
+        public init(documentId: String? = nil, documentType: SupplementalDocumentType? = nil, documentUrl: String? = nil, documentUrlExpirationDate: Date? = nil) {
+            self.documentId = documentId
+            self.documentType = documentType
             self.documentUrl = documentUrl
             self.documentUrlExpirationDate = documentUrlExpirationDate
         }
 
         private enum CodingKeys: String, CodingKey {
+            case documentId = "DocumentId"
+            case documentType = "DocumentType"
             case documentUrl = "DocumentUrl"
             case documentUrlExpirationDate = "DocumentUrlExpirationDate"
         }
@@ -1923,6 +2083,8 @@ extension Invoicing {
     }
 
     public struct UpdateInvoiceUnitRequest: AWSEncodableShape {
+        ///  A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         /// The assigned description for an invoice unit. This information can't be modified or deleted.
         public let description: String?
         /// The ARN to identify an invoice unit. This information can't be modified or deleted.
@@ -1933,7 +2095,8 @@ extension Invoicing {
         public let taxInheritanceDisabled: Bool?
 
         @inlinable
-        public init(description: String? = nil, invoiceUnitArn: String, rule: InvoiceUnitRule? = nil, taxInheritanceDisabled: Bool? = nil) {
+        public init(clientToken: String? = UpdateInvoiceUnitRequest.idempotencyToken(), description: String? = nil, invoiceUnitArn: String, rule: InvoiceUnitRule? = nil, taxInheritanceDisabled: Bool? = nil) {
+            self.clientToken = clientToken
             self.description = description
             self.invoiceUnitArn = invoiceUnitArn
             self.rule = rule
@@ -1941,6 +2104,8 @@ extension Invoicing {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S\\s]*$")
             try self.validate(self.invoiceUnitArn, name: "invoiceUnitArn", parent: name, max: 256)
@@ -1950,6 +2115,7 @@ extension Invoicing {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case description = "Description"
             case invoiceUnitArn = "InvoiceUnitArn"
             case rule = "Rule"
@@ -1972,6 +2138,8 @@ extension Invoicing {
     }
 
     public struct UpdateProcurementPortalPreferenceStatusRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
         /// The updated status of the e-invoice delivery preference.
         public let einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus?
         /// The reason for the e-invoice delivery preference status update, providing context for the change.
@@ -1984,7 +2152,8 @@ extension Invoicing {
         public let purchaseOrderRetrievalPreferenceStatusReason: String?
 
         @inlinable
-        public init(einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, procurementPortalPreferenceArn: String, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil) {
+        public init(clientToken: String? = UpdateProcurementPortalPreferenceStatusRequest.idempotencyToken(), einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, procurementPortalPreferenceArn: String, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil) {
+            self.clientToken = clientToken
             self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
             self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
             self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
@@ -1993,6 +2162,8 @@ extension Invoicing {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.einvoiceDeliveryPreferenceStatusReason, name: "einvoiceDeliveryPreferenceStatusReason", parent: name, max: 1024)
             try self.validate(self.einvoiceDeliveryPreferenceStatusReason, name: "einvoiceDeliveryPreferenceStatusReason", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
@@ -2003,6 +2174,7 @@ extension Invoicing {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
             case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
             case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
@@ -2065,6 +2237,52 @@ extension Invoicing {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct VerifyProcurementPortalValidationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
+        /// The validation code received from the procurement portal in response to a previous SendProcurementPortalValidation request.
+        public let code: String
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to validate.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(clientToken: String? = VerifyProcurementPortalValidationRequest.idempotencyToken(), code: String, procurementPortalPreferenceArn: String) {
+            self.clientToken = clientToken
+            self.code = code
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.code, name: "code", parent: name, max: 1024)
+            try self.validate(self.code, name: "code", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case code = "Code"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
+    public struct VerifyProcurementPortalValidationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the procurement portal preference for which validation was completed.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
         }
     }
 }

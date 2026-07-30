@@ -72,6 +72,9 @@ extension Backup {
         case copyJobFailed = "COPY_JOB_FAILED"
         case copyJobStarted = "COPY_JOB_STARTED"
         case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case eksBackupObjectFailed = "EKS_BACKUP_OBJECT_FAILED"
+        case eksRestoreObjectFailed = "EKS_RESTORE_OBJECT_FAILED"
+        case eksRestoreObjectSkipped = "EKS_RESTORE_OBJECT_SKIPPED"
         case recoveryPointIndexCompleted = "RECOVERY_POINT_INDEX_COMPLETED"
         case recoveryPointIndexDeleted = "RECOVERY_POINT_INDEX_DELETED"
         case recoveryPointIndexingFailed = "RECOVERY_POINT_INDEXING_FAILED"
@@ -272,6 +275,7 @@ extension Backup {
     public enum ScanResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noThreatsFound = "NO_THREATS_FOUND"
         case threatsFound = "THREATS_FOUND"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
@@ -309,7 +313,7 @@ extension Backup {
     // MARK: Shapes
 
     public struct AdvancedBackupSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "S3BackupACLs":"disabled" to exclude ACLs from the backup,  or "S3BackupObjectTags":"disabled" to exclude object tags from the backup.  By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
+        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values:  Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup.  Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "BackupACLs":"disabled" to exclude ACLs from the backup,  or "BackupObjectTags":"disabled" to exclude object tags from the backup.  By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
         public let backupOptions: [String: String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the sample CloudFormation template to enable Windows VSS in the Backup User Guide. Valid values: EC2.
         public let resourceType: String?
@@ -424,7 +428,7 @@ extension Backup {
         public let backupJobId: String?
         /// Specifies the backup option for a selected resource. This option is only available for Windows Volume Shadow Copy Service (VSS) backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   For Amazon EKS, this value refers to the size of your nested EKS recovery point.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the type of backup for a backup job.
         public let backupType: String?
@@ -861,7 +865,7 @@ extension Backup {
         public let listOfTags: [Condition]?
         /// The Amazon Resource Names (ARNs) of the resources to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, consider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource selection using tags.
         public let notResources: [String]?
-        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic).
+        /// The Amazon Resource Names (ARNs) of the resources to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags. If you specify multiple ARNs, the resources much match any of the ARNs (OR logic).  When using wildcards in ARN patterns for backup selections, the asterisk (*) must appear at the end of the ARN string (prefix pattern). For example, arn:aws:s3:::my-bucket-* is valid, but arn:aws:s3:::*-logs is not supported.
         public let resources: [String]?
         /// The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let selectionName: String
@@ -2340,7 +2344,7 @@ extension Backup {
         public let backupJobId: String?
         /// Represents the options specified as part of backup plan or on-demand backup job.
         public let backupOptions: [String: String]?
-        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
+        /// The size, in bytes, of a backup (recovery point). This value can render differently depending on the resource type as Backup pulls in data information from other Amazon Web Services services. For example, the  value returned may show a value of 0, which may differ from the  anticipated value. The expected behavior for values by resource type are described as follows:   Amazon Aurora, Amazon DocumentDB, and Amazon Neptune do not have this value populate from the operation GetBackupJobStatus.   For Amazon DynamoDB with advanced features, this value refers to the size of the recovery point (backup).   Amazon EC2 and Amazon EBS show volume size (provisioned storage) returned as part of this value. Amazon EBS does not return backup size information; snapshot size will have the same value as the original resource that was backed up.   For Amazon EFS, this value refers to the delta bytes transferred during a backup.   For Amazon EKS, this value refers to the size of your nested EKS recovery point.   Amazon FSx does not populate this value from the operation GetBackupJobStatus for FSx file systems.   An Amazon RDS instance will show as 0.   For virtual machines running VMware, this value is passed to Backup through an asynchronous workflow, which can mean this displayed value can under-represent the actual backup size.
         public let backupSizeInBytes: Int64?
         /// Represents the actual backup type selected for a backup job. For example, if a successful Windows Volume Shadow Copy Service (VSS) backup was taken, BackupType returns "WindowsVSS". If BackupType is empty, then the backup type was a regular backup.
         public let backupType: String?
@@ -2673,9 +2677,9 @@ extension Backup {
     }
 
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
-        /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.
+        /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.    isCrossAccountBackupEnabled: Allow accounts in your organization to copy backups to other accounts.    isMpaEnabled: Add cross-account access to your organization with the option to assign a Multi-party approval team to a logically air-gapped vault.    isDelegatedAdministratorEnabled: Allow Backup to automatically synchronize delegated administrator permissions with Organizations.
         public let globalSettings: [String: String]?
-        /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The date and time that the supported flags were last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastUpdateTime: Date?
 
         @inlinable
@@ -3150,6 +3154,10 @@ extension Backup {
         public let backupVaultName: String
         /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
+        /// The point in time the scan job scanned up to for a continuous backup.
+        public let continuousScanEndTime: Date?
+        /// The point in time the scan job started scan from for a continuous backup.
+        public let continuousScanStartTime: Date?
         public let createdBy: ScanJobCreator
         /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date
@@ -3183,11 +3191,13 @@ extension Backup {
         public let statusMessage: String?
 
         @inlinable
-        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState, statusMessage: String? = nil) {
+        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, continuousScanEndTime: Date? = nil, continuousScanStartTime: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.completionDate = completionDate
+            self.continuousScanEndTime = continuousScanEndTime
+            self.continuousScanStartTime = continuousScanStartTime
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.iamRoleArn = iamRoleArn
@@ -3211,6 +3221,8 @@ extension Backup {
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case completionDate = "CompletionDate"
+            case continuousScanEndTime = "ContinuousScanEndTime"
+            case continuousScanStartTime = "ContinuousScanStartTime"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case iamRoleArn = "IamRoleArn"
@@ -3755,6 +3767,66 @@ extension Backup {
         }
     }
 
+    public struct GetPITRMalwareScanResultsInput: AWSEncodableShape {
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
+        public let backupVaultName: String
+        /// The scanning engine used for the corresponding scan job. Currently only GUARDDUTY is supported.
+        public let malwareScanner: MalwareScanner
+        /// An ARN that uniquely identifies the target recovery point for scanning; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+        /// The point in time within the continuous backup to examine for malware scan results.
+        public let scanEndTime: Date
+
+        @inlinable
+        public init(backupVaultName: String, malwareScanner: MalwareScanner, recoveryPointArn: String, scanEndTime: Date) {
+            self.backupVaultName = backupVaultName
+            self.malwareScanner = malwareScanner
+            self.recoveryPointArn = recoveryPointArn
+            self.scanEndTime = scanEndTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.backupVaultName, key: "BackupVaultName")
+            request.encodeQuery(self.malwareScanner, key: "MalwareScanner")
+            request.encodeQuery(self.recoveryPointArn, key: "RecoveryPointArn")
+            request.encodeQuery(self.scanEndTime, key: "ScanEndTime")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPITRMalwareScanResultsOutput: AWSDecodableShape {
+        /// The completion time of the most recent scan job that covered the specified point in time.
+        public let lastScanJobTime: Date?
+        /// The point in time that was queried. This echoes back the time specified in the request.
+        public let scanEndTime: Date
+        /// The scan ID generated by Amazon GuardDuty for the corresponding Scan Job ID request from Backup.
+        public let scanId: String?
+        /// Specifies the scan type used for the scan job.
+        public let scanMode: ScanMode?
+        /// Contains the ScanResultStatus for the scan and returns THREATS_FOUND, NO_THREATS_FOUND, or UNKNOWN.
+        public let scanResult: ScanResultInfo
+
+        @inlinable
+        public init(lastScanJobTime: Date? = nil, scanEndTime: Date, scanId: String? = nil, scanMode: ScanMode? = nil, scanResult: ScanResultInfo) {
+            self.lastScanJobTime = lastScanJobTime
+            self.scanEndTime = scanEndTime
+            self.scanId = scanId
+            self.scanMode = scanMode
+            self.scanResult = scanResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastScanJobTime = "LastScanJobTime"
+            case scanEndTime = "ScanEndTime"
+            case scanId = "ScanId"
+            case scanMode = "ScanMode"
+            case scanResult = "ScanResult"
+        }
+    }
+
     public struct GetRecoveryPointIndexDetailsInput: AWSEncodableShape {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. Accepted characters include lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
@@ -4029,7 +4101,7 @@ extension Backup {
     }
 
     public struct GetSupportedResourceTypesOutput: AWSDecodableShape {
-        /// Contains a string with the supported Amazon Web Services resource types:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+        /// Contains a string with the supported Amazon Web Services resource types:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let resourceTypes: [String]?
 
         @inlinable
@@ -4464,7 +4536,7 @@ extension Backup {
         public let byParentJobId: String?
         /// Returns only backup jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+        /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
         /// Returns only backup jobs that are in the specified state.  Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&state=COMPLETED
         public let byState: BackupJobState?
@@ -4872,7 +4944,7 @@ extension Backup {
         public let byParentJobId: String?
         /// Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+        /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
         /// Filters copy jobs by the specified source recovery point ARN.
         public let bySourceRecoveryPointArn: String?
@@ -5219,7 +5291,7 @@ extension Backup {
         public let byParentRecoveryPointArn: String?
         /// Returns only recovery points that match the specified resource Amazon Resource Name (ARN).
         public let byResourceArn: String?
-        /// Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+        /// Returns only recovery points that match the specified resource type(s):    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
         /// The maximum number of items to be returned.
         public let maxResults: Int?
@@ -5686,7 +5758,7 @@ extension Backup {
         public let byCreatedBefore: Date?
         /// This is a filter to list child (nested) restore jobs based on parent restore job ID.
         public let byParentJobId: String?
-        /// Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+        /// Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    EKS for Amazon Elastic Kubernetes Service    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
         /// This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
         public let byRestoreTestingPlanArn: String?
@@ -6209,7 +6281,7 @@ extension Backup {
     public struct PutBackupVaultLockConfigurationInput: AWSEncodableShape {
         /// The Backup Vault Lock configuration that specifies the name of the backup vault it protects.
         public let backupVaultName: String
-        /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
+        /// The Backup Vault Lock configuration that specifies the number of days before the lock date. For example, setting ChangeableForDays to 30 on Jan. 1, 2022 at 8pm UTC will set the lock date to Jan. 31, 2022 at 8pm UTC. Backup enforces a 72-hour cooling-off period before Vault Lock takes effect and becomes immutable. Therefore, you must set ChangeableForDays to 3 or greater. The maximum value you can specify is 36,500 days (approximately 100 years). Before the lock date, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration. On and after the lock date, the Vault Lock becomes immutable and cannot be changed or deleted. If this parameter is not specified, you can delete Vault Lock from the vault using DeleteBackupVaultLockConfiguration or change the Vault Lock configuration using PutBackupVaultLockConfiguration at any time.
         public let changeableForDays: Int64?
         /// The Backup Vault Lock configuration that specifies the maximum retention period that the vault retains its recovery points. This setting can be useful if, for example, your organization's policies require you to destroy certain data after retaining it for four years (1460 days). If this parameter is not included, Vault Lock does not enforce a maximum retention period on the recovery points in the vault. If this parameter is included without a value, Vault Lock will not enforce a maximum retention period. If this parameter is specified, any backup or copy job to the vault must have a lifecycle policy with a retention period equal to or shorter than the maximum retention period. If the job's retention period is longer than that maximum retention period, then the vault fails the backup or copy job, and you should either modify your lifecycle settings or use a different vault. The longest maximum retention period you can specify is 36500 days (approximately 100 years). Recovery points already saved in the vault prior to Vault Lock are not affected.
         public let maxRetentionDays: Int64?
@@ -7370,6 +7442,10 @@ extension Backup {
         public let backupVaultName: String
         /// The date and time that a scan job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let completionDate: Date?
+        /// The point in time the scan job scanned up to for a continuous backup.
+        public let continuousScanEndTime: Date?
+        /// The point in time the scan job started scan from for a continuous backup.
+        public let continuousScanStartTime: Date?
         /// Contains identifying information about the creation of a scan job.
         public let createdBy: ScanJobCreator
         /// The date and time that a scan job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -7404,11 +7480,13 @@ extension Backup {
         public let statusMessage: String?
 
         @inlinable
-        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, continuousScanEndTime: Date? = nil, continuousScanStartTime: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.completionDate = completionDate
+            self.continuousScanEndTime = continuousScanEndTime
+            self.continuousScanStartTime = continuousScanStartTime
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.iamRoleArn = iamRoleArn
@@ -7432,6 +7510,8 @@ extension Backup {
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case completionDate = "CompletionDate"
+            case continuousScanEndTime = "ContinuousScanEndTime"
+            case continuousScanStartTime = "ContinuousScanStartTime"
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case iamRoleArn = "IamRoleArn"
@@ -7550,7 +7630,7 @@ extension Backup {
     }
 
     public struct ScanResultInfo: AWSDecodableShape {
-        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND | UNKNOWN.
         public let scanResultStatus: ScanResultStatus
 
         @inlinable
@@ -7833,11 +7913,11 @@ extension Backup {
         public let iamRoleArn: String?
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartRestoreJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
         public let idempotencyToken: String?
-        /// A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following:    Metadata for Amazon Aurora     Metadata for Amazon DocumentDB     Metadata for CloudFormation     Metadata for Amazon DynamoDB      Metadata for Amazon EBS     Metadata for Amazon EC2     Metadata for Amazon EFS     Metadata for Amazon FSx     Metadata for Amazon Neptune     Metadata for Amazon RDS     Metadata for Amazon Redshift     Metadata for Storage Gateway     Metadata for Amazon S3     Metadata for Amazon Timestream     Metadata for virtual machines
+        /// A set of metadata key-value pairs. You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. For more information about the metadata for each resource, see the following:    Metadata for Amazon Aurora     Metadata for Amazon DocumentDB     Metadata for CloudFormation     Metadata for Amazon DynamoDB      Metadata for Amazon EBS     Metadata for Amazon EC2     Metadata for Amazon EFS     Metadata for Amazon EKS     Metadata for Amazon FSx     Metadata for Amazon Neptune     Metadata for Amazon RDS     Metadata for Amazon Redshift     Metadata for Storage Gateway     Metadata for Amazon S3     Metadata for Amazon Timestream     Metadata for virtual machines
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
-        /// Starts a job to restore a recovery point for one of the following resources:    Aurora - Amazon Aurora    DocumentDB - Amazon DocumentDB    CloudFormation - CloudFormation    DynamoDB - Amazon DynamoDB    EBS - Amazon Elastic Block Store    EC2 - Amazon Elastic Compute Cloud    EFS - Amazon Elastic File System    FSx - Amazon FSx    Neptune - Amazon Neptune    RDS - Amazon Relational Database Service    Redshift - Amazon Redshift    Storage Gateway - Storage Gateway    S3 - Amazon Simple Storage Service    Timestream - Amazon Timestream    VirtualMachine - Virtual machines
+        /// Starts a job to restore a recovery point for one of the following resources:    Aurora - Amazon Aurora    DocumentDB - Amazon DocumentDB    CloudFormation - CloudFormation    DynamoDB - Amazon DynamoDB    EBS - Amazon Elastic Block Store    EC2 - Amazon Elastic Compute Cloud    EFS - Amazon Elastic File System    EKS - Amazon Elastic Kubernetes Service    FSx - Amazon FSx    Neptune - Amazon Neptune    RDS - Amazon Relational Database Service    Redshift - Amazon Redshift    Storage Gateway - Storage Gateway    S3 - Amazon Simple Storage Service    Timestream - Amazon Timestream    VirtualMachine - Virtual machines
         public let resourceType: String?
 
         @inlinable
@@ -7881,6 +7961,8 @@ extension Backup {
     public struct StartScanJobInput: AWSEncodableShape {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that  are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
         public let backupVaultName: String
+        /// The point in time the scan job will scan up to for a continuous backup.
+        public let continuousScanEndTime: Date?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
         /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
@@ -7897,8 +7979,9 @@ extension Backup {
         public let scannerRoleArn: String
 
         @inlinable
-        public init(backupVaultName: String, iamRoleArn: String, idempotencyToken: String? = nil, malwareScanner: MalwareScanner, recoveryPointArn: String, scanBaseRecoveryPointArn: String? = nil, scanMode: ScanMode, scannerRoleArn: String) {
+        public init(backupVaultName: String, continuousScanEndTime: Date? = nil, iamRoleArn: String, idempotencyToken: String? = nil, malwareScanner: MalwareScanner, recoveryPointArn: String, scanBaseRecoveryPointArn: String? = nil, scanMode: ScanMode, scannerRoleArn: String) {
             self.backupVaultName = backupVaultName
+            self.continuousScanEndTime = continuousScanEndTime
             self.iamRoleArn = iamRoleArn
             self.idempotencyToken = idempotencyToken
             self.malwareScanner = malwareScanner
@@ -7910,6 +7993,7 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultName = "BackupVaultName"
+            case continuousScanEndTime = "ContinuousScanEndTime"
             case iamRoleArn = "IamRoleArn"
             case idempotencyToken = "IdempotencyToken"
             case malwareScanner = "MalwareScanner"
@@ -8257,7 +8341,7 @@ extension Backup {
     }
 
     public struct UpdateGlobalSettingsInput: AWSEncodableShape {
-        /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
+        /// Inputs can include: A value for isCrossAccountBackupEnabled. Values can be true or false. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false. A value for Multi-party approval, styled as isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false. A value for Backup Service-Linked Role creation, styled as isDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false.
         public let globalSettings: [String: String]?
 
         @inlinable

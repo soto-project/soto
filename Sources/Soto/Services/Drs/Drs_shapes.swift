@@ -154,6 +154,12 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum InternetProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cleanupEnd = "CLEANUP_END"
         case cleanupFail = "CLEANUP_FAIL"
@@ -319,6 +325,12 @@ extension Drs {
         case rescan = "RESCAN"
         case stalled = "STALLED"
         case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecoveryMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fast = "FAST"
+        case optimal = "OPTIMAL"
         public var description: String { return self.rawValue }
     }
 
@@ -615,13 +627,15 @@ extension Drs {
         public let licensing: Licensing?
         /// Whether we want to activate post-launch actions.
         public let postLaunchEnabled: Bool?
+        /// Recovery mode.
+        public let recoveryMode: RecoveryMode?
         /// Request to associate tags during creation of a Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, recoveryMode: RecoveryMode? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.exportBucketArn = exportBucketArn
@@ -629,6 +643,7 @@ extension Drs {
             self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -651,6 +666,7 @@ extension Drs {
             case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
             case postLaunchEnabled = "postLaunchEnabled"
+            case recoveryMode = "recoveryMode"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -672,25 +688,27 @@ extension Drs {
 
     public struct CreateReplicationConfigurationTemplateRequest: AWSEncodableShape {
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
-        public let associateDefaultSecurityGroup: Bool
+        public let associateDefaultSecurityGroup: Bool?
         /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
         public let autoReplicateNewDisks: Bool?
         /// Configure bandwidth throttling for the outbound data transfer rate of the Source Server in Mbps.
         public let bandwidthThrottling: Int64
         /// Whether to create a Public IP for the Recovery Instance by default.
-        public let createPublicIP: Bool
+        public let createPublicIP: Bool?
         /// The data plane routing mechanism that will be used for replication.
-        public let dataPlaneRouting: ReplicationConfigurationDataPlaneRouting
+        public let dataPlaneRouting: ReplicationConfigurationDataPlaneRouting?
         /// The Staging Disk EBS volume type to be used during replication.
-        public let defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType
+        public let defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType?
         /// The type of EBS encryption to be used during replication.
         public let ebsEncryption: ReplicationConfigurationEbsEncryption
         /// The ARN of the EBS encryption key to be used during replication.
         public let ebsEncryptionKeyArn: String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
         public let pitPolicy: [PITPolicyRule]
         /// The instance type to be used for the replication server.
-        public let replicationServerInstanceType: String
+        public let replicationServerInstanceType: String?
         /// The security group IDs that will be used by the replication server.
         public let replicationServersSecurityGroupsIDs: [String]
         /// The subnet to be used by the replication staging area.
@@ -700,10 +718,10 @@ extension Drs {
         /// A set of tags to be associated with the Replication Configuration Template resource.
         public let tags: [String: String]?
         /// Whether to use a dedicated Replication Server in the replication staging area.
-        public let useDedicatedReplicationServer: Bool
+        public let useDedicatedReplicationServer: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64 = 0, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, pitPolicy: [PITPolicyRule], replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
@@ -712,6 +730,7 @@ extension Drs {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.pitPolicy = pitPolicy
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -729,8 +748,8 @@ extension Drs {
             try self.pitPolicy.forEach {
                 try $0.validate(name: "\(name).pitPolicy[]")
             }
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 10)
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 1)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 3)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 3)
             try self.validate(self.replicationServerInstanceType, name: "replicationServerInstanceType", parent: name, max: 255)
             try self.replicationServersSecurityGroupsIDs.forEach {
                 try validate($0, name: "replicationServersSecurityGroupsIDs[]", parent: name, max: 255)
@@ -758,6 +777,7 @@ extension Drs {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case pitPolicy = "pitPolicy"
             case replicationServerInstanceType = "replicationServerInstanceType"
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
@@ -791,7 +811,7 @@ extension Drs {
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
-            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -1568,7 +1588,7 @@ extension Drs {
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, min: 12)
             try self.validate(self.originAccountID, name: "originAccountID", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.originRegion, name: "originRegion", parent: name, max: 255)
-            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|sa|af|me|il)-(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
+            try self.validate(self.originRegion, name: "originRegion", parent: name, pattern: "^(us(-gov)?|ap|ca|cn|eu|eusc|sa|af|me|mx|il)-([a-z]{2}-)?(central|north|(north(?:east|west))|south|south(?:east|west)|east|west)-[0-9]$")
             try self.sourceNetworkIDs?.forEach {
                 try validate($0, name: "sourceNetworkIDs[]", parent: name, max: 20)
                 try validate($0, name: "sourceNetworkIDs[]", parent: name, min: 20)
@@ -1801,6 +1821,8 @@ extension Drs {
     public struct GetFailbackReplicationConfigurationResponse: AWSDecodableShape {
         /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
         public let bandwidthThrottling: Int64?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The name of the Failback Replication Configuration.
         public let name: String?
         /// The ID of the Recovery Instance.
@@ -1809,8 +1831,9 @@ extension Drs {
         public let usePrivateIP: Bool?
 
         @inlinable
-        public init(bandwidthThrottling: Int64? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
+        public init(bandwidthThrottling: Int64? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
             self.bandwidthThrottling = bandwidthThrottling
+            self.internetProtocol = internetProtocol
             self.name = name
             self.recoveryInstanceID = recoveryInstanceID
             self.usePrivateIP = usePrivateIP
@@ -1818,6 +1841,7 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthThrottling = "bandwidthThrottling"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case recoveryInstanceID = "recoveryInstanceID"
             case usePrivateIP = "usePrivateIP"
@@ -1994,12 +2018,16 @@ extension Drs {
     }
 
     public struct JobLogEventData: AWSDecodableShape {
+        /// Retries for this operation.
+        public let attemptCount: Int64?
         /// Properties of a conversion job
         public let conversionProperties: ConversionProperties?
         /// The ID of a conversion server.
         public let conversionServerID: String?
         /// Properties of resource related to a job event.
         public let eventResourceData: EventResourceData?
+        /// The maximum number of retries that will be attempted if this operation failed.
+        public let maxAttemptsCount: Int64?
         /// A string representing a job error.
         public let rawError: String?
         /// The ID of a Source Server.
@@ -2008,19 +2036,23 @@ extension Drs {
         public let targetInstanceID: String?
 
         @inlinable
-        public init(conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, eventResourceData: EventResourceData? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+        public init(attemptCount: Int64? = nil, conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, eventResourceData: EventResourceData? = nil, maxAttemptsCount: Int64? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+            self.attemptCount = attemptCount
             self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
             self.eventResourceData = eventResourceData
+            self.maxAttemptsCount = maxAttemptsCount
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attemptCount = "attemptCount"
             case conversionProperties = "conversionProperties"
             case conversionServerID = "conversionServerID"
             case eventResourceData = "eventResourceData"
+            case maxAttemptsCount = "maxAttemptsCount"
             case rawError = "rawError"
             case sourceServerID = "sourceServerID"
             case targetInstanceID = "targetInstanceID"
@@ -2182,13 +2214,15 @@ extension Drs {
         public let name: String?
         /// Whether we want to activate post-launch actions for the Source Server.
         public let postLaunchEnabled: Bool?
+        /// Recovery mode.
+        public let recoveryMode: RecoveryMode?
         /// The ID of the Source Server for this launch configuration.
         public let sourceServerID: String?
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, recoveryMode: RecoveryMode? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
@@ -2197,6 +2231,7 @@ extension Drs {
             self.licensing = licensing
             self.name = name
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -2210,6 +2245,7 @@ extension Drs {
             case licensing = "licensing"
             case name = "name"
             case postLaunchEnabled = "postLaunchEnabled"
+            case recoveryMode = "recoveryMode"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -2234,13 +2270,15 @@ extension Drs {
         public let licensing: Licensing?
         /// Post-launch actions activated.
         public let postLaunchEnabled: Bool?
+        /// Recovery mode.
+        public let recoveryMode: RecoveryMode?
         /// Tags of the Launch Configuration Template.
         public let tags: [String: String]?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(arn: String? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, recoveryMode: RecoveryMode? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
@@ -2250,6 +2288,7 @@ extension Drs {
             self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -2264,6 +2303,7 @@ extension Drs {
             case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
             case postLaunchEnabled = "postLaunchEnabled"
+            case recoveryMode = "recoveryMode"
             case tags = "tags"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -3190,6 +3230,8 @@ extension Drs {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public let ebsEncryptionKeyArn: String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The name of the Replication Configuration.
         public let name: String?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -3210,7 +3252,7 @@ extension Drs {
         public let useDedicatedReplicationServer: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
@@ -3219,6 +3261,7 @@ extension Drs {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.name = name
             self.pitPolicy = pitPolicy
             self.replicatedDisks = replicatedDisks
@@ -3239,6 +3282,7 @@ extension Drs {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case pitPolicy = "pitPolicy"
             case replicatedDisks = "replicatedDisks"
@@ -3310,6 +3354,8 @@ extension Drs {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public let ebsEncryptionKeyArn: String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
         public let pitPolicy: [PITPolicyRule]?
         /// The Replication Configuration Template ID.
@@ -3328,7 +3374,7 @@ extension Drs {
         public let useDedicatedReplicationServer: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -3338,6 +3384,7 @@ extension Drs {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.pitPolicy = pitPolicy
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -3358,6 +3405,7 @@ extension Drs {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case pitPolicy = "pitPolicy"
             case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
             case replicationServerInstanceType = "replicationServerInstanceType"
@@ -4252,6 +4300,8 @@ extension Drs {
     public struct UpdateFailbackReplicationConfigurationRequest: AWSEncodableShape {
         /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
         public let bandwidthThrottling: Int64?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The name of the Failback Replication Configuration.
         public let name: String?
         /// The ID of the Recovery Instance.
@@ -4260,8 +4310,9 @@ extension Drs {
         public let usePrivateIP: Bool?
 
         @inlinable
-        public init(bandwidthThrottling: Int64? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
+        public init(bandwidthThrottling: Int64? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, recoveryInstanceID: String, usePrivateIP: Bool? = nil) {
             self.bandwidthThrottling = bandwidthThrottling
+            self.internetProtocol = internetProtocol
             self.name = name
             self.recoveryInstanceID = recoveryInstanceID
             self.usePrivateIP = usePrivateIP
@@ -4277,6 +4328,7 @@ extension Drs {
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthThrottling = "bandwidthThrottling"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case recoveryInstanceID = "recoveryInstanceID"
             case usePrivateIP = "usePrivateIP"
@@ -4298,13 +4350,15 @@ extension Drs {
         public let name: String?
         /// Whether we want to enable post-launch actions for the Source Server.
         public let postLaunchEnabled: Bool?
+        /// Recovery mode.
+        public let recoveryMode: RecoveryMode?
         /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
         public let sourceServerID: String
         /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, launchIntoInstanceProperties: LaunchIntoInstanceProperties? = nil, licensing: Licensing? = nil, name: String? = nil, postLaunchEnabled: Bool? = nil, recoveryMode: RecoveryMode? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.launchDisposition = launchDisposition
@@ -4312,6 +4366,7 @@ extension Drs {
             self.licensing = licensing
             self.name = name
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.sourceServerID = sourceServerID
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -4332,6 +4387,7 @@ extension Drs {
             case licensing = "licensing"
             case name = "name"
             case postLaunchEnabled = "postLaunchEnabled"
+            case recoveryMode = "recoveryMode"
             case sourceServerID = "sourceServerID"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
@@ -4354,11 +4410,13 @@ extension Drs {
         public let licensing: Licensing?
         /// Whether we want to activate post-launch actions.
         public let postLaunchEnabled: Bool?
+        /// Recovery mode.
+        public let recoveryMode: RecoveryMode?
         /// Target instance type right-sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, exportBucketArn: String? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, launchIntoSourceInstance: Bool? = nil, licensing: Licensing? = nil, postLaunchEnabled: Bool? = nil, recoveryMode: RecoveryMode? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.exportBucketArn = exportBucketArn
@@ -4367,6 +4425,7 @@ extension Drs {
             self.launchIntoSourceInstance = launchIntoSourceInstance
             self.licensing = licensing
             self.postLaunchEnabled = postLaunchEnabled
+            self.recoveryMode = recoveryMode
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
 
@@ -4388,6 +4447,7 @@ extension Drs {
             case launchIntoSourceInstance = "launchIntoSourceInstance"
             case licensing = "licensing"
             case postLaunchEnabled = "postLaunchEnabled"
+            case recoveryMode = "recoveryMode"
             case targetInstanceTypeRightSizingMethod = "targetInstanceTypeRightSizingMethod"
         }
     }
@@ -4423,6 +4483,8 @@ extension Drs {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public let ebsEncryptionKeyArn: String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The name of the Replication Configuration.
         public let name: String?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
@@ -4443,7 +4505,7 @@ extension Drs {
         public let useDedicatedReplicationServer: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
             self.bandwidthThrottling = bandwidthThrottling
@@ -4452,6 +4514,7 @@ extension Drs {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.name = name
             self.pitPolicy = pitPolicy
             self.replicatedDisks = replicatedDisks
@@ -4472,8 +4535,8 @@ extension Drs {
             try self.pitPolicy?.forEach {
                 try $0.validate(name: "\(name).pitPolicy[]")
             }
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 10)
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 1)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 3)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 3)
             try self.replicatedDisks?.forEach {
                 try $0.validate(name: "\(name).replicatedDisks[]")
             }
@@ -4504,6 +4567,7 @@ extension Drs {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case pitPolicy = "pitPolicy"
             case replicatedDisks = "replicatedDisks"
@@ -4535,6 +4599,8 @@ extension Drs {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// The ARN of the EBS encryption key to be used during replication.
         public let ebsEncryptionKeyArn: String?
+        /// Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
+        public let internetProtocol: InternetProtocol?
         /// The Point in time (PIT) policy to manage snapshots taken during replication.
         public let pitPolicy: [PITPolicyRule]?
         /// The Replication Configuration Template ID.
@@ -4551,7 +4617,7 @@ extension Drs {
         public let useDedicatedReplicationServer: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, autoReplicateNewDisks: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, pitPolicy: [PITPolicyRule]? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.autoReplicateNewDisks = autoReplicateNewDisks
@@ -4561,6 +4627,7 @@ extension Drs {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.pitPolicy = pitPolicy
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -4581,8 +4648,8 @@ extension Drs {
             try self.pitPolicy?.forEach {
                 try $0.validate(name: "\(name).pitPolicy[]")
             }
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 10)
-            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 1)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, max: 3)
+            try self.validate(self.pitPolicy, name: "pitPolicy", parent: name, min: 3)
             try self.validate(self.replicationConfigurationTemplateID, name: "replicationConfigurationTemplateID", parent: name, max: 21)
             try self.validate(self.replicationConfigurationTemplateID, name: "replicationConfigurationTemplateID", parent: name, min: 21)
             try self.validate(self.replicationConfigurationTemplateID, name: "replicationConfigurationTemplateID", parent: name, pattern: "^rct-[0-9a-zA-Z]{17}$")
@@ -4610,6 +4677,7 @@ extension Drs {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case pitPolicy = "pitPolicy"
             case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
             case replicationServerInstanceType = "replicationServerInstanceType"

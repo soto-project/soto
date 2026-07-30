@@ -163,6 +163,12 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResaleAuthorizationResellerRoleString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case channelPartner = "ChannelPartner"
+        case distributor = "Distributor"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResaleAuthorizationSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilityEndDate = "AvailabilityEndDate"
         case createdDate = "CreatedDate"
@@ -2865,11 +2871,13 @@ extension MarketplaceCatalog {
         public let resellerAccountID: ResaleAuthorizationResellerAccountIDFilter?
         /// Allows filtering on the ResellerLegalName of a ResaleAuthorization.
         public let resellerLegalName: ResaleAuthorizationResellerLegalNameFilter?
+        /// Allows filtering on the ResellerRole of a ResaleAuthorization.
+        public let resellerRole: ResaleAuthorizationResellerRoleFilter?
         /// Allows filtering on the Status of a ResaleAuthorization.
         public let status: ResaleAuthorizationStatusFilter?
 
         @inlinable
-        public init(availabilityEndDate: ResaleAuthorizationAvailabilityEndDateFilter? = nil, createdDate: ResaleAuthorizationCreatedDateFilter? = nil, entityId: ResaleAuthorizationEntityIdFilter? = nil, lastModifiedDate: ResaleAuthorizationLastModifiedDateFilter? = nil, manufacturerAccountId: ResaleAuthorizationManufacturerAccountIdFilter? = nil, manufacturerLegalName: ResaleAuthorizationManufacturerLegalNameFilter? = nil, name: ResaleAuthorizationNameFilter? = nil, offerExtendedStatus: ResaleAuthorizationOfferExtendedStatusFilter? = nil, productId: ResaleAuthorizationProductIdFilter? = nil, productName: ResaleAuthorizationProductNameFilter? = nil, resellerAccountID: ResaleAuthorizationResellerAccountIDFilter? = nil, resellerLegalName: ResaleAuthorizationResellerLegalNameFilter? = nil, status: ResaleAuthorizationStatusFilter? = nil) {
+        public init(availabilityEndDate: ResaleAuthorizationAvailabilityEndDateFilter? = nil, createdDate: ResaleAuthorizationCreatedDateFilter? = nil, entityId: ResaleAuthorizationEntityIdFilter? = nil, lastModifiedDate: ResaleAuthorizationLastModifiedDateFilter? = nil, manufacturerAccountId: ResaleAuthorizationManufacturerAccountIdFilter? = nil, manufacturerLegalName: ResaleAuthorizationManufacturerLegalNameFilter? = nil, name: ResaleAuthorizationNameFilter? = nil, offerExtendedStatus: ResaleAuthorizationOfferExtendedStatusFilter? = nil, productId: ResaleAuthorizationProductIdFilter? = nil, productName: ResaleAuthorizationProductNameFilter? = nil, resellerAccountID: ResaleAuthorizationResellerAccountIDFilter? = nil, resellerLegalName: ResaleAuthorizationResellerLegalNameFilter? = nil, resellerRole: ResaleAuthorizationResellerRoleFilter? = nil, status: ResaleAuthorizationStatusFilter? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
             self.entityId = entityId
@@ -2882,6 +2890,7 @@ extension MarketplaceCatalog {
             self.productName = productName
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
+            self.resellerRole = resellerRole
             self.status = status
         }
 
@@ -2898,6 +2907,7 @@ extension MarketplaceCatalog {
             try self.productName?.validate(name: "\(name).productName")
             try self.resellerAccountID?.validate(name: "\(name).resellerAccountID")
             try self.resellerLegalName?.validate(name: "\(name).resellerLegalName")
+            try self.resellerRole?.validate(name: "\(name).resellerRole")
             try self.status?.validate(name: "\(name).status")
         }
 
@@ -2914,6 +2924,7 @@ extension MarketplaceCatalog {
             case productName = "ProductName"
             case resellerAccountID = "ResellerAccountID"
             case resellerLegalName = "ResellerLegalName"
+            case resellerRole = "ResellerRole"
             case status = "Status"
         }
     }
@@ -3204,6 +3215,25 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct ResaleAuthorizationResellerRoleFilter: AWSEncodableShape {
+        /// Allows filtering on the ResellerRole of a ResaleAuthorization with list input.
+        public let valueList: [ResaleAuthorizationResellerRoleString]?
+
+        @inlinable
+        public init(valueList: [ResaleAuthorizationResellerRoleString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
     public struct ResaleAuthorizationSort: AWSEncodableShape {
         /// Allows to sort ResaleAuthorization.
         public let sortBy: ResaleAuthorizationSortBy?
@@ -3262,11 +3292,13 @@ extension MarketplaceCatalog {
         public let resellerAccountID: String?
         /// The reseller legal name of the ResaleAuthorization
         public let resellerLegalName: String?
+        /// The reseller role of the ResaleAuthorization.
+        public let resellerRole: ResaleAuthorizationResellerRoleString?
         /// The status of the ResaleAuthorization.
         public let status: ResaleAuthorizationStatusString?
 
         @inlinable
-        public init(availabilityEndDate: String? = nil, createdDate: String? = nil, manufacturerAccountId: String? = nil, manufacturerLegalName: String? = nil, name: String? = nil, offerExtendedStatus: String? = nil, productId: String? = nil, productName: String? = nil, resellerAccountID: String? = nil, resellerLegalName: String? = nil, status: ResaleAuthorizationStatusString? = nil) {
+        public init(availabilityEndDate: String? = nil, createdDate: String? = nil, manufacturerAccountId: String? = nil, manufacturerLegalName: String? = nil, name: String? = nil, offerExtendedStatus: String? = nil, productId: String? = nil, productName: String? = nil, resellerAccountID: String? = nil, resellerLegalName: String? = nil, resellerRole: ResaleAuthorizationResellerRoleString? = nil, status: ResaleAuthorizationStatusString? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.createdDate = createdDate
             self.manufacturerAccountId = manufacturerAccountId
@@ -3277,6 +3309,7 @@ extension MarketplaceCatalog {
             self.productName = productName
             self.resellerAccountID = resellerAccountID
             self.resellerLegalName = resellerLegalName
+            self.resellerRole = resellerRole
             self.status = status
         }
 
@@ -3291,6 +3324,7 @@ extension MarketplaceCatalog {
             case productName = "ProductName"
             case resellerAccountID = "ResellerAccountID"
             case resellerLegalName = "ResellerLegalName"
+            case resellerRole = "ResellerRole"
             case status = "Status"
         }
     }

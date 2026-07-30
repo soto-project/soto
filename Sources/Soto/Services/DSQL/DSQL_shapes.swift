@@ -53,6 +53,38 @@ extension DSQL {
         public var description: String { return self.rawValue }
     }
 
+    public enum StreamFailureErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clusterCmkInaccessible = "CLUSTER_CMK_INACCESSIBLE"
+        case internalError = "INTERNAL_ERROR"
+        case kinesisAccessDenied = "KINESIS_ACCESS_DENIED"
+        case kinesisKmsAccessDenied = "KINESIS_KMS_ACCESS_DENIED"
+        case kinesisOversizeRecord = "KINESIS_OVERSIZE_RECORD"
+        case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
+        case kinesisThroughputExceeded = "KINESIS_THROUGHPUT_EXCEEDED"
+        case roleAccessDenied = "ROLE_ACCESS_DENIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamOrdering: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case unordered = "UNORDERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case impaired = "IMPAIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cannotParse = "cannotParse"
         case deletionProtectionEnabled = "deletionProtectionEnabled"
@@ -203,6 +235,104 @@ extension DSQL {
         }
     }
 
+    public struct CreateStreamInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+        public let clientToken: String?
+        /// The ID of the cluster for which to create the stream.
+        public let clusterIdentifier: String
+        /// The format of the stream records.
+        public let format: StreamFormat
+        /// The ordering mode for the stream. Determines how change events are ordered when delivered to the target.
+        public let ordering: StreamOrdering
+        /// A map of key and value pairs to use to tag your stream.
+        public let tags: [String: String]?
+        /// The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN.
+        public let targetDefinition: TargetDefinition
+
+        @inlinable
+        public init(clientToken: String? = CreateStreamInput.idempotencyToken(), clusterIdentifier: String, format: StreamFormat, ordering: StreamOrdering, tags: [String: String]? = nil, targetDefinition: TargetDefinition) {
+            self.clientToken = clientToken
+            self.clusterIdentifier = clusterIdentifier
+            self.format = format
+            self.ordering = ordering
+            self.tags = tags
+            self.targetDefinition = targetDefinition
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.clusterIdentifier, key: "clusterIdentifier")
+            try container.encode(self.format, forKey: .format)
+            try container.encode(self.ordering, forKey: .ordering)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.targetDefinition, forKey: .targetDefinition)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z0-9_.:/=+\\-@ ]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9_.:/=+\\-@ ]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.targetDefinition.validate(name: "\(name).targetDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case format = "format"
+            case ordering = "ordering"
+            case tags = "tags"
+            case targetDefinition = "targetDefinition"
+        }
+    }
+
+    public struct CreateStreamOutput: AWSDecodableShape {
+        /// The ARN of the created stream.
+        public let arn: String
+        /// The ID of the cluster for the created stream.
+        public let clusterIdentifier: String
+        /// The time when created the stream.
+        public let creationTime: Date
+        /// The format of the created stream records.
+        public let format: StreamFormat
+        /// The ordering mode of the created stream.
+        public let ordering: StreamOrdering
+        /// The status of the created stream.
+        public let status: StreamStatus
+        /// The ID of the created stream.
+        public let streamIdentifier: String
+
+        @inlinable
+        public init(arn: String, clusterIdentifier: String, creationTime: Date, format: StreamFormat, ordering: StreamOrdering, status: StreamStatus, streamIdentifier: String) {
+            self.arn = arn
+            self.clusterIdentifier = clusterIdentifier
+            self.creationTime = creationTime
+            self.format = format
+            self.ordering = ordering
+            self.status = status
+            self.streamIdentifier = streamIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clusterIdentifier = "clusterIdentifier"
+            case creationTime = "creationTime"
+            case format = "format"
+            case ordering = "ordering"
+            case status = "status"
+            case streamIdentifier = "streamIdentifier"
+        }
+    }
+
     public struct DeleteClusterInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
         public let clientToken: String?
@@ -300,6 +430,70 @@ extension DSQL {
 
         private enum CodingKeys: String, CodingKey {
             case policyVersion = "policyVersion"
+        }
+    }
+
+    public struct DeleteStreamInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+        public let clientToken: String?
+        /// The ID of the cluster containing the stream to delete.
+        public let clusterIdentifier: String
+        /// The ID of the stream to delete.
+        public let streamIdentifier: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteStreamInput.idempotencyToken(), clusterIdentifier: String, streamIdentifier: String) {
+            self.clientToken = clientToken
+            self.clusterIdentifier = clusterIdentifier
+            self.streamIdentifier = streamIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "client-token")
+            request.encodePath(self.clusterIdentifier, key: "clusterIdentifier")
+            request.encodePath(self.streamIdentifier, key: "streamIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.validate(self.streamIdentifier, name: "streamIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteStreamOutput: AWSDecodableShape {
+        /// The ARN of the deleted stream.
+        public let arn: String
+        /// The ID of the cluster for the deleted stream.
+        public let clusterIdentifier: String
+        /// The time when the stream was created.
+        public let creationTime: Date
+        /// The status of the stream.
+        public let status: StreamStatus
+        /// The ID of the deleted stream.
+        public let streamIdentifier: String
+
+        @inlinable
+        public init(arn: String, clusterIdentifier: String, creationTime: Date, status: StreamStatus, streamIdentifier: String) {
+            self.arn = arn
+            self.clusterIdentifier = clusterIdentifier
+            self.creationTime = creationTime
+            self.status = status
+            self.streamIdentifier = streamIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clusterIdentifier = "clusterIdentifier"
+            case creationTime = "creationTime"
+            case status = "status"
+            case streamIdentifier = "streamIdentifier"
         }
     }
 
@@ -432,6 +626,83 @@ extension DSQL {
         }
     }
 
+    public struct GetStreamInput: AWSEncodableShape {
+        /// The ID of the cluster containing the stream to retrieve.
+        public let clusterIdentifier: String
+        /// The ID of the stream to retrieve.
+        public let streamIdentifier: String
+
+        @inlinable
+        public init(clusterIdentifier: String, streamIdentifier: String) {
+            self.clusterIdentifier = clusterIdentifier
+            self.streamIdentifier = streamIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterIdentifier, key: "clusterIdentifier")
+            request.encodePath(self.streamIdentifier, key: "streamIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.validate(self.streamIdentifier, name: "streamIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetStreamOutput: AWSDecodableShape {
+        /// The ARN of the retrieved stream.
+        public let arn: String
+        /// The ID of the cluster for the retrieved stream.
+        public let clusterIdentifier: String
+        /// The time when the stream was created.
+        public let creationTime: Date
+        /// The format of the stream records.
+        public let format: StreamFormat
+        /// The ordering mode of the stream.
+        public let ordering: StreamOrdering
+        /// The current status of the retrieved stream.
+        public let status: StreamStatus
+        /// Stream status reason with error code and timestamp (if applicable).
+        public let statusReason: StatusReason?
+        /// The ID of the retrieved stream.
+        public let streamIdentifier: String
+        /// A map of tags associated with the stream.
+        public let tags: [String: String]?
+        /// The target definition for the stream destination.
+        public let targetDefinition: TargetDefinition?
+
+        @inlinable
+        public init(arn: String, clusterIdentifier: String, creationTime: Date, format: StreamFormat, ordering: StreamOrdering, status: StreamStatus, statusReason: StatusReason? = nil, streamIdentifier: String, tags: [String: String]? = nil, targetDefinition: TargetDefinition? = nil) {
+            self.arn = arn
+            self.clusterIdentifier = clusterIdentifier
+            self.creationTime = creationTime
+            self.format = format
+            self.ordering = ordering
+            self.status = status
+            self.statusReason = statusReason
+            self.streamIdentifier = streamIdentifier
+            self.tags = tags
+            self.targetDefinition = targetDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clusterIdentifier = "clusterIdentifier"
+            case creationTime = "creationTime"
+            case format = "format"
+            case ordering = "ordering"
+            case status = "status"
+            case statusReason = "statusReason"
+            case streamIdentifier = "streamIdentifier"
+            case tags = "tags"
+            case targetDefinition = "targetDefinition"
+        }
+    }
+
     public struct GetVpcEndpointServiceNameInput: AWSEncodableShape {
         /// The ID of the cluster to retrieve.
         public let identifier: String
@@ -495,6 +766,33 @@ extension DSQL {
         }
     }
 
+    public struct KinesisTargetDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IAM role that grants permission to write to the Kinesis stream. This can be a standard role (arn:aws:iam::account-id:role/role-name) or a role with a path prefix (arn:aws:iam::account-id:role/service-role/role-name), such as roles auto-created by the console.
+        public let roleArn: String
+        /// The ARN of the Kinesis stream.
+        public let streamArn: String
+
+        @inlinable
+        public init(roleArn: String, streamArn: String) {
+            self.roleArn = roleArn
+            self.streamArn = streamArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+$")
+            try self.validate(self.streamArn, name: "streamArn", parent: name, max: 2048)
+            try self.validate(self.streamArn, name: "streamArn", parent: name, min: 1)
+            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "roleArn"
+            case streamArn = "streamArn"
+        }
+    }
+
     public struct ListClustersInput: AWSEncodableShape {
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
@@ -537,6 +835,56 @@ extension DSQL {
         private enum CodingKeys: String, CodingKey {
             case clusters = "clusters"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListStreamsInput: AWSEncodableShape {
+        /// The ID of the cluster for which to list streams.
+        public let clusterIdentifier: String
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results. Default: 10.
+        public let maxResults: Int?
+        /// If your initial ListStreams operation returns a nextToken, you can include the returned nextToken in following ListStreams operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(clusterIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterIdentifier, key: "clusterIdentifier")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStreamsOutput: AWSDecodableShape {
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+        public let nextToken: String?
+        /// An array of the returned streams.
+        public let streams: [StreamSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, streams: [StreamSummary]) {
+            self.nextToken = nextToken
+            self.streams = streams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case streams = "streams"
         }
     }
 
@@ -711,6 +1059,54 @@ extension DSQL {
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct StatusReason: AWSDecodableShape {
+        /// The error code for the stream failure.
+        public let error: StreamFailureErrorCode
+        /// The timestamp when the status was updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(error: StreamFailureErrorCode, updatedAt: Date) {
+            self.error = error
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct StreamSummary: AWSDecodableShape {
+        /// The ARN of the stream.
+        public let arn: String
+        /// The ID of the cluster.
+        public let clusterIdentifier: String
+        /// The timestamp when the stream was created.
+        public let creationTime: Date
+        /// The current status of the stream.
+        public let status: StreamStatus
+        /// The ID of the stream.
+        public let streamIdentifier: String
+
+        @inlinable
+        public init(arn: String, clusterIdentifier: String, creationTime: Date, status: StreamStatus, streamIdentifier: String) {
+            self.arn = arn
+            self.clusterIdentifier = clusterIdentifier
+            self.creationTime = creationTime
+            self.status = status
+            self.streamIdentifier = streamIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clusterIdentifier = "clusterIdentifier"
+            case creationTime = "creationTime"
+            case status = "status"
+            case streamIdentifier = "streamIdentifier"
         }
     }
 
@@ -932,6 +1328,24 @@ extension DSQL {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct TargetDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Kinesis stream target configuration.
+        public let kinesis: KinesisTargetDefinition?
+
+        @inlinable
+        public init(kinesis: KinesisTargetDefinition? = nil) {
+            self.kinesis = kinesis
+        }
+
+        public func validate(name: String) throws {
+            try self.kinesis?.validate(name: "\(name).kinesis")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kinesis = "kinesis"
         }
     }
 }

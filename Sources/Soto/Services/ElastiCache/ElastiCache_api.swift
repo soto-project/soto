@@ -279,7 +279,7 @@ public struct ElastiCache: AWSService {
     ///   - kmsKeyId: The identifier of the KMS key used to encrypt the target snapshot. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - sourceServerlessCacheSnapshotName: The identifier of the existing serverless cache’s snapshot to be copied. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - tags: A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
-    ///   - targetServerlessCacheSnapshotName: The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - targetServerlessCacheSnapshotName: The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.
     ///   - logger: Logger use during operation
     @inlinable
     public func copyServerlessCacheSnapshot(
@@ -318,7 +318,7 @@ public struct ElastiCache: AWSService {
     ///   - sourceSnapshotName: The name of an existing snapshot from which to make a copy.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     ///   - targetBucket: The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
-    ///   - targetSnapshotName: A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
+    ///   - targetSnapshotName: A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
     ///   - logger: Logger use during operation
     @inlinable
     public func copySnapshot(
@@ -472,7 +472,7 @@ public struct ElastiCache: AWSService {
     ///
     /// Parameters:
     ///   - cacheParameterGroupFamily: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 |
-    ///   - cacheParameterGroupName: A user-specified name for the cache parameter group.
+    ///   - cacheParameterGroupName: A user-specified name for the cache parameter group. This value is stored as a lowercase string.
     ///   - description: A user-specified description for the cache parameter group.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     ///   - logger: Logger use during operation
@@ -584,7 +584,7 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - globalReplicationGroupDescription: Provides details of the Global datastore
     ///   - globalReplicationGroupIdSuffix: The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
-    ///   - primaryReplicationGroupId: The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+    ///   - primaryReplicationGroupId: The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlobalReplicationGroup(
@@ -617,7 +617,7 @@ public struct ElastiCache: AWSService {
     /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling.  For more information, see Scaling self-designed clusters in the ElastiCache User Guide.  This operation is valid for Valkey and Redis OSS only.
     ///
     /// Parameters:
-    ///   - atRestEncryptionEnabled: A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Valkey 7.2 and later, Redis OSS version 3.2.6, or Redis OSS 4.x and later. Default: true when using Valkey, false when using Redis OSS
+    ///   - atRestEncryptionEnabled: A flag that enables encryption at-rest on the replication group when set to true. In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the effective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. Default: true when using Valkey, false when using Redis OSS
     ///   - authToken:  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
     ///   - automaticFailoverEnabled: Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Valkey or Redis OSS (cluster mode enabled) replication groups. Default: false
     ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
@@ -627,6 +627,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheSubnetGroupName: The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
     ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS  clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     ///   - dataTieringEnabled: Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
+    ///   - durability: Specifies the durability setting for the replication group. When set to default, the service determines the effective durability based on the engine version, cluster mode, and other parameters. The resolved setting is reflected in the EffectiveDurability property of the replication group. For more information, see Durability.
     ///   - engine: The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
     ///   - engineVersion: The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     ///   - globalReplicationGroupId: The name of the Global datastore
@@ -669,6 +670,7 @@ public struct ElastiCache: AWSService {
         cacheSubnetGroupName: String? = nil,
         clusterMode: ClusterMode? = nil,
         dataTieringEnabled: Bool? = nil,
+        durability: Durability? = nil,
         engine: String? = nil,
         engineVersion: String? = nil,
         globalReplicationGroupId: String? = nil,
@@ -711,6 +713,7 @@ public struct ElastiCache: AWSService {
             cacheSubnetGroupName: cacheSubnetGroupName, 
             clusterMode: clusterMode, 
             dataTieringEnabled: dataTieringEnabled, 
+            durability: durability, 
             engine: engine, 
             engineVersion: engineVersion, 
             globalReplicationGroupId: globalReplicationGroupId, 
@@ -766,10 +769,11 @@ public struct ElastiCache: AWSService {
     ///   - engine: The name of the cache engine to be used for creating the serverless cache.
     ///   - kmsKeyId: ARN of the customer managed key for encrypting the data at rest. If no KMS key is provided, a default service key is used.
     ///   - majorEngineVersion: The version of the cache engine that will be used to create the serverless cache.
+    ///   - networkType: The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
     ///   - securityGroupIds: A list of the one or more VPC security groups to be associated with the serverless cache.  The security group will authorize traffic access for the VPC end-point (private-link).  If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC  end-point.
     ///   - serverlessCacheName: User-provided identifier for the serverless cache. This parameter is stored as a lowercase string.
     ///   - snapshotArnsToRestore: The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
-    ///   - snapshotRetentionLimit: The number of snapshots that will be retained for the serverless cache that is being created.  As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+    ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
     ///   - subnetIds: A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed.  All the subnetIds must belong to the same VPC.
     ///   - tags: The list of tags (key, value) pairs to be added to the serverless cache resource. Default is NULL.
     ///   - userGroupId: The identifier of the UserGroup to be associated with the serverless cache.  Available for Valkey and Redis OSS only. Default is NULL.
@@ -782,6 +786,7 @@ public struct ElastiCache: AWSService {
         engine: String? = nil,
         kmsKeyId: String? = nil,
         majorEngineVersion: String? = nil,
+        networkType: NetworkType? = nil,
         securityGroupIds: [String]? = nil,
         serverlessCacheName: String? = nil,
         snapshotArnsToRestore: [String]? = nil,
@@ -798,6 +803,7 @@ public struct ElastiCache: AWSService {
             engine: engine, 
             kmsKeyId: kmsKeyId, 
             majorEngineVersion: majorEngineVersion, 
+            networkType: networkType, 
             securityGroupIds: securityGroupIds, 
             serverlessCacheName: serverlessCacheName, 
             snapshotArnsToRestore: snapshotArnsToRestore, 
@@ -827,7 +833,7 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the snapshot.  Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
     ///   - serverlessCacheName: The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
-    ///   - serverlessCacheSnapshotName: The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
+    ///   - serverlessCacheSnapshotName: The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
     ///   - tags: A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only.
     ///   - logger: Logger use during operation
     @inlinable
@@ -866,7 +872,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheClusterId: The identifier of an existing cluster. The snapshot is created from this cluster.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the snapshot.
     ///   - replicationGroupId: The identifier of an existing replication group. The snapshot is created from this replication group.
-    ///   - snapshotName: A name for the snapshot being created.
+    ///   - snapshotName: A name for the snapshot being created. This value is stored as a lowercase string.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -910,7 +916,7 @@ public struct ElastiCache: AWSService {
     ///   - noPasswordRequired: Indicates a password is not required for this user.
     ///   - passwords: Passwords used for this user. You can create up to two passwords for each user.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
-    ///   - userId: The ID of the user.
+    ///   - userId: The ID of the user. This value is stored as a lowercase string.
     ///   - userName: The username of the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -956,7 +962,7 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - engine: Sets the engine listed in a user group. The options are valkey or redis.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
-    ///   - userGroupId: The ID of the user group.
+    ///   - userGroupId: The ID of the user group. This value is stored as a lowercase string.
     ///   - userIds: The list of user IDs that belong to the user group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2420,7 +2426,7 @@ public struct ElastiCache: AWSService {
     /// Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration parameters by specifying the parameters and the new values.
     ///
     /// Parameters:
-    ///   - applyImmediately: If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false
+    ///   - applyImmediately: If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. However,  a pending node-count increase on Memcached clusters cannot be superseded by a request  to add fewer nodes. To change a pending node addition, first cancel it by setting  NumCacheNodes equal to the current number of nodes in the cluster, then  submit the new request. See the NumCacheNodes parameter for details on  node scaling behavior.  Valid values: true | false  Default: false
     ///   - authToken: Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
     ///   - authTokenUpdateStrategy: Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   ROTATE - default, if no update strategy is provided   SET - allowed only after ROTATE   DELETE - allowed only when transitioning to RBAC   For more information, see Authenticating Users with AUTH
     ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 or Redis OSS engine version 6.0 or later, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
@@ -2586,7 +2592,7 @@ public struct ElastiCache: AWSService {
     ///   - automaticFailoverEnabled: Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
     ///   - cacheNodeType: A valid cache node type that you want to scale this Global datastore to.
     ///   - cacheParameterGroupName: The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
-    ///   - engine: Modifies the engine listed in a global replication group message. The options are redis, memcached or valkey.
+    ///   - engine: Modifies the engine listed in a global replication group message. The options are valkey, memcached or redis.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the clusters in the Global datastore.
     ///   - globalReplicationGroupDescription: A description of the Global datastore
     ///   - globalReplicationGroupId: The name of the Global datastore
@@ -2641,7 +2647,8 @@ public struct ElastiCache: AWSService {
     ///   - cacheParameterGroupName: The name of the cache parameter group to apply to all of the clusters in this replication group. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
     ///   - cacheSecurityGroupNames: A list of cache security group names to authorize for the clusters in this replication group. This change is asynchronously applied as soon as possible. This parameter can be used only with replication group containing clusters running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be Default.
     ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
-    ///   - engine: Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
+    ///   - durability: Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see Durability.
+    ///   - engine: Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
     ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
@@ -2673,6 +2680,7 @@ public struct ElastiCache: AWSService {
         cacheParameterGroupName: String? = nil,
         cacheSecurityGroupNames: [String]? = nil,
         clusterMode: ClusterMode? = nil,
+        durability: Durability? = nil,
         engine: String? = nil,
         engineVersion: String? = nil,
         ipDiscovery: IpDiscovery? = nil,
@@ -2705,6 +2713,7 @@ public struct ElastiCache: AWSService {
             cacheParameterGroupName: cacheParameterGroupName, 
             cacheSecurityGroupNames: cacheSecurityGroupNames, 
             clusterMode: clusterMode, 
+            durability: durability, 
             engine: engine, 
             engineVersion: engineVersion, 
             ipDiscovery: ipDiscovery, 
@@ -2792,7 +2801,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheUsageLimits: Modify the cache usage limit for the serverless cache.
     ///   - dailySnapshotTime: The daily time during which Elasticache begins taking a daily snapshot of the serverless cache.  Available for Valkey, Redis OSS and Serverless Memcached only. The default is NULL, i.e. the existing snapshot time configured for the cluster is not removed.
     ///   - description: User provided description for the serverless cache.  Default = NULL, i.e. the existing description is not removed/modified.  The description has a maximum length of 255 characters.
-    ///   - engine: Modifies the engine listed in a serverless cache request. The options are redis, memcached or valkey.
+    ///   - engine: Modifies the engine listed in a serverless cache request. The options are valkey, memcached or redis.
     ///   - majorEngineVersion: Modifies the engine vesion listed in a serverless cache request.
     ///   - removeUserGroup: The identifier of the UserGroup to be removed from association with the Valkey and Redis OSS serverless cache.  Available for Valkey and Redis OSS only. Default is NULL.
     ///   - securityGroupIds: The new list of VPC security groups to be associated with the serverless cache.  Populating this list means the current VPC security groups will be removed.  This security group is used to authorize traffic access for the VPC end-point (private-link).  Default = NULL -  the existing list of VPC security groups is not removed.

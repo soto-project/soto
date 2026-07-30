@@ -199,6 +199,17 @@ extension TimestreamInfluxDB {
             }
         }
 
+        public func validate(name: String) throws {
+            switch self {
+            case .influxDBv3Core(let value):
+                try value.validate(name: "\(name).influxDBv3Core")
+            case .influxDBv3Enterprise(let value):
+                try value.validate(name: "\(name).influxDBv3Enterprise")
+            default:
+                break
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
             case influxDBv2 = "InfluxDBv2"
             case influxDBv3Core = "InfluxDBv3Core"
@@ -249,6 +260,28 @@ extension TimestreamInfluxDB {
 
     // MARK: Shapes
 
+    public struct ClusterConfiguration: AWSDecodableShape {
+        /// Indicates if the compactor instance is a standalone instance or not.
+        public let dedicatedCompactor: Bool?
+        /// The number of instances in the DbCluster which can both ingest and query.
+        public let ingestQueryInstances: Int?
+        /// The number of instances in the DbCluster which can only query.
+        public let queryOnlyInstances: Int?
+
+        @inlinable
+        public init(dedicatedCompactor: Bool? = nil, ingestQueryInstances: Int? = nil, queryOnlyInstances: Int? = nil) {
+            self.dedicatedCompactor = dedicatedCompactor
+            self.ingestQueryInstances = ingestQueryInstances
+            self.queryOnlyInstances = queryOnlyInstances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dedicatedCompactor = "dedicatedCompactor"
+            case ingestQueryInstances = "ingestQueryInstances"
+            case queryOnlyInstances = "queryOnlyInstances"
+        }
+    }
+
     public struct ConflictException: AWSErrorShape {
         public let message: String
         /// The identifier for the Timestream for InfluxDB resource associated with the request.
@@ -287,6 +320,8 @@ extension TimestreamInfluxDB {
         public let failoverMode: FailoverMode?
         /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region.
         public let name: String
         /// Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
@@ -309,7 +344,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbInstanceType = dbInstanceType
@@ -318,6 +353,7 @@ extension TimestreamInfluxDB {
             self.deploymentType = deploymentType
             self.failoverMode = failoverMode
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
             self.organization = organization
@@ -339,6 +375,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
@@ -381,6 +418,7 @@ extension TimestreamInfluxDB {
             case deploymentType = "deploymentType"
             case failoverMode = "failoverMode"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
             case organization = "organization"
@@ -427,6 +465,8 @@ extension TimestreamInfluxDB {
         public let deploymentType: DeploymentType?
         /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB instance names must be unique per customer and per region.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
@@ -449,7 +489,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int, bucket: String? = nil, dbInstanceType: DbInstanceType, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, organization: String? = nil, password: String, port: Int? = nil, publiclyAccessible: Bool? = nil, tags: [String: String]? = nil, username: String? = nil, vpcSecurityGroupIds: [String], vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.bucket = bucket
             self.dbInstanceType = dbInstanceType
@@ -457,6 +497,7 @@ extension TimestreamInfluxDB {
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
             self.organization = organization
@@ -478,6 +519,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
@@ -519,6 +561,7 @@ extension TimestreamInfluxDB {
             case dbStorageType = "dbStorageType"
             case deploymentType = "deploymentType"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
             case organization = "organization"
@@ -559,12 +602,18 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The timestamp of the last completed maintenance operation on the DB instance.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB instance.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB instance.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections. The default value is 8086.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -579,7 +628,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -593,9 +642,12 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -618,9 +670,12 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -652,6 +707,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9]*(-[a-zA-Z0-9]+)*$")
+            try self.parameters?.validate(name: "\(name).parameters")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -984,12 +1040,18 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The timestamp of the last completed maintenance operation on the DB instance.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB instance.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB instance.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -1004,7 +1066,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1018,9 +1080,12 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -1043,9 +1108,12 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -1098,6 +1166,8 @@ extension TimestreamInfluxDB {
         public let allocatedStorage: Int?
         /// The Amazon Resource Name (ARN) of the DB cluster.
         public let arn: String
+        /// Configuration for node modes in the DbCluster.
+        public let clusterConfiguration: ClusterConfiguration?
         /// The Timestream for InfluxDB instance type that InfluxDB runs on.
         public let dbInstanceType: DbInstanceType?
         /// The ID of the DB parameter group assigned to your DB cluster.
@@ -1116,12 +1186,18 @@ extension TimestreamInfluxDB {
         public let id: String
         /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
+        /// The timestamp of the last completed maintenance operation on the DB cluster.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB cluster.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// Customer-supplied name of the Timestream for InfluxDB cluster.
         public let name: String
         /// Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB cluster.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB cluster has a public IP to facilitate access from outside the VPC.
@@ -1136,9 +1212,10 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, arn: String, clusterConfiguration: ClusterConfiguration? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: ClusterDeploymentType? = nil, endpoint: String? = nil, engineType: EngineType? = nil, failoverMode: FailoverMode? = nil, id: String, influxAuthParametersSecretArn: String? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, readerEndpoint: String? = nil, status: ClusterStatus? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
+            self.clusterConfiguration = clusterConfiguration
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.dbStorageType = dbStorageType
@@ -1148,9 +1225,12 @@ extension TimestreamInfluxDB {
             self.failoverMode = failoverMode
             self.id = id
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.readerEndpoint = readerEndpoint
@@ -1162,6 +1242,7 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case allocatedStorage = "allocatedStorage"
             case arn = "arn"
+            case clusterConfiguration = "clusterConfiguration"
             case dbInstanceType = "dbInstanceType"
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case dbStorageType = "dbStorageType"
@@ -1171,9 +1252,12 @@ extension TimestreamInfluxDB {
             case failoverMode = "failoverMode"
             case id = "id"
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case readerEndpoint = "readerEndpoint"
@@ -1230,12 +1314,18 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The timestamp of the last completed maintenance operation on the DB instance.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB instance.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB instance.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -1250,7 +1340,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -1264,9 +1354,12 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -1289,9 +1382,12 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -1554,6 +1650,10 @@ extension TimestreamInfluxDB {
         public let parquetMemCacheQueryPathDuration: Duration?
         /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
         public let parquetMemCacheSize: PercentOrAbsoluteLong?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.
+        public let pluginRepositorySecretArn: String?
+        /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+        public let pluginRepositoryUrl: String?
         /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
         public let preemptiveCacheAge: Duration?
         /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
@@ -1578,7 +1678,7 @@ extension TimestreamInfluxDB {
         public let walSnapshotSize: Int?
 
         @inlinable
-        public init(dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, lastCacheEvictionInterval: Duration? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+        public init(dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, lastCacheEvictionInterval: Duration? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
             self.dataFusionConfig = dataFusionConfig
             self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
             self.dataFusionNumThreads = dataFusionNumThreads
@@ -1607,6 +1707,8 @@ extension TimestreamInfluxDB {
             self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
             self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
             self.parquetMemCacheSize = parquetMemCacheSize
+            self.pluginRepositorySecretArn = pluginRepositorySecretArn
+            self.pluginRepositoryUrl = pluginRepositoryUrl
             self.preemptiveCacheAge = preemptiveCacheAge
             self.queryFileLimit = queryFileLimit
             self.queryLogSize = queryLogSize
@@ -1618,6 +1720,12 @@ extension TimestreamInfluxDB {
             self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
             self.walReplayFailOnError = walReplayFailOnError
             self.walSnapshotSize = walSnapshotSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, max: 2048)
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, min: 20)
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):secretsmanager:[a-z0-9\\-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1649,6 +1757,8 @@ extension TimestreamInfluxDB {
             case parquetMemCachePrunePercentage = "parquetMemCachePrunePercentage"
             case parquetMemCacheQueryPathDuration = "parquetMemCacheQueryPathDuration"
             case parquetMemCacheSize = "parquetMemCacheSize"
+            case pluginRepositorySecretArn = "pluginRepositorySecretArn"
+            case pluginRepositoryUrl = "pluginRepositoryUrl"
             case preemptiveCacheAge = "preemptiveCacheAge"
             case queryFileLimit = "queryFileLimit"
             case queryLogSize = "queryLogSize"
@@ -1742,6 +1852,10 @@ extension TimestreamInfluxDB {
         public let parquetMemCacheQueryPathDuration: Duration?
         /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
         public let parquetMemCacheSize: PercentOrAbsoluteLong?
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that holds your repository access token.
+        public let pluginRepositorySecretArn: String?
+        /// Specifies the URL of the repository that InfluxDB downloads plugins from.
+        public let pluginRepositoryUrl: String?
         /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
         public let preemptiveCacheAge: Duration?
         /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
@@ -1770,7 +1884,7 @@ extension TimestreamInfluxDB {
         public let walSnapshotSize: Int?
 
         @inlinable
-        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
+        public init(catalogSyncInterval: Duration? = nil, compactionCheckInterval: Duration? = nil, compactionCleanupWait: Duration? = nil, compactionGen2Duration: Duration? = nil, compactionMaxNumFilesPerPlan: Int? = nil, compactionMultipliers: String? = nil, compactionRowLimit: Int? = nil, dataFusionConfig: String? = nil, dataFusionMaxParquetFanout: Int? = nil, dataFusionNumThreads: Int? = nil, dataFusionRuntimeDisableLifoSlot: Bool? = nil, dataFusionRuntimeEventInterval: Int? = nil, dataFusionRuntimeGlobalQueueInterval: Int? = nil, dataFusionRuntimeMaxBlockingThreads: Int? = nil, dataFusionRuntimeMaxIoEventsPerTick: Int? = nil, dataFusionRuntimeThreadKeepAlive: Duration? = nil, dataFusionRuntimeThreadPriority: Int? = nil, dataFusionRuntimeType: DataFusionRuntimeType? = nil, dataFusionUseCachedParquetLoader: Bool? = nil, dedicatedCompactor: Bool, deleteGracePeriod: Duration? = nil, disableParquetMemCache: Bool? = nil, distinctCacheEvictionInterval: Duration? = nil, distinctValueCacheDisableFromHistory: Bool? = nil, execMemPoolBytes: PercentOrAbsoluteLong? = nil, forceSnapshotMemThreshold: PercentOrAbsoluteLong? = nil, gen1Duration: Duration? = nil, gen1LookbackDuration: Duration? = nil, hardDeleteDefaultDuration: Duration? = nil, ingestQueryInstances: Int, lastCacheEvictionInterval: Duration? = nil, lastValueCacheDisableFromHistory: Bool? = nil, logFilter: String? = nil, logFormat: LogFormats? = nil, maxHttpRequestSize: Int64? = nil, parquetMemCachePruneInterval: Duration? = nil, parquetMemCachePrunePercentage: Float? = nil, parquetMemCacheQueryPathDuration: Duration? = nil, parquetMemCacheSize: PercentOrAbsoluteLong? = nil, pluginRepositorySecretArn: String? = nil, pluginRepositoryUrl: String? = nil, preemptiveCacheAge: Duration? = nil, queryFileLimit: Int? = nil, queryLogSize: Int? = nil, queryOnlyInstances: Int, replicationInterval: Duration? = nil, retentionCheckInterval: Duration? = nil, snapshottedWalFilesToKeep: Int? = nil, tableIndexCacheConcurrencyLimit: Int? = nil, tableIndexCacheMaxEntries: Int? = nil, walMaxWriteBufferSize: Int? = nil, walReplayConcurrencyLimit: Int? = nil, walReplayFailOnError: Bool? = nil, walSnapshotSize: Int? = nil) {
             self.catalogSyncInterval = catalogSyncInterval
             self.compactionCheckInterval = compactionCheckInterval
             self.compactionCleanupWait = compactionCleanupWait
@@ -1810,6 +1924,8 @@ extension TimestreamInfluxDB {
             self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
             self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
             self.parquetMemCacheSize = parquetMemCacheSize
+            self.pluginRepositorySecretArn = pluginRepositorySecretArn
+            self.pluginRepositoryUrl = pluginRepositoryUrl
             self.preemptiveCacheAge = preemptiveCacheAge
             self.queryFileLimit = queryFileLimit
             self.queryLogSize = queryLogSize
@@ -1823,6 +1939,12 @@ extension TimestreamInfluxDB {
             self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
             self.walReplayFailOnError = walReplayFailOnError
             self.walSnapshotSize = walSnapshotSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, max: 2048)
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, min: 20)
+            try self.validate(self.pluginRepositorySecretArn, name: "pluginRepositorySecretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):secretsmanager:[a-z0-9\\-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1865,6 +1987,8 @@ extension TimestreamInfluxDB {
             case parquetMemCachePrunePercentage = "parquetMemCachePrunePercentage"
             case parquetMemCacheQueryPathDuration = "parquetMemCacheQueryPathDuration"
             case parquetMemCacheSize = "parquetMemCacheSize"
+            case pluginRepositorySecretArn = "pluginRepositorySecretArn"
+            case pluginRepositoryUrl = "pluginRepositoryUrl"
             case preemptiveCacheAge = "preemptiveCacheAge"
             case queryFileLimit = "queryFileLimit"
             case queryLogSize = "queryLogSize"
@@ -2104,6 +2228,32 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct MaintenanceSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The preferred maintenance window in the format ddd:HH:MM-ddd:HH:MM (UTC). Day must be one of: Mon, Tue, Wed, Thu, Fri, Sat, Sun. For example, Sun:02:00-Sun:06:00. Provide an empty string to let the system choose a window.
+        public let preferredMaintenanceWindow: String
+        /// The IANA timezone identifier for the maintenance window. Format: Region/City or UTC. For example, America/New_York or UTC.
+        public let timezone: String
+
+        @inlinable
+        public init(preferredMaintenanceWindow: String, timezone: String) {
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.timezone = timezone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, max: 19)
+            try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, pattern: "^$|^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\\d|2[0-3]):[0-5]\\d-(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\\d|2[0-3]):[0-5]\\d$")
+            try self.validate(self.timezone, name: "timezone", parent: name, max: 64)
+            try self.validate(self.timezone, name: "timezone", parent: name, min: 1)
+            try self.validate(self.timezone, name: "timezone", parent: name, pattern: "^(UTC|[A-Za-z_]+/[A-Za-z0-9_]+(/[A-Za-z0-9_]+)?)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preferredMaintenanceWindow = "preferredMaintenanceWindow"
+            case timezone = "timezone"
+        }
+    }
+
     public struct RebootDbClusterInput: AWSEncodableShape {
         /// Service-generated unique identifier of the DB cluster to reboot.
         public let dbClusterId: String
@@ -2194,12 +2344,18 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The timestamp of the last completed maintenance operation on the DB instance.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB instance.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB instance.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -2214,7 +2370,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -2228,9 +2384,12 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -2253,9 +2412,12 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"
@@ -2405,16 +2567,19 @@ extension TimestreamInfluxDB {
         public let failoverMode: FailoverMode?
         /// The log delivery configuration to apply to the DB cluster.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// Specifies the maintenance schedule for the DB cluster, including the preferred maintenance window and timezone.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// Update the DB cluster to use the specified port.
         public let port: Int?
 
         @inlinable
-        public init(dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, port: Int? = nil) {
+        public init(dbClusterId: String, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, failoverMode: FailoverMode? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
             self.dbClusterId = dbClusterId
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
             self.failoverMode = failoverMode
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.port = port
         }
 
@@ -2425,6 +2590,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, max: 64)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, min: 3)
             try self.validate(self.dbParameterGroupIdentifier, name: "dbParameterGroupIdentifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1024)
         }
@@ -2435,6 +2601,7 @@ extension TimestreamInfluxDB {
             case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
             case failoverMode = "failoverMode"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case port = "port"
         }
     }
@@ -2468,11 +2635,13 @@ extension TimestreamInfluxDB {
         public let identifier: String
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// Specifies the maintenance schedule for the DB instance, including the preferred maintenance window and timezone.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// The port number on which InfluxDB accepts connections. If you change the Port value, your database restarts immediately. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, port: Int? = nil) {
+        public init(allocatedStorage: Int? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, identifier: String, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, port: Int? = nil) {
             self.allocatedStorage = allocatedStorage
             self.dbInstanceType = dbInstanceType
             self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
@@ -2480,6 +2649,7 @@ extension TimestreamInfluxDB {
             self.deploymentType = deploymentType
             self.identifier = identifier
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.port = port
         }
 
@@ -2492,6 +2662,7 @@ extension TimestreamInfluxDB {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 3)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.maintenanceSchedule?.validate(name: "\(name).maintenanceSchedule")
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1024)
         }
@@ -2504,6 +2675,7 @@ extension TimestreamInfluxDB {
             case deploymentType = "deploymentType"
             case identifier = "identifier"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case port = "port"
         }
     }
@@ -2535,12 +2707,18 @@ extension TimestreamInfluxDB {
         public let instanceMode: InstanceMode?
         /// Specifies the DbInstance's roles in the cluster.
         public let instanceModes: [InstanceMode]?
+        /// The timestamp of the last completed maintenance operation on the DB instance.
+        public let lastMaintenanceTime: Date?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The maintenance schedule for the DB instance.
+        public let maintenanceSchedule: MaintenanceSchedule?
         /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
+        /// The timestamp of the next scheduled maintenance operation on the DB instance.
+        public let nextMaintenanceTime: Date?
         /// The port number on which InfluxDB accepts connections.
         public let port: Int?
         /// Indicates if the DB instance has a public IP to facilitate access.
@@ -2555,7 +2733,7 @@ extension TimestreamInfluxDB {
         public let vpcSubnetIds: [String]
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, lastMaintenanceTime: Date? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, maintenanceSchedule: MaintenanceSchedule? = nil, name: String, networkType: NetworkType? = nil, nextMaintenanceTime: Date? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
             self.allocatedStorage = allocatedStorage
             self.arn = arn
             self.availabilityZone = availabilityZone
@@ -2569,9 +2747,12 @@ extension TimestreamInfluxDB {
             self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
             self.instanceMode = instanceMode
             self.instanceModes = instanceModes
+            self.lastMaintenanceTime = lastMaintenanceTime
             self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.maintenanceSchedule = maintenanceSchedule
             self.name = name
             self.networkType = networkType
+            self.nextMaintenanceTime = nextMaintenanceTime
             self.port = port
             self.publiclyAccessible = publiclyAccessible
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
@@ -2594,9 +2775,12 @@ extension TimestreamInfluxDB {
             case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
             case instanceMode = "instanceMode"
             case instanceModes = "instanceModes"
+            case lastMaintenanceTime = "lastMaintenanceTime"
             case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case maintenanceSchedule = "maintenanceSchedule"
             case name = "name"
             case networkType = "networkType"
+            case nextMaintenanceTime = "nextMaintenanceTime"
             case port = "port"
             case publiclyAccessible = "publiclyAccessible"
             case secondaryAvailabilityZone = "secondaryAvailabilityZone"

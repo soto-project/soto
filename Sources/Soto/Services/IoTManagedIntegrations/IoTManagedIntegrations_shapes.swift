@@ -225,6 +225,15 @@ extension IoTManagedIntegrations {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProvisioningProfileStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case created = "CREATED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProvisioningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case activated = "ACTIVATED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
@@ -387,7 +396,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct AuthConfigUpdate: AWSEncodableShape {
-        /// The General Authorization update information containing authorization materials to add or update in Kinesis Data Streams.
+        /// The General Authorization update information containing authorization materials to add or update.
         public let generalAuthorizationUpdate: GeneralAuthorizationUpdate?
         /// The updated OAuth configuration settings for the authentication configuration.
         public let oAuthUpdate: OAuthUpdate?
@@ -1253,6 +1262,28 @@ extension IoTManagedIntegrations {
         public let wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration?
 
         @inlinable
+        public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
+            self.authenticationMaterial = authenticationMaterial
+            self.authenticationMaterialType = authenticationMaterialType
+            self.brand = brand
+            self.capabilities = nil
+            self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
+            self.classification = classification
+            self.clientToken = clientToken
+            self.credentialLockerId = credentialLockerId
+            self.metaData = metaData
+            self.model = model
+            self.name = name
+            self.owner = owner
+            self.role = role
+            self.serialNumber = serialNumber
+            self.tags = tags
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
+        }
+
+        @available(*, deprecated, message: "Members capabilities have been deprecated")
+        @inlinable
         public init(authenticationMaterial: String, authenticationMaterialType: AuthMaterialType, brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, clientToken: String? = CreateManagedThingRequest.idempotencyToken(), credentialLockerId: String? = nil, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, role: Role, serialNumber: String? = nil, tags: [String: String]? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.authenticationMaterial = authenticationMaterial
             self.authenticationMaterialType = authenticationMaterialType
@@ -1589,13 +1620,13 @@ extension IoTManagedIntegrations {
     }
 
     public struct CreateProvisioningProfileRequest: AWSEncodableShape {
-        /// The id of the certificate authority (CA) certificate.
+        /// The body of the PEM-encoded certificate authority (CA) certificate.
         public let caCertificate: String?
-        /// The claim certificate.
+        /// The body of the PEM-encoded claim certificate. If a claim certificate is provided, it will be used for the provisioning profile. Otherwise, a claim certificate will be generated.
         public let claimCertificate: String?
         /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
         public let clientToken: String?
-        /// The name of the provisioning template.
+        /// The name of the provisioning profile.
         public let name: String?
         /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
         public let provisioningType: ProvisioningType
@@ -1640,27 +1671,30 @@ extension IoTManagedIntegrations {
     }
 
     public struct CreateProvisioningProfileResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+        /// The Amazon Resource Name (ARN) of the provisioning profile.
         public let arn: String?
-        /// The id of the claim certificate.
+        /// The body of the PEM-encoded claim certificate.
         public let claimCertificate: String?
-        /// The private key of the claim certificate. This is stored securely on the device for validating the connection endpoint with IoT managed integrations using the public key.
+        /// The private key of the claim certificate. This may be stored securely on the device for validating the connection endpoint with IoT managed integrations using the public key.
         public let claimCertificatePrivateKey: String?
         /// The identifier of the provisioning profile.
         public let id: String?
-        /// The name of the provisioning template.
+        /// The name of the provisioning profile.
         public let name: String?
         /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
         public let provisioningType: ProvisioningType?
+        /// The status of a provisioning profile.
+        public let status: ProvisioningProfileStatus?
 
         @inlinable
-        public init(arn: String? = nil, claimCertificate: String? = nil, claimCertificatePrivateKey: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil) {
+        public init(arn: String? = nil, claimCertificate: String? = nil, claimCertificatePrivateKey: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil, status: ProvisioningProfileStatus? = nil) {
             self.arn = arn
             self.claimCertificate = claimCertificate
             self.claimCertificatePrivateKey = claimCertificatePrivateKey
             self.id = id
             self.name = name
             self.provisioningType = provisioningType
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1670,6 +1704,7 @@ extension IoTManagedIntegrations {
             case id = "Id"
             case name = "Name"
             case provisioningType = "ProvisioningType"
+            case status = "Status"
         }
     }
 
@@ -1938,7 +1973,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct DeleteProvisioningProfileRequest: AWSEncodableShape {
-        /// The name of the provisioning template.
+        /// The id of the provisioning profile.
         public let identifier: String
 
         @inlinable
@@ -2822,6 +2857,14 @@ extension IoTManagedIntegrations {
         public let managedThingId: String?
 
         @inlinable
+        public init(capabilityReport: CapabilityReport? = nil, managedThingId: String? = nil) {
+            self.capabilities = nil
+            self.capabilityReport = capabilityReport
+            self.managedThingId = managedThingId
+        }
+
+        @available(*, deprecated, message: "Members capabilities have been deprecated")
+        @inlinable
         public init(capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, managedThingId: String? = nil) {
             self.capabilities = capabilities
             self.capabilityReport = capabilityReport
@@ -3394,7 +3437,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct GetProvisioningProfileRequest: AWSEncodableShape {
-        /// The provisioning template the device uses for the provisioning process.
+        /// The id of a provisioning profile.
         public let identifier: String
 
         @inlinable
@@ -3418,26 +3461,29 @@ extension IoTManagedIntegrations {
     }
 
     public struct GetProvisioningProfileResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+        /// The Amazon Resource Name (ARN) of the provisioning profile.
         public let arn: String?
-        /// The id of the claim certificate.
+        /// The body of the PEM-encoded claim certificate.
         public let claimCertificate: String?
         /// The provisioning profile id.
         public let id: String?
-        /// The name of the provisioning template.
+        /// The name of the provisioning profile.
         public let name: String?
         /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
         public let provisioningType: ProvisioningType?
+        /// The status of a provisioning profile.
+        public let status: ProvisioningProfileStatus?
         /// A set of key/value pairs that are used to manage the provisioning profile.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, claimCertificate: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, claimCertificate: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil, status: ProvisioningProfileStatus? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.claimCertificate = claimCertificate
             self.id = id
             self.name = name
             self.provisioningType = provisioningType
+            self.status = status
             self.tags = tags
         }
 
@@ -3447,6 +3493,7 @@ extension IoTManagedIntegrations {
             case id = "Id"
             case name = "Name"
             case provisioningType = "ProvisioningType"
+            case status = "Status"
             case tags = "Tags"
         }
     }
@@ -5396,21 +5443,24 @@ extension IoTManagedIntegrations {
     }
 
     public struct ProvisioningProfileSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the provisioning template used in the provisioning profile.
+        /// The Amazon Resource Name (ARN) of the provisioning profile.
         public let arn: String?
         /// The identifier of the provisioning profile.
         public let id: String?
-        /// The name of the provisioning template.
+        /// The name of the provisioning profile.
         public let name: String?
         /// The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
         public let provisioningType: ProvisioningType?
+        /// The status of a provisioning profile.
+        public let status: ProvisioningProfileStatus?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil) {
+        public init(arn: String? = nil, id: String? = nil, name: String? = nil, provisioningType: ProvisioningType? = nil, status: ProvisioningProfileStatus? = nil) {
             self.arn = arn
             self.id = id
             self.name = name
             self.provisioningType = provisioningType
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5418,6 +5468,7 @@ extension IoTManagedIntegrations {
             case id = "Id"
             case name = "Name"
             case provisioningType = "ProvisioningType"
+            case status = "Status"
         }
     }
 
@@ -6630,6 +6681,25 @@ extension IoTManagedIntegrations {
         /// The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
         public let wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration?
 
+        @inlinable
+        public init(brand: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
+            self.brand = brand
+            self.capabilities = nil
+            self.capabilityReport = capabilityReport
+            self.capabilitySchemas = capabilitySchemas
+            self.classification = classification
+            self.credentialLockerId = credentialLockerId
+            self.hubNetworkMode = hubNetworkMode
+            self.identifier = identifier
+            self.metaData = metaData
+            self.model = model
+            self.name = name
+            self.owner = owner
+            self.serialNumber = serialNumber
+            self.wiFiSimpleSetupConfiguration = wiFiSimpleSetupConfiguration
+        }
+
+        @available(*, deprecated, message: "Members capabilities have been deprecated")
         @inlinable
         public init(brand: String? = nil, capabilities: String? = nil, capabilityReport: CapabilityReport? = nil, capabilitySchemas: [CapabilitySchemaItem]? = nil, classification: String? = nil, credentialLockerId: String? = nil, hubNetworkMode: HubNetworkMode? = nil, identifier: String, metaData: [String: String]? = nil, model: String? = nil, name: String? = nil, owner: String? = nil, serialNumber: String? = nil, wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil) {
             self.brand = brand

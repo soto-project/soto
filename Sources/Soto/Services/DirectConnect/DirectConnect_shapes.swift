@@ -515,9 +515,11 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.
         public let asn: Int?
-        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration.  Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -762,6 +764,8 @@ extension DirectConnect {
         public let portEncryptionStatus: String?
         /// The name of the service provider associated with the connection.
         public let providerName: String?
+        /// The rate limiter status for the connection, including how many rate limiters are in use and the maximum allowed.
+        public let rateLimiterStatus: RateLimiterStatus?
         /// The Amazon Web Services Region where the connection is located.
         public let region: String?
         /// The tags associated with the connection.
@@ -770,7 +774,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerInterconnectMacSecCapable: Bool? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bandwidth: String? = nil, connectionId: String? = nil, connectionName: String? = nil, connectionState: ConnectionState? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, loaIssueTime: Date? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, ownerAccount: String? = nil, partnerInterconnectMacSecCapable: Bool? = nil, partnerName: String? = nil, portEncryptionStatus: String? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -791,6 +795,7 @@ extension DirectConnect {
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
+            self.rateLimiterStatus = rateLimiterStatus
             self.region = region
             self.tags = tags
             self.vlan = vlan
@@ -817,6 +822,7 @@ extension DirectConnect {
             case partnerName = "partnerName"
             case portEncryptionStatus = "portEncryptionStatus"
             case providerName = "providerName"
+            case rateLimiterStatus = "rateLimiterStatus"
             case region = "region"
             case tags = "tags"
             case vlan = "vlan"
@@ -1246,9 +1252,11 @@ extension DirectConnect {
     }
 
     public struct DeleteBGPPeerRequest: AWSEncodableShape {
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.
         public let asn: Int?
-        /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
@@ -2335,13 +2343,15 @@ extension DirectConnect {
         public let ownerAccount: String?
         /// The name of the service provider associated with the LAG.
         public let providerName: String?
+        /// The rate limiter status for the LAG, including how many rate limiters are in use and the maximum allowed.
+        public let rateLimiterStatus: RateLimiterStatus?
         /// The Amazon Web Services Region where the connection is located.
         public let region: String?
         /// The tags associated with the LAG.
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, region: String? = nil, tags: [Tag]? = nil) {
+        public init(allowsHostedConnections: Bool? = nil, awsDevice: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, connections: [Connection]? = nil, connectionsBandwidth: String? = nil, encryptionMode: String? = nil, hasLogicalRedundancy: HasLogicalRedundancy? = nil, jumboFrameCapable: Bool? = nil, lagId: String? = nil, lagName: String? = nil, lagState: LagState? = nil, location: String? = nil, macSecCapable: Bool? = nil, macSecKeys: [MacSecKey]? = nil, minimumLinks: Int? = nil, numberOfConnections: Int? = nil, ownerAccount: String? = nil, providerName: String? = nil, rateLimiterStatus: RateLimiterStatus? = nil, region: String? = nil, tags: [Tag]? = nil) {
             self.allowsHostedConnections = allowsHostedConnections
             self.awsDevice = awsDevice
             self.awsDeviceV2 = awsDeviceV2
@@ -2361,6 +2371,7 @@ extension DirectConnect {
             self.numberOfConnections = numberOfConnections
             self.ownerAccount = ownerAccount
             self.providerName = providerName
+            self.rateLimiterStatus = rateLimiterStatus
             self.region = region
             self.tags = tags
         }
@@ -2385,6 +2396,7 @@ extension DirectConnect {
             case numberOfConnections = "numberOfConnections"
             case ownerAccount = "ownerAccount"
             case providerName = "providerName"
+            case rateLimiterStatus = "rateLimiterStatus"
             case region = "region"
             case tags = "tags"
         }
@@ -2592,9 +2604,11 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   The valid values are 1-2147483646.
         public let asn: Int?
-        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2606,6 +2620,8 @@ extension DirectConnect {
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway.
@@ -2616,7 +2632,7 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2626,6 +2642,7 @@ extension DirectConnect {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
             self.virtualInterfaceName = virtualInterfaceName
@@ -2649,6 +2666,7 @@ extension DirectConnect {
             case directConnectGatewayId = "directConnectGatewayId"
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualGatewayId = "virtualGatewayId"
             case virtualInterfaceName = "virtualInterfaceName"
@@ -2661,9 +2679,11 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   The valid values are 1-2147483646.
         public let asn: Int?
-        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2671,6 +2691,8 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The tags associated with the private virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -2679,7 +2701,7 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2687,6 +2709,7 @@ extension DirectConnect {
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -2707,6 +2730,7 @@ extension DirectConnect {
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case mtu = "mtu"
+            case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
             case vlan = "vlan"
@@ -2718,14 +2742,18 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.
         public let asn: Int?
-        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
@@ -2736,13 +2764,14 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, rateLimit: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
             self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
+            self.rateLimit = rateLimit
             self.routeFilterPrefixes = routeFilterPrefixes
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -2763,6 +2792,7 @@ extension DirectConnect {
             case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
+            case rateLimit = "rateLimit"
             case routeFilterPrefixes = "routeFilterPrefixes"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
@@ -2775,14 +2805,18 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   The valid values are 1-2147483646.
         public let asn: Int?
-        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
         /// The tags associated with the public virtual interface.
@@ -2793,13 +2827,14 @@ extension DirectConnect {
         public let vlan: Int
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, rateLimit: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualInterfaceName: String, vlan: Int = 0) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
             self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
+            self.rateLimit = rateLimit
             self.routeFilterPrefixes = routeFilterPrefixes
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -2820,6 +2855,7 @@ extension DirectConnect {
             case asnLong = "asnLong"
             case authKey = "authKey"
             case customerAddress = "customerAddress"
+            case rateLimit = "rateLimit"
             case routeFilterPrefixes = "routeFilterPrefixes"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
@@ -2832,9 +2868,11 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.
         public let asn: Int?
-        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2846,6 +2884,8 @@ extension DirectConnect {
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -2854,7 +2894,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2864,6 +2904,7 @@ extension DirectConnect {
             self.directConnectGatewayId = directConnectGatewayId
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -2886,6 +2927,7 @@ extension DirectConnect {
             case directConnectGatewayId = "directConnectGatewayId"
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
             case vlan = "vlan"
@@ -2897,9 +2939,11 @@ extension DirectConnect {
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public let amazonAddress: String?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    The valid values are 1-2147483646.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   The valid values are 1-2147483646.
         public let asn: Int?
-        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -2907,6 +2951,8 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500
         public let mtu: Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. The rate limit restricts the maximum bandwidth that the virtual interface can use on the parent connection.
+        public let rateLimit: String?
         /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
@@ -2915,7 +2961,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, customerAddress: String? = nil, mtu: Int? = nil, rateLimit: String? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
@@ -2923,6 +2969,7 @@ extension DirectConnect {
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
             self.vlan = vlan
@@ -2943,9 +2990,36 @@ extension DirectConnect {
             case authKey = "authKey"
             case customerAddress = "customerAddress"
             case mtu = "mtu"
+            case rateLimit = "rateLimit"
             case tags = "tags"
             case virtualInterfaceName = "virtualInterfaceName"
             case vlan = "vlan"
+        }
+    }
+
+    public struct RateLimiterStatus: AWSDecodableShape {
+        /// The number of rate limiters currently in use on the connection.
+        public let inUse: Int?
+        /// The maximum number of rate limiters allowed on the connection.
+        public let maxAllowed: Int?
+        /// The number of rate limiters remaining (available) on the connection.
+        public let remaining: Int?
+        /// The total bandwidth allocated across all rate limiters on the connection.
+        public let totalBandwidth: String?
+
+        @inlinable
+        public init(inUse: Int? = nil, maxAllowed: Int? = nil, remaining: Int? = nil, totalBandwidth: String? = nil) {
+            self.inUse = inUse
+            self.maxAllowed = maxAllowed
+            self.remaining = remaining
+            self.totalBandwidth = totalBandwidth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inUse = "inUse"
+            case maxAllowed = "maxAllowed"
+            case remaining = "remaining"
+            case totalBandwidth = "totalBandwidth"
         }
     }
 
@@ -3285,15 +3359,18 @@ extension DirectConnect {
         public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 8500. The default value is 1500.
         public let mtu: Int?
+        /// The rate limit (bandwidth allocation) to apply to the virtual interface. Use this to update the bandwidth allocation on an existing virtual interface.
+        public let rateLimit: String?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
         /// The name of the virtual private interface.
         public let virtualInterfaceName: String?
 
         @inlinable
-        public init(enableSiteLink: Bool? = nil, mtu: Int? = nil, virtualInterfaceId: String, virtualInterfaceName: String? = nil) {
+        public init(enableSiteLink: Bool? = nil, mtu: Int? = nil, rateLimit: String? = nil, virtualInterfaceId: String, virtualInterfaceName: String? = nil) {
             self.enableSiteLink = enableSiteLink
             self.mtu = mtu
+            self.rateLimit = rateLimit
             self.virtualInterfaceId = virtualInterfaceId
             self.virtualInterfaceName = virtualInterfaceName
         }
@@ -3301,6 +3378,7 @@ extension DirectConnect {
         private enum CodingKeys: String, CodingKey {
             case enableSiteLink = "enableSiteLink"
             case mtu = "mtu"
+            case rateLimit = "rateLimit"
             case virtualInterfaceId = "virtualInterfaceId"
             case virtualInterfaceName = "virtualInterfaceName"
         }
@@ -3345,9 +3423,11 @@ extension DirectConnect {
         public let amazonAddress: String?
         /// The autonomous system number (AS) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
-        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.    If you enter a 4-byte ASN for the asn parameter, the API returns an error.    If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.
         public let asn: Int?
-        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration.  You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.    The asnLong attribute accepts both ASN and long ASN ranges.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. Note the following limitations when using asnLong:   You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.     asnLong accepts any valid ASN value, regardless if it's 2-byte or 4-byte.    When using a 4-byte asnLong, the API response returns 0 for the legacy asn attribute since 4-byte ASN values exceed the maximum supported value of 2,147,483,647.   If you are using a 2-byte ASN, the API response will include the
+        /// 2-byte value for both the asn and asnLong fields.   If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public let asnLong: Int64?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public let authKey: String?
@@ -3373,6 +3453,8 @@ extension DirectConnect {
         public let mtu: Int?
         /// The ID of the Amazon Web Services account that owns the virtual interface.
         public let ownerAccount: String?
+        /// The rate limit (bandwidth allocation) applied to the virtual interface. The value must be one of the supported bandwidth values and cannot exceed the bandwidth of the parent connection or LAG. Supported values: 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 600Mbps, 700Mbps, 800Mbps, 900Mbps, 1Gbps, 1.2Gbps, 1.5Gbps, 1.8Gbps, 2Gbps, 2.1Gbps, 2.4Gbps, 2.7Gbps, 3Gbps, 3.2Gbps, 3.6Gbps, 4Gbps, 5Gbps, 6Gbps, 7Gbps, 8Gbps, 9Gbps, 10Gbps, 12Gbps, 15Gbps, 18Gbps, 20Gbps, 21Gbps, 24Gbps, 27Gbps, 30Gbps, 32Gbps, 36Gbps, 40Gbps, 50Gbps, 60Gbps, 70Gbps, 80Gbps, 100Gbps, 120Gbps, 150Gbps, 180Gbps, 200Gbps, 210Gbps, 240Gbps, 270Gbps, 300Gbps, 320Gbps, 360Gbps, 400Gbps, 450Gbps, 480Gbps, 500Gbps, 540Gbps, 600Gbps, 700Gbps, 800Gbps, 900Gbps, 1Tbps, 1.1Tbps, 1.2Tbps, 1.3Tbps, 1.4Tbps, 1.5Tbps, 1.6Tbps.
+        public let rateLimit: String?
         /// The Amazon Web Services Region where the virtual interface is located.
         public let region: String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
@@ -3395,7 +3477,7 @@ extension DirectConnect {
         public let vlan: Int?
 
         @inlinable
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, asnLong: Int64? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, rateLimit: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
@@ -3413,6 +3495,7 @@ extension DirectConnect {
             self.location = location
             self.mtu = mtu
             self.ownerAccount = ownerAccount
+            self.rateLimit = rateLimit
             self.region = region
             self.routeFilterPrefixes = routeFilterPrefixes
             self.siteLinkEnabled = siteLinkEnabled
@@ -3443,6 +3526,7 @@ extension DirectConnect {
             case location = "location"
             case mtu = "mtu"
             case ownerAccount = "ownerAccount"
+            case rateLimit = "rateLimit"
             case region = "region"
             case routeFilterPrefixes = "routeFilterPrefixes"
             case siteLinkEnabled = "siteLinkEnabled"
@@ -3525,6 +3609,7 @@ public struct DirectConnectErrorType: AWSErrorType {
         case directConnectClientException = "DirectConnectClientException"
         case directConnectServerException = "DirectConnectServerException"
         case duplicateTagKeysException = "DuplicateTagKeysException"
+        case limitExceededException = "LimitExceededException"
         case tooManyTagsException = "TooManyTagsException"
     }
 
@@ -3552,6 +3637,8 @@ public struct DirectConnectErrorType: AWSErrorType {
     public static var directConnectServerException: Self { .init(.directConnectServerException) }
     /// A tag key was specified more than once.
     public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    /// The rate limiter limit has been exceeded for the connection. You cannot add more rate limiters to virtual interfaces on this connection.
+    public static var limitExceededException: Self { .init(.limitExceededException) }
     /// You have reached the limit on the number of tags that can be assigned.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }

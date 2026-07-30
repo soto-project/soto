@@ -44,6 +44,9 @@ extension Inspector2 {
         case awsEcrContainerImage = "AWS_ECR_CONTAINER_IMAGE"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         case codeRepository = "CODE_REPOSITORY"
+        case microsoftComputeVirtualmachines = "Microsoft.Compute/virtualMachines"
+        case microsoftContainerregistryRegistryContainerimage = "Microsoft.ContainerRegistry/registry/containerImage"
+        case microsoftWebSites = "Microsoft.Web/sites"
         public var description: String { return self.rawValue }
     }
 
@@ -54,12 +57,15 @@ extension Inspector2 {
         case awsEcrContainer = "AWS_ECR_CONTAINER"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         case codeRepository = "CODE_REPOSITORY"
+        case containerImage = "CONTAINER_IMAGE"
         case findingType = "FINDING_TYPE"
         case imageLayer = "IMAGE_LAYER"
         case lambdaLayer = "LAMBDA_LAYER"
         case package = "PACKAGE"
         case repository = "REPOSITORY"
+        case serverlessFunction = "SERVERLESS_FUNCTION"
         case title = "TITLE"
+        case vmInstance = "VM_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +90,11 @@ extension Inspector2 {
         case quotaExceeded = "QUOTA_EXCEEDED"
         case resourceNotFound = "RESOURCE_NOT_FOUND"
         case scanConfigurationNotFound = "SCAN_CONFIGURATION_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsConfigConnectorArnComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -229,6 +240,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CloudProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case azure = "AZURE"
+        case notApplicable = "NOT_APPLICABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CodeRepositoryProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case github = "GITHUB"
         case gitlabSelfManaged = "GITLAB_SELF_MANAGED"
@@ -264,6 +282,67 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorArnComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorCloudProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azure = "AZURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "CONNECTED"
+        case degraded = "DEGRADED"
+        case failedToConnect = "FAILED_TO_CONNECT"
+        case pendingAuthorization = "PENDING_AUTHORIZATION"
+        case pendingConfiguration = "PENDING_CONFIGURATION"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customerManaged = "CUSTOMER_MANAGED"
+        case serviceLinked = "SERVICE_LINKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorTypeComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerImagePullDateRescanDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days14 = "DAYS_14"
+        case days180 = "DAYS_180"
+        case days3 = "DAYS_3"
+        case days30 = "DAYS_30"
+        case days60 = "DAYS_60"
+        case days7 = "DAYS_7"
+        case days90 = "DAYS_90"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerImageRescanDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case days14 = "DAYS_14"
+        case days180 = "DAYS_180"
+        case days3 = "DAYS_3"
+        case days30 = "DAYS_30"
+        case days60 = "DAYS_60"
+        case days7 = "DAYS_7"
+        case days90 = "DAYS_90"
+        case lifetime = "LIFETIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerImageSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContinuousIntegrationScanEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pullRequest = "PULL_REQUEST"
         case push = "PUSH"
@@ -281,6 +360,11 @@ extension Inspector2 {
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         case codeRepository = "CODE_REPOSITORY"
+        case microsoftComputeVirtualmachines = "Microsoft.Compute/virtualMachines"
+        case microsoftContainerregistryRegistries = "Microsoft.ContainerRegistry/registries"
+        case microsoftContainerregistryRegistryContainerimage = "Microsoft.ContainerRegistry/registry/containerImage"
+        case microsoftContainerregistryRegistryContainerrepository = "Microsoft.ContainerRegistry/registry/containerRepository"
+        case microsoftWebSites = "Microsoft.Web/sites"
         public var description: String { return self.rawValue }
     }
 
@@ -351,8 +435,10 @@ extension Inspector2 {
     public enum EcrPullDateRescanDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days14 = "DAYS_14"
         case days180 = "DAYS_180"
+        case days3 = "DAYS_3"
         case days30 = "DAYS_30"
         case days60 = "DAYS_60"
+        case days7 = "DAYS_7"
         case days90 = "DAYS_90"
         public var description: String { return self.rawValue }
     }
@@ -366,8 +452,10 @@ extension Inspector2 {
     public enum EcrRescanDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days14 = "DAYS_14"
         case days180 = "DAYS_180"
+        case days3 = "DAYS_3"
         case days30 = "DAYS_30"
         case days60 = "DAYS_60"
+        case days7 = "DAYS_7"
         case days90 = "DAYS_90"
         case lifetime = "LIFETIME"
         public var description: String { return self.rawValue }
@@ -384,6 +472,18 @@ extension Inspector2 {
         case continuousScan = "CONTINUOUS_SCAN"
         case manual = "MANUAL"
         case scanOnPush = "SCAN_ON_PUSH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnablementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        case enabled = "ENABLED"
+        case failedToDelete = "FAILED_TO_DELETE"
+        case failedToEnable = "FAILED_TO_ENABLE"
+        case failedToUpdate = "FAILED_TO_UPDATE"
+        case pendingDeletion = "PENDING_DELETION"
+        case pendingEnablement = "PENDING_ENABLEMENT"
+        case pendingUpdate = "PENDING_UPDATE"
         public var description: String { return self.rawValue }
     }
 
@@ -478,16 +578,23 @@ extension Inspector2 {
 
     public enum FreeTrialType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeRepository = "CODE_REPOSITORY"
+        case containerImage = "CONTAINER_IMAGE"
         case ec2 = "EC2"
         case ecr = "ECR"
         case lambda = "LAMBDA"
         case lambdaCode = "LAMBDA_CODE"
+        case serverlessFunction = "SERVERLESS_FUNCTION"
+        case vm = "VM"
         public var description: String { return self.rawValue }
     }
 
     public enum GroupKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case ecrRepositoryName = "ECR_REPOSITORY_NAME"
+        case provider = "PROVIDER"
+        case providerAccountId = "PROVIDER_ACCOUNT_ID"
+        case providerOrgId = "PROVIDER_ORG_ID"
+        case providerRegion = "PROVIDER_REGION"
         case resourceType = "RESOURCE_TYPE"
         case scanStatusCode = "SCAN_STATUS_CODE"
         case scanStatusReason = "SCAN_STATUS_REASON"
@@ -498,6 +605,11 @@ extension Inspector2 {
         case all = "ALL"
         case critical = "CRITICAL"
         case high = "HIGH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InheritanceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inheritFromAdmin = "INHERIT_FROM_ADMIN"
         public var description: String { return self.rawValue }
     }
 
@@ -610,6 +722,17 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum Provider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aws = "AWS"
+        case azure = "AZURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProviderComparison: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelationshipStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountSuspended = "ACCOUNT_SUSPENDED"
         case cannotCreateDetectorInOrgMaster = "CANNOT_CREATE_DETECTOR_IN_ORG_MASTER"
@@ -676,6 +799,9 @@ extension Inspector2 {
         case awsEcrRepository = "AWS_ECR_REPOSITORY"
         case awsLambdaFunction = "AWS_LAMBDA_FUNCTION"
         case codeRepository = "CODE_REPOSITORY"
+        case microsoftComputeVirtualmachines = "Microsoft.Compute/virtualMachines"
+        case microsoftContainerregistryRegistryContainerimage = "Microsoft.ContainerRegistry/registry/containerImage"
+        case microsoftWebSites = "Microsoft.Web/sites"
         public var description: String { return self.rawValue }
     }
 
@@ -694,6 +820,8 @@ extension Inspector2 {
         case go1X = "GO_1_X"
         case java11 = "JAVA_11"
         case java17 = "JAVA_17"
+        case java21 = "JAVA_21"
+        case java25 = "JAVA_25"
         case java8 = "JAVA_8"
         case java8Al2 = "JAVA_8_AL2"
         case nodejs = "NODEJS"
@@ -701,6 +829,7 @@ extension Inspector2 {
         case nodejs14X = "NODEJS_14_X"
         case nodejs16X = "NODEJS_16_X"
         case nodejs18X = "NODEJS_18_X"
+        case nodejs22X = "NODEJS_22_X"
         case nodejs24X = "NODEJS_24_X"
         case python310 = "PYTHON_3_10"
         case python311 = "PYTHON_3_11"
@@ -721,7 +850,9 @@ extension Inspector2 {
 
     public enum ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2Agentless = "EC2_AGENTLESS"
+        case ec2InspectorAgentBased = "EC2_INSPECTOR_AGENT_BASED"
         case ec2SsmAgentBased = "EC2_SSM_AGENT_BASED"
+        case vmInspectorAgentBased = "VM_INSPECTOR_AGENT_BASED"
         public var description: String { return self.rawValue }
     }
 
@@ -752,7 +883,9 @@ extension Inspector2 {
         case pendingDisable = "PENDING_DISABLE"
         case pendingInitialScan = "PENDING_INITIAL_SCAN"
         case pendingRevivalScan = "PENDING_REVIVAL_SCAN"
+        case resourceStopped = "RESOURCE_STOPPED"
         case resourceTerminated = "RESOURCE_TERMINATED"
+        case resourceUnmanaged = "RESOURCE_UNMANAGED"
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
         case scanFrequencyManual = "SCAN_FREQUENCY_MANUAL"
         case scanFrequencyScanOnPush = "SCAN_FREQUENCY_SCAN_ON_PUSH"
@@ -773,6 +906,27 @@ extension Inspector2 {
         case code = "CODE"
         case network = "NETWORK"
         case package = "PACKAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScopeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case disabled = "DISABLED"
+        case error = "ERROR"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case subscription = "SUBSCRIPTION"
+        case tenant = "TENANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerlessFunctionSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
         public var description: String { return self.rawValue }
     }
 
@@ -858,6 +1012,10 @@ extension Inspector2 {
     }
 
     public enum UsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azureContainerImageInitialScan = "AZURE_CONTAINER_IMAGE_INITIAL_SCAN"
+        case azureContainerImageRescan = "AZURE_CONTAINER_IMAGE_RESCAN"
+        case azureServerlessFunctionHours = "AZURE_SERVERLESS_FUNCTION_HOURS"
+        case azureVmAgentBasedInstanceHours = "AZURE_VM_AGENT_BASED_INSTANCE_HOURS"
         case codeRepositoryIac = "CODE_REPOSITORY_IAC"
         case codeRepositorySast = "CODE_REPOSITORY_SAST"
         case codeRepositorySca = "CODE_REPOSITORY_SCA"
@@ -870,10 +1028,32 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VMScannerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cannotParse = "CANNOT_PARSE"
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
         case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VmInstanceSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case networkFindings = "NETWORK_FINDINGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VmPlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linux = "LINUX"
+        case unknown = "UNKNOWN"
+        case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
@@ -891,6 +1071,8 @@ extension Inspector2 {
         case awsEcrContainerAggregation(AwsEcrContainerAggregation)
         /// An object that contains details about an aggregation request based on code repositories.
         case codeRepositoryAggregation(CodeRepositoryAggregation)
+        /// An object that contains details about an aggregation request based on container images.
+        case containerImageAggregation(ContainerImageAggregation)
         /// An object that contains details about an aggregation request based on Amazon EC2 instances.
         case ec2InstanceAggregation(Ec2InstanceAggregation)
         /// An object that contains details about an aggregation request based on finding types.
@@ -905,8 +1087,12 @@ extension Inspector2 {
         case packageAggregation(PackageAggregation)
         /// An object that contains details about an aggregation request based on Amazon ECR repositories.
         case repositoryAggregation(RepositoryAggregation)
+        /// An object that contains details about an aggregation request based on serverless functions.
+        case serverlessFunctionAggregation(ServerlessFunctionAggregation)
         /// An object that contains details about an aggregation request based on finding title.
         case titleAggregation(TitleAggregation)
+        /// An object that contains details about an aggregation request based on virtual machine (VM) instances.
+        case vmInstanceAggregation(VmInstanceAggregation)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -919,6 +1105,8 @@ extension Inspector2 {
                 try container.encode(value, forKey: .awsEcrContainerAggregation)
             case .codeRepositoryAggregation(let value):
                 try container.encode(value, forKey: .codeRepositoryAggregation)
+            case .containerImageAggregation(let value):
+                try container.encode(value, forKey: .containerImageAggregation)
             case .ec2InstanceAggregation(let value):
                 try container.encode(value, forKey: .ec2InstanceAggregation)
             case .findingTypeAggregation(let value):
@@ -933,8 +1121,12 @@ extension Inspector2 {
                 try container.encode(value, forKey: .packageAggregation)
             case .repositoryAggregation(let value):
                 try container.encode(value, forKey: .repositoryAggregation)
+            case .serverlessFunctionAggregation(let value):
+                try container.encode(value, forKey: .serverlessFunctionAggregation)
             case .titleAggregation(let value):
                 try container.encode(value, forKey: .titleAggregation)
+            case .vmInstanceAggregation(let value):
+                try container.encode(value, forKey: .vmInstanceAggregation)
             }
         }
 
@@ -946,6 +1138,8 @@ extension Inspector2 {
                 try value.validate(name: "\(name).awsEcrContainerAggregation")
             case .codeRepositoryAggregation(let value):
                 try value.validate(name: "\(name).codeRepositoryAggregation")
+            case .containerImageAggregation(let value):
+                try value.validate(name: "\(name).containerImageAggregation")
             case .ec2InstanceAggregation(let value):
                 try value.validate(name: "\(name).ec2InstanceAggregation")
             case .imageLayerAggregation(let value):
@@ -958,8 +1152,12 @@ extension Inspector2 {
                 try value.validate(name: "\(name).packageAggregation")
             case .repositoryAggregation(let value):
                 try value.validate(name: "\(name).repositoryAggregation")
+            case .serverlessFunctionAggregation(let value):
+                try value.validate(name: "\(name).serverlessFunctionAggregation")
             case .titleAggregation(let value):
                 try value.validate(name: "\(name).titleAggregation")
+            case .vmInstanceAggregation(let value):
+                try value.validate(name: "\(name).vmInstanceAggregation")
             default:
                 break
             }
@@ -970,6 +1168,7 @@ extension Inspector2 {
             case amiAggregation = "amiAggregation"
             case awsEcrContainerAggregation = "awsEcrContainerAggregation"
             case codeRepositoryAggregation = "codeRepositoryAggregation"
+            case containerImageAggregation = "containerImageAggregation"
             case ec2InstanceAggregation = "ec2InstanceAggregation"
             case findingTypeAggregation = "findingTypeAggregation"
             case imageLayerAggregation = "imageLayerAggregation"
@@ -977,7 +1176,9 @@ extension Inspector2 {
             case lambdaLayerAggregation = "lambdaLayerAggregation"
             case packageAggregation = "packageAggregation"
             case repositoryAggregation = "repositoryAggregation"
+            case serverlessFunctionAggregation = "serverlessFunctionAggregation"
             case titleAggregation = "titleAggregation"
+            case vmInstanceAggregation = "vmInstanceAggregation"
         }
     }
 
@@ -990,6 +1191,8 @@ extension Inspector2 {
         case awsEcrContainerAggregation(AwsEcrContainerAggregationResponse)
         /// An object that contains details about an aggregation response based on code repositories.
         case codeRepositoryAggregation(CodeRepositoryAggregationResponse)
+        /// An object that contains details about an aggregation response based on container images.
+        case containerImageAggregation(ContainerImageAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon EC2 instances.
         case ec2InstanceAggregation(Ec2InstanceAggregationResponse)
         /// An object that contains details about an aggregation response based on finding types.
@@ -1004,8 +1207,12 @@ extension Inspector2 {
         case packageAggregation(PackageAggregationResponse)
         /// An object that contains details about an aggregation response based on Amazon ECR repositories.
         case repositoryAggregation(RepositoryAggregationResponse)
+        /// An object that contains details about an aggregation response based on serverless functions.
+        case serverlessFunctionAggregation(ServerlessFunctionAggregationResponse)
         /// An object that contains details about an aggregation response based on finding title.
         case titleAggregation(TitleAggregationResponse)
+        /// An object that contains details about an aggregation response based on VM instances.
+        case vmInstanceAggregation(VmInstanceAggregationResponse)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -1029,6 +1236,9 @@ extension Inspector2 {
             case .codeRepositoryAggregation:
                 let value = try container.decode(CodeRepositoryAggregationResponse.self, forKey: .codeRepositoryAggregation)
                 self = .codeRepositoryAggregation(value)
+            case .containerImageAggregation:
+                let value = try container.decode(ContainerImageAggregationResponse.self, forKey: .containerImageAggregation)
+                self = .containerImageAggregation(value)
             case .ec2InstanceAggregation:
                 let value = try container.decode(Ec2InstanceAggregationResponse.self, forKey: .ec2InstanceAggregation)
                 self = .ec2InstanceAggregation(value)
@@ -1050,9 +1260,15 @@ extension Inspector2 {
             case .repositoryAggregation:
                 let value = try container.decode(RepositoryAggregationResponse.self, forKey: .repositoryAggregation)
                 self = .repositoryAggregation(value)
+            case .serverlessFunctionAggregation:
+                let value = try container.decode(ServerlessFunctionAggregationResponse.self, forKey: .serverlessFunctionAggregation)
+                self = .serverlessFunctionAggregation(value)
             case .titleAggregation:
                 let value = try container.decode(TitleAggregationResponse.self, forKey: .titleAggregation)
                 self = .titleAggregation(value)
+            case .vmInstanceAggregation:
+                let value = try container.decode(VmInstanceAggregationResponse.self, forKey: .vmInstanceAggregation)
+                self = .vmInstanceAggregation(value)
             }
         }
 
@@ -1061,6 +1277,7 @@ extension Inspector2 {
             case amiAggregation = "amiAggregation"
             case awsEcrContainerAggregation = "awsEcrContainerAggregation"
             case codeRepositoryAggregation = "codeRepositoryAggregation"
+            case containerImageAggregation = "containerImageAggregation"
             case ec2InstanceAggregation = "ec2InstanceAggregation"
             case findingTypeAggregation = "findingTypeAggregation"
             case imageLayerAggregation = "imageLayerAggregation"
@@ -1068,7 +1285,9 @@ extension Inspector2 {
             case lambdaLayerAggregation = "lambdaLayerAggregation"
             case packageAggregation = "packageAggregation"
             case repositoryAggregation = "repositoryAggregation"
+            case serverlessFunctionAggregation = "serverlessFunctionAggregation"
             case titleAggregation = "titleAggregation"
+            case vmInstanceAggregation = "vmInstanceAggregation"
         }
     }
 
@@ -1339,14 +1558,29 @@ extension Inspector2 {
         public let affectedInstances: Int64?
         /// The ID of the AMI that findings were aggregated for.
         public let ami: String
+        /// The cloud account ID for the AMI aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the AMI aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this AMI aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this Amazon Machine Image (AMI) aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: Provider?
+        /// The cloud Region associated with this AMI aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
         /// An object that contains the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
         @inlinable
-        public init(accountId: String? = nil, affectedInstances: Int64? = nil, ami: String, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, affectedInstances: Int64? = nil, ami: String, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: Provider? = nil, cloudRegion: String? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.affectedInstances = affectedInstances
             self.ami = ami
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.severityCounts = severityCounts
         }
 
@@ -1354,6 +1588,11 @@ extension Inspector2 {
             case accountId = "accountId"
             case affectedInstances = "affectedInstances"
             case ami = "ami"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
             case severityCounts = "severityCounts"
         }
     }
@@ -1467,6 +1706,30 @@ extension Inspector2 {
             case ecr = "ecr"
             case lambda = "lambda"
             case lambdaCode = "lambdaCode"
+        }
+    }
+
+    public struct AwsConfigConnectorArnFilter: AWSEncodableShape {
+        /// The comparison operator for the Amazon Web Services Config connector ARN filter.
+        public let comparison: AwsConfigConnectorArnComparison
+        /// The Amazon Web Services Config connector ARN value to filter by.
+        public let value: String
+
+        @inlinable
+        public init(comparison: AwsConfigConnectorArnComparison, value: String) {
+            self.comparison = comparison
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 512)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\\s]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case value = "value"
         }
     }
 
@@ -1795,6 +2058,129 @@ extension Inspector2 {
             case runtime = "runtime"
             case version = "version"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct AzureProviderDetailCreate: AWSEncodableShape {
+        /// Specifies whether to automatically install the VM scanner on connected Azure resources. Defaults to true.
+        public let autoInstallVMScanner: Bool?
+        /// The ARN of the Amazon Web Services Config connector to associate with this connector.
+        public let awsConfigConnectorArn: String
+        /// The Azure regions to scan.
+        public let azureRegions: [String]
+        /// The scope configuration that defines which Azure resources to scan.
+        public let scopeConfiguration: AzureScopeConfigurationInput
+
+        @inlinable
+        public init(autoInstallVMScanner: Bool? = nil, awsConfigConnectorArn: String, azureRegions: [String], scopeConfiguration: AzureScopeConfigurationInput) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, max: 512)
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, min: 1)
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, pattern: "^arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\\s]+)$")
+            try self.azureRegions.forEach {
+                try validate($0, name: "azureRegions[]", parent: name, max: 64)
+                try validate($0, name: "azureRegions[]", parent: name, min: 1)
+                try validate($0, name: "azureRegions[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, max: 100)
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, min: 1)
+            try self.scopeConfiguration.validate(name: "\(name).scopeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoInstallVMScanner = "autoInstallVMScanner"
+            case awsConfigConnectorArn = "awsConfigConnectorArn"
+            case azureRegions = "azureRegions"
+            case scopeConfiguration = "scopeConfiguration"
+        }
+    }
+
+    public struct AzureProviderDetailUpdate: AWSEncodableShape {
+        /// Specifies whether to automatically install the VM scanner on connected Azure resources.
+        public let autoInstallVMScanner: Bool?
+        /// The updated Azure regions to scan.
+        public let azureRegions: [String]?
+        /// The updated scope configuration that defines which Azure resources to scan.
+        public let scopeConfiguration: AzureScopeConfigurationInput?
+
+        @inlinable
+        public init(autoInstallVMScanner: Bool? = nil, azureRegions: [String]? = nil, scopeConfiguration: AzureScopeConfigurationInput? = nil) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.azureRegions = azureRegions
+            self.scopeConfiguration = scopeConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.azureRegions?.forEach {
+                try validate($0, name: "azureRegions[]", parent: name, max: 64)
+                try validate($0, name: "azureRegions[]", parent: name, min: 1)
+                try validate($0, name: "azureRegions[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, max: 100)
+            try self.validate(self.azureRegions, name: "azureRegions", parent: name, min: 1)
+            try self.scopeConfiguration?.validate(name: "\(name).scopeConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoInstallVMScanner = "autoInstallVMScanner"
+            case azureRegions = "azureRegions"
+            case scopeConfiguration = "scopeConfiguration"
+        }
+    }
+
+    public struct AzureScopeConfiguration: AWSDecodableShape {
+        /// The scope configuration for container image scanning.
+        public let containerImageScanning: ScopeConfiguration?
+        /// The scope configuration for serverless scanning.
+        public let serverlessScanning: ScopeConfiguration?
+        /// The scope configuration for VM scanning.
+        public let vmScanning: ScopeConfiguration?
+
+        @inlinable
+        public init(containerImageScanning: ScopeConfiguration? = nil, serverlessScanning: ScopeConfiguration? = nil, vmScanning: ScopeConfiguration? = nil) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImageScanning = "containerImageScanning"
+            case serverlessScanning = "serverlessScanning"
+            case vmScanning = "vmScanning"
+        }
+    }
+
+    public struct AzureScopeConfigurationInput: AWSEncodableShape {
+        /// The scope configuration input for container image scanning.
+        public let containerImageScanning: ScopeConfigurationInput?
+        /// The scope configuration input for serverless scanning.
+        public let serverlessScanning: ScopeConfigurationInput?
+        /// The scope configuration input for VM scanning.
+        public let vmScanning: ScopeConfigurationInput?
+
+        @inlinable
+        public init(containerImageScanning: ScopeConfigurationInput? = nil, serverlessScanning: ScopeConfigurationInput? = nil, vmScanning: ScopeConfigurationInput? = nil) {
+            self.containerImageScanning = containerImageScanning
+            self.serverlessScanning = serverlessScanning
+            self.vmScanning = vmScanning
+        }
+
+        public func validate(name: String) throws {
+            try self.containerImageScanning?.validate(name: "\(name).containerImageScanning")
+            try self.serverlessScanning?.validate(name: "\(name).serverlessScanning")
+            try self.vmScanning?.validate(name: "\(name).vmScanning")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImageScanning = "containerImageScanning"
+            case serverlessScanning = "serverlessScanning"
+            case vmScanning = "vmScanning"
         }
     }
 
@@ -3085,20 +3471,17 @@ extension Inspector2 {
         public let status: IntegrationStatus
         /// The reason for the current status of the code security integration.
         public let statusReason: String
-        /// The tags associated with the code security integration.
-        public let tags: [String: String]?
         /// The type of repository provider for the integration.
         public let type: IntegrationType
 
         @inlinable
-        public init(createdOn: Date, integrationArn: String, lastUpdateOn: Date, name: String, status: IntegrationStatus, statusReason: String, tags: [String: String]? = nil, type: IntegrationType) {
+        public init(createdOn: Date, integrationArn: String, lastUpdateOn: Date, name: String, status: IntegrationStatus, statusReason: String, type: IntegrationType) {
             self.createdOn = createdOn
             self.integrationArn = integrationArn
             self.lastUpdateOn = lastUpdateOn
             self.name = name
             self.status = status
             self.statusReason = statusReason
-            self.tags = tags
             self.type = type
         }
 
@@ -3109,7 +3492,6 @@ extension Inspector2 {
             case name = "name"
             case status = "status"
             case statusReason = "statusReason"
-            case tags = "tags"
             case type = "type"
         }
     }
@@ -3173,11 +3555,9 @@ extension Inspector2 {
         public let scanConfigurationArn: String
         /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
         public let scopeSettings: ScopeSettings?
-        /// The tags associated with the scan configuration.
-        public let tags: [String: String]?
 
         @inlinable
-        public init(continuousIntegrationScanSupportedEvents: [ContinuousIntegrationScanEvent]? = nil, frequencyExpression: String? = nil, name: String, ownerAccountId: String, periodicScanFrequency: PeriodicScanFrequency? = nil, ruleSetCategories: [RuleSetCategory], scanConfigurationArn: String, scopeSettings: ScopeSettings? = nil, tags: [String: String]? = nil) {
+        public init(continuousIntegrationScanSupportedEvents: [ContinuousIntegrationScanEvent]? = nil, frequencyExpression: String? = nil, name: String, ownerAccountId: String, periodicScanFrequency: PeriodicScanFrequency? = nil, ruleSetCategories: [RuleSetCategory], scanConfigurationArn: String, scopeSettings: ScopeSettings? = nil) {
             self.continuousIntegrationScanSupportedEvents = continuousIntegrationScanSupportedEvents
             self.frequencyExpression = frequencyExpression
             self.name = name
@@ -3186,7 +3566,6 @@ extension Inspector2 {
             self.ruleSetCategories = ruleSetCategories
             self.scanConfigurationArn = scanConfigurationArn
             self.scopeSettings = scopeSettings
-            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3198,7 +3577,6 @@ extension Inspector2 {
             case ruleSetCategories = "ruleSetCategories"
             case scanConfigurationArn = "scanConfigurationArn"
             case scopeSettings = "scopeSettings"
-            case tags = "tags"
         }
     }
 
@@ -3345,6 +3723,505 @@ extension Inspector2 {
         }
     }
 
+    public struct Connector: AWSDecodableShape {
+        /// Specifies whether the VM scanner is automatically installed on connected resources.
+        public let autoInstallVMScanner: Bool?
+        /// The ARN of the Amazon Web Services Config connector associated with this connector.
+        public let awsConfigConnectorArn: String?
+        /// The Azure regions configured for the connector.
+        public let azureRegions: [String]?
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String
+        /// The date and time when the connector was created.
+        public let createdAt: Date
+        /// A description of the connector.
+        public let description: String?
+        /// The enablement status of the connector, which indicates whether the connector is active and scanning resources.
+        public let enablementStatus: EnablementStatus?
+        /// Additional information about the current enablement status of the connector.
+        public let enablementStatusReason: String?
+        /// The health of the connector, which indicates whether Amazon Inspector can reach and scan the connected resources.
+        public let health: ConnectorHealth?
+        /// The name of the connector.
+        public let name: String?
+        /// The cloud provider for the connector.
+        public let provider: ConnectorCloudProvider
+        /// The Azure scope configuration for the connector.
+        public let scopeConfiguration: AzureScopeConfiguration?
+        /// The tags associated with the connector.
+        public let tags: [String: String]?
+        /// The date and time when the connector was last updated.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(autoInstallVMScanner: Bool? = nil, awsConfigConnectorArn: String? = nil, azureRegions: [String]? = nil, connectorArn: String, createdAt: Date, description: String? = nil, enablementStatus: EnablementStatus? = nil, enablementStatusReason: String? = nil, health: ConnectorHealth? = nil, name: String? = nil, provider: ConnectorCloudProvider, scopeConfiguration: AzureScopeConfiguration? = nil, tags: [String: String]? = nil, updatedAt: Date) {
+            self.autoInstallVMScanner = autoInstallVMScanner
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.azureRegions = azureRegions
+            self.connectorArn = connectorArn
+            self.createdAt = createdAt
+            self.description = description
+            self.enablementStatus = enablementStatus
+            self.enablementStatusReason = enablementStatusReason
+            self.health = health
+            self.name = name
+            self.provider = provider
+            self.scopeConfiguration = scopeConfiguration
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoInstallVMScanner = "autoInstallVMScanner"
+            case awsConfigConnectorArn = "awsConfigConnectorArn"
+            case azureRegions = "azureRegions"
+            case connectorArn = "connectorArn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case enablementStatus = "enablementStatus"
+            case enablementStatusReason = "enablementStatusReason"
+            case health = "health"
+            case name = "name"
+            case provider = "provider"
+            case scopeConfiguration = "scopeConfiguration"
+            case tags = "tags"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ConnectorArnFilter: AWSEncodableShape {
+        /// The comparison operator for the connector ARN filter.
+        public let comparison: ConnectorArnComparison
+        /// The connector ARN value to filter by.
+        public let value: String
+
+        @inlinable
+        public init(comparison: ConnectorArnComparison, value: String) {
+            self.comparison = comparison
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connector/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case value = "value"
+        }
+    }
+
+    public struct ConnectorContainerImageScanConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The amount of time after a container image is last pulled from a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are DAYS_3, DAYS_7, DAYS_14, DAYS_30, DAYS_60, DAYS_90, and DAYS_180.
+        public let pullDuration: ContainerImagePullDateRescanDuration?
+        /// The amount of time after a container image is pushed to a repository during which Amazon Inspector continues to rescan the image for vulnerabilities. Valid values are LIFETIME, DAYS_3, DAYS_7, DAYS_14, DAYS_30, DAYS_60, DAYS_90, and DAYS_180.
+        public let pushDuration: ContainerImageRescanDuration?
+
+        @inlinable
+        public init(pullDuration: ContainerImagePullDateRescanDuration? = nil, pushDuration: ContainerImageRescanDuration? = nil) {
+            self.pullDuration = pullDuration
+            self.pushDuration = pushDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pullDuration = "pullDuration"
+            case pushDuration = "pushDuration"
+        }
+    }
+
+    public struct ConnectorFilterCriteria: AWSEncodableShape {
+        /// Filter by Amazon Web Services account IDs.
+        public let accounts: [StringFilter]?
+        /// Filter by Amazon Web Services Config connector ARNs.
+        public let awsConfigConnectorArns: [AwsConfigConnectorArnFilter]?
+        /// Filter by connector ARNs.
+        public let connectorArns: [ConnectorArnFilter]?
+        /// Filter by connector type.
+        public let connectorType: [ConnectorTypeFilter]?
+        /// Filter by cloud provider.
+        public let provider: [ProviderFilter]?
+
+        @inlinable
+        public init(accounts: [StringFilter]? = nil, awsConfigConnectorArns: [AwsConfigConnectorArnFilter]? = nil, connectorArns: [ConnectorArnFilter]? = nil, connectorType: [ConnectorTypeFilter]? = nil, provider: [ProviderFilter]? = nil) {
+            self.accounts = accounts
+            self.awsConfigConnectorArns = awsConfigConnectorArns
+            self.connectorArns = connectorArns
+            self.connectorType = connectorType
+            self.provider = provider
+        }
+
+        public func validate(name: String) throws {
+            try self.accounts?.forEach {
+                try $0.validate(name: "\(name).accounts[]")
+            }
+            try self.validate(self.accounts, name: "accounts", parent: name, max: 10)
+            try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
+            try self.awsConfigConnectorArns?.forEach {
+                try $0.validate(name: "\(name).awsConfigConnectorArns[]")
+            }
+            try self.validate(self.awsConfigConnectorArns, name: "awsConfigConnectorArns", parent: name, max: 1)
+            try self.connectorArns?.forEach {
+                try $0.validate(name: "\(name).connectorArns[]")
+            }
+            try self.validate(self.connectorArns, name: "connectorArns", parent: name, max: 25)
+            try self.validate(self.connectorType, name: "connectorType", parent: name, max: 1)
+            try self.validate(self.provider, name: "provider", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts = "accounts"
+            case awsConfigConnectorArns = "awsConfigConnectorArns"
+            case connectorArns = "connectorArns"
+            case connectorType = "connectorType"
+            case provider = "provider"
+        }
+    }
+
+    public struct ConnectorHealth: AWSDecodableShape {
+        /// The health status of the connector.
+        public let connectorStatus: ConnectorHealthStatus
+        /// The date and time when the connector health was last checked.
+        public let lastCheckedAt: Date
+        /// A message providing additional details about the connector health status.
+        public let message: String?
+
+        @inlinable
+        public init(connectorStatus: ConnectorHealthStatus, lastCheckedAt: Date, message: String? = nil) {
+            self.connectorStatus = connectorStatus
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorStatus = "connectorStatus"
+            case lastCheckedAt = "lastCheckedAt"
+            case message = "message"
+        }
+    }
+
+    public struct ConnectorScanConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The container image scanning configuration, including push and pull duration settings.
+        public let containerImageScanning: ConnectorContainerImageScanConfiguration?
+
+        @inlinable
+        public init(containerImageScanning: ConnectorContainerImageScanConfiguration? = nil) {
+            self.containerImageScanning = containerImageScanning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImageScanning = "containerImageScanning"
+        }
+    }
+
+    public struct ConnectorScanConfigurationItem: AWSDecodableShape {
+        /// The ARN of the Amazon Web Services Config connector.
+        public let awsConfigConnectorArn: String
+        /// The list of connector ARNs associated with this Amazon Web Services Config connector.
+        public let connectorArns: [String]
+        /// The scan configuration settings.
+        public let scanConfiguration: ConnectorScanConfiguration
+
+        @inlinable
+        public init(awsConfigConnectorArn: String, connectorArns: [String], scanConfiguration: ConnectorScanConfiguration) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.connectorArns = connectorArns
+            self.scanConfiguration = scanConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsConfigConnectorArn = "awsConfigConnectorArn"
+            case connectorArns = "connectorArns"
+            case scanConfiguration = "scanConfiguration"
+        }
+    }
+
+    public struct ConnectorTypeFilter: AWSEncodableShape {
+        /// The comparison operator for the connector type filter.
+        public let comparison: ConnectorTypeComparison
+        /// The connector type value to filter by.
+        public let value: ConnectorType
+
+        @inlinable
+        public init(comparison: ConnectorTypeComparison, value: ConnectorType) {
+            self.comparison = comparison
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case value = "value"
+        }
+    }
+
+    public struct ContainerImageAggregation: AWSEncodableShape {
+        /// The image architectures to aggregate findings for.
+        public let architectures: [StringFilter]?
+        /// The cloud account IDs to aggregate findings for.
+        public let cloudAccountIds: [StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public let cloudOrgIds: [StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartitions: [StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProviders: [StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegions: [StringFilter]?
+        /// The image digests to aggregate findings for.
+        public let imageDigests: [StringFilter]?
+        /// The image tags to aggregate findings for.
+        public let imageTags: [StringFilter]?
+        /// The in-use counts to aggregate findings for.
+        public let inUseCount: [NumberFilter]?
+        /// The last in-use timestamps to aggregate findings for.
+        public let lastInUseAt: [DateFilter]?
+        /// The image registries to aggregate findings for.
+        public let registries: [StringFilter]?
+        /// The image repositories to aggregate findings for.
+        public let repositories: [StringFilter]?
+        /// The resource IDs to aggregate findings for.
+        public let resourceIds: [StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, or ALL.
+        public let sortBy: ContainerImageSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(architectures: [StringFilter]? = nil, cloudAccountIds: [StringFilter]? = nil, cloudOrgIds: [StringFilter]? = nil, cloudPartitions: [StringFilter]? = nil, cloudProviders: [StringFilter]? = nil, cloudRegions: [StringFilter]? = nil, imageDigests: [StringFilter]? = nil, imageTags: [StringFilter]? = nil, inUseCount: [NumberFilter]? = nil, lastInUseAt: [DateFilter]? = nil, registries: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: ContainerImageSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.architectures = architectures
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.imageDigests = imageDigests
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.registries = registries
+            self.repositories = repositories
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.architectures?.forEach {
+                try $0.validate(name: "\(name).architectures[]")
+            }
+            try self.validate(self.architectures, name: "architectures", parent: name, max: 10)
+            try self.validate(self.architectures, name: "architectures", parent: name, min: 1)
+            try self.cloudAccountIds?.forEach {
+                try $0.validate(name: "\(name).cloudAccountIds[]")
+            }
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, max: 10)
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, min: 1)
+            try self.cloudOrgIds?.forEach {
+                try $0.validate(name: "\(name).cloudOrgIds[]")
+            }
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, max: 10)
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, min: 1)
+            try self.cloudPartitions?.forEach {
+                try $0.validate(name: "\(name).cloudPartitions[]")
+            }
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, max: 10)
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, min: 1)
+            try self.cloudProviders?.forEach {
+                try $0.validate(name: "\(name).cloudProviders[]")
+            }
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, max: 10)
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, min: 1)
+            try self.cloudRegions?.forEach {
+                try $0.validate(name: "\(name).cloudRegions[]")
+            }
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, max: 10)
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, min: 1)
+            try self.imageDigests?.forEach {
+                try $0.validate(name: "\(name).imageDigests[]")
+            }
+            try self.validate(self.imageDigests, name: "imageDigests", parent: name, max: 10)
+            try self.validate(self.imageDigests, name: "imageDigests", parent: name, min: 1)
+            try self.imageTags?.forEach {
+                try $0.validate(name: "\(name).imageTags[]")
+            }
+            try self.validate(self.imageTags, name: "imageTags", parent: name, max: 10)
+            try self.validate(self.imageTags, name: "imageTags", parent: name, min: 1)
+            try self.validate(self.inUseCount, name: "inUseCount", parent: name, max: 10)
+            try self.validate(self.inUseCount, name: "inUseCount", parent: name, min: 1)
+            try self.validate(self.lastInUseAt, name: "lastInUseAt", parent: name, max: 10)
+            try self.validate(self.lastInUseAt, name: "lastInUseAt", parent: name, min: 1)
+            try self.registries?.forEach {
+                try $0.validate(name: "\(name).registries[]")
+            }
+            try self.validate(self.registries, name: "registries", parent: name, max: 10)
+            try self.validate(self.registries, name: "registries", parent: name, min: 1)
+            try self.repositories?.forEach {
+                try $0.validate(name: "\(name).repositories[]")
+            }
+            try self.validate(self.repositories, name: "repositories", parent: name, max: 10)
+            try self.validate(self.repositories, name: "repositories", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectures = "architectures"
+            case cloudAccountIds = "cloudAccountIds"
+            case cloudOrgIds = "cloudOrgIds"
+            case cloudPartitions = "cloudPartitions"
+            case cloudProviders = "cloudProviders"
+            case cloudRegions = "cloudRegions"
+            case imageDigests = "imageDigests"
+            case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
+            case registries = "registries"
+            case repositories = "repositories"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ContainerImageAggregationResponse: AWSDecodableShape {
+        /// The account ID associated with the container image.
+        public let accountId: String?
+        /// The architecture of the container image.
+        public let architecture: String?
+        /// The cloud account ID for the container image aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the container image aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this container image aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this container image aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: Provider?
+        /// The cloud Region associated with this container image aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
+        /// The number of active findings with an exploit available for the container image.
+        public let exploitAvailableActiveFindingsCount: Int64?
+        /// The number of active findings with a fix available for the container image.
+        public let fixAvailableActiveFindingsCount: Int64?
+        /// The image digest for the container image.
+        public let imageDigest: String?
+        /// The image tags attached to the container image.
+        public let imageTags: [String]?
+        /// The number of times the container image is in use.
+        public let inUseCount: Int64?
+        /// The last time the container image was in use.
+        public let lastInUseAt: Date?
+        /// The registry for the container image.
+        public let registry: String?
+        /// The repository for the container image.
+        public let repository: String?
+        /// The resource ID for the container image.
+        public let resourceId: String
+        public let severityCounts: SeverityCounts?
+
+        @inlinable
+        public init(accountId: String? = nil, architecture: String? = nil, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: Provider? = nil, cloudRegion: String? = nil, exploitAvailableActiveFindingsCount: Int64? = nil, fixAvailableActiveFindingsCount: Int64? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, registry: String? = nil, repository: String? = nil, resourceId: String, severityCounts: SeverityCounts? = nil) {
+            self.accountId = accountId
+            self.architecture = architecture
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.imageDigest = imageDigest
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.registry = registry
+            self.repository = repository
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case architecture = "architecture"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
+            case exploitAvailableActiveFindingsCount = "exploitAvailableActiveFindingsCount"
+            case fixAvailableActiveFindingsCount = "fixAvailableActiveFindingsCount"
+            case imageDigest = "imageDigest"
+            case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
+            case registry = "registry"
+            case repository = "repository"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
+        }
+    }
+
+    public struct ContainerImageMetadata: AWSDecodableShape {
+        /// The date and time the container image was pulled.
+        public let imagePulledAt: Date?
+        /// The tags attached to the container image.
+        public let imageTags: [String]?
+        /// The number of times the container image is in use.
+        public let inUseCount: Int64?
+        /// The last time the container image was in use.
+        public let lastInUseAt: Date?
+
+        @inlinable
+        public init(imagePulledAt: Date? = nil, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil) {
+            self.imagePulledAt = imagePulledAt
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imagePulledAt = "imagePulledAt"
+            case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
+        }
+    }
+
+    public struct ContainerRegistryMetadata: AWSDecodableShape {
+        /// The name of the container registry.
+        public let name: String?
+
+        @inlinable
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
+    public struct ContainerRepositoryMetadata: AWSDecodableShape {
+        /// The name of the container repository.
+        public let name: String?
+        /// The scan frequency for the container repository.
+        public let scanFrequency: String?
+
+        @inlinable
+        public init(name: String? = nil, scanFrequency: String? = nil) {
+            self.name = name
+            self.scanFrequency = scanFrequency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case scanFrequency = "scanFrequency"
+        }
+    }
+
     public struct ContinuousIntegrationScanConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The repository events that trigger continuous integration scans, such as pull requests or commits.
         public let supportedEvents: [ContinuousIntegrationScanEvent]
@@ -3403,6 +4280,28 @@ extension Inspector2 {
     public struct CoverageFilterCriteria: AWSEncodableShape {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public let accountId: [CoverageStringFilter]?
+        /// The cloud container image tags to filter coverage results by.
+        public let cloudContainerImageTags: [CoverageStringFilter]?
+        /// The cloud container registry name to filter coverage results by.
+        public let cloudContainerRegistryName: [CoverageStringFilter]?
+        /// The cloud container repository name to filter coverage results by.
+        public let cloudContainerRepositoryName: [CoverageStringFilter]?
+        /// The cloud provider to filter coverage results by.
+        public let cloudProvider: [CoverageStringFilter]?
+        /// The cloud provider account ID to filter coverage results by.
+        public let cloudProviderAccountId: [CoverageStringFilter]?
+        /// The cloud provider organization ID to filter coverage results by.
+        public let cloudProviderOrgId: [CoverageStringFilter]?
+        /// The cloud provider region to filter coverage results by.
+        public let cloudProviderRegion: [CoverageStringFilter]?
+        /// The cloud serverless function name to filter coverage results by.
+        public let cloudServerlessFunctionName: [CoverageStringFilter]?
+        /// The cloud serverless function runtime to filter coverage results by.
+        public let cloudServerlessFunctionRuntime: [CoverageStringFilter]?
+        /// The cloud serverless function tags to filter coverage results by.
+        public let cloudServerlessFunctionTags: [CoverageMapFilter]?
+        /// The cloud VM instance tags to filter coverage results by.
+        public let cloudVmInstanceTags: [CoverageMapFilter]?
         /// Filter criteria for code repositories based on project name.
         public let codeRepositoryProjectName: [CoverageStringFilter]?
         /// Filter criteria for code repositories based on provider type (such as GitHub, GitLab, etc.).
@@ -3435,7 +4334,7 @@ extension Inspector2 {
         public let resourceId: [CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
         public let resourceType: [CoverageStringFilter]?
-        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED and EC2_AGENTLESS.
+        /// The filter to search for Amazon EC2 instance coverage by scan mode. Valid values are EC2_SSM_AGENT_BASED, EC2_AGENTLESS, and EC2_INSPECTOR_AGENT_BASED.
         public let scanMode: [CoverageStringFilter]?
         /// The scan status code to filter on. Valid values are: ValidationException, InternalServerException, ResourceNotFoundException, BadRequestException, and ThrottlingException.
         public let scanStatusCode: [CoverageStringFilter]?
@@ -3445,8 +4344,19 @@ extension Inspector2 {
         public let scanType: [CoverageStringFilter]?
 
         @inlinable
-        public init(accountId: [CoverageStringFilter]? = nil, codeRepositoryProjectName: [CoverageStringFilter]? = nil, codeRepositoryProviderType: [CoverageStringFilter]? = nil, codeRepositoryProviderTypeVisibility: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageInUseCount: [CoverageNumberFilter]? = nil, ecrImageLastInUseAt: [CoverageDateFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, lastScannedCommitId: [CoverageStringFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
+        public init(accountId: [CoverageStringFilter]? = nil, cloudContainerImageTags: [CoverageStringFilter]? = nil, cloudContainerRegistryName: [CoverageStringFilter]? = nil, cloudContainerRepositoryName: [CoverageStringFilter]? = nil, cloudProvider: [CoverageStringFilter]? = nil, cloudProviderAccountId: [CoverageStringFilter]? = nil, cloudProviderOrgId: [CoverageStringFilter]? = nil, cloudProviderRegion: [CoverageStringFilter]? = nil, cloudServerlessFunctionName: [CoverageStringFilter]? = nil, cloudServerlessFunctionRuntime: [CoverageStringFilter]? = nil, cloudServerlessFunctionTags: [CoverageMapFilter]? = nil, cloudVmInstanceTags: [CoverageMapFilter]? = nil, codeRepositoryProjectName: [CoverageStringFilter]? = nil, codeRepositoryProviderType: [CoverageStringFilter]? = nil, codeRepositoryProviderTypeVisibility: [CoverageStringFilter]? = nil, ec2InstanceTags: [CoverageMapFilter]? = nil, ecrImageInUseCount: [CoverageNumberFilter]? = nil, ecrImageLastInUseAt: [CoverageDateFilter]? = nil, ecrImageTags: [CoverageStringFilter]? = nil, ecrRepositoryName: [CoverageStringFilter]? = nil, imagePulledAt: [CoverageDateFilter]? = nil, lambdaFunctionName: [CoverageStringFilter]? = nil, lambdaFunctionRuntime: [CoverageStringFilter]? = nil, lambdaFunctionTags: [CoverageMapFilter]? = nil, lastScannedAt: [CoverageDateFilter]? = nil, lastScannedCommitId: [CoverageStringFilter]? = nil, resourceId: [CoverageStringFilter]? = nil, resourceType: [CoverageStringFilter]? = nil, scanMode: [CoverageStringFilter]? = nil, scanStatusCode: [CoverageStringFilter]? = nil, scanStatusReason: [CoverageStringFilter]? = nil, scanType: [CoverageStringFilter]? = nil) {
             self.accountId = accountId
+            self.cloudContainerImageTags = cloudContainerImageTags
+            self.cloudContainerRegistryName = cloudContainerRegistryName
+            self.cloudContainerRepositoryName = cloudContainerRepositoryName
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudServerlessFunctionTags = cloudServerlessFunctionTags
+            self.cloudVmInstanceTags = cloudVmInstanceTags
             self.codeRepositoryProjectName = codeRepositoryProjectName
             self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeRepositoryProviderTypeVisibility = codeRepositoryProviderTypeVisibility
@@ -3475,6 +4385,61 @@ extension Inspector2 {
             }
             try self.validate(self.accountId, name: "accountId", parent: name, max: 10)
             try self.validate(self.accountId, name: "accountId", parent: name, min: 1)
+            try self.cloudContainerImageTags?.forEach {
+                try $0.validate(name: "\(name).cloudContainerImageTags[]")
+            }
+            try self.validate(self.cloudContainerImageTags, name: "cloudContainerImageTags", parent: name, max: 10)
+            try self.validate(self.cloudContainerImageTags, name: "cloudContainerImageTags", parent: name, min: 1)
+            try self.cloudContainerRegistryName?.forEach {
+                try $0.validate(name: "\(name).cloudContainerRegistryName[]")
+            }
+            try self.validate(self.cloudContainerRegistryName, name: "cloudContainerRegistryName", parent: name, max: 10)
+            try self.validate(self.cloudContainerRegistryName, name: "cloudContainerRegistryName", parent: name, min: 1)
+            try self.cloudContainerRepositoryName?.forEach {
+                try $0.validate(name: "\(name).cloudContainerRepositoryName[]")
+            }
+            try self.validate(self.cloudContainerRepositoryName, name: "cloudContainerRepositoryName", parent: name, max: 10)
+            try self.validate(self.cloudContainerRepositoryName, name: "cloudContainerRepositoryName", parent: name, min: 1)
+            try self.cloudProvider?.forEach {
+                try $0.validate(name: "\(name).cloudProvider[]")
+            }
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, max: 10)
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, min: 1)
+            try self.cloudProviderAccountId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderAccountId[]")
+            }
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, max: 10)
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, min: 1)
+            try self.cloudProviderOrgId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderOrgId[]")
+            }
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, max: 10)
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, min: 1)
+            try self.cloudProviderRegion?.forEach {
+                try $0.validate(name: "\(name).cloudProviderRegion[]")
+            }
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, max: 10)
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, min: 1)
+            try self.cloudServerlessFunctionName?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionName[]")
+            }
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, min: 1)
+            try self.cloudServerlessFunctionRuntime?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionRuntime[]")
+            }
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, min: 1)
+            try self.cloudServerlessFunctionTags?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionTags[]")
+            }
+            try self.validate(self.cloudServerlessFunctionTags, name: "cloudServerlessFunctionTags", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionTags, name: "cloudServerlessFunctionTags", parent: name, min: 1)
+            try self.cloudVmInstanceTags?.forEach {
+                try $0.validate(name: "\(name).cloudVmInstanceTags[]")
+            }
+            try self.validate(self.cloudVmInstanceTags, name: "cloudVmInstanceTags", parent: name, max: 10)
+            try self.validate(self.cloudVmInstanceTags, name: "cloudVmInstanceTags", parent: name, min: 1)
             try self.codeRepositoryProjectName?.forEach {
                 try $0.validate(name: "\(name).codeRepositoryProjectName[]")
             }
@@ -3567,6 +4532,17 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case cloudContainerImageTags = "cloudContainerImageTags"
+            case cloudContainerRegistryName = "cloudContainerRegistryName"
+            case cloudContainerRepositoryName = "cloudContainerRepositoryName"
+            case cloudProvider = "cloudProvider"
+            case cloudProviderAccountId = "cloudProviderAccountId"
+            case cloudProviderOrgId = "cloudProviderOrgId"
+            case cloudProviderRegion = "cloudProviderRegion"
+            case cloudServerlessFunctionName = "cloudServerlessFunctionName"
+            case cloudServerlessFunctionRuntime = "cloudServerlessFunctionRuntime"
+            case cloudServerlessFunctionTags = "cloudServerlessFunctionTags"
+            case cloudVmInstanceTags = "cloudVmInstanceTags"
             case codeRepositoryProjectName = "codeRepositoryProjectName"
             case codeRepositoryProviderType = "codeRepositoryProviderType"
             case codeRepositoryProviderTypeVisibility = "codeRepositoryProviderTypeVisibility"
@@ -3663,6 +4639,16 @@ extension Inspector2 {
         public let accountId: String
         /// The date and time the resource was last checked for vulnerabilities.
         public let lastScannedAt: Date?
+        /// The cloud provider of the covered resource.
+        public let provider: Provider?
+        /// The cloud provider account ID of the covered resource.
+        public let providerAccountId: String?
+        /// The cloud provider organization ID of the covered resource.
+        public let providerOrgId: String?
+        /// The cloud provider partition of the covered resource.
+        public let providerPartition: String?
+        /// The cloud provider region of the covered resource.
+        public let providerRegion: String?
         /// The ID of the covered resource.
         public let resourceId: String
         /// An object that contains details about the metadata.
@@ -3677,9 +4663,14 @@ extension Inspector2 {
         public let scanType: ScanType
 
         @inlinable
-        public init(accountId: String, lastScannedAt: Date? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanMode: ScanMode? = nil, scanStatus: ScanStatus? = nil, scanType: ScanType) {
+        public init(accountId: String, lastScannedAt: Date? = nil, provider: Provider? = nil, providerAccountId: String? = nil, providerOrgId: String? = nil, providerPartition: String? = nil, providerRegion: String? = nil, resourceId: String, resourceMetadata: ResourceScanMetadata? = nil, resourceType: CoverageResourceType, scanMode: ScanMode? = nil, scanStatus: ScanStatus? = nil, scanType: ScanType) {
             self.accountId = accountId
             self.lastScannedAt = lastScannedAt
+            self.provider = provider
+            self.providerAccountId = providerAccountId
+            self.providerOrgId = providerOrgId
+            self.providerPartition = providerPartition
+            self.providerRegion = providerRegion
             self.resourceId = resourceId
             self.resourceMetadata = resourceMetadata
             self.resourceType = resourceType
@@ -3691,6 +4682,11 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case lastScannedAt = "lastScannedAt"
+            case provider = "provider"
+            case providerAccountId = "providerAccountId"
+            case providerOrgId = "providerOrgId"
+            case providerPartition = "providerPartition"
+            case providerRegion = "providerRegion"
             case resourceId = "resourceId"
             case resourceMetadata = "resourceMetadata"
             case resourceType = "resourceType"
@@ -3904,6 +4900,70 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case scanConfigurationArn = "scanConfigurationArn"
+        }
+    }
+
+    public struct CreateConnectorRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+        public let clientToken: String?
+        /// A description of the connector.
+        public let description: String?
+        /// The name of the connector.
+        public let name: String
+        /// The cloud provider for the connector.
+        public let provider: ConnectorCloudProvider
+        /// The provider-specific configuration details for the connector.
+        public let providerDetail: ProviderDetailCreate
+        /// The tags to apply to the connector.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateConnectorRequest.idempotencyToken(), description: String? = nil, name: String, provider: ConnectorCloudProvider, providerDetail: ProviderDetailCreate, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.provider = provider
+            self.providerDetail = providerDetail
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}_-]+$")
+            try self.providerDetail.validate(name: "\(name).providerDetail")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case name = "name"
+            case provider = "provider"
+            case providerDetail = "providerDetail"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created connector.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
         }
     }
 
@@ -4372,6 +5432,30 @@ extension Inspector2 {
         }
     }
 
+    public struct DeleteConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector to delete.
+        public let connectorArn: String
+
+        @inlinable
+        public init(connectorArn: String) {
+            self.connectorArn = connectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, max: 256)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, min: 1)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connector/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+        }
+    }
+
+    public struct DeleteConnectorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteFilterRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the filter to be deleted.
         public let arn: String
@@ -4586,15 +5670,19 @@ extension Inspector2 {
     }
 
     public struct Ec2Configuration: AWSEncodableShape {
+        /// Whether to activate Amazon Inspector VM scanner for Amazon EC2 scanning.
+        public let activateVMScanner: Bool?
         /// The scan method that is applied to the instance.
         public let scanMode: Ec2ScanMode
 
         @inlinable
-        public init(scanMode: Ec2ScanMode) {
+        public init(activateVMScanner: Bool? = nil, scanMode: Ec2ScanMode) {
+            self.activateVMScanner = activateVMScanner
             self.scanMode = scanMode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activateVMScanner = "activateVMScanner"
             case scanMode = "scanMode"
         }
     }
@@ -4602,14 +5690,18 @@ extension Inspector2 {
     public struct Ec2ConfigurationState: AWSDecodableShape {
         /// An object that contains details about the state of the Amazon EC2 scan mode.
         public let scanModeState: Ec2ScanModeState?
+        /// An object that contains details about the state of the Amazon Inspector VM scanner.
+        public let vmScannerState: VMScannerState?
 
         @inlinable
-        public init(scanModeState: Ec2ScanModeState? = nil) {
+        public init(scanModeState: Ec2ScanModeState? = nil, vmScannerState: VMScannerState? = nil) {
             self.scanModeState = scanModeState
+            self.vmScannerState = vmScannerState
         }
 
         private enum CodingKeys: String, CodingKey {
             case scanModeState = "scanModeState"
+            case vmScannerState = "vmScannerState"
         }
     }
 
@@ -5163,6 +6255,44 @@ extension Inspector2 {
     public struct FilterCriteria: AWSEncodableShape & AWSDecodableShape {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public let awsAccountId: [StringFilter]?
+        /// Filter criteria for the architecture of a container image.
+        public let cloudImageArchitecture: [StringFilter]?
+        /// Filter criteria for the digest of a container image.
+        public let cloudImageDigest: [StringFilter]?
+        /// Filter criteria for the in-use count of a container image.
+        public let cloudImageInUseCount: [NumberFilter]?
+        /// Filter criteria for the last time a container image was in use.
+        public let cloudImageLastInUseAt: [DateFilter]?
+        /// Filter criteria for when a container image was pushed.
+        public let cloudImagePushedAt: [DateFilter]?
+        /// Filter criteria for the registry of a container image.
+        public let cloudImageRegistry: [StringFilter]?
+        /// Filter criteria for the repository name of a container image.
+        public let cloudImageRepositoryName: [StringFilter]?
+        /// Filter criteria for the tags of a container image.
+        public let cloudImageTags: [StringFilter]?
+        /// Filter criteria for the cloud provider.
+        public let cloudProvider: [StringFilter]?
+        /// Filter criteria for the cloud provider account ID.
+        public let cloudProviderAccountId: [StringFilter]?
+        /// Filter criteria for the cloud provider organization ID.
+        public let cloudProviderOrgId: [StringFilter]?
+        /// Filter criteria for the cloud provider region.
+        public let cloudProviderRegion: [StringFilter]?
+        /// Filter criteria for the execution role of a serverless function.
+        public let cloudServerlessFunctionExecutionRole: [StringFilter]?
+        /// Filter criteria for when a serverless function was last modified.
+        public let cloudServerlessFunctionLastModifiedAt: [DateFilter]?
+        /// Filter criteria for the name of a serverless function.
+        public let cloudServerlessFunctionName: [StringFilter]?
+        /// Filter criteria for the runtime of a serverless function.
+        public let cloudServerlessFunctionRuntime: [StringFilter]?
+        /// Filter criteria for the image reference of a VM instance.
+        public let cloudVmImageReference: [StringFilter]?
+        /// Filter criteria for the network ID of a VM instance.
+        public let cloudVmNetworkId: [StringFilter]?
+        /// Filter criteria for the subnet IDs of a VM instance.
+        public let cloudVmSubnetIds: [StringFilter]?
         /// Filter criteria for findings based on the project name in a code repository.
         public let codeRepositoryProjectName: [StringFilter]?
         /// Filter criteria for findings based on the repository provider type (such as GitHub, GitLab, etc.).
@@ -5255,8 +6385,27 @@ extension Inspector2 {
         public let vulnerablePackages: [PackageFilter]?
 
         @inlinable
-        public init(awsAccountId: [StringFilter]? = nil, codeRepositoryProjectName: [StringFilter]? = nil, codeRepositoryProviderType: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImageInUseCount: [NumberFilter]? = nil, ecrImageLastInUseAt: [DateFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
+        public init(awsAccountId: [StringFilter]? = nil, cloudImageArchitecture: [StringFilter]? = nil, cloudImageDigest: [StringFilter]? = nil, cloudImageInUseCount: [NumberFilter]? = nil, cloudImageLastInUseAt: [DateFilter]? = nil, cloudImagePushedAt: [DateFilter]? = nil, cloudImageRegistry: [StringFilter]? = nil, cloudImageRepositoryName: [StringFilter]? = nil, cloudImageTags: [StringFilter]? = nil, cloudProvider: [StringFilter]? = nil, cloudProviderAccountId: [StringFilter]? = nil, cloudProviderOrgId: [StringFilter]? = nil, cloudProviderRegion: [StringFilter]? = nil, cloudServerlessFunctionExecutionRole: [StringFilter]? = nil, cloudServerlessFunctionLastModifiedAt: [DateFilter]? = nil, cloudServerlessFunctionName: [StringFilter]? = nil, cloudServerlessFunctionRuntime: [StringFilter]? = nil, cloudVmImageReference: [StringFilter]? = nil, cloudVmNetworkId: [StringFilter]? = nil, cloudVmSubnetIds: [StringFilter]? = nil, codeRepositoryProjectName: [StringFilter]? = nil, codeRepositoryProviderType: [StringFilter]? = nil, codeVulnerabilityDetectorName: [StringFilter]? = nil, codeVulnerabilityDetectorTags: [StringFilter]? = nil, codeVulnerabilityFilePath: [StringFilter]? = nil, componentId: [StringFilter]? = nil, componentType: [StringFilter]? = nil, ec2InstanceImageId: [StringFilter]? = nil, ec2InstanceSubnetId: [StringFilter]? = nil, ec2InstanceVpcId: [StringFilter]? = nil, ecrImageArchitecture: [StringFilter]? = nil, ecrImageHash: [StringFilter]? = nil, ecrImageInUseCount: [NumberFilter]? = nil, ecrImageLastInUseAt: [DateFilter]? = nil, ecrImagePushedAt: [DateFilter]? = nil, ecrImageRegistry: [StringFilter]? = nil, ecrImageRepositoryName: [StringFilter]? = nil, ecrImageTags: [StringFilter]? = nil, epssScore: [NumberFilter]? = nil, exploitAvailable: [StringFilter]? = nil, findingArn: [StringFilter]? = nil, findingStatus: [StringFilter]? = nil, findingType: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, fixAvailable: [StringFilter]? = nil, inspectorScore: [NumberFilter]? = nil, lambdaFunctionExecutionRoleArn: [StringFilter]? = nil, lambdaFunctionLastModifiedAt: [DateFilter]? = nil, lambdaFunctionLayers: [StringFilter]? = nil, lambdaFunctionName: [StringFilter]? = nil, lambdaFunctionRuntime: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, networkProtocol: [StringFilter]? = nil, portRange: [PortRangeFilter]? = nil, relatedVulnerabilities: [StringFilter]? = nil, resourceId: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severity: [StringFilter]? = nil, title: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, vendorSeverity: [StringFilter]? = nil, vulnerabilityId: [StringFilter]? = nil, vulnerabilitySource: [StringFilter]? = nil, vulnerablePackages: [PackageFilter]? = nil) {
             self.awsAccountId = awsAccountId
+            self.cloudImageArchitecture = cloudImageArchitecture
+            self.cloudImageDigest = cloudImageDigest
+            self.cloudImageInUseCount = cloudImageInUseCount
+            self.cloudImageLastInUseAt = cloudImageLastInUseAt
+            self.cloudImagePushedAt = cloudImagePushedAt
+            self.cloudImageRegistry = cloudImageRegistry
+            self.cloudImageRepositoryName = cloudImageRepositoryName
+            self.cloudImageTags = cloudImageTags
+            self.cloudProvider = cloudProvider
+            self.cloudProviderAccountId = cloudProviderAccountId
+            self.cloudProviderOrgId = cloudProviderOrgId
+            self.cloudProviderRegion = cloudProviderRegion
+            self.cloudServerlessFunctionExecutionRole = cloudServerlessFunctionExecutionRole
+            self.cloudServerlessFunctionLastModifiedAt = cloudServerlessFunctionLastModifiedAt
+            self.cloudServerlessFunctionName = cloudServerlessFunctionName
+            self.cloudServerlessFunctionRuntime = cloudServerlessFunctionRuntime
+            self.cloudVmImageReference = cloudVmImageReference
+            self.cloudVmNetworkId = cloudVmNetworkId
+            self.cloudVmSubnetIds = cloudVmSubnetIds
             self.codeRepositoryProjectName = codeRepositoryProjectName
             self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
@@ -5310,6 +6459,89 @@ extension Inspector2 {
             }
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 10)
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 1)
+            try self.cloudImageArchitecture?.forEach {
+                try $0.validate(name: "\(name).cloudImageArchitecture[]")
+            }
+            try self.validate(self.cloudImageArchitecture, name: "cloudImageArchitecture", parent: name, max: 10)
+            try self.validate(self.cloudImageArchitecture, name: "cloudImageArchitecture", parent: name, min: 1)
+            try self.cloudImageDigest?.forEach {
+                try $0.validate(name: "\(name).cloudImageDigest[]")
+            }
+            try self.validate(self.cloudImageDigest, name: "cloudImageDigest", parent: name, max: 10)
+            try self.validate(self.cloudImageDigest, name: "cloudImageDigest", parent: name, min: 1)
+            try self.validate(self.cloudImageInUseCount, name: "cloudImageInUseCount", parent: name, max: 10)
+            try self.validate(self.cloudImageInUseCount, name: "cloudImageInUseCount", parent: name, min: 1)
+            try self.validate(self.cloudImageLastInUseAt, name: "cloudImageLastInUseAt", parent: name, max: 10)
+            try self.validate(self.cloudImageLastInUseAt, name: "cloudImageLastInUseAt", parent: name, min: 1)
+            try self.validate(self.cloudImagePushedAt, name: "cloudImagePushedAt", parent: name, max: 10)
+            try self.validate(self.cloudImagePushedAt, name: "cloudImagePushedAt", parent: name, min: 1)
+            try self.cloudImageRegistry?.forEach {
+                try $0.validate(name: "\(name).cloudImageRegistry[]")
+            }
+            try self.validate(self.cloudImageRegistry, name: "cloudImageRegistry", parent: name, max: 10)
+            try self.validate(self.cloudImageRegistry, name: "cloudImageRegistry", parent: name, min: 1)
+            try self.cloudImageRepositoryName?.forEach {
+                try $0.validate(name: "\(name).cloudImageRepositoryName[]")
+            }
+            try self.validate(self.cloudImageRepositoryName, name: "cloudImageRepositoryName", parent: name, max: 10)
+            try self.validate(self.cloudImageRepositoryName, name: "cloudImageRepositoryName", parent: name, min: 1)
+            try self.cloudImageTags?.forEach {
+                try $0.validate(name: "\(name).cloudImageTags[]")
+            }
+            try self.validate(self.cloudImageTags, name: "cloudImageTags", parent: name, max: 10)
+            try self.validate(self.cloudImageTags, name: "cloudImageTags", parent: name, min: 1)
+            try self.cloudProvider?.forEach {
+                try $0.validate(name: "\(name).cloudProvider[]")
+            }
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, max: 10)
+            try self.validate(self.cloudProvider, name: "cloudProvider", parent: name, min: 1)
+            try self.cloudProviderAccountId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderAccountId[]")
+            }
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, max: 10)
+            try self.validate(self.cloudProviderAccountId, name: "cloudProviderAccountId", parent: name, min: 1)
+            try self.cloudProviderOrgId?.forEach {
+                try $0.validate(name: "\(name).cloudProviderOrgId[]")
+            }
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, max: 10)
+            try self.validate(self.cloudProviderOrgId, name: "cloudProviderOrgId", parent: name, min: 1)
+            try self.cloudProviderRegion?.forEach {
+                try $0.validate(name: "\(name).cloudProviderRegion[]")
+            }
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, max: 10)
+            try self.validate(self.cloudProviderRegion, name: "cloudProviderRegion", parent: name, min: 1)
+            try self.cloudServerlessFunctionExecutionRole?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionExecutionRole[]")
+            }
+            try self.validate(self.cloudServerlessFunctionExecutionRole, name: "cloudServerlessFunctionExecutionRole", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionExecutionRole, name: "cloudServerlessFunctionExecutionRole", parent: name, min: 1)
+            try self.validate(self.cloudServerlessFunctionLastModifiedAt, name: "cloudServerlessFunctionLastModifiedAt", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionLastModifiedAt, name: "cloudServerlessFunctionLastModifiedAt", parent: name, min: 1)
+            try self.cloudServerlessFunctionName?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionName[]")
+            }
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionName, name: "cloudServerlessFunctionName", parent: name, min: 1)
+            try self.cloudServerlessFunctionRuntime?.forEach {
+                try $0.validate(name: "\(name).cloudServerlessFunctionRuntime[]")
+            }
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, max: 10)
+            try self.validate(self.cloudServerlessFunctionRuntime, name: "cloudServerlessFunctionRuntime", parent: name, min: 1)
+            try self.cloudVmImageReference?.forEach {
+                try $0.validate(name: "\(name).cloudVmImageReference[]")
+            }
+            try self.validate(self.cloudVmImageReference, name: "cloudVmImageReference", parent: name, max: 10)
+            try self.validate(self.cloudVmImageReference, name: "cloudVmImageReference", parent: name, min: 1)
+            try self.cloudVmNetworkId?.forEach {
+                try $0.validate(name: "\(name).cloudVmNetworkId[]")
+            }
+            try self.validate(self.cloudVmNetworkId, name: "cloudVmNetworkId", parent: name, max: 10)
+            try self.validate(self.cloudVmNetworkId, name: "cloudVmNetworkId", parent: name, min: 1)
+            try self.cloudVmSubnetIds?.forEach {
+                try $0.validate(name: "\(name).cloudVmSubnetIds[]")
+            }
+            try self.validate(self.cloudVmSubnetIds, name: "cloudVmSubnetIds", parent: name, max: 10)
+            try self.validate(self.cloudVmSubnetIds, name: "cloudVmSubnetIds", parent: name, min: 1)
             try self.codeRepositoryProjectName?.forEach {
                 try $0.validate(name: "\(name).codeRepositoryProjectName[]")
             }
@@ -5512,6 +6744,25 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case awsAccountId = "awsAccountId"
+            case cloudImageArchitecture = "cloudImageArchitecture"
+            case cloudImageDigest = "cloudImageDigest"
+            case cloudImageInUseCount = "cloudImageInUseCount"
+            case cloudImageLastInUseAt = "cloudImageLastInUseAt"
+            case cloudImagePushedAt = "cloudImagePushedAt"
+            case cloudImageRegistry = "cloudImageRegistry"
+            case cloudImageRepositoryName = "cloudImageRepositoryName"
+            case cloudImageTags = "cloudImageTags"
+            case cloudProvider = "cloudProvider"
+            case cloudProviderAccountId = "cloudProviderAccountId"
+            case cloudProviderOrgId = "cloudProviderOrgId"
+            case cloudProviderRegion = "cloudProviderRegion"
+            case cloudServerlessFunctionExecutionRole = "cloudServerlessFunctionExecutionRole"
+            case cloudServerlessFunctionLastModifiedAt = "cloudServerlessFunctionLastModifiedAt"
+            case cloudServerlessFunctionName = "cloudServerlessFunctionName"
+            case cloudServerlessFunctionRuntime = "cloudServerlessFunctionRuntime"
+            case cloudVmImageReference = "cloudVmImageReference"
+            case cloudVmNetworkId = "cloudVmNetworkId"
+            case cloudVmSubnetIds = "cloudVmSubnetIds"
             case codeRepositoryProjectName = "codeRepositoryProjectName"
             case codeRepositoryProviderType = "codeRepositoryProviderType"
             case codeVulnerabilityDetectorName = "codeVulnerabilityDetectorName"
@@ -5755,6 +7006,16 @@ extension Inspector2 {
     public struct FindingTypeAggregationResponse: AWSDecodableShape {
         /// The ID of the Amazon Web Services account associated with the findings.
         public let accountId: String?
+        /// The cloud account ID for the finding type aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the finding type aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this finding type aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this finding type aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: String?
+        /// The cloud Region associated with this finding type aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
         /// The number of findings that have an exploit available.
         public let exploitAvailableCount: Int64?
         ///  Details about the number of fixes.
@@ -5763,8 +7024,13 @@ extension Inspector2 {
         public let severityCounts: SeverityCounts?
 
         @inlinable
-        public init(accountId: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: String? = nil, cloudRegion: String? = nil, exploitAvailableCount: Int64? = nil, fixAvailableCount: Int64? = nil, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.exploitAvailableCount = exploitAvailableCount
             self.fixAvailableCount = fixAvailableCount
             self.severityCounts = severityCounts
@@ -5772,6 +7038,11 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
             case exploitAvailableCount = "exploitAvailableCount"
             case fixAvailableCount = "fixAvailableCount"
             case severityCounts = "severityCounts"
@@ -5797,6 +7068,8 @@ extension Inspector2 {
     }
 
     public struct FreeTrialInfo: AWSDecodableShape {
+        /// The cloud provider associated with the free trial information.
+        public let cloudProvider: CloudProvider?
         /// The date and time that the Amazon Inspector free trail ends for a given account.
         public let end: Date
         /// The date and time that the Amazon Inspector free trail started for a given account.
@@ -5807,7 +7080,8 @@ extension Inspector2 {
         public let type: FreeTrialType
 
         @inlinable
-        public init(end: Date, start: Date, status: FreeTrialStatus, type: FreeTrialType) {
+        public init(cloudProvider: CloudProvider? = nil, end: Date, start: Date, status: FreeTrialStatus, type: FreeTrialType) {
+            self.cloudProvider = cloudProvider
             self.end = end
             self.start = start
             self.status = status
@@ -5815,6 +7089,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudProvider = "cloudProvider"
             case end = "end"
             case start = "start"
             case status = "status"
@@ -5933,9 +7208,9 @@ extension Inspector2 {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000000)
             try self.validate(self.scanArn, name: "scanArn", parent: name, pattern: "^arn:aws(-us-gov|-cn)?:inspector2:[-.a-z0-9]{0,20}:\\d{12}:owner/(\\d{12}|o-[a-z0-9]{10,32})/cis-scan/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 341)
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, max: 1024)
             try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, min: 10)
-            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "(^arn:.*:ecr:.*:\\d{12}:repository\\/(?:[a-z0-9]+(?:[._-][a-z0-9]+)*\\/)*[a-z0-9]+(?:[._-][a-z0-9]+)*(\\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration\\/[a-f0-9-]{36}\\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))")
+            try self.validate(self.targetResourceId, name: "targetResourceId", parent: name, pattern: "(^arn:.*:ecr:.*:\\d{12}:repository\\/[a-zA-Z0-9._\\/-]+(\\/sha256:[a-z0-9]{64})?$)|(^i-([a-z0-9]{8}|[a-z0-9]{17}|\\\\*)$|(^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_\\.]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?$)|(^arn:(aws[a-zA-Z-]*)?:inspector2:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:codesecurity-integration\\/[a-f0-9-]{36}\\/project-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$))|(^\\/subscriptions\\/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\\/resourcegroups\\/[a-z0-9_\\-\\.()]+\\/providers\\/(microsoft\\.compute\\/virtualmachines\\/[a-z0-9_\\-]+|microsoft\\.web\\/sites\\/[a-z0-9_\\-]+|microsoft\\.containerregistry\\/registries\\/[a-z0-9_\\-]+(\\/repositories\\/[a-z0-9_\\-\\/]+\\/images?\\/sha256:[a-f0-9]{64})?)$)")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6212,7 +7487,23 @@ extension Inspector2 {
     }
 
     public struct GetConfigurationRequest: AWSEncodableShape {
-        public init() {}
+        /// The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to retrieve. When specified, you must be the delegated administrator for this member account. If not specified, the operation returns your own configuration.
+        public let accountId: String?
+
+        @inlinable
+        public init(accountId: String? = nil) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
     }
 
     public struct GetConfigurationResponse: AWSDecodableShape {
@@ -6459,7 +7750,67 @@ extension Inspector2 {
         }
     }
 
+    public struct Image: AWSDecodableShape {
+        /// The architecture of the container image.
+        public let architecture: String?
+        /// The author of the container image.
+        public let author: String?
+        /// The image digest of the container image.
+        public let imageDigest: String?
+        /// The image tags attached to the container image.
+        public let imageTags: [String]?
+        /// The number of times the container image is in use.
+        public let inUseCount: Int64?
+        /// The last time the container image was in use.
+        public let lastInUseAt: Date?
+        /// The platform of the container image.
+        public let platform: String?
+        /// The date and time the container image was pushed.
+        public let pushedAt: Date?
+        /// The registry for the container image.
+        public let registry: String?
+        /// The name of the repository the container image resides in.
+        public let repositoryName: String?
+
+        @inlinable
+        public init(architecture: String? = nil, author: String? = nil, imageDigest: String? = nil, imageTags: [String]? = nil, inUseCount: Int64? = nil, lastInUseAt: Date? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String? = nil, repositoryName: String? = nil) {
+            self.architecture = architecture
+            self.author = author
+            self.imageDigest = imageDigest
+            self.imageTags = imageTags
+            self.inUseCount = inUseCount
+            self.lastInUseAt = lastInUseAt
+            self.platform = platform
+            self.pushedAt = pushedAt
+            self.registry = registry
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture = "architecture"
+            case author = "author"
+            case imageDigest = "imageDigest"
+            case imageTags = "imageTags"
+            case inUseCount = "inUseCount"
+            case lastInUseAt = "lastInUseAt"
+            case platform = "platform"
+            case pushedAt = "pushedAt"
+            case registry = "registry"
+            case repositoryName = "repositoryName"
+        }
+    }
+
     public struct ImageLayerAggregation: AWSEncodableShape {
+        /// The cloud account IDs to aggregate findings for.
+        public let cloudAccountIds: [StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public let cloudOrgIds: [StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartitions: [StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProviders: [StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegions: [StringFilter]?
         /// The hashes associated with the layers.
         public let layerHashes: [StringFilter]?
         /// The repository associated with the container image hosting the layers.
@@ -6472,7 +7823,12 @@ extension Inspector2 {
         public let sortOrder: SortOrder?
 
         @inlinable
-        public init(layerHashes: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: ImageLayerSortBy? = nil, sortOrder: SortOrder? = nil) {
+        public init(cloudAccountIds: [StringFilter]? = nil, cloudOrgIds: [StringFilter]? = nil, cloudPartitions: [StringFilter]? = nil, cloudProviders: [StringFilter]? = nil, cloudRegions: [StringFilter]? = nil, layerHashes: [StringFilter]? = nil, repositories: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: ImageLayerSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
             self.layerHashes = layerHashes
             self.repositories = repositories
             self.resourceIds = resourceIds
@@ -6481,6 +7837,31 @@ extension Inspector2 {
         }
 
         public func validate(name: String) throws {
+            try self.cloudAccountIds?.forEach {
+                try $0.validate(name: "\(name).cloudAccountIds[]")
+            }
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, max: 10)
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, min: 1)
+            try self.cloudOrgIds?.forEach {
+                try $0.validate(name: "\(name).cloudOrgIds[]")
+            }
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, max: 10)
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, min: 1)
+            try self.cloudPartitions?.forEach {
+                try $0.validate(name: "\(name).cloudPartitions[]")
+            }
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, max: 10)
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, min: 1)
+            try self.cloudProviders?.forEach {
+                try $0.validate(name: "\(name).cloudProviders[]")
+            }
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, max: 10)
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, min: 1)
+            try self.cloudRegions?.forEach {
+                try $0.validate(name: "\(name).cloudRegions[]")
+            }
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, max: 10)
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, min: 1)
             try self.layerHashes?.forEach {
                 try $0.validate(name: "\(name).layerHashes[]")
             }
@@ -6499,6 +7880,11 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudAccountIds = "cloudAccountIds"
+            case cloudOrgIds = "cloudOrgIds"
+            case cloudPartitions = "cloudPartitions"
+            case cloudProviders = "cloudProviders"
+            case cloudRegions = "cloudRegions"
             case layerHashes = "layerHashes"
             case repositories = "repositories"
             case resourceIds = "resourceIds"
@@ -6510,6 +7896,16 @@ extension Inspector2 {
     public struct ImageLayerAggregationResponse: AWSDecodableShape {
         /// The ID of the Amazon Web Services account that owns the container image hosting the layer image.
         public let accountId: String
+        /// The cloud account ID for the image layer aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the image layer aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this image layer aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this image layer aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: String?
+        /// The cloud Region associated with this image layer aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
         /// The layer hash.
         public let layerHash: String
         /// The repository the layer resides in.
@@ -6520,8 +7916,13 @@ extension Inspector2 {
         public let severityCounts: SeverityCounts?
 
         @inlinable
-        public init(accountId: String, layerHash: String, repository: String, resourceId: String, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: String? = nil, cloudRegion: String? = nil, layerHash: String, repository: String, resourceId: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.layerHash = layerHash
             self.repository = repository
             self.resourceId = resourceId
@@ -6530,6 +7931,11 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
             case layerHash = "layerHash"
             case repository = "repository"
             case resourceId = "resourceId"
@@ -7316,6 +8722,106 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case configurations = "configurations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConnectorScanConfigurationsRequest: AWSEncodableShape {
+        /// The list of Amazon Web Services Config connector ARNs to filter results.
+        public let awsConfigConnectorArns: [String]?
+        /// The maximum number of results to return in a single call. Valid range is 1 to 50. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+        public let maxResults: Int?
+        /// A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsConfigConnectorArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.awsConfigConnectorArns = awsConfigConnectorArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.awsConfigConnectorArns?.forEach {
+                try validate($0, name: "awsConfigConnectorArns[]", parent: name, max: 512)
+                try validate($0, name: "awsConfigConnectorArns[]", parent: name, min: 1)
+                try validate($0, name: "awsConfigConnectorArns[]", parent: name, pattern: "^arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\\s]+)$")
+            }
+            try self.validate(self.awsConfigConnectorArns, name: "awsConfigConnectorArns", parent: name, max: 10)
+            try self.validate(self.awsConfigConnectorArns, name: "awsConfigConnectorArns", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsConfigConnectorArns = "awsConfigConnectorArns"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConnectorScanConfigurationsResponse: AWSDecodableShape {
+        /// A pagination token. If this value is not null, there are additional results available. Use this token in the nextToken parameter of a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+        /// A list of scan configuration items.
+        public let scanConfigurations: [ConnectorScanConfigurationItem]
+
+        @inlinable
+        public init(nextToken: String? = nil, scanConfigurations: [ConnectorScanConfigurationItem]) {
+            self.nextToken = nextToken
+            self.scanConfigurations = scanConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case scanConfigurations = "scanConfigurations"
+        }
+    }
+
+    public struct ListConnectorsRequest: AWSEncodableShape {
+        /// The filter criteria to apply to the list of connectors.
+        public let filterCriteria: ConnectorFilterCriteria?
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+        public let maxResults: Int?
+        /// A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filterCriteria: ConnectorFilterCriteria? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filterCriteria = filterCriteria
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterCriteria = "filterCriteria"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConnectorsResponse: AWSDecodableShape {
+        /// A list of connectors.
+        public let items: [Connector]
+        /// A pagination token. If this value is not null, there are additional results available. Use this token in the nextToken parameter of a subsequent request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [Connector], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
             case nextToken = "nextToken"
         }
     }
@@ -8233,6 +9739,24 @@ extension Inspector2 {
         }
     }
 
+    public struct ProviderFilter: AWSEncodableShape {
+        /// The comparison operator for the provider filter.
+        public let comparison: ProviderComparison
+        /// The cloud provider value to filter by.
+        public let value: ConnectorCloudProvider
+
+        @inlinable
+        public init(comparison: ProviderComparison, value: ConnectorCloudProvider) {
+            self.comparison = comparison
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "comparison"
+            case value = "value"
+        }
+    }
+
     public struct Recommendation: AWSDecodableShape {
         /// The recommended course of action to remediate the finding.
         public let text: String?
@@ -8300,15 +9824,30 @@ extension Inspector2 {
         public let accountId: String?
         /// The number of container images impacted by the findings.
         public let affectedImages: Int64?
+        /// The cloud account ID for the repository aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the repository aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this repository aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this repository aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: Provider?
+        /// The cloud Region associated with this repository aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
         /// The name of the repository associated with the findings.
         public let repository: String
         /// An object that represent the count of matched findings per severity.
         public let severityCounts: SeverityCounts?
 
         @inlinable
-        public init(accountId: String? = nil, affectedImages: Int64? = nil, repository: String, severityCounts: SeverityCounts? = nil) {
+        public init(accountId: String? = nil, affectedImages: Int64? = nil, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: Provider? = nil, cloudRegion: String? = nil, repository: String, severityCounts: SeverityCounts? = nil) {
             self.accountId = accountId
             self.affectedImages = affectedImages
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
             self.repository = repository
             self.severityCounts = severityCounts
         }
@@ -8316,6 +9855,11 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case affectedImages = "affectedImages"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
             case repository = "repository"
             case severityCounts = "severityCounts"
         }
@@ -8350,6 +9894,12 @@ extension Inspector2 {
         public let id: String
         /// The partition of the resource.
         public let partition: String?
+        /// The cloud provider of the resource.
+        public let provider: Provider?
+        /// The cloud provider account ID of the resource.
+        public let providerAccountId: String?
+        /// The cloud provider organization ID of the resource.
+        public let providerOrgId: String?
         /// The Amazon Web Services Region the impacted resource is located in.
         public let region: String?
         /// The tags attached to the resource.
@@ -8358,10 +9908,13 @@ extension Inspector2 {
         public let type: ResourceType
 
         @inlinable
-        public init(details: ResourceDetails? = nil, id: String, partition: String? = nil, region: String? = nil, tags: [String: String]? = nil, type: ResourceType) {
+        public init(details: ResourceDetails? = nil, id: String, partition: String? = nil, provider: Provider? = nil, providerAccountId: String? = nil, providerOrgId: String? = nil, region: String? = nil, tags: [String: String]? = nil, type: ResourceType) {
             self.details = details
             self.id = id
             self.partition = partition
+            self.provider = provider
+            self.providerAccountId = providerAccountId
+            self.providerOrgId = providerOrgId
             self.region = region
             self.tags = tags
             self.type = type
@@ -8371,6 +9924,9 @@ extension Inspector2 {
             case details = "details"
             case id = "id"
             case partition = "partition"
+            case provider = "provider"
+            case providerAccountId = "providerAccountId"
+            case providerOrgId = "providerOrgId"
             case region = "region"
             case tags = "tags"
             case type = "type"
@@ -8386,13 +9942,22 @@ extension Inspector2 {
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
         /// Contains details about a code repository resource associated with a finding.
         public let codeRepository: CodeRepositoryDetails?
+        /// An object that contains details about a container image involved in the finding.
+        public let image: Image?
+        /// An object that contains details about a serverless function involved in the finding.
+        public let serverlessFunction: ServerlessFunction?
+        /// An object that contains details about a VM instance involved in the finding.
+        public let vm: Vm?
 
         @inlinable
-        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, codeRepository: CodeRepositoryDetails? = nil) {
+        public init(awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, codeRepository: CodeRepositoryDetails? = nil, image: Image? = nil, serverlessFunction: ServerlessFunction? = nil, vm: Vm? = nil) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsLambdaFunction = awsLambdaFunction
             self.codeRepository = codeRepository
+            self.image = image
+            self.serverlessFunction = serverlessFunction
+            self.vm = vm
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8400,6 +9965,9 @@ extension Inspector2 {
             case awsEcrContainerImage = "awsEcrContainerImage"
             case awsLambdaFunction = "awsLambdaFunction"
             case codeRepository = "codeRepository"
+            case image = "image"
+            case serverlessFunction = "serverlessFunction"
+            case vm = "vm"
         }
     }
 
@@ -8518,6 +10086,12 @@ extension Inspector2 {
     public struct ResourceScanMetadata: AWSDecodableShape {
         /// Contains metadata about scan coverage for a code repository resource.
         public let codeRepository: CodeRepositoryMetadata?
+        /// The container image metadata associated with a covered resource.
+        public let containerImage: ContainerImageMetadata?
+        /// The container registry metadata associated with a covered resource.
+        public let containerRegistry: ContainerRegistryMetadata?
+        /// The container repository metadata associated with a covered resource.
+        public let containerRepository: ContainerRepositoryMetadata?
         /// An object that contains metadata details for an Amazon EC2 instance.
         public let ec2: Ec2Metadata?
         /// An object that contains details about the container metadata for an Amazon ECR image.
@@ -8526,22 +10100,36 @@ extension Inspector2 {
         public let ecrRepository: EcrRepositoryMetadata?
         /// An object that contains metadata details for an Amazon Web Services Lambda function.
         public let lambdaFunction: LambdaFunctionMetadata?
+        /// The serverless function metadata associated with a covered resource.
+        public let serverlessFunction: ServerlessFunctionMetadata?
+        /// The VM instance metadata associated with a covered resource.
+        public let vmInstance: VmInstanceMetadata?
 
         @inlinable
-        public init(codeRepository: CodeRepositoryMetadata? = nil, ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil) {
+        public init(codeRepository: CodeRepositoryMetadata? = nil, containerImage: ContainerImageMetadata? = nil, containerRegistry: ContainerRegistryMetadata? = nil, containerRepository: ContainerRepositoryMetadata? = nil, ec2: Ec2Metadata? = nil, ecrImage: EcrContainerImageMetadata? = nil, ecrRepository: EcrRepositoryMetadata? = nil, lambdaFunction: LambdaFunctionMetadata? = nil, serverlessFunction: ServerlessFunctionMetadata? = nil, vmInstance: VmInstanceMetadata? = nil) {
             self.codeRepository = codeRepository
+            self.containerImage = containerImage
+            self.containerRegistry = containerRegistry
+            self.containerRepository = containerRepository
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
             self.lambdaFunction = lambdaFunction
+            self.serverlessFunction = serverlessFunction
+            self.vmInstance = vmInstance
         }
 
         private enum CodingKeys: String, CodingKey {
             case codeRepository = "codeRepository"
+            case containerImage = "containerImage"
+            case containerRegistry = "containerRegistry"
+            case containerRepository = "containerRepository"
             case ec2 = "ec2"
             case ecrImage = "ecrImage"
             case ecrRepository = "ecrRepository"
             case lambdaFunction = "lambdaFunction"
+            case serverlessFunction = "serverlessFunction"
+            case vmInstance = "vmInstance"
         }
     }
 
@@ -8642,6 +10230,59 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case reason = "reason"
             case statusCode = "statusCode"
+        }
+    }
+
+    public struct ScopeConfiguration: AWSDecodableShape {
+        /// The type of scope. Valid values are TENANT, which scans all resources in the Azure tenant, and SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
+        public let scopeType: ScopeType
+        /// The list of scope values. For subscription-level scope, these are Azure subscription IDs.
+        public let scopeValues: [String]?
+        /// The current state of the scope configuration.
+        public let state: ScopeState?
+        /// The reason for the current state of the scope configuration.
+        public let stateReason: String?
+
+        @inlinable
+        public init(scopeType: ScopeType, scopeValues: [String]? = nil, state: ScopeState? = nil, stateReason: String? = nil) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopeType = "scopeType"
+            case scopeValues = "scopeValues"
+            case state = "state"
+            case stateReason = "stateReason"
+        }
+    }
+
+    public struct ScopeConfigurationInput: AWSEncodableShape {
+        /// The type of scope. Valid values are TENANT, which scans all resources in the Azure tenant, and SUBSCRIPTION, which scans only the resources in the specified Azure subscriptions.
+        public let scopeType: ScopeType
+        /// The list of scope values. For subscription-level scope, these are Azure subscription IDs.
+        public let scopeValues: [String]?
+
+        @inlinable
+        public init(scopeType: ScopeType, scopeValues: [String]? = nil) {
+            self.scopeType = scopeType
+            self.scopeValues = scopeValues
+        }
+
+        public func validate(name: String) throws {
+            try self.scopeValues?.forEach {
+                try validate($0, name: "scopeValues[]", parent: name, max: 36)
+                try validate($0, name: "scopeValues[]", parent: name, min: 36)
+                try validate($0, name: "scopeValues[]", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            }
+            try self.validate(self.scopeValues, name: "scopeValues", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scopeType = "scopeType"
+            case scopeValues = "scopeValues"
         }
     }
 
@@ -8783,6 +10424,253 @@ extension Inspector2 {
 
     public struct SendCisSessionTelemetryResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ServerlessFunction: AWSDecodableShape {
+        /// The architectures of the serverless function.
+        public let architectures: [Architecture]?
+        /// The code digest of the serverless function.
+        public let codeDigest: String?
+        /// The execution role of the serverless function.
+        public let executionRole: String?
+        /// The date and time the serverless function was last modified.
+        public let lastModifiedAt: Date?
+        /// The layers of the serverless function.
+        public let layers: [String]?
+        /// The network ID associated with the serverless function.
+        public let networkId: String?
+        /// The package type of the serverless function.
+        public let packageType: PackageType?
+        /// The runtime of the serverless function.
+        public let runtime: String?
+        /// The security group IDs associated with the serverless function.
+        public let securityGroupIds: [String]?
+        /// The name of the serverless function.
+        public let serverlessFunctionName: String?
+        /// The subnet IDs associated with the serverless function.
+        public let subnetIds: [String]?
+        /// The version of the serverless function.
+        public let version: String?
+
+        @inlinable
+        public init(architectures: [Architecture]? = nil, codeDigest: String? = nil, executionRole: String? = nil, lastModifiedAt: Date? = nil, layers: [String]? = nil, networkId: String? = nil, packageType: PackageType? = nil, runtime: String? = nil, securityGroupIds: [String]? = nil, serverlessFunctionName: String? = nil, subnetIds: [String]? = nil, version: String? = nil) {
+            self.architectures = architectures
+            self.codeDigest = codeDigest
+            self.executionRole = executionRole
+            self.lastModifiedAt = lastModifiedAt
+            self.layers = layers
+            self.networkId = networkId
+            self.packageType = packageType
+            self.runtime = runtime
+            self.securityGroupIds = securityGroupIds
+            self.serverlessFunctionName = serverlessFunctionName
+            self.subnetIds = subnetIds
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architectures = "architectures"
+            case codeDigest = "codeDigest"
+            case executionRole = "executionRole"
+            case lastModifiedAt = "lastModifiedAt"
+            case layers = "layers"
+            case networkId = "networkId"
+            case packageType = "packageType"
+            case runtime = "runtime"
+            case securityGroupIds = "securityGroupIds"
+            case serverlessFunctionName = "serverlessFunctionName"
+            case subnetIds = "subnetIds"
+            case version = "version"
+        }
+    }
+
+    public struct ServerlessFunctionAggregation: AWSEncodableShape {
+        /// The cloud account IDs to aggregate findings for.
+        public let cloudAccountIds: [StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public let cloudOrgIds: [StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartitions: [StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProviders: [StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegions: [StringFilter]?
+        /// The function names to aggregate findings for.
+        public let functionNames: [StringFilter]?
+        /// The function tags to aggregate findings for.
+        public let functionTags: [MapFilter]?
+        /// The resource IDs to aggregate findings for.
+        public let resourceIds: [StringFilter]?
+        /// The runtimes to aggregate findings for.
+        public let runtimes: [StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, or ALL.
+        public let sortBy: ServerlessFunctionSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(cloudAccountIds: [StringFilter]? = nil, cloudOrgIds: [StringFilter]? = nil, cloudPartitions: [StringFilter]? = nil, cloudProviders: [StringFilter]? = nil, cloudRegions: [StringFilter]? = nil, functionNames: [StringFilter]? = nil, functionTags: [MapFilter]? = nil, resourceIds: [StringFilter]? = nil, runtimes: [StringFilter]? = nil, sortBy: ServerlessFunctionSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.functionNames = functionNames
+            self.functionTags = functionTags
+            self.resourceIds = resourceIds
+            self.runtimes = runtimes
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudAccountIds?.forEach {
+                try $0.validate(name: "\(name).cloudAccountIds[]")
+            }
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, max: 10)
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, min: 1)
+            try self.cloudOrgIds?.forEach {
+                try $0.validate(name: "\(name).cloudOrgIds[]")
+            }
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, max: 10)
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, min: 1)
+            try self.cloudPartitions?.forEach {
+                try $0.validate(name: "\(name).cloudPartitions[]")
+            }
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, max: 10)
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, min: 1)
+            try self.cloudProviders?.forEach {
+                try $0.validate(name: "\(name).cloudProviders[]")
+            }
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, max: 10)
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, min: 1)
+            try self.cloudRegions?.forEach {
+                try $0.validate(name: "\(name).cloudRegions[]")
+            }
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, max: 10)
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, min: 1)
+            try self.functionNames?.forEach {
+                try $0.validate(name: "\(name).functionNames[]")
+            }
+            try self.validate(self.functionNames, name: "functionNames", parent: name, max: 10)
+            try self.validate(self.functionNames, name: "functionNames", parent: name, min: 1)
+            try self.functionTags?.forEach {
+                try $0.validate(name: "\(name).functionTags[]")
+            }
+            try self.validate(self.functionTags, name: "functionTags", parent: name, max: 10)
+            try self.validate(self.functionTags, name: "functionTags", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+            try self.runtimes?.forEach {
+                try $0.validate(name: "\(name).runtimes[]")
+            }
+            try self.validate(self.runtimes, name: "runtimes", parent: name, max: 10)
+            try self.validate(self.runtimes, name: "runtimes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudAccountIds = "cloudAccountIds"
+            case cloudOrgIds = "cloudOrgIds"
+            case cloudPartitions = "cloudPartitions"
+            case cloudProviders = "cloudProviders"
+            case cloudRegions = "cloudRegions"
+            case functionNames = "functionNames"
+            case functionTags = "functionTags"
+            case resourceIds = "resourceIds"
+            case runtimes = "runtimes"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ServerlessFunctionAggregationResponse: AWSDecodableShape {
+        /// The account ID associated with the serverless function.
+        public let accountId: String?
+        /// The cloud account ID for the serverless function aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the serverless function aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this serverless function aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this serverless function aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: Provider?
+        /// The cloud Region associated with this serverless function aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
+        /// The number of active findings with an exploit available for the serverless function.
+        public let exploitAvailableActiveFindingsCount: Int64?
+        /// The number of active findings with a fix available for the serverless function.
+        public let fixAvailableActiveFindingsCount: Int64?
+        /// The name of the serverless function.
+        public let functionName: String?
+        /// The date and time the serverless function was last modified.
+        public let lastModifiedAt: Date?
+        /// The resource ID for the serverless function.
+        public let resourceId: String
+        /// The runtime of the serverless function.
+        public let runtime: String?
+        public let severityCounts: SeverityCounts?
+        /// The tags attached to the serverless function.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(accountId: String? = nil, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: Provider? = nil, cloudRegion: String? = nil, exploitAvailableActiveFindingsCount: Int64? = nil, fixAvailableActiveFindingsCount: Int64? = nil, functionName: String? = nil, lastModifiedAt: Date? = nil, resourceId: String, runtime: String? = nil, severityCounts: SeverityCounts? = nil, tags: [String: String]? = nil) {
+            self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.functionName = functionName
+            self.lastModifiedAt = lastModifiedAt
+            self.resourceId = resourceId
+            self.runtime = runtime
+            self.severityCounts = severityCounts
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
+            case exploitAvailableActiveFindingsCount = "exploitAvailableActiveFindingsCount"
+            case fixAvailableActiveFindingsCount = "fixAvailableActiveFindingsCount"
+            case functionName = "functionName"
+            case lastModifiedAt = "lastModifiedAt"
+            case resourceId = "resourceId"
+            case runtime = "runtime"
+            case severityCounts = "severityCounts"
+            case tags = "tags"
+        }
+    }
+
+    public struct ServerlessFunctionMetadata: AWSDecodableShape {
+        /// The tags associated with the serverless function.
+        public let functionTags: [String: String]?
+        /// The runtime of the serverless function.
+        public let runtime: String?
+        /// The name of the serverless function.
+        public let serverlessFunctionName: String?
+
+        @inlinable
+        public init(functionTags: [String: String]? = nil, runtime: String? = nil, serverlessFunctionName: String? = nil) {
+            self.functionTags = functionTags
+            self.runtime = runtime
+            self.serverlessFunctionName = serverlessFunctionName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionTags = "functionTags"
+            case runtime = "runtime"
+            case serverlessFunctionName = "serverlessFunctionName"
+        }
     }
 
     public struct ServiceQuotaExceededException: AWSErrorShape {
@@ -9580,14 +11468,14 @@ extension Inspector2 {
         }
     }
 
-    public struct UpdateConfigurationRequest: AWSEncodableShape {
-        /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
-        public let ec2Configuration: Ec2Configuration?
-        /// Specifies how the ECR automated re-scan will be updated for your environment.
-        public let ecrConfiguration: EcrConfiguration?
+    public struct UpdateConfigurationInheritance: AWSEncodableShape {
+        /// The inheritance mode for Amazon EC2 scan configuration. Set to INHERIT_FROM_ADMIN to reset the member account's Amazon EC2 scan configuration to inherit from the delegated administrator. If omitted, the member account's existing Amazon EC2 scan configuration is not changed.
+        public let ec2Configuration: InheritanceMode?
+        /// The inheritance mode for Amazon ECR scan configuration. Set to INHERIT_FROM_ADMIN to reset the member account's Amazon ECR scan configuration to inherit from the delegated administrator. If omitted, the member account's existing Amazon ECR scan configuration is not changed.
+        public let ecrConfiguration: InheritanceMode?
 
         @inlinable
-        public init(ec2Configuration: Ec2Configuration? = nil, ecrConfiguration: EcrConfiguration? = nil) {
+        public init(ec2Configuration: InheritanceMode? = nil, ecrConfiguration: InheritanceMode? = nil) {
             self.ec2Configuration = ec2Configuration
             self.ecrConfiguration = ecrConfiguration
         }
@@ -9598,7 +11486,112 @@ extension Inspector2 {
         }
     }
 
+    public struct UpdateConfigurationRequest: AWSEncodableShape {
+        /// The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to update. When specified, you must be the delegated administrator for this member account. If not specified, the operation updates your own configuration and propagates changes to any member accounts that have not been individually configured.
+        public let accountId: String?
+        /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
+        public let ec2Configuration: Ec2Configuration?
+        /// Specifies how the ECR automated re-scan will be updated for your environment.
+        public let ecrConfiguration: EcrConfiguration?
+        /// Specifies which scan-type configurations to reset to the delegated administrator's inherited values for the targeted member account. Each member of this structure is independently optional. When specified, ec2Configuration and ecrConfiguration must be absent, and accountId must also be present. Only INHERIT_FROM_ADMIN is valid for each member. If not specified, the operation uses the ec2Configuration and ecrConfiguration parameters instead.
+        public let updateConfigurationInheritance: UpdateConfigurationInheritance?
+
+        @inlinable
+        public init(accountId: String? = nil, ec2Configuration: Ec2Configuration? = nil, ecrConfiguration: EcrConfiguration? = nil, updateConfigurationInheritance: UpdateConfigurationInheritance? = nil) {
+            self.accountId = accountId
+            self.ec2Configuration = ec2Configuration
+            self.ecrConfiguration = ecrConfiguration
+            self.updateConfigurationInheritance = updateConfigurationInheritance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case ec2Configuration = "ec2Configuration"
+            case ecrConfiguration = "ecrConfiguration"
+            case updateConfigurationInheritance = "updateConfigurationInheritance"
+        }
+    }
+
     public struct UpdateConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector to update.
+        public let connectorArn: String
+        /// The updated description of the connector.
+        public let description: String?
+        /// The updated provider-specific configuration details for the connector.
+        public let providerDetail: ProviderDetailUpdate?
+
+        @inlinable
+        public init(connectorArn: String, description: String? = nil, providerDetail: ProviderDetailUpdate? = nil) {
+            self.connectorArn = connectorArn
+            self.description = description
+            self.providerDetail = providerDetail
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, max: 256)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, min: 1)
+            try self.validate(self.connectorArn, name: "connectorArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:inspector2:[a-z0-9-]+:[0-9]{12}:connector/([a-f0-9-]+|aws-service-connector/.+/[a-f0-9-]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]*$")
+            try self.providerDetail?.validate(name: "\(name).providerDetail")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case description = "description"
+            case providerDetail = "providerDetail"
+        }
+    }
+
+    public struct UpdateConnectorResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated connector.
+        public let connectorArn: String?
+
+        @inlinable
+        public init(connectorArn: String? = nil) {
+            self.connectorArn = connectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+        }
+    }
+
+    public struct UpdateConnectorScanConfigurationRequest: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services Config connector.
+        public let awsConfigConnectorArn: String
+        /// The scan configuration settings to apply.
+        public let scanConfiguration: ConnectorScanConfiguration
+
+        @inlinable
+        public init(awsConfigConnectorArn: String, scanConfiguration: ConnectorScanConfiguration) {
+            self.awsConfigConnectorArn = awsConfigConnectorArn
+            self.scanConfiguration = scanConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, max: 512)
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, min: 1)
+            try self.validate(self.awsConfigConnectorArn, name: "awsConfigConnectorArn", parent: name, pattern: "^arn:([^:]+):config:([^:]+):([^:]+):connector/([^/]+)/([^/]+)/([^/:\\s]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsConfigConnectorArn = "awsConfigConnectorArn"
+            case scanConfiguration = "scanConfiguration"
+        }
+    }
+
+    public struct UpdateConnectorScanConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -9618,7 +11611,7 @@ extension Inspector2 {
             try self.packagePaths?.forEach {
                 try validate($0, name: "packagePaths[]", parent: name, max: 512)
                 try validate($0, name: "packagePaths[]", parent: name, min: 1)
-                try validate($0, name: "packagePaths[]", parent: name, pattern: "^(?:/(?:\\.[-\\w]+|[-\\w]+(?:\\.[-\\w]+)?))+/?$")
+                try validate($0, name: "packagePaths[]", parent: name, pattern: "^(?:(?:/(?:\\.[-\\w]+|[-\\w]+(?:[. ][-\\w]+)*))+/?|[A-Za-z]:\\\\(?:[-\\w]+(?:[. ][-\\w]+)*\\\\)*[-\\w]+(?:[. ][-\\w]+)*)$")
             }
             try self.validate(self.packagePaths, name: "packagePaths", parent: name, max: 5)
         }
@@ -9802,7 +11795,7 @@ extension Inspector2 {
             try self.orgPackagePaths.forEach {
                 try validate($0, name: "orgPackagePaths[]", parent: name, max: 512)
                 try validate($0, name: "orgPackagePaths[]", parent: name, min: 1)
-                try validate($0, name: "orgPackagePaths[]", parent: name, pattern: "^(?:/(?:\\.[-\\w]+|[-\\w]+(?:\\.[-\\w]+)?))+/?$")
+                try validate($0, name: "orgPackagePaths[]", parent: name, pattern: "^(?:(?:/(?:\\.[-\\w]+|[-\\w]+(?:[. ][-\\w]+)*))+/?|[A-Za-z]:\\\\(?:[-\\w]+(?:[. ][-\\w]+)*\\\\)*[-\\w]+(?:[. ][-\\w]+)*)$")
             }
             try self.validate(self.orgPackagePaths, name: "orgPackagePaths", parent: name, max: 5)
         }
@@ -9845,6 +11838,8 @@ extension Inspector2 {
     }
 
     public struct Usage: AWSDecodableShape {
+        /// The cloud provider associated with the usage information.
+        public let cloudProvider: CloudProvider?
         /// The currency type used when calculating usage data.
         public let currency: Currency?
         /// The estimated monthly cost of Amazon Inspector.
@@ -9855,7 +11850,8 @@ extension Inspector2 {
         public let type: UsageType?
 
         @inlinable
-        public init(currency: Currency? = nil, estimatedMonthlyCost: Double? = nil, total: Double? = nil, type: UsageType? = nil) {
+        public init(cloudProvider: CloudProvider? = nil, currency: Currency? = nil, estimatedMonthlyCost: Double? = nil, total: Double? = nil, type: UsageType? = nil) {
+            self.cloudProvider = cloudProvider
             self.currency = currency
             self.estimatedMonthlyCost = estimatedMonthlyCost
             self.total = total
@@ -9863,6 +11859,7 @@ extension Inspector2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudProvider = "cloudProvider"
             case currency = "currency"
             case estimatedMonthlyCost = "estimatedMonthlyCost"
             case total = "total"
@@ -9885,6 +11882,28 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case usage = "usage"
+        }
+    }
+
+    public struct VMScannerState: AWSDecodableShape {
+        /// Whether the VM scanner is activated.
+        public let activated: Bool?
+        /// The date and time the VM scanner was activated.
+        public let activatedAt: Date?
+        /// The status of the VM scanner.
+        public let status: VMScannerStatus?
+
+        @inlinable
+        public init(activated: Bool? = nil, activatedAt: Date? = nil, status: VMScannerStatus? = nil) {
+            self.activated = activated
+            self.activatedAt = activatedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activated = "activated"
+            case activatedAt = "activatedAt"
+            case status = "status"
         }
     }
 
@@ -9924,6 +11943,257 @@ extension Inspector2 {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct Vm: AWSDecodableShape {
+        /// The execution role of the VM instance.
+        public let executionRole: String?
+        /// The IPv4 addresses of the VM instance.
+        public let ipV4Addresses: [String]?
+        /// The IPv6 addresses of the VM instance.
+        public let ipV6Addresses: [String]?
+        /// The key name associated with the VM instance.
+        public let keyName: String?
+        /// The date and time the VM instance was launched.
+        public let launchedAt: Date?
+        /// The network ID associated with the VM instance.
+        public let networkId: String?
+        /// The platform of the VM instance.
+        public let platform: String?
+        /// The security group IDs associated with the VM instance.
+        public let securityGroupIds: [String]?
+        /// The subnet IDs of the VM instance.
+        public let subnetIds: [String]?
+        /// The type of the VM instance.
+        public let type: String?
+        /// The image reference of the VM instance.
+        public let vmImageReference: String?
+        /// The name of the VM instance.
+        public let vmName: String?
+
+        @inlinable
+        public init(executionRole: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: Date? = nil, networkId: String? = nil, platform: String? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, type: String? = nil, vmImageReference: String? = nil, vmName: String? = nil) {
+            self.executionRole = executionRole
+            self.ipV4Addresses = ipV4Addresses
+            self.ipV6Addresses = ipV6Addresses
+            self.keyName = keyName
+            self.launchedAt = launchedAt
+            self.networkId = networkId
+            self.platform = platform
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.type = type
+            self.vmImageReference = vmImageReference
+            self.vmName = vmName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionRole = "executionRole"
+            case ipV4Addresses = "ipV4Addresses"
+            case ipV6Addresses = "ipV6Addresses"
+            case keyName = "keyName"
+            case launchedAt = "launchedAt"
+            case networkId = "networkId"
+            case platform = "platform"
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+            case type = "type"
+            case vmImageReference = "vmImageReference"
+            case vmName = "vmName"
+        }
+    }
+
+    public struct VmInstanceAggregation: AWSEncodableShape {
+        /// The cloud account IDs to aggregate findings for.
+        public let cloudAccountIds: [StringFilter]?
+        /// The cloud organization IDs to aggregate findings for.
+        public let cloudOrgIds: [StringFilter]?
+        /// The cloud partitions to aggregate findings for. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartitions: [StringFilter]?
+        /// The cloud providers to aggregate findings for. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProviders: [StringFilter]?
+        /// The cloud regions to aggregate findings for. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegions: [StringFilter]?
+        /// The instance tags to aggregate findings for.
+        public let instanceTags: [MapFilter]?
+        /// The operating systems to aggregate findings for.
+        public let operatingSystems: [StringFilter]?
+        /// The resource IDs to aggregate findings for.
+        public let resourceIds: [StringFilter]?
+        /// The value to sort results by. Specify a field name from the aggregation response, such as CRITICAL, HIGH, ALL, or NETWORK_FINDINGS.
+        public let sortBy: VmInstanceSortBy?
+        /// The order to sort results by. Valid values are ASC and DESC.
+        public let sortOrder: SortOrder?
+        /// The VM image references to aggregate findings for.
+        public let vmImageReferences: [StringFilter]?
+
+        @inlinable
+        public init(cloudAccountIds: [StringFilter]? = nil, cloudOrgIds: [StringFilter]? = nil, cloudPartitions: [StringFilter]? = nil, cloudProviders: [StringFilter]? = nil, cloudRegions: [StringFilter]? = nil, instanceTags: [MapFilter]? = nil, operatingSystems: [StringFilter]? = nil, resourceIds: [StringFilter]? = nil, sortBy: VmInstanceSortBy? = nil, sortOrder: SortOrder? = nil, vmImageReferences: [StringFilter]? = nil) {
+            self.cloudAccountIds = cloudAccountIds
+            self.cloudOrgIds = cloudOrgIds
+            self.cloudPartitions = cloudPartitions
+            self.cloudProviders = cloudProviders
+            self.cloudRegions = cloudRegions
+            self.instanceTags = instanceTags
+            self.operatingSystems = operatingSystems
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.vmImageReferences = vmImageReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudAccountIds?.forEach {
+                try $0.validate(name: "\(name).cloudAccountIds[]")
+            }
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, max: 10)
+            try self.validate(self.cloudAccountIds, name: "cloudAccountIds", parent: name, min: 1)
+            try self.cloudOrgIds?.forEach {
+                try $0.validate(name: "\(name).cloudOrgIds[]")
+            }
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, max: 10)
+            try self.validate(self.cloudOrgIds, name: "cloudOrgIds", parent: name, min: 1)
+            try self.cloudPartitions?.forEach {
+                try $0.validate(name: "\(name).cloudPartitions[]")
+            }
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, max: 10)
+            try self.validate(self.cloudPartitions, name: "cloudPartitions", parent: name, min: 1)
+            try self.cloudProviders?.forEach {
+                try $0.validate(name: "\(name).cloudProviders[]")
+            }
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, max: 10)
+            try self.validate(self.cloudProviders, name: "cloudProviders", parent: name, min: 1)
+            try self.cloudRegions?.forEach {
+                try $0.validate(name: "\(name).cloudRegions[]")
+            }
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, max: 10)
+            try self.validate(self.cloudRegions, name: "cloudRegions", parent: name, min: 1)
+            try self.instanceTags?.forEach {
+                try $0.validate(name: "\(name).instanceTags[]")
+            }
+            try self.validate(self.instanceTags, name: "instanceTags", parent: name, max: 10)
+            try self.validate(self.instanceTags, name: "instanceTags", parent: name, min: 1)
+            try self.operatingSystems?.forEach {
+                try $0.validate(name: "\(name).operatingSystems[]")
+            }
+            try self.validate(self.operatingSystems, name: "operatingSystems", parent: name, max: 10)
+            try self.validate(self.operatingSystems, name: "operatingSystems", parent: name, min: 1)
+            try self.resourceIds?.forEach {
+                try $0.validate(name: "\(name).resourceIds[]")
+            }
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, max: 10)
+            try self.validate(self.resourceIds, name: "resourceIds", parent: name, min: 1)
+            try self.vmImageReferences?.forEach {
+                try $0.validate(name: "\(name).vmImageReferences[]")
+            }
+            try self.validate(self.vmImageReferences, name: "vmImageReferences", parent: name, max: 10)
+            try self.validate(self.vmImageReferences, name: "vmImageReferences", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudAccountIds = "cloudAccountIds"
+            case cloudOrgIds = "cloudOrgIds"
+            case cloudPartitions = "cloudPartitions"
+            case cloudProviders = "cloudProviders"
+            case cloudRegions = "cloudRegions"
+            case instanceTags = "instanceTags"
+            case operatingSystems = "operatingSystems"
+            case resourceIds = "resourceIds"
+            case sortBy = "sortBy"
+            case sortOrder = "sortOrder"
+            case vmImageReferences = "vmImageReferences"
+        }
+    }
+
+    public struct VmInstanceAggregationResponse: AWSDecodableShape {
+        /// The account ID associated with the VM instance.
+        public let accountId: String?
+        /// The cloud account ID for the VM instance aggregation.
+        public let cloudAccountId: String?
+        /// The cloud organization ID for the VM instance aggregation.
+        public let cloudOrgId: String?
+        /// The cloud infrastructure partition associated with this VM instance aggregation. Valid values:    aws – Amazon Web Services commercial Regions.    aws-cn – Amazon Web Services China Regions.    aws-us-gov – Amazon Web Services GovCloud (US) Regions.    AzureCloud – Azure commercial Regions.
+        public let cloudPartition: String?
+        /// The cloud service provider associated with this VM instance aggregation. Valid values:    AWS – Findings from Amazon Web Services resources.    AZURE – Findings from Microsoft Azure resources.
+        public let cloudProvider: Provider?
+        /// The cloud Region associated with this VM instance aggregation. The value format depends on the cloud provider:   An Amazon Web Services Region, such as us-east-1.   An Azure region, such as eastus.
+        public let cloudRegion: String?
+        /// The number of active findings with an exploit available for the VM instance.
+        public let exploitAvailableActiveFindingsCount: Int64?
+        /// The number of active findings with a fix available for the VM instance.
+        public let fixAvailableActiveFindingsCount: Int64?
+        /// The number of network findings for the VM instance. This field applies only to Amazon Web Services resources.
+        public let networkFindings: Int64?
+        /// The operating system of the VM instance.
+        public let operatingSystem: String?
+        /// The resource ID for the VM instance.
+        public let resourceId: String
+        public let severityCounts: SeverityCounts?
+        /// The tags attached to the VM instance.
+        public let tags: [String: String]?
+        /// The VM image reference for the VM instance.
+        public let vmImageReference: String?
+
+        @inlinable
+        public init(accountId: String? = nil, cloudAccountId: String? = nil, cloudOrgId: String? = nil, cloudPartition: String? = nil, cloudProvider: Provider? = nil, cloudRegion: String? = nil, exploitAvailableActiveFindingsCount: Int64? = nil, fixAvailableActiveFindingsCount: Int64? = nil, networkFindings: Int64? = nil, operatingSystem: String? = nil, resourceId: String, severityCounts: SeverityCounts? = nil, tags: [String: String]? = nil, vmImageReference: String? = nil) {
+            self.accountId = accountId
+            self.cloudAccountId = cloudAccountId
+            self.cloudOrgId = cloudOrgId
+            self.cloudPartition = cloudPartition
+            self.cloudProvider = cloudProvider
+            self.cloudRegion = cloudRegion
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.networkFindings = networkFindings
+            self.operatingSystem = operatingSystem
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+            self.tags = tags
+            self.vmImageReference = vmImageReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case cloudAccountId = "cloudAccountId"
+            case cloudOrgId = "cloudOrgId"
+            case cloudPartition = "cloudPartition"
+            case cloudProvider = "cloudProvider"
+            case cloudRegion = "cloudRegion"
+            case exploitAvailableActiveFindingsCount = "exploitAvailableActiveFindingsCount"
+            case fixAvailableActiveFindingsCount = "fixAvailableActiveFindingsCount"
+            case networkFindings = "networkFindings"
+            case operatingSystem = "operatingSystem"
+            case resourceId = "resourceId"
+            case severityCounts = "severityCounts"
+            case tags = "tags"
+            case vmImageReference = "vmImageReference"
+        }
+    }
+
+    public struct VmInstanceMetadata: AWSDecodableShape {
+        /// The inventory hash of the VM instance.
+        public let inventoryHash: String?
+        /// The platform of the VM instance.
+        public let platform: VmPlatform?
+        /// The tags associated with the VM instance.
+        public let tags: [String: String]?
+        /// The image reference of the VM instance.
+        public let vmImageReference: String?
+
+        @inlinable
+        public init(inventoryHash: String? = nil, platform: VmPlatform? = nil, tags: [String: String]? = nil, vmImageReference: String? = nil) {
+            self.inventoryHash = inventoryHash
+            self.platform = platform
+            self.tags = tags
+            self.vmImageReference = vmImageReference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inventoryHash = "inventoryHash"
+            case platform = "platform"
+            case tags = "tags"
+            case vmImageReference = "vmImageReference"
         }
     }
 
@@ -10120,6 +12390,42 @@ extension Inspector2 {
 
         private enum CodingKeys: String, CodingKey {
             case gitlabSelfManaged = "gitlabSelfManaged"
+        }
+    }
+
+    public struct ProviderDetailCreate: AWSEncodableShape {
+        /// The Azure-specific details for creating a connector.
+        public let azure: AzureProviderDetailCreate?
+
+        @inlinable
+        public init(azure: AzureProviderDetailCreate? = nil) {
+            self.azure = azure
+        }
+
+        public func validate(name: String) throws {
+            try self.azure?.validate(name: "\(name).azure")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "azure"
+        }
+    }
+
+    public struct ProviderDetailUpdate: AWSEncodableShape {
+        /// The Azure-specific details for updating a connector.
+        public let azure: AzureProviderDetailUpdate?
+
+        @inlinable
+        public init(azure: AzureProviderDetailUpdate? = nil) {
+            self.azure = azure
+        }
+
+        public func validate(name: String) throws {
+            try self.azure?.validate(name: "\(name).azure")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azure = "azure"
         }
     }
 }

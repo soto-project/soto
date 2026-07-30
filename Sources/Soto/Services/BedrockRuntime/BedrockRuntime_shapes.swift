@@ -64,6 +64,7 @@ extension BedrockRuntime {
 
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
+        case system = "system"
         case user = "user"
         public var description: String { return self.rawValue }
     }
@@ -90,6 +91,64 @@ extension BedrockRuntime {
     public enum GuardrailAutomatedReasoningLogicWarningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alwaysFalse = "ALWAYS_FALSE"
         case alwaysTrue = "ALWAYS_TRUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailChecksContentFilterCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hate = "HATE"
+        case insults = "INSULTS"
+        case misconduct = "MISCONDUCT"
+        case sexual = "SEXUAL"
+        case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailChecksPromptAttackCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jailbreak = "JAILBREAK"
+        case promptInjection = "PROMPT_INJECTION"
+        case promptLeakage = "PROMPT_LEAKAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailChecksRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assistant = "assistant"
+        case system = "system"
+        case user = "user"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailChecksSensitiveInformationEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case address = "ADDRESS"
+        case age = "AGE"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
+        case creditDebitCardCvv = "CREDIT_DEBIT_CARD_CVV"
+        case creditDebitCardExpiry = "CREDIT_DEBIT_CARD_EXPIRY"
+        case creditDebitCardNumber = "CREDIT_DEBIT_CARD_NUMBER"
+        case driverId = "DRIVER_ID"
+        case email = "EMAIL"
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        case ipAddress = "IP_ADDRESS"
+        case licensePlate = "LICENSE_PLATE"
+        case macAddress = "MAC_ADDRESS"
+        case name = "NAME"
+        case password = "PASSWORD"
+        case phone = "PHONE"
+        case pin = "PIN"
+        case swiftCode = "SWIFT_CODE"
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+        case url = "URL"
+        case usBankAccountNumber = "US_BANK_ACCOUNT_NUMBER"
+        case usBankRoutingNumber = "US_BANK_ROUTING_NUMBER"
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        case usPassportNumber = "US_PASSPORT_NUMBER"
+        case usSocialSecurityNumber = "US_SOCIAL_SECURITY_NUMBER"
+        case username = "USERNAME"
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
         public var description: String { return self.rawValue }
     }
 
@@ -2892,6 +2951,360 @@ extension BedrockRuntime {
         }
     }
 
+    public struct GuardrailChecksConfig: AWSEncodableShape {
+        /// The content filter check configuration.
+        public let contentFilter: GuardrailChecksContentFilterConfig?
+        /// The prompt attack check configuration.
+        public let promptAttack: GuardrailChecksPromptAttackConfig?
+        /// The sensitive information check configuration.
+        public let sensitiveInformation: GuardrailChecksSensitiveInformationConfig?
+
+        @inlinable
+        public init(contentFilter: GuardrailChecksContentFilterConfig? = nil, promptAttack: GuardrailChecksPromptAttackConfig? = nil, sensitiveInformation: GuardrailChecksSensitiveInformationConfig? = nil) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+
+        public func validate(name: String) throws {
+            try self.contentFilter?.validate(name: "\(name).contentFilter")
+            try self.promptAttack?.validate(name: "\(name).promptAttack")
+            try self.sensitiveInformation?.validate(name: "\(name).sensitiveInformation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentFilter = "contentFilter"
+            case promptAttack = "promptAttack"
+            case sensitiveInformation = "sensitiveInformation"
+        }
+    }
+
+    public struct GuardrailChecksContentFilterCategoryConfig: AWSEncodableShape {
+        /// The content filter category to evaluate.
+        public let category: GuardrailChecksContentFilterCategory
+
+        @inlinable
+        public init(category: GuardrailChecksContentFilterCategory) {
+            self.category = category
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+        }
+    }
+
+    public struct GuardrailChecksContentFilterConfig: AWSEncodableShape {
+        /// The content filter categories to evaluate.
+        public let categories: [GuardrailChecksContentFilterCategoryConfig]
+
+        @inlinable
+        public init(categories: [GuardrailChecksContentFilterCategoryConfig]) {
+            self.categories = categories
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.categories, name: "categories", parent: name, max: 5)
+            try self.validate(self.categories, name: "categories", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
+    public struct GuardrailChecksContentFilterResult: AWSDecodableShape {
+        /// The per-category content filter results.
+        public let results: [GuardrailChecksContentFilterResultEntry]
+
+        @inlinable
+        public init(results: [GuardrailChecksContentFilterResultEntry]) {
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "results"
+        }
+    }
+
+    public struct GuardrailChecksContentFilterResultEntry: AWSDecodableShape {
+        /// The content filter category that was evaluated.
+        public let category: GuardrailChecksContentFilterCategory
+        /// The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.
+        public let severityScore: Double
+
+        @inlinable
+        public init(category: GuardrailChecksContentFilterCategory, severityScore: Double) {
+            self.category = category
+            self.severityScore = severityScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case severityScore = "severityScore"
+        }
+    }
+
+    public struct GuardrailChecksContentFilterUsage: AWSDecodableShape {
+        /// The number of text units consumed by the content filter check.
+        public let textUnits: Int
+
+        @inlinable
+        public init(textUnits: Int) {
+            self.textUnits = textUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textUnits = "textUnits"
+        }
+    }
+
+    public struct GuardrailChecksMessage: AWSEncodableShape {
+        /// The content blocks for the message.
+        public let content: [GuardrailChecksContentBlock]
+        /// The role of the message sender.
+        public let role: GuardrailChecksRole
+
+        @inlinable
+        public init(content: [GuardrailChecksContentBlock], role: GuardrailChecksRole) {
+            self.content = content
+            self.role = role
+        }
+
+        public func validate(name: String) throws {
+            try self.content.forEach {
+                try $0.validate(name: "\(name).content[]")
+            }
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case role = "role"
+        }
+    }
+
+    public struct GuardrailChecksPromptAttackCategoryConfig: AWSEncodableShape {
+        /// The prompt attack category to evaluate.
+        public let category: GuardrailChecksPromptAttackCategory
+
+        @inlinable
+        public init(category: GuardrailChecksPromptAttackCategory) {
+            self.category = category
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+        }
+    }
+
+    public struct GuardrailChecksPromptAttackConfig: AWSEncodableShape {
+        /// The prompt attack categories to evaluate.
+        public let categories: [GuardrailChecksPromptAttackCategoryConfig]
+
+        @inlinable
+        public init(categories: [GuardrailChecksPromptAttackCategoryConfig]) {
+            self.categories = categories
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.categories, name: "categories", parent: name, max: 3)
+            try self.validate(self.categories, name: "categories", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categories = "categories"
+        }
+    }
+
+    public struct GuardrailChecksPromptAttackResult: AWSDecodableShape {
+        /// The per-category prompt attack results.
+        public let results: [GuardrailChecksPromptAttackResultEntry]
+
+        @inlinable
+        public init(results: [GuardrailChecksPromptAttackResultEntry]) {
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "results"
+        }
+    }
+
+    public struct GuardrailChecksPromptAttackResultEntry: AWSDecodableShape {
+        /// The prompt attack category that was evaluated.
+        public let category: GuardrailChecksPromptAttackCategory
+        /// The severity score for the category, ranging from 0.0 to 1.0. Higher values indicate greater severity.
+        public let severityScore: Double
+
+        @inlinable
+        public init(category: GuardrailChecksPromptAttackCategory, severityScore: Double) {
+            self.category = category
+            self.severityScore = severityScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "category"
+            case severityScore = "severityScore"
+        }
+    }
+
+    public struct GuardrailChecksPromptAttackUsage: AWSDecodableShape {
+        /// The number of text units consumed by the prompt attack check.
+        public let textUnits: Int
+
+        @inlinable
+        public init(textUnits: Int) {
+            self.textUnits = textUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textUnits = "textUnits"
+        }
+    }
+
+    public struct GuardrailChecksResults: AWSDecodableShape {
+        /// The content filter check results.
+        public let contentFilter: GuardrailChecksContentFilterResult?
+        /// The prompt attack check results.
+        public let promptAttack: GuardrailChecksPromptAttackResult?
+        /// The sensitive information check results.
+        public let sensitiveInformation: GuardrailChecksSensitiveInformationResult?
+
+        @inlinable
+        public init(contentFilter: GuardrailChecksContentFilterResult? = nil, promptAttack: GuardrailChecksPromptAttackResult? = nil, sensitiveInformation: GuardrailChecksSensitiveInformationResult? = nil) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentFilter = "contentFilter"
+            case promptAttack = "promptAttack"
+            case sensitiveInformation = "sensitiveInformation"
+        }
+    }
+
+    public struct GuardrailChecksSensitiveInformationConfig: AWSEncodableShape {
+        /// The sensitive information entity types to detect.
+        public let entities: [GuardrailChecksSensitiveInformationEntityConfig]
+
+        @inlinable
+        public init(entities: [GuardrailChecksSensitiveInformationEntityConfig]) {
+            self.entities = entities
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entities, name: "entities", parent: name, max: 31)
+            try self.validate(self.entities, name: "entities", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "entities"
+        }
+    }
+
+    public struct GuardrailChecksSensitiveInformationEntityConfig: AWSEncodableShape {
+        /// The PII entity type to detect.
+        public let type: GuardrailChecksSensitiveInformationEntityType
+
+        @inlinable
+        public init(type: GuardrailChecksSensitiveInformationEntityType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailChecksSensitiveInformationResult: AWSDecodableShape {
+        /// The detected sensitive information entities.
+        public let results: [GuardrailChecksSensitiveInformationResultEntry]
+        /// Specifies whether the results were truncated because the number of detected entities exceeded the maximum limit.
+        public let truncated: Bool?
+
+        @inlinable
+        public init(results: [GuardrailChecksSensitiveInformationResultEntry], truncated: Bool? = nil) {
+            self.results = results
+            self.truncated = truncated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "results"
+            case truncated = "truncated"
+        }
+    }
+
+    public struct GuardrailChecksSensitiveInformationResultEntry: AWSDecodableShape {
+        /// The start character offset of the detected entity within the content block.
+        public let beginOffset: Int
+        /// The confidence score for the detection, ranging from 0.0 to 1.0. Higher values indicate greater confidence.
+        public let confidenceScore: Double
+        /// The zero-based index of the content block within the message where the entity was detected.
+        public let contentIndex: Int
+        /// The end character offset of the detected entity within the content block.
+        public let endOffset: Int
+        /// The zero-based index of the message in the input messages array where the entity was detected.
+        public let messageIndex: Int
+        /// The PII entity type that was detected.
+        public let type: GuardrailChecksSensitiveInformationEntityType
+
+        @inlinable
+        public init(beginOffset: Int, confidenceScore: Double, contentIndex: Int, endOffset: Int, messageIndex: Int, type: GuardrailChecksSensitiveInformationEntityType) {
+            self.beginOffset = beginOffset
+            self.confidenceScore = confidenceScore
+            self.contentIndex = contentIndex
+            self.endOffset = endOffset
+            self.messageIndex = messageIndex
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "beginOffset"
+            case confidenceScore = "confidenceScore"
+            case contentIndex = "contentIndex"
+            case endOffset = "endOffset"
+            case messageIndex = "messageIndex"
+            case type = "type"
+        }
+    }
+
+    public struct GuardrailChecksSensitiveInformationUsage: AWSDecodableShape {
+        /// The number of text units consumed by the sensitive information check.
+        public let textUnits: Int
+
+        @inlinable
+        public init(textUnits: Int) {
+            self.textUnits = textUnits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textUnits = "textUnits"
+        }
+    }
+
+    public struct GuardrailChecksUsageResults: AWSDecodableShape {
+        /// The text unit usage for the content filter check.
+        public let contentFilter: GuardrailChecksContentFilterUsage?
+        /// The text unit usage for the prompt attack check.
+        public let promptAttack: GuardrailChecksPromptAttackUsage?
+        /// The text unit usage for the sensitive information check.
+        public let sensitiveInformation: GuardrailChecksSensitiveInformationUsage?
+
+        @inlinable
+        public init(contentFilter: GuardrailChecksContentFilterUsage? = nil, promptAttack: GuardrailChecksPromptAttackUsage? = nil, sensitiveInformation: GuardrailChecksSensitiveInformationUsage? = nil) {
+            self.contentFilter = contentFilter
+            self.promptAttack = promptAttack
+            self.sensitiveInformation = sensitiveInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentFilter = "contentFilter"
+            case promptAttack = "promptAttack"
+            case sensitiveInformation = "sensitiveInformation"
+        }
+    }
+
     public struct GuardrailConfiguration: AWSEncodableShape {
         /// The identifier for the guardrail.
         public let guardrailIdentifier: String?
@@ -3557,6 +3970,50 @@ extension BedrockRuntime {
         }
     }
 
+    public struct InvokeGuardrailChecksRequest: AWSEncodableShape {
+        /// The inline check configurations that specify which guardrail checks to run against the messages.
+        public let checks: GuardrailChecksConfig
+        /// The messages to evaluate against the specified guardrail checks. Each message includes a role and one or more content blocks.
+        public let messages: [GuardrailChecksMessage]
+
+        @inlinable
+        public init(checks: GuardrailChecksConfig, messages: [GuardrailChecksMessage]) {
+            self.checks = checks
+            self.messages = messages
+        }
+
+        public func validate(name: String) throws {
+            try self.checks.validate(name: "\(name).checks")
+            try self.messages.forEach {
+                try $0.validate(name: "\(name).messages[]")
+            }
+            try self.validate(self.messages, name: "messages", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checks = "checks"
+            case messages = "messages"
+        }
+    }
+
+    public struct InvokeGuardrailChecksResponse: AWSDecodableShape {
+        /// The per-check results containing findings from the guardrail evaluation.
+        public let results: GuardrailChecksResults
+        /// The per-check text unit consumption for the guardrail evaluation.
+        public let usage: GuardrailChecksUsageResults
+
+        @inlinable
+        public init(results: GuardrailChecksResults, usage: GuardrailChecksUsageResults) {
+            self.results = results
+            self.usage = usage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "results"
+            case usage = "usage"
+        }
+    }
+
     public struct InvokeModelRequest: AWSEncodableShape {
         /// The desired MIME type of the inference body in the response. The default value is application/json.
         public let accept: String?
@@ -3572,13 +4029,15 @@ extension BedrockRuntime {
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Key-value pairs that you can use to filter invocation logs.
+        public let requestMetadata: String?
         /// Specifies the processing tier type used for serving the request.
         public let serviceTier: ServiceTierType?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, requestMetadata: String? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -3586,6 +4045,7 @@ extension BedrockRuntime {
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
             self.performanceConfigLatency = performanceConfigLatency
+            self.requestMetadata = requestMetadata
             self.serviceTier = serviceTier
             self.trace = trace
         }
@@ -3600,6 +4060,7 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
             request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            request.encodeHeader(self.requestMetadata, key: "X-Amzn-Bedrock-Request-Metadata")
             request.encodeHeader(self.serviceTier, key: "X-Amzn-Bedrock-Service-Tier")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
@@ -3612,6 +4073,7 @@ extension BedrockRuntime {
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deployment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(default-)?prompt-router/[a-zA-Z0-9-:.]+$)$")
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, max: 8500)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3727,13 +4189,15 @@ extension BedrockRuntime {
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Key-value pairs that you can use to filter invocation logs.
+        public let requestMetadata: String?
         /// Specifies the processing tier type used for serving the request.
         public let serviceTier: ServiceTierType?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, requestMetadata: String? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -3741,6 +4205,7 @@ extension BedrockRuntime {
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
             self.performanceConfigLatency = performanceConfigLatency
+            self.requestMetadata = requestMetadata
             self.serviceTier = serviceTier
             self.trace = trace
         }
@@ -3755,6 +4220,7 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
             request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            request.encodeHeader(self.requestMetadata, key: "X-Amzn-Bedrock-Request-Metadata")
             request.encodeHeader(self.serviceTier, key: "X-Amzn-Bedrock-Service-Tier")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
@@ -3767,6 +4233,7 @@ extension BedrockRuntime {
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deployment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(default-)?prompt-router/[a-zA-Z0-9-:.]+$)$")
+            try self.validate(self.requestMetadata, name: "requestMetadata", parent: name, max: 8500)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4432,7 +4899,7 @@ extension BedrockRuntime {
             }
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
-            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_.:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4522,7 +4989,7 @@ extension BedrockRuntime {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
-            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_.:-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4689,6 +5156,24 @@ extension BedrockRuntime {
         @inlinable
         public init(text: String? = nil) {
             self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct GuardrailChecksContentBlock: AWSEncodableShape {
+        /// The text content to evaluate.
+        public let text: String?
+
+        @inlinable
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

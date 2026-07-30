@@ -78,6 +78,41 @@ public struct ApplicationSignals: AWSService {
 
     // MARK: API Calls
 
+    /// Deletes multiple instrumentation configurations in a single request.
+    /// Supports two mutually exclusive selection methods:
+    /// - By scope: Delete all configurations matching a Service + Environment + InstrumentationType
+    /// - By ARN list: Delete specific configurations by providing a list of resource ARNs
+    @Sendable
+    @inlinable
+    public func batchDeleteInstrumentationConfigurations(_ input: BatchDeleteInstrumentationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteInstrumentationConfigurationsResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteInstrumentationConfigurations", 
+            path: "/batch-delete-instrumentation-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes multiple instrumentation configurations in a single request.
+    /// Supports two mutually exclusive selection methods:
+    /// - By scope: Delete all configurations matching a Service + Environment + InstrumentationType
+    /// - By ARN list: Delete specific configurations by providing a list of resource ARNs
+    ///
+    /// Parameters:
+    ///   - deletionTarget: The deletion target - either bulk by scope or targeted by ARN list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteInstrumentationConfigurations(
+        deletionTarget: BatchDeleteDeletionTarget,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteInstrumentationConfigurationsResponse {
+        let input = BatchDeleteInstrumentationConfigurationsRequest(
+            deletionTarget: deletionTarget
+        )
+        return try await self.batchDeleteInstrumentationConfigurations(input, logger: logger)
+    }
+
     /// Use this operation to retrieve one or more service level objective (SLO) budget reports. An error budget is the amount of time or requests in an unhealthy state that your service can accumulate during an interval before your overall SLO budget health is breached and the SLO is considered to be unmet. For example, an SLO with a threshold of 99.95% and a monthly interval translates to an error budget of 21.9 minutes of downtime in a 30-day month. Budget reports include a health indicator, the attainment value, and remaining budget. For more information about SLO error budgets, see  SLO concepts.
     @Sendable
     @inlinable
@@ -145,6 +180,62 @@ public struct ApplicationSignals: AWSService {
         return try await self.batchUpdateExclusionWindows(input, logger: logger)
     }
 
+    /// Creates a dynamic instrumentation configuration for a specific code or endpoint location within a service and environment. Configurations are immutable after creation. For BREAKPOINT type configurations, they expire after 24 hours unless a shorter expiration is provided. For PROBE type configurations, they persist until explicitly deleted; an expiration cannot be set for PROBE configurations. If a configuration already exists for the same service, environment, signal type, and location, this operation returns a conflict instead of overwriting it. Use attribute filters and capture settings to control where the instrumentation runs and which data is collected.
+    @Sendable
+    @inlinable
+    public func createInstrumentationConfiguration(_ input: CreateInstrumentationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstrumentationConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateInstrumentationConfiguration", 
+            path: "/create-instrumentation-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a dynamic instrumentation configuration for a specific code or endpoint location within a service and environment. Configurations are immutable after creation. For BREAKPOINT type configurations, they expire after 24 hours unless a shorter expiration is provided. For PROBE type configurations, they persist until explicitly deleted; an expiration cannot be set for PROBE configurations. If a configuration already exists for the same service, environment, signal type, and location, this operation returns a conflict instead of overwriting it. Use attribute filters and capture settings to control where the instrumentation runs and which data is collected.
+    ///
+    /// Parameters:
+    ///   - attributeFilters: Client-side filters that target specific instances. Each object in the array is AND-matched on its keys, and multiple objects are OR-matched to decide where to apply the instrumentation.
+    ///   - captureConfiguration: Specifies what to capture when the instrumentation point is hit. Specify CodeCapture for code-level capture settings.
+    ///   - description: An optional short description (up to 50 characters) that explains the purpose of this instrumentation.
+    ///   - environment: The environment that the service is running in, such as eks:cluster-prod/namespace or ec2:production.
+    ///   - expiresAt: For BREAKPOINT: optional, defaults to 24 hours, must be between 5 min and 24 hours.
+    ///   - instrumentationType: Type of instrumentation: BREAKPOINT (temporary) or PROBE (permanent)
+    ///   - location: The location where instrumentation should be applied. Specify a CodeLocation for code-level instrumentation.
+    ///   - service: The name of the service to instrument. This should match the service.name resource attribute reported by the application.
+    ///   - signalType: The telemetry signal type to emit for this instrumentation. The supported value is SNAPSHOT.
+    ///   - tags: An optional list of key-value pairs to associate with the instrumentation configuration. Tags can help you organize and categorize your resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInstrumentationConfiguration(
+        attributeFilters: [[String: String]]? = nil,
+        captureConfiguration: CaptureConfiguration,
+        description: String? = nil,
+        environment: String,
+        expiresAt: Date? = nil,
+        instrumentationType: InstrumentationType,
+        location: Location,
+        service: String,
+        signalType: DynamicInstrumentationSignalType,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInstrumentationConfigurationResponse {
+        let input = CreateInstrumentationConfigurationRequest(
+            attributeFilters: attributeFilters, 
+            captureConfiguration: captureConfiguration, 
+            description: description, 
+            environment: environment, 
+            expiresAt: expiresAt, 
+            instrumentationType: instrumentationType, 
+            location: location, 
+            service: service, 
+            signalType: signalType, 
+            tags: tags
+        )
+        return try await self.createInstrumentationConfiguration(input, logger: logger)
+    }
+
     /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability. You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within a specified total time interval. For each period of time, Application Signals determines whether the application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead, the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it. An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold, while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role, if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     @Sendable
     @inlinable
@@ -161,7 +252,9 @@ public struct ApplicationSignals: AWSService {
     /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability. You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within a specified total time interval. For each period of time, Application Signals determines whether the application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead, the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it. An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold, while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role, if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     ///
     /// Parameters:
+    ///   - autoInvestigationEnabled: Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
     ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
+    ///   - createRecommendedSlo: Set this to true to create a recommended SLO out of the box. When set to true, you don't need to specify the MetricThreshold or ComparisonOperator in the SliConfig or RequestBasedSliConfig. The default value is false. This is supported for SLOs on a service, service operation, or a dependency.
     ///   - description: An optional description for this SLO.
     ///   - goal: This structure contains the attributes that determine the goal of the SLO.
     ///   - name: A name for this SLO.
@@ -171,7 +264,9 @@ public struct ApplicationSignals: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createServiceLevelObjective(
+        autoInvestigationEnabled: Bool? = nil,
         burnRateConfigurations: [BurnRateConfiguration]? = nil,
+        createRecommendedSlo: Bool? = nil,
         description: String? = nil,
         goal: Goal? = nil,
         name: String,
@@ -181,7 +276,9 @@ public struct ApplicationSignals: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateServiceLevelObjectiveOutput {
         let input = CreateServiceLevelObjectiveInput(
+            autoInvestigationEnabled: autoInvestigationEnabled, 
             burnRateConfigurations: burnRateConfigurations, 
+            createRecommendedSlo: createRecommendedSlo, 
             description: description, 
             goal: goal, 
             name: name, 
@@ -203,6 +300,47 @@ public struct ApplicationSignals: AWSService {
             serviceConfig: self.config, 
             logger: logger
         )
+    }
+
+    /// Deletes the specified instrumentation configuration. SDKs remove the instrumentation during their next sync after the configuration is deleted or expires.
+    @Sendable
+    @inlinable
+    public func deleteInstrumentationConfiguration(_ input: DeleteInstrumentationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstrumentationConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteInstrumentationConfiguration", 
+            path: "/delete-instrumentation-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified instrumentation configuration. SDKs remove the instrumentation during their next sync after the configuration is deleted or expires.
+    ///
+    /// Parameters:
+    ///   - environment: Environment name for the instrumentation configuration.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - locationIdentifier: Location identifier - either full code location or a pre-computed hash.
+    ///   - service: Service name for the instrumentation configuration.
+    ///   - signalType: Signal type for the instrumentation configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteInstrumentationConfiguration(
+        environment: String,
+        instrumentationType: InstrumentationType,
+        locationIdentifier: LocationIdentifier,
+        service: String,
+        signalType: DynamicInstrumentationSignalType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteInstrumentationConfigurationResponse {
+        let input = DeleteInstrumentationConfigurationRequest(
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            locationIdentifier: locationIdentifier, 
+            service: service, 
+            signalType: signalType
+        )
+        return try await self.deleteInstrumentationConfiguration(input, logger: logger)
     }
 
     /// Deletes the specified service level objective.
@@ -232,6 +370,103 @@ public struct ApplicationSignals: AWSService {
             id: id
         )
         return try await self.deleteServiceLevelObjective(input, logger: logger)
+    }
+
+    /// Returns the details of a single instrumentation configuration identified by service, environment, signal type, and location. Use this to audit or display configuration details.
+    @Sendable
+    @inlinable
+    public func getInstrumentationConfiguration(_ input: GetInstrumentationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstrumentationConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetInstrumentationConfiguration", 
+            path: "/get-instrumentation-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details of a single instrumentation configuration identified by service, environment, signal type, and location. Use this to audit or display configuration details.
+    ///
+    /// Parameters:
+    ///   - environment: Environment name for the instrumentation configuration.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - locationIdentifier: Location identifier - either full code location or a pre-computed hash.
+    ///   - service: Service name for the instrumentation configuration.
+    ///   - signalType: Signal type for the instrumentation configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInstrumentationConfiguration(
+        environment: String,
+        instrumentationType: InstrumentationType,
+        locationIdentifier: LocationIdentifier,
+        service: String,
+        signalType: DynamicInstrumentationSignalType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInstrumentationConfigurationResponse {
+        let input = GetInstrumentationConfigurationRequest(
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            locationIdentifier: locationIdentifier, 
+            service: service, 
+            signalType: signalType
+        )
+        return try await self.getInstrumentationConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configuration was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to ACTIVE events from the last hour.
+    @Sendable
+    @inlinable
+    public func getInstrumentationConfigurationStatus(_ input: GetInstrumentationConfigurationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInstrumentationConfigurationStatusResponse {
+        try await self.client.execute(
+            operation: "GetInstrumentationConfigurationStatus", 
+            path: "/get-instrumentation-configuration-status", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status history for a single instrumentation configuration during a specified time range. The response lists when the configuration was ACTIVE, READY, ERROR, or DISABLED. If no status or time window is provided, the operation defaults to ACTIVE events from the last hour.
+    ///
+    /// Parameters:
+    ///   - endTime: The end of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    ///   - environment: Environment name for the instrumentation configuration.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - locationIdentifier: Location identifier - either full code location or a pre-computed hash.
+    ///   - maxResults: The maximum number of status events to return in one call. The default is 60.
+    ///   - nextToken: Use the token returned by a previous call to retrieve the next page of status events.
+    ///   - service: Service name for the instrumentation configuration.
+    ///   - signalType: Signal type for the instrumentation configuration.
+    ///   - startTime: The start of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    ///   - status: The single status to query for. If omitted, only ACTIVE status events are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInstrumentationConfigurationStatus(
+        endTime: Date? = nil,
+        environment: String,
+        instrumentationType: InstrumentationType,
+        locationIdentifier: LocationIdentifier,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        service: String,
+        signalType: DynamicInstrumentationSignalType,
+        startTime: Date? = nil,
+        status: InstrumentationConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInstrumentationConfigurationStatusResponse {
+        let input = GetInstrumentationConfigurationStatusRequest(
+            endTime: endTime, 
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            locationIdentifier: locationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            service: service, 
+            signalType: signalType, 
+            startTime: startTime, 
+            status: status
+        )
+        return try await self.getInstrumentationConfigurationStatus(input, logger: logger)
     }
 
     /// Returns information about a service discovered by Application Signals.
@@ -314,7 +549,7 @@ public struct ApplicationSignals: AWSService {
     /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
     ///
     /// Parameters:
-    ///   - auditors: A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase  Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time period).     service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
+    ///   - auditors: A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase  Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time period).     service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase    change_indicator - ChangeIndicatorAuditor: Detects change events (deployments, configuration changes) that occurred within 10 minutes before and during a detected anomaly, and surfaces them as findings with deployment timestamps in the Analysis phase. When changes are detected, the top_contributor auditor skips its analysis to avoid redundancy.     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
     ///   - auditTargets: A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities.
     ///   - detailLevel: The level of details of the audit findings. Supported values: BRIEF, DETAILED.
     ///   - endTime: The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
@@ -419,6 +654,50 @@ public struct ApplicationSignals: AWSService {
             nextToken: nextToken
         )
         return try await self.listGroupingAttributeDefinitions(input, logger: logger)
+    }
+
+    /// Returns all active instrumentation configurations for a service and environment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details.
+    @Sendable
+    @inlinable
+    public func listInstrumentationConfigurations(_ input: ListInstrumentationConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InstrumentationConfigurationsPage {
+        try await self.client.execute(
+            operation: "ListInstrumentationConfigurations", 
+            path: "/list-instrumentation-configurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns all active instrumentation configurations for a service and environment. SDKs use this operation to sync configurations and apply client-side filters locally. Include the previous SyncedAt value to perform incremental syncs. When no changes are detected, the response sets Changed to false and omits configuration details.
+    ///
+    /// Parameters:
+    ///   - environment: The environment that the service is running in.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - maxResults: The maximum number of configurations to return in one call. The default is 50 and the maximum is 100.
+    ///   - nextToken: Use the token returned by a previous call to retrieve the next page of configurations.
+    ///   - service: The name of the service to retrieve instrumentation configurations for.
+    ///   - syncedAt: The timestamp from the last successful sync. When provided, the response returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInstrumentationConfigurations(
+        environment: String,
+        instrumentationType: InstrumentationType,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        service: String,
+        syncedAt: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InstrumentationConfigurationsPage {
+        let input = ListInstrumentationConfigurationsRequest(
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            service: service, 
+            syncedAt: syncedAt
+        )
+        return try await self.listInstrumentationConfigurations(input, logger: logger)
     }
 
     /// Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
@@ -558,7 +837,8 @@ public struct ApplicationSignals: AWSService {
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.  When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
-    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
+    ///   - metricSource: Identifies the metric source to filter SLOs by.
+    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   Service   CloudWatch metric   AppMonitor   Canary
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
     ///   - operationName: The name of the operation that this SLO is associated with.
     ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
@@ -569,6 +849,7 @@ public struct ApplicationSignals: AWSService {
         includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
+        metricSource: MetricSource? = nil,
         metricSourceTypes: [MetricSourceType]? = nil,
         nextToken: String? = nil,
         operationName: String? = nil,
@@ -580,6 +861,7 @@ public struct ApplicationSignals: AWSService {
             includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
+            metricSource: metricSource, 
             metricSourceTypes: metricSourceTypes, 
             nextToken: nextToken, 
             operationName: operationName, 
@@ -778,6 +1060,41 @@ public struct ApplicationSignals: AWSService {
         return try await self.putGroupingConfiguration(input, logger: logger)
     }
 
+    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY, ERROR, and DISABLED when the status changes. Report ACTIVE periodically (for example, every minute) while instrumentation is running.
+    @Sendable
+    @inlinable
+    public func reportInstrumentationConfigurationStatus(_ input: ReportInstrumentationConfigurationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReportInstrumentationConfigurationStatusResponse {
+        try await self.client.execute(
+            operation: "ReportInstrumentationConfigurationStatus", 
+            path: "/report-instrumentation-configuration-status", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reports the status of one or more instrumentation configurations from SDK instances. Use this to record when configurations become ready, hit errors, become active, or are disabled by limits. Report READY, ERROR, and DISABLED when the status changes. Report ACTIVE periodically (for example, every minute) while instrumentation is running.
+    ///
+    /// Parameters:
+    ///   - configurations: An array of configuration status reports (up to 100) that include the instrumentation type, signal type, location hash, status, timestamp, and optional error cause.
+    ///   - environment: The environment that the service is running in.
+    ///   - service: The service that the reported configurations belong to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func reportInstrumentationConfigurationStatus(
+        configurations: [InstrumentationConfigurationStatusReport],
+        environment: String,
+        service: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ReportInstrumentationConfigurationStatusResponse {
+        let input = ReportInstrumentationConfigurationStatusRequest(
+            configurations: configurations, 
+            environment: environment, 
+            service: service
+        )
+        return try await self.reportInstrumentationConfigurationStatus(input, logger: logger)
+    }
+
     /// Enables this Amazon Web Services account to be able to use CloudWatch Application Signals by creating the AWSServiceRoleForCloudWatchApplicationSignals service-linked role. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups    A service-linked CloudTrail event channel is created to process CloudTrail events and return change event information. This includes last deployment time, userName, eventName, and other event metadata. After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see  Enabling Application Signals.
     @Sendable
     @inlinable
@@ -884,6 +1201,7 @@ public struct ApplicationSignals: AWSService {
     /// Updates an existing service level objective (SLO). If you omit parameters, the previous values of those parameters are retained.  You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
     ///
     /// Parameters:
+    ///   - autoInvestigationEnabled: Indicates whether DevOps Agent will automatically investigate this SLO when it is breached
     ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
     ///   - description: An optional description for the SLO.
     ///   - goal: A structure that contains the attributes that determine the goal of the SLO. This includes the time period for evaluation and the attainment threshold.
@@ -893,6 +1211,7 @@ public struct ApplicationSignals: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateServiceLevelObjective(
+        autoInvestigationEnabled: Bool? = nil,
         burnRateConfigurations: [BurnRateConfiguration]? = nil,
         description: String? = nil,
         goal: Goal? = nil,
@@ -902,6 +1221,7 @@ public struct ApplicationSignals: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateServiceLevelObjectiveOutput {
         let input = UpdateServiceLevelObjectiveInput(
+            autoInvestigationEnabled: autoInvestigationEnabled, 
             burnRateConfigurations: burnRateConfigurations, 
             description: description, 
             goal: goal, 
@@ -926,6 +1246,64 @@ extension ApplicationSignals {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ApplicationSignals {
+    /// Return PaginatorSequence for operation ``getInstrumentationConfigurationStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getInstrumentationConfigurationStatusPaginator(
+        _ input: GetInstrumentationConfigurationStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetInstrumentationConfigurationStatusRequest, GetInstrumentationConfigurationStatusResponse> {
+        return .init(
+            input: input,
+            command: self.getInstrumentationConfigurationStatus,
+            inputKey: \GetInstrumentationConfigurationStatusRequest.nextToken,
+            outputKey: \GetInstrumentationConfigurationStatusResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getInstrumentationConfigurationStatus(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endTime: The end of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    ///   - environment: Environment name for the instrumentation configuration.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - locationIdentifier: Location identifier - either full code location or a pre-computed hash.
+    ///   - maxResults: The maximum number of status events to return in one call. The default is 60.
+    ///   - service: Service name for the instrumentation configuration.
+    ///   - signalType: Signal type for the instrumentation configuration.
+    ///   - startTime: The start of the time range to retrieve status events for. StartTime and EndTime must both be provided together or both be omitted. When both are omitted, the time range defaults to the last hour.
+    ///   - status: The single status to query for. If omitted, only ACTIVE status events are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getInstrumentationConfigurationStatusPaginator(
+        endTime: Date? = nil,
+        environment: String,
+        instrumentationType: InstrumentationType,
+        locationIdentifier: LocationIdentifier,
+        maxResults: Int? = nil,
+        service: String,
+        signalType: DynamicInstrumentationSignalType,
+        startTime: Date? = nil,
+        status: InstrumentationConfigurationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetInstrumentationConfigurationStatusRequest, GetInstrumentationConfigurationStatusResponse> {
+        let input = GetInstrumentationConfigurationStatusRequest(
+            endTime: endTime, 
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            locationIdentifier: locationIdentifier, 
+            maxResults: maxResults, 
+            service: service, 
+            signalType: signalType, 
+            startTime: startTime, 
+            status: status
+        )
+        return self.getInstrumentationConfigurationStatusPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEntityEvents(_:logger:)``.
     ///
     /// - Parameters:
@@ -967,6 +1345,52 @@ extension ApplicationSignals {
             startTime: startTime
         )
         return self.listEntityEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInstrumentationConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInstrumentationConfigurationsPaginator(
+        _ input: ListInstrumentationConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInstrumentationConfigurationsRequest, InstrumentationConfigurationsPage> {
+        return .init(
+            input: input,
+            command: self.listInstrumentationConfigurations,
+            inputKey: \ListInstrumentationConfigurationsRequest.nextToken,
+            outputKey: \InstrumentationConfigurationsPage.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInstrumentationConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - environment: The environment that the service is running in.
+    ///   - instrumentationType: Type of instrumentation configuration (BREAKPOINT or PROBE).
+    ///   - maxResults: The maximum number of configurations to return in one call. The default is 50 and the maximum is 100.
+    ///   - service: The name of the service to retrieve instrumentation configurations for.
+    ///   - syncedAt: The timestamp from the last successful sync. When provided, the response returns Changed as false if nothing is new since this time, or returns the latest configurations when changes exist.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInstrumentationConfigurationsPaginator(
+        environment: String,
+        instrumentationType: InstrumentationType,
+        maxResults: Int? = nil,
+        service: String,
+        syncedAt: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInstrumentationConfigurationsRequest, InstrumentationConfigurationsPage> {
+        let input = ListInstrumentationConfigurationsRequest(
+            environment: environment, 
+            instrumentationType: instrumentationType, 
+            maxResults: maxResults, 
+            service: service, 
+            syncedAt: syncedAt
+        )
+        return self.listInstrumentationConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listServiceDependencies(_:logger:)``.
@@ -1117,7 +1541,8 @@ extension ApplicationSignals {
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.  When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
-    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
+    ///   - metricSource: Identifies the metric source to filter SLOs by.
+    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   Service   CloudWatch metric   AppMonitor   Canary
     ///   - operationName: The name of the operation that this SLO is associated with.
     ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
     ///   - logger: Logger used for logging
@@ -1127,6 +1552,7 @@ extension ApplicationSignals {
         includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
+        metricSource: MetricSource? = nil,
         metricSourceTypes: [MetricSourceType]? = nil,
         operationName: String? = nil,
         sloOwnerAwsAccountId: String? = nil,
@@ -1137,6 +1563,7 @@ extension ApplicationSignals {
             includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
+            metricSource: metricSource, 
             metricSourceTypes: metricSourceTypes, 
             operationName: operationName, 
             sloOwnerAwsAccountId: sloOwnerAwsAccountId
@@ -1283,6 +1710,24 @@ extension ApplicationSignals {
     }
 }
 
+extension ApplicationSignals.GetInstrumentationConfigurationStatusRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ApplicationSignals.GetInstrumentationConfigurationStatusRequest {
+        return .init(
+            endTime: self.endTime,
+            environment: self.environment,
+            instrumentationType: self.instrumentationType,
+            locationIdentifier: self.locationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            service: self.service,
+            signalType: self.signalType,
+            startTime: self.startTime,
+            status: self.status
+        )
+    }
+}
+
 extension ApplicationSignals.ListEntityEventsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListEntityEventsInput {
@@ -1292,6 +1737,20 @@ extension ApplicationSignals.ListEntityEventsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime
+        )
+    }
+}
+
+extension ApplicationSignals.ListInstrumentationConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListInstrumentationConfigurationsRequest {
+        return .init(
+            environment: self.environment,
+            instrumentationType: self.instrumentationType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            service: self.service,
+            syncedAt: self.syncedAt
         )
     }
 }
@@ -1341,6 +1800,7 @@ extension ApplicationSignals.ListServiceLevelObjectivesInput: AWSPaginateToken {
             includeLinkedAccounts: self.includeLinkedAccounts,
             keyAttributes: self.keyAttributes,
             maxResults: self.maxResults,
+            metricSource: self.metricSource,
             metricSourceTypes: self.metricSourceTypes,
             nextToken: token,
             operationName: self.operationName,

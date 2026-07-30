@@ -198,7 +198,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.batchStartRecommendations(input, logger: logger)
     }
 
-    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.  Required permissions: dms:CancelMetadataModelConversion. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func cancelMetadataModelConversion(_ input: CancelMetadataModelConversionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataModelConversionResponse {
@@ -211,7 +211,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.  Required permissions: dms:CancelMetadataModelConversion. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -230,7 +230,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.cancelMetadataModelConversion(input, logger: logger)
     }
 
-    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.  Required permissions: dms:CancelMetadataModelCreation. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func cancelMetadataModelCreation(_ input: CancelMetadataModelCreationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataModelCreationResponse {
@@ -243,7 +243,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.  Required permissions: dms:CancelMetadataModelCreation. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -347,7 +347,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createDataMigration(input, logger: logger)
     }
 
-    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.   Required permissions: dms:CreateDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func createDataProvider(_ input: CreateDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProviderResponse {
@@ -360,12 +360,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.   Required permissions: dms:CreateDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - dataProviderName: A user-friendly name for the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - tags: One or more tags to be assigned to the data provider.
     ///   - virtual: Indicates whether the data provider is virtual.
@@ -611,7 +611,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createFleetAdvisorCollector(input, logger: logger)
     }
 
-    /// Creates the instance profile using the specified parameters.
+    /// Creates the instance profile using the specified parameters.  Required permissions: dms:CreateInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func createInstanceProfile(_ input: CreateInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInstanceProfileResponse {
@@ -624,14 +624,14 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates the instance profile using the specified parameters.
+    /// Creates the instance profile using the specified parameters.  Required permissions: dms:CreateInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - availabilityZone: The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your  data provider is created, for examplem us-east-1d.
+    ///   - availabilityZone: The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your data provider is created, for examplem us-east-1d.
     ///   - description: A user-friendly description of the instance profile.
     ///   - instanceProfileName: A user-friendly name for the instance profile.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt  the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
-    ///   - networkType: Specifies the network type for the instance profile. A value of IPV4  represents an instance profile with IPv4 network type and only supports IPv4 addressing.  A value of IPV6 represents an instance profile with IPv6 network type  and only supports IPv6 addressing. A value of DUAL represents an instance  profile with dual network type that supports IPv4 and IPv6 addressing.
+    ///   - networkType: Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
     ///   - publiclyAccessible: Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
     ///   - subnetGroupIdentifier: A subnet group to associate with the instance profile.
     ///   - tags: One or more tags to be assigned to the instance profile.
@@ -664,7 +664,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createInstanceProfile(input, logger: logger)
     }
 
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.  Required permissions: dms:CreateMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func createMigrationProject(_ input: CreateMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationProjectResponse {
@@ -677,7 +677,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.  Required permissions: dms:CreateMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - description: A user-friendly description of the migration project.
@@ -687,7 +687,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - sourceDataProviderDescriptors: Information about the source data provider, including the name, ARN, and Secrets Manager parameters.
     ///   - tags: One or more tags to be assigned to the migration project.
     ///   - targetDataProviderDescriptors: Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
-    ///   - transformationRules: The settings in JSON format for migration rules. Migration rules make it possible for you to change  the object names according to the rules that you specify. For example, you can change an object name  to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    ///   - transformationRules: A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion.  Homogeneous data migrations do not support transformation rules.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMigrationProject(
@@ -1040,7 +1040,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteDataMigration(input, logger: logger)
     }
 
-    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
+    /// Deletes the specified data provider.  Required permissions: dms:DeleteDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     @Sendable
     @inlinable
     public func deleteDataProvider(_ input: DeleteDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataProviderResponse {
@@ -1053,7 +1053,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
+    /// Deletes the specified data provider.  Required permissions: dms:DeleteDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
     /// Parameters:
     ///   - dataProviderIdentifier: The identifier of the data provider to delete.
@@ -1193,7 +1193,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteFleetAdvisorDatabases(input, logger: logger)
     }
 
-    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
+    /// Deletes the specified instance profile.  Required permissions: dms:DeleteInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     @Sendable
     @inlinable
     public func deleteInstanceProfile(_ input: DeleteInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceProfileResponse {
@@ -1206,7 +1206,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
+    /// Deletes the specified instance profile.  Required permissions: dms:DeleteInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
     /// Parameters:
     ///   - instanceProfileIdentifier: The identifier of the instance profile to delete.
@@ -1222,7 +1222,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteInstanceProfile(input, logger: logger)
     }
 
-    /// Deletes the specified migration project.  The migration project must be closed before you can delete it.
+    /// Deletes the specified migration project.  Required permissions: dms:DeleteMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.  The migration project must be closed before you can delete it.
     @Sendable
     @inlinable
     public func deleteMigrationProject(_ input: DeleteMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMigrationProjectResponse {
@@ -1235,7 +1235,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified migration project.  The migration project must be closed before you can delete it.
+    /// Deletes the specified migration project.  Required permissions: dms:DeleteMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.  The migration project must be closed before you can delete it.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) of the migration project to delete.
@@ -1542,7 +1542,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeConnections(input, logger: logger)
     }
 
-    /// Returns configuration parameters for a schema conversion project.
+    /// Returns configuration parameters for a schema conversion project.  Required permissions: dms:DescribeConversionConfiguration. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeConversionConfiguration(_ input: DescribeConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConversionConfigurationResponse {
@@ -1555,7 +1555,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns configuration parameters for a schema conversion project.
+    /// Returns configuration parameters for a schema conversion project.  Required permissions: dms:DescribeConversionConfiguration. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) for the schema conversion project to describe.
@@ -1612,7 +1612,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeDataMigrations(input, logger: logger)
     }
 
-    /// Returns a paginated list of data providers for your account in the current region.
+    /// Returns a paginated list of data providers for your account in the current region.  Required permissions: dms:ListDataProviders. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeDataProviders(_ input: DescribeDataProvidersMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataProvidersResponse {
@@ -1625,10 +1625,10 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of data providers for your account in the current region.
+    /// Returns a paginated list of data providers for your account in the current region.  Required permissions: dms:ListDataProviders. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
+    ///   - filters: The filters to apply to the data providers. The following filter names are supported:    data-provider-identifier – The data provider name or ARN.
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
@@ -1907,7 +1907,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeEvents(input, logger: logger)
     }
 
-    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Returns a paginated list of extension pack installation requests for a migration project, initiated by StartExtensionPackAssociation.  Required permissions: dms:ListExtensionPacks. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeExtensionPackAssociations(_ input: DescribeExtensionPackAssociationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExtensionPackAssociationsResponse {
@@ -1920,13 +1920,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Returns a paginated list of extension pack installation requests for a migration project, initiated by StartExtensionPackAssociation.  Required permissions: dms:ListExtensionPacks. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the extension pack associations described in the form of key-value pairs.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
-    ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) for the migration project.
+    ///   - filters: The filters to apply to the extension pack installation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeExtensionPackAssociations(
@@ -2137,7 +2137,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeFleetAdvisorSchemas(input, logger: logger)
     }
 
-    /// Returns a paginated list of instance profiles for your account in the current region.
+    /// Returns a paginated list of instance profiles for your account in the current region.  Required permissions: dms:ListInstanceProfiles. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeInstanceProfiles(_ input: DescribeInstanceProfilesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceProfilesResponse {
@@ -2150,11 +2150,11 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of instance profiles for your account in the current region.
+    /// Returns a paginated list of instance profiles for your account in the current region.  Required permissions: dms:ListInstanceProfiles. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - filters: The filters to apply to the instance profiles. The following filter names are supported:    instance-profile-identifier – The instance profile name or ARN.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2172,7 +2172,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeInstanceProfiles(input, logger: logger)
     }
 
-    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.  Required permissions: dms:DescribeMetadataModel. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModel(_ input: DescribeMetadataModelMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelResponse {
@@ -2185,12 +2185,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.  Required permissions: dms:DescribeMetadataModel. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
-    ///   - selectionRules: The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - selectionRules: A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeMetadataModel(
@@ -2207,7 +2207,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModel(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    /// Returns a paginated list of metadata model assessment requests for a migration project, initiated by StartMetadataModelAssessment.  Required permissions: dms:ListMetadataModelAssessments. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelAssessments(_ input: DescribeMetadataModelAssessmentsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelAssessmentsResponse {
@@ -2220,13 +2220,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model assessments for your account in the current region.
+    /// Returns a paginated list of metadata model assessment requests for a migration project, initiated by StartMetadataModelAssessment.  Required permissions: dms:ListMetadataModelAssessments. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model assessments described in the form of key-value pairs.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
-    ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) of the migration project.
+    ///   - filters: The filters to apply to the metadata model assessment requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeMetadataModelAssessments(
@@ -2245,7 +2245,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelAssessments(input, logger: logger)
     }
 
-    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.  Required permissions: dms:DescribeMetadataModelChildren. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelChildren(_ input: DescribeMetadataModelChildrenMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelChildrenResponse {
@@ -2258,14 +2258,14 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.  Required permissions: dms:DescribeMetadataModelChildren. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - marker: Specifies the unique pagination token that indicates where the next page should start. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
-    ///   - selectionRules: The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - selectionRules: A JSON string that identifies the metadata model whose children to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeMetadataModelChildren(
@@ -2286,7 +2286,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelChildren(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model conversions for a migration project.
+    /// Returns a paginated list of metadata model conversion requests for a migration project, initiated by StartMetadataModelConversion. To cancel a queued or in-progress request, call CancelMetadataModelConversion.  Required permissions: dms:ListMetadataModelConversions. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelConversions(_ input: DescribeMetadataModelConversionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelConversionsResponse {
@@ -2299,10 +2299,10 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model conversions for a migration project.
+    /// Returns a paginated list of metadata model conversion requests for a migration project, initiated by StartMetadataModelConversion. To cancel a queued or in-progress request, call CancelMetadataModelConversion.  Required permissions: dms:ListMetadataModelConversions. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model conversions described in the form of key-value pairs.
+    ///   - filters: The filters to apply to the metadata model conversion requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -2324,7 +2324,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelConversions(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model creation requests for a migration project.
+    /// Returns a paginated list of metadata model creation requests for a migration project, initiated by StartMetadataModelCreation. To cancel a queued or in-progress request, call CancelMetadataModelCreation.  Required permissions: dms:DescribeMetadataModelCreations. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelCreations(_ input: DescribeMetadataModelCreationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelCreationsResponse {
@@ -2337,12 +2337,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model creation requests for a migration project.
+    /// Returns a paginated list of metadata model creation requests for a migration project, initiated by StartMetadataModelCreation. To cancel a queued or in-progress request, call CancelMetadataModelCreation.  Required permissions: dms:DescribeMetadataModelCreations. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
-    ///   - maxRecords: The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model creation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2362,7 +2362,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelCreations(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportAsScript.  Required permissions: dms:ListMetadataModelExports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelExportsAsScript(_ input: DescribeMetadataModelExportsAsScriptMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelExportsAsScriptResponse {
@@ -2375,12 +2375,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportAsScript.  Required permissions: dms:ListMetadataModelExports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model exports described in the form of key-value pairs.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2400,7 +2400,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelExportsAsScript(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportToTarget.  Required permissions: dms:ListMetadataModelExports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelExportsToTarget(_ input: DescribeMetadataModelExportsToTargetMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelExportsToTargetResponse {
@@ -2413,12 +2413,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model exports.
+    /// Returns a paginated list of metadata model export requests for a migration project, initiated by StartMetadataModelExportToTarget.  Required permissions: dms:ListMetadataModelExports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model exports described in the form of key-value pairs.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2438,7 +2438,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelExportsToTarget(input, logger: logger)
     }
 
-    /// Returns a paginated list of metadata model imports.
+    /// Returns a paginated list of metadata model import requests for a migration project, initiated by StartMetadataModelImport.  Required permissions: dms:DescribeMetadataModelImports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMetadataModelImports(_ input: DescribeMetadataModelImportsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelImportsResponse {
@@ -2451,12 +2451,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of metadata model imports.
+    /// Returns a paginated list of metadata model import requests for a migration project, initiated by StartMetadataModelImport.  Required permissions: dms:DescribeMetadataModelImports. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the metadata model imports described in the form of key-value pairs.
-    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
-    ///   - maxRecords: A paginated list of metadata model imports.
+    ///   - filters: The filters to apply to the metadata model import requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -2476,7 +2476,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelImports(input, logger: logger)
     }
 
-    /// Returns a paginated list of migration projects for your account in the current region.
+    /// Returns a paginated list of migration projects for your account in the current region.  Required permissions: dms:ListMigrationProjects. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func describeMigrationProjects(_ input: DescribeMigrationProjectsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMigrationProjectsResponse {
@@ -2489,10 +2489,10 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of migration projects for your account in the current region.
+    /// Returns a paginated list of migration projects for your account in the current region.  Required permissions: dms:ListMigrationProjects. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
+    ///   - filters: The filters to apply to the migration projects. The following filter names are supported:    migration-project-identifier – The migration project name or ARN.    instance-profile-identifier – The instance profile name or ARN.    data-provider-identifier – The source or target data provider name or ARN.    source-data-provider-identifier – The source data provider name or ARN.    target-data-provider-identifier – The target data provider name or ARN.
     ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger use during operation
@@ -3117,7 +3117,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeTableStatistics(input, logger: logger)
     }
 
-    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.   Required permissions: dms:ExportMetadataModelAssessment. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func exportMetadataModelAssessment(_ input: ExportMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportMetadataModelAssessmentResponse {
@@ -3130,13 +3130,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.   Required permissions: dms:ExportMetadataModelAssessment. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - assessmentReportTypes: The file format of the assessment file.
     ///   - fileName: The name of the assessment file to create in your Amazon S3 bucket.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - selectionRules: A value that specifies the database objects to assess.
+    ///   - selectionRules: A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func exportMetadataModelAssessment(
@@ -3155,7 +3155,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.exportMetadataModelAssessment(input, logger: logger)
     }
 
-    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    /// Converts source selection rules into their target counterparts for schema conversion operations.  Required permissions: dms:GetTargetSelectionRules. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func getTargetSelectionRules(_ input: GetTargetSelectionRulesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTargetSelectionRulesResponse {
@@ -3168,11 +3168,11 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    /// Converts source selection rules into their target counterparts for schema conversion operations.  Required permissions: dms:GetTargetSelectionRules. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - selectionRules: The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+    ///   - selectionRules: A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.   Does not support category-name in the object locator.   Up to 10 rules are allowed.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTargetSelectionRules(
@@ -3260,7 +3260,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Modifies the specified schema conversion configuration using the provided parameters.
+    /// Modifies the specified schema conversion configuration using the provided parameters.   Required permissions: dms:UpdateConversionConfiguration. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func modifyConversionConfiguration(_ input: ModifyConversionConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyConversionConfigurationResponse {
@@ -3273,10 +3273,10 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified schema conversion configuration using the provided parameters.
+    /// Modifies the specified schema conversion configuration using the provided parameters.   Required permissions: dms:UpdateConversionConfiguration. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - conversionConfiguration: The new conversion configuration.
+    ///   - conversionConfiguration: A JSON string that contains the schema conversion settings to update. For the format and available settings, see Specifying schema conversion settings for migration projects. Usage:   Include only the sections and keys to change. The operation merges supplied values with the existing configuration.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger use during operation
     @inlinable
@@ -3345,7 +3345,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.modifyDataMigration(input, logger: logger)
     }
 
-    /// Modifies the specified data provider using the provided settings.  You must remove the data provider from all migration projects before you can modify it.
+    /// Modifies the specified data provider using the provided settings.  Required permissions: dms:UpdateDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.  You must remove the data provider from all migration projects before you can modify it.
     @Sendable
     @inlinable
     public func modifyDataProvider(_ input: ModifyDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyDataProviderResponse {
@@ -3358,13 +3358,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified data provider using the provided settings.  You must remove the data provider from all migration projects before you can modify it.
+    /// Modifies the specified data provider using the provided settings.  Required permissions: dms:UpdateDataProvider. For more information, see Actions, resources, and condition keys for Database Migration Service.  You must remove the data provider from all migration projects before you can modify it.
     ///
     /// Parameters:
     ///   - dataProviderIdentifier: The identifier of the data provider. Identifiers must begin with a letter  and must contain only ASCII letters, digits, and hyphens. They can't end with  a hyphen, or contain two consecutive hyphens.
     ///   - dataProviderName: The name of the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
     ///   - exactSettings: If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - virtual: Indicates whether the data provider is virtual.
@@ -3561,7 +3561,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.modifyEventSubscription(input, logger: logger)
     }
 
-    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
+    /// Modifies the specified instance profile using the provided parameters.  Required permissions: dms:UpdateInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     @Sendable
     @inlinable
     public func modifyInstanceProfile(_ input: ModifyInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceProfileResponse {
@@ -3574,7 +3574,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
+    /// Modifies the specified instance profile using the provided parameters.  Required permissions: dms:UpdateInstanceProfile. For more information, see Actions, resources, and condition keys for Database Migration Service.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
     /// Parameters:
     ///   - availabilityZone: The Availability Zone where the instance profile runs.
@@ -3582,7 +3582,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - instanceProfileIdentifier: The identifier of the instance profile. Identifiers must begin with a letter and must contain  only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive  hyphens.
     ///   - instanceProfileName: A user-friendly name for the instance profile.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt  the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
-    ///   - networkType: Specifies the network type for the instance profile. A value of IPV4  represents an instance profile with IPv4 network type and only supports IPv4 addressing.  A value of IPV6 represents an instance profile with IPv6 network type  and only supports IPv6 addressing. A value of DUAL represents an instance  profile with dual network type that supports IPv4 and IPv6 addressing.
+    ///   - networkType: Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
     ///   - publiclyAccessible: Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
     ///   - subnetGroupIdentifier: A subnet group to associate with the instance profile.
     ///   - vpcSecurityGroups: Specifies the VPC security groups to be used with the instance profile.  The VPC security group must work with the VPC containing the instance profile.
@@ -3614,7 +3614,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.modifyInstanceProfile(input, logger: logger)
     }
 
-    /// Modifies the specified migration project using the provided parameters.  The migration project must be closed before you can modify it.
+    /// Modifies the specified migration project using the provided parameters.  Required permissions: dms:UpdateMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.  The migration project must be closed before you can modify it.
     @Sendable
     @inlinable
     public func modifyMigrationProject(_ input: ModifyMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyMigrationProjectResponse {
@@ -3627,7 +3627,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified migration project using the provided parameters.  The migration project must be closed before you can modify it.
+    /// Modifies the specified migration project using the provided parameters.  Required permissions: dms:UpdateMigrationProject. For more information, see Actions, resources, and condition keys for Database Migration Service.  The migration project must be closed before you can modify it.
     ///
     /// Parameters:
     ///   - description: A user-friendly description of the migration project.
@@ -3637,7 +3637,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - schemaConversionApplicationAttributes: The schema conversion application attributes, including the Amazon S3 bucket name and Amazon S3 role ARN.
     ///   - sourceDataProviderDescriptors: Information about the source data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
     ///   - targetDataProviderDescriptors: Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
-    ///   - transformationRules: The settings in JSON format for migration rules. Migration rules make it possible for you to change  the object names according to the rules that you specify. For example, you can change an object name  to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    ///   - transformationRules: A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion.  Homogeneous data migrations do not support transformation rules.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyMigrationProject(
@@ -4118,7 +4118,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startDataMigration(input, logger: logger)
     }
 
-    /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in DMS Schema Conversion. To check the status of the request, call DescribeExtensionPackAssociations using the returned RequestIdentifier as a filter.  Required permissions: dms:AssociateExtensionPack. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startExtensionPackAssociation(_ input: StartExtensionPackAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExtensionPackAssociationResponse {
@@ -4131,7 +4131,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    /// Queues the installation of the extension pack on your target database. If other requests created by Start* operations are already in the migration project's queue, the installation begins after they complete. This operation requires a non-virtual target data provider. If the extension pack already exists, the operation reinstalls it. To ensure compatibility, reconvert your database objects if the version has changed since your last conversion. For more information, see Using extension packs in DMS Schema Conversion. To check the status of the request, call DescribeExtensionPackAssociations using the returned RequestIdentifier as a filter.  Required permissions: dms:AssociateExtensionPack. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -4147,7 +4147,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startExtensionPackAssociation(input, logger: logger)
     }
 
-    /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
+    /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the assessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with StartMetadataModelImport before calling this operation. To check the status of the assessment request, call DescribeMetadataModelAssessments using the returned RequestIdentifier as a filter. To export the conversion assessment report after the request completes successfully, call ExportMetadataModelAssessment.  Required permissions: dms:StartMetadataModelAssessment. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelAssessment(_ input: StartMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelAssessmentResponse {
@@ -4160,11 +4160,11 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
+    /// Queues an assessment of the selected source metadata models (database objects such as tables, views, and procedures) to evaluate conversion complexity to the target database format. If other requests created by Start* operations are already in the migration project's queue, the assessment begins after they complete. The assessment request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with StartMetadataModelImport before calling this operation. To check the status of the assessment request, call DescribeMetadataModelAssessments using the returned RequestIdentifier as a filter. To export the conversion assessment report after the request completes successfully, call ExportMetadataModelAssessment.  Required permissions: dms:StartMetadataModelAssessment. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - selectionRules: A value that specifies the database objects to assess.
+    ///   - selectionRules: A JSON string that identifies the metadata models to assess. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports explicit, include, and exclude rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelAssessment(
@@ -4179,7 +4179,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelAssessment(input, logger: logger)
     }
 
-    /// Converts your source database objects to a format compatible with the target database.
+    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they complete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with StartMetadataModelImport before calling this operation.  If converted objects already exist in the target metadata tree, the conversion overwrites them, including any manual edits.  To check the status of the conversion request, call DescribeMetadataModelConversions using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call CancelMetadataModelConversion with the returned RequestIdentifier. After the conversion completes successfully:   To export a post-conversion assessment report, call ExportMetadataModelAssessment.   To retrieve converted code, use any of the following options:    DescribeMetadataModel and DescribeMetadataModelChildren – navigate the target metadata tree and retrieve converted definitions.    StartMetadataModelExportAsScript – export as data definition language (DDL) scripts to your Amazon S3 bucket.    StartMetadataModelExportToTarget – apply directly to your target database.      Required permissions: dms:StartMetadataModelConversion. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelConversion(_ input: StartMetadataModelConversionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelConversionResponse {
@@ -4192,11 +4192,11 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Converts your source database objects to a format compatible with the target database.
+    /// Queues a conversion of the selected source metadata models (database objects such as tables, views, and procedures) to the target database format. If other requests created by Start* operations are already in the migration project's queue, the conversion begins after they complete. The conversion request loads metadata models that are not yet in the metadata tree, but does not reload metadata models that are already present. If your source database has changed since the metadata was loaded, refresh the affected metadata models with StartMetadataModelImport before calling this operation.  If converted objects already exist in the target metadata tree, the conversion overwrites them, including any manual edits.  To check the status of the conversion request, call DescribeMetadataModelConversions using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call CancelMetadataModelConversion with the returned RequestIdentifier. After the conversion completes successfully:   To export a post-conversion assessment report, call ExportMetadataModelAssessment.   To retrieve converted code, use any of the following options:    DescribeMetadataModel and DescribeMetadataModelChildren – navigate the target metadata tree and retrieve converted definitions.    StartMetadataModelExportAsScript – export as data definition language (DDL) scripts to your Amazon S3 bucket.    StartMetadataModelExportToTarget – apply directly to your target database.      Required permissions: dms:StartMetadataModelConversion. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - selectionRules: A value that specifies the database objects to convert.
+    ///   - selectionRules: A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports explicit, include, and exclude rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelConversion(
@@ -4211,7 +4211,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelConversion(input, logger: logger)
     }
 
-    /// Creates source metadata model of the given type with the specified properties for schema conversion operations.  This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete.  This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths.  To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call CancelMetadataModelCreation with the returned RequestIdentifier.  Calling StartMetadataModelImport with Refresh deletes metadata models created by this operation.  After the creation completes successfully:   To evaluate conversion complexity, call StartMetadataModelAssessment.   To convert to the target database format, call StartMetadataModelConversion.    Required permissions: dms:StartMetadataModelCreation. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelCreation(_ input: StartMetadataModelCreationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelCreationResponse {
@@ -4224,13 +4224,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates source metadata model of the given type with the specified properties for schema conversion operations.  This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    /// Queues the creation of a metadata model in the source metadata tree. If other requests created by Start* operations are already in the migration project's queue, the creation begins after they complete.  This operation supports only Microsoft SQL Server to Aurora PostgreSQL and Microsoft SQL Server to Amazon RDS for PostgreSQL conversion paths.  To check the status of the creation request, call DescribeMetadataModelCreations using the returned RequestIdentifier as a filter. To cancel a queued or in-progress request, call CancelMetadataModelCreation with the returned RequestIdentifier.  Calling StartMetadataModelImport with Refresh deletes metadata models created by this operation.  After the creation completes successfully:   To evaluate conversion complexity, call StartMetadataModelAssessment.   To convert to the target database format, call StartMetadataModelConversion.    Required permissions: dms:StartMetadataModelCreation. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - metadataModelName: The name of the metadata model.
+    ///   - metadataModelName: The name for the metadata model to use in subsequent operations.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - properties: The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
-    ///   - selectionRules: The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+    ///   - properties: The properties of the metadata model.
+    ///   - selectionRules: A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelCreation(
@@ -4249,7 +4249,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelCreation(input, logger: logger)
     }
 
-    /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models imported from the database are skipped. To check the status of the export request, call DescribeMetadataModelExportsAsScript using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelExportAsScripts. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelExportAsScript(_ input: StartMetadataModelExportAsScriptMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelExportAsScriptResponse {
@@ -4262,13 +4262,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
+    /// Queues an export of metadata models (database objects such as tables, views, and procedures) as a data definition language (DDL) script. The script is stored as a ZIP archive in the Amazon S3 bucket associated with the migration project. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. When exporting from the target metadata tree, the export applies only to metadata models created by conversion. Metadata models imported from the database are skipped. To check the status of the export request, call DescribeMetadataModelExportsAsScript using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelExportAsScripts. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
-    ///   - fileName: The name of the model file to create in the Amazon S3 bucket.
+    ///   - fileName: The name for the exported file. When you omit this parameter, the service generates a name from the data provider engine name and an export timestamp.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - origin: Whether to export the metadata model from the source or the target.
-    ///   - selectionRules: A value that specifies the database objects to export.
+    ///   - origin: Specifies the metadata tree to export from.
+    ///   - selectionRules: A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports explicit, include, and exclude rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelExportAsScript(
@@ -4287,7 +4287,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelExportAsScript(input, logger: logger)
     }
 
-    /// Applies converted database objects to your target database.
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped.  If objects with the same name already exist on the target database, the export overwrites them.  The operation installs the extension pack on the target database. For more information, see Using extension packs in DMS Schema Conversion. To check the status of the export request, call DescribeMetadataModelExportsToTarget using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelExportToTarget. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelExportToTarget(_ input: StartMetadataModelExportToTargetMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelExportToTargetResponse {
@@ -4300,12 +4300,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Applies converted database objects to your target database.
+    /// Queues an export of the selected converted metadata models (database objects such as tables, views, and procedures) to your target database. If other requests created by Start* operations are already in the migration project's queue, the export begins after they complete. This operation requires a non-virtual target data provider. The export applies only metadata models created by conversion. Metadata models imported from the database are skipped.  If objects with the same name already exist on the target database, the export overwrites them.  The operation installs the extension pack on the target database. For more information, see Using extension packs in DMS Schema Conversion. To check the status of the export request, call DescribeMetadataModelExportsToTarget using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelExportToTarget. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - overwriteExtensionPack: Whether to overwrite the migration project extension pack. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
-    ///   - selectionRules: A value that specifies the database objects to export.
+    ///   - overwriteExtensionPack: Specifies whether to overwrite the extension pack if one already exists on the target database. The default value is true.
+    ///   - selectionRules: A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only target selection rules, where server-name in the object locator matches the target data provider.   Supports explicit, include, and exclude rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelExportToTarget(
@@ -4322,7 +4322,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startMetadataModelExportToTarget(input, logger: logger)
     }
 
-    /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelImport. For more information, see Actions, resources, and condition keys for Database Migration Service.
     @Sendable
     @inlinable
     public func startMetadataModelImport(_ input: StartMetadataModelImportMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelImportResponse {
@@ -4335,13 +4335,13 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Loads the metadata for all the dependent database objects of the parent object. This operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+    /// Queues an import of metadata models (database objects such as tables, views, and procedures) from your data provider into the metadata tree. If other requests created by Start* operations are already in the migration project's queue, the import begins after they complete. To check the status of the import request, call DescribeMetadataModelImports using the returned RequestIdentifier as a filter.  Required permissions: dms:StartMetadataModelImport. For more information, see Actions, resources, and condition keys for Database Migration Service.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
-    ///   - origin: Whether to load metadata to the source or target database.
-    ///   - refresh: If true, DMS loads metadata for the specified objects from the source database.
-    ///   - selectionRules: A value that specifies the database objects to import.
+    ///   - origin: Specifies the metadata tree to import into.  You cannot import from a virtual target data provider.
+    ///   - refresh: Specifies whether to refresh the selected metadata models from the data provider. When true, the import reloads the selected metadata models with current definitions and removes their existing subtree. When false (default), the import loads the full subtree that has not yet been loaded into the metadata tree.
+    ///   - selectionRules: A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports explicit, include, and exclude rule actions.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataModelImport(
@@ -4918,7 +4918,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeDataProviders(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
+    ///   - filters: The filters to apply to the data providers. The following filter names are supported:    data-provider-identifier – The data provider name or ARN.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5195,9 +5195,9 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeExtensionPackAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the extension pack associations described in the form of key-value pairs.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
-    ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) for the migration project.
+    ///   - filters: The filters to apply to the extension pack installation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
     public func describeExtensionPackAssociationsPaginator(
@@ -5417,7 +5417,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeInstanceProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
+    ///   - filters: The filters to apply to the instance profiles. The following filter names are supported:    instance-profile-identifier – The instance profile name or ARN.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5454,9 +5454,9 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelAssessments(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model assessments described in the form of key-value pairs.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
-    ///   - migrationProjectIdentifier: The name or Amazon Resource Name (ARN) of the migration project.
+    ///   - filters: The filters to apply to the metadata model assessment requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
     public func describeMetadataModelAssessmentsPaginator(
@@ -5497,7 +5497,7 @@ extension DatabaseMigrationService {
     ///   - maxRecords: The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
-    ///   - selectionRules: The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - selectionRules: A JSON string that identifies the metadata model whose children to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeMetadataModelChildrenPaginator(
@@ -5537,7 +5537,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelConversions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model conversions described in the form of key-value pairs.
+    ///   - filters: The filters to apply to the metadata model conversion requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
@@ -5577,8 +5577,8 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelCreations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
-    ///   - maxRecords: The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model creation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
@@ -5617,8 +5617,8 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelExportsAsScript(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model exports described in the form of key-value pairs.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
@@ -5657,8 +5657,8 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelExportsToTarget(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model exports described in the form of key-value pairs.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
@@ -5697,8 +5697,8 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMetadataModelImports(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the metadata model imports described in the form of key-value pairs.
-    ///   - maxRecords: A paginated list of metadata model imports.
+    ///   - filters: The filters to apply to the metadata model import requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
     ///   - logger: Logger used for logging
     @inlinable
@@ -5737,7 +5737,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeMigrationProjects(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
+    ///   - filters: The filters to apply to the migration projects. The following filter names are supported:    migration-project-identifier – The migration project name or ARN.    instance-profile-identifier – The instance profile name or ARN.    data-provider-identifier – The source or target data provider name or ARN.    source-data-provider-identifier – The source data provider name or ARN.    target-data-provider-identifier – The target data provider name or ARN.
     ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
     ///   - logger: Logger used for logging
     @inlinable
@@ -6887,6 +6887,420 @@ extension DatabaseMigrationService {
             maxRecords: maxRecords
         )
         try await self.waitUntilEndpointDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeExtensionPackAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExtensionPackAssociated(
+        _ input: DescribeExtensionPackAssociationsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeExtensionPackAssociationsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeExtensionPackAssociations
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeExtensionPackAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the extension pack installation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilExtensionPackAssociated(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeExtensionPackAssociationsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilExtensionPackAssociated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelAssessed(
+        _ input: DescribeMetadataModelAssessmentsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelAssessmentsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeMetadataModelAssessments
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model assessment requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelAssessed(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelAssessmentsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelAssessed(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelConversions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelConversionCancelled(
+        _ input: DescribeMetadataModelConversionsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelConversionsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "CANCELED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeMetadataModelConversions
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelConversions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model conversion requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelConversionCancelled(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelConversionsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelConversionCancelled(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelConversions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelConverted(
+        _ input: DescribeMetadataModelConversionsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelConversionsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeMetadataModelConversions
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelConversions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model conversion requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelConverted(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelConversionsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelConverted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelCreated(
+        _ input: DescribeMetadataModelCreationsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelCreationsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(15),
+            command: self.describeMetadataModelCreations
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model creation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelCreated(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelCreationsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelCreated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelCreationCancelled(
+        _ input: DescribeMetadataModelCreationsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelCreationsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "CANCELED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.describeMetadataModelCreations
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model creation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelCreationCancelled(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelCreationsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelCreationCancelled(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelExportsAsScript(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelExportedAsScript(
+        _ input: DescribeMetadataModelExportsAsScriptMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelExportsAsScriptMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeMetadataModelExportsAsScript
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelExportsAsScript(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelExportedAsScript(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelExportsAsScriptMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelExportedAsScript(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelExportsToTarget(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelExportedToTarget(
+        _ input: DescribeMetadataModelExportsToTargetMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelExportsToTargetMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(20),
+            command: self.describeMetadataModelExportsToTarget
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelExportsToTarget(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelExportedToTarget(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelExportsToTargetMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelExportedToTarget(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeMetadataModelImports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelImported(
+        _ input: DescribeMetadataModelImportsMessage,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeMetadataModelImportsMessage, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("requests[].status", expected: "SUCCESS")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("requests[].status", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(60),
+            command: self.describeMetadataModelImports
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeMetadataModelImports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the metadata model import requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMetadataModelImported(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeMetadataModelImportsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        try await self.waitUntilMetadataModelImported(input, logger: logger)
     }
 
     /// Waiter for operation ``describeReplicationInstances(_:logger:)``.

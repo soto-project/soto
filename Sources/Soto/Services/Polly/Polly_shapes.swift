@@ -86,11 +86,24 @@ extension Polly {
     }
 
     public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alaw = "alaw"
         case json = "json"
         case mp3 = "mp3"
+        case mulaw = "mulaw"
         case oggOpus = "ogg_opus"
         case oggVorbis = "ogg_vorbis"
         case pcm = "pcm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuotaCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inputStreamInboundEventTimeout = "input-stream-inbound-event-timeout"
+        case inputStreamTimeout = "input-stream-timeout"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case polly = "polly"
         public var description: String { return self.rawValue }
     }
 
@@ -113,6 +126,14 @@ extension Polly {
     public enum TextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ssml = "ssml"
         case text = "text"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "fieldValidationFailed"
+        case invalidInboundEvent = "invalidInboundEvent"
+        case other = "other"
+        case unsupportedOperation = "unsupportedOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -226,7 +247,104 @@ extension Polly {
         public var description: String { return self.rawValue }
     }
 
+    public enum StartSpeechSynthesisStreamActionStream: AWSEncodableShape, Sendable {
+        /// An event indicating the end of the input stream.
+        case closeStreamEvent(CloseStreamEvent)
+        /// A text event containing content to be synthesized.
+        case textEvent(TextEvent)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .closeStreamEvent(let value):
+                try container.encode(value, forKey: .closeStreamEvent)
+            case .textEvent(let value):
+                try container.encode(value, forKey: .textEvent)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case closeStreamEvent = "CloseStreamEvent"
+            case textEvent = "TextEvent"
+        }
+    }
+
+    public enum StartSpeechSynthesisStreamEventStream: AWSDecodableShape, Sendable {
+        /// An audio event containing synthesized speech.
+        case audioEvent(AudioEvent)
+        case serviceFailureException(ServiceFailureException)
+        /// An exception indicating a service quota would be exceeded.
+        case serviceQuotaExceededException(ServiceQuotaExceededException)
+        /// An event, with summary information, indicating the stream has closed.
+        case streamClosedEvent(StreamClosedEvent)
+        /// An exception indicating the request was throttled.
+        case throttlingException(ThrottlingException)
+        /// An exception indicating the input failed validation.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .audioEvent:
+                let value = try container.decode(AudioEvent.self, forKey: .audioEvent)
+                self = .audioEvent(value)
+            case .serviceFailureException:
+                let value = try container.decode(ServiceFailureException.self, forKey: .serviceFailureException)
+                self = .serviceFailureException(value)
+            case .serviceQuotaExceededException:
+                let value = try container.decode(ServiceQuotaExceededException.self, forKey: .serviceQuotaExceededException)
+                self = .serviceQuotaExceededException(value)
+            case .streamClosedEvent:
+                let value = try container.decode(StreamClosedEvent.self, forKey: .streamClosedEvent)
+                self = .streamClosedEvent(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioEvent = "AudioEvent"
+            case serviceFailureException = "ServiceFailureException"
+            case serviceQuotaExceededException = "ServiceQuotaExceededException"
+            case streamClosedEvent = "StreamClosedEvent"
+            case throttlingException = "ThrottlingException"
+            case validationException = "ValidationException"
+        }
+    }
+
     // MARK: Shapes
+
+    public struct AudioEvent: AWSDecodableShape {
+        /// A chunk of synthesized audio data encoded in the format specified by the  OutputFormat parameter.
+        public let audioChunk: AWSEventPayload
+
+        @inlinable
+        public init(audioChunk: AWSEventPayload) {
+            self.audioChunk = audioChunk
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.audioChunk = try container.decode(AWSEventPayload.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CloseStreamEvent: AWSEncodableShape {
+        public init() {}
+    }
 
     public struct DeleteLexiconInput: AWSEncodableShape {
         /// The name of the lexicon to delete. Must be an existing lexicon in the region.
@@ -303,6 +421,20 @@ extension Polly {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case voices = "Voices"
+        }
+    }
+
+    public struct FlushStreamConfiguration: AWSEncodableShape {
+        /// Specifies whether to force the synthesis engine to immediately  write buffered audio data to the output stream.
+        public let force: Bool?
+
+        @inlinable
+        public init(force: Bool? = nil) {
+            self.force = force
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case force = "Force"
         }
     }
 
@@ -574,6 +706,107 @@ extension Polly {
         public init() {}
     }
 
+    public struct ServiceFailureException: AWSDecodableShape {
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quota code identifying the specific quota.
+        public let quotaCode: QuotaCode
+        /// The service code identifying the originating service.
+        public let serviceCode: ServiceCode
+
+        @inlinable
+        public init(message: String, quotaCode: QuotaCode, serviceCode: ServiceCode) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct StartSpeechSynthesisStreamInput: AWSEncodableShape {
+        /// The input event stream that contains text events and stream control events.
+        public let actionStream: AWSEventStream<StartSpeechSynthesisStreamActionStream>?
+        /// Specifies the engine for Amazon Polly to use when processing input text for speech synthesis.  Currently, only the generative engine is supported. If you specify a voice that the selected engine doesn't support, Amazon Polly returns an error.
+        public let engine: Engine
+        /// An optional parameter that sets the language code for the speech synthesis request. Specify this parameter only  when using a bilingual voice. If a bilingual voice is used and no language code is specified, Amazon Polly  uses the default language of the bilingual voice.
+        public let languageCode: LanguageCode?
+        /// The names of one or more pronunciation lexicons for the service to apply  during synthesis. Amazon Polly applies lexicons only when the lexicon language matches the voice language.
+        public let lexiconNames: [String]?
+        /// The audio format for the synthesized speech. Currently, Amazon Polly does not support JSON speech marks.
+        public let outputFormat: OutputFormat
+        /// The audio frequency, specified in Hz.
+        public let sampleRate: String?
+        /// The voice to use in synthesis. To get a list of available voice IDs, use the DescribeVoices operation.
+        public let voiceId: VoiceId
+
+        @inlinable
+        public init(actionStream: AWSEventStream<StartSpeechSynthesisStreamActionStream>? = nil, engine: Engine, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, sampleRate: String? = nil, voiceId: VoiceId) {
+            self.actionStream = actionStream
+            self.engine = engine
+            self.languageCode = languageCode
+            self.lexiconNames = lexiconNames
+            self.outputFormat = outputFormat
+            self.sampleRate = sampleRate
+            self.voiceId = voiceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.actionStream)
+            request.encodeHeader(self.engine, key: "x-amzn-Engine")
+            request.encodeHeader(self.languageCode, key: "x-amzn-LanguageCode")
+            request.encodeHeader(self.lexiconNames, key: "x-amzn-LexiconNames")
+            request.encodeHeader(self.outputFormat, key: "x-amzn-OutputFormat")
+            request.encodeHeader(self.sampleRate, key: "x-amzn-SampleRate")
+            request.encodeHeader(self.voiceId, key: "x-amzn-VoiceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.lexiconNames?.forEach {
+                try validate($0, name: "lexiconNames[]", parent: name, pattern: "^[0-9A-Za-z]{1,20}$")
+            }
+            try self.validate(self.lexiconNames, name: "lexiconNames", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartSpeechSynthesisStreamOutput: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The output event stream that contains synthesized audio events and stream status events.
+        public let eventStream: AWSEventStream<StartSpeechSynthesisStreamEventStream>
+
+        @inlinable
+        public init(eventStream: AWSEventStream<StartSpeechSynthesisStreamEventStream>) {
+            self.eventStream = eventStream
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.eventStream = try container.decode(AWSEventStream<StartSpeechSynthesisStreamEventStream>.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
         /// Specifies the engine (standard, neural, long-form or generative) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
@@ -581,13 +814,13 @@ extension Polly {
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
         public let lexiconNames: [String]?
-        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json.
         public let outputFormat: OutputFormat
         /// Amazon S3 bucket name to which the output file will be saved.
         public let outputS3BucketName: String
         /// The Amazon S3 key prefix for the output speech file.
         public let outputS3KeyPrefix: String?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".  Valid value for ogg_opus is "48000".  Valid value for mu-law and a-law is "8000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -657,6 +890,20 @@ extension Polly {
         }
     }
 
+    public struct StreamClosedEvent: AWSDecodableShape {
+        /// The total number of characters synthesized during the streaming session.
+        public let requestCharacters: Int?
+
+        @inlinable
+        public init(requestCharacters: Int? = nil) {
+            self.requestCharacters = requestCharacters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestCharacters = "RequestCharacters"
+        }
+    }
+
     public struct SynthesisTask: AWSDecodableShape {
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: Date?
@@ -666,13 +913,13 @@ extension Polly {
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
         public let lexiconNames: [String]?
-        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law, or pcm. For speech marks, this will be json.
         public let outputFormat: OutputFormat?
         /// Pathway for the output speech file.
         public let outputUri: String?
         /// Number of billable characters synthesized.
         public let requestCharacters: Int?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".  Valid value for ogg_opus is "48000".  Valid value for mu-law and a-law is "8000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -734,9 +981,9 @@ extension Polly {
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
         public let lexiconNames: [String]?
-        ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
+        ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, ogg_opus, mu-law, a-law or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
         public let outputFormat: OutputFormat
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", "24000", "44100" and "48000". The default value for standard voices is "22050". The default value for neural voices is "24000". The default value for long-form voices is "24000". The default value for generative voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".  Valid value for ogg_opus is "48000".  Valid value for mu-law and a-law is "8000".
         public let sampleRate: String?
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
@@ -785,7 +1032,7 @@ extension Polly {
         public static let _options: AWSShapeOptions = [.rawPayload]
         ///  Stream containing the synthesized speech.
         public let audioStream: AWSHTTPBody
-        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.    If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.    If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.    If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is application/x-json-stream.
+        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.    If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.    If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.    If you request ogg_opus as the OutputFormat, the ContentType returned is audio/ogg.    If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request mu-law as the OutputFormat, the ContentType returned is audio/mulaw.    If you request a-law as the OutputFormat, the ContentType returned is audio/alaw.    If you request json as the OutputFormat, the ContentType returned is application/x-json-stream.
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int?
@@ -806,6 +1053,102 @@ extension Polly {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct TextEvent: AWSEncodableShape {
+        /// Configuration for controlling when synthesized audio flushes to the output stream.
+        public let flushStreamConfiguration: FlushStreamConfiguration?
+        /// The text content to synthesize. If you specify ssml as the  TextType, follow the SSML format for the input text.
+        public let text: String
+        /// Specifies whether the input text is plain text or SSML. Default: plain text.
+        public let textType: TextType?
+
+        @inlinable
+        public init(flushStreamConfiguration: FlushStreamConfiguration? = nil, text: String, textType: TextType? = nil) {
+            self.flushStreamConfiguration = flushStreamConfiguration
+            self.text = text
+            self.textType = textType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flushStreamConfiguration = "FlushStreamConfiguration"
+            case text = "Text"
+            case textType = "TextType"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// A list of reasons explaining why the request was throttled.
+        public let throttlingReasons: [ThrottlingReason]?
+
+        @inlinable
+        public init(message: String? = nil, throttlingReasons: [ThrottlingReason]? = nil) {
+            self.message = message
+            self.throttlingReasons = throttlingReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case throttlingReasons = "throttlingReasons"
+        }
+    }
+
+    public struct ThrottlingReason: AWSDecodableShape {
+        /// The reason code explaining why the request was throttled.
+        public let reason: String?
+        /// The resource that caused the throttling.
+        public let resource: String?
+
+        @inlinable
+        public init(reason: String? = nil, resource: String? = nil) {
+            self.reason = reason
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case resource = "resource"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that caused the validation error.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason the request failed validation.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message describing why the field failed validation.
+        public let message: String
+        /// The name of the field that failed validation.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
     }
 
     public struct Voice: AWSDecodableShape {
@@ -868,11 +1211,14 @@ public struct PollyErrorType: AWSErrorType {
         case maxLexemeLengthExceededException = "MaxLexemeLengthExceededException"
         case maxLexiconsNumberExceededException = "MaxLexiconsNumberExceededException"
         case serviceFailureException = "ServiceFailureException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case ssmlMarksNotSupportedForTextTypeException = "SsmlMarksNotSupportedForTextTypeException"
         case synthesisTaskNotFoundException = "SynthesisTaskNotFoundException"
         case textLengthExceededException = "TextLengthExceededException"
+        case throttlingException = "ThrottlingException"
         case unsupportedPlsAlphabetException = "UnsupportedPlsAlphabetException"
         case unsupportedPlsLanguageException = "UnsupportedPlsLanguageException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -925,16 +1271,30 @@ public struct PollyErrorType: AWSErrorType {
     public static var maxLexiconsNumberExceededException: Self { .init(.maxLexiconsNumberExceededException) }
     /// An unknown condition has caused a service failure.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
+    /// The request would cause a service quota to be exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// SSML speech marks are not supported for plain text-type input.
     public static var ssmlMarksNotSupportedForTextTypeException: Self { .init(.ssmlMarksNotSupportedForTextTypeException) }
     /// The Speech Synthesis task with requested Task ID cannot be found.
     public static var synthesisTaskNotFoundException: Self { .init(.synthesisTaskNotFoundException) }
     /// The value of the "Text" parameter is longer than the accepted limits. For the SynthesizeSpeech API, the limit for input text is a maximum of 6000 characters total, of which no more than 3000 can be billed characters. For the StartSpeechSynthesisTask API, the maximum is 200,000 characters, of which no more than 100,000 can be billed characters. SSML tags are not counted as billed characters.
     public static var textLengthExceededException: Self { .init(.textLengthExceededException) }
+    /// The request was denied because of request throttling.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The alphabet specified by the lexicon is not a supported alphabet. Valid values are x-sampa and ipa.
     public static var unsupportedPlsAlphabetException: Self { .init(.unsupportedPlsAlphabetException) }
     /// The language specified in the lexicon is unsupported. For a list of supported languages, see Lexicon Attributes.
     public static var unsupportedPlsLanguageException: Self { .init(.unsupportedPlsLanguageException) }
+    /// The input fails to satisfy the constraints specified by the service.
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension PollyErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceQuotaExceededException": Polly.ServiceQuotaExceededException.self,
+        "ThrottlingException": Polly.ThrottlingException.self,
+        "ValidationException": Polly.ValidationException.self
+    ]
 }
 
 extension PollyErrorType: Equatable {

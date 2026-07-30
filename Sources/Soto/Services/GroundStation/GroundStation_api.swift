@@ -312,10 +312,10 @@ public struct GroundStation: AWSService {
     /// Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lower level list of strings has two elements: a from ARN and a to ARN.
     ///
     /// Parameters:
-    ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
-    ///   - contactPrePassDurationSeconds: Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
+    ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    ///   - contactPrePassDurationSeconds: Amount of time prior to contact start you'd like to receive a Ground Station Contact State Change event indicating an upcoming pass.
     ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
-    ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+    ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     ///   - name: Name of a mission profile.
     ///   - streamsKmsKey: KMS key to use for encrypting streams.
     ///   - streamsKmsRole: Role to use for encrypting streams with KMS key.
@@ -498,6 +498,38 @@ public struct GroundStation: AWSService {
             contactId: contactId
         )
         return try await self.describeContact(input, logger: logger)
+    }
+
+    /// Describes a specific version of a contact.
+    @Sendable
+    @inlinable
+    public func describeContactVersion(_ input: DescribeContactVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactVersionResponse {
+        try await self.client.execute(
+            operation: "DescribeContactVersion", 
+            path: "/contact/{contactId}/versions/{versionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a specific version of a contact.
+    ///
+    /// Parameters:
+    ///   - contactId: UUID of a contact.
+    ///   - versionId: Version ID of a contact.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeContactVersion(
+        contactId: String,
+        versionId: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeContactVersionResponse {
+        let input = DescribeContactVersionRequest(
+            contactId: contactId, 
+            versionId: versionId
+        )
+        return try await self.describeContactVersion(input, logger: logger)
     }
 
     /// Retrieve information about an existing ephemeris.
@@ -741,6 +773,41 @@ public struct GroundStation: AWSService {
         return try await self.getSatellite(input, logger: logger)
     }
 
+    /// Returns a list of antennas at a specified ground station.
+    @Sendable
+    @inlinable
+    public func listAntennas(_ input: ListAntennasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAntennasResponse {
+        try await self.client.execute(
+            operation: "ListAntennas", 
+            path: "/groundstation/{groundStationId}/antenna", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of antennas at a specified ground station.
+    ///
+    /// Parameters:
+    ///   - groundStationId: ID of a ground station.
+    ///   - maxResults: Maximum number of antennas returned.
+    ///   - nextToken: Next token returned in the request of a previous ListAntennas call. Used to get the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAntennas(
+        groundStationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAntennasResponse {
+        let input = ListAntennasRequest(
+            groundStationId: groundStationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAntennas(input, logger: logger)
+    }
+
     /// Returns a list of Config objects.
     @Sendable
     @inlinable
@@ -771,6 +838,41 @@ public struct GroundStation: AWSService {
             nextToken: nextToken
         )
         return try await self.listConfigs(input, logger: logger)
+    }
+
+    /// Returns a list of versions for a specified contact.
+    @Sendable
+    @inlinable
+    public func listContactVersions(_ input: ListContactVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactVersionsResponse {
+        try await self.client.execute(
+            operation: "ListContactVersions", 
+            path: "/contact/{contactId}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of versions for a specified contact.
+    ///
+    /// Parameters:
+    ///   - contactId: UUID of a contact.
+    ///   - maxResults: Maximum number of contact versions returned.
+    ///   - nextToken: Next token returned in the request of a previous ListContactVersions call. Used to get the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listContactVersions(
+        contactId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListContactVersionsResponse {
+        let input = ListContactVersionsRequest(
+            contactId: contactId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listContactVersions(input, logger: logger)
     }
 
     /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include  groundStation, missionprofileArn, and satelliteArn.
@@ -903,6 +1005,50 @@ public struct GroundStation: AWSService {
             statusList: statusList
         )
         return try await self.listEphemerides(input, logger: logger)
+    }
+
+    /// Returns a list of reservations for a specified ground station.
+    @Sendable
+    @inlinable
+    public func listGroundStationReservations(_ input: ListGroundStationReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroundStationReservationsResponse {
+        try await self.client.execute(
+            operation: "ListGroundStationReservations", 
+            path: "/groundstation/{groundStationId}/reservation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of reservations for a specified ground station.
+    ///
+    /// Parameters:
+    ///   - endTime: End time of the reservation window in UTC.
+    ///   - groundStationId: ID of a ground station.
+    ///   - maxResults: Maximum number of ground station reservations returned.
+    ///   - nextToken: Next token returned in the request of a previous ListGroundStationReservations call. Used to get the next page of results.
+    ///   - reservationTypes: Types of reservations to filter by.
+    ///   - startTime: Start time of the reservation window in UTC.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGroundStationReservations(
+        endTime: Date,
+        groundStationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        reservationTypes: [ReservationType]? = nil,
+        startTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGroundStationReservationsResponse {
+        let input = ListGroundStationReservationsRequest(
+            endTime: endTime, 
+            groundStationId: groundStationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            reservationTypes: reservationTypes, 
+            startTime: startTime
+        )
+        return try await self.listGroundStationReservations(input, logger: logger)
     }
 
     /// Returns a list of ground stations.
@@ -1255,6 +1401,44 @@ public struct GroundStation: AWSService {
         return try await self.updateConfig(input, logger: logger)
     }
 
+    /// Updates a specific contact.
+    @Sendable
+    @inlinable
+    public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
+        try await self.client.execute(
+            operation: "UpdateContact", 
+            path: "/contact/{contactId}/versions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a specific contact.
+    ///
+    /// Parameters:
+    ///   - clientToken: A client token is a unique, case-sensitive string of up to 64 ASCII characters. It is generated by the client to ensure idempotent operations, allowing safe retries without unintended side effects.
+    ///   - contactId: UUID of a contact.
+    ///   - satelliteArn: ARN of a satellite.
+    ///   - trackingOverrides: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateContact(
+        clientToken: String? = UpdateContactRequest.idempotencyToken(),
+        contactId: String,
+        satelliteArn: String? = nil,
+        trackingOverrides: TrackingOverrides? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateContactResponse {
+        let input = UpdateContactRequest(
+            clientToken: clientToken, 
+            contactId: contactId, 
+            satelliteArn: satelliteArn, 
+            trackingOverrides: trackingOverrides
+        )
+        return try await self.updateContact(input, logger: logger)
+    }
+
     /// Update an existing ephemeris.
     @Sendable
     @inlinable
@@ -1309,10 +1493,10 @@ public struct GroundStation: AWSService {
     /// Updates a mission profile. Updating a mission profile will not update the execution parameters for existing future contacts.
     ///
     /// Parameters:
-    ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
-    ///   - contactPrePassDurationSeconds: Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    ///   - contactPostPassDurationSeconds: Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
+    ///   - contactPrePassDurationSeconds: Amount of time after a contact ends that you'd like to receive a Ground Station Contact State Change event indicating the pass has finished.
     ///   - dataflowEdges: A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
-    ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
+    ///   - minimumViableContactDurationSeconds: Smallest amount of time in seconds that you'd like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     ///   - missionProfileId: UUID of a mission profile.
     ///   - name: Name of a mission profile.
     ///   - streamsKmsKey: KMS key to use for encrypting streams.
@@ -1363,6 +1547,43 @@ extension GroundStation {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GroundStation {
+    /// Return PaginatorSequence for operation ``listAntennas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAntennasPaginator(
+        _ input: ListAntennasRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAntennasRequest, ListAntennasResponse> {
+        return .init(
+            input: input,
+            command: self.listAntennas,
+            inputKey: \ListAntennasRequest.nextToken,
+            outputKey: \ListAntennasResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAntennas(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - groundStationId: ID of a ground station.
+    ///   - maxResults: Maximum number of antennas returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAntennasPaginator(
+        groundStationId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAntennasRequest, ListAntennasResponse> {
+        let input = ListAntennasRequest(
+            groundStationId: groundStationId, 
+            maxResults: maxResults
+        )
+        return self.listAntennasPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listConfigs(_:logger:)``.
     ///
     /// - Parameters:
@@ -1395,6 +1616,43 @@ extension GroundStation {
             maxResults: maxResults
         )
         return self.listConfigsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listContactVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContactVersionsPaginator(
+        _ input: ListContactVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListContactVersionsRequest, ListContactVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.listContactVersions,
+            inputKey: \ListContactVersionsRequest.nextToken,
+            outputKey: \ListContactVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listContactVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - contactId: UUID of a contact.
+    ///   - maxResults: Maximum number of contact versions returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listContactVersionsPaginator(
+        contactId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListContactVersionsRequest, ListContactVersionsResponse> {
+        let input = ListContactVersionsRequest(
+            contactId: contactId, 
+            maxResults: maxResults
+        )
+        return self.listContactVersionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listContacts(_:logger:)``.
@@ -1535,6 +1793,52 @@ extension GroundStation {
         return self.listEphemeridesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listGroundStationReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGroundStationReservationsPaginator(
+        _ input: ListGroundStationReservationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGroundStationReservationsRequest, ListGroundStationReservationsResponse> {
+        return .init(
+            input: input,
+            command: self.listGroundStationReservations,
+            inputKey: \ListGroundStationReservationsRequest.nextToken,
+            outputKey: \ListGroundStationReservationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGroundStationReservations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endTime: End time of the reservation window in UTC.
+    ///   - groundStationId: ID of a ground station.
+    ///   - maxResults: Maximum number of ground station reservations returned.
+    ///   - reservationTypes: Types of reservations to filter by.
+    ///   - startTime: Start time of the reservation window in UTC.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGroundStationReservationsPaginator(
+        endTime: Date,
+        groundStationId: String,
+        maxResults: Int? = nil,
+        reservationTypes: [ReservationType]? = nil,
+        startTime: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGroundStationReservationsRequest, ListGroundStationReservationsResponse> {
+        let input = ListGroundStationReservationsRequest(
+            endTime: endTime, 
+            groundStationId: groundStationId, 
+            maxResults: maxResults, 
+            reservationTypes: reservationTypes, 
+            startTime: startTime
+        )
+        return self.listGroundStationReservationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listGroundStations(_:logger:)``.
     ///
     /// - Parameters:
@@ -1641,10 +1945,32 @@ extension GroundStation {
     }
 }
 
+extension GroundStation.ListAntennasRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GroundStation.ListAntennasRequest {
+        return .init(
+            groundStationId: self.groundStationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension GroundStation.ListConfigsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> GroundStation.ListConfigsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension GroundStation.ListContactVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GroundStation.ListContactVersionsRequest {
+        return .init(
+            contactId: self.contactId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -1689,6 +2015,20 @@ extension GroundStation.ListEphemeridesRequest: AWSPaginateToken {
             satelliteId: self.satelliteId,
             startTime: self.startTime,
             statusList: self.statusList
+        )
+    }
+}
+
+extension GroundStation.ListGroundStationReservationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GroundStation.ListGroundStationReservationsRequest {
+        return .init(
+            endTime: self.endTime,
+            groundStationId: self.groundStationId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            reservationTypes: self.reservationTypes,
+            startTime: self.startTime
         )
     }
 }
@@ -1764,5 +2104,46 @@ extension GroundStation {
             contactId: contactId
         )
         try await self.waitUntilContactScheduled(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeContactVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilContactUpdated(
+        _ input: DescribeContactVersionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeContactVersionRequest, _>(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("version.status", expected: "FAILED_TO_UPDATE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("version.status", expected: "ACTIVE")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(900),
+            command: self.describeContactVersion
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeContactVersion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - contactId: UUID of a contact.
+    ///   - versionId: Version ID of a contact.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilContactUpdated(
+        contactId: String,
+        versionId: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeContactVersionRequest(
+            contactId: contactId, 
+            versionId: versionId
+        )
+        try await self.waitUntilContactUpdated(input, logger: logger)
     }
 }

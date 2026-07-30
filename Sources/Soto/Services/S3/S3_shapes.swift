@@ -30,6 +30,18 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnnotationConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnnotationDirective: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case copy = "COPY"
+        case exclude = "EXCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ArchiveStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archiveAccess = "ARCHIVE_ACCESS"
         case deepArchiveAccess = "DEEP_ARCHIVE_ACCESS"
@@ -65,6 +77,7 @@ extension S3 {
 
         public static var afSouth1: Self { .init(rawValue: "af-south-1") }
         public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        public static var apEast2: Self { .init(rawValue: "ap-east-2") }
         public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
         public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
         public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
@@ -75,7 +88,10 @@ extension S3 {
         public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
         public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
         public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
+        public static var apSoutheast6: Self { .init(rawValue: "ap-southeast-6") }
+        public static var apSoutheast7: Self { .init(rawValue: "ap-southeast-7") }
         public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        public static var caWest1: Self { .init(rawValue: "ca-west-1") }
         public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
         public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
         public static var eu: Self { .init(rawValue: "EU") }
@@ -90,6 +106,7 @@ extension S3 {
         public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
         public static var meCentral1: Self { .init(rawValue: "me-central-1") }
         public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        public static var mxCentral1: Self { .init(rawValue: "mx-central-1") }
         public static var saEast1: Self { .init(rawValue: "sa-east-1") }
         public static var usEast1: Self { .init(rawValue: "us-east-1") }
         public static var usEast2: Self { .init(rawValue: "us-east-2") }
@@ -127,8 +144,13 @@ extension S3 {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
         case crc64nvme = "CRC64NVME"
+        case md5 = "MD5"
         case sha1 = "SHA1"
         case sha256 = "SHA256"
+        case sha512 = "SHA512"
+        case xxhash128 = "XXHASH128"
+        case xxhash3 = "XXHASH3"
+        case xxhash64 = "XXHASH64"
         public var description: String { return self.rawValue }
     }
 
@@ -180,6 +202,9 @@ extension S3 {
         case s3LifecycleexpirationDeletemarkercreated = "s3:LifecycleExpiration:DeleteMarkerCreated"
         case s3Lifecycletransition = "s3:LifecycleTransition"
         case s3ObjectaclPut = "s3:ObjectAcl:Put"
+        case s3Objectannotation = "s3:ObjectAnnotation:*"
+        case s3ObjectannotationDelete = "s3:ObjectAnnotation:Delete"
+        case s3ObjectannotationPut = "s3:ObjectAnnotation:Put"
         case s3Objectcreated = "s3:ObjectCreated:*"
         case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
         case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
@@ -648,7 +673,7 @@ extension S3 {
         case and(MetricsAndOperator)
         /// The prefix used when evaluating a metrics filter.
         case prefix(String)
-        /// The tag used when evaluating a metrics filter.
+        /// The tag used when evaluating a metrics filter.   Tag filters are not supported for directory buckets.
         case tag(Tag)
 
         public init(from decoder: Decoder) throws {
@@ -985,6 +1010,115 @@ extension S3 {
         }
     }
 
+    public struct AnnotationEntry: AWSDecodableShape {
+        /// The name of the annotation.
+        public let annotationName: String
+        /// The checksum algorithm used for the annotation.
+        public let checksumAlgorithm: [ChecksumAlgorithm]?
+        /// The entity tag of the annotation.
+        public let eTag: String?
+        /// The date and time the annotation was last modified.
+        public let lastModified: Date
+        /// The replication status of the annotation.
+        public let replicationStatus: ReplicationStatus?
+        /// The size of the annotation payload, in bytes.
+        public let size: Int64
+
+        @inlinable
+        public init(annotationName: String, checksumAlgorithm: [ChecksumAlgorithm]? = nil, eTag: String? = nil, lastModified: Date, replicationStatus: ReplicationStatus? = nil, size: Int64) {
+            self.annotationName = annotationName
+            self.checksumAlgorithm = checksumAlgorithm
+            self.eTag = eTag
+            self.lastModified = lastModified
+            self.replicationStatus = replicationStatus
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationName = "AnnotationName"
+            case checksumAlgorithm = "ChecksumAlgorithm"
+            case eTag = "ETag"
+            case lastModified = "LastModified"
+            case replicationStatus = "ReplicationStatus"
+            case size = "Size"
+        }
+    }
+
+    public struct AnnotationTableConfiguration: AWSEncodableShape {
+        /// The state of the annotation table. Valid values are ENABLED and DISABLED.
+        public let configurationState: AnnotationConfigurationState
+        public let encryptionConfiguration: MetadataTableEncryptionConfiguration?
+        /// The ARN of the IAM role used to manage the annotation table.
+        public let role: String?
+
+        @inlinable
+        public init(configurationState: AnnotationConfigurationState, encryptionConfiguration: MetadataTableEncryptionConfiguration? = nil, role: String? = nil) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case role = "Role"
+        }
+    }
+
+    public struct AnnotationTableConfigurationResult: AWSDecodableShape {
+        /// The current configuration state of the annotation table.
+        public let configurationState: AnnotationConfigurationState
+        public let error: ErrorDetails?
+        /// The ARN of the IAM role associated with the annotation table.
+        public let role: String?
+        /// The ARN of the annotation table.
+        public let tableArn: String?
+        /// The name of the annotation table.
+        public let tableName: String?
+        /// The provisioning status of the annotation table. Possible values: CREATING, BACKFILLING, ACTIVE, FAILED.
+        public let tableStatus: String?
+
+        @inlinable
+        public init(configurationState: AnnotationConfigurationState, error: ErrorDetails? = nil, role: String? = nil, tableArn: String? = nil, tableName: String? = nil, tableStatus: String? = nil) {
+            self.configurationState = configurationState
+            self.error = error
+            self.role = role
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case error = "Error"
+            case role = "Role"
+            case tableArn = "TableArn"
+            case tableName = "TableName"
+            case tableStatus = "TableStatus"
+        }
+    }
+
+    public struct AnnotationTableConfigurationUpdates: AWSEncodableShape {
+        /// The new configuration state to apply.
+        public let configurationState: AnnotationConfigurationState
+        public let encryptionConfiguration: MetadataTableEncryptionConfiguration?
+        /// The new IAM role ARN to apply.
+        public let role: String?
+
+        @inlinable
+        public init(configurationState: AnnotationConfigurationState, encryptionConfiguration: MetadataTableEncryptionConfiguration? = nil, role: String? = nil) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationState = "ConfigurationState"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case role = "Role"
+        }
+    }
+
     public struct BlockedEncryptionTypes: AWSEncodableShape & AWSDecodableShape {
         /// The object encryption type that you want to block or unblock for an Amazon S3 general purpose bucket.  Currently, this parameter only supports blocking or unblocking server side encryption with customer-provided keys (SSE-C). For more information about SSE-C, see Using server-side encryption with customer-provided keys (SSE-C).
         public let encryptionType: [EncryptionType]?
@@ -1199,30 +1333,50 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. This checksum is present if the object was uploaded with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. This checksum is present if the object was uploaded with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This checksum is present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This checksum is present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This checksum is present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
         }
 
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
             case checksumType = "ChecksumType"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
         }
     }
 
@@ -1251,12 +1405,22 @@ extension S3 {
         public let checksumCRC32C: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum type that was specified during the CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see Checking object integrity in the Amazon S3 User Guide.
         public let eTag: String?
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded.  This functionality is not supported for directory buckets.
@@ -1274,15 +1438,20 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.expiration = expiration
             self.key = key
@@ -1301,9 +1470,14 @@ extension S3 {
             self.checksumCRC32 = try container.decodeIfPresent(String.self, forKey: .checksumCRC32)
             self.checksumCRC32C = try container.decodeIfPresent(String.self, forKey: .checksumCRC32C)
             self.checksumCRC64NVME = try container.decodeIfPresent(String.self, forKey: .checksumCRC64NVME)
+            self.checksumMD5 = try container.decodeIfPresent(String.self, forKey: .checksumMD5)
             self.checksumSHA1 = try container.decodeIfPresent(String.self, forKey: .checksumSHA1)
             self.checksumSHA256 = try container.decodeIfPresent(String.self, forKey: .checksumSHA256)
+            self.checksumSHA512 = try container.decodeIfPresent(String.self, forKey: .checksumSHA512)
             self.checksumType = try container.decodeIfPresent(ChecksumType.self, forKey: .checksumType)
+            self.checksumXXHASH128 = try container.decodeIfPresent(String.self, forKey: .checksumXXHASH128)
+            self.checksumXXHASH3 = try container.decodeIfPresent(String.self, forKey: .checksumXXHASH3)
+            self.checksumXXHASH64 = try container.decodeIfPresent(String.self, forKey: .checksumXXHASH64)
             self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
@@ -1319,9 +1493,14 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
             case checksumType = "ChecksumType"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case eTag = "ETag"
             case key = "Key"
             case location = "Location"
@@ -1338,12 +1517,22 @@ extension S3 {
         public let checksumCRC32C: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. If the checksum type doesn’t match the checksum type that was specified for the object during the CreateMultipartUpload request, it’ll result in a BadDigest error. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// Uploads the object only if the ETag (entity tag) value provided during the WRITE operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag, re-initiate the multipart upload with CreateMultipartUpload, and re-upload each part. Expects the ETag value as a string. For more information about conditional requests, see RFC 7232, or Conditional requests in the Amazon S3 User Guide.
@@ -1367,14 +1556,19 @@ extension S3 {
         public let uploadId: String
 
         @inlinable
-        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, mpuObjectSize: Int64? = nil, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, mpuObjectSize: Int64? = nil, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
             self.ifNoneMatch = ifNoneMatch
@@ -1395,9 +1589,14 @@ extension S3 {
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
             request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
+            request.encodeHeader(self.checksumMD5, key: "x-amz-checksum-md5")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumSHA512, key: "x-amz-checksum-sha512")
             request.encodeHeader(self.checksumType, key: "x-amz-checksum-type")
+            request.encodeHeader(self.checksumXXHASH128, key: "x-amz-checksum-xxhash128")
+            request.encodeHeader(self.checksumXXHASH3, key: "x-amz-checksum-xxhash3")
+            request.encodeHeader(self.checksumXXHASH64, key: "x-amz-checksum-xxhash64")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeHeader(self.ifMatch, key: "If-Match")
             request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
@@ -1437,24 +1636,39 @@ extension S3 {
         public let checksumCRC32: String?
         /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.     General purpose buckets - In CompleteMultipartUpload, when a additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) is applied to each part, the PartNumber must start at 1 and the part numbers must be consecutive. Otherwise, Amazon S3 generates an HTTP 400 Bad Request status code and an InvalidPartOrder error code.    Directory buckets - In CompleteMultipartUpload, the PartNumber must start at 1 and the part numbers must be consecutive.
         public let partNumber: Int?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, partNumber: Int? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, partNumber: Int? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.partNumber = partNumber
         }
@@ -1463,8 +1677,13 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case eTag = "ETag"
             case partNumber = "PartNumber"
         }
@@ -1552,6 +1771,8 @@ extension S3 {
     public struct CopyObjectRequest: AWSEncodableShape {
         /// The canned access control list (ACL) to apply to the object. When you copy an object, the ACL metadata is not preserved and is set to private by default. Only the owner has full access control. To override the default ACL setting, specify a new ACL when you generate a copy request. For more information, see Using ACLs.  If the destination bucket that you're copying objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this setting only accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format. For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide.    If your destination bucket uses the bucket owner enforced setting for Object Ownership, all objects written to the bucket by any account will be owned by the bucket owner.   This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
+        /// Specifies whether you want to copy annotations from the source object or exclude them. If this header isn't specified, COPY is the default behavior. Valid Values: COPY | EXCLUDE  You can specify this directive as either an HTTP header (x-amz-object-annotation-directive) or as a query string parameter. Use the query string form when generating presigned URLs that need to control annotation copy behavior. When set to COPY, you must have s3:GetObjectAnnotation permission on the source object and s3:PutObjectAnnotation permission on the destination. Each annotation copied is billed as a separate PUT request. If annotations on the source are modified during the copy, Amazon S3 returns a retryable error.  For directory buckets, annotations are not supported. Use EXCLUDE to copy objects to directory buckets without errors. If you specify COPY for a directory bucket, the request returns HTTP 501 (Not Implemented).   When you copy objects using multipart upload (for example, when the Amazon Web Services CLI or Amazon Web Services SDKs use Transfer Manager for objects larger than approximately 8 MB), annotations are not copied by default. To include annotations, specify --copy-props default in the Amazon Web Services CLI or the equivalent SDK configuration. With this opt-in, the SDK reads source annotations, completes the multipart upload, and then writes each annotation to the destination. Between the upload completion and the last annotation write, the destination object exists without all its annotations.
+        public let annotationDirective: AnnotationDirective?
         /// The name of the destination bucket.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket. You can only copy objects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types. For more information about S3 on Outposts, see What is S3 on Outposts? in the S3 on Outposts guide. When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can enable an S3 Bucket Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide.   Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
@@ -1647,8 +1868,9 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, annotationDirective: AnnotationDirective? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, copySource: String, copySourceIfMatch: String? = nil, copySourceIfModifiedSince: Date? = nil, copySourceIfNoneMatch: String? = nil, copySourceIfUnmodifiedSince: Date? = nil, copySourceSSECustomerAlgorithm: String? = nil, copySourceSSECustomerKey: String? = nil, copySourceSSECustomerKeyMD5: String? = nil, expectedBucketOwner: String? = nil, expectedSourceBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, metadataDirective: MetadataDirective? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, taggingDirective: TaggingDirective? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
+            self.annotationDirective = annotationDirective
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
@@ -1697,6 +1919,7 @@ extension S3 {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.acl, key: "x-amz-acl")
+            request.encodeHeader(self.annotationDirective, key: "x-amz-object-annotation-directive")
             request.encodePath(self.bucket, key: "Bucket")
             request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-server-side-encryption-bucket-key-enabled")
             request.encodeHeader(self.cacheControl, key: "Cache-Control")
@@ -1756,25 +1979,40 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object being copied was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. This checksum is only present if the object was uploaded with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. This checksum is only present if the object was uploaded with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This checksum is only present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
         public let eTag: String?
         /// Creation date of the object.
         public let lastModified: Date?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1783,37 +2021,57 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
             case checksumType = "ChecksumType"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case eTag = "ETag"
             case lastModified = "LastModified"
         }
     }
 
     public struct CopyPartResult: AWSDecodableShape {
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This checksum is present if the multipart upload request was created with the CRC32 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag of the object.
         public let eTag: String?
         /// Date and time at which the object was uploaded.
         public let lastModified: Date?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1822,8 +2080,13 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case eTag = "ETag"
             case lastModified = "LastModified"
         }
@@ -1939,7 +2202,7 @@ extension S3 {
     public struct CreateBucketOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services.  This parameter is only supported for S3 directory buckets. For more information, see Using tags with directory buckets.
         public let bucketArn: String?
-        /// A forward slash followed by the name of the bucket.
+        /// A forward slash followed by the name of the bucket for all account regional namespace buckets and all global general purpose buckets created in us-east-1. For example, /amzn-s3-demo-bucket. For global general purpose buckets created in other Amazon Web Services Regions, the Location field is the global endpoint URL. For example, http://amzn-s3-demo-bucket.s3.amazonaws.com/.
         public let location: String?
 
         @inlinable
@@ -2460,9 +2723,10 @@ extension S3 {
     }
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
-        /// The name of the bucket containing the inventory configuration to delete.
+        /// The name of the bucket containing the inventory configuration to delete.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
@@ -2552,9 +2816,10 @@ extension S3 {
     }
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
-        /// The name of the bucket containing the metrics configuration to delete.
+        /// The name of the bucket containing the metrics configuration to delete.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         public let id: String
@@ -2755,6 +3020,71 @@ extension S3 {
         }
     }
 
+    public struct DeleteObjectAnnotationOutput: AWSDecodableShape {
+        /// The version ID of the object that the annotation was deleted from.
+        public let objectVersionId: String?
+        public let requestCharged: RequestCharged?
+
+        @inlinable
+        public init(objectVersionId: String? = nil, requestCharged: RequestCharged? = nil) {
+            self.objectVersionId = objectVersionId
+            self.requestCharged = requestCharged
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.objectVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-object-version-id")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteObjectAnnotationRequest: AWSEncodableShape {
+        /// The name of the annotation to delete. Annotation names are UTF-8 encoded and cannot start with aws or s3 (case-insensitive). Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+        public let annotationName: String
+        /// The name of the bucket that contains the object.
+        public let bucket: String
+        /// The account ID of the expected bucket owner.
+        public let expectedBucketOwner: String?
+        /// The object key.
+        public let key: String
+        /// If specified, the operation only succeeds if the object's ETag matches the provided value.
+        public let objectIfMatch: String?
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object.
+        public let versionId: String?
+
+        @inlinable
+        public init(annotationName: String, bucket: String, expectedBucketOwner: String? = nil, key: String, objectIfMatch: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.annotationName = annotationName
+            self.bucket = bucket
+            self.expectedBucketOwner = expectedBucketOwner
+            self.key = key
+            self.objectIfMatch = objectIfMatch
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.annotationName, key: "annotationName")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.objectIfMatch, key: "x-amz-object-if-match")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteObjectOutput: AWSDecodableShape {
         /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker. To learn more about delete markers, see Working with delete markers.  This functionality is not supported for directory buckets.
         public let deleteMarker: Bool?
@@ -2923,7 +3253,7 @@ extension S3 {
         public let bucket: String
         /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.  This functionality is not supported for directory buckets.
         public let bypassGovernanceRetention: Bool?
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     MD5     SHA1     SHA256     SHA512     XXHASH3     XXHASH64     XXHASH128    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Container for the request.
         public let delete: Delete
@@ -3522,9 +3852,10 @@ extension S3 {
     }
 
     public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
-        /// The name of the bucket containing the inventory configuration to retrieve.
+        /// The name of the bucket containing the inventory configuration to retrieve.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
@@ -3798,9 +4129,10 @@ extension S3 {
     }
 
     public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
-        /// The name of the bucket containing the metrics configuration to retrieve.
+        /// The name of the bucket containing the metrics configuration to retrieve.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         public let id: String
@@ -3888,16 +4220,16 @@ extension S3 {
 
     public struct GetBucketPolicyOutput: AWSDecodableShape {
         /// The bucket policy as a JSON document.
-        public let policy: String
+        public let policy: AWSHTTPBody
 
         @inlinable
-        public init(policy: String) {
+        public init(policy: AWSHTTPBody) {
             self.policy = policy
         }
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            self.policy = try container.decode(String.self)
+            self.policy = try container.decode(AWSHTTPBody.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4239,6 +4571,143 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetObjectAnnotationOutput: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The annotation payload.
+        public let annotationPayload: AWSHTTPBody
+        /// The CRC32 checksum of the annotation payload.
+        public let checksumCRC32: String?
+        /// The CRC32C checksum of the annotation payload.
+        public let checksumCRC32C: String?
+        /// The CRC64NVME checksum of the annotation payload.
+        public let checksumCRC64NVME: String?
+        /// The MD5 checksum of the annotation payload.
+        public let checksumMD5: String?
+        /// The SHA1 checksum of the annotation payload.
+        public let checksumSHA1: String?
+        /// The SHA256 checksum of the annotation payload.
+        public let checksumSHA256: String?
+        /// The SHA512 checksum of the annotation payload.
+        public let checksumSHA512: String?
+        /// The type of checksum used.
+        public let checksumType: ChecksumType?
+        /// The XXHASH128 checksum of the annotation payload.
+        public let checksumXXHASH128: String?
+        /// The XXHASH3 checksum of the annotation payload.
+        public let checksumXXHASH3: String?
+        /// The XXHASH64 checksum of the annotation payload.
+        public let checksumXXHASH64: String?
+        /// The size of the annotation payload, in bytes.
+        public let contentLength: Int64?
+        /// The entity tag of the annotation.
+        public let eTag: String?
+        /// The date and time the annotation was last modified.
+        @OptionalCustomCoding<HTTPHeaderDateCoder>
+        public var lastModified: Date?
+        /// The version ID of the object that the annotation is attached to.
+        public let objectVersionId: String?
+        /// The replication status of the annotation. Possible values include PENDING, COMPLETED, FAILED, and REPLICA.
+        public let replicationStatus: ReplicationStatus?
+        public let requestCharged: RequestCharged?
+        /// The server-side encryption algorithm used.
+        public let serverSideEncryption: ServerSideEncryption?
+
+        @inlinable
+        public init(annotationPayload: AWSHTTPBody, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentLength: Int64? = nil, eTag: String? = nil, lastModified: Date? = nil, objectVersionId: String? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
+            self.annotationPayload = annotationPayload
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
+            self.contentLength = contentLength
+            self.eTag = eTag
+            self.lastModified = lastModified
+            self.objectVersionId = objectVersionId
+            self.replicationStatus = replicationStatus
+            self.requestCharged = requestCharged
+            self.serverSideEncryption = serverSideEncryption
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.annotationPayload = try container.decode(AWSHTTPBody.self)
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
+            self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.lastModified = try response.decodeHeaderIfPresent(Date.self, key: "Last-Modified")
+            self.objectVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-object-version-id")
+            self.replicationStatus = try response.decodeHeaderIfPresent(ReplicationStatus.self, key: "x-amz-replication-status")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetObjectAnnotationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader]
+        /// The name of the annotation to retrieve. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+        public let annotationName: String
+        /// The name of the bucket that contains the object.
+        public let bucket: String
+        /// Set to ENABLED to validate the checksum of the annotation payload on retrieval.
+        public let checksumMode: ChecksumMode?
+        /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
+        /// The object key.
+        public let key: String
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object.
+        public let versionId: String?
+
+        @inlinable
+        public init(annotationName: String, bucket: String, checksumMode: ChecksumMode? = nil, expectedBucketOwner: String? = nil, key: String, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.annotationName = annotationName
+            self.bucket = bucket
+            self.checksumMode = checksumMode
+            self.expectedBucketOwner = expectedBucketOwner
+            self.key = key
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.annotationName, key: "annotationName")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumMode, key: "x-amz-checksum-mode")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetObjectAttributesOutput: AWSDecodableShape {
         /// The checksum or digest of the object.
         public let checksum: Checksum?
@@ -4499,12 +4968,22 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in the CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -4564,7 +5043,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -4572,9 +5051,14 @@ extension S3 {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -4615,9 +5099,14 @@ extension S3 {
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
             self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
             self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
             self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
             self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
             self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
@@ -5100,12 +5589,22 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -5165,7 +5664,7 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -5173,9 +5672,14 @@ extension S3 {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -5215,9 +5719,14 @@ extension S3 {
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
             self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
             self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
             self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
             self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
             self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
@@ -5522,7 +6031,7 @@ extension S3 {
         public let includedObjectVersions: InventoryIncludedObjectVersions
         /// Specifies whether the inventory is enabled or disabled. If set to True, an inventory list is generated. If set to False, no inventory list is generated.
         public let isEnabled: Bool
-        /// Contains the optional fields that are included in the inventory results.
+        /// Contains the optional fields that are included in the inventory results.  The following optional fields are supported for directory buckets Size | LastModifiedDate | StorageClass | ETag | IsMultipartUploaded |  EncryptionStatus | BucketKeyStatus | ChecksumAlgorithm | LifecycleExpirationDate. Throws MalformedXML error if unsupported optional field is provided.
         @OptionalCustomCoding<ArrayCoder<_OptionalFieldsEncoding, InventoryOptionalField>>
         public var optionalFields: [InventoryOptionalField]?
         /// Specifies the schedule for generating inventory results.
@@ -6100,11 +6609,12 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsRequest: AWSEncodableShape {
-        /// The name of the bucket containing the inventory configurations to retrieve.
+        /// The name of the bucket containing the inventory configurations to retrieve.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
         /// The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
 
         @inlinable
@@ -6152,11 +6662,12 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsRequest: AWSEncodableShape {
-        /// The name of the bucket containing the metrics configurations to retrieve.
+        /// The name of the bucket containing the metrics configurations to retrieve.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
         /// The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
         public let continuationToken: String?
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
 
         @inlinable
@@ -6411,6 +6922,122 @@ extension S3 {
             request.encodeQuery(self.prefix, key: "prefix")
             request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
             request.encodeQuery(self.uploadIdMarker, key: "upload-id-marker")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListObjectAnnotationsOutput: AWSDecodableShape {
+        public struct _AnnotationsEncoding: ArrayCoderProperties { public static let member = "AnnotationEntry" }
+
+        /// The number of annotations returned.
+        public let annotationCount: Int?
+        /// The prefix used to filter the response.
+        public let annotationPrefix: String?
+        /// The list of annotations attached to the object.
+        @OptionalCustomCoding<ArrayCoder<_AnnotationsEncoding, AnnotationEntry>>
+        public var annotations: [AnnotationEntry]?
+        /// The bucket name.
+        public let bucket: String?
+        /// The continuation token used in this request.
+        public let continuationToken: String?
+        /// The object key.
+        public let key: String?
+        /// The maximum number of annotations returned in the response.
+        public let maxAnnotationResults: Int?
+        /// The continuation token to use to retrieve the next page of results.
+        public let nextContinuationToken: String?
+        /// The version ID of the object.
+        public let objectVersionId: String?
+        public let requestCharged: RequestCharged?
+
+        @inlinable
+        public init(annotationCount: Int? = nil, annotationPrefix: String? = nil, annotations: [AnnotationEntry]? = nil, bucket: String? = nil, continuationToken: String? = nil, key: String? = nil, maxAnnotationResults: Int? = nil, nextContinuationToken: String? = nil, objectVersionId: String? = nil, requestCharged: RequestCharged? = nil) {
+            self.annotationCount = annotationCount
+            self.annotationPrefix = annotationPrefix
+            self.annotations = annotations
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+            self.key = key
+            self.maxAnnotationResults = maxAnnotationResults
+            self.nextContinuationToken = nextContinuationToken
+            self.objectVersionId = objectVersionId
+            self.requestCharged = requestCharged
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.annotationCount = try container.decodeIfPresent(Int.self, forKey: .annotationCount)
+            self.annotationPrefix = try container.decodeIfPresent(String.self, forKey: .annotationPrefix)
+            self.annotations = try container.decode(OptionalCustomCoding<ArrayCoder<_AnnotationsEncoding, AnnotationEntry>>.self, forKey: .annotations).wrappedValue
+            self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
+            self.continuationToken = try container.decodeIfPresent(String.self, forKey: .continuationToken)
+            self.key = try container.decodeIfPresent(String.self, forKey: .key)
+            self.maxAnnotationResults = try container.decodeIfPresent(Int.self, forKey: .maxAnnotationResults)
+            self.nextContinuationToken = try container.decodeIfPresent(String.self, forKey: .nextContinuationToken)
+            self.objectVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-object-version-id")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationCount = "AnnotationCount"
+            case annotationPrefix = "AnnotationPrefix"
+            case annotations = "Annotations"
+            case bucket = "Bucket"
+            case continuationToken = "ContinuationToken"
+            case key = "Key"
+            case maxAnnotationResults = "MaxAnnotationResults"
+            case nextContinuationToken = "NextContinuationToken"
+        }
+    }
+
+    public struct ListObjectAnnotationsRequest: AWSEncodableShape {
+        /// Filter results to annotations whose name begins with the specified prefix.
+        public let annotationPrefix: String?
+        /// The name of the bucket that contains the object.
+        public let bucket: String
+        /// Continuation token returned by a previous request to retrieve the next page.
+        public let continuationToken: String?
+        /// The account ID of the expected bucket owner.
+        public let expectedBucketOwner: String?
+        /// The object key.
+        public let key: String
+        /// The maximum number of annotations to return in the response. Maximum is 1,000.
+        public let maxAnnotationResults: Int?
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object.
+        public let versionId: String?
+
+        @inlinable
+        public init(annotationPrefix: String? = nil, bucket: String, continuationToken: String? = nil, expectedBucketOwner: String? = nil, key: String, maxAnnotationResults: Int? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.annotationPrefix = annotationPrefix
+            self.bucket = bucket
+            self.continuationToken = continuationToken
+            self.expectedBucketOwner = expectedBucketOwner
+            self.key = key
+            self.maxAnnotationResults = maxAnnotationResults
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.annotationPrefix, key: "annotation-prefix")
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeQuery(self.continuationToken, key: "continuation-token")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeQuery(self.maxAnnotationResults, key: "max-annotation-results")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.maxAnnotationResults, name: "maxAnnotationResults", parent: name, max: 1000)
+            try self.validate(self.maxAnnotationResults, name: "maxAnnotationResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7001,24 +7628,30 @@ extension S3 {
     }
 
     public struct MetadataConfiguration: AWSEncodableShape {
+        /// Optional annotation table configuration to include with the metadata configuration.
+        public let annotationTableConfiguration: AnnotationTableConfiguration?
         ///  The inventory table configuration for a metadata configuration.
         public let inventoryTableConfiguration: InventoryTableConfiguration?
         ///  The journal table configuration for a metadata configuration.
         public let journalTableConfiguration: JournalTableConfiguration
 
         @inlinable
-        public init(inventoryTableConfiguration: InventoryTableConfiguration? = nil, journalTableConfiguration: JournalTableConfiguration) {
+        public init(annotationTableConfiguration: AnnotationTableConfiguration? = nil, inventoryTableConfiguration: InventoryTableConfiguration? = nil, journalTableConfiguration: JournalTableConfiguration) {
+            self.annotationTableConfiguration = annotationTableConfiguration
             self.inventoryTableConfiguration = inventoryTableConfiguration
             self.journalTableConfiguration = journalTableConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case annotationTableConfiguration = "AnnotationTableConfiguration"
             case inventoryTableConfiguration = "InventoryTableConfiguration"
             case journalTableConfiguration = "JournalTableConfiguration"
         }
     }
 
     public struct MetadataConfigurationResult: AWSDecodableShape {
+        /// The annotation table configuration result, if an annotation table is configured.
+        public let annotationTableConfigurationResult: AnnotationTableConfigurationResult?
         ///  The destination settings for a metadata configuration.
         public let destinationResult: DestinationResult
         ///  The inventory table configuration for a metadata configuration.
@@ -7027,13 +7660,15 @@ extension S3 {
         public let journalTableConfigurationResult: JournalTableConfigurationResult?
 
         @inlinable
-        public init(destinationResult: DestinationResult, inventoryTableConfigurationResult: InventoryTableConfigurationResult? = nil, journalTableConfigurationResult: JournalTableConfigurationResult? = nil) {
+        public init(annotationTableConfigurationResult: AnnotationTableConfigurationResult? = nil, destinationResult: DestinationResult, inventoryTableConfigurationResult: InventoryTableConfigurationResult? = nil, journalTableConfigurationResult: JournalTableConfigurationResult? = nil) {
+            self.annotationTableConfigurationResult = annotationTableConfigurationResult
             self.destinationResult = destinationResult
             self.inventoryTableConfigurationResult = inventoryTableConfigurationResult
             self.journalTableConfigurationResult = journalTableConfigurationResult
         }
 
         private enum CodingKeys: String, CodingKey {
+            case annotationTableConfigurationResult = "AnnotationTableConfigurationResult"
             case destinationResult = "DestinationResult"
             case inventoryTableConfigurationResult = "InventoryTableConfigurationResult"
             case journalTableConfigurationResult = "JournalTableConfigurationResult"
@@ -7127,7 +7762,7 @@ extension S3 {
         public let accessPointArn: String?
         /// The prefix used when evaluating an AND predicate.
         public let prefix: String?
-        /// The list of tags used when evaluating an AND predicate.
+        /// The list of tags used when evaluating an AND predicate.   Tag filters are not supported for directory buckets.
         public let tags: [Tag]?
 
         @inlinable
@@ -7151,7 +7786,7 @@ extension S3 {
     }
 
     public struct MetricsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator).
+        /// Specifies a metrics configuration filter. The metrics configuration will only include objects that meet the filter's criteria. A filter must be a prefix, an object tag, an access point ARN, or a conjunction (MetricsAndOperator).  Metrics configurations for directory buckets do not support tag filters.
         public let filter: MetricsFilter?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         public let id: String
@@ -7446,22 +8081,37 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// The part number identifying the part. This value is a positive integer between 1 and 10,000.
         public let partNumber: Int?
         /// The size of the uploaded part in bytes.
         public let size: Int64?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, partNumber: Int? = nil, size: Int64? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, partNumber: Int? = nil, size: Int64? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.partNumber = partNumber
             self.size = size
         }
@@ -7470,8 +8120,13 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case partNumber = "PartNumber"
             case size = "Size"
         }
@@ -7622,10 +8277,20 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the part. This checksum is present if the multipart upload request was created with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the object was uploaded with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the object was uploaded with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the part. This checksum is present if the multipart upload request was created with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This checksum is present if the multipart upload request was created with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Date and time at which the part was uploaded.
@@ -7636,12 +8301,17 @@ extension S3 {
         public let size: Int64?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil, partNumber: Int? = nil, size: Int64? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, lastModified: Date? = nil, partNumber: Int? = nil, size: Int64? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.lastModified = lastModified
             self.partNumber = partNumber
@@ -7652,8 +8322,13 @@ extension S3 {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
             case checksumCRC64NVME = "ChecksumCRC64NVME"
+            case checksumMD5 = "ChecksumMD5"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumSHA512 = "ChecksumSHA512"
+            case checksumXXHASH128 = "ChecksumXXHASH128"
+            case checksumXXHASH3 = "ChecksumXXHASH3"
+            case checksumXXHASH64 = "ChecksumXXHASH64"
             case eTag = "ETag"
             case lastModified = "LastModified"
             case partNumber = "PartNumber"
@@ -8026,9 +8701,10 @@ extension S3 {
 
     public struct PutBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "InventoryConfiguration"
-        /// The name of the bucket where the inventory configuration will be stored.
+        /// The name of the bucket where the inventory configuration will be stored.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the inventory configuration.
         public let id: String
@@ -8150,9 +8826,10 @@ extension S3 {
 
     public struct PutBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "MetricsConfiguration"
-        /// The name of the bucket for which the metrics configuration is set.
+        /// The name of the bucket for which the metrics configuration is set.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+        /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
+        /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The ID used to identify the metrics configuration. The ID has a 64 character limit and can only contain letters, numbers, periods, dashes, and underscores.
         public let id: String
@@ -8254,7 +8931,7 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "Policy"
         /// The name of the bucket.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     MD5     SHA1     SHA256     SHA512     XXHASH3     XXHASH64     XXHASH128    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.  This functionality is not supported for directory buckets.
         public let confirmRemoveSelfBucketAccess: Bool?
@@ -8264,10 +8941,10 @@ extension S3 {
         /// 501 Not Implemented.
         public let expectedBucketOwner: String?
         /// The bucket policy as a JSON document. For directory buckets, the only IAM action supported in the bucket policy is s3express:CreateSession.
-        public let policy: String
+        public let policy: AWSHTTPBody
 
         @inlinable
-        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, policy: String) {
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, confirmRemoveSelfBucketAccess: Bool? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, policy: AWSHTTPBody) {
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
             self.confirmRemoveSelfBucketAccess = confirmRemoveSelfBucketAccess
@@ -8580,6 +9257,189 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct PutObjectAnnotationOutput: AWSDecodableShape {
+        /// The name of the annotation.
+        public let annotationName: String?
+        /// The CRC32 checksum of the stored annotation.
+        public let checksumCRC32: String?
+        /// The CRC32C checksum of the stored annotation.
+        public let checksumCRC32C: String?
+        /// The CRC64NVME checksum of the stored annotation.
+        public let checksumCRC64NVME: String?
+        /// The MD5 checksum of the stored annotation.
+        public let checksumMD5: String?
+        /// The SHA1 checksum of the stored annotation.
+        public let checksumSHA1: String?
+        /// The SHA256 checksum of the stored annotation.
+        public let checksumSHA256: String?
+        /// The SHA512 checksum of the stored annotation.
+        public let checksumSHA512: String?
+        /// The type of checksum used.
+        public let checksumType: ChecksumType?
+        /// The XXHASH128 checksum of the stored annotation.
+        public let checksumXXHASH128: String?
+        /// The XXHASH3 checksum of the stored annotation.
+        public let checksumXXHASH3: String?
+        /// The XXHASH64 checksum of the stored annotation.
+        public let checksumXXHASH64: String?
+        /// The entity tag of the annotation.
+        public let eTag: String?
+        /// The object key.
+        public let key: String?
+        /// The version ID of the object that the annotation was attached to.
+        public let objectVersionId: String?
+        public let requestCharged: RequestCharged?
+        /// The server-side encryption algorithm used to encrypt the annotation.
+        public let serverSideEncryption: ServerSideEncryption?
+
+        @inlinable
+        public init(annotationName: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, key: String? = nil, objectVersionId: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil) {
+            self.annotationName = annotationName
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
+            self.eTag = eTag
+            self.key = key
+            self.objectVersionId = objectVersionId
+            self.requestCharged = requestCharged
+            self.serverSideEncryption = serverSideEncryption
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.annotationName = try container.decodeIfPresent(String.self, forKey: .annotationName)
+            self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
+            self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
+            self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
+            self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.key = try container.decodeIfPresent(String.self, forKey: .key)
+            self.objectVersionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-object-version-id")
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+            self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotationName = "AnnotationName"
+            case key = "Key"
+        }
+    }
+
+    public struct PutObjectAnnotationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .allowStreaming]
+        public static let _xmlRootNodeName: String? = "AnnotationPayload"
+        /// The name of the annotation. Length Constraints: Minimum length of 1. Maximum length of 512 bytes.
+        public let annotationName: String
+        /// The annotation payload. Must be between 1 byte and 1 MiB in size, and must be valid UTF-8 encoded text. If the payload contains invalid UTF-8 bytes, the request fails with HTTP 415 (Unsupported Media Type). To store binary data, encode the payload using Base64 before uploading.
+        public let annotationPayload: AWSHTTPBody
+        /// The name of the bucket that contains the object.
+        public let bucket: String
+        /// The checksum algorithm to use. Supported values: CRC32, CRC32C, CRC64NVME, SHA1, SHA256, SHA512, MD5, XXHASH64, XXHASH3, XXHASH128.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        /// Base64-encoded CRC32 checksum of the annotation payload.
+        public let checksumCRC32: String?
+        /// Base64-encoded CRC32C checksum of the annotation payload.
+        public let checksumCRC32C: String?
+        /// Base64-encoded CRC64NVME checksum of the annotation payload.
+        public let checksumCRC64NVME: String?
+        /// Base64-encoded MD5 checksum of the annotation payload.
+        public let checksumMD5: String?
+        /// Base64-encoded SHA1 checksum of the annotation payload.
+        public let checksumSHA1: String?
+        /// Base64-encoded SHA256 checksum of the annotation payload.
+        public let checksumSHA256: String?
+        /// Base64-encoded SHA512 checksum of the annotation payload.
+        public let checksumSHA512: String?
+        /// Base64-encoded XXHASH128 checksum of the annotation payload.
+        public let checksumXXHASH128: String?
+        /// Base64-encoded XXHASH3 checksum of the annotation payload.
+        public let checksumXXHASH3: String?
+        /// Base64-encoded XXHASH64 checksum of the annotation payload.
+        public let checksumXXHASH64: String?
+        /// Base64-encoded MD5 digest of the message.
+        public let contentMD5: String?
+        /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request fails with an HTTP 403 (Access Denied) error.
+        public let expectedBucketOwner: String?
+        /// The object key.
+        public let key: String
+        /// If specified, the operation only succeeds if the object's ETag matches the provided value.
+        public let objectIfMatch: String?
+        public let requestPayer: RequestPayer?
+        /// The version ID of the object to attach the annotation to.
+        public let versionId: String?
+
+        @inlinable
+        public init(annotationName: String, annotationPayload: AWSHTTPBody, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, objectIfMatch: String? = nil, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.annotationName = annotationName
+            self.annotationPayload = annotationPayload
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.checksumCRC32 = checksumCRC32
+            self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
+            self.checksumSHA1 = checksumSHA1
+            self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.key = key
+            self.objectIfMatch = objectIfMatch
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodeQuery(self.annotationName, key: "annotationName")
+            try container.encode(self.annotationPayload)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
+            request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
+            request.encodeHeader(self.checksumMD5, key: "x-amz-checksum-md5")
+            request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
+            request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumSHA512, key: "x-amz-checksum-sha512")
+            request.encodeHeader(self.checksumXXHASH128, key: "x-amz-checksum-xxhash128")
+            request.encodeHeader(self.checksumXXHASH3, key: "x-amz-checksum-xxhash3")
+            request.encodeHeader(self.checksumXXHASH64, key: "x-amz-checksum-xxhash64")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.objectIfMatch, key: "x-amz-object-if-match")
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct PutObjectLegalHoldOutput: AWSDecodableShape {
         public let requestCharged: RequestCharged?
 
@@ -8715,12 +9575,22 @@ extension S3 {
         public let checksumCRC32C: String?
         /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This header is present if the object was uploaded with the CRC64NVME checksum algorithm, or if it was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information about how checksums are calculated with multipart uploads, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 128-bit MD5 digest of the object. This header is present if the object was uploaded with the MD5 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 digest of the object. This header is present if the object was uploaded with the SHA512 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
         /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ChecksumType?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the object. This header is present if the object was uploaded with the XXHASH128 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the object. This header is present if the object was uploaded with the XXHASH3 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the object. This header is present if the object was uploaded with the XXHASH64 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag for the uploaded object.  General purpose buckets  - To ensure that data is not corrupted traversing the network, for objects where the ETag is the MD5 digest of the object, you can calculate the MD5 while putting an object to Amazon S3 and compare the returned ETag to the calculated MD5 value.  Directory buckets  - The ETag for the object in a directory bucket isn't the MD5 digest of the object.
         public let eTag: String?
         /// If the expiration is configured for the object (see PutBucketLifecycleConfiguration) in the Amazon S3 User Guide, the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
@@ -8742,14 +9612,19 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumType: ChecksumType? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
             self.checksumType = checksumType
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.expiration = expiration
             self.requestCharged = requestCharged
@@ -8768,9 +9643,14 @@ extension S3 {
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
             self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
             self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
             self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
@@ -8800,7 +9680,7 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     MD5     SHA1     SHA256     SHA512     XXHASH3     XXHASH64     XXHASH128    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
@@ -8808,10 +9688,20 @@ extension S3 {
         public let checksumCRC32C: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Specifies presentational information for the object. For more information, see https://www.rfc-editor.org/rfc/rfc6266#section-4.
         public let contentDisposition: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field. For more information, see https://www.rfc-editor.org/rfc/rfc9110.html#field.content-encoding.
@@ -8878,7 +9768,7 @@ extension S3 {
         public let writeOffsetBytes: Int64?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: String? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -8888,8 +9778,13 @@ extension S3 {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -8934,8 +9829,13 @@ extension S3 {
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
             request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
+            request.encodeHeader(self.checksumMD5, key: "x-amz-checksum-md5")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumSHA512, key: "x-amz-checksum-sha512")
+            request.encodeHeader(self.checksumXXHASH128, key: "x-amz-checksum-xxhash128")
+            request.encodeHeader(self.checksumXXHASH3, key: "x-amz-checksum-xxhash3")
+            request.encodeHeader(self.checksumXXHASH64, key: "x-amz-checksum-xxhash64")
             request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
             request.encodeHeader(self.contentEncoding, key: "Content-Encoding")
             request.encodeHeader(self.contentLanguage, key: "Content-Language")
@@ -10289,7 +11189,7 @@ extension S3 {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var date: Date?
-        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. If the specified storage class is INTELLIGENT_TIERING, GLACIER_IR, GLACIER, or DEEP_ARCHIVE, valid values are 0 or positive integers. If the specified storage class is STANDARD_IA or ONEZONE_IA, valid values are positive integers greater than 30. Be aware that some storage classes have a minimum storage duration and that you're charged for transitioning objects before their minimum storage duration. For more information, see  Constraints and considerations for transitions in the Amazon S3 User Guide.
+        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value can be 0 or any positive integer. Be aware that some storage classes have a minimum storage duration and that you're charged for transitioning objects before their minimum storage duration. For more information, see  Constraints and considerations for transitions in the Amazon S3 User Guide.
         public let days: Int?
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
@@ -10306,6 +11206,42 @@ extension S3 {
             case days = "Days"
             case storageClass = "StorageClass"
         }
+    }
+
+    public struct UpdateBucketMetadataAnnotationTableConfigurationRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
+        public static let _xmlRootNodeName: String? = "AnnotationTableConfiguration"
+        /// The annotation table configuration updates to apply.
+        public let annotationTableConfiguration: AnnotationTableConfigurationUpdates
+        /// The name of the bucket whose annotation table configuration to update.
+        public let bucket: String
+        /// Checksum algorithm for the request payload.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        /// Base64-encoded MD5 digest of the message body.
+        public let contentMD5: String?
+        /// The account ID of the expected bucket owner.
+        public let expectedBucketOwner: String?
+
+        @inlinable
+        public init(annotationTableConfiguration: AnnotationTableConfigurationUpdates, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil) {
+            self.annotationTableConfiguration = annotationTableConfiguration
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.annotationTableConfiguration)
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UpdateBucketMetadataInventoryTableConfigurationRequest: AWSEncodableShape {
@@ -10592,16 +11528,26 @@ extension S3 {
     public struct UploadPartOutput: AWSDecodableShape {
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
-        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
-        /// The Base64 encoded, 160-bit SHA1 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 128-bit MD5 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
+        /// The Base64 encoded, 160-bit SHA1 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The Base64 encoded, 256-bit SHA256 digest of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The Base64 encoded, 512-bit SHA512 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// The Base64 encoded, 128-bit XXHASH128 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// The Base64 encoded, 64-bit XXHASH3 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// The Base64 encoded, 64-bit XXHASH64 checksum of the part. This will only be present if the checksum was provided in the request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Entity tag for the uploaded object.
         public let eTag: String?
         public let requestCharged: RequestCharged?
@@ -10615,13 +11561,18 @@ extension S3 {
         public let ssekmsKeyId: String?
 
         @inlinable
-        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.eTag = eTag
             self.requestCharged = requestCharged
             self.serverSideEncryption = serverSideEncryption
@@ -10636,8 +11587,13 @@ extension S3 {
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
             self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
+            self.checksumMD5 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-md5")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumSHA512 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha512")
+            self.checksumXXHASH128 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash128")
+            self.checksumXXHASH3 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash3")
+            self.checksumXXHASH64 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-xxhash64")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
             self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
@@ -10664,10 +11620,20 @@ extension S3 {
         public let checksumCRC32C: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
         public let contentLength: Int64?
         /// The Base64 encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.  This functionality is not supported for directory buckets.
@@ -10689,15 +11655,20 @@ extension S3 {
         public let uploadId: String
 
         @inlinable
-        public init(body: AWSHTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSHTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.contentLength = contentLength
             self.contentMD5 = contentMD5
             self.expectedBucketOwner = expectedBucketOwner
@@ -10719,8 +11690,13 @@ extension S3 {
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
             request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
+            request.encodeHeader(self.checksumMD5, key: "x-amz-checksum-md5")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumSHA512, key: "x-amz-checksum-sha512")
+            request.encodeHeader(self.checksumXXHASH128, key: "x-amz-checksum-xxhash128")
+            request.encodeHeader(self.checksumXXHASH3, key: "x-amz-checksum-xxhash3")
+            request.encodeHeader(self.checksumXXHASH64, key: "x-amz-checksum-xxhash64")
             request.encodeHeader(self.contentLength, key: "Content-Length")
             request.encodeHeader(self.contentMD5, key: "Content-MD5")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
@@ -10808,10 +11784,20 @@ extension S3 {
         public let checksumCRC32C: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit MD5 digest of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumMD5: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumSHA1: String?
         /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 256-bit SHA256 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumSHA256: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 512-bit SHA512 digest of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumSHA512: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 128-bit XXHASH128 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH128: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH3 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH3: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit XXHASH64 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumXXHASH64: String?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -10879,7 +11865,7 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumMD5: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumSHA512: String? = nil, checksumXXHASH128: String? = nil, checksumXXHASH3: String? = nil, checksumXXHASH64: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: String? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
@@ -10887,8 +11873,13 @@ extension S3 {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
             self.checksumCRC64NVME = checksumCRC64NVME
+            self.checksumMD5 = checksumMD5
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumSHA512 = checksumSHA512
+            self.checksumXXHASH128 = checksumXXHASH128
+            self.checksumXXHASH3 = checksumXXHASH3
+            self.checksumXXHASH64 = checksumXXHASH64
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -10933,8 +11924,13 @@ extension S3 {
             request.encodeHeader(self.checksumCRC32, key: "x-amz-fwd-header-x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-fwd-header-x-amz-checksum-crc32c")
             request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-fwd-header-x-amz-checksum-crc64nvme")
+            request.encodeHeader(self.checksumMD5, key: "x-amz-fwd-header-x-amz-checksum-md5")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-fwd-header-x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-fwd-header-x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumSHA512, key: "x-amz-fwd-header-x-amz-checksum-sha512")
+            request.encodeHeader(self.checksumXXHASH128, key: "x-amz-fwd-header-x-amz-checksum-xxhash128")
+            request.encodeHeader(self.checksumXXHASH3, key: "x-amz-fwd-header-x-amz-checksum-xxhash3")
+            request.encodeHeader(self.checksumXXHASH64, key: "x-amz-fwd-header-x-amz-checksum-xxhash64")
             request.encodeHeader(self.contentDisposition, key: "x-amz-fwd-header-Content-Disposition")
             request.encodeHeader(self.contentEncoding, key: "x-amz-fwd-header-Content-Encoding")
             request.encodeHeader(self.contentLanguage, key: "x-amz-fwd-header-Content-Language")
@@ -10998,13 +11994,18 @@ extension S3 {
 public struct S3ErrorType: AWSErrorType {
     enum Code: String {
         case accessDenied = "AccessDenied"
+        case annotationLimitExceeded = "AnnotationLimitExceeded"
+        case annotationNameTooLong = "AnnotationNameTooLong"
         case bucketAlreadyExists = "BucketAlreadyExists"
         case bucketAlreadyOwnedByYou = "BucketAlreadyOwnedByYou"
         case encryptionTypeMismatch = "EncryptionTypeMismatch"
         case idempotencyParameterMismatch = "IdempotencyParameterMismatch"
+        case invalidAnnotationName = "InvalidAnnotationName"
         case invalidObjectState = "InvalidObjectState"
+        case invalidPrefix = "InvalidPrefix"
         case invalidRequest = "InvalidRequest"
         case invalidWriteOffset = "InvalidWriteOffset"
+        case noSuchAnnotation = "NoSuchAnnotation"
         case noSuchBucket = "NoSuchBucket"
         case noSuchKey = "NoSuchKey"
         case noSuchUpload = "NoSuchUpload"
@@ -11012,6 +12013,7 @@ public struct S3ErrorType: AWSErrorType {
         case objectAlreadyInActiveTierError = "ObjectAlreadyInActiveTierError"
         case objectNotInActiveTierError = "ObjectNotInActiveTierError"
         case tooManyParts = "TooManyParts"
+        case unsupportedMediaType = "UnsupportedMediaType"
     }
 
     private let error: Code
@@ -11034,6 +12036,10 @@ public struct S3ErrorType: AWSErrorType {
 
     ///  You might receive this error for several reasons. For details, see the description of this API  operation.
     public static var accessDenied: Self { .init(.accessDenied) }
+    /// The request would exceed the maximum number of annotations allowed per object.
+    public static var annotationLimitExceeded: Self { .init(.annotationLimitExceeded) }
+    /// The annotation name exceeds 512 bytes.
+    public static var annotationNameTooLong: Self { .init(.annotationNameTooLong) }
     /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
     /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
@@ -11042,12 +12048,18 @@ public struct S3ErrorType: AWSErrorType {
     public static var encryptionTypeMismatch: Self { .init(.encryptionTypeMismatch) }
     /// Parameters on this idempotent request are inconsistent with parameters used in previous request(s).  For a list of error codes and more information on Amazon S3 errors, see Error codes.  Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public static var idempotencyParameterMismatch: Self { .init(.idempotencyParameterMismatch) }
+    /// The annotation name you provided is invalid.
+    public static var invalidAnnotationName: Self { .init(.invalidAnnotationName) }
     /// Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using RestoreObject. Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see Restoring Archived Objects in the Amazon S3 User Guide.
     public static var invalidObjectState: Self { .init(.invalidObjectState) }
+    /// The annotation prefix you provided is invalid.
+    public static var invalidPrefix: Self { .init(.invalidPrefix) }
     /// A parameter or header in your request isn't valid. For details, see the description of this API  operation.
     public static var invalidRequest: Self { .init(.invalidRequest) }
     ///  The write offset value that you specified does not match the current object size.
     public static var invalidWriteOffset: Self { .init(.invalidWriteOffset) }
+    /// The specified annotation does not exist on this object.
+    public static var noSuchAnnotation: Self { .init(.noSuchAnnotation) }
     /// The specified bucket does not exist.
     public static var noSuchBucket: Self { .init(.noSuchBucket) }
     /// The specified key does not exist.
@@ -11062,6 +12074,8 @@ public struct S3ErrorType: AWSErrorType {
     public static var objectNotInActiveTierError: Self { .init(.objectNotInActiveTierError) }
     ///  You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public static var tooManyParts: Self { .init(.tooManyParts) }
+    /// The annotation payload is not valid UTF-8 encoded text.
+    public static var unsupportedMediaType: Self { .init(.unsupportedMediaType) }
 }
 
 extension S3ErrorType: AWSServiceErrorType {

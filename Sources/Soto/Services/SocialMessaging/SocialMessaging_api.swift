@@ -110,6 +110,50 @@ public struct SocialMessaging: AWSService {
         return try await self.associateWhatsAppBusinessAccount(input, logger: logger)
     }
 
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately.
+    @Sendable
+    @inlinable
+    public func createWhatsAppFlow(_ input: CreateWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "CreateWhatsAppFlow", 
+            path: "/v1/whatsapp/flow/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences that users can complete without leaving WhatsApp. The Flow is created in DRAFT status. If publish is set to true and a valid flowJson is provided, the Flow is published immediately.
+    ///
+    /// Parameters:
+    ///   - categories: The categories that classify the business purpose of the Flow. At least one category is required.
+    ///   - cloneFlowId: The ID of an existing Flow within the same WhatsApp Business Account to clone.
+    ///   - flowJson: The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
+    ///   - flowName: The name of the Flow. Must be unique within the WhatsApp Business Account.
+    ///   - id: The ID of the WhatsApp Business Account to associate with this Flow.
+    ///   - publish: Set to true to publish the Flow immediately after creation. Requires a valid flowJson that passes Meta's validation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWhatsAppFlow(
+        categories: [MetaFlowCategory],
+        cloneFlowId: String? = nil,
+        flowJson: AWSBase64Data? = nil,
+        flowName: String,
+        id: String,
+        publish: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWhatsAppFlowOutput {
+        let input = CreateWhatsAppFlowInput(
+            categories: categories, 
+            cloneFlowId: cloneFlowId, 
+            flowJson: flowJson, 
+            flowName: flowName, 
+            id: id, 
+            publish: publish
+        )
+        return try await self.createWhatsAppFlow(input, logger: logger)
+    }
+
     /// Creates a new WhatsApp message template from a custom definition.  Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
     @Sendable
     @inlinable
@@ -206,6 +250,38 @@ public struct SocialMessaging: AWSService {
         return try await self.createWhatsAppMessageTemplateMedia(input, logger: logger)
     }
 
+    /// Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.
+    @Sendable
+    @inlinable
+    public func deleteWhatsAppFlow(_ input: DeleteWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "DeleteWhatsAppFlow", 
+            path: "/v1/whatsapp/flow", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow to delete.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWhatsAppFlow(
+        flowId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteWhatsAppFlowOutput {
+        let input = DeleteWhatsAppFlowInput(
+            flowId: flowId, 
+            id: id
+        )
+        return try await self.deleteWhatsAppFlow(input, logger: logger)
+    }
+
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
     @Sendable
     @inlinable
@@ -274,6 +350,38 @@ public struct SocialMessaging: AWSService {
             templateName: templateName
         )
         return try await self.deleteWhatsAppMessageTemplate(input, logger: logger)
+    }
+
+    /// Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.
+    @Sendable
+    @inlinable
+    public func deprecateWhatsAppFlow(_ input: DeprecateWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeprecateWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "DeprecateWhatsAppFlow", 
+            path: "/v1/whatsapp/flow/deprecate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow to deprecate.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deprecateWhatsAppFlow(
+        flowId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeprecateWhatsAppFlowOutput {
+        let input = DeprecateWhatsAppFlowInput(
+            flowId: flowId, 
+            id: id
+        )
+        return try await self.deprecateWhatsAppFlow(input, logger: logger)
     }
 
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
@@ -363,6 +471,73 @@ public struct SocialMessaging: AWSService {
         return try await self.getLinkedWhatsAppBusinessAccountPhoneNumber(input, logger: logger)
     }
 
+    /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
+    @Sendable
+    @inlinable
+    public func getWhatsAppFlow(_ input: GetWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "GetWhatsAppFlow", 
+            path: "/v1/whatsapp/flow", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow to retrieve.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWhatsAppFlow(
+        flowId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWhatsAppFlowOutput {
+        let input = GetWhatsAppFlowInput(
+            flowId: flowId, 
+            id: id
+        )
+        return try await self.getWhatsAppFlow(input, logger: logger)
+    }
+
+    /// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.
+    @Sendable
+    @inlinable
+    public func getWhatsAppFlowPreview(_ input: GetWhatsAppFlowPreviewInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetWhatsAppFlowPreviewOutput {
+        try await self.client.execute(
+            operation: "GetWhatsAppFlowPreview", 
+            path: "/v1/whatsapp/flow/preview", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow to preview.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - invalidate: Set to true to force generation of a new preview URL. Use this if the previous URL has been compromised or you want a fresh expiration period.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getWhatsAppFlowPreview(
+        flowId: String,
+        id: String,
+        invalidate: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetWhatsAppFlowPreviewOutput {
+        let input = GetWhatsAppFlowPreviewInput(
+            flowId: flowId, 
+            id: id, 
+            invalidate: invalidate
+        )
+        return try await self.getWhatsAppFlowPreview(input, logger: logger)
+    }
+
     /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned.
     @Sendable
     @inlinable
@@ -422,16 +597,22 @@ public struct SocialMessaging: AWSService {
     /// Parameters:
     ///   - id: The ID of the WhatsApp Business Account associated with this template.
     ///   - metaTemplateId: The numeric ID of the template assigned by Meta.
+    ///   - templateLanguageCode: The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    ///   - templateName: The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
     ///   - logger: Logger use during operation
     @inlinable
     public func getWhatsAppMessageTemplate(
         id: String,
-        metaTemplateId: String,
+        metaTemplateId: String? = nil,
+        templateLanguageCode: String? = nil,
+        templateName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetWhatsAppMessageTemplateOutput {
         let input = GetWhatsAppMessageTemplateInput(
             id: id, 
-            metaTemplateId: metaTemplateId
+            metaTemplateId: metaTemplateId, 
+            templateLanguageCode: templateLanguageCode, 
+            templateName: templateName
         )
         return try await self.getWhatsAppMessageTemplate(input, logger: logger)
     }
@@ -495,6 +676,79 @@ public struct SocialMessaging: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.
+    @Sendable
+    @inlinable
+    public func listWhatsAppFlowAssets(_ input: ListWhatsAppFlowAssetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWhatsAppFlowAssetsOutput {
+        try await self.client.execute(
+            operation: "ListWhatsAppFlowAssets", 
+            path: "/v1/whatsapp/flow/assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow whose assets to list.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWhatsAppFlowAssets(
+        flowId: String,
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWhatsAppFlowAssetsOutput {
+        let input = ListWhatsAppFlowAssetsInput(
+            flowId: flowId, 
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWhatsAppFlowAssets(input, logger: logger)
+    }
+
+    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.
+    @Sendable
+    @inlinable
+    public func listWhatsAppFlows(_ input: ListWhatsAppFlowsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWhatsAppFlowsOutput {
+        try await self.client.execute(
+            operation: "ListWhatsAppFlows", 
+            path: "/v1/whatsapp/flow/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the WhatsApp Business Account to list Flows for.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWhatsAppFlows(
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWhatsAppFlowsOutput {
+        let input = ListWhatsAppFlowsInput(
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWhatsAppFlows(input, logger: logger)
     }
 
     /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
@@ -603,6 +857,38 @@ public struct SocialMessaging: AWSService {
             sourceS3PresignedUrl: sourceS3PresignedUrl
         )
         return try await self.postWhatsAppMessageMedia(input, logger: logger)
+    }
+
+    /// Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.
+    @Sendable
+    @inlinable
+    public func publishWhatsAppFlow(_ input: PublishWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "PublishWhatsAppFlow", 
+            path: "/v1/whatsapp/flow/publish", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow to publish.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func publishWhatsAppFlow(
+        flowId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PublishWhatsAppFlowOutput {
+        let input = PublishWhatsAppFlowInput(
+            flowId: flowId, 
+            id: id
+        )
+        return try await self.publishWhatsAppFlow(input, logger: logger)
     }
 
     /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
@@ -736,6 +1022,79 @@ public struct SocialMessaging: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
+    @Sendable
+    @inlinable
+    public func updateWhatsAppFlow(_ input: UpdateWhatsAppFlowInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWhatsAppFlowOutput {
+        try await self.client.execute(
+            operation: "UpdateWhatsAppFlow", 
+            path: "/v1/whatsapp/flow/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
+    ///
+    /// Parameters:
+    ///   - categories: The updated categories for the Flow.
+    ///   - flowId: The unique identifier of the Flow to update.
+    ///   - flowName: The updated name for the Flow.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWhatsAppFlow(
+        categories: [MetaFlowCategory]? = nil,
+        flowId: String,
+        flowName: String? = nil,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWhatsAppFlowOutput {
+        let input = UpdateWhatsAppFlowInput(
+            categories: categories, 
+            flowId: flowId, 
+            flowName: flowName, 
+            id: id
+        )
+        return try await self.updateWhatsAppFlow(input, logger: logger)
+    }
+
+    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.
+    @Sendable
+    @inlinable
+    public func updateWhatsAppFlowAssets(_ input: UpdateWhatsAppFlowAssetsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWhatsAppFlowAssetsOutput {
+        try await self.client.execute(
+            operation: "UpdateWhatsAppFlowAssets", 
+            path: "/v1/whatsapp/flow/assets/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.
+    ///
+    /// Parameters:
+    ///   - flowId: The unique identifier of the Flow whose assets to update.
+    ///   - flowJson: The updated Flow JSON definition. Maximum size is 10 MB.
+    ///   - id: The ID of the WhatsApp Business Account associated with this Flow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWhatsAppFlowAssets(
+        flowId: String,
+        flowJson: AWSBase64Data,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWhatsAppFlowAssetsOutput {
+        let input = UpdateWhatsAppFlowAssetsInput(
+            flowId: flowId, 
+            flowJson: flowJson, 
+            id: id
+        )
+        return try await self.updateWhatsAppFlowAssets(input, logger: logger)
+    }
+
     /// Updates an existing WhatsApp message template.
     @Sendable
     @inlinable
@@ -758,15 +1117,19 @@ public struct SocialMessaging: AWSService {
     ///   - parameterFormat: The format specification for parameters in the template, this can be either 'named' or 'positional'.
     ///   - templateCategory: The new category for the template (for example, UTILITY or MARKETING).
     ///   - templateComponents: The updated components of the template as a JSON blob (maximum 3000 characters).
+    ///   - templateLanguageCode: The language code of the message template (for example, en or en_US). Use together with templateName as an alternative to metaTemplateId to identify a template.
+    ///   - templateName: The name of the message template. Use together with templateLanguageCode as an alternative to metaTemplateId to identify a template.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWhatsAppMessageTemplate(
         ctaUrlLinkTrackingOptedOut: Bool? = nil,
         id: String,
-        metaTemplateId: String,
+        metaTemplateId: String? = nil,
         parameterFormat: String? = nil,
         templateCategory: String? = nil,
         templateComponents: AWSBase64Data? = nil,
+        templateLanguageCode: String? = nil,
+        templateName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWhatsAppMessageTemplateOutput {
         let input = UpdateWhatsAppMessageTemplateInput(
@@ -775,7 +1138,9 @@ public struct SocialMessaging: AWSService {
             metaTemplateId: metaTemplateId, 
             parameterFormat: parameterFormat, 
             templateCategory: templateCategory, 
-            templateComponents: templateComponents
+            templateComponents: templateComponents, 
+            templateLanguageCode: templateLanguageCode, 
+            templateName: templateName
         )
         return try await self.updateWhatsAppMessageTemplate(input, logger: logger)
     }

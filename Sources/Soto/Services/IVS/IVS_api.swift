@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS IVS service.
 ///
-///  Introduction  The Amazon Interactive Video Service (IVS) API is REST compatible, using a standard HTTP API and an Amazon Web Services EventBridge event stream for responses. JSON is used for both requests and responses, including errors. The API is an Amazon Web Services regional service. For a list of supported regions and Amazon IVS HTTPS service endpoints, see the Amazon IVS page in the Amazon Web Services General Reference.   All API request parameters and URLs are case sensitive.    For a summary of notable documentation changes in each release, see  Document History.  Allowed Header Values      Accept: application/json     Accept-Encoding: gzip, deflate     Content-Type: application/json    Key Concepts     Channel — Stores configuration data related to your live stream. You first create a channel and then use the channel’s stream key to start your live stream.    Stream key — An identifier assigned by Amazon IVS when you create a channel, which is then used to authorize streaming.  Treat the stream key like a secret, since it allows anyone to stream to the channel.      Playback key pair — Video playback may be restricted using playback-authorization tokens, which use public-key encryption. A playback key pair is the public-private pair of keys used to sign and validate the playback-authorization token.    Recording configuration — Stores configuration related to recording a live stream and where to store the recorded content. Multiple channels can reference the same recording configuration.    Playback restriction policy — Restricts playback by countries and/or origin sites.   For more information about your IVS live stream, also see Getting Started with IVS Low-Latency Streaming.  Tagging  A tag is a metadata label that you assign to an Amazon Web Services resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your Amazon Web Services resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see  Access Tags).  The Amazon IVS API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resources support tagging: Channels, Stream Keys, Playback Key Pairs, and Recording Configurations. At most 50 tags can be applied to a resource.   Authentication versus Authorization  Note the differences between these concepts:    Authentication is about verifying identity. You need to be authenticated to sign Amazon IVS API requests.    Authorization is about granting permissions. Your IAM roles need to have permissions for Amazon IVS API requests. In addition, authorization is needed to view Amazon IVS private channels. (Private channels are channels that are enabled for "playback authorization.")    Authentication  All Amazon IVS API requests must be authenticated with a signature. The Amazon Web Services Command-Line Interface (CLI) and Amazon IVS Player SDKs take care of signing the underlying API calls for you. However, if your application calls the Amazon IVS API directly, it’s your responsibility to sign the requests. You generate a signature using valid Amazon Web Services credentials that have permission to perform the requested action. For example, you must sign PutMetadata requests with a signature generated from a user account that has the ivs:PutMetadata permission. For more information:   Authentication and generating signatures — See Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon Web Services General Reference.   Managing Amazon IVS permissions — See Identity and Access Management on the Security page of the Amazon IVS User Guide.    Amazon Resource Names (ARNs)  ARNs uniquely identify AWS resources. An ARN is required when you need to specify a resource unambiguously across all of AWS, such as in IAM policies and API calls. For more information, see Amazon Resource Names in the AWS General Reference.
+///  Introduction  The Amazon Interactive Video Service (IVS) API is REST compatible, using a standard HTTP API and an Amazon Web Services EventBridge event stream for responses. JSON is used for both requests and responses, including errors. The API is an Amazon Web Services regional service. For a list of supported regions and Amazon IVS HTTPS service endpoints, see the Amazon IVS page in the Amazon Web Services General Reference.   All API request parameters and URLs are case sensitive.    For a summary of notable documentation changes in each release, see  Document History.  Allowed Header Values      Accept:  application/json     Accept-Encoding:  gzip, deflate     Content-Type: application/json    Key Concepts     Channel — Stores configuration data related to your live stream. You first create a channel and then use the channel’s stream key to start your live stream.    Stream key — An identifier assigned by Amazon IVS when you create a channel, which is then used to authorize streaming.  Treat the stream key like a secret, since it allows anyone to stream to the channel.      Playback key pair — Video playback may be restricted using playback-authorization tokens, which use public-key encryption. A playback key pair is the public-private pair of keys used to sign and validate the playback-authorization token.    Recording configuration — Stores configuration related to recording a live stream and where to store the recorded content. Multiple channels can reference the same recording configuration.    Playback restriction policy — Restricts playback by countries and/or origin sites.   For more information about your IVS live stream, also see Getting Started with IVS Low-Latency Streaming.  Tagging  A tag is a metadata label that you assign to an Amazon Web Services resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your Amazon Web Services resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see  Access Tags).  The Amazon IVS API has these tag-related operations: TagResource, UntagResource, and ListTagsForResource. The following resources support tagging: Channels, Stream Keys, Playback Key Pairs, and Recording Configurations. At most 50 tags can be applied to a resource.   Authentication versus Authorization  Note the differences between these concepts:    Authentication is about verifying identity. You need to be authenticated to sign Amazon IVS API requests.    Authorization is about granting permissions. Your IAM roles need to have permissions for Amazon IVS API requests. In addition, authorization is needed to view Amazon IVS private channels. (Private channels are channels that are enabled for "playback authorization.")    Authentication  All Amazon IVS API requests must be authenticated with a signature. The Amazon Web Services Command-Line Interface (CLI) and Amazon IVS Player SDKs take care of signing the underlying API calls for you. However, if your application calls the Amazon IVS API directly, it’s your responsibility to sign the requests. You generate a signature using valid Amazon Web Services credentials that have permission to perform the requested action. For example, you must sign PutMetadata requests with a signature generated from a user account that has the ivs:PutMetadata permission. For more information:   Authentication and generating signatures — See Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon Web Services General Reference.   Managing Amazon IVS permissions — See Identity and Access Management on the Security page of the Amazon IVS User Guide.    Amazon Resource Names (ARNs)  ARNs uniquely identify AWS resources. An ARN is required when you need to specify a resource unambiguously across all of AWS, such as in IAM policies and API calls. For more information, see Amazon Resource Names in the AWS General Reference.
 public struct IVS: AWSService {
     // MARK: Member variables
 
@@ -165,6 +165,44 @@ public struct IVS: AWSService {
         return try await self.batchStartViewerSessionRevocation(input, logger: logger)
     }
 
+    /// Creates a new ad configuration to be used for server-side ad insertion.
+    @Sendable
+    @inlinable
+    public func createAdConfiguration(_ input: CreateAdConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAdConfigurationResponse {
+        try await self.client.execute(
+            operation: "CreateAdConfiguration", 
+            path: "/CreateAdConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new ad configuration to be used for server-side ad insertion.
+    ///
+    /// Parameters:
+    ///   - mediaTailorPlaybackConfigurations: List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+    ///   - name: Ad configuration name. Defaults to “”.
+    ///   - postRollConfiguration: Configuration for the post-roll ad break to use for this ad configuration. Default: disabled (enabled set to false, durationSeconds set to 15).
+    ///   - tags: Array of 1-50 maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAdConfiguration(
+        mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration],
+        name: String? = nil,
+        postRollConfiguration: PostRollConfiguration? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAdConfigurationResponse {
+        let input = CreateAdConfigurationRequest(
+            mediaTailorPlaybackConfigurations: mediaTailorPlaybackConfigurations, 
+            name: name, 
+            postRollConfiguration: postRollConfiguration, 
+            tags: tags
+        )
+        return try await self.createAdConfiguration(input, logger: logger)
+    }
+
     /// Creates a new channel and an associated stream key to start streaming.
     @Sendable
     @inlinable
@@ -181,6 +219,7 @@ public struct IVS: AWSService {
     /// Creates a new channel and an associated stream key to start streaming.
     ///
     /// Parameters:
+    ///   - adConfigurationArn: ARN of the ad configuration associated with the channel.
     ///   - authorized: Whether the channel is private (enabled for playback authorization). Default: false.
     ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
     ///   - insecureIngest: Whether the channel allows insecure RTMP and SRT ingest. Default: false.
@@ -195,6 +234,7 @@ public struct IVS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createChannel(
+        adConfigurationArn: String? = nil,
         authorized: Bool? = nil,
         containerFormat: ContainerFormat? = nil,
         insecureIngest: Bool? = nil,
@@ -209,6 +249,7 @@ public struct IVS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateChannelResponse {
         let input = CreateChannelRequest(
+            adConfigurationArn: adConfigurationArn, 
             authorized: authorized, 
             containerFormat: containerFormat, 
             insecureIngest: insecureIngest, 
@@ -339,6 +380,35 @@ public struct IVS: AWSService {
             tags: tags
         )
         return try await self.createStreamKey(input, logger: logger)
+    }
+
+    /// Deletes the specified ad configuration.
+    @Sendable
+    @inlinable
+    public func deleteAdConfiguration(_ input: DeleteAdConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAdConfiguration", 
+            path: "/DeleteAdConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified ad configuration.
+    ///
+    /// Parameters:
+    ///   - arn: ARN of the ad configuration to be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAdConfiguration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAdConfigurationRequest(
+            arn: arn
+        )
+        return try await self.deleteAdConfiguration(input, logger: logger)
     }
 
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call StopStream, wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See  Using EventBridge with Amazon IVS.)
@@ -484,6 +554,35 @@ public struct IVS: AWSService {
             arn: arn
         )
         return try await self.deleteStreamKey(input, logger: logger)
+    }
+
+    /// Gets the ad configuration represented by the specified ARN.
+    @Sendable
+    @inlinable
+    public func getAdConfiguration(_ input: GetAdConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetAdConfiguration", 
+            path: "/GetAdConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the ad configuration represented by the specified ARN.
+    ///
+    /// Parameters:
+    ///   - arn: ARN of the ad configuration to be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAdConfiguration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAdConfigurationResponse {
+        let input = GetAdConfigurationRequest(
+            arn: arn
+        )
+        return try await self.getAdConfiguration(input, logger: logger)
     }
 
     /// Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
@@ -727,6 +826,70 @@ public struct IVS: AWSService {
         return try await self.importPlaybackKeyPair(input, logger: logger)
     }
 
+    /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel.  Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics.
+    @Sendable
+    @inlinable
+    public func insertAdBreak(_ input: InsertAdBreakRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InsertAdBreakResponse {
+        try await self.client.execute(
+            operation: "InsertAdBreak", 
+            path: "/InsertAdBreak", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Inserts an ad marker in the playlist for the specified channel and duration using the ad configuration associated with the channel.  Note: AWS Elemental MediaTailor (EMT), the service that handles ad requests, provides CloudWatch metrics to help you monitor the success or failure of each InsertAdBreak operation. See Monitoring AWS Elemental MediaTailor with Amazon CloudWatch metrics in the AWS Elemental MediaTailor User Guide for details on available metrics.
+    ///
+    /// Parameters:
+    ///   - channelArn: ARN of the channel into which the ad break is inserted.
+    ///   - durationSeconds: Duration of the ad break, in seconds.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func insertAdBreak(
+        channelArn: String,
+        durationSeconds: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InsertAdBreakResponse {
+        let input = InsertAdBreakRequest(
+            channelArn: channelArn, 
+            durationSeconds: durationSeconds
+        )
+        return try await self.insertAdBreak(input, logger: logger)
+    }
+
+    /// Gets summary information about all ad configurations in your account, in the AWS region where the API request is processed.
+    @Sendable
+    @inlinable
+    public func listAdConfigurations(_ input: ListAdConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAdConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListAdConfigurations", 
+            path: "/ListAdConfigurations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets summary information about all ad configurations in your account, in the AWS region where the API request is processed.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of ad configurations to return. Default: your service quota or 100, whichever is smaller.
+    ///   - nextToken: The first ad configuration to retrieve. This is used for pagination; see the nextToken response field.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAdConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAdConfigurationsResponse {
+        let input = ListAdConfigurationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAdConfigurations(input, logger: logger)
+    }
+
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     @Sendable
     @inlinable
@@ -743,6 +906,7 @@ public struct IVS: AWSService {
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
     ///
     /// Parameters:
+    ///   - filterByAdConfigurationArn: Filters the channel list to match the specified ad configuration ARN.
     ///   - filterByName: Filters the channel list to match the specified name.
     ///   - filterByPlaybackRestrictionPolicyArn: Filters the channel list to match the specified policy.
     ///   - filterByRecordingConfigurationArn: Filters the channel list to match the specified recording-configuration ARN.
@@ -751,6 +915,7 @@ public struct IVS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listChannels(
+        filterByAdConfigurationArn: String? = nil,
         filterByName: String? = nil,
         filterByPlaybackRestrictionPolicyArn: String? = nil,
         filterByRecordingConfigurationArn: String? = nil,
@@ -759,6 +924,7 @@ public struct IVS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListChannelsResponse {
         let input = ListChannelsRequest(
+            filterByAdConfigurationArn: filterByAdConfigurationArn, 
             filterByName: filterByName, 
             filterByPlaybackRestrictionPolicyArn: filterByPlaybackRestrictionPolicyArn, 
             filterByRecordingConfigurationArn: filterByRecordingConfigurationArn, 
@@ -1143,7 +1309,7 @@ public struct IVS: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: ARN of the resource for which tags are to be removed. The ARN must be URL-encoded.
-    ///   - tagKeys: Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    ///   - tagKeys: Array of tag keys (strings) for the tags to be removed. See Best practices and strategies in Tagging Amazon Web Services Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
@@ -1156,6 +1322,44 @@ public struct IVS: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates a specified ad configuration.
+    @Sendable
+    @inlinable
+    public func updateAdConfiguration(_ input: UpdateAdConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAdConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateAdConfiguration", 
+            path: "/UpdateAdConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a specified ad configuration.
+    ///
+    /// Parameters:
+    ///   - arn: ARN of the ad configuration to be updated.
+    ///   - mediaTailorPlaybackConfigurations: List of integration configurations with MediaTailor resources. The first item in the list is the default playback configuration used for the ad configuration. To select a different configuration per viewing session, see Generate and Sign IVS Playback Tokens.
+    ///   - name: Ad configuration name. The value does not need to be unique.
+    ///   - postRollConfiguration: Configuration for the post-roll ad break to use for this ad configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAdConfiguration(
+        arn: String,
+        mediaTailorPlaybackConfigurations: [MediaTailorPlaybackConfiguration]? = nil,
+        name: String? = nil,
+        postRollConfiguration: PostRollConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAdConfigurationResponse {
+        let input = UpdateAdConfigurationRequest(
+            arn: arn, 
+            mediaTailorPlaybackConfigurations: mediaTailorPlaybackConfigurations, 
+            name: name, 
+            postRollConfiguration: postRollConfiguration
+        )
+        return try await self.updateAdConfiguration(input, logger: logger)
     }
 
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
@@ -1174,6 +1378,7 @@ public struct IVS: AWSService {
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
     ///
     /// Parameters:
+    ///   - adConfigurationArn: ARN of the ad configuration associated with the channel.
     ///   - arn: ARN of the channel to be updated.
     ///   - authorized: Whether the channel is private (enabled for playback authorization).
     ///   - containerFormat: Indicates which content-packaging format is used (MPEG-TS or fMP4). If multitrackInputConfiguration is specified and enabled is true, then containerFormat is required and must be set to FRAGMENTED_MP4. Otherwise, containerFormat may be set to TS or FRAGMENTED_MP4. Default: TS.
@@ -1188,6 +1393,7 @@ public struct IVS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateChannel(
+        adConfigurationArn: String? = nil,
         arn: String,
         authorized: Bool? = nil,
         containerFormat: ContainerFormat? = nil,
@@ -1202,6 +1408,7 @@ public struct IVS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateChannelResponse {
         let input = UpdateChannelRequest(
+            adConfigurationArn: adConfigurationArn, 
             arn: arn, 
             authorized: authorized, 
             containerFormat: containerFormat, 
@@ -1272,6 +1479,40 @@ extension IVS {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IVS {
+    /// Return PaginatorSequence for operation ``listAdConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAdConfigurationsPaginator(
+        _ input: ListAdConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAdConfigurationsRequest, ListAdConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAdConfigurations,
+            inputKey: \ListAdConfigurationsRequest.nextToken,
+            outputKey: \ListAdConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAdConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of ad configurations to return. Default: your service quota or 100, whichever is smaller.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAdConfigurationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAdConfigurationsRequest, ListAdConfigurationsResponse> {
+        let input = ListAdConfigurationsRequest(
+            maxResults: maxResults
+        )
+        return self.listAdConfigurationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
     ///
     /// - Parameters:
@@ -1293,6 +1534,7 @@ extension IVS {
     /// Return PaginatorSequence for operation ``listChannels(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - filterByAdConfigurationArn: Filters the channel list to match the specified ad configuration ARN.
     ///   - filterByName: Filters the channel list to match the specified name.
     ///   - filterByPlaybackRestrictionPolicyArn: Filters the channel list to match the specified policy.
     ///   - filterByRecordingConfigurationArn: Filters the channel list to match the specified recording-configuration ARN.
@@ -1300,6 +1542,7 @@ extension IVS {
     ///   - logger: Logger used for logging
     @inlinable
     public func listChannelsPaginator(
+        filterByAdConfigurationArn: String? = nil,
         filterByName: String? = nil,
         filterByPlaybackRestrictionPolicyArn: String? = nil,
         filterByRecordingConfigurationArn: String? = nil,
@@ -1307,6 +1550,7 @@ extension IVS {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListChannelsRequest, ListChannelsResponse> {
         let input = ListChannelsRequest(
+            filterByAdConfigurationArn: filterByAdConfigurationArn, 
             filterByName: filterByName, 
             filterByPlaybackRestrictionPolicyArn: filterByPlaybackRestrictionPolicyArn, 
             filterByRecordingConfigurationArn: filterByRecordingConfigurationArn, 
@@ -1529,10 +1773,21 @@ extension IVS {
     }
 }
 
+extension IVS.ListAdConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IVS.ListAdConfigurationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension IVS.ListChannelsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IVS.ListChannelsRequest {
         return .init(
+            filterByAdConfigurationArn: self.filterByAdConfigurationArn,
             filterByName: self.filterByName,
             filterByPlaybackRestrictionPolicyArn: self.filterByPlaybackRestrictionPolicyArn,
             filterByRecordingConfigurationArn: self.filterByRecordingConfigurationArn,

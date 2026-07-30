@@ -166,7 +166,7 @@ public struct PI: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createPerformanceAnalysisReport(
-        endTime: Date,
+        endTime: Date? = nil,
         identifier: String,
         serviceType: ServiceType,
         startTime: Date,
@@ -530,6 +530,50 @@ public struct PI: AWSService {
             serviceType: serviceType
         )
         return try await self.listAvailableResourceMetrics(input, logger: logger)
+    }
+
+    /// Retrieves recommendations for a performance analysis report.
+    @Sendable
+    @inlinable
+    public func listPerformanceAnalysisReportRecommendations(_ input: ListPerformanceAnalysisReportRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPerformanceAnalysisReportRecommendationsResponse {
+        try await self.client.execute(
+            operation: "ListPerformanceAnalysisReportRecommendations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves recommendations for a performance analysis report.
+    ///
+    /// Parameters:
+    ///   - analysisReportId: A unique identifier of the created analysis report. For example, report-12345678901234567
+    ///   - identifier: An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    ///   - maxResults: The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+    ///   - nextToken: An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    ///   - recommendationIds: A list of recommendation identifiers to filter the results.
+    ///   - serviceType: The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPerformanceAnalysisReportRecommendations(
+        analysisReportId: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recommendationIds: [String]? = nil,
+        serviceType: ServiceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPerformanceAnalysisReportRecommendationsResponse {
+        let input = ListPerformanceAnalysisReportRecommendationsRequest(
+            analysisReportId: analysisReportId, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recommendationIds: recommendationIds, 
+            serviceType: serviceType
+        )
+        return try await self.listPerformanceAnalysisReportRecommendations(input, logger: logger)
     }
 
     /// Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
@@ -897,6 +941,52 @@ extension PI {
         return self.listAvailableResourceMetricsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPerformanceAnalysisReportRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPerformanceAnalysisReportRecommendationsPaginator(
+        _ input: ListPerformanceAnalysisReportRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPerformanceAnalysisReportRecommendationsRequest, ListPerformanceAnalysisReportRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: self.listPerformanceAnalysisReportRecommendations,
+            inputKey: \ListPerformanceAnalysisReportRecommendationsRequest.nextToken,
+            outputKey: \ListPerformanceAnalysisReportRecommendationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPerformanceAnalysisReportRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - analysisReportId: A unique identifier of the created analysis report. For example, report-12345678901234567
+    ///   - identifier: An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+    ///   - maxResults: The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+    ///   - recommendationIds: A list of recommendation identifiers to filter the results.
+    ///   - serviceType: The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPerformanceAnalysisReportRecommendationsPaginator(
+        analysisReportId: String,
+        identifier: String,
+        maxResults: Int? = nil,
+        recommendationIds: [String]? = nil,
+        serviceType: ServiceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPerformanceAnalysisReportRecommendationsRequest, ListPerformanceAnalysisReportRecommendationsResponse> {
+        let input = ListPerformanceAnalysisReportRecommendationsRequest(
+            analysisReportId: analysisReportId, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            recommendationIds: recommendationIds, 
+            serviceType: serviceType
+        )
+        return self.listPerformanceAnalysisReportRecommendationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPerformanceAnalysisReports(_:logger:)``.
     ///
     /// - Parameters:
@@ -1000,6 +1090,20 @@ extension PI.ListAvailableResourceMetricsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             metricTypes: self.metricTypes,
             nextToken: token,
+            serviceType: self.serviceType
+        )
+    }
+}
+
+extension PI.ListPerformanceAnalysisReportRecommendationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PI.ListPerformanceAnalysisReportRecommendationsRequest {
+        return .init(
+            analysisReportId: self.analysisReportId,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recommendationIds: self.recommendationIds,
             serviceType: self.serviceType
         )
     }

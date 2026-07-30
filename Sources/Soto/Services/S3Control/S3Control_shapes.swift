@@ -74,6 +74,10 @@ extension S3Control {
         case md5 = "MD5"
         case sha1 = "SHA1"
         case sha256 = "SHA256"
+        case sha512 = "SHA512"
+        case xxhash128 = "XXHASH128"
+        case xxhash3 = "XXHASH3"
+        case xxhash64 = "XXHASH64"
         public var description: String { return self.rawValue }
     }
 
@@ -315,8 +319,13 @@ extension S3Control {
         case crc32 = "CRC32"
         case crc32c = "CRC32C"
         case crc64nvme = "CRC64NVME"
+        case md5 = "MD5"
         case sha1 = "SHA1"
         case sha256 = "SHA256"
+        case sha512 = "SHA512"
+        case xxhash128 = "XXHASH128"
+        case xxhash3 = "XXHASH3"
+        case xxhash64 = "XXHASH64"
         public var description: String { return self.rawValue }
     }
 
@@ -3652,6 +3661,8 @@ extension S3Control {
         public static let _options: AWSShapeOptions = [.checksumRequired]
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String
+        /// The context to identify the job or query associated with the credential request. This information will be displayed in CloudTrail log in your account.
+        public let auditContext: String?
         /// The session duration, in seconds, of the temporary access credential that S3 Access Grants vends to the grantee or client application. The default value is 1 hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
         public let durationSeconds: Int?
         /// The type of permission granted to your S3 data, which can be set to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant write-only access to the S3 data.    READWRITE – Grant both read and write access to the S3 data.
@@ -3664,8 +3675,9 @@ extension S3Control {
         public let targetType: S3PrefixType?
 
         @inlinable
-        public init(accountId: String, durationSeconds: Int? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
+        public init(accountId: String, auditContext: String? = nil, durationSeconds: Int? = nil, permission: Permission, privilege: Privilege? = nil, target: String, targetType: S3PrefixType? = nil) {
             self.accountId = accountId
+            self.auditContext = auditContext
             self.durationSeconds = durationSeconds
             self.permission = permission
             self.privilege = privilege
@@ -3678,6 +3690,7 @@ extension S3Control {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.accountId, key: "x-amz-account-id")
             request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.auditContext, key: "auditContext")
             request.encodeQuery(self.durationSeconds, key: "durationSeconds")
             request.encodeQuery(self.permission, key: "permission")
             request.encodeQuery(self.privilege, key: "privilege")
@@ -3688,6 +3701,9 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.auditContext, name: "auditContext", parent: name, max: 2048)
+            try self.validate(self.auditContext, name: "auditContext", parent: name, min: 1)
+            try self.validate(self.auditContext, name: "auditContext", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
             try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
             try self.validate(self.target, name: "target", parent: name, max: 2000)
@@ -7932,7 +7948,7 @@ extension S3Control {
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, max: 10)
             try self.validate(self.maxDepth, name: "maxDepth", parent: name, min: 1)
             try self.validate(self.minStorageBytesPercentage, name: "minStorageBytesPercentage", parent: name, max: 100.0)
-            try self.validate(self.minStorageBytesPercentage, name: "minStorageBytesPercentage", parent: name, min: 0.1)
+            try self.validate(self.minStorageBytesPercentage, name: "minStorageBytesPercentage", parent: name, min: 1.0)
         }
 
         private enum CodingKeys: String, CodingKey {

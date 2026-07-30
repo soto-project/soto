@@ -246,6 +246,17 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioFillerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case melodyChipperChime = "MELODY_CHIPPER_CHIME"
+        case melodyCuriousCrawl = "MELODY_CURIOUS_CRAWL"
+        case melodyPatientPing = "MELODY_PATIENT_PING"
+        case melodyPonderingPong = "MELODY_PONDERING_PONG"
+        case melodyRisingRipple = "MELODY_RISING_RIPPLE"
+        case typingKineticKeys = "TYPING_KINETIC_KEYS"
+        case typingQuietQwerty = "TYPING_QUIET_QWERTY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case useSlotValuesAsCustomVocabulary = "UseSlotValuesAsCustomVocabulary"
         public var description: String { return self.rawValue }
@@ -1662,6 +1673,36 @@ extension LexModelsV2 {
         }
     }
 
+    public struct AudioFillerSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the audio filler to play while Amazon Lex processes the user's input. This field is required when enabled is true.
+        public let audioType: AudioFillerType?
+        /// Specifies whether audio filler playback is enabled for the bot locale. Set to true to play filler audio while Amazon Lex processes a user utterance. Set to false to disable filler audio.
+        public let enabled: Bool?
+        /// The minimum time, in milliseconds, that audio filler plays once it has started, even if the bot response becomes ready sooner. Valid range is 1000 to 5000 milliseconds. If not specified, Amazon Lex uses a default of 3000 milliseconds.
+        public let minimumPlayDurationInMilliseconds: Int?
+        /// The silent delay, in milliseconds, inserted between the end of audio filler playback and the start of the bot's response. Valid range is 200 to 1000 milliseconds. If not specified, Amazon Lex uses a default of 500 milliseconds.
+        public let responseDeliveryDelayInMilliseconds: Int?
+        /// The time, in milliseconds, to wait after the end of the user's utterance before starting audio filler playback. Valid range is 500 to 5000 milliseconds. If not specified, Amazon Lex uses a default of 2500 milliseconds.
+        public let startDelayInMilliseconds: Int?
+
+        @inlinable
+        public init(audioType: AudioFillerType? = nil, enabled: Bool? = nil, minimumPlayDurationInMilliseconds: Int? = nil, responseDeliveryDelayInMilliseconds: Int? = nil, startDelayInMilliseconds: Int? = nil) {
+            self.audioType = audioType
+            self.enabled = enabled
+            self.minimumPlayDurationInMilliseconds = minimumPlayDurationInMilliseconds
+            self.responseDeliveryDelayInMilliseconds = responseDeliveryDelayInMilliseconds
+            self.startDelayInMilliseconds = startDelayInMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioType = "audioType"
+            case enabled = "enabled"
+            case minimumPlayDurationInMilliseconds = "minimumPlayDurationInMilliseconds"
+            case responseDeliveryDelayInMilliseconds = "responseDeliveryDelayInMilliseconds"
+            case startDelayInMilliseconds = "startDelayInMilliseconds"
+        }
+    }
+
     public struct AudioLogDestination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the CreateBot operation must have permission to write to this bucket.
         public let s3Bucket: S3BucketLogDestination
@@ -2452,6 +2493,8 @@ extension LexModelsV2 {
     }
 
     public struct BotLocaleImportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// Audio filler settings to apply when importing the bot locale configuration. Audio filler requires unifiedSpeechSettings (speech-to-speech) to be enabled when enabled is true.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The identifier of the bot to import the locale to.
         public let botId: String
         /// The version of the bot to import the locale to. This can only be the DRAFT version of the bot.
@@ -2469,7 +2512,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
@@ -2494,6 +2538,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case botId = "botId"
             case botVersion = "botVersion"
             case localeId = "localeId"
@@ -3532,6 +3577,8 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotLocaleRequest: AWSEncodableShape {
+        /// Audio filler settings to configure for the new bot locale. When enabled, Amazon Lex plays a brief background audio filler during speech-to-speech interactions to mask processing delays. Requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The identifier of the bot to create the locale for.
         public let botId: String
         /// The version of the bot to create the locale for. This can only be the draft version of the bot.
@@ -3553,7 +3600,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -3569,6 +3617,7 @@ extension LexModelsV2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.audioFillerSettings, forKey: .audioFillerSettings)
             request.encodePath(self.botId, key: "botId")
             request.encodePath(self.botVersion, key: "botVersion")
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -3597,6 +3646,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case description = "description"
             case generativeAISettings = "generativeAISettings"
             case localeId = "localeId"
@@ -3609,6 +3659,8 @@ extension LexModelsV2 {
     }
 
     public struct CreateBotLocaleResponse: AWSDecodableShape {
+        /// The audio filler settings configured for the created bot locale.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The specified bot identifier.
         public let botId: String?
         /// The status of the bot. When the status is Creating the bot locale is being configured. When the status is Building Amazon Lex is building the bot for testing and use. If the status of the bot is ReadyExpressTesting, you can test the bot using the exact utterances specified in the bots' intents. When the bot is ready for full testing or to run, the status is Built. If there was a problem with building the bot, the status is Failed. If the bot was saved but not built, the status is NotBuilt.
@@ -3636,7 +3688,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -3653,6 +3706,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case botId = "botId"
             case botLocaleStatus = "botLocaleStatus"
             case botVersion = "botVersion"
@@ -5978,6 +6032,8 @@ extension LexModelsV2 {
     }
 
     public struct DescribeBotLocaleResponse: AWSDecodableShape {
+        /// The audio filler settings configured for the bot locale.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The identifier of the bot associated with the locale.
         public let botId: String?
         /// History of changes, such as when a locale is used in an alias, that have taken place for the locale.
@@ -6020,7 +6076,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
             self.botLocaleStatus = botLocaleStatus
@@ -6044,6 +6101,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case botId = "botId"
             case botLocaleHistoryEvents = "botLocaleHistoryEvents"
             case botLocaleStatus = "botLocaleStatus"
@@ -14655,6 +14713,8 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotLocaleRequest: AWSEncodableShape {
+        /// Updated audio filler settings to apply to the bot locale. When enabled, requires unifiedSpeechSettings (speech-to-speech) to be configured on the bot locale.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The unique identifier of the bot that contains the locale.
         public let botId: String
         /// The version of the bot that contains the locale to be updated. The version can only be the DRAFT version.
@@ -14677,7 +14737,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -14693,6 +14754,7 @@ extension LexModelsV2 {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.audioFillerSettings, forKey: .audioFillerSettings)
             request.encodePath(self.botId, key: "botId")
             request.encodePath(self.botVersion, key: "botVersion")
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -14721,6 +14783,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case description = "description"
             case generativeAISettings = "generativeAISettings"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
@@ -14732,6 +14795,8 @@ extension LexModelsV2 {
     }
 
     public struct UpdateBotLocaleResponse: AWSDecodableShape {
+        /// The updated audio filler settings for the bot locale.
+        public let audioFillerSettings: AudioFillerSettings?
         /// The identifier of the bot that contains the updated locale.
         public let botId: String?
         /// The current status of the locale. When the bot status is Built the locale is ready for use.
@@ -14766,7 +14831,8 @@ extension LexModelsV2 {
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(audioFillerSettings: AudioFillerSettings? = nil, botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
+            self.audioFillerSettings = audioFillerSettings
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -14786,6 +14852,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioFillerSettings = "audioFillerSettings"
             case botId = "botId"
             case botLocaleStatus = "botLocaleStatus"
             case botVersion = "botVersion"

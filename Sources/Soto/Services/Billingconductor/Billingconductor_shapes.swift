@@ -304,7 +304,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
             try self.pricingRuleArns.forEach {
                 try validate($0, name: "pricingRuleArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}$")
             }
@@ -646,7 +646,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1398,7 +1398,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1505,7 +1505,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
             try self.pricingRuleArns.forEach {
                 try validate($0, name: "pricingRuleArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}$")
             }
@@ -1890,7 +1890,7 @@ extension Billingconductor {
             }
             try self.validate(self.names, name: "names", parent: name, max: 1)
             try self.validate(self.names, name: "names", parent: name, min: 1)
-            try self.validate(self.pricingPlan, name: "pricingPlan", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.pricingPlan, name: "pricingPlan", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
             try self.primaryAccountIds?.forEach {
                 try validate($0, name: "primaryAccountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
@@ -2285,7 +2285,7 @@ extension Billingconductor {
 
         public func validate(name: String) throws {
             try self.arns?.forEach {
-                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 100)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
@@ -2373,7 +2373,7 @@ extension Billingconductor {
             try self.validate(self.billingPeriod, name: "billingPeriod", parent: name, pattern: "^\\d{4}-(0?[1-9]|1[012])$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3220,7 +3220,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|Passthrough|[a-zA-Z0-9]{10})$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)

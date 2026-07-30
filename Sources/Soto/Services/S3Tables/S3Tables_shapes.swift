@@ -77,6 +77,11 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum SchemaV2FieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `struct` = "struct"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intelligentTiering = "INTELLIGENT_TIERING"
         case standard = "STANDARD"
@@ -1620,16 +1625,19 @@ extension S3Tables {
         public let partitionSpec: IcebergPartitionSpec?
         /// A map of custom configuration properties for the Iceberg table.
         public let properties: [String: String]?
-        /// The schema for an Iceberg table.
-        public let schema: IcebergSchema
+        /// The schema for an Iceberg table. Use this property to define table schemas with primitive types only. For schemas that include nested or complex types such as struct, list, or map, use schemaV2 instead.
+        public let schema: IcebergSchema?
+        /// The schema for an Iceberg table using the V2 format. Use this property to define table schemas that include nested or complex data types such as struct, list, or map, in addition to primitive types. For schemas with only primitive types, you can use either schema or schemaV2.
+        public let schemaV2: IcebergSchemaV2?
         /// The sort order for the Iceberg table. Sort order defines how data is sorted within data files, which can improve query performance by enabling more efficient data skipping and filtering.
         public let writeOrder: IcebergSortOrder?
 
         @inlinable
-        public init(partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, writeOrder: IcebergSortOrder? = nil) {
+        public init(partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema? = nil, schemaV2: IcebergSchemaV2? = nil, writeOrder: IcebergSortOrder? = nil) {
             self.partitionSpec = partitionSpec
             self.properties = properties
             self.schema = schema
+            self.schemaV2 = schemaV2
             self.writeOrder = writeOrder
         }
 
@@ -1637,6 +1645,7 @@ extension S3Tables {
             case partitionSpec = "partitionSpec"
             case properties = "properties"
             case schema = "schema"
+            case schemaV2 = "schemaV2"
             case writeOrder = "writeOrder"
         }
     }
@@ -1696,6 +1705,32 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
+        }
+    }
+
+    public struct IcebergSchemaV2: AWSEncodableShape {
+        /// The schema fields for the table. Each field defines a column in the table, including its name, type, and whether it is required.
+        public let fields: [SchemaV2Field]
+        /// A list of field IDs that are used as the identifier fields for the table. Identifier fields uniquely identify a row in the table.
+        public let identifierFieldIds: [Int]?
+        /// An optional unique identifier for the schema. Schema IDs are used by Apache Iceberg to track schema evolution.
+        public let schemaId: Int?
+        /// The type of the top-level schema, which is always a struct type as defined in the Apache Iceberg specification. This value must be struct.
+        public let type: SchemaV2FieldType
+
+        @inlinable
+        public init(fields: [SchemaV2Field], identifierFieldIds: [Int]? = nil, schemaId: Int? = nil, type: SchemaV2FieldType) {
+            self.fields = fields
+            self.identifierFieldIds = identifierFieldIds
+            self.schemaId = schemaId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case identifierFieldIds = "identifier-field-ids"
+            case schemaId = "schema-id"
+            case type = "type"
         }
     }
 
@@ -2581,6 +2616,36 @@ extension S3Tables {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+            case required = "required"
+            case type = "type"
+        }
+    }
+
+    public struct SchemaV2Field: AWSEncodableShape {
+        /// An optional description of the field.
+        public let doc: String?
+        /// The unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes.
+        public let id: Int
+        /// The name of the field.
+        public let name: String
+        /// A Boolean value that specifies whether values are required for each row in this field. If this is true, the field does not allow null values.
+        public let required: Bool
+        /// The data type of the field. This can be a primitive type string such as boolean, int, long, float, double, string, binary, date, timestamp, or timestamptz, or a complex type represented as a JSON object for nested types such as struct, list, or map. For more information, see the Apache Iceberg schemas and data types documentation.
+        public let type: AWSDocument
+
+        @inlinable
+        public init(doc: String? = nil, id: Int, name: String, required: Bool, type: AWSDocument) {
+            self.doc = doc
+            self.id = id
+            self.name = name
+            self.required = required
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case doc = "doc"
             case id = "id"
             case name = "name"
             case required = "required"

@@ -286,6 +286,7 @@ public struct VPCLattice: AWSService {
     ///   - ipAddressType: A resource gateway can have IPv4, IPv6 or dualstack addresses. The IP address type of a resource gateway must be compatible with the subnets of the resource gateway and the IP address type of the resource, as described here:     IPv4Assign IPv4 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have IPv4 address ranges, and the resource also has an IPv4 address.    IPv6Assign IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets are IPv6 only subnets, and the resource also has an IPv6 address.    DualstackAssign both IPv4 and IPv6 addresses to your resource gateway network interfaces. This option is supported only if all selected subnets have both IPv4 and IPv6 address ranges, and the resource either has an IPv4 or IPv6 address.   The IP address type of the resource gateway is independent of the IP address type of the client or the VPC endpoint through which the resource is accessed.
     ///   - ipv4AddressesPerEni: The number of IPv4 addresses in each ENI for the resource gateway.
     ///   - name: The name of the resource gateway.
+    ///   - resourceConfigDnsResolution: Indicates how DNS is resolved for resource configurations associated to this resource gateway. ResourceConfigDnsResolution is set at creation time and cannot be changed.    IN_VPC - DNS resolution occurs privately within the resource gateway's VPC. DNS queries for resources behind this resource gateway resolve using the DNS resolvers defined in the VPC's DHCP option sets. Use this when your resource domain names are hosted in private Route 53 hosted zones or on-premises DNS servers reachable from the VPC.    PUBLIC - DNS resolution occurs against public DNS resolvers. DNS queries for resources behind this resource gateway resolve using standard public DNS. Use this when your resource domain names are publicly resolvable.
     ///   - securityGroupIds: The IDs of the security groups to apply to the resource gateway. The security groups must be in the same VPC.
     ///   - subnetIds: The IDs of the VPC subnets in which to create the resource gateway.
     ///   - tags: The tags for the resource gateway.
@@ -297,6 +298,7 @@ public struct VPCLattice: AWSService {
         ipAddressType: ResourceGatewayIpAddressType? = nil,
         ipv4AddressesPerEni: Int? = nil,
         name: String,
+        resourceConfigDnsResolution: ResourceConfigDnsResolution? = nil,
         securityGroupIds: [String]? = nil,
         subnetIds: [String]? = nil,
         tags: [String: String]? = nil,
@@ -308,6 +310,7 @@ public struct VPCLattice: AWSService {
             ipAddressType: ipAddressType, 
             ipv4AddressesPerEni: ipv4AddressesPerEni, 
             name: name, 
+            resourceConfigDnsResolution: resourceConfigDnsResolution, 
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 
             tags: tags, 
@@ -386,6 +389,7 @@ public struct VPCLattice: AWSService {
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
     ///   - customDomainName: The custom domain name of the service.
+    ///   - idleTimeoutSeconds: The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
     ///   - name: The name of the service. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - tags: The tags for the service.
     ///   - logger: Logger use during operation
@@ -395,6 +399,7 @@ public struct VPCLattice: AWSService {
         certificateArn: String? = nil,
         clientToken: String? = CreateServiceRequest.idempotencyToken(),
         customDomainName: String? = nil,
+        idleTimeoutSeconds: Int? = nil,
         name: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -404,6 +409,7 @@ public struct VPCLattice: AWSService {
             certificateArn: certificateArn, 
             clientToken: clientToken, 
             customDomainName: customDomainName, 
+            idleTimeoutSeconds: idleTimeoutSeconds, 
             name: name, 
             tags: tags
         )
@@ -2481,18 +2487,21 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - authType: The type of IAM policy.    NONE: The resource does not use an IAM policy. This is the default.    AWS_IAM: The resource uses an IAM policy. When this type is used, auth is enabled and an auth policy is required.
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate.
+    ///   - idleTimeoutSeconds: The amount of time, in seconds, that a connection can remain idle (no data sent) before VPC Lattice closes it. The valid range is 60 to 600 seconds. If you don't specify a value, the default is 60 seconds. This setting does not change the maximum connection duration of 10 minutes; connections are still closed when they reach that limit.
     ///   - serviceIdentifier: The ID or ARN of the service.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateService(
         authType: AuthType? = nil,
         certificateArn: String? = nil,
+        idleTimeoutSeconds: Int? = nil,
         serviceIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateServiceResponse {
         let input = UpdateServiceRequest(
             authType: authType, 
             certificateArn: certificateArn, 
+            idleTimeoutSeconds: idleTimeoutSeconds, 
             serviceIdentifier: serviceIdentifier
         )
         return try await self.updateService(input, logger: logger)

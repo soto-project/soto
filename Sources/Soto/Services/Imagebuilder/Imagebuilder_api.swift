@@ -428,9 +428,10 @@ public struct Imagebuilder: AWSService {
     ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants
     ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that will be used to configure
     ///   - imageScanningConfiguration: Contains settings for vulnerability scans.
+    ///   - imageTags: The tags to be applied to the images produced by this pipeline.
     ///   - imageTestsConfiguration: The image test configuration of the image pipeline.
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that will be used
-    ///   - loggingConfiguration: Define logging configuration for the image build process.
+    ///   - loggingConfiguration: Specifies the logging configuration for the image pipeline. Use this
     ///   - name: The name of the image pipeline.
     ///   - schedule: The schedule of the image pipeline.
     ///   - status: The status of the image pipeline.
@@ -447,6 +448,7 @@ public struct Imagebuilder: AWSService {
         executionRole: String? = nil,
         imageRecipeArn: String? = nil,
         imageScanningConfiguration: ImageScanningConfiguration? = nil,
+        imageTags: [String: String]? = nil,
         imageTestsConfiguration: ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: String,
         loggingConfiguration: PipelineLoggingConfiguration? = nil,
@@ -466,6 +468,7 @@ public struct Imagebuilder: AWSService {
             executionRole: executionRole, 
             imageRecipeArn: imageRecipeArn, 
             imageScanningConfiguration: imageScanningConfiguration, 
+            imageTags: imageTags, 
             imageTestsConfiguration: imageTestsConfiguration, 
             infrastructureConfigurationArn: infrastructureConfigurationArn, 
             loggingConfiguration: loggingConfiguration, 
@@ -498,6 +501,7 @@ public struct Imagebuilder: AWSService {
     /// Parameters:
     ///   - additionalInstanceConfiguration: Specify additional settings and launch scripts for your build instances.
     ///   - amiTags: Tags that are applied to the AMI that Image Builder creates during the Build phase
+    ///   - amiWatermarks: The AMI watermark names to attach to the output AMI from this recipe.
     ///   - blockDeviceMappings: The block device mappings of the image recipe.
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
     ///   - components: The components included in the image recipe.
@@ -512,6 +516,7 @@ public struct Imagebuilder: AWSService {
     public func createImageRecipe(
         additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil,
         amiTags: [String: String]? = nil,
+        amiWatermarks: [String]? = nil,
         blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil,
         clientToken: String = CreateImageRecipeRequest.idempotencyToken(),
         components: [ComponentConfiguration]? = nil,
@@ -526,6 +531,7 @@ public struct Imagebuilder: AWSService {
         let input = CreateImageRecipeRequest(
             additionalInstanceConfiguration: additionalInstanceConfiguration, 
             amiTags: amiTags, 
+            amiWatermarks: amiWatermarks, 
             blockDeviceMappings: blockDeviceMappings, 
             clientToken: clientToken, 
             components: components, 
@@ -997,7 +1003,9 @@ public struct Imagebuilder: AWSService {
         return try await self.deleteWorkflow(input, logger: logger)
     }
 
-    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    /// Distributes an existing AMI to target Regions and accounts without running
+    /// 			the full image build process. This operation only runs the distribution
+    /// 			phase on an image that has already been built.
     @Sendable
     @inlinable
     public func distributeImage(_ input: DistributeImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DistributeImageResponse {
@@ -1010,14 +1018,16 @@ public struct Imagebuilder: AWSService {
             logger: logger
         )
     }
-    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    /// Distributes an existing AMI to target Regions and accounts without running
+    /// 			the full image build process. This operation only runs the distribution
+    /// 			phase on an image that has already been built.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration to use.
-    ///   - executionRole: The IAM role to use for the distribution.
+    ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration. The configuration
+    ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that Image Builder assumes to distribute
     ///   - loggingConfiguration: The logging configuration for the distribution.
-    ///   - sourceImage: The source image Amazon Resource Name (ARN) to distribute.
+    ///   - sourceImage: The source image to distribute. Specify an AMI identifier,
     ///   - tags: The tags to apply to the distributed image.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1636,9 +1646,11 @@ public struct Imagebuilder: AWSService {
     ///   - name: The name of the image resource that's created from the import.
     ///   - osVersion: The operating system version for the imported image. Allowed values include
     ///   - platform: The operating system platform for the imported image. Allowed values include
+    ///   - registerImageOptions: Configures Secure Boot and UEFI settings for the
     ///   - semanticVersion: The semantic version to attach to the image that's created during the import
     ///   - tags: Tags that are attached to image resources created from the import.
     ///   - uri: The uri of the ISO disk file that's stored in Amazon S3.
+    ///   - windowsConfiguration: Specifies Windows settings for ISO imports.
     ///   - logger: Logger use during operation
     @inlinable
     public func importDiskImage(
@@ -1650,9 +1662,11 @@ public struct Imagebuilder: AWSService {
         name: String,
         osVersion: String,
         platform: String,
+        registerImageOptions: RegisterImageOptions? = nil,
         semanticVersion: String,
         tags: [String: String]? = nil,
         uri: String,
+        windowsConfiguration: WindowsConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ImportDiskImageResponse {
         let input = ImportDiskImageRequest(
@@ -1664,9 +1678,11 @@ public struct Imagebuilder: AWSService {
             name: name, 
             osVersion: osVersion, 
             platform: platform, 
+            registerImageOptions: registerImageOptions, 
             semanticVersion: semanticVersion, 
             tags: tags, 
-            uri: uri
+            uri: uri, 
+            windowsConfiguration: windowsConfiguration
         )
         return try await self.importDiskImage(input, logger: logger)
     }
@@ -2764,10 +2780,10 @@ public struct Imagebuilder: AWSService {
     /// 			WaitForAction step.
     ///
     /// Parameters:
-    ///   - action: The action for the image creation process to take while a workflow
+    ///   - action: The action to perform on the paused workflow step. The workflow
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version to send action for.
-    ///   - reason: The reason why this action is sent.
+    ///   - imageBuildVersionArn: The Amazon Resource Name (ARN) of the image build version associated with the workflow
+    ///   - reason: The reason for the action. This value is stored with the step
     ///   - stepExecutionId: Uniquely identifies the workflow step that sent the step action.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2845,10 +2861,10 @@ public struct Imagebuilder: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
     ///   - exclusionRules: Skip action on the image resource and associated resources if specified
     ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
-    ///   - includeResources: A list of image resources to update state for.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also
-    ///   - state: Indicates the lifecycle action to take for this request.
-    ///   - updateAt: The timestamp that indicates when resources are updated by a lifecycle action.
+    ///   - includeResources: Specifies which image resources to include in the state update.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the image build version to update. The
+    ///   - state: Specifies the lifecycle action to take for this request. For AMI-based
+    ///   - updateAt: Specifies the timestamp when the state transition takes
     ///   - logger: Logger use during operation
     @inlinable
     public func startResourceStateUpdate(
@@ -3010,6 +3026,7 @@ public struct Imagebuilder: AWSService {
     ///   - imagePipelineArn: The Amazon Resource Name (ARN) of the image pipeline that you want to update.
     ///   - imageRecipeArn: The Amazon Resource Name (ARN) of the image recipe that will be used to configure
     ///   - imageScanningConfiguration: Contains settings for vulnerability scans.
+    ///   - imageTags: The tags to be applied to the images produced by this pipeline.
     ///   - imageTestsConfiguration: The image test configuration of the image pipeline.
     ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration that Image Builder uses to
     ///   - loggingConfiguration: Update logging configuration for the output image that's created when
@@ -3028,6 +3045,7 @@ public struct Imagebuilder: AWSService {
         imagePipelineArn: String,
         imageRecipeArn: String? = nil,
         imageScanningConfiguration: ImageScanningConfiguration? = nil,
+        imageTags: [String: String]? = nil,
         imageTestsConfiguration: ImageTestsConfiguration? = nil,
         infrastructureConfigurationArn: String,
         loggingConfiguration: PipelineLoggingConfiguration? = nil,
@@ -3046,6 +3064,7 @@ public struct Imagebuilder: AWSService {
             imagePipelineArn: imagePipelineArn, 
             imageRecipeArn: imageRecipeArn, 
             imageScanningConfiguration: imageScanningConfiguration, 
+            imageTags: imageTags, 
             imageTestsConfiguration: imageTestsConfiguration, 
             infrastructureConfigurationArn: infrastructureConfigurationArn, 
             loggingConfiguration: loggingConfiguration, 

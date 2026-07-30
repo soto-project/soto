@@ -94,15 +94,19 @@ extension CostOptimizationHub {
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auroraDbClusterStorage = "AuroraDbClusterStorage"
         case computeSavingsPlans = "ComputeSavingsPlans"
+        case documentDbCluster = "DocumentDBCluster"
         case dynamoDbReservedCapacity = "DynamoDbReservedCapacity"
+        case dynamoDbTable = "DynamoDBTable"
         case ebsVolume = "EbsVolume"
         case ec2AutoScalingGroup = "Ec2AutoScalingGroup"
         case ec2Instance = "Ec2Instance"
         case ec2InstanceSavingsPlans = "Ec2InstanceSavingsPlans"
         case ec2ReservedInstances = "Ec2ReservedInstances"
         case ecsService = "EcsService"
+        case elastiCacheCluster = "ElastiCacheCluster"
         case elastiCacheReservedInstances = "ElastiCacheReservedInstances"
         case lambdaFunction = "LambdaFunction"
+        case memoryDbCluster = "MemoryDBCluster"
         case memoryDbReservedInstances = "MemoryDbReservedInstances"
         case natGateway = "NatGateway"
         case openSearchReservedInstances = "OpenSearchReservedInstances"
@@ -110,7 +114,9 @@ extension CostOptimizationHub {
         case rdsDbInstanceStorage = "RdsDbInstanceStorage"
         case rdsReservedInstances = "RdsReservedInstances"
         case redshiftReservedInstances = "RedshiftReservedInstances"
+        case sageMakerEndpoint = "SageMakerEndpoint"
         case sageMakerSavingsPlans = "SageMakerSavingsPlans"
+        case workSpaces = "WorkSpaces"
         public var description: String { return self.rawValue }
     }
 
@@ -148,8 +154,12 @@ extension CostOptimizationHub {
         case auroraDbClusterStorage(AuroraDbClusterStorage)
         /// The Compute Savings Plans recommendation details.
         case computeSavingsPlans(ComputeSavingsPlans)
+        /// The Amazon DocumentDB cluster recommendation details.
+        case documentDbCluster(DocumentDbCluster)
         /// The DynamoDB reserved capacity recommendation details.
         case dynamoDbReservedCapacity(DynamoDbReservedCapacity)
+        /// The DynamoDB table recommendation details.
+        case dynamoDbTable(DynamoDbTable)
         /// The Amazon Elastic Block Store volume recommendation details.
         case ebsVolume(EbsVolume)
         /// The EC2 Auto Scaling group recommendation details.
@@ -162,10 +172,14 @@ extension CostOptimizationHub {
         case ec2ReservedInstances(Ec2ReservedInstances)
         /// The ECS service recommendation details.
         case ecsService(EcsService)
+        /// The ElastiCache cluster recommendation details.
+        case elastiCacheCluster(ElastiCacheCluster)
         /// The ElastiCache reserved instances recommendation details.
         case elastiCacheReservedInstances(ElastiCacheReservedInstances)
         /// The Lambda function recommendation details.
         case lambdaFunction(LambdaFunction)
+        /// The MemoryDB cluster recommendation details.
+        case memoryDbCluster(MemoryDbCluster)
         /// The MemoryDB reserved instances recommendation details.
         case memoryDbReservedInstances(MemoryDbReservedInstances)
         /// The NAT Gateway recommendation details.
@@ -180,8 +194,12 @@ extension CostOptimizationHub {
         case rdsReservedInstances(RdsReservedInstances)
         /// The Redshift reserved instances recommendation details.
         case redshiftReservedInstances(RedshiftReservedInstances)
+        /// The SageMaker endpoint recommendation details.
+        case sageMakerEndpoint(SageMakerEndpoint)
         /// The SageMaker AI Savings Plans recommendation details.
         case sageMakerSavingsPlans(SageMakerSavingsPlans)
+        /// The WorkSpaces recommendation details.
+        case workSpaces(WorkSpaces)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -199,9 +217,15 @@ extension CostOptimizationHub {
             case .computeSavingsPlans:
                 let value = try container.decode(ComputeSavingsPlans.self, forKey: .computeSavingsPlans)
                 self = .computeSavingsPlans(value)
+            case .documentDbCluster:
+                let value = try container.decode(DocumentDbCluster.self, forKey: .documentDbCluster)
+                self = .documentDbCluster(value)
             case .dynamoDbReservedCapacity:
                 let value = try container.decode(DynamoDbReservedCapacity.self, forKey: .dynamoDbReservedCapacity)
                 self = .dynamoDbReservedCapacity(value)
+            case .dynamoDbTable:
+                let value = try container.decode(DynamoDbTable.self, forKey: .dynamoDbTable)
+                self = .dynamoDbTable(value)
             case .ebsVolume:
                 let value = try container.decode(EbsVolume.self, forKey: .ebsVolume)
                 self = .ebsVolume(value)
@@ -220,12 +244,18 @@ extension CostOptimizationHub {
             case .ecsService:
                 let value = try container.decode(EcsService.self, forKey: .ecsService)
                 self = .ecsService(value)
+            case .elastiCacheCluster:
+                let value = try container.decode(ElastiCacheCluster.self, forKey: .elastiCacheCluster)
+                self = .elastiCacheCluster(value)
             case .elastiCacheReservedInstances:
                 let value = try container.decode(ElastiCacheReservedInstances.self, forKey: .elastiCacheReservedInstances)
                 self = .elastiCacheReservedInstances(value)
             case .lambdaFunction:
                 let value = try container.decode(LambdaFunction.self, forKey: .lambdaFunction)
                 self = .lambdaFunction(value)
+            case .memoryDbCluster:
+                let value = try container.decode(MemoryDbCluster.self, forKey: .memoryDbCluster)
+                self = .memoryDbCluster(value)
             case .memoryDbReservedInstances:
                 let value = try container.decode(MemoryDbReservedInstances.self, forKey: .memoryDbReservedInstances)
                 self = .memoryDbReservedInstances(value)
@@ -247,24 +277,34 @@ extension CostOptimizationHub {
             case .redshiftReservedInstances:
                 let value = try container.decode(RedshiftReservedInstances.self, forKey: .redshiftReservedInstances)
                 self = .redshiftReservedInstances(value)
+            case .sageMakerEndpoint:
+                let value = try container.decode(SageMakerEndpoint.self, forKey: .sageMakerEndpoint)
+                self = .sageMakerEndpoint(value)
             case .sageMakerSavingsPlans:
                 let value = try container.decode(SageMakerSavingsPlans.self, forKey: .sageMakerSavingsPlans)
                 self = .sageMakerSavingsPlans(value)
+            case .workSpaces:
+                let value = try container.decode(WorkSpaces.self, forKey: .workSpaces)
+                self = .workSpaces(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case auroraDbClusterStorage = "auroraDbClusterStorage"
             case computeSavingsPlans = "computeSavingsPlans"
+            case documentDbCluster = "documentDbCluster"
             case dynamoDbReservedCapacity = "dynamoDbReservedCapacity"
+            case dynamoDbTable = "dynamoDbTable"
             case ebsVolume = "ebsVolume"
             case ec2AutoScalingGroup = "ec2AutoScalingGroup"
             case ec2Instance = "ec2Instance"
             case ec2InstanceSavingsPlans = "ec2InstanceSavingsPlans"
             case ec2ReservedInstances = "ec2ReservedInstances"
             case ecsService = "ecsService"
+            case elastiCacheCluster = "elastiCacheCluster"
             case elastiCacheReservedInstances = "elastiCacheReservedInstances"
             case lambdaFunction = "lambdaFunction"
+            case memoryDbCluster = "memoryDbCluster"
             case memoryDbReservedInstances = "memoryDbReservedInstances"
             case natGateway = "natGateway"
             case openSearchReservedInstances = "openSearchReservedInstances"
@@ -272,7 +312,9 @@ extension CostOptimizationHub {
             case rdsDbInstanceStorage = "rdsDbInstanceStorage"
             case rdsReservedInstances = "rdsReservedInstances"
             case redshiftReservedInstances = "redshiftReservedInstances"
+            case sageMakerEndpoint = "sageMakerEndpoint"
             case sageMakerSavingsPlans = "sageMakerSavingsPlans"
+            case workSpaces = "workSpaces"
         }
     }
 
@@ -437,6 +479,19 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct DocumentDbCluster: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
+        }
+    }
+
     public struct DynamoDbReservedCapacity: AWSDecodableShape {
         /// The DynamoDB reserved capacity configuration used for recommendations.
         public let configuration: DynamoDbReservedCapacityConfiguration?
@@ -497,6 +552,19 @@ extension CostOptimizationHub {
             case service = "service"
             case term = "term"
             case upfrontCost = "upfrontCost"
+        }
+    }
+
+    public struct DynamoDbTable: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
         }
     }
 
@@ -811,6 +879,19 @@ extension CostOptimizationHub {
             case group = "group"
             case message = "message"
             case metricsByTime = "metricsByTime"
+        }
+    }
+
+    public struct ElastiCacheCluster: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
         }
     }
 
@@ -1415,6 +1496,19 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct MemoryDbCluster: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
         }
     }
 
@@ -2155,6 +2249,19 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct SageMakerEndpoint: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
+        }
+    }
+
     public struct SageMakerSavingsPlans: AWSDecodableShape {
         /// The SageMaker Savings Plans configuration used for recommendations.
         public let configuration: SageMakerSavingsPlansConfiguration?
@@ -2449,6 +2556,19 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case fieldName = "fieldName"
             case message = "message"
+        }
+    }
+
+    public struct WorkSpaces: AWSDecodableShape {
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(costCalculation: ResourceCostCalculation? = nil) {
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCalculation = "costCalculation"
         }
     }
 }

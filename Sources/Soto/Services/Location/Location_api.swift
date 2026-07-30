@@ -442,6 +442,36 @@ public struct Location: AWSService {
         return try await self.calculateRouteMatrix(input, logger: logger)
     }
 
+    ///  CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed, Failed, or Cancelled), the operation returns successfully with the current status. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    @Sendable
+    @inlinable
+    public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelJobResponse {
+        try await self.client.execute(
+            operation: "CancelJob", 
+            path: "/metadata/v0/jobs/cancel-job", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "metadata.", 
+            logger: logger
+        )
+    }
+    ///  CancelJob cancels a job that is currently running or pending. If the job is already in a terminal state (Completed, Failed, or Cancelled), the operation returns successfully with the current status. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier of the job to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelJobResponse {
+        let input = CancelJobRequest(
+            jobId: jobId
+        )
+        return try await self.cancelJob(input, logger: logger)
+    }
+
     /// Creates a geofence collection, which manages and stores geofences.
     @Sendable
     @inlinable
@@ -1249,6 +1279,36 @@ public struct Location: AWSService {
         return try await self.getGeofence(input, logger: logger)
     }
 
+    ///  GetJob retrieves detailed information about a specific job, including its current status, configuration, and error information if the job failed. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    @Sendable
+    @inlinable
+    public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobResponse {
+        try await self.client.execute(
+            operation: "GetJob", 
+            path: "/metadata/v0/jobs/{JobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "metadata.", 
+            logger: logger
+        )
+    }
+    ///  GetJob retrieves detailed information about a specific job, including its current status, configuration, and error information if the job failed. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier of the job to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetJobResponse {
+        let input = GetJobRequest(
+            jobId: jobId
+        )
+        return try await self.getJob(input, logger: logger)
+    }
+
     ///  This operation is no longer current and may be deprecated in the future. We recommend upgrading to  GetGlyphs  unless you require Grab data.    GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).   The version 2 GetGlyphs operation gives a better user experience and is compatible with the remainder of the V2 Maps API.   If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.   Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.   Start your version 2 API journey with the Maps V2 API Reference or the Developer Guide.    Retrieves glyphs used to display labels on a map.
     @Sendable
     @inlinable
@@ -1544,6 +1604,42 @@ public struct Location: AWSService {
             nextToken: nextToken
         )
         return try await self.listGeofences(input, logger: logger)
+    }
+
+    ///  ListJobs retrieves a list of jobs with optional filtering and pagination support. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    @Sendable
+    @inlinable
+    public func listJobs(_ input: ListJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsResponse {
+        try await self.client.execute(
+            operation: "ListJobs", 
+            path: "/metadata/v0/jobs/list-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "metadata.", 
+            logger: logger
+        )
+    }
+    ///  ListJobs retrieves a list of jobs with optional filtering and pagination support. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    ///
+    /// Parameters:
+    ///   - filter: An optional structure containing criteria by which to filter job results.
+    ///   - maxResults: Maximum number of jobs to return.
+    ///   - nextToken: The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobs(
+        filter: JobsFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobsResponse {
+        let input = ListJobsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listJobs(input, logger: logger)
     }
 
     /// Lists API key resources in your Amazon Web Services account. For more information, see Use API keys to authenticate in the Amazon Location Service Developer Guide.
@@ -1967,6 +2063,57 @@ public struct Location: AWSService {
             text: text
         )
         return try await self.searchPlaceIndexForText(input, logger: logger)
+    }
+
+    ///  StartJob starts a new asynchronous bulk processing job. You specify the input data location in Amazon S3, the action to perform, and the output location where results are written. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    @Sendable
+    @inlinable
+    public func startJob(_ input: StartJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobResponse {
+        try await self.client.execute(
+            operation: "StartJob", 
+            path: "/metadata/v0/jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "metadata.", 
+            logger: logger
+        )
+    }
+    ///  StartJob starts a new asynchronous bulk processing job. You specify the input data location in Amazon S3, the action to perform, and the output location where results are written. For more information, see Job concepts in the Amazon Location Service Developer Guide.
+    ///
+    /// Parameters:
+    ///   - action: The action to perform on the input data.
+    ///   - actionOptions: Additional parameters that can be requested for each result.
+    ///   - clientToken: A unique identifier for this request to ensure idempotency.
+    ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that Amazon Location Service assumes during job processing. Amazon Location Service uses this role to access the input and output locations specified for the job.  The IAM role must be created in the same Amazon Web Services account where you plan to run your job.  For more information about configuring IAM roles for Amazon Location jobs, see Configure IAM permissions in the Amazon Location Service Developer Guide.
+    ///   - inputOptions: Configuration for input data location and format.  Input files have a limitation of 10gb per file, and 1gb per Parquet row-group within the file.
+    ///   - name: An optional name for the job resource.
+    ///   - outputOptions: Configuration for output data location and format.
+    ///   - tags: Tags and corresponding values to be associated with the job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startJob(
+        action: JobAction,
+        actionOptions: JobActionOptions? = nil,
+        clientToken: String? = StartJobRequest.idempotencyToken(),
+        executionRoleArn: String,
+        inputOptions: JobInputOptions,
+        name: String? = nil,
+        outputOptions: JobOutputOptions,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartJobResponse {
+        let input = StartJobRequest(
+            action: action, 
+            actionOptions: actionOptions, 
+            clientToken: clientToken, 
+            executionRoleArn: executionRoleArn, 
+            inputOptions: inputOptions, 
+            name: name, 
+            outputOptions: outputOptions, 
+            tags: tags
+        )
+        return try await self.startJob(input, logger: logger)
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified Amazon Location Service resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with an Amazon Location Service resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the tags already associated with the resource. If you specify a tag key that's already associated with the resource, the new tag value that you specify replaces the previous value for that tag.  You can associate up to 50 tags with a resource.
@@ -2516,6 +2663,43 @@ extension Location {
         return self.listGeofencesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsPaginator(
+        _ input: ListJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listJobs,
+            inputKey: \ListJobsRequest.nextToken,
+            outputKey: \ListJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: An optional structure containing criteria by which to filter job results.
+    ///   - maxResults: Maximum number of jobs to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsPaginator(
+        filter: JobsFilter? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobsRequest, ListJobsResponse> {
+        let input = ListJobsRequest(
+            filter: filter, 
+            maxResults: maxResults
+        )
+        return self.listJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listKeys(_:logger:)``.
     ///
     /// - Parameters:
@@ -2789,6 +2973,17 @@ extension Location.ListGeofencesRequest: AWSPaginateToken {
     }
 }
 
+extension Location.ListJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Location.ListJobsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Location.ListKeysRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Location.ListKeysRequest {
@@ -2848,5 +3043,48 @@ extension Location.ListTrackersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Location {
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilJobCompleted(
+        _ input: GetJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "Completed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Failed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "Cancelled")),
+            ],
+            minDelayTime: .seconds(60),
+            command: self.getJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - jobId: The unique identifier of the job to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilJobCompleted(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetJobRequest(
+            jobId: jobId
+        )
+        try await self.waitUntilJobCompleted(input, logger: logger)
     }
 }

@@ -654,6 +654,7 @@ public struct LicenseManager: AWSService {
     ///   - licenseMetadata: Information about the license.
     ///   - licenseName: License name.
     ///   - productName: Product name.
+    ///   - resetUsage: Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not reset.
     ///   - sourceVersion: Current version of the license.
     ///   - status: License status.
     ///   - validity: Date and time range during which the license is valid, in ISO8601-UTC format.
@@ -669,6 +670,7 @@ public struct LicenseManager: AWSService {
         licenseMetadata: [Metadata]? = nil,
         licenseName: String,
         productName: String,
+        resetUsage: Bool? = nil,
         sourceVersion: String? = nil,
         status: LicenseStatus,
         validity: DatetimeRange,
@@ -684,6 +686,7 @@ public struct LicenseManager: AWSService {
             licenseMetadata: licenseMetadata, 
             licenseName: licenseName, 
             productName: productName, 
+            resetUsage: resetUsage, 
             sourceVersion: sourceVersion, 
             status: status, 
             validity: validity

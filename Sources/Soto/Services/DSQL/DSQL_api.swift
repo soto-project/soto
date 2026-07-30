@@ -125,6 +125,50 @@ public struct DSQL: AWSService {
         return try await self.createCluster(input, logger: logger)
     }
 
+    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination.  Required permissions   dsql:CreateStream  Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   iam:PassRole  Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kinesis.roleArn   kms:Decrypt  Required when the cluster uses a customer managed KMS key (CMK). Permission to decrypt data using the cluster's CMK. Resources: ARN of the KMS key used by the cluster
+    @Sendable
+    @inlinable
+    public func createStream(_ input: CreateStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamOutput {
+        try await self.client.execute(
+            operation: "CreateStream", 
+            path: "/stream/{clusterIdentifier}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new change data capture (CDC) stream for a cluster. The stream captures database changes and delivers them to the specified target destination.  Required permissions   dsql:CreateStream  Permission to create a new stream. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   iam:PassRole  Permission to pass the IAM role specified in the target definition to the service. Resources: ARN of the IAM role specified in targetDefinition.kinesis.roleArn   kms:Decrypt  Required when the cluster uses a customer managed KMS key (CMK). Permission to decrypt data using the cluster's CMK. Resources: ARN of the KMS key used by the cluster
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    ///   - clusterIdentifier: The ID of the cluster for which to create the stream.
+    ///   - format: The format of the stream records.
+    ///   - ordering: The ordering mode for the stream. Determines how change events are ordered when delivered to the target.
+    ///   - tags: A map of key and value pairs to use to tag your stream.
+    ///   - targetDefinition: The target destination configuration for the stream. Contains Kinesis stream configuration including stream ARN and IAM role ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createStream(
+        clientToken: String? = CreateStreamInput.idempotencyToken(),
+        clusterIdentifier: String,
+        format: StreamFormat,
+        ordering: StreamOrdering,
+        tags: [String: String]? = nil,
+        targetDefinition: TargetDefinition,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateStreamOutput {
+        let input = CreateStreamInput(
+            clientToken: clientToken, 
+            clusterIdentifier: clusterIdentifier, 
+            format: format, 
+            ordering: ordering, 
+            tags: tags, 
+            targetDefinition: targetDefinition
+        )
+        return try await self.createStream(input, logger: logger)
+    }
+
     /// Deletes a cluster in Amazon Aurora DSQL.
     @Sendable
     @inlinable
@@ -192,6 +236,41 @@ public struct DSQL: AWSService {
         return try await self.deleteClusterPolicy(input, logger: logger)
     }
 
+    /// Deletes a stream from a cluster.
+    @Sendable
+    @inlinable
+    public func deleteStream(_ input: DeleteStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteStreamOutput {
+        try await self.client.execute(
+            operation: "DeleteStream", 
+            path: "/stream/{clusterIdentifier}/{streamIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a stream from a cluster.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
+    ///   - clusterIdentifier: The ID of the cluster containing the stream to delete.
+    ///   - streamIdentifier: The ID of the stream to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteStream(
+        clientToken: String? = DeleteStreamInput.idempotencyToken(),
+        clusterIdentifier: String,
+        streamIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteStreamOutput {
+        let input = DeleteStreamInput(
+            clientToken: clientToken, 
+            clusterIdentifier: clusterIdentifier, 
+            streamIdentifier: streamIdentifier
+        )
+        return try await self.deleteStream(input, logger: logger)
+    }
+
     /// Retrieves information about a cluster.
     @Sendable
     @inlinable
@@ -248,6 +327,38 @@ public struct DSQL: AWSService {
             identifier: identifier
         )
         return try await self.getClusterPolicy(input, logger: logger)
+    }
+
+    /// Retrieves information about a stream.
+    @Sendable
+    @inlinable
+    public func getStream(_ input: GetStreamInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamOutput {
+        try await self.client.execute(
+            operation: "GetStream", 
+            path: "/stream/{clusterIdentifier}/{streamIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a stream.
+    ///
+    /// Parameters:
+    ///   - clusterIdentifier: The ID of the cluster containing the stream to retrieve.
+    ///   - streamIdentifier: The ID of the stream to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getStream(
+        clusterIdentifier: String,
+        streamIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetStreamOutput {
+        let input = GetStreamInput(
+            clusterIdentifier: clusterIdentifier, 
+            streamIdentifier: streamIdentifier
+        )
+        return try await self.getStream(input, logger: logger)
     }
 
     /// Retrieves the VPC endpoint service name.
@@ -309,6 +420,41 @@ public struct DSQL: AWSService {
             nextToken: nextToken
         )
         return try await self.listClusters(input, logger: logger)
+    }
+
+    /// Retrieves information about a list of streams for a cluster.
+    @Sendable
+    @inlinable
+    public func listStreams(_ input: ListStreamsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStreamsOutput {
+        try await self.client.execute(
+            operation: "ListStreams", 
+            path: "/stream/{clusterIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a list of streams for a cluster.
+    ///
+    /// Parameters:
+    ///   - clusterIdentifier: The ID of the cluster for which to list streams.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results. Default: 10.
+    ///   - nextToken: If your initial ListStreams operation returns a nextToken, you can include the returned nextToken in following ListStreams operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listStreams(
+        clusterIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListStreamsOutput {
+        let input = ListStreamsInput(
+            clusterIdentifier: clusterIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listStreams(input, logger: logger)
     }
 
     /// Lists all of the tags for a resource.
@@ -533,12 +679,60 @@ extension DSQL {
         )
         return self.listClustersPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listStreams(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStreamsPaginator(
+        _ input: ListStreamsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
+        return .init(
+            input: input,
+            command: self.listStreams,
+            inputKey: \ListStreamsInput.nextToken,
+            outputKey: \ListStreamsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listStreams(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterIdentifier: The ID of the cluster for which to list streams.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results. Default: 10.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listStreamsPaginator(
+        clusterIdentifier: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListStreamsInput, ListStreamsOutput> {
+        let input = ListStreamsInput(
+            clusterIdentifier: clusterIdentifier, 
+            maxResults: maxResults
+        )
+        return self.listStreamsPaginator(input, logger: logger)
+    }
 }
 
 extension DSQL.ListClustersInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DSQL.ListClustersInput {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension DSQL.ListStreamsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DSQL.ListStreamsInput {
+        return .init(
+            clusterIdentifier: self.clusterIdentifier,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -617,5 +811,81 @@ extension DSQL {
             identifier: identifier
         )
         try await self.waitUntilClusterNotExists(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getStream(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilStreamActive(
+        _ input: GetStreamInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetStreamInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+            ],
+            command: self.getStream
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getStream(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterIdentifier: The ID of the cluster containing the stream to retrieve.
+    ///   - streamIdentifier: The ID of the stream to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilStreamActive(
+        clusterIdentifier: String,
+        streamIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetStreamInput(
+            clusterIdentifier: clusterIdentifier, 
+            streamIdentifier: streamIdentifier
+        )
+        try await self.waitUntilStreamActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getStream(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilStreamNotExists(
+        _ input: GetStreamInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetStreamInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+            ],
+            command: self.getStream
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getStream(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterIdentifier: The ID of the cluster containing the stream to retrieve.
+    ///   - streamIdentifier: The ID of the stream to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilStreamNotExists(
+        clusterIdentifier: String,
+        streamIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetStreamInput(
+            clusterIdentifier: clusterIdentifier, 
+            streamIdentifier: streamIdentifier
+        )
+        try await self.waitUntilStreamNotExists(input, logger: logger)
     }
 }

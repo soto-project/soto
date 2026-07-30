@@ -157,6 +157,12 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SourceIpAddressTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetAdministrativeOverrideReasonEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalError = "AdministrativeOverride.Unknown"
         case noOverrideEngaged = "AdministrativeOverride.NoOverride"
@@ -3200,7 +3206,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct RuleCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip
+        /// The name of the field. The possible values are:    http-header – [ALB] Matches on an HTTP header field.    http-request-method – [ALB] Matches on the HTTP request method.    host-header – [ALB] Matches on the host header.    path-pattern – [ALB] Matches on the URL path of the request.    query-string – [ALB] Matches on a query string parameter.    source-ip – [ALB, NLB] Matches on the source IP address. For ALB, use SourceIpConfig with Values to specify CIDR ranges. For NLB, use SourceIpConfig with IpAddressType to match the IP address type (ipv4 or ipv6).
         public let field: String?
         /// Information for a host header condition. Specify only when Field is host-header.
         public let hostHeaderConfig: HostHeaderConditionConfig?
@@ -3462,16 +3468,20 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SourceIpConditionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address type for Network Load Balancers. The valid values are:    ipv4 – IPv4 addresses only.    ipv6 – IPv6 addresses only.
+        public let ipAddressType: SourceIpAddressTypeEnum?
         /// The source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use an HTTP header condition. The total number of values must be less than, or equal to five.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var values: [String]?
 
         @inlinable
-        public init(values: [String]? = nil) {
+        public init(ipAddressType: SourceIpAddressTypeEnum? = nil, values: [String]? = nil) {
+            self.ipAddressType = ipAddressType
             self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IpAddressType"
             case values = "Values"
         }
     }

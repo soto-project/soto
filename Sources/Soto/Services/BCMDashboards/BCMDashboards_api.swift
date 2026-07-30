@@ -117,6 +117,41 @@ public struct BCMDashboards: AWSService {
         return try await self.createDashboard(input, logger: logger)
     }
 
+    /// Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
+    @Sendable
+    @inlinable
+    public func createScheduledReport(_ input: CreateScheduledReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduledReportResponse {
+        try await self.client.execute(
+            operation: "CreateScheduledReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new scheduled report for a dashboard. A scheduled report automatically generates and delivers dashboard snapshots on a recurring schedule. Reports are delivered within 15 minutes of the scheduled delivery time.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - resourceTags: The tags to apply to the scheduled report resource for organization and management.
+    ///   - scheduledReport: The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createScheduledReport(
+        clientToken: String? = CreateScheduledReportRequest.idempotencyToken(),
+        resourceTags: [ResourceTag]? = nil,
+        scheduledReport: ScheduledReportInput,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateScheduledReportResponse {
+        let input = CreateScheduledReportRequest(
+            clientToken: clientToken, 
+            resourceTags: resourceTags, 
+            scheduledReport: scheduledReport
+        )
+        return try await self.createScheduledReport(input, logger: logger)
+    }
+
     /// Deletes a specified dashboard. This action cannot be undone.
     @Sendable
     @inlinable
@@ -144,6 +179,70 @@ public struct BCMDashboards: AWSService {
             arn: arn
         )
         return try await self.deleteDashboard(input, logger: logger)
+    }
+
+    /// Deletes a specified scheduled report. This is an irreversible operation.
+    @Sendable
+    @inlinable
+    public func deleteScheduledReport(_ input: DeleteScheduledReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduledReportResponse {
+        try await self.client.execute(
+            operation: "DeleteScheduledReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a specified scheduled report. This is an irreversible operation.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the scheduled report to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteScheduledReport(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteScheduledReportResponse {
+        let input = DeleteScheduledReportRequest(
+            arn: arn
+        )
+        return try await self.deleteScheduledReport(input, logger: logger)
+    }
+
+    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException.  If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
+    @Sendable
+    @inlinable
+    public func executeScheduledReport(_ input: ExecuteScheduledReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExecuteScheduledReportResponse {
+        try await self.client.execute(
+            operation: "ExecuteScheduledReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Triggers an immediate execution of a scheduled report, outside of its regular schedule. The scheduled report must be in ENABLED state. Calling this operation on a DISABLED scheduled report returns a ValidationException.  If a clientToken is provided, the service uses it for idempotency. Requests with the same client token will not trigger a new execution within the same minute.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the scheduled report to execute.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - dryRun: When set to true, validates the scheduled report configuration without triggering an actual execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func executeScheduledReport(
+        arn: String,
+        clientToken: String? = ExecuteScheduledReportRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExecuteScheduledReportResponse {
+        let input = ExecuteScheduledReportRequest(
+            arn: arn, 
+            clientToken: clientToken, 
+            dryRun: dryRun
+        )
+        return try await self.executeScheduledReport(input, logger: logger)
     }
 
     /// Retrieves the configuration and metadata of a specified dashboard, including its widgets and layout settings.
@@ -204,6 +303,35 @@ public struct BCMDashboards: AWSService {
         return try await self.getResourcePolicy(input, logger: logger)
     }
 
+    /// Retrieves the configuration and metadata of a specified scheduled report.
+    @Sendable
+    @inlinable
+    public func getScheduledReport(_ input: GetScheduledReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScheduledReportResponse {
+        try await self.client.execute(
+            operation: "GetScheduledReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the configuration and metadata of a specified scheduled report.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the scheduled report to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getScheduledReport(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetScheduledReportResponse {
+        let input = GetScheduledReportRequest(
+            arn: arn
+        )
+        return try await self.getScheduledReport(input, logger: logger)
+    }
+
     /// Returns a list of all dashboards in your account.
     @Sendable
     @inlinable
@@ -234,6 +362,38 @@ public struct BCMDashboards: AWSService {
             nextToken: nextToken
         )
         return try await self.listDashboards(input, logger: logger)
+    }
+
+    /// Returns a list of scheduled reports in your account.
+    @Sendable
+    @inlinable
+    public func listScheduledReports(_ input: ListScheduledReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduledReportsResponse {
+        try await self.client.execute(
+            operation: "ListScheduledReports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of scheduled reports in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 100. The default value is 50.
+    ///   - nextToken: The token for the next page of results. Use the value returned in the previous response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listScheduledReports(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListScheduledReportsResponse {
+        let input = ListScheduledReportsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listScheduledReports(input, logger: logger)
     }
 
     /// Returns a list of all tags associated with a specified dashboard resource.
@@ -346,15 +506,15 @@ public struct BCMDashboards: AWSService {
     ///
     /// Parameters:
     ///   - arn: The ARN of the dashboard to update.
-    ///   - description: The new description for the dashboard. If not specified, the existing description is retained.
-    ///   - name: The new name for the dashboard. If not specified, the existing name is retained.
+    ///   - description: The new description for the dashboard.
+    ///   - name: The new name for the dashboard.
     ///   - widgets: The updated array of widget configurations for the dashboard. Replaces all existing widgets.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDashboard(
         arn: String,
         description: String? = nil,
-        name: String? = nil,
+        name: String,
         widgets: [Widget]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDashboardResponse {
@@ -365,6 +525,62 @@ public struct BCMDashboards: AWSService {
             widgets: widgets
         )
         return try await self.updateDashboard(input, logger: logger)
+    }
+
+    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
+    @Sendable
+    @inlinable
+    public func updateScheduledReport(_ input: UpdateScheduledReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduledReportResponse {
+        try await self.client.execute(
+            operation: "UpdateScheduledReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing scheduled report's properties, including its name, description, schedule configuration, and widget settings. Only the parameters included in the request are updated; all other properties remain unchanged.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the scheduled report to update.
+    ///   - clearWidgetDateRangeOverride: Set to true to clear existing widgetDateRangeOverride.
+    ///   - clearWidgetIds: Set to true to clear existing widgetIds.
+    ///   - dashboardArn: The ARN of the dashboard to associate with the scheduled report.
+    ///   - description: The new description for the scheduled report.
+    ///   - name: The new name for the scheduled report.
+    ///   - scheduleConfig: The updated schedule configuration for the report.
+    ///   - scheduledReportExecutionRoleArn: The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+    ///   - widgetDateRangeOverride: The date range override to apply to widgets in the scheduled report.
+    ///   - widgetIds: The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateScheduledReport(
+        arn: String,
+        clearWidgetDateRangeOverride: Bool? = nil,
+        clearWidgetIds: Bool? = nil,
+        dashboardArn: String? = nil,
+        description: String? = nil,
+        name: String? = nil,
+        scheduleConfig: ScheduleConfig? = nil,
+        scheduledReportExecutionRoleArn: String? = nil,
+        widgetDateRangeOverride: DateTimeRange? = nil,
+        widgetIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateScheduledReportResponse {
+        let input = UpdateScheduledReportRequest(
+            arn: arn, 
+            clearWidgetDateRangeOverride: clearWidgetDateRangeOverride, 
+            clearWidgetIds: clearWidgetIds, 
+            dashboardArn: dashboardArn, 
+            description: description, 
+            name: name, 
+            scheduleConfig: scheduleConfig, 
+            scheduledReportExecutionRoleArn: scheduledReportExecutionRoleArn, 
+            widgetDateRangeOverride: widgetDateRangeOverride, 
+            widgetIds: widgetIds
+        )
+        return try await self.updateScheduledReport(input, logger: logger)
     }
 }
 
@@ -414,11 +630,55 @@ extension BCMDashboards {
         )
         return self.listDashboardsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listScheduledReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduledReportsPaginator(
+        _ input: ListScheduledReportsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScheduledReportsRequest, ListScheduledReportsResponse> {
+        return .init(
+            input: input,
+            command: self.listScheduledReports,
+            inputKey: \ListScheduledReportsRequest.nextToken,
+            outputKey: \ListScheduledReportsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listScheduledReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 100. The default value is 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduledReportsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListScheduledReportsRequest, ListScheduledReportsResponse> {
+        let input = ListScheduledReportsRequest(
+            maxResults: maxResults
+        )
+        return self.listScheduledReportsPaginator(input, logger: logger)
+    }
 }
 
 extension BCMDashboards.ListDashboardsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BCMDashboards.ListDashboardsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BCMDashboards.ListScheduledReportsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BCMDashboards.ListScheduledReportsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

@@ -105,6 +105,7 @@ extension MWAA {
 
     public enum WebserverAccessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case privateOnly = "PRIVATE_ONLY"
+        case publicAndPrivate = "PUBLIC_AND_PRIVATE"
         case publicOnly = "PUBLIC_ONLY"
         public var description: String { return self.rawValue }
     }
@@ -160,19 +161,19 @@ extension MWAA {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
-        /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
+        /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, refer to Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
+        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, refer to Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 2.7.2, 2.8.1, 2.9.2, 2.10.1, 2.10.3, 2.11.0, and 3.0.6.
         public let airflowVersion: String?
-        /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
+        /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, refer to Adding or updating DAGs.
         public let dagS3Path: String
         /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints for your VPC. If you choose to create an environment in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the environment will remain in PENDING status until you create the VPC endpoints. If you do not take action to create the endpoints within 72 hours, the status will change to CREATE_FAILED. You can delete the failed environment and create a new one.
         public let endpointManagement: EndpointManagement?
-        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, refer to Amazon MWAA environment class.
         public let environmentClass: String?
-        /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
+        /// The Amazon Resource Name (ARN) of the execution role for your environment. An execution role is an Amazon Web Services Identity and Access Management (IAM) role that grants MWAA permission to access Amazon Web Services services and resources used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String
-        /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, see Create an Amazon MWAA environment.
+        /// The Amazon Web Services Key Management Service (KMS) key to encrypt the data in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed CMK (advanced). For more information, refer to Create an Amazon MWAA environment.
         public let kmsKey: String?
         /// Defines the Apache Airflow logs to send to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfigurationInput?
@@ -186,27 +187,27 @@ extension MWAA {
         public let minWorkers: Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
-        /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see About networking on Amazon MWAA.
+        /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, refer to About networking on Amazon MWAA.
         public let networkConfiguration: NetworkConfiguration
-        /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, see How S3 Versioning works.
+        /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works.
         public let pluginsS3ObjectVersion: String?
-        /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, see Installing custom plugins.
+        /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, refer to Installing custom plugins.
         public let pluginsS3Path: String?
-        /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, see How S3 Versioning works.
+        /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, refer to How S3 Versioning works.
         public let requirementsS3ObjectVersion: String?
-        /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a version is required. For more information, see Installing Python dependencies.
+        /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a version is required. For more information, refer to Installing Python dependencies.
         public let requirementsS3Path: String?
         /// The number of Apache Airflow schedulers to run in your environment. Valid values:   v2 - For environments larger than mw1.micro, accepts values from 2 to 5. Defaults to 2 for all environment sizes except mw1.micro, which defaults to 1.   v1 - Accepts 1.
         public let schedulers: Int?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see Create an Amazon S3 bucket for Amazon MWAA.
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to Create an Amazon S3 bucket for Amazon MWAA.
         public let sourceBucketArn: String
-        /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, see Using a startup script.
+        /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Using a startup script.
         public let startupScriptS3ObjectVersion: String?
-        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see Using a startup script.
+        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
         public let startupScriptS3Path: String?
-        /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
+        /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]?
-        /// Defines the access mode for the Apache Airflow web server. For more information, see Apache Airflow access modes.
+        /// Defines the access mode for the Apache Airflow web server. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
@@ -474,9 +475,9 @@ extension MWAA {
     }
 
     public struct Environment: AWSDecodableShape {
-        /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see Apache Airflow configuration options.
+        /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, refer to Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
+        /// The Apache Airflow version on your environment. Valid values: 2.7.2, 2.8.1, 2.9.2, 2.10.1, 2.10.3, 2.11.0, and 3.0.6.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
@@ -484,15 +485,15 @@ extension MWAA {
         public let celeryExecutorQueue: String?
         /// The day and time the environment was created.
         public let createdAt: Date?
-        /// The relative path to the DAGs folder in your Amazon S3 bucket. For example, s3://mwaa-environment/dags. For more information, see Adding or updating DAGs.
+        /// The relative path to the DAGs folder in your Amazon S3 bucket. For example, s3://mwaa-environment/dags. For more information, refer to Adding or updating DAGs.
         public let dagS3Path: String?
         /// The VPC endpoint for the environment's Amazon RDS database.
         public let databaseVpcEndpointService: String?
         /// Defines whether the VPC endpoints configured for the environment are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must create, and manage, the VPC endpoints in your VPC.
         public let endpointManagement: EndpointManagement?
-        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, refer to Amazon MWAA environment class.
         public let environmentClass: String?
-        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
+        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String?
         /// The KMS encryption key used to encrypt the data in your environment.
         public let kmsKey: String?
@@ -510,33 +511,33 @@ extension MWAA {
         public let minWorkers: Int?
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String?
-        /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see About networking on Amazon MWAA.
+        /// Describes the VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, refer to About networking on Amazon MWAA.
         public let networkConfiguration: NetworkConfiguration?
-        /// The version of the plugins.zip file in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo  For more information, see Installing custom plugins.
+        /// The version of the plugins.zip file in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo  For more information, refer to Installing custom plugins.
         public let pluginsS3ObjectVersion: String?
-        /// The relative path to the file in your Amazon S3 bucket. For example, s3://mwaa-environment/plugins.zip. For more information, see Installing custom plugins.
+        /// The relative path to the file in your Amazon S3 bucket. For example, s3://mwaa-environment/plugins.zip. For more information, refer to Installing custom plugins.
         public let pluginsS3Path: String?
-        /// The version of the requirements.txt  file on your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, see Installing Python dependencies.
+        /// The version of the requirements.txt  file on your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Installing Python dependencies.
         public let requirementsS3ObjectVersion: String?
-        /// The relative path to the requirements.txt file in your Amazon S3 bucket. For example, s3://mwaa-environment/requirements.txt. For more information, see Installing Python dependencies.
+        /// The relative path to the requirements.txt file in your Amazon S3 bucket. For example, s3://mwaa-environment/requirements.txt. For more information, refer to Installing Python dependencies.
         public let requirementsS3Path: String?
         /// The number of Apache Airflow schedulers that run in your Amazon MWAA environment.
         public let schedulers: Int?
-        /// The Amazon Resource Name (ARN) for the service-linked role of the environment. For more information, see Amazon MWAA Service-linked role.
+        /// The Amazon Resource Name (ARN) for the service-linked role of the environment. For more information, refer to Amazon MWAA Service-linked role.
         public let serviceRoleArn: String?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see Create an Amazon S3 bucket for Amazon MWAA.
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to Create an Amazon S3 bucket for Amazon MWAA.
         public let sourceBucketArn: String?
-        /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, see Using a startup script.
+        /// The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file.  Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Using a startup script.
         public let startupScriptS3ObjectVersion: String?
-        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see Using a startup script.
+        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
         public let startupScriptS3Path: String?
-        /// The status of the Amazon MWAA environment. Valid values:    CREATING - Indicates the request to create the environment is in progress.    CREATING_SNAPSHOT - Indicates the request to update environment details, or upgrade the environment version, is in progress and Amazon MWAA is creating a storage volume snapshot of the Amazon RDS database cluster associated with the environment. A database snapshot is a backup created at a specific point in time. Amazon MWAA uses snapshots to recover environment metadata if the process to update or upgrade an environment fails.    CREATE_FAILED - Indicates the request to create the environment failed, and the environment could not be created.    AVAILABLE - Indicates the request was successful and the environment is ready to use.    PENDING - Indicates the request was successful, but the process to create the environment is paused until you create the required VPC endpoints in your VPC. After you create the VPC endpoints, the process resumes.    UPDATING - Indicates the request to update the environment is in progress.    ROLLING_BACK - Indicates the request to update environment details, or upgrade the environment version, failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.    DELETING - Indicates the request to delete the environment is in progress.    DELETED - Indicates the request to delete the environment is complete, and the environment has been deleted.    UNAVAILABLE - Indicates the request failed, but the environment did not return to its previous state and is not stable.    UPDATE_FAILED - Indicates the request to update the environment failed, and the environment was restored to its previous state successfully and is ready to use.    MAINTENANCE - Indicates that the environment is undergoing maintenance. Depending on the type of work Amazon MWAA is performing, your environment might become unavailable during this process. After all operations are done, your environment will return to its status prior to mainteneace operations.    We recommend reviewing our troubleshooting guide for a list of common errors and their solutions. For more information, see Amazon MWAA troubleshooting.
+        /// The status of the Amazon MWAA environment. Valid values:    CREATING - The request to create the environment is in progress.    CREATING_SNAPSHOT - The request to update environment details, or upgrade the environment version, is in progress and Amazon MWAA is creating a storage volume snapshot of the Amazon RDS database cluster associated with the environment. A database snapshot is a backup created at a specific point in time. Amazon MWAA uses snapshots to recover environment metadata if the process to update or upgrade an environment fails.    CREATE_FAILED - The request to create the environment failed and the environment was not created.    AVAILABLE - The request was successful and the environment is ready to use.    PENDING - The request was successful, but the process to create the environment is paused until you create the required VPC endpoints in your VPC. After you create the VPC endpoints, the process resumes.    UPDATING - The request to update the environment is in progress.    ROLLING_BACK - The request to update environment details or upgrade the environment version failed and Amazon MWAA is restoring the environment using the latest storage volume snapshot.    DELETING - The request to delete the environment is in progress.    DELETED - The request to delete the environment is complete, and the environment has been deleted.    UNAVAILABLE - The request failed, but the environment did not return to its previous state and is not stable.    UPDATE_FAILED - The request to update the environment failed and the environment was restored to its previous state successfully and is ready to use.    MAINTENANCE - The environment is undergoing maintenance. Depending on the type of work Amazon MWAA is performing, your environment might be unavailable during this process. Note that as part of the maintenance work, Amazon MWAA performs with a GRACEFUL  workerReplacementStrategy .   You can review our troubleshooting guide for a list of common errors and their solutions. For more information, refer to Amazon MWAA troubleshooting.
         public let status: EnvironmentStatus?
-        /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
+        /// The key-value tag pairs associated to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]?
-        /// The Apache Airflow web server access mode. For more information, see Apache Airflow access modes.
+        /// The Apache Airflow web server access mode. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
-        /// The Apache Airflow web server host name for the Amazon MWAA environment. For more information, see Accessing the Apache Airflow UI.
+        /// The Apache Airflow web server host name for the Amazon MWAA environment. For more information, refer to Accessing the Apache Airflow UI.
         public let webserverUrl: String?
         /// The VPC endpoint for the environment's web server.
         public let webserverVpcEndpointService: String?
@@ -821,7 +822,7 @@ extension MWAA {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
-        /// The key-value tag pairs associated to your environment. For more information, see Tagging Amazon Web Services resources.
+        /// The key-value tag pairs associated to your environment. For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         @inlinable
@@ -901,7 +902,7 @@ extension MWAA {
         public let metricName: String
         ///  Internal only. The statistical values for the metric.
         public let statisticValues: StatisticSet?
-        ///  Internal only. The time the metric data was received.
+        ///  Internal only. The time the metric data was received, expressed as an ISO 8601 datetime string.
         public let timestamp: Date
         ///  Internal only. The unit used to store the metric.
         public let unit: Unit?
@@ -969,9 +970,9 @@ extension MWAA {
     }
 
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of security group IDs. For more information, see Security in your VPC on Amazon MWAA.
+        /// A list of security group IDs. For more information, refer to Security in your VPC on Amazon MWAA.
         public let securityGroupIds: [String]?
-        /// A list of subnet IDs. For more information, see About networking on Amazon MWAA.
+        /// A list of subnet IDs. For more information, refer to About networking on Amazon MWAA.
         public let subnetIds: [String]?
 
         @inlinable
@@ -1102,7 +1103,7 @@ extension MWAA {
     public struct TagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment. For example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
         public let resourceArn: String
-        /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, see Tagging Amazon Web Services resources.
+        /// The key-value tag pairs you want to associate to your environment. For example, "Environment": "Staging". For more information, refer to Tagging Amazon Web Services resources.
         public let tags: [String: String]
 
         @inlinable
@@ -1182,15 +1183,15 @@ extension MWAA {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
-        /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
+        /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, refer to Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
+        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. To downgrade your environment, specify an older version of Apache Airflow supported by Amazon MWAA. Before you upgrade or downgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading and downgrading an Amazon MWAA environment. Valid values: 2.7.2, 2.8.1, 2.9.2, 2.10.1, 2.10.3, 2.11.0, and 3.0.6.
         public let airflowVersion: String?
-        /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
+        /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, refer to Adding or updating DAGs.
         public let dagS3Path: String?
-        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment class.
+        /// The environment class type. Valid values: mw1.micro, mw1.small, mw1.medium, mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, refer to Amazon MWAA environment class.
         public let environmentClass: String?
-        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA Execution role.
+        /// The Amazon Resource Name (ARN) of the execution role in IAM that allows MWAA to access Amazon Web Services resources in your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For more information, refer to Amazon MWAA Execution role.
         public let executionRoleArn: String?
         /// The Apache Airflow log types to send to CloudWatch Logs.
         public let loggingConfiguration: LoggingConfigurationInput?
@@ -1204,29 +1205,29 @@ extension MWAA {
         public let minWorkers: Int?
         /// The name of your Amazon MWAA environment. For example, MyMWAAEnvironment.
         public let name: String
-        /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, see About networking on Amazon MWAA.
+        /// The VPC networking components used to secure and enable network traffic between the Amazon Web Services resources for your environment. For more information, refer to About networking on Amazon MWAA.
         public let networkConfiguration: UpdateNetworkConfigurationInput?
-        /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, see How S3 Versioning works.
+        /// The version of the plugins.zip file on your Amazon S3 bucket. You must specify a version each time a plugins.zip file is updated. For more information, refer to How S3 Versioning works.
         public let pluginsS3ObjectVersion: String?
-        /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, see Installing custom plugins.
+        /// The relative path to the plugins.zip file on your Amazon S3 bucket. For example, plugins.zip. If specified, then the plugins.zip version is required. For more information, refer to Installing custom plugins.
         public let pluginsS3Path: String?
-        /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, see How S3 Versioning works.
+        /// The version of the requirements.txt file on your Amazon S3 bucket. You must specify a version each time a requirements.txt file is updated. For more information, refer to How S3 Versioning works.
         public let requirementsS3ObjectVersion: String?
-        /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. For more information, see Installing Python dependencies.
+        /// The relative path to the requirements.txt file on your Amazon S3 bucket. For example, requirements.txt. If specified, then a file version is required. For more information, refer to Installing Python dependencies.
         public let requirementsS3Path: String?
         /// The number of Apache Airflow schedulers to run in your Amazon MWAA environment.
         public let schedulers: Int?
-        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see Create an Amazon S3 bucket for Amazon MWAA.
+        /// The Amazon Resource Name (ARN) of the Amazon S3 bucket where your DAG code and supporting files are stored. For example, arn:aws:s3:::my-airflow-bucket-unique-name. For more information, refer to Create an Amazon S3 bucket for Amazon MWAA.
         public let sourceBucketArn: String?
-        ///  The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, see Using a startup script.
+        ///  The version of the startup shell script in your Amazon S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings that are no more than 1,024 bytes long. The following is an example:   3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information, refer to Using a startup script.
         public let startupScriptS3ObjectVersion: String?
-        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, see Using a startup script.
+        /// The relative path to the startup shell script in your Amazon S3 bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your environment starts, and before running the Apache Airflow process. You can use this script to install dependencies, modify Apache Airflow configuration options, and set environment variables. For more information, refer to Using a startup script.
         public let startupScriptS3Path: String?
-        /// The Apache Airflow Web server access mode. For more information, see Apache Airflow access modes.
+        /// The Apache Airflow Web server access mode. For more information, refer to Apache Airflow access modes. If set to PUBLIC_AND_PRIVATE, creates both a public network load balancer (NLB) for browser access and a private VPC endpoint (VPCE) for worker-to-webserver communication. This mode is only available for Apache Airflow version 3.2 and later.
         public let webserverAccessMode: WebserverAccessMode?
         /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30 minute increments only.
         public let weeklyMaintenanceWindowStart: String?
-        /// The worker replacement strategy to use when updating the environment. You can select one of the following strategies:    Forced - Stops and replaces Apache Airflow workers without waiting for tasks to  complete before an update.    Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before  they're stopped and replaced.
+        /// The worker replacement strategy to use when updating the environment. You can select one of the following strategies:    Forced - Stops and replaces Apache Airflow workers without waiting for tasks to complete before an update.    Graceful - Allows Apache Airflow workers to complete running tasks for up to 12 hours during an update before they're stopped and replaced.
         public let workerReplacementStrategy: WorkerReplacementStrategy?
 
         @inlinable
@@ -1395,7 +1396,7 @@ extension MWAA {
     }
 
     public struct UpdateNetworkConfigurationInput: AWSEncodableShape {
-        /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. For more information, see Security in your VPC on Amazon MWAA.
+        /// A list of security group IDs. A security group must be attached to the same VPC as the subnets. For more information, refer to Security in your VPC on Amazon MWAA.
         public let securityGroupIds: [String]
 
         @inlinable
@@ -1429,6 +1430,7 @@ public struct MWAAErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case restApiClientException = "RestApiClientException"
         case restApiServerException = "RestApiServerException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case validationException = "ValidationException"
     }
 
@@ -1460,6 +1462,8 @@ public struct MWAAErrorType: AWSErrorType {
     public static var restApiClientException: Self { .init(.restApiClientException) }
     /// An exception indicating that a server-side error occurred during the Apache Airflow REST API call.
     public static var restApiServerException: Self { .init(.restApiServerException) }
+    /// ServiceUnavailableException: The service is currently unavailable.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// ValidationException: The provided input is not valid.
     public static var validationException: Self { .init(.validationException) }
 }

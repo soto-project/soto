@@ -1670,7 +1670,7 @@ public struct SNSErrorType: AWSErrorType {
     public static var emptyBatchRequestException: Self { .init(.emptyBatchRequestException) }
     /// Exception error indicating endpoint disabled.
     public static var endpointDisabledException: Self { .init(.endpointDisabledException) }
-    /// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
+    /// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
     public static var filterPolicyLimitExceededException: Self { .init(.filterPolicyLimitExceededException) }
     /// Indicates an internal service error.
     public static var internalErrorException: Self { .init(.internalErrorException) }

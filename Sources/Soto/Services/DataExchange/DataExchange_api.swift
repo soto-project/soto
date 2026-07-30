@@ -272,16 +272,19 @@ public struct DataExchange: AWSService {
     /// This operation creates a job.
     ///
     /// Parameters:
+    ///   - assetConfiguration: The configuration for the asset, including tags to be applied to assets created by the job.
     ///   - details: The details for the CreateJob request.
     ///   - type: The type of job to be created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
+        assetConfiguration: AssetConfiguration? = nil,
         details: RequestDetails,
         type: `Type`,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateJobResponse {
         let input = CreateJobRequest(
+            assetConfiguration: assetConfiguration, 
             details: details, 
             type: type
         )
@@ -1030,7 +1033,7 @@ public struct DataExchange: AWSService {
     @inlinable
     public func sendApiAsset(
         assetId: String,
-        body: String? = nil,
+        body: AWSHTTPBody? = nil,
         dataSetId: String,
         method: String? = nil,
         path: String? = nil,

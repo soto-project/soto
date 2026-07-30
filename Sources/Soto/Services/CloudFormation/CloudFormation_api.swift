@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CloudFormation service.
 ///
-/// CloudFormation CloudFormation allows you to create and manage Amazon Web Services infrastructure deployments predictably and repeatedly. You can use CloudFormation to leverage Amazon Web Services products, such as Amazon Elastic Compute Cloud, Amazon Elastic Block Store, Amazon Simple Notification Service, ELB, and Amazon EC2 Auto Scaling to build highly reliable, highly scalable, cost-effective applications without creating or configuring the underlying Amazon Web Services infrastructure. With CloudFormation, you declare all your resources and dependencies in a template file. The template defines a collection of resources as a single unit called a stack. CloudFormation creates and deletes all member resources of the stack together and manages all dependencies between the resources for you. For more information about CloudFormation, see the CloudFormation product page. CloudFormation makes use of other Amazon Web Services products. If you need additional technical information about a specific Amazon Web Services product, you can find the product's technical documentation at docs.aws.amazon.com.
+/// CloudFormation CloudFormation allows you to create and manage Amazon Web Services infrastructure deployments predictably and repeatedly. You can use CloudFormation to leverage Amazon Web Services products, such as Amazon Elastic Compute Cloud, Amazon Elastic Block Store, Amazon Simple Notification Service, Elastic Load Balancing, and Amazon EC2 Auto Scaling to build highly reliable, highly scalable, cost-effective applications without creating or configuring the underlying Amazon Web Services infrastructure. With CloudFormation, you declare all your resources and dependencies in a template file. The template defines a collection of resources as a single unit called a stack. CloudFormation creates and deletes all member resources of the stack together and manages all dependencies between the resources for you. For more information about CloudFormation, see the CloudFormation product page. CloudFormation makes use of other Amazon Web Services products. If you need additional technical information about a specific Amazon Web Services product, you can find the product's technical documentation at docs.aws.amazon.com.
 public struct CloudFormation: AWSService {
     // MARK: Member variables
 
@@ -298,8 +298,10 @@ public struct CloudFormation: AWSService {
     ///   - changeSetName: The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical character and can't exceed 128 characters.
     ///   - changeSetType: The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To create a change set for an import operation, specify IMPORT. If you create a change set for a new stack, CloudFormation creates a stack with a unique stack ID, but no template or resources. The stack will be in the REVIEW_IN_PROGRESS state until you execute the change set. By default, CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
     ///   - clientToken: A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
+    ///   - deploymentConfig: The deployment configuration for this stack operation, including the deployment mode.
     ///   - deploymentMode: Determines how CloudFormation handles configuration drift during deployment.    REVERT_DRIFT – Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state.   For more information, see Using drift-aware change sets in the CloudFormation User Guide.
     ///   - description: A description to help you identify this change set.
+    ///   - disableValidation:  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
     ///   - importExistingResources: Indicates if the change set auto-imports resources that already exist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide.  This parameter can only import resources that have custom names in templates. For more information, see name type in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
     ///   - includeNestedStacks: Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
     ///   - notificationARNs: The Amazon Resource Names (ARNs) of Amazon SNS topics that CloudFormation associates with the stack. To remove all associated notification topics, specify an empty list.
@@ -321,8 +323,10 @@ public struct CloudFormation: AWSService {
         changeSetName: String? = nil,
         changeSetType: ChangeSetType? = nil,
         clientToken: String? = nil,
+        deploymentConfig: DeploymentConfig? = nil,
         deploymentMode: DeploymentMode? = nil,
         description: String? = nil,
+        disableValidation: Bool? = nil,
         importExistingResources: Bool? = nil,
         includeNestedStacks: Bool? = nil,
         notificationARNs: [String]? = nil,
@@ -344,8 +348,10 @@ public struct CloudFormation: AWSService {
             changeSetName: changeSetName, 
             changeSetType: changeSetType, 
             clientToken: clientToken, 
+            deploymentConfig: deploymentConfig, 
             deploymentMode: deploymentMode, 
             description: description, 
+            disableValidation: disableValidation, 
             importExistingResources: importExistingResources, 
             includeNestedStacks: includeNestedStacks, 
             notificationARNs: notificationARNs, 
@@ -420,7 +426,9 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - capabilities: In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::ManagedPolicy     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - clientRequestToken: A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
+    ///   - deploymentConfig: The deployment configuration for this stack operation, including the deployment mode.
     ///   - disableRollback: Set to true to disable rollback of the stack if stack creation failed. You can specify either DisableRollback or OnFailure, but not both. Default: false
+    ///   - disableValidation:  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
     ///   - enableTerminationProtection: Whether to enable termination protection on the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see Protect CloudFormation stacks from being deleted in the CloudFormation User Guide. Termination protection is deactivated on stacks by default. For nested stacks, termination protection is set on the root stack and can't be changed directly on the nested stack.
     ///   - notificationARNs: The Amazon SNS topic ARNs to publish stack related events. You can find your Amazon SNS topic ARNs using the Amazon SNS console or your Command Line Interface (CLI).
     ///   - onFailure: Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both.  Although the default setting is ROLLBACK, there is one exception. This exception occurs when a StackSet attempts to deploy a stack instance and the stack instance fails to create successfully. In this case, the CreateStack call overrides the default setting and sets the value of OnFailure to DELETE.  Default: ROLLBACK
@@ -441,7 +449,9 @@ public struct CloudFormation: AWSService {
     public func createStack(
         capabilities: [Capability]? = nil,
         clientRequestToken: String? = nil,
+        deploymentConfig: DeploymentConfig? = nil,
         disableRollback: Bool? = nil,
+        disableValidation: Bool? = nil,
         enableTerminationProtection: Bool? = nil,
         notificationARNs: [String]? = nil,
         onFailure: OnFailure? = nil,
@@ -462,7 +472,9 @@ public struct CloudFormation: AWSService {
         let input = CreateStackInput(
             capabilities: capabilities, 
             clientRequestToken: clientRequestToken, 
+            deploymentConfig: deploymentConfig, 
             disableRollback: disableRollback, 
+            disableValidation: disableValidation, 
             enableTerminationProtection: enableTerminationProtection, 
             notificationARNs: notificationARNs, 
             onFailure: onFailure, 
@@ -781,6 +793,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - clientRequestToken: A unique identifier for this DeleteStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to delete a stack with the same name. You might retry DeleteStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
     ///   - deletionMode: Specifies the deletion mode for the stack. Possible values are:    STANDARD - Use the standard behavior. Specifying this value is the same as not specifying this parameter.    FORCE_DELETE_STACK - Delete the stack if it's stuck in a DELETE_FAILED state due to resource deletion failure.
+    ///   - deploymentConfig: The deployment configuration for this stack operation, including the deployment mode.
     ///   - retainResources: For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, CloudFormation deletes the stack but doesn't delete the retained resources. Retaining resources is useful when you can't delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to delete the stack. CloudFormation uses the role's credentials to make calls on your behalf. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
     ///   - stackName: The name or the unique stack ID that's associated with the stack.
@@ -789,6 +802,7 @@ public struct CloudFormation: AWSService {
     public func deleteStack(
         clientRequestToken: String? = nil,
         deletionMode: DeletionMode? = nil,
+        deploymentConfig: DeploymentConfig? = nil,
         retainResources: [String]? = nil,
         roleARN: String? = nil,
         stackName: String? = nil,
@@ -797,6 +811,7 @@ public struct CloudFormation: AWSService {
         let input = DeleteStackInput(
             clientRequestToken: clientRequestToken, 
             deletionMode: deletionMode, 
+            deploymentConfig: deploymentConfig, 
             retainResources: retainResources, 
             roleARN: roleARN, 
             stackName: stackName
@@ -1049,7 +1064,7 @@ public struct CloudFormation: AWSService {
     ///   - filters: Filters to apply when retrieving events.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - operationId: The unique identifier of the operation for which you want to retrieve events.
-    ///   - stackName: The name or unique stack ID for which you want to retrieve events.
+    ///   - stackName: The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEvents(
@@ -3005,6 +3020,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique identifier for this RollbackStack request.
+    ///   - deploymentConfig: The deployment configuration for this stack operation, including the deployment mode.
     ///   - retainExceptOnCreate: When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to rollback the stack.
     ///   - stackName: The name that's associated with the stack.
@@ -3012,6 +3028,7 @@ public struct CloudFormation: AWSService {
     @inlinable
     public func rollbackStack(
         clientRequestToken: String? = nil,
+        deploymentConfig: DeploymentConfig? = nil,
         retainExceptOnCreate: Bool? = nil,
         roleARN: String? = nil,
         stackName: String? = nil,
@@ -3019,6 +3036,7 @@ public struct CloudFormation: AWSService {
     ) async throws -> RollbackStackOutput {
         let input = RollbackStackInput(
             clientRequestToken: clientRequestToken, 
+            deploymentConfig: deploymentConfig, 
             retainExceptOnCreate: retainExceptOnCreate, 
             roleARN: roleARN, 
             stackName: stackName
@@ -3159,7 +3177,7 @@ public struct CloudFormation: AWSService {
     ///   - logicalResourceId: The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
     ///   - stackName: The stack name or unique stack ID that includes the resource that you want to signal.
     ///   - status: The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
-    ///   - uniqueId: A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    ///   - uniqueId: A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func signalResource(
@@ -3348,7 +3366,9 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - capabilities: In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::ManagedPolicy     AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - clientRequestToken: A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
+    ///   - deploymentConfig: The deployment configuration for this stack operation, including the deployment mode.
     ///   - disableRollback: Preserve the state of previously provisioned resources when an operation fails. Default: False
+    ///   - disableValidation:  Set to true to disable pre-deployment validations in changeset or stack operations.   Default: false
     ///   - notificationARNs: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
     ///   - parameters: A list of Parameter structures that specify input parameters for the stack. For more information, see the Parameter data type.
     ///   - resourceTypes: Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Control CloudFormation access with Identity and Access Management.  Only one of the Capabilities and ResourceType parameters can be specified.
@@ -3369,7 +3389,9 @@ public struct CloudFormation: AWSService {
     public func updateStack(
         capabilities: [Capability]? = nil,
         clientRequestToken: String? = nil,
+        deploymentConfig: DeploymentConfig? = nil,
         disableRollback: Bool? = nil,
+        disableValidation: Bool? = nil,
         notificationARNs: [String]? = nil,
         parameters: [Parameter]? = nil,
         resourceTypes: [String]? = nil,
@@ -3390,7 +3412,9 @@ public struct CloudFormation: AWSService {
         let input = UpdateStackInput(
             capabilities: capabilities, 
             clientRequestToken: clientRequestToken, 
+            deploymentConfig: deploymentConfig, 
             disableRollback: disableRollback, 
+            disableValidation: disableValidation, 
             notificationARNs: notificationARNs, 
             parameters: parameters, 
             resourceTypes: resourceTypes, 
@@ -3716,7 +3740,7 @@ extension CloudFormation {
     ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events.
     ///   - filters: Filters to apply when retrieving events.
     ///   - operationId: The unique identifier of the operation for which you want to retrieve events.
-    ///   - stackName: The name or unique stack ID for which you want to retrieve events.
+    ///   - stackName: The name or unique stack ID for which you want to retrieve events. If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEventsPaginator(

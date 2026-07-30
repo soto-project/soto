@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS GeoPlaces service.
 ///
-///  The Places API enables powerful location search and geocoding capabilities for your applications, offering global coverage with rich, detailed information. Key features include:    Forward and reverse geocoding for addresses and coordinates   Comprehensive place searches with detailed information, including:   Business names and addresses   Contact information   Hours of operation   POI (Points of Interest) categories   Food types for restaurants   Chain affiliation for relevant businesses     Global data coverage with a wide range of POI categories   Regular data updates to ensure accuracy and relevance
+///  The Places API enables powerful location search and geocoding capabilities for your applications, offering global coverage with rich, detailed information. Key features include:    Forward and reverse geocoding for addresses and coordinates. See Geocode and ReverseGeocode.   Comprehensive place searches with detailed information. See SearchText, SearchNearby, and GetPlace. Place information you can find include:   Business names and addresses   Contact information   Hours of operation   Points of Interest (POI) categories   Food types for restaurants   Chain affiliation for relevant businesses     Address and place completion as users type, enhancing input efficiency by completing partial queries with valid addresses. See Autocomplete.   Intelligent place and query recommendation based on user's input or context, returning relevant places, points of interest, query terms, or search categories. See Suggest.   Global data coverage with a wide range of POI categories.   Regular data updates to ensure accuracy and relevance.   Bulk address validation for verifying and standardizing large volumes of addresses in a single operation using Amazon Location Service Jobs.
 public struct GeoPlaces: AWSService {
     // MARK: Member variables
 
@@ -78,31 +78,31 @@ public struct GeoPlaces: AWSService {
 
     // MARK: API Calls
 
-    ///  Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. For more information, see Autocomplete in the Amazon Location Service Developer Guide.
+    ///  Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Autocomplete in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func autocomplete(_ input: AutocompleteRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AutocompleteResponse {
         try await self.client.execute(
             operation: "Autocomplete", 
-            path: "/autocomplete", 
+            path: "/v2/autocomplete", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. For more information, see Autocomplete in the Amazon Location Service Developer Guide.
+    ///  Autocomplete completes potential places and addresses as the user types, based on the partial input. The API enhances the efficiency and accuracy of address by completing query based on a few entered keystrokes. It helps you by completing partial queries with valid address completion. Also, the API supports the filtering of results based on geographic location, country, or specific place types, and can be tailored using optional parameters like language and political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Autocomplete in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - additionalFeatures: A list of optional additional parameters that can be requested for each result.
     ///   - biasPosition: The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Autocomplete does not support storage of results.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 5
     ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
-    ///   - postalCodeMode: The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned.
+    ///   - postalCodeMode: The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
     ///   - queryText: The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
     ///   - logger: Logger use during operation
     @inlinable
@@ -134,36 +134,41 @@ public struct GeoPlaces: AWSService {
         return try await self.autocomplete(input, logger: logger)
     }
 
-    ///  Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see Geocode in the Amazon Location Service Developer Guide.
+    ///  Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Geocode in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func geocode(_ input: GeocodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GeocodeResponse {
         try await self.client.execute(
             operation: "Geocode", 
-            path: "/geocode", 
+            path: "/v2/geocode", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see Geocode in the Amazon Location Service Developer Guide.
+    ///  Geocode converts a textual address or place into geographic coordinates. You can obtain geographic coordinates, address component, and other related information. It supports flexible queries, including free-form text or structured queries with components like street names, postal codes, and regions. The Geocode API can also provide additional features such as time zone information and the inclusion of political views. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Geocode in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - additionalFeatures: A list of optional additional parameters, such as time zone, that can be requested for each result.
+    ///   - addressNamesMode: Specifies how address names are returned. If not set, the service returns normalized (official) names by default. When set to Matched, address names in the response are based on the input query rather than official names. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+    ///   - addressTranslations: Specifies which address components to include translations for. Translations include all name variants and alternative names for the requested fields in all available languages. Valid values are District, Locality, Region, and SubRegion.
     ///   - biasPosition: The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an Geocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing Geocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 20
     ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    ///   - postalCodeMode: The PostalCodeMode affects how postal code results are returned. If a postal code spans multiple localities and this value is empty, partial district or locality information may be returned under a single postal code result entry. If it's populated with the value EnumerateSpannedLocalities, all cities in that postal code are returned. If it's populated with the value EnumerateSpannedDistricts, all combinations of the postal code with the corresponding district and city names are returned.
     ///   - queryComponents: 
     ///   - queryText: The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
     ///   - logger: Logger use during operation
     @inlinable
     public func geocode(
         additionalFeatures: [GeocodeAdditionalFeature]? = nil,
+        addressNamesMode: GeocodeAddressNamesMode? = nil,
+        addressTranslations: [AddressTranslationComponent]? = nil,
         biasPosition: [Double]? = nil,
         filter: GeocodeFilter? = nil,
         intendedUse: GeocodeIntendedUse? = nil,
@@ -171,12 +176,15 @@ public struct GeoPlaces: AWSService {
         language: String? = nil,
         maxResults: Int? = nil,
         politicalView: String? = nil,
+        postalCodeMode: PostalCodeMode? = nil,
         queryComponents: GeocodeQueryComponents? = nil,
         queryText: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GeocodeResponse {
         let input = GeocodeRequest(
             additionalFeatures: additionalFeatures, 
+            addressNamesMode: addressNamesMode, 
+            addressTranslations: addressTranslations, 
             biasPosition: biasPosition, 
             filter: filter, 
             intendedUse: intendedUse, 
@@ -184,6 +192,7 @@ public struct GeoPlaces: AWSService {
             language: language, 
             maxResults: maxResults, 
             politicalView: politicalView, 
+            postalCodeMode: postalCodeMode, 
             queryComponents: queryComponents, 
             queryText: queryText
         )
@@ -196,7 +205,7 @@ public struct GeoPlaces: AWSService {
     public func getPlace(_ input: GetPlaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPlaceResponse {
         try await self.client.execute(
             operation: "GetPlace", 
-            path: "/place/{PlaceId}", 
+            path: "/v2/place/{PlaceId}", 
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
@@ -206,16 +215,18 @@ public struct GeoPlaces: AWSService {
     ///  GetPlace finds a place by its unique ID. A PlaceId is returned by other place operations. For more information, see GetPlace in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - additionalFeatures: A list of optional additional parameters such as time zone that can be requested for each result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an GetPlace query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+    ///   - additionalFeatures:  A list of optional additional parameters such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
+    ///   - addressNamesMode: Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing GetPlace responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    ///   - language:  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     ///   - placeId: The PlaceId of the place you wish to receive the information for.
-    ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    ///   - politicalView:  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPlace(
         additionalFeatures: [GetPlaceAdditionalFeature]? = nil,
+        addressNamesMode: GetPlaceAddressNamesMode? = nil,
         intendedUse: GetPlaceIntendedUse? = nil,
         key: String? = nil,
         language: String? = nil,
@@ -225,6 +236,7 @@ public struct GeoPlaces: AWSService {
     ) async throws -> GetPlaceResponse {
         let input = GetPlaceRequest(
             additionalFeatures: additionalFeatures, 
+            addressNamesMode: addressNamesMode, 
             intendedUse: intendedUse, 
             key: key, 
             language: language, 
@@ -240,7 +252,7 @@ public struct GeoPlaces: AWSService {
     public func reverseGeocode(_ input: ReverseGeocodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReverseGeocodeResponse {
         try await self.client.execute(
             operation: "ReverseGeocode", 
-            path: "/reverse-geocode", 
+            path: "/v2/reverse-geocode", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -250,20 +262,22 @@ public struct GeoPlaces: AWSService {
     ///  ReverseGeocode converts geographic coordinates into a human-readable address or place. You can obtain address component, and other related information such as place type, category, street information. The Reverse Geocode API supports filtering to on place type so that you can refine result based on your need. Also, The Reverse Geocode API can also provide additional features such as time zone information and the inclusion of political views. For more information, see Reverse Geocode in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - additionalFeatures: A list of optional additional parameters, such as time zone that can be requested for each result.
+    ///   - additionalFeatures:  A list of optional additional parameters, such as time zone that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
+    ///   - addressNamesMode: Specifies how address names are returned. When set to Administrative, the service returns the official administrative names for address components. Administrative currently applies only to addresses in the United States.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
     ///   - heading: The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored).   When storing ReverseGeocode responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
-    ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 1
-    ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    ///   - language:  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    ///   - maxResults:  An optional limit for the number of results returned in a single call. Default value: 1
+    ///   - politicalView:  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - queryPosition: The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
-    ///   - queryRadius: The maximum distance in meters from the QueryPosition from which a result will be returned.
+    ///   - queryRadius:  The maximum distance in meters from the QueryPosition from which a result will be returned. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only up to a maximum value of 100,000.
     ///   - logger: Logger use during operation
     @inlinable
     public func reverseGeocode(
         additionalFeatures: [ReverseGeocodeAdditionalFeature]? = nil,
+        addressNamesMode: ReverseGeocodeAddressNamesMode? = nil,
         filter: ReverseGeocodeFilter? = nil,
         heading: Double? = nil,
         intendedUse: ReverseGeocodeIntendedUse? = nil,
@@ -277,6 +291,7 @@ public struct GeoPlaces: AWSService {
     ) async throws -> ReverseGeocodeResponse {
         let input = ReverseGeocodeRequest(
             additionalFeatures: additionalFeatures, 
+            addressNamesMode: addressNamesMode, 
             filter: filter, 
             heading: heading, 
             intendedUse: intendedUse, 
@@ -290,25 +305,25 @@ public struct GeoPlaces: AWSService {
         return try await self.reverseGeocode(input, logger: logger)
     }
 
-    ///  SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. For more information, see Search Nearby in the Amazon Location Service Developer Guide.
+    ///  SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Search Nearby in the Amazon Location Service Developer Guide.
     @Sendable
     @inlinable
     public func searchNearby(_ input: SearchNearbyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchNearbyResponse {
         try await self.client.execute(
             operation: "SearchNearby", 
-            path: "/search-nearby", 
+            path: "/v2/search-nearby", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
             logger: logger
         )
     }
-    ///  SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. For more information, see Search Nearby in the Amazon Location Service Developer Guide.
+    ///  SearchNearby queries for points of interest within a radius from a central coordinates, returning place results with optional filters such as categories, business chains, food types and more. The API returns details such as a place name, address, phone, category, food type, contact, opening hours. Also, the API can return phonemes, time zones and more based on requested parameters. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers. For more information, see Search Nearby in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
     ///   - additionalFeatures: A list of optional additional parameters, such as time zone, that can be requested for each result.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchNearby query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.   When storing SearchNearby responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
     ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 20
@@ -352,7 +367,7 @@ public struct GeoPlaces: AWSService {
     public func searchText(_ input: SearchTextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTextResponse {
         try await self.client.execute(
             operation: "SearchText", 
-            path: "/search-text", 
+            path: "/v2/search-text", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -362,17 +377,18 @@ public struct GeoPlaces: AWSService {
     ///  SearchText searches for geocode and place information. You can then complete a follow-up query suggested from the Suggest API via a query id. For more information, see Search Text in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - additionalFeatures: A list of optional additional parameters, such as time zone, that can be requested for each result.
+    ///   - additionalFeatures: A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the TimeZone value.
     ///   - biasPosition: The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  Exactly one of the following fields must be set: BiasPosition, Filter.BoundingBox, or Filter.Circle.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an SearchText query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored).   When storing SearchText responses, you must set this field to Storage to comply with the terms of service. These requests will be charged at a higher rate. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
+    ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
     ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 20
     ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
-    ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
-    ///   - queryId: The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API.  Exactly one of the following fields must be set: QueryText or QueryId.
+    ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - queryId: The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API. Not available in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.  Exactly one of the following fields must be set: QueryText or QueryId.
     ///   - queryText: The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  Exactly one of the following fields must be set: QueryText or QueryId.
+    ///   - travelMode: Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchText(
@@ -387,6 +403,7 @@ public struct GeoPlaces: AWSService {
         politicalView: String? = nil,
         queryId: String? = nil,
         queryText: String? = nil,
+        travelMode: SearchTextTravelMode? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SearchTextResponse {
         let input = SearchTextRequest(
@@ -400,7 +417,8 @@ public struct GeoPlaces: AWSService {
             nextToken: nextToken, 
             politicalView: politicalView, 
             queryId: queryId, 
-            queryText: queryText
+            queryText: queryText, 
+            travelMode: travelMode
         )
         return try await self.searchText(input, logger: logger)
     }
@@ -411,7 +429,7 @@ public struct GeoPlaces: AWSService {
     public func suggest(_ input: SuggestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SuggestResponse {
         try await self.client.execute(
             operation: "Suggest", 
-            path: "/suggest", 
+            path: "/v2/suggest", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
             input: input, 
@@ -421,16 +439,17 @@ public struct GeoPlaces: AWSService {
     ///  Suggest provides intelligent predictions or recommendations based on the user's input or context, such as relevant places, points of interest, query terms or search category. It is designed to help users find places or point of interests candidates or identify a follow on query based on incomplete or misspelled queries. It returns a list of possible matches or refinements that can be used to formulate a more accurate query. Users can select the most appropriate suggestion and use it for further searching. The API provides options for filtering results by location and other attributes, and allows for additional features like phonemes and timezones. The response includes refined query terms and detailed place information. For more information, see Suggest in the Amazon Location Service Developer Guide.
     ///
     /// Parameters:
-    ///   - additionalFeatures: A list of optional additional parameters, such as time zone, that can be requested for each result.
+    ///   - additionalFeatures:  A list of optional additional parameters, such as time zone, that can be requested for each result. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the Core and TimeZone values.
     ///   - biasPosition: The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
     ///   - filter: A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
-    ///   - intendedUse: Indicates if the results will be stored. Defaults to SingleUse, if left empty.
+    ///   - intendedUse:  Indicates if the query results will be persisted in customer infrastructure. Defaults to SingleUse (not stored). Currently, Suggest does not support storage of results.
     ///   - key: Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
-    ///   - language: A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
-    ///   - maxQueryRefinements: Maximum number of query terms to be returned for use with a search text query.
-    ///   - maxResults: An optional limit for the number of results returned in a single call. Default value: 20
-    ///   - politicalView: The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
+    ///   - language:  A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry. For GrabMaps customers, ap-southeast-1 and ap-southeast-5 regions support only the following codes: en, id, km, lo, ms, my, pt, th, tl, vi, zh
+    ///   - maxQueryRefinements:  Maximum number of query terms to be returned for use with a search text query. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
+    ///   - maxResults:  An optional limit for the number of results returned in a single call.  Default value: 20
+    ///   - politicalView:  The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. Not supported in ap-southeast-1 and ap-southeast-5 regions for GrabMaps customers.
     ///   - queryText: The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText and QueryID are mutually exclusive.
+    ///   - travelMode: Indicates the mode of mobility used by the end user. This is used to improve the relevance of search results. Valid values are Car, Scooter, and Truck.
     ///   - logger: Logger use during operation
     @inlinable
     public func suggest(
@@ -444,6 +463,7 @@ public struct GeoPlaces: AWSService {
         maxResults: Int? = nil,
         politicalView: String? = nil,
         queryText: String,
+        travelMode: SuggestTravelMode? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SuggestResponse {
         let input = SuggestRequest(
@@ -456,7 +476,8 @@ public struct GeoPlaces: AWSService {
             maxQueryRefinements: maxQueryRefinements, 
             maxResults: maxResults, 
             politicalView: politicalView, 
-            queryText: queryText
+            queryText: queryText, 
+            travelMode: travelMode
         )
         return try await self.suggest(input, logger: logger)
     }

@@ -65,6 +65,12 @@ extension Route53Resolver {
         public var description: String { return self.rawValue }
     }
 
+    public enum DomainListType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case content = "CONTENT"
+        case threat = "THREAT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirewallDomainImportOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case replace = "REPLACE"
         public var description: String { return self.rawValue }
@@ -121,6 +127,7 @@ extension Route53Resolver {
         case deleting = "DELETING"
         case detaching = "DETACHING"
         case failedCreation = "FAILED_CREATION"
+        case failedCreationInsufficientEC2CapacityInOutpost = "FAILED_CREATION_INSUFFICIENT_EC2_CAPACITY_IN_OUTPOST"
         case failedResourceGone = "FAILED_RESOURCE_GONE"
         case isolated = "ISOLATED"
         case remapAttaching = "REMAP_ATTACHING"
@@ -466,6 +473,186 @@ extension Route53Resolver {
         }
     }
 
+    public struct BatchCreateFirewallRuleError: AWSDecodableShape {
+        /// The error code for the failure.
+        public let code: String?
+        /// The firewall rule entry that caused the error.
+        public let firewallRule: CreateFirewallRuleEntry?
+        /// A message that provides details about the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, firewallRule: CreateFirewallRuleEntry? = nil, message: String? = nil) {
+            self.code = code
+            self.firewallRule = firewallRule
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case firewallRule = "FirewallRule"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchCreateFirewallRuleRequest: AWSEncodableShape {
+        /// The list of firewall rules to create.
+        public let createFirewallRuleEntries: [CreateFirewallRuleEntry]
+
+        @inlinable
+        public init(createFirewallRuleEntries: [CreateFirewallRuleEntry]) {
+            self.createFirewallRuleEntries = createFirewallRuleEntries
+        }
+
+        public func validate(name: String) throws {
+            try self.createFirewallRuleEntries.forEach {
+                try $0.validate(name: "\(name).createFirewallRuleEntries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createFirewallRuleEntries = "CreateFirewallRuleEntries"
+        }
+    }
+
+    public struct BatchCreateFirewallRuleResponse: AWSDecodableShape {
+        /// The firewall rules that were successfully created by the request.
+        public let createdFirewallRules: [FirewallRule]?
+        /// A list of errors that occurred while creating the firewall rules.
+        public let createErrors: [BatchCreateFirewallRuleError]?
+
+        @inlinable
+        public init(createdFirewallRules: [FirewallRule]? = nil, createErrors: [BatchCreateFirewallRuleError]? = nil) {
+            self.createdFirewallRules = createdFirewallRules
+            self.createErrors = createErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdFirewallRules = "CreatedFirewallRules"
+            case createErrors = "CreateErrors"
+        }
+    }
+
+    public struct BatchDeleteFirewallRuleError: AWSDecodableShape {
+        /// The error code for the failure.
+        public let code: String?
+        /// The firewall rule entry that caused the error.
+        public let firewallRule: DeleteFirewallRuleEntry?
+        /// A message that provides details about the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, firewallRule: DeleteFirewallRuleEntry? = nil, message: String? = nil) {
+            self.code = code
+            self.firewallRule = firewallRule
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case firewallRule = "FirewallRule"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchDeleteFirewallRuleRequest: AWSEncodableShape {
+        /// The list of firewall rules to delete.
+        public let deleteFirewallRuleEntries: [DeleteFirewallRuleEntry]
+
+        @inlinable
+        public init(deleteFirewallRuleEntries: [DeleteFirewallRuleEntry]) {
+            self.deleteFirewallRuleEntries = deleteFirewallRuleEntries
+        }
+
+        public func validate(name: String) throws {
+            try self.deleteFirewallRuleEntries.forEach {
+                try $0.validate(name: "\(name).deleteFirewallRuleEntries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteFirewallRuleEntries = "DeleteFirewallRuleEntries"
+        }
+    }
+
+    public struct BatchDeleteFirewallRuleResponse: AWSDecodableShape {
+        /// The firewall rules that were successfully deleted by the request.
+        public let deletedFirewallRules: [FirewallRule]?
+        /// A list of errors that occurred while deleting the firewall rules.
+        public let deleteErrors: [BatchDeleteFirewallRuleError]?
+
+        @inlinable
+        public init(deletedFirewallRules: [FirewallRule]? = nil, deleteErrors: [BatchDeleteFirewallRuleError]? = nil) {
+            self.deletedFirewallRules = deletedFirewallRules
+            self.deleteErrors = deleteErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedFirewallRules = "DeletedFirewallRules"
+            case deleteErrors = "DeleteErrors"
+        }
+    }
+
+    public struct BatchUpdateFirewallRuleError: AWSDecodableShape {
+        /// The error code for the failure.
+        public let code: String?
+        /// The firewall rule entry that caused the error.
+        public let firewallRule: UpdateFirewallRuleEntry?
+        /// A message that provides details about the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, firewallRule: UpdateFirewallRuleEntry? = nil, message: String? = nil) {
+            self.code = code
+            self.firewallRule = firewallRule
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case firewallRule = "FirewallRule"
+            case message = "Message"
+        }
+    }
+
+    public struct BatchUpdateFirewallRuleRequest: AWSEncodableShape {
+        /// The list of firewall rules to update.
+        public let updateFirewallRuleEntries: [UpdateFirewallRuleEntry]
+
+        @inlinable
+        public init(updateFirewallRuleEntries: [UpdateFirewallRuleEntry]) {
+            self.updateFirewallRuleEntries = updateFirewallRuleEntries
+        }
+
+        public func validate(name: String) throws {
+            try self.updateFirewallRuleEntries.forEach {
+                try $0.validate(name: "\(name).updateFirewallRuleEntries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updateFirewallRuleEntries = "UpdateFirewallRuleEntries"
+        }
+    }
+
+    public struct BatchUpdateFirewallRuleResponse: AWSDecodableShape {
+        /// The firewall rules that were successfully updated by the request.
+        public let updatedFirewallRules: [FirewallRule]?
+        /// A list of errors that occurred while updating the firewall rules.
+        public let updateErrors: [BatchUpdateFirewallRuleError]?
+
+        @inlinable
+        public init(updatedFirewallRules: [FirewallRule]? = nil, updateErrors: [BatchUpdateFirewallRuleError]? = nil) {
+            self.updatedFirewallRules = updatedFirewallRules
+            self.updateErrors = updateErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case updatedFirewallRules = "UpdatedFirewallRules"
+            case updateErrors = "UpdateErrors"
+        }
+    }
+
     public struct CreateFirewallDomainListRequest: AWSEncodableShape {
         /// A unique string that identifies the request and that allows you to retry failed requests
         /// 			without the risk of running the operation twice. CreatorRequestId can be
@@ -512,6 +699,94 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case firewallDomainList = "FirewallDomainList"
+        }
+    }
+
+    public struct CreateFirewallRuleEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request and send metrics and logs to CloudWatch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        public let action: Action
+        /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDnsType: BlockOverrideDnsType?
+        /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDomain: String?
+        /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
+        public let blockOverrideTtl: Int?
+        /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
+        public let blockResponse: BlockResponse?
+        /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create or update a DNS Firewall Advanced rule. The confidence level values mean:    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold?
+        /// A unique string that identifies the request and that allows you to retry failed requests without the risk of running the operation twice. CreatorRequestId can be any unique string, for example, a date/time stamp.
+        public let creatorRequestId: String
+        /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        public let dnsThreatProtection: DnsThreatProtection?
+        /// The ID of the domain list that you want to use in the rule. This setting is mutually exclusive with DnsThreatProtection and FirewallRuleType.
+        public let firewallDomainListId: String?
+        /// How you want the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.  INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list.  TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the redirection list to the domain list.
+        public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
+        /// The unique identifier of the firewall rule group where you want to create the rule.
+        public let firewallRuleGroupId: String
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        public let firewallRuleType: FirewallRuleType?
+        /// A name that lets you identify the rule in the rule group.
+        public let name: String
+        /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
+        public let priority: Int
+        /// The DNS query type you want the rule to evaluate. Allowed values are:   A: Returns an IPv4 address.   AAAA: Returns an IPv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types.
+        public let qtype: String?
+
+        @inlinable
+        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creatorRequestId: String, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallRuleType: FirewallRuleType? = nil, name: String, priority: Int, qtype: String? = nil) {
+            self.action = action
+            self.blockOverrideDnsType = blockOverrideDnsType
+            self.blockOverrideDomain = blockOverrideDomain
+            self.blockOverrideTtl = blockOverrideTtl
+            self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
+            self.creatorRequestId = creatorRequestId
+            self.dnsThreatProtection = dnsThreatProtection
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallRuleType = firewallRuleType
+            self.name = name
+            self.priority = priority
+            self.qtype = qtype
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, max: 255)
+            try self.validate(self.creatorRequestId, name: "creatorRequestId", parent: name, min: 1)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.firewallRuleType?.validate(name: "\(name).firewallRuleType")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
+            try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
+            try self.validate(self.qtype, name: "qtype", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case blockOverrideDnsType = "BlockOverrideDnsType"
+            case blockOverrideDomain = "BlockOverrideDomain"
+            case blockOverrideTtl = "BlockOverrideTtl"
+            case blockResponse = "BlockResponse"
+            case confidenceThreshold = "ConfidenceThreshold"
+            case creatorRequestId = "CreatorRequestId"
+            case dnsThreatProtection = "DnsThreatProtection"
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallRuleType = "FirewallRuleType"
+            case name = "Name"
+            case priority = "Priority"
+            case qtype = "Qtype"
         }
     }
 
@@ -584,8 +859,8 @@ extension Route53Resolver {
         /// 			without the risk of running the operation twice. CreatorRequestId can be
         /// 			any unique string, for example, a date/time stamp.
         public let creatorRequestId: String
-        /// 			Use to create a DNS Firewall Advanced rule.
-        ///
+        /// 			The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
+        /// 		    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public let dnsThreatProtection: DnsThreatProtection?
         /// The ID of the domain list that you want to use in the rule. Can't be used together with DnsThreatProtecton.
         public let firewallDomainListId: String?
@@ -596,6 +871,8 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group where you want to create the rule.
         public let firewallRuleGroupId: String
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        public let firewallRuleType: FirewallRuleType?
         /// A name that lets you identify the rule in the rule group.
         public let name: String
         /// The setting that determines the processing order of the rule in the rule group. DNS Firewall  processes the rules in a rule group by order of priority, starting from the lowest setting. You must specify a unique priority for each rule in a rule group.  To make it easier to insert rules later, leave space between the numbers, for example, use 100, 200, and so on. You  can change the priority setting for the rules in a rule group at any time.
@@ -604,13 +881,13 @@ extension Route53Resolver {
         ///
         /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
         /// 				defined as TYPENUMBER, where the
-        /// 				NUMBER can be 1-65334, for
+        /// 				NUMBER can be 1-65534, for
         /// 				example, TYPE28. For more information, see
         /// 				List of DNS record types.
         public let qtype: String?
 
         @inlinable
-        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, name: String, priority: Int, qtype: String? = nil) {
+        public init(action: Action, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creatorRequestId: String = CreateFirewallRuleRequest.idempotencyToken(), dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallRuleType: FirewallRuleType? = nil, name: String, priority: Int, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
@@ -622,6 +899,7 @@ extension Route53Resolver {
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallRuleType = firewallRuleType
             self.name = name
             self.priority = priority
             self.qtype = qtype
@@ -638,6 +916,7 @@ extension Route53Resolver {
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.firewallRuleType?.validate(name: "\(name).firewallRuleType")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
             try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
@@ -656,6 +935,7 @@ extension Route53Resolver {
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallRuleType = "FirewallRuleType"
             case name = "Name"
             case priority = "Priority"
             case qtype = "Qtype"
@@ -754,9 +1034,22 @@ extension Route53Resolver {
         public let creatorRequestId: String
         /// Specify the applicable value:    INBOUND: Resolver forwards DNS queries to the DNS service for a VPC from your network.    OUTBOUND: Resolver forwards DNS queries from the DNS service for a VPC to your network.    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public let direction: ResolverEndpointDirection
+        /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver
+        /// 			synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address.
+        /// 			This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services.
+        /// 			DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation. Default is false.
+        public let dns64Enabled: Bool?
         /// The subnets and IP addresses in your VPC that DNS queries originate from (for outbound endpoints) or that you forward
         /// 			DNS queries to (for inbound endpoints). The subnet ID uniquely identifies a VPC.   Even though the minimum is 1, Route 53 requires that you create at least two.
         public let ipAddresses: [IpAddressRequest]
+        /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true,
+        /// 			the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway.
+        /// 			Default is false.  When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways
+        /// 				to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query
+        /// 				throughput due to connection tracking. For more information, see
+        /// 				Amazon EC2 security group connection tracking
+        /// 				and Resolver endpoint scaling.
+        public let ipv6InternetAccessEnabled: Bool?
         /// A friendly name that lets you easily find a configuration in the Resolver dashboard in the Route 53 console.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the Outpost. If you specify this, you must also specify a
@@ -794,10 +1087,12 @@ extension Route53Resolver {
         public let targetNameServerMetricsEnabled: Bool?
 
         @inlinable
-        public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String], tags: [Tag]? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
+        public init(creatorRequestId: String, direction: ResolverEndpointDirection, dns64Enabled: Bool? = nil, ipAddresses: [IpAddressRequest], ipv6InternetAccessEnabled: Bool? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String], tags: [Tag]? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
             self.creatorRequestId = creatorRequestId
             self.direction = direction
+            self.dns64Enabled = dns64Enabled
             self.ipAddresses = ipAddresses
+            self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
             self.name = name
             self.outpostArn = outpostArn
             self.preferredInstanceType = preferredInstanceType
@@ -839,7 +1134,9 @@ extension Route53Resolver {
         private enum CodingKeys: String, CodingKey {
             case creatorRequestId = "CreatorRequestId"
             case direction = "Direction"
+            case dns64Enabled = "Dns64Enabled"
             case ipAddresses = "IpAddresses"
+            case ipv6InternetAccessEnabled = "Ipv6InternetAccessEnabled"
             case name = "Name"
             case outpostArn = "OutpostArn"
             case preferredInstanceType = "PreferredInstanceType"
@@ -1046,6 +1343,43 @@ extension Route53Resolver {
         }
     }
 
+    public struct DeleteFirewallRuleEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the domain list that's used in the rule.
+        public let firewallDomainListId: String?
+        /// The unique identifier of the firewall rule group for the rule.
+        public let firewallRuleGroupId: String
+        /// The ID of the DNS Firewall Advanced rule.
+        public let firewallThreatProtectionId: String?
+        /// The DNS query type that the rule evaluates.
+        public let qtype: String?
+
+        @inlinable
+        public init(firewallDomainListId: String? = nil, firewallRuleGroupId: String, firewallThreatProtectionId: String? = nil, qtype: String? = nil) {
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallThreatProtectionId = firewallThreatProtectionId
+            self.qtype = qtype
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, max: 64)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, min: 1)
+            try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
+            try self.validate(self.qtype, name: "qtype", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallThreatProtectionId = "FirewallThreatProtectionId"
+            case qtype = "Qtype"
+        }
+    }
+
     public struct DeleteFirewallRuleGroupRequest: AWSEncodableShape {
         /// The unique identifier of the firewall rule group that you want to delete.
         public let firewallRuleGroupId: String
@@ -1091,7 +1425,7 @@ extension Route53Resolver {
         ///
         /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
         /// 				defined as TYPENUMBER, where the
-        /// 				NUMBER can be 1-65334, for
+        /// 				NUMBER can be 1-65534, for
         /// 				example, TYPE28. For more information, see
         /// 				List of DNS record types.
         public let qtype: String?
@@ -1419,6 +1753,29 @@ extension Route53Resolver {
         }
     }
 
+    public struct DnsThreatProtectionRuleTypeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create or update a DNS Firewall Advanced rule. The confidence level values mean:    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold
+        /// The type of DNS threat protection. Valid values are:    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        public let value: String
+
+        @inlinable
+        public init(confidenceThreshold: ConfidenceThreshold, value: String) {
+            self.confidenceThreshold = confidenceThreshold
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 128)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceThreshold = "ConfidenceThreshold"
+            case value = "Value"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         /// The name of the parameter that you want to use to filter objects. The valid values for Name depend on the action that you're including the filter in,
         /// 			ListResolverEndpoints,
@@ -1488,6 +1845,44 @@ extension Route53Resolver {
         }
     }
 
+    public struct FirewallAdvancedContentCategoryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The content category identifier. To retrieve the list of available content categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedContentCategory.
+        public let category: String
+
+        @inlinable
+        public init(category: String) {
+            self.category = category
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.category, name: "category", parent: name, max: 128)
+            try self.validate(self.category, name: "category", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+        }
+    }
+
+    public struct FirewallAdvancedThreatCategoryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The threat category identifier. To retrieve the list of available threat categories, call ListFirewallRuleTypes with RuleType set to FirewallAdvancedThreatCategory.
+        public let category: String
+
+        @inlinable
+        public init(category: String) {
+            self.category = category
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.category, name: "category", parent: name, max: 128)
+            try self.validate(self.category, name: "category", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+        }
+    }
+
     public struct FirewallConfig: AWSDecodableShape {
         /// Determines how DNS Firewall operates during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply.    By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall returns a failure error when it is unable to properly evaluate a query.    If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it  is unable to properly evaluate them.    This behavior is only enforced for VPCs that have at least one DNS Firewall rule group association.
         public let firewallFailOpen: FirewallFailOpenStatus?
@@ -1517,6 +1912,8 @@ extension Route53Resolver {
     public struct FirewallDomainList: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the firewall domain list.
         public let arn: String?
+        /// The category of the domain list.
+        public let category: String?
         /// The date and time that the domain list was created, in Unix time format and Coordinated Universal Time (UTC).
         public let creationTime: String?
         /// A unique string defined by you to identify the request. This allows you to retry failed
@@ -1527,6 +1924,8 @@ extension Route53Resolver {
         public let domainCount: Int?
         /// The ID of the domain list.
         public let id: String?
+        /// The type of the managed domain list, for example THREAT.
+        public let managedListType: DomainListType?
         /// The owner of the list, used only for lists that are not managed by you. For example, the managed domain list AWSManagedDomainsMalwareDomainList has the managed owner name Route 53 Resolver DNS Firewall.
         public let managedOwnerName: String?
         /// The date and time that the domain list was last modified, in Unix time format and Coordinated Universal Time (UTC).
@@ -1539,12 +1938,14 @@ extension Route53Resolver {
         public let statusMessage: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainCount: Int? = nil, id: String? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
+        public init(arn: String? = nil, category: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, domainCount: Int? = nil, id: String? = nil, managedListType: DomainListType? = nil, managedOwnerName: String? = nil, modificationTime: String? = nil, name: String? = nil, status: FirewallDomainListStatus? = nil, statusMessage: String? = nil) {
             self.arn = arn
+            self.category = category
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.domainCount = domainCount
             self.id = id
+            self.managedListType = managedListType
             self.managedOwnerName = managedOwnerName
             self.modificationTime = modificationTime
             self.name = name
@@ -1554,10 +1955,12 @@ extension Route53Resolver {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case category = "Category"
             case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
             case domainCount = "DomainCount"
             case id = "Id"
+            case managedListType = "ManagedListType"
             case managedOwnerName = "ManagedOwnerName"
             case modificationTime = "ModificationTime"
             case name = "Name"
@@ -1569,30 +1972,38 @@ extension Route53Resolver {
     public struct FirewallDomainListMetadata: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the firewall domain list metadata.
         public let arn: String?
+        /// The category of the domain list.
+        public let category: String?
         /// A unique string defined by you to identify the request. This allows you to retry failed
         /// 			requests without the risk of running the operation twice. This can be any unique string,
         /// 			for example, a timestamp.
         public let creatorRequestId: String?
         /// The ID of the domain list.
         public let id: String?
+        /// The type of the managed domain list, for example THREAT.
+        public let managedListType: DomainListType?
         /// The owner of the list, used only for lists that are not managed by you. For example, the managed domain list AWSManagedDomainsMalwareDomainList has the managed owner name Route 53 Resolver DNS Firewall.
         public let managedOwnerName: String?
         /// The name of the domain list.
         public let name: String?
 
         @inlinable
-        public init(arn: String? = nil, creatorRequestId: String? = nil, id: String? = nil, managedOwnerName: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, category: String? = nil, creatorRequestId: String? = nil, id: String? = nil, managedListType: DomainListType? = nil, managedOwnerName: String? = nil, name: String? = nil) {
             self.arn = arn
+            self.category = category
             self.creatorRequestId = creatorRequestId
             self.id = id
+            self.managedListType = managedListType
             self.managedOwnerName = managedOwnerName
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case category = "Category"
             case creatorRequestId = "CreatorRequestId"
             case id = "Id"
+            case managedListType = "ManagedListType"
             case managedOwnerName = "ManagedOwnerName"
             case name = "Name"
         }
@@ -1619,8 +2030,8 @@ extension Route53Resolver {
         public let creatorRequestId: String?
         /// 			The type of the DNS Firewall Advanced rule. Valid values are:
         /// 		    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains
-        /// 				to to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
-        /// 				making a network connection to the client.
+        /// 				to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
+        /// 				making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public let dnsThreatProtection: DnsThreatProtection?
         /// The ID of the domain list that's used in the rule.
         public let firewallDomainListId: String?
@@ -1631,6 +2042,8 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the Firewall rule group of the rule.
         public let firewallRuleGroupId: String?
+        /// The rule type configuration for the firewall rule. This is a tagged union — exactly one of its members will be populated. Possible members are:    FirewallAdvancedContentCategory — an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — a third-party threat feed delivered through AWS Marketplace.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        public let firewallRuleType: FirewallRuleType?
         /// 			ID of the DNS Firewall Advanced rule.
         ///
         public let firewallThreatProtectionId: String?
@@ -1644,13 +2057,17 @@ extension Route53Resolver {
         ///
         /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
         /// 				defined as TYPENUMBER, where the
-        /// 				NUMBER can be 1-65334, for
+        /// 				NUMBER can be 1-65534, for
         /// 				example, TYPE28. For more information, see
         /// 				List of DNS record types.
         public let qtype: String?
+        /// The lifecycle state of the firewall rule. Possible values:    CREATING — DNS Firewall is provisioning the rule. Rules created with the PartnerThreatProtection rule type begin in this state while DNS Firewall verifies the calling account's AWS Marketplace entitlement.    COMPLETE — The rule is provisioned and enforcing matches.    CREATION_FAILED — Provisioning failed. StatusMessage contains a human-readable reason. A rule in this state is immutable: UpdateFirewallRule rejects the request, and the rule must be removed with DeleteFirewallRule.   For rules that do not require asynchronous provisioning, this field may be absent.
+        public let status: String?
+        /// An additional message about the rule's lifecycle state. Populated when Status is CREATION_FAILED to describe why provisioning failed.
+        public let statusMessage: String?
 
         @inlinable
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, firewallThreatProtectionId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String? = nil, firewallRuleType: FirewallRuleType? = nil, firewallThreatProtectionId: String? = nil, modificationTime: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil, status: String? = nil, statusMessage: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
@@ -1663,11 +2080,14 @@ extension Route53Resolver {
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallRuleType = firewallRuleType
             self.firewallThreatProtectionId = firewallThreatProtectionId
             self.modificationTime = modificationTime
             self.name = name
             self.priority = priority
             self.qtype = qtype
+            self.status = status
+            self.statusMessage = statusMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1683,11 +2103,14 @@ extension Route53Resolver {
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallRuleType = "FirewallRuleType"
             case firewallThreatProtectionId = "FirewallThreatProtectionId"
             case modificationTime = "ModificationTime"
             case name = "Name"
             case priority = "Priority"
             case qtype = "Qtype"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -1844,6 +2267,69 @@ extension Route53Resolver {
             case name = "Name"
             case ownerId = "OwnerId"
             case shareStatus = "ShareStatus"
+        }
+    }
+
+    public struct FirewallRuleType: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the rule to match a built-in DNS Firewall Advanced threat detector — DGA, DNS_TUNNELING, or DICTIONARY_DGA. See DnsThreatProtectionRuleTypeConfig.
+        public let dnsThreatProtection: DnsThreatProtectionRuleTypeConfig?
+        /// Configures the rule to match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH). See FirewallAdvancedContentCategoryConfig.
+        public let firewallAdvancedContentCategory: FirewallAdvancedContentCategoryConfig?
+        /// Configures the rule to match an AWS-managed advanced threat category (for example, PHISHING). See FirewallAdvancedThreatCategoryConfig.
+        public let firewallAdvancedThreatCategory: FirewallAdvancedThreatCategoryConfig?
+        /// Configures the rule to match a third-party threat feed delivered through AWS Marketplace. The calling account must hold an active subscription to the partner product named in Partner; if the subscription is missing or revoked, the rule is created with Status CREATION_FAILED and cannot be modified — only deleted. See PartnerThreatProtectionConfig.
+        public let partnerThreatProtection: PartnerThreatProtectionConfig?
+
+        @inlinable
+        public init(dnsThreatProtection: DnsThreatProtectionRuleTypeConfig? = nil, firewallAdvancedContentCategory: FirewallAdvancedContentCategoryConfig? = nil, firewallAdvancedThreatCategory: FirewallAdvancedThreatCategoryConfig? = nil, partnerThreatProtection: PartnerThreatProtectionConfig? = nil) {
+            self.dnsThreatProtection = dnsThreatProtection
+            self.firewallAdvancedContentCategory = firewallAdvancedContentCategory
+            self.firewallAdvancedThreatCategory = firewallAdvancedThreatCategory
+            self.partnerThreatProtection = partnerThreatProtection
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsThreatProtection?.validate(name: "\(name).dnsThreatProtection")
+            try self.firewallAdvancedContentCategory?.validate(name: "\(name).firewallAdvancedContentCategory")
+            try self.firewallAdvancedThreatCategory?.validate(name: "\(name).firewallAdvancedThreatCategory")
+            try self.partnerThreatProtection?.validate(name: "\(name).partnerThreatProtection")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsThreatProtection = "DnsThreatProtection"
+            case firewallAdvancedContentCategory = "FirewallAdvancedContentCategory"
+            case firewallAdvancedThreatCategory = "FirewallAdvancedThreatCategory"
+            case partnerThreatProtection = "PartnerThreatProtection"
+        }
+    }
+
+    public struct FirewallRuleTypeDefinition: AWSDecodableShape {
+        /// A description of the rule type.
+        public let description: String?
+        /// The display name of the rule type.
+        public let displayName: String?
+        /// The category or class of the rule type, such as FirewallAdvancedContentCategory or FirewallAdvancedThreatCategory.
+        public let ruleType: String?
+        /// For rule types that require an external subscription (today, only the PartnerThreatProtection variant), describes the AWS Marketplace product that backs the rule type. Absent for rule types that are managed by AWS and do not require a separate subscription. See SubscriptionInfo.
+        public let subscriptionInfo: SubscriptionInfo?
+        /// The specific identifier within the rule type category, such as VIOLENCE_AND_HATE_SPEECH or PHISHING.
+        public let value: String?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, ruleType: String? = nil, subscriptionInfo: SubscriptionInfo? = nil, value: String? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.ruleType = ruleType
+            self.subscriptionInfo = subscriptionInfo
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case ruleType = "RuleType"
+            case subscriptionInfo = "SubscriptionInfo"
+            case value = "Value"
         }
     }
 
@@ -2790,6 +3276,52 @@ extension Route53Resolver {
         }
     }
 
+    public struct ListFirewallRuleTypesRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Resolver to return for this request. If more objects are available, in the response, Resolver provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// For the first call to this list request, omit this value. When you request a list of objects, Resolver returns at most the number of objects specified in MaxResults. If more objects are available for retrieval, Resolver provides a NextToken value in the response. To retrieve the next batch of objects, use the token that was returned for the prior request in your next request.
+        public let nextToken: String?
+        /// An optional filter that restricts the response to a single FirewallRuleType variant. Supported values: FirewallAdvancedContentCategory, FirewallAdvancedThreatCategory, DnsThreatProtection, and PartnerThreatProtection. If omitted, definitions across all variants are returned.
+        public let ruleType: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, ruleType: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.ruleType = ruleType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.ruleType, name: "ruleType", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case ruleType = "RuleType"
+        }
+    }
+
+    public struct ListFirewallRuleTypesResponse: AWSDecodableShape {
+        /// A list of the available rule type definitions.
+        public let firewallRuleTypes: [FirewallRuleTypeDefinition]?
+        /// If objects are still available for retrieval, Resolver returns this token in the response. To retrieve the next batch of objects, provide this token in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(firewallRuleTypes: [FirewallRuleTypeDefinition]? = nil, nextToken: String? = nil) {
+            self.firewallRuleTypes = firewallRuleTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallRuleTypes = "FirewallRuleTypes"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListFirewallRulesRequest: AWSEncodableShape {
         /// Optional additional filter for the rules to retrieve. The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not availabe for DNS Firewall Advanced rules.    ALERT - Permit the request to go through but send an alert to the logs.    BLOCK - Disallow the request. If this is specified, additional handling details are provided in the rule's BlockResponse setting.
         public let action: Action?
@@ -3505,6 +4037,25 @@ extension Route53Resolver {
         }
     }
 
+    public struct PartnerThreatProtectionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the partner threat-protection product, exactly as returned in the Value field of a FirewallRuleTypeDefinition with RuleType set to PartnerThreatProtection. The calling account must hold an active AWS Marketplace subscription to this product.
+        public let partner: String
+
+        @inlinable
+        public init(partner: String) {
+            self.partner = partner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.partner, name: "partner", parent: name, max: 128)
+            try self.validate(self.partner, name: "partner", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partner = "Partner"
+        }
+    }
+
     public struct PutFirewallRuleGroupPolicyRequest: AWSEncodableShape {
         /// The ARN (Amazon Resource Name) for the rule group that you want to share.
         public let arn: String
@@ -3691,12 +4242,18 @@ extension Route53Resolver {
         public let creatorRequestId: String?
         /// Indicates whether the Resolver endpoint allows inbound or outbound DNS queries:    INBOUND: allows DNS queries to your VPC from your network    OUTBOUND: allows DNS queries from your VPC to your network    INBOUND_DELEGATION: Resolver delegates queries to Route 53 private hosted zones from your network.
         public let direction: ResolverEndpointDirection?
+        /// Indicates whether DNS64 is enabled for the inbound Resolver endpoint. When true, Route 53 Resolver
+        /// 			synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address.
+        public let dns64Enabled: Bool?
         /// The ID of the VPC that you want to create the Resolver endpoint in.
         public let hostVPCId: String?
         /// The ID of the Resolver endpoint.
         public let id: String?
         /// The number of IP addresses that the Resolver endpoint can use for DNS queries.
         public let ipAddressCount: Int?
+        /// Indicates whether IPv6 internet access is enabled for the outbound Resolver endpoint. When true,
+        /// 			the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway.
+        public let ipv6InternetAccessEnabled: Bool?
         /// The date and time that the endpoint was last modified, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: String?
         /// The name that you assigned to the Resolver endpoint when you submitted a
@@ -3741,14 +4298,16 @@ extension Route53Resolver {
         public let targetNameServerMetricsEnabled: Bool?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, dns64Enabled: Bool? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, ipv6InternetAccessEnabled: Bool? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
             self.direction = direction
+            self.dns64Enabled = dns64Enabled
             self.hostVPCId = hostVPCId
             self.id = id
             self.ipAddressCount = ipAddressCount
+            self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
             self.modificationTime = modificationTime
             self.name = name
             self.outpostArn = outpostArn
@@ -3767,9 +4326,11 @@ extension Route53Resolver {
             case creationTime = "CreationTime"
             case creatorRequestId = "CreatorRequestId"
             case direction = "Direction"
+            case dns64Enabled = "Dns64Enabled"
             case hostVPCId = "HostVPCId"
             case id = "Id"
             case ipAddressCount = "IpAddressCount"
+            case ipv6InternetAccessEnabled = "Ipv6InternetAccessEnabled"
             case modificationTime = "ModificationTime"
             case name = "Name"
             case outpostArn = "OutpostArn"
@@ -4099,6 +4660,24 @@ extension Route53Resolver {
         }
     }
 
+    public struct SubscriptionInfo: AWSDecodableShape {
+        /// The AWS Marketplace product identifier of the partner threat-protection product. Use this value to verify or manage the calling account's subscription in AWS Marketplace.
+        public let productId: String?
+        /// The name of the AWS Marketplace seller (vendor) that publishes the partner threat-protection product (for example, Palo Alto Networks).
+        public let vendorName: String?
+
+        @inlinable
+        public init(productId: String? = nil, vendorName: String? = nil) {
+            self.productId = productId
+            self.vendorName = vendorName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productId = "ProductId"
+            case vendorName = "VendorName"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes,
         /// 			the value of Key might be account-id.
@@ -4328,6 +4907,94 @@ extension Route53Resolver {
         }
     }
 
+    public struct UpdateFirewallRuleEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The action that DNS Firewall should take on a DNS query when it matches one of the domains in the rule's domain list, or a threat in a DNS Firewall Advanced rule:    ALLOW - Permit the request to go through. Not available for DNS Firewall Advanced rules.    ALERT - Permit the request and send metrics and logs to CloudWatch.    BLOCK - Disallow the request. This option requires additional details in the rule's BlockResponse.
+        public let action: Action?
+        /// The DNS record's type. This determines the format of the record value that you provided in BlockOverrideDomain. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDnsType: BlockOverrideDnsType?
+        /// The custom DNS record to send back in response to the query. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE.
+        public let blockOverrideDomain: String?
+        /// The recommended amount of time, in seconds, for the DNS resolver or web browser to cache the provided override record. Used for the rule action BLOCK with a BlockResponse setting of OVERRIDE. This setting is required if the BlockResponse setting is OVERRIDE.
+        public let blockOverrideTtl: Int?
+        /// The way that you want DNS Firewall to block the request, used with the rule action setting BLOCK.    NODATA - Respond indicating that the query was successful, but no response is available for it.    NXDOMAIN - Respond indicating that the domain name that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response. This option requires custom handling details in the rule's BlockOverride* settings.
+        public let blockResponse: BlockResponse?
+        /// The confidence threshold for DNS Firewall Advanced. You must provide this value when you create or update a DNS Firewall Advanced rule. The confidence level values mean:    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
+        public let confidenceThreshold: ConfidenceThreshold?
+        /// The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
+        public let dnsThreatProtection: DnsThreatProtection?
+        /// The ID of the domain list to use in the rule. This setting is mutually exclusive with DnsThreatProtection and FirewallRuleType.
+        public let firewallDomainListId: String?
+        /// How you want the rule to evaluate DNS redirection in the DNS redirection chain, such as CNAME or DNAME.  INSPECT_REDIRECTION_DOMAIN: (Default) inspects all domains in the redirection chain. The individual domains in the redirection chain must be added to the domain list.  TRUST_REDIRECTION_DOMAIN: Inspects only the first domain in the redirection chain. You don't need to add the subsequent domains in the redirection list to the domain list.
+        public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
+        /// The unique identifier of the firewall rule group for the rule.
+        public let firewallRuleGroupId: String
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        public let firewallRuleType: FirewallRuleType?
+        /// The ID of the DNS Firewall Advanced rule.
+        public let firewallThreatProtectionId: String?
+        /// The name of the rule.
+        public let name: String?
+        /// The setting that determines the processing order of the rule in the rule group. DNS Firewall processes the rules in a rule group by order of priority, starting from the lowest setting.
+        public let priority: Int?
+        /// The DNS query type you want the rule to evaluate. Allowed values are:   A: Returns an IPv4 address.   AAAA: Returns an IPv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be 1-65534, for example, TYPE28. For more information, see List of DNS record types.
+        public let qtype: String?
+
+        @inlinable
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallRuleType: FirewallRuleType? = nil, firewallThreatProtectionId: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+            self.action = action
+            self.blockOverrideDnsType = blockOverrideDnsType
+            self.blockOverrideDomain = blockOverrideDomain
+            self.blockOverrideTtl = blockOverrideTtl
+            self.blockResponse = blockResponse
+            self.confidenceThreshold = confidenceThreshold
+            self.dnsThreatProtection = dnsThreatProtection
+            self.firewallDomainListId = firewallDomainListId
+            self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
+            self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallRuleType = firewallRuleType
+            self.firewallThreatProtectionId = firewallThreatProtectionId
+            self.name = name
+            self.priority = priority
+            self.qtype = qtype
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, max: 255)
+            try self.validate(self.blockOverrideDomain, name: "blockOverrideDomain", parent: name, min: 1)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, max: 604800)
+            try self.validate(self.blockOverrideTtl, name: "blockOverrideTtl", parent: name, min: 0)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, max: 64)
+            try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
+            try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.firewallRuleType?.validate(name: "\(name).firewallRuleType")
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, max: 64)
+            try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
+            try self.validate(self.qtype, name: "qtype", parent: name, max: 16)
+            try self.validate(self.qtype, name: "qtype", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case blockOverrideDnsType = "BlockOverrideDnsType"
+            case blockOverrideDomain = "BlockOverrideDomain"
+            case blockOverrideTtl = "BlockOverrideTtl"
+            case blockResponse = "BlockResponse"
+            case confidenceThreshold = "ConfidenceThreshold"
+            case dnsThreatProtection = "DnsThreatProtection"
+            case firewallDomainListId = "FirewallDomainListId"
+            case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
+            case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallRuleType = "FirewallRuleType"
+            case firewallThreatProtectionId = "FirewallThreatProtectionId"
+            case name = "Name"
+            case priority = "Priority"
+            case qtype = "Qtype"
+        }
+    }
+
     public struct UpdateFirewallRuleGroupAssociationRequest: AWSEncodableShape {
         /// The identifier of the FirewallRuleGroupAssociation.
         public let firewallRuleGroupAssociationId: String
@@ -4392,10 +5059,10 @@ extension Route53Resolver {
         /// 			level values mean:
         /// 		    LOW: Provides the highest detection rate for threats, but also increases false positives.    MEDIUM: Provides a balance between detecting threats and false positives.    HIGH: Detects only the most well corroborated threats with a low rate of false positives.
         public let confidenceThreshold: ConfidenceThreshold?
-        /// 			The type of the DNS Firewall Advanced rule. Valid values are:
+        /// 			The type of the DNS Firewall Advanced rule. This setting is mutually exclusive with FirewallDomainListId and FirewallRuleType. Valid values are:
         /// 		    DGA: Domain generation algorithms detection. DGAs are used by attackers to generate a large number of domains
-        /// 				to to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
-        /// 				making a network connection to the client.
+        /// 				to launch malware attacks.    DNS_TUNNELING: DNS tunneling detection. DNS tunneling is used by attackers to exfiltrate data from the client by using the DNS tunnel without
+        /// 				making a network connection to the client.    DICTIONARY_DGA: Dictionary-based domain generation algorithms detection. Dictionary DGAs use wordlists to generate domains that appear more legitimate, making them harder to detect than traditional DGAs.
         public let dnsThreatProtection: DnsThreatProtection?
         /// The ID of the domain list to use in the rule.
         public let firewallDomainListId: String?
@@ -4406,6 +5073,8 @@ extension Route53Resolver {
         public let firewallDomainRedirectionAction: FirewallDomainRedirectionAction?
         /// The unique identifier of the firewall rule group for the rule.
         public let firewallRuleGroupId: String
+        /// The rule type configuration for the firewall rule. This is a tagged union — set exactly one of its members. This setting is mutually exclusive with the top-level FirewallDomainListId and DnsThreatProtection fields. Use one of:    FirewallAdvancedContentCategory — match an AWS-managed content category (for example, VIOLENCE_AND_HATE_SPEECH).    FirewallAdvancedThreatCategory — match an AWS-managed advanced threat category (for example, PHISHING).    DnsThreatProtection — match a built-in DNS Firewall Advanced threat detector (DGA, DNS_TUNNELING, or DICTIONARY_DGA).    PartnerThreatProtection — match a third-party threat feed delivered through AWS Marketplace. The selected partner must be an active subscription on the calling account.   To enumerate the values supported in your account, call ListFirewallRuleTypes.
+        public let firewallRuleType: FirewallRuleType?
         /// 			The DNS Firewall Advanced rule ID.
         ///
         public let firewallThreatProtectionId: String?
@@ -4417,14 +5086,14 @@ extension Route53Resolver {
         ///
         /// 				A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV: Application specific values that identify servers.   TXT: Verifies email senders and application-specific values.   A query type you define by using the DNS type ID, for example 28 for AAAA. The values must be
         /// 				defined as TYPENUMBER, where the
-        /// 				NUMBER can be 1-65334, for
+        /// 				NUMBER can be 1-65534, for
         /// 				example, TYPE28. For more information, see
         /// 				List of DNS record types.  If you set up a firewall BLOCK rule with action NXDOMAIN on query type equals AAAA,
         /// 					this action will not be applied to synthetic IPv6 addresses generated when DNS64 is enabled.
         public let qtype: String?
 
         @inlinable
-        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallThreatProtectionId: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
+        public init(action: Action? = nil, blockOverrideDnsType: BlockOverrideDnsType? = nil, blockOverrideDomain: String? = nil, blockOverrideTtl: Int? = nil, blockResponse: BlockResponse? = nil, confidenceThreshold: ConfidenceThreshold? = nil, dnsThreatProtection: DnsThreatProtection? = nil, firewallDomainListId: String? = nil, firewallDomainRedirectionAction: FirewallDomainRedirectionAction? = nil, firewallRuleGroupId: String, firewallRuleType: FirewallRuleType? = nil, firewallThreatProtectionId: String? = nil, name: String? = nil, priority: Int? = nil, qtype: String? = nil) {
             self.action = action
             self.blockOverrideDnsType = blockOverrideDnsType
             self.blockOverrideDomain = blockOverrideDomain
@@ -4435,6 +5104,7 @@ extension Route53Resolver {
             self.firewallDomainListId = firewallDomainListId
             self.firewallDomainRedirectionAction = firewallDomainRedirectionAction
             self.firewallRuleGroupId = firewallRuleGroupId
+            self.firewallRuleType = firewallRuleType
             self.firewallThreatProtectionId = firewallThreatProtectionId
             self.name = name
             self.priority = priority
@@ -4450,6 +5120,7 @@ extension Route53Resolver {
             try self.validate(self.firewallDomainListId, name: "firewallDomainListId", parent: name, min: 1)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, max: 64)
             try self.validate(self.firewallRuleGroupId, name: "firewallRuleGroupId", parent: name, min: 1)
+            try self.firewallRuleType?.validate(name: "\(name).firewallRuleType")
             try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, max: 64)
             try self.validate(self.firewallThreatProtectionId, name: "firewallThreatProtectionId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
@@ -4469,6 +5140,7 @@ extension Route53Resolver {
             case firewallDomainListId = "FirewallDomainListId"
             case firewallDomainRedirectionAction = "FirewallDomainRedirectionAction"
             case firewallRuleGroupId = "FirewallRuleGroupId"
+            case firewallRuleType = "FirewallRuleType"
             case firewallThreatProtectionId = "FirewallThreatProtectionId"
             case name = "Name"
             case priority = "Priority"
@@ -4646,6 +5318,18 @@ extension Route53Resolver {
     }
 
     public struct UpdateResolverEndpointRequest: AWSEncodableShape {
+        /// Specifies whether DNS64 is enabled for the inbound Resolver endpoint. When set to true, Route 53 Resolver
+        /// 			synthesizes AAAA (IPv6) records for IPv4-only services by prepending the 64:ff9b::/96 prefix to the IPv4 address.
+        /// 			This enables IPv6-only clients that send queries through the inbound endpoint to reach IPv4-only services.
+        /// 			DNS64 works with NAT64 to provide complete IPv6-to-IPv4 translation.
+        public let dns64Enabled: Bool?
+        /// Specifies whether IPv6 internet access is enabled for the outbound Resolver endpoint. When set to true,
+        /// 			the endpoint elastic network interfaces (ENIs) can forward DNS queries to public IPv6 targets through an internet gateway.  When you enable IPv6 internet access, use network controls like security groups, NACLs, or egress-only internet gateways
+        /// 				to protect the endpoint ENIs from unsolicited ingress traffic. Be aware that some network controls can affect DNS query
+        /// 				throughput due to connection tracking. For more information, see
+        /// 				Amazon EC2 security group connection tracking
+        /// 				and Resolver endpoint scaling.
+        public let ipv6InternetAccessEnabled: Bool?
         /// The name of the Resolver endpoint that you want to update.
         public let name: String?
         /// 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
@@ -4677,7 +5361,9 @@ extension Route53Resolver {
         public let updateIpAddresses: [UpdateIpAddress]?
 
         @inlinable
-        public init(name: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointId: String, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, targetNameServerMetricsEnabled: Bool? = nil, updateIpAddresses: [UpdateIpAddress]? = nil) {
+        public init(dns64Enabled: Bool? = nil, ipv6InternetAccessEnabled: Bool? = nil, name: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointId: String, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, targetNameServerMetricsEnabled: Bool? = nil, updateIpAddresses: [UpdateIpAddress]? = nil) {
+            self.dns64Enabled = dns64Enabled
+            self.ipv6InternetAccessEnabled = ipv6InternetAccessEnabled
             self.name = name
             self.protocols = protocols
             self.resolverEndpointId = resolverEndpointId
@@ -4701,6 +5387,8 @@ extension Route53Resolver {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dns64Enabled = "Dns64Enabled"
+            case ipv6InternetAccessEnabled = "Ipv6InternetAccessEnabled"
             case name = "Name"
             case protocols = "Protocols"
             case resolverEndpointId = "ResolverEndpointId"

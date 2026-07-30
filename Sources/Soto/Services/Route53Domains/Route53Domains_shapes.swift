@@ -1201,7 +1201,7 @@ extension Route53Domains {
     public struct ExtraParam: AWSEncodableShape & AWSDecodableShape {
         /// The name of an additional parameter that is required by a top-level domain. Here are
         /// 			the top-level domains that require additional parameters and the names of the parameters
-        /// 			that they require:  .com.au and .net.au     AU_ID_NUMBER     AU_ID_TYPE  Valid values include the following:    ABN (Australian business number)    ACN (Australian company number)    TM (Trademark number)      .ca     BRAND_NUMBER     CA_BUSINESS_ENTITY_TYPE  Valid values include the following:    BANK (Bank)    COMMERCIAL_COMPANY (Commercial
+        /// 			that they require:  .au, .com.au, and .net.au     AU_REGISTRANT_NAME     AU_ID_NUMBER     AU_ID_TYPE  Valid values include the following:    ABN (Australian business number)    ACN (Australian company number)    TM (Trademark number)      AU_ELIGIBILITY_TYPE  Valid values include the following:   CHARITABLE_TRUST (Charitable trust)   CHARITY (Charity)   CHILD_CARE_CENTRE (Child care centre)   CLUB (Club)   COMMERCIAL_STATUTORY_BODY (Commercial statutory body)   COMMONWEALTH_ENTITY (Commonwealth entity)   COMPANY (Company)   COMPANY_LIMITED_BY_GUARANTEE (Company limited by guarantee)   EDUCATIONAL_INSTITUTION (Educational institution)   GOVERNMENT_SCHOOL (Government school)   HIGHER_EDUCATION_INSTITUTION (Higher education institution)   INCORPORATED_ASSOCIATION (Incorporated association)   INDIGENOUS_CORPORATION (Indigenous corporation)   INDUSTRY_BODY (Industry body)   INDUSTRY_ORGANISATION (Industry association)   NATIONAL_BODY (National body)   NON_DISTRIBUTING_COOPERATIVE (Non-distributing cooperative)   NON_GOVERNMENT_SCHOOL (Non-government school)   NON_PROFIT_ORGANISATION (Non-profit organisation)   NON_TRADING_COOPERATIVE (Non-trading cooperative)   NOT_FOR_PROFIT_COMMUNITY_GROUP (Not-for-profit community group)   PARTNERSHIP (Partnership)   PEAK_STATE_TERRITORY_BODY (Peak state/territory body)   PENDING_TM_OWNER (Pending TM owner)   POLITICAL_PARTY (Political party)   PRESCHOOL (Pre-school)   PUBLIC_PRIVATE_ANCILLARY_FUND (Public/private ancillary fund)   REGISTERED_BUSINESS (Registered business)   REGISTERED_ORGANISATION (Registered organisation)   REGISTRABLE_BODY (Registrable body)   RESEARCH_ORGANISATION (Research organisation)   STATUTORY_BODY (Statutory body)   TRADE_UNION (Trade union)   TRADEMARK_OWNER (Trademark owner)   TRADING_COOPERATIVE (Trading cooperative)   TRAINING_ORGANISATION (Training organisation)   TRUST (Trust)   UNINCORPORATED_ASSOCIATION (Unincorporated association)   EDUCATION_AND_CARE_SERVICES_CHILDCARE (Education and care services (child care))   GOVERNMENT_BODY (Government body)   PROVIDER_OF_NON_ACCREDITED_TRAINING (Provider of non-accredited training)   RELIGIOUS_CHURCH_GROUP (Religious/church group)   SOLE_TRADER (Sole trader)      AU_POLICY_REASON  Valid values include the following:    POLICY_REASON_1   POLICY_REASON_2       .ca     BRAND_NUMBER     CA_BUSINESS_ENTITY_TYPE  Valid values include the following:    BANK (Bank)    COMMERCIAL_COMPANY (Commercial
         /// 										company)    COMPANY (Company)    COOPERATION (Cooperation)    COOPERATIVE (Cooperative)    COOPRIX (Cooprix)    CORP (Corporation)    CREDIT_UNION (Credit union)    FOMIA (Federation of mutual insurance
         /// 										associations)    INC (Incorporated)    LTD (Limited)    LTEE (Limitée)    LLC (Limited liability corporation)    LLP (Limited liability partnership)    LTE (Lte.)    MBA (Mutual benefit association)    MIC (Mutual insurance company)    NFP (Not-for-profit corporation)    SA (S.A.)    SAVINGS_COMPANY (Savings company)    SAVINGS_UNION (Savings union)    SARL (Société à responsabilité
         /// 										limitée)    TRUST (Trust)    ULC (Unlimited liability corporation)      CA_LEGAL_TYPE  When ContactType is PERSON, valid values
@@ -1397,8 +1397,7 @@ extension Route53Domains {
         public let registrarUrl: String?
         /// Reserved for future use.
         public let registryDomainId: String?
-        /// Reseller of the domain. Domains registered or transferred using Route 53 domains will
-        /// 			have "Amazon" as the reseller.
+        /// Reserved for future use.
         public let reseller: String?
         /// An array of domain name status codes, also known as Extensible Provisioning Protocol
         /// 			(EPP) status codes. ICANN, the organization that maintains a central database of domain names, has
@@ -1500,7 +1499,7 @@ extension Route53Domains {
         /// 				checkDomainAvailability for each suggestion.
         public let onlyAvailable: Bool
         /// The number of suggested domain names that you want Route 53 to return. Specify a value
-        /// 			between 1 and 50.
+        /// 			between 1 and 50. Note that fewer than the requested number might be returned.
         public let suggestionCount: Int
 
         @inlinable
@@ -2272,6 +2271,24 @@ extension Route53Domains {
         }
     }
 
+    public struct TLDInMaintenance: AWSErrorShape {
+        /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
+        public let message: String?
+        /// The top-level domain that is currently undergoing maintenance.
+        public let tld: String?
+
+        @inlinable
+        public init(message: String? = nil, tld: String? = nil) {
+            self.message = message
+            self.tld = tld
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case tld = "tld"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long.
         public let key: String?
@@ -2315,9 +2332,8 @@ extension Route53Domains {
         /// 				   Period (.) to separate the labels in the name, such as the . in
         /// 						example.com.
         public let domainName: String
-        /// The number of years that you want to register the domain for. Domains are registered
-        /// 			for a minimum of one year. The maximum period depends on the top-level domain. Default: 1
-        public let durationInYears: Int
+        /// Reserved for future use. Currently, the effect of a domain transfer on the registration period varies by TLD. For information about how transferring a domain affects the expiration date, see the Transfer Term column in the pricing information at Amazon Route 53 Pricing. Default: 1
+        public let durationInYears: Int?
         /// Reserved for future use.
         public let idnLangCode: String?
         /// Contains details for the host and glue IP addresses.
@@ -2356,7 +2372,7 @@ extension Route53Domains {
         public let techContact: ContactDetail
 
         @inlinable
-        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
+        public init(adminContact: ContactDetail, authCode: String? = nil, autoRenew: Bool? = nil, billingContact: ContactDetail? = nil, domainName: String, durationInYears: Int? = nil, idnLangCode: String? = nil, nameservers: [Nameserver]? = nil, privacyProtectAdminContact: Bool? = nil, privacyProtectBillingContact: Bool? = nil, privacyProtectRegistrantContact: Bool? = nil, privacyProtectTechContact: Bool? = nil, registrantContact: ContactDetail, techContact: ContactDetail) {
             self.adminContact = adminContact
             self.authCode = authCode
             self.autoRenew = autoRenew
@@ -2753,6 +2769,7 @@ public struct Route53DomainsErrorType: AWSErrorType {
         case duplicateRequest = "DuplicateRequest"
         case invalidInput = "InvalidInput"
         case operationLimitExceeded = "OperationLimitExceeded"
+        case tldInMaintenance = "TLDInMaintenance"
         case tldRulesViolation = "TLDRulesViolation"
         case unsupportedTLD = "UnsupportedTLD"
     }
@@ -2791,6 +2808,8 @@ public struct Route53DomainsErrorType: AWSErrorType {
     /// The number of operations or jobs running exceeded the allowed threshold for the
     /// 			account.
     public static var operationLimitExceeded: Self { .init(.operationLimitExceeded) }
+    /// The top-level domain is currently undergoing maintenance and the request cannot be processed. Try again later.
+    public static var tldInMaintenance: Self { .init(.tldInMaintenance) }
     /// The top-level domain does not support this operation.
     public static var tldRulesViolation: Self { .init(.tldRulesViolation) }
     /// Amazon Route 53 does not support this top-level domain (TLD).
@@ -2799,7 +2818,8 @@ public struct Route53DomainsErrorType: AWSErrorType {
 
 extension Route53DomainsErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
-        "DuplicateRequest": Route53Domains.DuplicateRequest.self
+        "DuplicateRequest": Route53Domains.DuplicateRequest.self,
+        "TLDInMaintenance": Route53Domains.TLDInMaintenance.self
     ]
 }
 

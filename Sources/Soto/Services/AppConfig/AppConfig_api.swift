@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AppConfig service.
 ///
-/// AppConfig feature flags and dynamic configurations help software builders quickly and securely adjust application behavior in production environments without full code deployments. AppConfig speeds up software release frequency, improves application resiliency, and helps you address emergent issues more quickly. With feature flags, you can gradually release new capabilities to users and measure the impact of those changes before fully deploying the new capabilities to all users. With operational flags and dynamic configurations, you can update block lists, allow lists, throttling limits, logging verbosity, and perform other operational tuning to quickly respond to issues in production environments.  AppConfig is a tool in Amazon Web Services Systems Manager.  Despite the fact that application configuration content can vary greatly from application to application, AppConfig supports the following use cases, which cover a broad spectrum of customer needs:    Feature flags and toggles - Safely release new capabilities to your customers in a controlled environment. Instantly roll back changes if you experience a problem.    Application tuning - Carefully introduce application changes while testing the impact of those changes with users in production environments.    Allow list or block list - Control access to premium features or instantly block specific users without deploying new code.     Centralized configuration storage - Keep your configuration data organized and consistent across all of your workloads. You can use AppConfig to deploy configuration data stored in the AppConfig hosted configuration store, Secrets Manager, Systems Manager, Parameter Store, or Amazon S3.    How AppConfig works  This section provides a high-level description of how AppConfig works and how you get started.  1. Identify configuration values in code you want to manage in the cloud  Before you start creating AppConfig artifacts, we recommend you identify configuration data in your code that you want to dynamically manage using AppConfig. Good examples include feature flags or toggles, allow and block lists, logging verbosity, service limits, and throttling rules, to name a few. If your configuration data already exists in the cloud, you can take advantage of AppConfig validation, deployment, and extension features to further streamline configuration data management.  2. Create an application namespace  To create a namespace, you create an AppConfig artifact called an application. An application is simply an organizational construct like a folder.  3. Create environments  For each AppConfig application, you define one or more environments. An environment is a logical grouping of targets, such as applications in a Beta or Production environment, Lambda functions, or containers. You can also define environments for application subcomponents, such as the Web, Mobile, and Back-end. You can configure Amazon CloudWatch alarms for each environment. The system monitors alarms during a configuration deployment. If an alarm is triggered, the system rolls back the configuration.  4. Create a configuration profile  A configuration profile includes, among other things, a URI that enables AppConfig to locate your configuration data in its stored location and a profile type. AppConfig supports two configuration profile types: feature flags and freeform configurations. Feature flag configuration profiles store their data in the AppConfig hosted configuration store and the URI is simply hosted. For freeform configuration profiles, you can store your data in the AppConfig hosted configuration store or any Amazon Web Services service that integrates with AppConfig, as described in Creating a free form configuration profile in the the AppConfig User Guide. A configuration profile can also include optional validators to ensure your configuration data is syntactically and semantically correct. AppConfig performs a check using the validators when you start a deployment. If any errors are detected, the deployment rolls back to the previous configuration data.  5. Deploy configuration data  When you create a new deployment, you specify the following:   An application ID   A configuration profile ID   A configuration version   An environment ID where you want to deploy the configuration data   A deployment strategy ID that defines how fast you want the changes to take effect   When you call the StartDeployment API action, AppConfig performs the following tasks:   Retrieves the configuration data from the underlying data store by using the location URI in the configuration profile.   Verifies the configuration data is syntactically and semantically correct by using the validators you specified when you created your configuration profile.   Caches a copy of the data so it is ready to be retrieved by your application. This cached copy is called the deployed data.    6. Retrieve the configuration  You can configure AppConfig Agent as a local host and have the agent poll AppConfig for configuration updates. The agent calls the StartConfigurationSession and GetLatestConfiguration API actions and caches your configuration data locally. To retrieve the data, your application makes an HTTP call to the localhost server. AppConfig Agent supports several use cases, as described in Simplified retrieval methods in the the AppConfig User Guide. If AppConfig Agent isn't supported for your use case, you can configure your application to poll AppConfig for configuration updates by directly calling the StartConfigurationSession and GetLatestConfiguration API actions.    This reference is intended to be used with the AppConfig User Guide.
+/// AppConfig helps you safely change application behavior in production without redeploying code. Using feature flags and dynamic free-form configurations, you can control how your application runs in real time. This approach reduces risk, accelerates releases, and enables faster responses to issues. You can gradually roll out new features to specific users, monitor their impact, and expand availability with confidence. You can also update block lists, allow lists, throttling limits, and logging levels instantly, allowing you to mitigate issues and fine-tune performance without a deployment. AppConfig supports a broad spectrum of use cases:    Feature flags and toggles – Gradually release new capabilities to targeted users, monitor impact, and instantly roll back changes if issues occur.    Application tuning – Introduce changes safely in production, measure their effects, and refine behavior without redeploying code.    Allow list or block list – Control access to features or restrict specific users in real time, without modifying application code.     Centralized configuration storage – Manage configuration data consistently across workloads. AppConfig can deploy configuration from the AppConfig hosted configuration store, Secrets Manager, Systems Manager, Systems Manager Parameter Store, or Amazon S3.    How AppConfig works  This section provides a high-level description of how AppConfig works and how you get started.  1. Identify configuration data to manage in AppConfig  Before creating a configuration profile, identify the configuration data in your code that you want to manage dynamically using AppConfig. Common examples include feature flags, allow and block lists, logging levels, service limits, and throttling rules. These values tend to change frequently and can cause issues if misconfigured. If your configuration data already exists in cloud services such as Systems Manager Parameter Store or Amazon S3, you can use AppConfig to validate, deploy, and manage that data more effectively.  2. Create a configuration profile in AppConfig  A configuration profile defines how AppConfig locates and manages your configuration data. It includes a URI that points to the data source and a profile type. AppConfig supports two profile types    Feature flags – Enable controlled feature releases, gradual rollouts, and testing in production.    Free-form configurations – Store and retrieve configuration data from external sources and update it without redeploying code.   Both profile types help decouple configuration from code, support continuous delivery, and reduce deployment risk. You can also add optional validators to ensure that configuration data is syntactically and semantically correct. During deployment, AppConfig evaluates these validators and automatically rolls back changes if validation fails. Each configuration profile is associated with an application, which acts as a logical container for your configuration resources. For more information about creating a configuration profile, see Creating a configuration profile in AppConfig in the the AppConfig User Guide.  3. Deploy configuration data  When you start a deployment, AppConfig:   Retrieves configuration data from the source defined in the configuration profile   Validates the data using the configured validators   Delivers the validated configuration to AppConfig Agent   The delivered configuration becomes the deployed version used by your application. For more information about deploying a configuration, see Deploying feature flags and configuration data in AppConfig.  4. Retrieve configuration data  Your application retrieves configuration data by calling a local endpoint exposed by AppConfig Agent, which caches the deployed configuration. Retrieving data is a metered event. AppConfig Agent supports a variety of use cases, as described in How to use AppConfig Agent to retrieve configuration data. If the agent is not suitable for your use case, your application can retrieve configuration data directly from AppConfig by calling the StartConfigurationSession and GetLatestConfiguration API actions.  For more information about retrieving a configuration, see Retrieving feature flags and configuration data in AppConfig.   This reference is intended to be used with the AppConfig User Guide.
 public struct AppConfig: AWSService {
     // MARK: Member variables
 
@@ -190,7 +190,7 @@ public struct AppConfig: AWSService {
     /// Creates a deployment strategy that defines important criteria for rolling out your configuration to the designated targets. A deployment strategy includes the overall duration required, a percentage of targets to receive the deployment during each interval, an algorithm that defines how percentage grows, and bake time.
     ///
     /// Parameters:
-    ///   - deploymentDurationInMinutes: Total amount of time for a deployment to last.
+    ///   - deploymentDurationInMinutes: Total amount of time for a deployment to last.  AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
     ///   - description: A description of the deployment strategy.
     ///   - finalBakeTimeInMinutes: Specifies the amount of time AppConfig monitors for Amazon CloudWatch alarms after the configuration has been deployed to 100% of its targets, before considering the deployment to be complete. If an alarm is triggered during this time, AppConfig rolls back the deployment. You must configure permissions for AppConfig to roll back based on CloudWatch alarms. For more information, see Configuring permissions for rollback based on Amazon CloudWatch alarms in the AppConfig User Guide.
     ///   - growthFactor: The percentage of targets to receive a deployed configuration during each interval.
@@ -263,6 +263,68 @@ public struct AppConfig: AWSService {
             tags: tags
         )
         return try await self.createEnvironment(input, logger: logger)
+    }
+
+    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.
+    @Sendable
+    @inlinable
+    public func createExperimentDefinition(_ input: CreateExperimentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentDefinition {
+        try await self.client.execute(
+            operation: "CreateExperimentDefinition", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an experiment definition in AppConfig. An experiment definition describes the purpose, scope, and operational configuration of an experiment, including the target audience, feature flag, and treatment configurations.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - audienceDescription: A description of the intended audience for the experiment.
+    ///   - audienceRule: A rule that defines which users are eligible to be assigned to treatments during the experiment.
+    ///   - configurationProfileIdentifier: The configuration profile ID or name that stores the feature flag.
+    ///   - control: The control treatment that represents the baseline experience for comparison.
+    ///   - environmentIdentifier: The environment ID or name where the experiment will run.
+    ///   - flagKey: The key of the existing feature flag to use with the experiment.
+    ///   - hypothesis: A description of the goal or hypothesis the experiment is designed to validate.
+    ///   - launchCriteria: Information about the conditions under which you would launch the winning treatment.
+    ///   - name: A name for the experiment definition.
+    ///   - tags: The tags to assign to the experiment definition. Tags help organize and categorize your AppConfig resources.
+    ///   - treatments: A list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createExperimentDefinition(
+        applicationIdentifier: String,
+        audienceDescription: String? = nil,
+        audienceRule: String,
+        configurationProfileIdentifier: String,
+        control: TreatmentInput,
+        environmentIdentifier: String,
+        flagKey: String,
+        hypothesis: String? = nil,
+        launchCriteria: String? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        treatments: [TreatmentInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentDefinition {
+        let input = CreateExperimentDefinitionRequest(
+            applicationIdentifier: applicationIdentifier, 
+            audienceDescription: audienceDescription, 
+            audienceRule: audienceRule, 
+            configurationProfileIdentifier: configurationProfileIdentifier, 
+            control: control, 
+            environmentIdentifier: environmentIdentifier, 
+            flagKey: flagKey, 
+            hypothesis: hypothesis, 
+            launchCriteria: launchCriteria, 
+            name: name, 
+            tags: tags, 
+            treatments: treatments
+        )
+        return try await self.createExperimentDefinition(input, logger: logger)
     }
 
     /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any computation and processing defined in the extension. If you plan to create custom versions of the Amazon Web Services authored notification extensions, you only need to specify an Amazon Resource Name (ARN) in the Uri field for the new extension version.   For a custom EventBridge notification extension, enter the ARN of the EventBridge default events in the Uri field.   For a custom Amazon SNS notification extension, enter the ARN of an Amazon SNS topic in the Uri field.   For a custom Amazon SQS notification extension, enter the ARN of an Amazon SQS message queue in the Uri field.    For more information about extensions, see Extending workflows in the AppConfig User Guide.
@@ -370,7 +432,7 @@ public struct AppConfig: AWSService {
     ///   - configurationProfileId: The configuration profile ID.
     ///   - content: The configuration data, as bytes.  AppConfig accepts any type of data, including text formats like JSON or TOML, or binary formats like protocol buffers or compressed data.
     ///   - contentType: A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
-    ///   - description: A description of the configuration.
+    ///   - description: A description of the configuration.  Due to HTTP limitations, this field only supports ASCII characters.
     ///   - latestVersionNumber: An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version number of the latest hosted configuration version.
     ///   - versionLabel: An optional, user-defined label for the AppConfig hosted configuration version. This value must contain at least one non-numeric character. For example, "v2.2.0".
     ///   - logger: Logger use during operation
@@ -523,6 +585,41 @@ public struct AppConfig: AWSService {
             environmentId: environmentId
         )
         return try await self.deleteEnvironment(input, logger: logger)
+    }
+
+    /// Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.
+    @Sendable
+    @inlinable
+    public func deleteExperimentDefinition(_ input: DeleteExperimentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteExperimentDefinition", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an experiment definition. You can archive the definition to hide it from the active list while preserving it for future reference, or permanently delete it along with all associated run history.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - deleteType: The type of deletion to perform. Valid values include archive (hide but preserve) and permanent (delete permanently).
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteExperimentDefinition(
+        applicationIdentifier: String,
+        deleteType: DeleteType? = nil,
+        experimentDefinitionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteExperimentDefinitionRequest(
+            applicationIdentifier: applicationIdentifier, 
+            deleteType: deleteType, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier
+        )
+        return try await self.deleteExperimentDefinition(input, logger: logger)
     }
 
     /// Deletes an AppConfig extension. You must delete all associations to an extension before you delete the extension.
@@ -834,6 +931,73 @@ public struct AppConfig: AWSService {
         return try await self.getEnvironment(input, logger: logger)
     }
 
+    /// Retrieves information about an experiment definition.
+    @Sendable
+    @inlinable
+    public func getExperimentDefinition(_ input: GetExperimentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentDefinition {
+        try await self.client.execute(
+            operation: "GetExperimentDefinition", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an experiment definition.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExperimentDefinition(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentDefinition {
+        let input = GetExperimentDefinitionRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier
+        )
+        return try await self.getExperimentDefinition(input, logger: logger)
+    }
+
+    /// Retrieves information about an experiment run, including its status, start time, and exposure settings.
+    @Sendable
+    @inlinable
+    public func getExperimentRun(_ input: GetExperimentRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRun {
+        try await self.client.execute(
+            operation: "GetExperimentRun", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an experiment run, including its status, start time, and exposure settings.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - run: The run number to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExperimentRun(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        run: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRun {
+        let input = GetExperimentRunRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            run: run
+        )
+        return try await self.getExperimentRun(input, logger: logger)
+    }
+
     /// Returns information about an AppConfig extension.
     @Sendable
     @inlinable
@@ -1105,6 +1269,132 @@ public struct AppConfig: AWSService {
         return try await self.listEnvironments(input, logger: logger)
     }
 
+    /// Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.
+    @Sendable
+    @inlinable
+    public func listExperimentDefinitions(_ input: ListExperimentDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentDefinitions {
+        try await self.client.execute(
+            operation: "ListExperimentDefinitions", 
+            path: "/experimentdefinitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the experiment definitions for an account. You can filter results by application, configuration profile, environment, or status.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name to filter results.
+    ///   - configurationProfileIdentifier: The configuration profile ID or name to filter results.
+    ///   - environmentIdentifier: The environment ID or name to filter results.
+    ///   - maxResults: The maximum number of items to return for this call.
+    ///   - nextToken: A token to start the list from a previously truncated response.
+    ///   - status: A filter for the experiment definition status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExperimentDefinitions(
+        applicationIdentifier: String? = nil,
+        configurationProfileIdentifier: String? = nil,
+        environmentIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: ExperimentDefinitionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentDefinitions {
+        let input = ListExperimentDefinitionsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            configurationProfileIdentifier: configurationProfileIdentifier, 
+            environmentIdentifier: environmentIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listExperimentDefinitions(input, logger: logger)
+    }
+
+    /// Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.
+    @Sendable
+    @inlinable
+    public func listExperimentRunEvents(_ input: ListExperimentRunEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRunEvents {
+        try await self.client.execute(
+            operation: "ListExperimentRunEvents", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the events for a specified experiment run. Events provide a timeline of actions and state changes that occurred during the run.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - maxResults: The maximum number of items to return.
+    ///   - nextToken: A token to start the list from a previously truncated response.
+    ///   - run: The run number.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExperimentRunEvents(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        run: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRunEvents {
+        let input = ListExperimentRunEventsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            run: run
+        )
+        return try await self.listExperimentRunEvents(input, logger: logger)
+    }
+
+    /// Lists the experiment runs for a specified experiment definition. You can filter by status.
+    @Sendable
+    @inlinable
+    public func listExperimentRuns(_ input: ListExperimentRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRuns {
+        try await self.client.execute(
+            operation: "ListExperimentRuns", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the experiment runs for a specified experiment definition. You can filter by status.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - maxResults: The maximum number of items to return.
+    ///   - nextToken: A token to start the list from a previously truncated response.
+    ///   - status: A filter for the experiment run status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExperimentRuns(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: ExperimentRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRuns {
+        let input = ListExperimentRunsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listExperimentRuns(input, logger: logger)
+    }
+
     /// Lists all AppConfig extension associations in the account. For more information about extensions and associations, see Extending workflows in the AppConfig User Guide.
     @Sendable
     @inlinable
@@ -1251,7 +1541,7 @@ public struct AppConfig: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Starts a deployment.
+    /// Starts a deployment.  AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
     @Sendable
     @inlinable
     public func startDeployment(_ input: StartDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Deployment {
@@ -1264,7 +1554,7 @@ public struct AppConfig: AWSService {
             logger: logger
         )
     }
-    /// Starts a deployment.
+    /// Starts a deployment.  AppConfig Agent supports deploying feature flag or free-form configuration data to specific segments or individual users during a gradual rollout. Entity-based gradual deployments ensure that once a user or segment receives a configuration version, they continue to receive that same version throughout the deployment period, regardless of which compute resource serves their requests. For more information, see Using AppConfig Agent for user-based or entity-based gradual deployments
     ///
     /// Parameters:
     ///   - applicationId: The application ID.
@@ -1275,6 +1565,7 @@ public struct AppConfig: AWSService {
     ///   - dynamicExtensionParameters: A map of dynamic extension parameter names to values to pass to associated extensions with PRE_START_DEPLOYMENT actions.
     ///   - environmentId: The environment ID.
     ///   - kmsKeyIdentifier: The KMS key identifier (key ID, key alias, or key ARN). AppConfig uses this ID to encrypt the configuration data using a customer managed key.
+    ///   - latestDeploymentNumber: The number of the latest deployment. Use this value to ensure that the deployment starts from the expected state and to prevent conflicting updates.
     ///   - tags: Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1287,6 +1578,7 @@ public struct AppConfig: AWSService {
         dynamicExtensionParameters: [String: String]? = nil,
         environmentId: String,
         kmsKeyIdentifier: String? = nil,
+        latestDeploymentNumber: Int? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> Deployment {
@@ -1299,9 +1591,57 @@ public struct AppConfig: AWSService {
             dynamicExtensionParameters: dynamicExtensionParameters, 
             environmentId: environmentId, 
             kmsKeyIdentifier: kmsKeyIdentifier, 
+            latestDeploymentNumber: latestDeploymentNumber, 
             tags: tags
         )
         return try await self.startDeployment(input, logger: logger)
+    }
+
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition.  Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing.
+    @Sendable
+    @inlinable
+    public func startExperimentRun(_ input: StartExperimentRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRun {
+        try await self.client.execute(
+            operation: "StartExperimentRun", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an experiment run for the specified experiment definition. An experiment run delivers treatments to the target audience and collects metrics. You can start multiple experiment runs from the same experiment definition.  Billing for this experiment begins when you call this operation and continues until the experiment is stopped. For pricing details, see AppConfig pricing.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - deploymentParameters: The deployment parameters for the experiment run, including a KMS key identifier for encryption.
+    ///   - description: A description of this experiment run.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - exposurePercentage: The percentage of the target audience to expose to treatments. Set to 0 to validate the experiment before exposing production users.
+    ///   - tags: The tags to assign to the experiment run.
+    ///   - treatmentOverrides: Treatment assignment overrides that assign specific entity IDs to treatments directly, bypassing random assignment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startExperimentRun(
+        applicationIdentifier: String,
+        deploymentParameters: DeploymentParameters? = nil,
+        description: String? = nil,
+        experimentDefinitionIdentifier: String,
+        exposurePercentage: Float? = nil,
+        tags: [String: String]? = nil,
+        treatmentOverrides: TreatmentOverrides? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRun {
+        let input = StartExperimentRunRequest(
+            applicationIdentifier: applicationIdentifier, 
+            deploymentParameters: deploymentParameters, 
+            description: description, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            exposurePercentage: exposurePercentage, 
+            tags: tags, 
+            treatmentOverrides: treatmentOverrides
+        )
+        return try await self.startExperimentRun(input, logger: logger)
     }
 
     /// Stops a deployment. This API action works only on deployments that have a status of DEPLOYING, unless an AllowRevert parameter is supplied. If the AllowRevert parameter is supplied, the status of an in-progress deployment will be ROLLED_BACK. The status of a completed deployment will be REVERTED. AppConfig only allows a revert within 72 hours of deployment completion.
@@ -1340,6 +1680,47 @@ public struct AppConfig: AWSService {
             environmentId: environmentId
         )
         return try await self.stopDeployment(input, logger: logger)
+    }
+
+    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.
+    @Sendable
+    @inlinable
+    public func stopExperimentRun(_ input: StopExperimentRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRun {
+        try await self.client.execute(
+            operation: "StopExperimentRun", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/stop", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running experiment. Stopping an experiment run ends audience exposure and returns users to the currently deployed feature flag configuration.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - deploymentParameters: The deployment parameters for the stop operation.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - result: The result of the experiment run, including an executive summary and reasons for or against launching.
+    ///   - run: The run number to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopExperimentRun(
+        applicationIdentifier: String,
+        deploymentParameters: DeploymentParameters? = nil,
+        experimentDefinitionIdentifier: String,
+        result: ExperimentRunResult? = nil,
+        run: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRun {
+        let input = StopExperimentRunRequest(
+            applicationIdentifier: applicationIdentifier, 
+            deploymentParameters: deploymentParameters, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            result: result, 
+            run: run
+        )
+        return try await self.stopExperimentRun(input, logger: logger)
     }
 
     /// Assigns metadata to an AppConfig resource. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define. You can specify a maximum of 50 tags for a resource.
@@ -1423,14 +1804,17 @@ public struct AppConfig: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtection: A parameter to configure deletion protection. Deletion protection prevents a user from deleting a configuration profile or an environment if AppConfig has called either GetLatestConfiguration or  for the configuration profile or from the environment during the specified interval. The default interval for ProtectionPeriodInMinutes is 60.
+    ///   - vendedMetrics: The configuration for vended metrics in the account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAccountSettings(
         deletionProtection: DeletionProtectionSettings? = nil,
+        vendedMetrics: VendedMetricsSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AccountSettings {
         let input = UpdateAccountSettingsRequest(
-            deletionProtection: deletionProtection
+            deletionProtection: deletionProtection, 
+            vendedMetrics: vendedMetrics
         )
         return try await self.updateAccountSettings(input, logger: logger)
     }
@@ -1600,6 +1984,103 @@ public struct AppConfig: AWSService {
             name: name
         )
         return try await self.updateEnvironment(input, logger: logger)
+    }
+
+    /// Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.
+    @Sendable
+    @inlinable
+    public func updateExperimentDefinition(_ input: UpdateExperimentDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentDefinition {
+        try await self.client.execute(
+            operation: "UpdateExperimentDefinition", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an experiment definition. You can update treatments, the control, audience rules, and other properties. You cannot update an experiment definition while an experiment run is active.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - audienceDescription: An updated audience description.
+    ///   - audienceRule: An updated audience rule.
+    ///   - control: An updated control treatment.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - hypothesis: An updated hypothesis.
+    ///   - launchCriteria: Updated launch criteria.
+    ///   - treatments: The updated list of treatments to evaluate during the experiment. Each treatment defines a distinct variation compared to the control.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExperimentDefinition(
+        applicationIdentifier: String,
+        audienceDescription: String? = nil,
+        audienceRule: String? = nil,
+        control: TreatmentInput? = nil,
+        experimentDefinitionIdentifier: String,
+        hypothesis: String? = nil,
+        launchCriteria: String? = nil,
+        treatments: [TreatmentInput]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentDefinition {
+        let input = UpdateExperimentDefinitionRequest(
+            applicationIdentifier: applicationIdentifier, 
+            audienceDescription: audienceDescription, 
+            audienceRule: audienceRule, 
+            control: control, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            hypothesis: hypothesis, 
+            launchCriteria: launchCriteria, 
+            treatments: treatments
+        )
+        return try await self.updateExperimentDefinition(input, logger: logger)
+    }
+
+    /// Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.
+    @Sendable
+    @inlinable
+    public func updateExperimentRun(_ input: UpdateExperimentRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExperimentRun {
+        try await self.client.execute(
+            operation: "UpdateExperimentRun", 
+            path: "/applications/{ApplicationIdentifier}/experimentdefinitions/{ExperimentDefinitionIdentifier}/experimentruns/{Run}/update", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a running experiment. Use this operation to increase audience exposure, modify treatment assignment overrides, or update the description of an active experiment run. Audience exposure can only be increased, not decreased.
+    ///
+    /// Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - deploymentParameters: The updated deployment parameters for the experiment run.
+    ///   - description: An updated description for the experiment run.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - exposurePercentage: The new exposure percentage. This value can only be increased from the current setting.
+    ///   - run: The run number to update.
+    ///   - treatmentOverrides: The updated treatment assignment overrides that assign specific entity IDs to treatments, bypassing random assignment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExperimentRun(
+        applicationIdentifier: String,
+        deploymentParameters: DeploymentParameters? = nil,
+        description: String? = nil,
+        experimentDefinitionIdentifier: String,
+        exposurePercentage: Float? = nil,
+        run: Int,
+        treatmentOverrides: TreatmentOverrides? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExperimentRun {
+        let input = UpdateExperimentRunRequest(
+            applicationIdentifier: applicationIdentifier, 
+            deploymentParameters: deploymentParameters, 
+            description: description, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            exposurePercentage: exposurePercentage, 
+            run: run, 
+            treatmentOverrides: treatmentOverrides
+        )
+        return try await self.updateExperimentRun(input, logger: logger)
     }
 
     /// Updates an AppConfig extension. For more information about extensions, see Extending workflows in the AppConfig User Guide.
@@ -1909,6 +2390,138 @@ extension AppConfig {
         return self.listEnvironmentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listExperimentDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentDefinitionsPaginator(
+        _ input: ListExperimentDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExperimentDefinitionsRequest, ExperimentDefinitions> {
+        return .init(
+            input: input,
+            command: self.listExperimentDefinitions,
+            inputKey: \ListExperimentDefinitionsRequest.nextToken,
+            outputKey: \ExperimentDefinitions.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExperimentDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationIdentifier: The application ID or name to filter results.
+    ///   - configurationProfileIdentifier: The configuration profile ID or name to filter results.
+    ///   - environmentIdentifier: The environment ID or name to filter results.
+    ///   - maxResults: The maximum number of items to return for this call.
+    ///   - status: A filter for the experiment definition status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentDefinitionsPaginator(
+        applicationIdentifier: String? = nil,
+        configurationProfileIdentifier: String? = nil,
+        environmentIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        status: ExperimentDefinitionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExperimentDefinitionsRequest, ExperimentDefinitions> {
+        let input = ListExperimentDefinitionsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            configurationProfileIdentifier: configurationProfileIdentifier, 
+            environmentIdentifier: environmentIdentifier, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listExperimentDefinitionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExperimentRunEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentRunEventsPaginator(
+        _ input: ListExperimentRunEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExperimentRunEventsRequest, ExperimentRunEvents> {
+        return .init(
+            input: input,
+            command: self.listExperimentRunEvents,
+            inputKey: \ListExperimentRunEventsRequest.nextToken,
+            outputKey: \ExperimentRunEvents.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExperimentRunEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - maxResults: The maximum number of items to return.
+    ///   - run: The run number.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentRunEventsPaginator(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        maxResults: Int? = nil,
+        run: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExperimentRunEventsRequest, ExperimentRunEvents> {
+        let input = ListExperimentRunEventsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            maxResults: maxResults, 
+            run: run
+        )
+        return self.listExperimentRunEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExperimentRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentRunsPaginator(
+        _ input: ListExperimentRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExperimentRunsRequest, ExperimentRuns> {
+        return .init(
+            input: input,
+            command: self.listExperimentRuns,
+            inputKey: \ListExperimentRunsRequest.nextToken,
+            outputKey: \ExperimentRuns.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExperimentRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationIdentifier: The application ID or name.
+    ///   - experimentDefinitionIdentifier: The experiment definition ID or name.
+    ///   - maxResults: The maximum number of items to return.
+    ///   - status: A filter for the experiment run status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExperimentRunsPaginator(
+        applicationIdentifier: String,
+        experimentDefinitionIdentifier: String,
+        maxResults: Int? = nil,
+        status: ExperimentRunStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExperimentRunsRequest, ExperimentRuns> {
+        let input = ListExperimentRunsRequest(
+            applicationIdentifier: applicationIdentifier, 
+            experimentDefinitionIdentifier: experimentDefinitionIdentifier, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listExperimentRunsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listExtensionAssociations(_:logger:)``.
     ///
     /// - Parameters:
@@ -2084,6 +2697,46 @@ extension AppConfig.ListEnvironmentsRequest: AWSPaginateToken {
             applicationId: self.applicationId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension AppConfig.ListExperimentDefinitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListExperimentDefinitionsRequest {
+        return .init(
+            applicationIdentifier: self.applicationIdentifier,
+            configurationProfileIdentifier: self.configurationProfileIdentifier,
+            environmentIdentifier: self.environmentIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension AppConfig.ListExperimentRunEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListExperimentRunEventsRequest {
+        return .init(
+            applicationIdentifier: self.applicationIdentifier,
+            experimentDefinitionIdentifier: self.experimentDefinitionIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            run: self.run
+        )
+    }
+}
+
+extension AppConfig.ListExperimentRunsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> AppConfig.ListExperimentRunsRequest {
+        return .init(
+            applicationIdentifier: self.applicationIdentifier,
+            experimentDefinitionIdentifier: self.experimentDefinitionIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
         )
     }
 }

@@ -277,7 +277,8 @@ public struct Route53Domains: AWSService {
     /// 				   When the registration has been deleted, we'll send you a confirmation to the
     /// 					registrant contact. The email will come from
     /// 						noreply@domainnameverification.net or
-    /// 						noreply@registrar.amazon.com.
+    /// 						noreply@emailverification.info or
+    /// 						noreply@registrar.amazon.
     @Sendable
     @inlinable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
@@ -299,7 +300,8 @@ public struct Route53Domains: AWSService {
     /// 				   When the registration has been deleted, we'll send you a confirmation to the
     /// 					registrant contact. The email will come from
     /// 						noreply@domainnameverification.net or
-    /// 						noreply@registrar.amazon.com.
+    /// 						noreply@emailverification.info or
+    /// 						noreply@registrar.amazon.
     ///
     /// Parameters:
     ///   - domainName: Name of the domain to be deleted.
@@ -1172,7 +1174,7 @@ public struct Route53Domains: AWSService {
     ///   - autoRenew: Indicates whether the domain will be automatically renewed (true) or not (false). Auto
     ///   - billingContact: Provides detailed contact information.
     ///   - domainName: The name of the domain that you want to transfer to Route 53. The top-level domain
-    ///   - durationInYears: The number of years that you want to register the domain for. Domains are registered
+    ///   - durationInYears: Reserved for future use. Currently, the effect of a domain transfer on the registration period varies by TLD. For information about how transferring a domain affects the expiration date, see the Transfer Term column in the pricing information at Amazon Route 53 Pricing. Default: 1
     ///   - idnLangCode: Reserved for future use.
     ///   - nameservers: Contains details for the host and glue IP addresses.
     ///   - privacyProtectAdminContact: Whether you want to conceal contact information from WHOIS queries. If you specify
@@ -1189,7 +1191,7 @@ public struct Route53Domains: AWSService {
         autoRenew: Bool? = nil,
         billingContact: ContactDetail? = nil,
         domainName: String,
-        durationInYears: Int,
+        durationInYears: Int? = nil,
         idnLangCode: String? = nil,
         nameservers: [Nameserver]? = nil,
         privacyProtectAdminContact: Bool? = nil,

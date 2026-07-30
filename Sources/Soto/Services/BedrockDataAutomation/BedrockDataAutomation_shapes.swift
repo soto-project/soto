@@ -67,6 +67,12 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataAutomationLibraryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataAutomationProjectStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case development = "DEVELOPMENT"
         case live = "LIVE"
@@ -118,6 +124,11 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case vocabulary = "VOCABULARY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageExtractionCategoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentModeration = "CONTENT_MODERATION"
         case logos = "LOGOS"
@@ -143,6 +154,20 @@ extension BedrockDataAutomation {
         case ko = "KO"
         case pt = "PT"
         case tw = "TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LibraryIngestionJobOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delete = "DELETE"
+        case upsert = "UPSERT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LibraryIngestionJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -271,6 +296,39 @@ extension BedrockDataAutomation {
         case image = "IMAGE"
         case video = "VIDEO"
         public var description: String { return self.rawValue }
+    }
+
+    public enum InlinePayload: AWSEncodableShape, Sendable {
+        case deleteEntitiesInfo(DeleteEntitiesInfo)
+        case upsertEntitiesInfo([UpsertEntityInfo])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .deleteEntitiesInfo(let value):
+                try container.encode(value, forKey: .deleteEntitiesInfo)
+            case .upsertEntitiesInfo(let value):
+                try container.encode(value, forKey: .upsertEntitiesInfo)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .deleteEntitiesInfo(let value):
+                try value.validate(name: "\(name).deleteEntitiesInfo")
+            case .upsertEntitiesInfo(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).upsertEntitiesInfo[]")
+                }
+                try self.validate(value, name: "upsertEntitiesInfo", parent: name, max: 10)
+                try self.validate(value, name: "upsertEntitiesInfo", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteEntitiesInfo = "deleteEntitiesInfo"
+            case upsertEntitiesInfo = "upsertEntitiesInfo"
+        }
     }
 
     // MARK: Shapes
@@ -755,9 +813,67 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct CreateDataAutomationLibraryRequest: AWSEncodableShape {
+        public let clientToken: String?
+        public let encryptionConfiguration: EncryptionConfiguration?
+        public let libraryDescription: String?
+        public let libraryName: String
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateDataAutomationLibraryRequest.idempotencyToken(), encryptionConfiguration: EncryptionConfiguration? = nil, libraryDescription: String? = nil, libraryName: String, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.encryptionConfiguration = encryptionConfiguration
+            self.libraryDescription = libraryDescription
+            self.libraryName = libraryName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.libraryDescription, name: "libraryDescription", parent: name, max: 300)
+            try self.validate(self.libraryDescription, name: "libraryDescription", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><À-ÖØ-Üßà-öø-üẞ¿¡Œ-œ°£¥₹€§©ª®™¹±-µ✓⑆-⑉฿₽₱₦₣₩₫₺]*$")
+            try self.validate(self.libraryName, name: "libraryName", parent: name, max: 128)
+            try self.validate(self.libraryName, name: "libraryName", parent: name, min: 1)
+            try self.validate(self.libraryName, name: "libraryName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case libraryDescription = "libraryDescription"
+            case libraryName = "libraryName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataAutomationLibraryResponse: AWSDecodableShape {
+        public let libraryArn: String?
+        public let status: DataAutomationLibraryStatus?
+
+        @inlinable
+        public init(libraryArn: String? = nil, status: DataAutomationLibraryStatus? = nil) {
+            self.libraryArn = libraryArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryArn = "libraryArn"
+            case status = "status"
+        }
+    }
+
     public struct CreateDataAutomationProjectRequest: AWSEncodableShape {
         public let clientToken: String?
         public let customOutputConfiguration: CustomOutputConfiguration?
+        public let dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration?
         public let encryptionConfiguration: EncryptionConfiguration?
         public let overrideConfiguration: OverrideConfiguration?
         public let projectDescription: String?
@@ -768,9 +884,10 @@ extension BedrockDataAutomation {
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.customOutputConfiguration = customOutputConfiguration
+            self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.overrideConfiguration = overrideConfiguration
             self.projectDescription = projectDescription
@@ -786,6 +903,7 @@ extension BedrockDataAutomation {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
+            try self.dataAutomationLibraryConfiguration?.validate(name: "\(name).dataAutomationLibraryConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.overrideConfiguration?.validate(name: "\(name).overrideConfiguration")
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 300)
@@ -801,6 +919,7 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case customOutputConfiguration = "customOutputConfiguration"
+            case dataAutomationLibraryConfiguration = "dataAutomationLibraryConfiguration"
             case encryptionConfiguration = "encryptionConfiguration"
             case overrideConfiguration = "overrideConfiguration"
             case projectDescription = "projectDescription"
@@ -833,20 +952,213 @@ extension BedrockDataAutomation {
 
     public struct CustomOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let blueprints: [BlueprintItem]?
+        public let document: DocumentCustomOutputConfiguration?
 
         @inlinable
-        public init(blueprints: [BlueprintItem]? = nil) {
+        public init(blueprints: [BlueprintItem]? = nil, document: DocumentCustomOutputConfiguration? = nil) {
             self.blueprints = blueprints
+            self.document = document
         }
 
         public func validate(name: String) throws {
             try self.blueprints?.forEach {
                 try $0.validate(name: "\(name).blueprints[]")
             }
+            try self.document?.validate(name: "\(name).document")
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprints = "blueprints"
+            case document = "document"
+        }
+    }
+
+    public struct DataAutomationLibrary: AWSDecodableShape {
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        public let entityTypes: [EntityTypeInfo]?
+        public let kmsEncryptionContext: [String: String]?
+        public let kmsKeyId: String?
+        public let libraryArn: String
+        public let libraryDescription: String?
+        public let libraryName: String
+        public let status: DataAutomationLibraryStatus
+
+        @inlinable
+        public init(creationTime: Date, entityTypes: [EntityTypeInfo]? = nil, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, libraryArn: String, libraryDescription: String? = nil, libraryName: String, status: DataAutomationLibraryStatus) {
+            self.creationTime = creationTime
+            self.entityTypes = entityTypes
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKeyId = kmsKeyId
+            self.libraryArn = libraryArn
+            self.libraryDescription = libraryDescription
+            self.libraryName = libraryName
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case entityTypes = "entityTypes"
+            case kmsEncryptionContext = "kmsEncryptionContext"
+            case kmsKeyId = "kmsKeyId"
+            case libraryArn = "libraryArn"
+            case libraryDescription = "libraryDescription"
+            case libraryName = "libraryName"
+            case status = "status"
+        }
+    }
+
+    public struct DataAutomationLibraryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let libraries: [DataAutomationLibraryItem]?
+
+        @inlinable
+        public init(libraries: [DataAutomationLibraryItem]? = nil) {
+            self.libraries = libraries
+        }
+
+        public func validate(name: String) throws {
+            try self.libraries?.forEach {
+                try $0.validate(name: "\(name).libraries[]")
+            }
+            try self.validate(self.libraries, name: "libraries", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraries = "libraries"
+        }
+    }
+
+    public struct DataAutomationLibraryFilter: AWSEncodableShape {
+        public let libraryArn: String
+
+        @inlinable
+        public init(libraryArn: String) {
+            self.libraryArn = libraryArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryArn = "libraryArn"
+        }
+    }
+
+    public struct DataAutomationLibraryIngestionJob: AWSDecodableShape {
+        /// Timestamp when the DataAutomationLibraryIngestionJob was completed
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completionTime: Date?
+        /// Timestamp when the DataAutomationLibraryIngestionJob was created
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The entity type associated with DataAutomationLibraryIngestionJob
+        public let entityType: EntityType
+        /// Error message
+        public let errorMessage: String?
+        /// Error type
+        public let errorType: String?
+        /// ARN of the DataAutomationLibraryIngestionJob
+        public let jobArn: String
+        /// The status of the DataAutomationLibraryIngestionJob
+        public let jobStatus: LibraryIngestionJobStatus
+        /// The operation associated with DataAutomationLibraryIngestionJob
+        public let operationType: LibraryIngestionJobOperationType
+        /// Output configuration of DataAutomationLibraryIngestionJob
+        public let outputConfiguration: OutputConfiguration
+
+        @inlinable
+        public init(completionTime: Date? = nil, creationTime: Date, entityType: EntityType, errorMessage: String? = nil, errorType: String? = nil, jobArn: String, jobStatus: LibraryIngestionJobStatus, operationType: LibraryIngestionJobOperationType, outputConfiguration: OutputConfiguration) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.entityType = entityType
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+            self.jobArn = jobArn
+            self.jobStatus = jobStatus
+            self.operationType = operationType
+            self.outputConfiguration = outputConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case entityType = "entityType"
+            case errorMessage = "errorMessage"
+            case errorType = "errorType"
+            case jobArn = "jobArn"
+            case jobStatus = "jobStatus"
+            case operationType = "operationType"
+            case outputConfiguration = "outputConfiguration"
+        }
+    }
+
+    public struct DataAutomationLibraryIngestionJobSummary: AWSDecodableShape {
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completionTime: Date?
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        public let entityType: EntityType
+        public let jobArn: String
+        public let jobStatus: LibraryIngestionJobStatus
+        public let operationType: LibraryIngestionJobOperationType
+
+        @inlinable
+        public init(completionTime: Date? = nil, creationTime: Date, entityType: EntityType, jobArn: String, jobStatus: LibraryIngestionJobStatus, operationType: LibraryIngestionJobOperationType) {
+            self.completionTime = completionTime
+            self.creationTime = creationTime
+            self.entityType = entityType
+            self.jobArn = jobArn
+            self.jobStatus = jobStatus
+            self.operationType = operationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "completionTime"
+            case creationTime = "creationTime"
+            case entityType = "entityType"
+            case jobArn = "jobArn"
+            case jobStatus = "jobStatus"
+            case operationType = "operationType"
+        }
+    }
+
+    public struct DataAutomationLibraryItem: AWSEncodableShape & AWSDecodableShape {
+        public let libraryArn: String
+
+        @inlinable
+        public init(libraryArn: String) {
+            self.libraryArn = libraryArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryArn = "libraryArn"
+        }
+    }
+
+    public struct DataAutomationLibrarySummary: AWSDecodableShape {
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        public let libraryArn: String
+        public let libraryName: String?
+
+        @inlinable
+        public init(creationTime: Date, libraryArn: String, libraryName: String? = nil) {
+            self.creationTime = creationTime
+            self.libraryArn = libraryArn
+            self.libraryName = libraryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case libraryArn = "libraryArn"
+            case libraryName = "libraryName"
         }
     }
 
@@ -854,6 +1166,7 @@ extension BedrockDataAutomation {
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
         public let customOutputConfiguration: CustomOutputConfiguration?
+        public let dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration?
         public let kmsEncryptionContext: [String: String]?
         public let kmsKeyId: String?
         @CustomCoding<ISO8601DateCoder>
@@ -868,9 +1181,10 @@ extension BedrockDataAutomation {
         public let status: DataAutomationProjectStatus
 
         @inlinable
-        public init(creationTime: Date, customOutputConfiguration: CustomOutputConfiguration? = nil, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration? = nil, status: DataAutomationProjectStatus) {
+        public init(creationTime: Date, customOutputConfiguration: CustomOutputConfiguration? = nil, dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration? = nil, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration? = nil, status: DataAutomationProjectStatus) {
             self.creationTime = creationTime
             self.customOutputConfiguration = customOutputConfiguration
+            self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
@@ -887,6 +1201,7 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
             case customOutputConfiguration = "customOutputConfiguration"
+            case dataAutomationLibraryConfiguration = "dataAutomationLibraryConfiguration"
             case kmsEncryptionContext = "kmsEncryptionContext"
             case kmsKeyId = "kmsKeyId"
             case lastModifiedTime = "lastModifiedTime"
@@ -982,6 +1297,45 @@ extension BedrockDataAutomation {
         public init() {}
     }
 
+    public struct DeleteDataAutomationLibraryRequest: AWSEncodableShape {
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+
+        @inlinable
+        public init(libraryArn: String) {
+            self.libraryArn = libraryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.libraryArn, key: "libraryArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataAutomationLibraryResponse: AWSDecodableShape {
+        public let libraryArn: String?
+        public let status: DataAutomationLibraryStatus?
+
+        @inlinable
+        public init(libraryArn: String? = nil, status: DataAutomationLibraryStatus? = nil) {
+            self.libraryArn = libraryArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryArn = "libraryArn"
+            case status = "status"
+        }
+    }
+
     public struct DeleteDataAutomationProjectRequest: AWSEncodableShape {
         /// ARN generated at the server side when a DataAutomationProject is created
         public let projectArn: String
@@ -1021,6 +1375,29 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct DeleteEntitiesInfo: AWSEncodableShape {
+        public let entityIds: [String]
+
+        @inlinable
+        public init(entityIds: [String]) {
+            self.entityIds = entityIds
+        }
+
+        public func validate(name: String) throws {
+            try self.entityIds.forEach {
+                try validate($0, name: "entityIds[]", parent: name, max: 128)
+                try validate($0, name: "entityIds[]", parent: name, min: 1)
+                try validate($0, name: "entityIds[]", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            }
+            try self.validate(self.entityIds, name: "entityIds", parent: name, max: 1000)
+            try self.validate(self.entityIds, name: "entityIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIds = "entityIds"
+        }
+    }
+
     public struct DocumentBoundingBox: AWSEncodableShape & AWSDecodableShape {
         public let state: State
 
@@ -1031,6 +1408,26 @@ extension BedrockDataAutomation {
 
         private enum CodingKeys: String, CodingKey {
             case state = "state"
+        }
+    }
+
+    public struct DocumentCustomOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let fallbackBlueprints: [BlueprintItem]?
+
+        @inlinable
+        public init(fallbackBlueprints: [BlueprintItem]? = nil) {
+            self.fallbackBlueprints = fallbackBlueprints
+        }
+
+        public func validate(name: String) throws {
+            try self.fallbackBlueprints?.forEach {
+                try $0.validate(name: "\(name).fallbackBlueprints[]")
+            }
+            try self.validate(self.fallbackBlueprints, name: "fallbackBlueprints", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBlueprints = "fallbackBlueprints"
         }
     }
 
@@ -1191,6 +1588,36 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct EntityTypeInfo: AWSDecodableShape {
+        public let entityMetadata: String?
+        public let entityType: EntityType
+
+        @inlinable
+        public init(entityMetadata: String? = nil, entityType: EntityType) {
+            self.entityMetadata = entityMetadata
+            self.entityType = entityType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityMetadata = "entityMetadata"
+            case entityType = "entityType"
+        }
+    }
+
+    public struct EventBridgeConfiguration: AWSEncodableShape {
+        /// Event bridge flag.
+        public let eventBridgeEnabled: Bool
+
+        @inlinable
+        public init(eventBridgeEnabled: Bool) {
+            self.eventBridgeEnabled = eventBridgeEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBridgeEnabled = "eventBridgeEnabled"
+        }
+    }
+
     public struct GetBlueprintOptimizationStatusRequest: AWSEncodableShape {
         /// Invocation arn.
         public let invocationArn: String
@@ -1288,6 +1715,133 @@ extension BedrockDataAutomation {
 
         private enum CodingKeys: String, CodingKey {
             case blueprint = "blueprint"
+        }
+    }
+
+    public struct GetDataAutomationLibraryEntityRequest: AWSEncodableShape {
+        /// Unique identifier for the entity
+        public let entityId: String
+        /// The entity type for which the entity is requested
+        public let entityType: EntityType
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+
+        @inlinable
+        public init(entityId: String, entityType: EntityType, libraryArn: String) {
+            self.entityId = entityId
+            self.entityType = entityType
+            self.libraryArn = libraryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.entityId, key: "entityId")
+            request.encodePath(self.entityType, key: "entityType")
+            request.encodePath(self.libraryArn, key: "libraryArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataAutomationLibraryEntityResponse: AWSDecodableShape {
+        /// Detailed information about the entity
+        public let entity: EntityDetails?
+
+        @inlinable
+        public init(entity: EntityDetails? = nil) {
+            self.entity = entity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entity = "entity"
+        }
+    }
+
+    public struct GetDataAutomationLibraryIngestionJobRequest: AWSEncodableShape {
+        /// ARN of the DataAutomationLibraryIngestionJob
+        public let jobArn: String
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+
+        @inlinable
+        public init(jobArn: String, libraryArn: String) {
+            self.jobArn = jobArn
+            self.libraryArn = libraryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobArn, key: "jobArn")
+            request.encodePath(self.libraryArn, key: "libraryArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, max: 128)
+            try self.validate(self.jobArn, name: "jobArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library-ingestion-job/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataAutomationLibraryIngestionJobResponse: AWSDecodableShape {
+        /// Contains the information of a library ingestion job
+        public let job: DataAutomationLibraryIngestionJob?
+
+        @inlinable
+        public init(job: DataAutomationLibraryIngestionJob? = nil) {
+            self.job = job
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case job = "job"
+        }
+    }
+
+    public struct GetDataAutomationLibraryRequest: AWSEncodableShape {
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+
+        @inlinable
+        public init(libraryArn: String) {
+            self.libraryArn = libraryArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.libraryArn, key: "libraryArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataAutomationLibraryResponse: AWSDecodableShape {
+        public let library: DataAutomationLibrary?
+
+        @inlinable
+        public init(library: DataAutomationLibrary? = nil) {
+            self.library = library
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case library = "library"
         }
     }
 
@@ -1430,6 +1984,29 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct InputConfiguration: AWSEncodableShape {
+        /// Input Payload
+        public let inlinePayload: InlinePayload?
+        /// S3 object
+        public let s3Object: S3Object?
+
+        @inlinable
+        public init(inlinePayload: InlinePayload? = nil, s3Object: S3Object? = nil) {
+            self.inlinePayload = inlinePayload
+            self.s3Object = s3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.inlinePayload?.validate(name: "\(name).inlinePayload")
+            try self.s3Object?.validate(name: "\(name).s3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlinePayload = "inlinePayload"
+            case s3Object = "s3Object"
+        }
+    }
+
     public struct InvokeBlueprintOptimizationAsyncRequest: AWSEncodableShape {
         /// Blueprint to be optimized
         public let blueprint: BlueprintOptimizationObject
@@ -1494,6 +2071,88 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct InvokeDataAutomationLibraryIngestionJobRequest: AWSEncodableShape {
+        /// Idempotency token
+        public let clientToken: String?
+        /// The entity type for which DataAutomationLibraryIngestionJob is being run
+        public let entityType: EntityType
+        /// Input configuration of DataAutomationLibraryIngestionJob request
+        public let inputConfiguration: InputConfiguration
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+        /// Notification configuration.
+        public let notificationConfiguration: NotificationConfiguration?
+        /// The operation to be performed by DataAutomationLibraryIngestionJob
+        public let operationType: LibraryIngestionJobOperationType
+        /// Output configuration of DataAutomationLibraryIngestionJob
+        public let outputConfiguration: OutputConfiguration
+        /// List of tags
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = InvokeDataAutomationLibraryIngestionJobRequest.idempotencyToken(), entityType: EntityType, inputConfiguration: InputConfiguration, libraryArn: String, notificationConfiguration: NotificationConfiguration? = nil, operationType: LibraryIngestionJobOperationType, outputConfiguration: OutputConfiguration, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.entityType = entityType
+            self.inputConfiguration = inputConfiguration
+            self.libraryArn = libraryArn
+            self.notificationConfiguration = notificationConfiguration
+            self.operationType = operationType
+            self.outputConfiguration = outputConfiguration
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.entityType, forKey: .entityType)
+            try container.encode(self.inputConfiguration, forKey: .inputConfiguration)
+            request.encodePath(self.libraryArn, key: "libraryArn")
+            try container.encodeIfPresent(self.notificationConfiguration, forKey: .notificationConfiguration)
+            try container.encode(self.operationType, forKey: .operationType)
+            try container.encode(self.outputConfiguration, forKey: .outputConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.inputConfiguration.validate(name: "\(name).inputConfiguration")
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case entityType = "entityType"
+            case inputConfiguration = "inputConfiguration"
+            case notificationConfiguration = "notificationConfiguration"
+            case operationType = "operationType"
+            case outputConfiguration = "outputConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct InvokeDataAutomationLibraryIngestionJobResponse: AWSDecodableShape {
+        /// ARN of the DataAutomationLibraryIngestionJob
+        public let jobArn: String?
+
+        @inlinable
+        public init(jobArn: String? = nil) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
+        }
+    }
+
     public struct ListBlueprintsRequest: AWSEncodableShape {
         public let blueprintArn: String?
         public let blueprintStageFilter: BlueprintStageFilter?
@@ -1549,16 +2208,178 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct ListDataAutomationLibrariesRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let projectFilter: DataAutomationProjectFilter?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectFilter: DataAutomationProjectFilter? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.projectFilter = projectFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+            try self.projectFilter?.validate(name: "\(name).projectFilter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectFilter = "projectFilter"
+        }
+    }
+
+    public struct ListDataAutomationLibrariesResponse: AWSDecodableShape {
+        public let libraries: [DataAutomationLibrarySummary]?
+        public let nextToken: String?
+
+        @inlinable
+        public init(libraries: [DataAutomationLibrarySummary]? = nil, nextToken: String? = nil) {
+            self.libraries = libraries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraries = "libraries"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataAutomationLibraryEntitiesRequest: AWSEncodableShape {
+        /// The entity type for which the entity list is requested
+        public let entityType: EntityType
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+        public let maxResults: Int?
+        /// Pagination token for retrieving the next set of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(entityType: EntityType, libraryArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.entityType = entityType
+            self.libraryArn = libraryArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.entityType, key: "entityType")
+            request.encodePath(self.libraryArn, key: "libraryArn")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataAutomationLibraryEntitiesResponse: AWSDecodableShape {
+        /// List of entities
+        public let entities: [DataAutomationLibraryEntitySummary]?
+        /// Pagination token for retrieving the next set of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(entities: [DataAutomationLibraryEntitySummary]? = nil, nextToken: String? = nil) {
+            self.entities = entities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "entities"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataAutomationLibraryIngestionJobsRequest: AWSEncodableShape {
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+        public let maxResults: Int?
+        /// Pagination token for retrieving the next set of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(libraryArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.libraryArn = libraryArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.libraryArn, key: "libraryArn")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDataAutomationLibraryIngestionJobsResponse: AWSDecodableShape {
+        /// List of data automation library ingestion jobs
+        public let jobs: [DataAutomationLibraryIngestionJobSummary]?
+        /// Pagination token for retrieving the next set of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobs: [DataAutomationLibraryIngestionJobSummary]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListDataAutomationProjectsRequest: AWSEncodableShape {
         public let blueprintFilter: BlueprintFilter?
+        public let libraryFilter: DataAutomationLibraryFilter?
         public let maxResults: Int?
         public let nextToken: String?
         public let projectStageFilter: DataAutomationProjectStageFilter?
         public let resourceOwner: ResourceOwner?
 
         @inlinable
-        public init(blueprintFilter: BlueprintFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectStageFilter: DataAutomationProjectStageFilter? = nil, resourceOwner: ResourceOwner? = nil) {
+        public init(blueprintFilter: BlueprintFilter? = nil, libraryFilter: DataAutomationLibraryFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, projectStageFilter: DataAutomationProjectStageFilter? = nil, resourceOwner: ResourceOwner? = nil) {
             self.blueprintFilter = blueprintFilter
+            self.libraryFilter = libraryFilter
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.projectStageFilter = projectStageFilter
@@ -1567,6 +2388,7 @@ extension BedrockDataAutomation {
 
         public func validate(name: String) throws {
             try self.blueprintFilter?.validate(name: "\(name).blueprintFilter")
+            try self.libraryFilter?.validate(name: "\(name).libraryFilter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1576,6 +2398,7 @@ extension BedrockDataAutomation {
 
         private enum CodingKeys: String, CodingKey {
             case blueprintFilter = "blueprintFilter"
+            case libraryFilter = "libraryFilter"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case projectStageFilter = "projectStageFilter"
@@ -1610,7 +2433,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1666,6 +2489,40 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct NotificationConfiguration: AWSEncodableShape {
+        /// Event bridge configuration.
+        public let eventBridgeConfiguration: EventBridgeConfiguration
+
+        @inlinable
+        public init(eventBridgeConfiguration: EventBridgeConfiguration) {
+            self.eventBridgeConfiguration = eventBridgeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBridgeConfiguration = "eventBridgeConfiguration"
+        }
+    }
+
+    public struct OutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// S3 Uri
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
     public struct OverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let audio: AudioOverrideConfiguration?
         public let document: DocumentOverrideConfiguration?
@@ -1718,6 +2575,31 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case piiEntityTypes = "piiEntityTypes"
             case redactionMaskMode = "redactionMaskMode"
+        }
+    }
+
+    public struct Phrase: AWSEncodableShape & AWSDecodableShape {
+        public let displayAsText: String?
+        public let text: String
+
+        @inlinable
+        public init(displayAsText: String? = nil, text: String) {
+            self.displayAsText = displayAsText
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.displayAsText, name: "displayAsText", parent: name, max: 256)
+            try self.validate(self.displayAsText, name: "displayAsText", parent: name, min: 1)
+            try self.validate(self.displayAsText, name: "displayAsText", parent: name, pattern: ".+")
+            try self.validate(self.text, name: "text", parent: name, max: 256)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, pattern: ".+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayAsText = "displayAsText"
+            case text = "text"
         }
     }
 
@@ -1858,7 +2740,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1904,7 +2786,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation|data-automation-library|data-automation-library-ingestion-job)/[a-zA-Z0-9-]{12,36}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1974,8 +2856,62 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct UpdateDataAutomationLibraryRequest: AWSEncodableShape {
+        public let clientToken: String?
+        /// ARN generated at the server side when a DataAutomationLibrary is created
+        public let libraryArn: String
+        public let libraryDescription: String?
+
+        @inlinable
+        public init(clientToken: String? = UpdateDataAutomationLibraryRequest.idempotencyToken(), libraryArn: String, libraryDescription: String? = nil) {
+            self.clientToken = clientToken
+            self.libraryArn = libraryArn
+            self.libraryDescription = libraryDescription
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.libraryArn, key: "libraryArn")
+            try container.encodeIfPresent(self.libraryDescription, forKey: .libraryDescription)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, max: 128)
+            try self.validate(self.libraryArn, name: "libraryArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-library/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.libraryDescription, name: "libraryDescription", parent: name, max: 300)
+            try self.validate(self.libraryDescription, name: "libraryDescription", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><À-ÖØ-Üßà-öø-üẞ¿¡Œ-œ°£¥₹€§©ª®™¹±-µ✓⑆-⑉฿₽₱₦₣₩₫₺]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case libraryDescription = "libraryDescription"
+        }
+    }
+
+    public struct UpdateDataAutomationLibraryResponse: AWSDecodableShape {
+        public let libraryArn: String?
+        public let status: DataAutomationLibraryStatus?
+
+        @inlinable
+        public init(libraryArn: String? = nil, status: DataAutomationLibraryStatus? = nil) {
+            self.libraryArn = libraryArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case libraryArn = "libraryArn"
+            case status = "status"
+        }
+    }
+
     public struct UpdateDataAutomationProjectRequest: AWSEncodableShape {
         public let customOutputConfiguration: CustomOutputConfiguration?
+        public let dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration?
         public let encryptionConfiguration: EncryptionConfiguration?
         public let overrideConfiguration: OverrideConfiguration?
         /// ARN generated at the server side when a DataAutomationProject is created
@@ -1985,8 +2921,9 @@ extension BedrockDataAutomation {
         public let standardOutputConfiguration: StandardOutputConfiguration
 
         @inlinable
-        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration) {
+        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration) {
             self.customOutputConfiguration = customOutputConfiguration
+            self.dataAutomationLibraryConfiguration = dataAutomationLibraryConfiguration
             self.encryptionConfiguration = encryptionConfiguration
             self.overrideConfiguration = overrideConfiguration
             self.projectArn = projectArn
@@ -1999,6 +2936,7 @@ extension BedrockDataAutomation {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.customOutputConfiguration, forKey: .customOutputConfiguration)
+            try container.encodeIfPresent(self.dataAutomationLibraryConfiguration, forKey: .dataAutomationLibraryConfiguration)
             try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encodeIfPresent(self.overrideConfiguration, forKey: .overrideConfiguration)
             request.encodePath(self.projectArn, key: "projectArn")
@@ -2009,6 +2947,7 @@ extension BedrockDataAutomation {
 
         public func validate(name: String) throws {
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
+            try self.dataAutomationLibraryConfiguration?.validate(name: "\(name).dataAutomationLibraryConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.overrideConfiguration?.validate(name: "\(name).overrideConfiguration")
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 128)
@@ -2018,6 +2957,7 @@ extension BedrockDataAutomation {
 
         private enum CodingKeys: String, CodingKey {
             case customOutputConfiguration = "customOutputConfiguration"
+            case dataAutomationLibraryConfiguration = "dataAutomationLibraryConfiguration"
             case encryptionConfiguration = "encryptionConfiguration"
             case overrideConfiguration = "overrideConfiguration"
             case projectDescription = "projectDescription"
@@ -2171,6 +3111,136 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case extraction = "extraction"
             case generativeField = "generativeField"
+        }
+    }
+
+    public struct VocabularyEntity: AWSDecodableShape {
+        public let description: String?
+        public let entityId: String?
+        public let language: Language?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        public let phrases: [Phrase]?
+
+        @inlinable
+        public init(description: String? = nil, entityId: String? = nil, language: Language? = nil, lastModifiedTime: Date? = nil, phrases: [Phrase]? = nil) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.lastModifiedTime = lastModifiedTime
+            self.phrases = phrases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case entityId = "entityId"
+            case language = "language"
+            case lastModifiedTime = "lastModifiedTime"
+            case phrases = "phrases"
+        }
+    }
+
+    public struct VocabularyEntityInfo: AWSEncodableShape {
+        public let description: String?
+        public let entityId: String?
+        public let language: Language
+        public let phrases: [Phrase]
+
+        @inlinable
+        public init(description: String? = nil, entityId: String? = nil, language: Language, phrases: [Phrase]) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.phrases = phrases
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 300)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><À-ÖØ-Üßà-öø-üẞ¿¡Œ-œ°£¥₹€§©ª®™¹±-µ✓⑆-⑉฿₽₱₦₣₩₫₺]*$")
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.phrases.forEach {
+                try $0.validate(name: "\(name).phrases[]")
+            }
+            try self.validate(self.phrases, name: "phrases", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case entityId = "entityId"
+            case language = "language"
+            case phrases = "phrases"
+        }
+    }
+
+    public struct VocabularyEntitySummary: AWSDecodableShape {
+        public let description: String?
+        public let entityId: String?
+        public let language: Language?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// num of phrases in the entity
+        public let numOfPhrases: Int?
+
+        @inlinable
+        public init(description: String? = nil, entityId: String? = nil, language: Language? = nil, lastModifiedTime: Date? = nil, numOfPhrases: Int? = nil) {
+            self.description = description
+            self.entityId = entityId
+            self.language = language
+            self.lastModifiedTime = lastModifiedTime
+            self.numOfPhrases = numOfPhrases
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case entityId = "entityId"
+            case language = "language"
+            case lastModifiedTime = "lastModifiedTime"
+            case numOfPhrases = "numOfPhrases"
+        }
+    }
+
+    public struct DataAutomationLibraryEntitySummary: AWSDecodableShape {
+        public let vocabulary: VocabularyEntitySummary?
+
+        @inlinable
+        public init(vocabulary: VocabularyEntitySummary? = nil) {
+            self.vocabulary = vocabulary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vocabulary = "vocabulary"
+        }
+    }
+
+    public struct EntityDetails: AWSDecodableShape {
+        public let vocabulary: VocabularyEntity?
+
+        @inlinable
+        public init(vocabulary: VocabularyEntity? = nil) {
+            self.vocabulary = vocabulary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vocabulary = "vocabulary"
+        }
+    }
+
+    public struct UpsertEntityInfo: AWSEncodableShape {
+        public let vocabulary: VocabularyEntityInfo?
+
+        @inlinable
+        public init(vocabulary: VocabularyEntityInfo? = nil) {
+            self.vocabulary = vocabulary
+        }
+
+        public func validate(name: String) throws {
+            try self.vocabulary?.validate(name: "\(name).vocabulary")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vocabulary = "vocabulary"
         }
     }
 }

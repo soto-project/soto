@@ -251,7 +251,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.createPhoneNumberOrder(input, logger: logger)
     }
 
-    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for  the specified participant phone numbers.
+    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for  the specified participant phone numbers.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html")
     @Sendable
     @inlinable
     public func createProxySession(_ input: CreateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProxySessionResponse {
@@ -264,7 +265,7 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for  the specified participant phone numbers.
+    /// Creates a proxy session for the specified Amazon Chime SDK Voice Connector for  the specified participant phone numbers.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - capabilities: The proxy session's capabilities.
@@ -276,6 +277,7 @@ public struct ChimeSDKVoice: AWSService {
     ///   - participantPhoneNumbers: The participant phone numbers.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_CreateProxySession.html")
     @inlinable
     public func createProxySession(
         capabilities: [Capability],
@@ -406,7 +408,7 @@ public struct ChimeSDKVoice: AWSService {
     public func createSipRule(
         disabled: Bool? = nil,
         name: String,
-        targetApplications: [SipRuleTargetApplication]? = nil,
+        targetApplications: [SipRuleTargetApplication],
         triggerType: SipRuleTriggerType,
         triggerValue: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -438,9 +440,9 @@ public struct ChimeSDKVoice: AWSService {
     ///
     /// Parameters:
     ///   - awsRegion: The AWS Region in which the Amazon Chime SDK Voice Connector is created. Default value:  us-east-1 .
-    ///   - integrationType: The connectors for use with Amazon Connect. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Amazon Connect telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Amazon Connect can start with Connect telephony and IVR for immediate modernization ahead of agent migration.    CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Amazon Connect with other voice systems for real-time and post-call analytics. They can use Amazon Connect Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Amazon Connect can start with Contact Lens analytics and performance insights ahead of agent migration.
+    ///   - integrationType: The connectors for use with Connect Customer. The following options are available:    CONNECT_CALL_TRANSFER_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems to directly transfer voice calls and metadata without using the public telephone network. They can use Connect Customer telephony and Interactive Voice Response (IVR) with their existing voice systems to modernize the IVR experience of their existing contact center and their enterprise and branch voice systems. Additionally, enterprises migrating their contact center to Connect Customer can start with Connect telephony and IVR for immediate modernization ahead of agent migration.  This integration is a gated feature. Please reach out to your account team to discuss this feature with a Connect Specialist.     CONNECT_ANALYTICS_CONNECTOR - Enables enterprises to integrate Connect Customer with other voice systems for real-time and post-call analytics. They can use Connect Customer Contact Lens with their existing voice systems to provides call recordings, conversational analytics (including contact transcript, sensitive data redaction, content categorization, theme detection, sentiment analysis, real-time alerts, and post-contact summary), and agent performance evaluations (including evaluation forms, automated evaluation, supervisor review) with a rich user experience to display, search and filter customer interactions, and programmatic access to data streams and the data lake. Additionally, enterprises migrating their contact center to Connect Customer can start with Contact Lens analytics and performance insights ahead of agent migration.
     ///   - name: The name of the Voice Connector.
-    ///   - networkType: The type of network for the Voice Connector. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    ///   - networkType: The type of network for the Voice Connector.
     ///   - requireEncryption: Enables or disables encryption for the Voice Connector.
     ///   - tags: The tags assigned to the Voice Connector.
     ///   - logger: Logger use during operation
@@ -481,16 +483,19 @@ public struct ChimeSDKVoice: AWSService {
     /// Creates an Amazon Chime SDK Voice Connector group under the administrator's  AWS account. You can associate Amazon Chime SDK Voice Connectors with the  Voice Connector group by including VoiceConnectorItems in the  request.  You can include Voice Connectors from different AWS Regions in your group.  This creates a fault tolerant mechanism for fallback in case of availability events.
     ///
     /// Parameters:
+    ///   - callDistributionType: 
     ///   - name: The name of the Voice Connector group.
     ///   - voiceConnectorItems: Lists the Voice Connectors that inbound calls are routed to.
     ///   - logger: Logger use during operation
     @inlinable
     public func createVoiceConnectorGroup(
+        callDistributionType: CallDistributionType? = nil,
         name: String,
         voiceConnectorItems: [VoiceConnectorItem]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateVoiceConnectorGroupResponse {
         let input = CreateVoiceConnectorGroupRequest(
+            callDistributionType: callDistributionType, 
             name: name, 
             voiceConnectorItems: voiceConnectorItems
         )
@@ -596,7 +601,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.deletePhoneNumber(input, logger: logger)
     }
 
-    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice  Connector.
+    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice  Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html")
     @Sendable
     @inlinable
     public func deleteProxySession(_ input: DeleteProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -609,12 +615,13 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice  Connector.
+    /// Deletes the specified proxy session from the specified Amazon Chime SDK Voice  Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - proxySessionId: The proxy session ID.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteProxySession.html")
     @inlinable
     public func deleteProxySession(
         proxySessionId: String,
@@ -831,7 +838,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.deleteVoiceConnectorOrigination(input, logger: logger)
     }
 
-    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
+    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html")
     @Sendable
     @inlinable
     public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -844,11 +852,12 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
+    /// Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_DeleteVoiceConnectorProxy.html")
     @inlinable
     public func deleteVoiceConnectorProxy(
         voiceConnectorId: String,
@@ -1156,7 +1165,8 @@ public struct ChimeSDKVoice: AWSService {
         )
     }
 
-    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
+    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html")
     @Sendable
     @inlinable
     public func getProxySession(_ input: GetProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProxySessionResponse {
@@ -1169,12 +1179,13 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
+    /// Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - proxySessionId: The proxy session ID.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetProxySession.html")
     @inlinable
     public func getProxySession(
         proxySessionId: String,
@@ -1512,7 +1523,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.getVoiceConnectorOrigination(input, logger: logger)
     }
 
-    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice  Connector.
+    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice  Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html")
     @Sendable
     @inlinable
     public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVoiceConnectorProxyResponse {
@@ -1525,11 +1537,12 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice  Connector.
+    /// Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice  Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_GetVoiceConnectorProxy.html")
     @inlinable
     public func getVoiceConnectorProxy(
         voiceConnectorId: String,
@@ -1810,7 +1823,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.listPhoneNumbers(input, logger: logger)
     }
 
-    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html")
     @Sendable
     @inlinable
     public func listProxySessions(_ input: ListProxySessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProxySessionsResponse {
@@ -1823,7 +1837,7 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
+    /// Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call.
@@ -1831,6 +1845,7 @@ public struct ChimeSDKVoice: AWSService {
     ///   - status: The proxy session status.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html")
     @inlinable
     public func listProxySessions(
         maxResults: Int? = nil,
@@ -2330,7 +2345,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.putVoiceConnectorOrigination(input, logger: logger)
     }
 
-    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
+    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html")
     @Sendable
     @inlinable
     public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVoiceConnectorProxyResponse {
@@ -2343,7 +2359,7 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
+    /// Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - defaultSessionExpiryMinutes: The default number of minutes allowed for proxy session.
@@ -2352,6 +2368,7 @@ public struct ChimeSDKVoice: AWSService {
     ///   - phoneNumberPoolCountries: The countries for proxy phone numbers to be selected from.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_PutVoiceConnectorProxy.html")
     @inlinable
     public func putVoiceConnectorProxy(
         defaultSessionExpiryMinutes: Int,
@@ -2773,7 +2790,7 @@ public struct ChimeSDKVoice: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalSettings(
-        voiceConnector: VoiceConnectorSettings? = nil,
+        voiceConnector: VoiceConnectorSettings,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateGlobalSettingsRequest(
@@ -2849,7 +2866,8 @@ public struct ChimeSDKVoice: AWSService {
         return try await self.updatePhoneNumberSettings(input, logger: logger)
     }
 
-    /// Updates the specified proxy session details, such as voice or SMS capabilities.
+    /// Updates the specified proxy session details, such as voice or SMS capabilities.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html")
     @Sendable
     @inlinable
     public func updateProxySession(_ input: UpdateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProxySessionResponse {
@@ -2862,7 +2880,7 @@ public struct ChimeSDKVoice: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified proxy session details, such as voice or SMS capabilities.
+    /// Updates the specified proxy session details, such as voice or SMS capabilities.  End of support notice: On April 7, 2026, AWS will end support for Amazon Chime SDK proxy sessions.
     ///
     /// Parameters:
     ///   - capabilities: The proxy session capabilities.
@@ -2870,6 +2888,7 @@ public struct ChimeSDKVoice: AWSService {
     ///   - proxySessionId: The proxy session ID.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger use during operation
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_UpdateProxySession.html")
     @inlinable
     public func updateProxySession(
         capabilities: [Capability],
@@ -3046,18 +3065,21 @@ public struct ChimeSDKVoice: AWSService {
     /// Updates the settings for the specified Amazon Chime SDK Voice Connector group.
     ///
     /// Parameters:
+    ///   - callDistributionType: 
     ///   - name: The name of the Voice Connector group.
     ///   - voiceConnectorGroupId: The Voice Connector ID.
     ///   - voiceConnectorItems: The VoiceConnectorItems to associate with the Voice Connector  group.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateVoiceConnectorGroup(
+        callDistributionType: CallDistributionType? = nil,
         name: String,
         voiceConnectorGroupId: String,
         voiceConnectorItems: [VoiceConnectorItem],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateVoiceConnectorGroupResponse {
         let input = UpdateVoiceConnectorGroupRequest(
+            callDistributionType: callDistributionType, 
             name: name, 
             voiceConnectorGroupId: voiceConnectorGroupId, 
             voiceConnectorItems: voiceConnectorItems
@@ -3278,6 +3300,7 @@ extension ChimeSDKVoice {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html")
     @inlinable
     public func listProxySessionsPaginator(
         _ input: ListProxySessionsRequest,
@@ -3298,6 +3321,7 @@ extension ChimeSDKVoice {
     ///   - status: The proxy session status.
     ///   - voiceConnectorId: The Voice Connector ID.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "End of support notice: On April 7, 2026, AWS ended support for Amazon Chime SDK proxy sessions. For more information, refer to https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_voice-chime_ListProxySessions.html")
     @inlinable
     public func listProxySessionsPaginator(
         maxResults: Int? = nil,

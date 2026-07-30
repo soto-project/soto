@@ -896,27 +896,65 @@ public struct ObservabilityAdmin: AWSService {
     ///  This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
     @Sendable
     @inlinable
-    public func startTelemetryEvaluation(logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func startTelemetryEvaluation(_ input: StartTelemetryEvaluationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         try await self.client.execute(
             operation: "StartTelemetryEvaluation", 
             path: "/StartTelemetryEvaluation", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
+            input: input, 
             logger: logger
         )
+    }
+    ///  This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
+    ///
+    /// Parameters:
+    ///   - allRegions:  If set to true, telemetry evaluation starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+    ///   - regions:  An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTelemetryEvaluation(
+        allRegions: Bool? = nil,
+        regions: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = StartTelemetryEvaluationInput(
+            allRegions: allRegions, 
+            regions: regions
+        )
+        return try await self.startTelemetryEvaluation(input, logger: logger)
     }
 
     ///  This actions begins onboarding the organization and all member accounts to the telemetry config feature.
     @Sendable
     @inlinable
-    public func startTelemetryEvaluationForOrganization(logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func startTelemetryEvaluationForOrganization(_ input: StartTelemetryEvaluationForOrganizationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
         try await self.client.execute(
             operation: "StartTelemetryEvaluationForOrganization", 
             path: "/StartTelemetryEvaluationForOrganization", 
             httpMethod: .POST, 
             serviceConfig: self.config, 
+            input: input, 
             logger: logger
         )
+    }
+    ///  This actions begins onboarding the organization and all member accounts to the telemetry config feature.
+    ///
+    /// Parameters:
+    ///   - allRegions:  If set to true, telemetry evaluation for the organization starts in all Amazon Web Services Regions where Amazon CloudWatch Observability Admin is available in the current partition. The current region becomes the home region for managing multi-region evaluation for the organization. When new regions become available, evaluation automatically expands to include them. Mutually exclusive with Regions.
+    ///   - regions:  An optional list of Amazon Web Services Regions to include in multi-region telemetry evaluation for the organization. The current region is always implicitly included and must not be specified in this list. When provided, telemetry evaluation starts in the current region and propagates to all specified regions for the organization. Mutually exclusive with AllRegions. If neither Regions nor AllRegions is provided, the operation applies only to the current region.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTelemetryEvaluationForOrganization(
+        allRegions: Bool? = nil,
+        regions: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = StartTelemetryEvaluationForOrganizationInput(
+            allRegions: allRegions, 
+            regions: regions
+        )
+        return try await self.startTelemetryEvaluationForOrganization(input, logger: logger)
     }
 
     ///  Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
@@ -1008,16 +1046,19 @@ public struct ObservabilityAdmin: AWSService {
     /// Parameters:
     ///   - configuration: The pipeline configuration to test with the provided sample records.
     ///   - records: The sample records to process through the pipeline configuration for testing purposes.
+    ///   - signalType: The type of telemetry signal to test. If not specified, defaults to log processing.
     ///   - logger: Logger use during operation
     @inlinable
     public func testTelemetryPipeline(
         configuration: TelemetryPipelineConfiguration,
         records: [Record],
+        signalType: SignalType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TestTelemetryPipelineOutput {
         let input = TestTelemetryPipelineInput(
             configuration: configuration, 
-            records: records
+            records: records, 
+            signalType: signalType
         )
         return try await self.testTelemetryPipeline(input, logger: logger)
     }

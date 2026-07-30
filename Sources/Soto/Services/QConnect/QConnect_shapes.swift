@@ -150,6 +150,13 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum CrossRegionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case global = "GLOBAL"
+        case none = "NONE"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExternalSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonConnect = "AMAZON_CONNECT"
         public var description: String { return self.rawValue }
@@ -162,6 +169,13 @@ extension QConnect {
 
     public enum FilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blocked = "BLOCKED"
+        case masked = "MASKED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -229,9 +243,25 @@ extension QConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contentFilter = "CONTENT_FILTER"
+        case contextualGrounding = "CONTEXTUAL_GROUNDING"
+        case sensitiveInformationPii = "SENSITIVE_INFORMATION_PII"
+        case sensitiveInformationRegex = "SENSITIVE_INFORMATION_REGEX"
+        case topic = "TOPIC"
+        case word = "WORD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailSensitiveInformationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anonymize = "ANONYMIZE"
         case block = "BLOCK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case input = "INPUT"
+        case output = "OUTPUT"
         public var description: String { return self.rawValue }
     }
 
@@ -309,6 +339,12 @@ extension QConnect {
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case text = "TEXT"
         case toolUseResult = "TOOL_USE_RESULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case legacy = "LEGACY"
         public var description: String { return self.rawValue }
     }
 
@@ -1228,6 +1264,7 @@ extension QConnect {
     }
 
     public enum SpanMessageValue: AWSDecodableShape, Sendable {
+        case reasoning(SpanReasoningValue)
         /// Text message content
         case text(SpanTextValue)
         /// Tool result message content
@@ -1245,6 +1282,9 @@ extension QConnect {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .reasoning:
+                let value = try container.decode(SpanReasoningValue.self, forKey: .reasoning)
+                self = .reasoning(value)
             case .text:
                 let value = try container.decode(SpanTextValue.self, forKey: .text)
                 self = .text(value)
@@ -1258,6 +1298,7 @@ extension QConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case reasoning = "reasoning"
             case text = "text"
             case toolResult = "toolResult"
             case toolUse = "toolUse"
@@ -6501,6 +6542,28 @@ extension QConnect {
         }
     }
 
+    public struct GuardrailPolicyResult: AWSDecodableShape {
+        /// Outcome of this specific policy.
+        public let action: GuardrailAction
+        /// Policy-specific detail.
+        public let details: String?
+        /// The type of guardrail policy that was evaluated.
+        public let policyType: GuardrailPolicyType
+
+        @inlinable
+        public init(action: GuardrailAction, details: String? = nil, policyType: GuardrailPolicyType) {
+            self.action = action
+            self.details = details
+            self.policyType = policyType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case details = "details"
+            case policyType = "policyType"
+        }
+    }
+
     public struct GuardrailRegexConfig: AWSEncodableShape & AWSDecodableShape {
         /// The AI Guardrail action to configure when matching regular expression is detected.
         public let action: GuardrailSensitiveInformationAction
@@ -7782,6 +7845,66 @@ extension QConnect {
         }
     }
 
+    public struct ListModelsRequest: AWSEncodableShape {
+        /// The type of the AI Prompt to filter models by. When specified, only models that support the given AI Prompt type are returned.
+        public let aiPromptType: AIPromptType?
+        /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN. The assistant's region determines which models are available.
+        public let assistantId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The lifecycle status of models to filter by. When specified, only models with the given lifecycle status are returned.
+        public let modelLifecycle: ModelLifecycle?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(aiPromptType: AIPromptType? = nil, assistantId: String, maxResults: Int? = nil, modelLifecycle: ModelLifecycle? = nil, nextToken: String? = nil) {
+            self.aiPromptType = aiPromptType
+            self.assistantId = assistantId
+            self.maxResults = maxResults
+            self.modelLifecycle = modelLifecycle
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.aiPromptType, key: "aiPromptType")
+            request.encodePath(self.assistantId, key: "assistantId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.modelLifecycle, key: "modelLifecycle")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListModelsResponse: AWSDecodableShape {
+        /// The summaries of the models available to the assistant.
+        public let modelSummaries: [ModelSummary]
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(modelSummaries: [ModelSummary], nextToken: String? = nil) {
+            self.modelSummaries = modelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelSummaries = "modelSummaries"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListQuickResponsesRequest: AWSEncodableShape {
         /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
@@ -8502,6 +8625,48 @@ extension QConnect {
             case messageTemplateId = "messageTemplateId"
             case name = "name"
             case versionNumber = "versionNumber"
+        }
+    }
+
+    public struct ModelSummary: AWSDecodableShape {
+        /// The cross-region availability status of the model. NONE indicates the model is only available in a single region, REGIONAL indicates the model is available through regional inference, and GLOBAL indicates the model is available through global cross-region inference.
+        public let crossRegionStatus: CrossRegionStatus?
+        /// The display name of the model.
+        public let displayName: String
+        /// The timestamp when the model will reach end of life and no longer be available for use.
+        public let endOfLifeTimestamp: Date?
+        /// The timestamp when the model lifecycle will transition from ACTIVE to LEGACY.
+        public let legacyTimestamp: Date?
+        /// The identifier of the model.
+        public let modelId: String
+        /// The current lifecycle of the model. ACTIVE indicates the model is recommended for use and LEGACY indicates the model is still usable but is deprecated.
+        public let modelLifecycle: ModelLifecycle?
+        /// The list of AI Prompt types that the model supports.
+        public let supportedAIPromptTypes: [AIPromptType]?
+        /// Whether the model supports prompt caching.
+        public let supportsPromptCaching: Bool?
+
+        @inlinable
+        public init(crossRegionStatus: CrossRegionStatus? = nil, displayName: String, endOfLifeTimestamp: Date? = nil, legacyTimestamp: Date? = nil, modelId: String, modelLifecycle: ModelLifecycle? = nil, supportedAIPromptTypes: [AIPromptType]? = nil, supportsPromptCaching: Bool? = nil) {
+            self.crossRegionStatus = crossRegionStatus
+            self.displayName = displayName
+            self.endOfLifeTimestamp = endOfLifeTimestamp
+            self.legacyTimestamp = legacyTimestamp
+            self.modelId = modelId
+            self.modelLifecycle = modelLifecycle
+            self.supportedAIPromptTypes = supportedAIPromptTypes
+            self.supportsPromptCaching = supportsPromptCaching
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossRegionStatus = "crossRegionStatus"
+            case displayName = "displayName"
+            case endOfLifeTimestamp = "endOfLifeTimestamp"
+            case legacyTimestamp = "legacyTimestamp"
+            case modelId = "modelId"
+            case modelLifecycle = "modelLifecycle"
+            case supportedAIPromptTypes = "supportedAIPromptTypes"
+            case supportsPromptCaching = "supportsPromptCaching"
         }
     }
 
@@ -10419,13 +10584,15 @@ extension QConnect {
         public let metadata: [String: String]?
         /// The orchestrator use case for message processing.
         public let orchestratorUseCase: String?
+        /// Request identifier from the origin system, used for end-to-end tracing across spans.
+        public let originRequestId: String?
         /// The identifier of the Amazon Q in Connect session.
         public let sessionId: String
         /// The message type.
         public let type: MessageType
 
         @inlinable
-        public init(aiAgentId: String? = nil, assistantId: String, clientToken: String? = SendMessageRequest.idempotencyToken(), configuration: MessageConfiguration? = nil, conversationContext: ConversationContext? = nil, message: MessageInput, metadata: [String: String]? = nil, orchestratorUseCase: String? = nil, sessionId: String, type: MessageType) {
+        public init(aiAgentId: String? = nil, assistantId: String, clientToken: String? = SendMessageRequest.idempotencyToken(), configuration: MessageConfiguration? = nil, conversationContext: ConversationContext? = nil, message: MessageInput, metadata: [String: String]? = nil, orchestratorUseCase: String? = nil, originRequestId: String? = nil, sessionId: String, type: MessageType) {
             self.aiAgentId = aiAgentId
             self.assistantId = assistantId
             self.clientToken = clientToken
@@ -10434,6 +10601,7 @@ extension QConnect {
             self.message = message
             self.metadata = metadata
             self.orchestratorUseCase = orchestratorUseCase
+            self.originRequestId = originRequestId
             self.sessionId = sessionId
             self.type = type
         }
@@ -10449,6 +10617,7 @@ extension QConnect {
             try container.encode(self.message, forKey: .message)
             try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encodeIfPresent(self.orchestratorUseCase, forKey: .orchestratorUseCase)
+            try container.encodeIfPresent(self.originRequestId, forKey: .originRequestId)
             request.encodePath(self.sessionId, key: "sessionId")
             try container.encode(self.type, forKey: .type)
         }
@@ -10468,6 +10637,8 @@ extension QConnect {
             }
             try self.validate(self.orchestratorUseCase, name: "orchestratorUseCase", parent: name, max: 4096)
             try self.validate(self.orchestratorUseCase, name: "orchestratorUseCase", parent: name, min: 1)
+            try self.validate(self.originRequestId, name: "originRequestId", parent: name, max: 4096)
+            try self.validate(self.originRequestId, name: "originRequestId", parent: name, min: 1)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
         }
 
@@ -10479,6 +10650,7 @@ extension QConnect {
             case message = "message"
             case metadata = "metadata"
             case orchestratorUseCase = "orchestratorUseCase"
+            case originRequestId = "originRequestId"
             case type = "type"
         }
     }
@@ -10651,6 +10823,8 @@ extension QConnect {
         public let attributes: SpanAttributes
         /// Operation end time in milliseconds since epoch
         public let endTimestamp: Date
+        /// The origin request identifier for end-to-end tracing.
+        public let originRequestId: String?
         /// Parent span identifier for hierarchy. Null for root spans.
         public let parentSpanId: String?
         /// The service request ID that initiated the operation
@@ -10667,12 +10841,15 @@ extension QConnect {
         public let startTimestamp: Date
         /// Span completion status
         public let status: SpanStatus
+        /// Human-readable error description when status is ERROR or TIMEOUT
+        public let statusDescription: String?
 
         @inlinable
-        public init(assistantId: String, attributes: SpanAttributes, endTimestamp: Date, parentSpanId: String? = nil, requestId: String, sessionId: String, spanId: String, spanName: String, spanType: SpanType, startTimestamp: Date, status: SpanStatus) {
+        public init(assistantId: String, attributes: SpanAttributes, endTimestamp: Date, originRequestId: String? = nil, parentSpanId: String? = nil, requestId: String, sessionId: String, spanId: String, spanName: String, spanType: SpanType, startTimestamp: Date, status: SpanStatus, statusDescription: String? = nil) {
             self.assistantId = assistantId
             self.attributes = attributes
             self.endTimestamp = endTimestamp
+            self.originRequestId = originRequestId
             self.parentSpanId = parentSpanId
             self.requestId = requestId
             self.sessionId = sessionId
@@ -10681,12 +10858,14 @@ extension QConnect {
             self.spanType = spanType
             self.startTimestamp = startTimestamp
             self.status = status
+            self.statusDescription = statusDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case assistantId = "assistantId"
             case attributes = "attributes"
             case endTimestamp = "endTimestamp"
+            case originRequestId = "originRequestId"
             case parentSpanId = "parentSpanId"
             case requestId = "requestId"
             case sessionId = "sessionId"
@@ -10695,6 +10874,7 @@ extension QConnect {
             case spanType = "spanType"
             case startTimestamp = "startTimestamp"
             case status = "status"
+            case statusDescription = "statusDescription"
         }
     }
 
@@ -10723,6 +10903,8 @@ extension QConnect {
         public let contactId: String?
         /// Error classification if span failed (e.g., throttle, timeout)
         public let errorType: String?
+        /// Guardrail assessments for the inference span. Absent on other span types and when no AI Guardrail is attached to the AI Agent.
+        public let guardrailAssessments: [SpanGuardrailAssessment]?
         /// Amazon Connect contact identifier
         public let initialContactId: String?
         /// Input message collection sent to LLM
@@ -10759,6 +10941,8 @@ extension QConnect {
         public let systemInstructions: [SpanMessageValue]?
         /// Sampling temperature for generation
         public let temperature: Float?
+        /// Time to first token in milliseconds, measured from when Amazon Bedrock was invoked to when the first token was returned
+        public let timeToFirstTokenMs: Int?
         /// Top-p sampling parameter for generation
         public let topP: Float?
         /// Number of input tokens in prompt
@@ -10769,7 +10953,7 @@ extension QConnect {
         public let usageTotalTokens: Int?
 
         @inlinable
-        public init(agentId: String? = nil, aiAgentArn: String? = nil, aiAgentId: String? = nil, aiAgentInvoker: String? = nil, aiAgentName: String? = nil, aiAgentOrchestratorUseCase: String? = nil, aiAgentType: AIAgentType? = nil, aiAgentVersion: Int? = nil, cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, contactId: String? = nil, errorType: String? = nil, initialContactId: String? = nil, inputMessages: [SpanMessage]? = nil, instanceArn: String? = nil, operationName: String? = nil, outputMessages: [SpanMessage]? = nil, promptArn: String? = nil, promptId: String? = nil, promptName: String? = nil, promptType: AIPromptType? = nil, promptVersion: Int? = nil, providerName: String? = nil, requestMaxTokens: Int? = nil, requestModel: String? = nil, responseFinishReasons: [String]? = nil, responseModel: String? = nil, sessionName: String? = nil, systemInstructions: [SpanMessageValue]? = nil, temperature: Float? = nil, topP: Float? = nil, usageInputTokens: Int? = nil, usageOutputTokens: Int? = nil, usageTotalTokens: Int? = nil) {
+        public init(agentId: String? = nil, aiAgentArn: String? = nil, aiAgentId: String? = nil, aiAgentInvoker: String? = nil, aiAgentName: String? = nil, aiAgentOrchestratorUseCase: String? = nil, aiAgentType: AIAgentType? = nil, aiAgentVersion: Int? = nil, cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, contactId: String? = nil, errorType: String? = nil, guardrailAssessments: [SpanGuardrailAssessment]? = nil, initialContactId: String? = nil, inputMessages: [SpanMessage]? = nil, instanceArn: String? = nil, operationName: String? = nil, outputMessages: [SpanMessage]? = nil, promptArn: String? = nil, promptId: String? = nil, promptName: String? = nil, promptType: AIPromptType? = nil, promptVersion: Int? = nil, providerName: String? = nil, requestMaxTokens: Int? = nil, requestModel: String? = nil, responseFinishReasons: [String]? = nil, responseModel: String? = nil, sessionName: String? = nil, systemInstructions: [SpanMessageValue]? = nil, temperature: Float? = nil, timeToFirstTokenMs: Int? = nil, topP: Float? = nil, usageInputTokens: Int? = nil, usageOutputTokens: Int? = nil, usageTotalTokens: Int? = nil) {
             self.agentId = agentId
             self.aiAgentArn = aiAgentArn
             self.aiAgentId = aiAgentId
@@ -10782,6 +10966,7 @@ extension QConnect {
             self.cacheWriteInputTokens = cacheWriteInputTokens
             self.contactId = contactId
             self.errorType = errorType
+            self.guardrailAssessments = guardrailAssessments
             self.initialContactId = initialContactId
             self.inputMessages = inputMessages
             self.instanceArn = instanceArn
@@ -10800,6 +10985,7 @@ extension QConnect {
             self.sessionName = sessionName
             self.systemInstructions = systemInstructions
             self.temperature = temperature
+            self.timeToFirstTokenMs = timeToFirstTokenMs
             self.topP = topP
             self.usageInputTokens = usageInputTokens
             self.usageOutputTokens = usageOutputTokens
@@ -10819,6 +11005,7 @@ extension QConnect {
             case cacheWriteInputTokens = "cacheWriteInputTokens"
             case contactId = "contactId"
             case errorType = "errorType"
+            case guardrailAssessments = "guardrailAssessments"
             case initialContactId = "initialContactId"
             case inputMessages = "inputMessages"
             case instanceArn = "instanceArn"
@@ -10837,6 +11024,7 @@ extension QConnect {
             case sessionName = "sessionName"
             case systemInstructions = "systemInstructions"
             case temperature = "temperature"
+            case timeToFirstTokenMs = "timeToFirstTokenMs"
             case topP = "topP"
             case usageInputTokens = "usageInputTokens"
             case usageOutputTokens = "usageOutputTokens"
@@ -10870,6 +11058,36 @@ extension QConnect {
         }
     }
 
+    public struct SpanGuardrailAssessment: AWSDecodableShape {
+        /// Outcome of the guardrail assessment.
+        public let action: GuardrailAction
+        /// Unique AI Guardrail identifier.
+        public let guardrailId: String
+        /// Customer-defined display name of the AI Guardrail resource.
+        public let guardrailName: String
+        /// Per-policy assessment results. Absent or empty when action is NONE.
+        public let policies: [GuardrailPolicyResult]?
+        /// Content source the guardrail was evaluated against.
+        public let source: GuardrailSource
+
+        @inlinable
+        public init(action: GuardrailAction, guardrailId: String, guardrailName: String, policies: [GuardrailPolicyResult]? = nil, source: GuardrailSource) {
+            self.action = action
+            self.guardrailId = guardrailId
+            self.guardrailName = guardrailName
+            self.policies = policies
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case guardrailId = "guardrailId"
+            case guardrailName = "guardrailName"
+            case policies = "policies"
+            case source = "source"
+        }
+    }
+
     public struct SpanMessage: AWSDecodableShape {
         /// Unique message identifier
         public let messageId: String
@@ -10877,7 +11095,7 @@ extension QConnect {
         public let participant: Participant
         /// Message timestamp
         public let timestamp: Date
-        /// Message content values (text, tool use, tool result)
+        /// Message content values (text, tool use, tool result, reasoning)
         public let values: [SpanMessageValue]
 
         @inlinable
@@ -10893,6 +11111,20 @@ extension QConnect {
             case participant = "participant"
             case timestamp = "timestamp"
             case values = "values"
+        }
+    }
+
+    public struct SpanReasoningValue: AWSDecodableShape {
+        /// The reasoning text content
+        public let value: String
+
+        @inlinable
+        public init(value: String) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
         }
     }
 

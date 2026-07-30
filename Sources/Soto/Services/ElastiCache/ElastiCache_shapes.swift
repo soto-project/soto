@@ -89,6 +89,21 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum Durability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `async` = "async"
+        case `default` = "default"
+        case disabled = "disabled"
+        case sync = "sync"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EffectiveDurability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `async` = "async"
+        case disabled = "disabled"
+        case sync = "sync"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "iam"
         case noPassword = "no-password-required"
@@ -201,6 +216,13 @@ extension ElastiCache {
         case serverlessCacheSnapshot = "serverless-cache-snapshot"
         case user = "user"
         case userGroup = "user-group"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
+        case sseElasticache = "sse-elasticache"
+        case sseKms = "sse-kms"
         public var description: String { return self.rawValue }
     }
 
@@ -1171,7 +1193,7 @@ extension ElastiCache {
         /// A list of tags to be added to the target snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only. Default: NULL
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only.
+        /// The identifier for the snapshot to be created. Available for Valkey, Redis OSS and Serverless Memcached only. This value is stored as a lowercase string.
         public let targetServerlessCacheSnapshotName: String?
 
         @inlinable
@@ -1216,7 +1238,7 @@ extension ElastiCache {
         public var tags: [Tag]?
         /// The Amazon S3 bucket to which the snapshot is exported. This parameter is used only when exporting a snapshot for external access. When using this parameter to export a snapshot, be sure Amazon ElastiCache has the needed permissions to this S3 bucket. For more information, see Step 2: Grant ElastiCache Access to Your Amazon S3 Bucket in the Amazon ElastiCache User Guide. For more information, see Exporting a Snapshot in the Amazon ElastiCache User Guide.
         public let targetBucket: String?
-        /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting.
+        /// A name for the snapshot copy. ElastiCache does not permit overwriting a snapshot, therefore this name must be unique within its context - ElastiCache or an Amazon S3 bucket if exporting. This value is stored as a lowercase string.
         public let targetSnapshotName: String?
 
         @inlinable
@@ -1442,7 +1464,7 @@ extension ElastiCache {
         /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 |
         /// redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
         public let cacheParameterGroupFamily: String?
-        /// A user-specified name for the cache parameter group.
+        /// A user-specified name for the cache parameter group. This value is stored as a lowercase string.
         public let cacheParameterGroupName: String?
         /// A user-specified description for the cache parameter group.
         public let description: String?
@@ -1566,7 +1588,7 @@ extension ElastiCache {
         public let globalReplicationGroupDescription: String?
         /// The suffix name of a Global datastore. Amazon ElastiCache automatically applies a prefix to the Global datastore ID when it is created. Each Amazon Region has its own prefix. For instance, a Global datastore ID created in the US-West-1 region will begin with "dsdfu" along with the suffix name you provide. The suffix, combined with the auto-generated prefix, guarantees uniqueness of the Global datastore name across multiple regions.  For a full list of Amazon Regions and their respective Global datastore iD prefixes, see Using the Amazon CLI with Global datastores .
         public let globalReplicationGroupIdSuffix: String?
-        /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster.
+        /// The name of the primary cluster that accepts writes and will replicate updates to the secondary cluster. This value is stored as a lowercase string.
         public let primaryReplicationGroupId: String?
 
         @inlinable
@@ -1605,7 +1627,7 @@ extension ElastiCache {
         public struct _SnapshotArnsEncoding: ArrayCoderProperties { public static let member = "SnapshotArn" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Valkey 7.2 and later, Redis OSS version 3.2.6, or Redis OSS 4.x and later. Default: true when using Valkey, false when using Redis OSS
+        /// A flag that enables encryption at-rest on the replication group when set to true. In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the effective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. Default: true when using Valkey, false when using Redis OSS
         public let atRestEncryptionEnabled: Bool?
         ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
@@ -1654,6 +1676,8 @@ extension ElastiCache {
         public let clusterMode: ClusterMode?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTieringEnabled: Bool?
+        /// Specifies the durability setting for the replication group. When set to default, the service determines the effective durability based on the engine version, cluster mode, and other parameters. The resolved setting is reflected in the EffectiveDurability property of the replication group. For more information, see Durability.
+        public let durability: Durability?
         /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
         public let engine: String?
         /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
@@ -1721,7 +1745,7 @@ extension ElastiCache {
         public var userGroupIds: [String]?
 
         @inlinable
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, clusterMode: ClusterMode? = nil, dataTieringEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, networkType: NetworkType? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, serverlessCacheSnapshotName: String? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, clusterMode: ClusterMode? = nil, dataTieringEnabled: Bool? = nil, durability: Durability? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, networkType: NetworkType? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, serverlessCacheSnapshotName: String? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1732,6 +1756,7 @@ extension ElastiCache {
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.clusterMode = clusterMode
             self.dataTieringEnabled = dataTieringEnabled
+            self.durability = durability
             self.engine = engine
             self.engineVersion = engineVersion
             self.globalReplicationGroupId = globalReplicationGroupId
@@ -1785,6 +1810,7 @@ extension ElastiCache {
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case clusterMode = "ClusterMode"
             case dataTieringEnabled = "DataTieringEnabled"
+            case durability = "Durability"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case globalReplicationGroupId = "GlobalReplicationGroupId"
@@ -1848,6 +1874,8 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The version of the cache engine that will be used to create the serverless cache.
         public let majorEngineVersion: String?
+        /// The IP protocol version used by the serverless cache. Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets. If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+        public let networkType: NetworkType?
         /// A list of the one or more VPC security groups to be associated with the serverless cache.  The security group will authorize traffic access for the VPC end-point (private-link).  If no other information is given this will be the VPC’s Default Security Group that is associated with the cluster VPC  end-point.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
@@ -1856,7 +1884,7 @@ extension ElastiCache {
         /// The ARN(s) of the snapshot that the new serverless cache will be created from. Available for Valkey, Redis OSS and Serverless Memcached only.
         @OptionalCustomCoding<ArrayCoder<_SnapshotArnsToRestoreEncoding, String>>
         public var snapshotArnsToRestore: [String]?
-        /// The number of snapshots that will be retained for the serverless cache that is being created.  As new snapshots beyond this limit are added, the oldest snapshots will be deleted on a rolling basis. Available for Valkey, Redis OSS and Serverless Memcached only.
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
         public let snapshotRetentionLimit: Int?
         /// A list of the identifiers of the subnets where the VPC endpoint for the serverless cache will be deployed.  All the subnetIds must belong to the same VPC.
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
@@ -1868,13 +1896,14 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
+        public init(cacheUsageLimits: CacheUsageLimits? = nil, dailySnapshotTime: String? = nil, description: String? = nil, engine: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotArnsToRestore: [String]? = nil, snapshotRetentionLimit: Int? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, userGroupId: String? = nil) {
             self.cacheUsageLimits = cacheUsageLimits
             self.dailySnapshotTime = dailySnapshotTime
             self.description = description
             self.engine = engine
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.serverlessCacheName = serverlessCacheName
             self.snapshotArnsToRestore = snapshotArnsToRestore
@@ -1891,6 +1920,7 @@ extension ElastiCache {
             case engine = "Engine"
             case kmsKeyId = "KmsKeyId"
             case majorEngineVersion = "MajorEngineVersion"
+            case networkType = "NetworkType"
             case securityGroupIds = "SecurityGroupIds"
             case serverlessCacheName = "ServerlessCacheName"
             case snapshotArnsToRestore = "SnapshotArnsToRestore"
@@ -1922,7 +1952,7 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The name of an existing serverless cache. The snapshot is created from this cache. Available for Valkey, Redis OSS and Serverless Memcached only.
         public let serverlessCacheName: String?
-        /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters.
+        /// The name for the snapshot being created. Must be unique for the customer account. Available for Valkey, Redis OSS and Serverless Memcached only. Must be between 1 and 255 characters. This value is stored as a lowercase string.
         public let serverlessCacheSnapshotName: String?
         /// A list of tags to be added to the snapshot resource. A tag is a key-value pair. Available for Valkey, Redis OSS and Serverless Memcached only.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1967,7 +1997,7 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The identifier of an existing replication group. The snapshot is created from this replication group.
         public let replicationGroupId: String?
-        /// A name for the snapshot being created.
+        /// A name for the snapshot being created. This value is stored as a lowercase string.
         public let snapshotName: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -2012,7 +2042,7 @@ extension ElastiCache {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The ID of the user group.
+        /// The ID of the user group. This value is stored as a lowercase string.
         public let userGroupId: String?
         /// The list of user IDs that belong to the user group.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -2060,7 +2090,7 @@ extension ElastiCache {
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The ID of the user.
+        /// The ID of the user. This value is stored as a lowercase string.
         public let userId: String?
         /// The username of the user.
         public let userName: String?
@@ -3905,7 +3935,7 @@ extension ElastiCache {
         public struct _NewAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "PreferredAvailabilityZone" }
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "SecurityGroupId" }
 
-        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification.  Valid values: true | false  Default: false
+        /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first.  If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. However,  a pending node-count increase on Memcached clusters cannot be superseded by a request  to add fewer nodes. To change a pending node addition, first cancel it by setting  NumCacheNodes equal to the current number of nodes in the cluster, then  submit the new request. See the NumCacheNodes parameter for details on  node scaling behavior.  Valid values: true | false  Default: false
         public let applyImmediately: Bool?
         /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:   Must be only printable ASCII characters   Must be at least 16 characters and no more than 128 characters in length   Cannot contain any of the following characters: '/', '"', or '@', '%'   For more information, see AUTH password at AUTH.
         public let authToken: String?
@@ -4092,7 +4122,7 @@ extension ElastiCache {
         public let cacheNodeType: String?
         /// The name of the cache parameter group to use with the Global datastore. It must be compatible with the major engine version used by the Global datastore.
         public let cacheParameterGroupName: String?
-        /// Modifies the engine listed in a global replication group message. The options are redis, memcached or valkey.
+        /// Modifies the engine listed in a global replication group message. The options are valkey, memcached or redis.
         public let engine: String?
         /// The upgraded version of the cache engine to be run on the clusters in the Global datastore.
         public let engineVersion: String?
@@ -4162,7 +4192,9 @@ extension ElastiCache {
         public var cacheSecurityGroupNames: [String]?
         /// Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
         public let clusterMode: ClusterMode?
-        /// Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
+        /// Specifies the durability setting for the replication group. Use this parameter to change the durability mode of an existing replication group, for example from sync to async or vice versa. For more information, see Durability.
+        public let durability: Durability?
+        /// Modifies the engine listed in a replication group message. The options are valkey, memcached or redis.
         public let engine: String?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
@@ -4210,7 +4242,7 @@ extension ElastiCache {
         public var userGroupIdsToRemove: [String]?
 
         @inlinable
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, durability: Durability? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -4220,6 +4252,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.clusterMode = clusterMode
+            self.durability = durability
             self.engine = engine
             self.engineVersion = engineVersion
             self.ipDiscovery = ipDiscovery
@@ -4245,7 +4278,7 @@ extension ElastiCache {
 
         @available(*, deprecated, message: "Members nodeGroupId have been deprecated")
         @inlinable
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, clusterMode: ClusterMode? = nil, durability: Durability? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupId: String? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, removeUserGroups: Bool? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIdsToAdd: [String]? = nil, userGroupIdsToRemove: [String]? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -4255,6 +4288,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.clusterMode = clusterMode
+            self.durability = durability
             self.engine = engine
             self.engineVersion = engineVersion
             self.ipDiscovery = ipDiscovery
@@ -4299,6 +4333,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case clusterMode = "ClusterMode"
+            case durability = "Durability"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case ipDiscovery = "IpDiscovery"
@@ -4415,7 +4450,7 @@ extension ElastiCache {
         public let dailySnapshotTime: String?
         /// User provided description for the serverless cache.  Default = NULL, i.e. the existing description is not removed/modified.  The description has a maximum length of 255 characters.
         public let description: String?
-        /// Modifies the engine listed in a serverless cache request. The options are redis, memcached or valkey.
+        /// Modifies the engine listed in a serverless cache request. The options are valkey, memcached or redis.
         public let engine: String?
         /// Modifies the engine vesion listed in a serverless cache request.
         public let majorEngineVersion: String?
@@ -5156,7 +5191,7 @@ extension ElastiCache {
 
         /// The ARN (Amazon Resource Name) of the replication group.
         public let arn: String?
-        /// A flag that enables encryption at-rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. To enable encryption at-rest on a cluster you must set AtRestEncryptionEnabled to true when you create a cluster.  Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables encryption at-rest on the cluster when set to true. In some cases, encryption at-rest may be enabled even when this value is false. Use StorageEncryptionType to view the effective encryption state of a cluster. You cannot modify the value of AtRestEncryptionEnabled after the cluster is created. Default: true when using Valkey, false when using Redis OSS
         public let atRestEncryptionEnabled: Bool?
         /// A flag that enables using an AuthToken (password) when issuing Valkey or Redis OSS  commands. Default: false
         public let authTokenEnabled: Bool?
@@ -5178,7 +5213,11 @@ extension ElastiCache {
         public let dataTiering: DataTieringStatus?
         /// The user supplied description of the replication group.
         public let description: String?
-        /// The engine used in a replication group. The options are redis, memcached or valkey.
+        /// The durability setting of the replication group. For more information, see Durability.
+        public let durability: Durability?
+        /// The effective durability of the replication group. When Durability is set to default, the service resolves the actual durability based on the engine version, cluster mode, and other parameters. This field reflects the resolved value. For more information, see Configuring Durability.
+        public let effectiveDurability: EffectiveDurability?
+        /// The engine used in a replication group. The options are valkey, memcached or redis.
         public let engine: String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public let globalReplicationGroupInfo: GlobalReplicationGroupInfo?
@@ -5216,6 +5255,8 @@ extension ElastiCache {
         public let snapshotWindow: String?
         /// The current state of this replication group - creating, available, modifying, deleting, create-failed, snapshotting.
         public let status: String?
+        /// Indicates the type of encryption for data stored at rest in the replication group. The value is none if at-rest encryption is not enabled, sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
+        public let storageEncryptionType: StorageEncryptionType?
         /// A flag that enables in-transit encryption when set to true.  Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
         public let transitEncryptionEnabled: Bool?
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
@@ -5225,7 +5266,7 @@ extension ElastiCache {
         public var userGroupIds: [String]?
 
         @inlinable
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, clusterMode: ClusterMode? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, engine: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, networkType: NetworkType? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, clusterMode: ClusterMode? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, durability: Durability? = nil, effectiveDurability: EffectiveDurability? = nil, engine: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, ipDiscovery: IpDiscovery? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, networkType: NetworkType? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil, userGroupIds: [String]? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -5238,6 +5279,8 @@ extension ElastiCache {
             self.configurationEndpoint = configurationEndpoint
             self.dataTiering = dataTiering
             self.description = description
+            self.durability = durability
+            self.effectiveDurability = effectiveDurability
             self.engine = engine
             self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.ipDiscovery = ipDiscovery
@@ -5255,6 +5298,7 @@ extension ElastiCache {
             self.snapshottingClusterId = snapshottingClusterId
             self.snapshotWindow = snapshotWindow
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.transitEncryptionMode = transitEncryptionMode
             self.userGroupIds = userGroupIds
@@ -5273,6 +5317,8 @@ extension ElastiCache {
             case configurationEndpoint = "ConfigurationEndpoint"
             case dataTiering = "DataTiering"
             case description = "Description"
+            case durability = "Durability"
+            case effectiveDurability = "EffectiveDurability"
             case engine = "Engine"
             case globalReplicationGroupInfo = "GlobalReplicationGroupInfo"
             case ipDiscovery = "IpDiscovery"
@@ -5290,6 +5336,7 @@ extension ElastiCache {
             case snapshottingClusterId = "SnapshottingClusterId"
             case snapshotWindow = "SnapshotWindow"
             case status = "Status"
+            case storageEncryptionType = "StorageEncryptionType"
             case transitEncryptionEnabled = "TransitEncryptionEnabled"
             case transitEncryptionMode = "TransitEncryptionMode"
             case userGroupIds = "UserGroupIds"
@@ -5732,16 +5779,20 @@ extension ElastiCache {
         public let kmsKeyId: String?
         /// The version number of the engine the serverless cache is compatible with.
         public let majorEngineVersion: String?
+        /// The type of IP address protocol used by the serverless cache.  Must be either ipv4 | ipv6 | dual_stack. ipv6 is only supported with IPv6-only subnets.  If not specified, defaults to ipv4, unless all provided subnets are IPv6-only, in which case it defaults to ipv6.
+        public let networkType: NetworkType?
         public let readerEndpoint: Endpoint?
         /// The IDs of the EC2 security groups associated with the serverless  cache.
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
         /// The unique identifier of the serverless cache.
         public let serverlessCacheName: String?
-        /// The current setting for the number of serverless cache snapshots the system will retain. Available for Valkey, Redis OSS and Serverless Memcached only.
+        /// The number of days for which ElastiCache retains automatic snapshots before deleting them. Available for Valkey, Redis OSS and Serverless Memcached only. The maximum value allowed is 35 days.
         public let snapshotRetentionLimit: Int?
         /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
         public let status: String?
+        /// Indicates the type of encryption for data stored at rest in the serverless cache. Serverless caches are always encrypted at rest. The value is sse-elasticache if an ElastiCache service-managed key is used, or sse-kms if a customer-managed KMS key is used.
+        public let storageEncryptionType: StorageEncryptionType?
         /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache will select 2 default subnets across AZs in your VPC.  For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
@@ -5749,7 +5800,7 @@ extension ElastiCache {
         public let userGroupId: String?
 
         @inlinable
-        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
+        public init(arn: String? = nil, cacheUsageLimits: CacheUsageLimits? = nil, createTime: Date? = nil, dailySnapshotTime: String? = nil, description: String? = nil, endpoint: Endpoint? = nil, engine: String? = nil, fullEngineVersion: String? = nil, kmsKeyId: String? = nil, majorEngineVersion: String? = nil, networkType: NetworkType? = nil, readerEndpoint: Endpoint? = nil, securityGroupIds: [String]? = nil, serverlessCacheName: String? = nil, snapshotRetentionLimit: Int? = nil, status: String? = nil, storageEncryptionType: StorageEncryptionType? = nil, subnetIds: [String]? = nil, userGroupId: String? = nil) {
             self.arn = arn
             self.cacheUsageLimits = cacheUsageLimits
             self.createTime = createTime
@@ -5760,11 +5811,13 @@ extension ElastiCache {
             self.fullEngineVersion = fullEngineVersion
             self.kmsKeyId = kmsKeyId
             self.majorEngineVersion = majorEngineVersion
+            self.networkType = networkType
             self.readerEndpoint = readerEndpoint
             self.securityGroupIds = securityGroupIds
             self.serverlessCacheName = serverlessCacheName
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.subnetIds = subnetIds
             self.userGroupId = userGroupId
         }
@@ -5780,11 +5833,13 @@ extension ElastiCache {
             case fullEngineVersion = "FullEngineVersion"
             case kmsKeyId = "KmsKeyId"
             case majorEngineVersion = "MajorEngineVersion"
+            case networkType = "NetworkType"
             case readerEndpoint = "ReaderEndpoint"
             case securityGroupIds = "SecurityGroupIds"
             case serverlessCacheName = "ServerlessCacheName"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
             case status = "Status"
+            case storageEncryptionType = "StorageEncryptionType"
             case subnetIds = "SubnetIds"
             case userGroupId = "UserGroupId"
         }
@@ -6000,6 +6055,8 @@ extension ElastiCache {
         public let cacheSubnetGroupName: String?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTiering: DataTieringStatus?
+        /// The durability setting of the cluster when the snapshot was taken. When restoring from this snapshot, the cluster uses this durability setting unless overridden in the restore request. For more information, see Durability.
+        public let durability: Durability?
         /// The name of the cache engine (memcached or redis) used by the source cluster.
         public let engine: String?
         /// The version of the cache engine version that is used by the source cluster.
@@ -6041,7 +6098,7 @@ extension ElastiCache {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, dataTiering: DataTieringStatus? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, dataTiering: DataTieringStatus? = nil, durability: Durability? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.automaticFailover = automaticFailover
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -6051,6 +6108,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSubnetGroupName = cacheSubnetGroupName
             self.dataTiering = dataTiering
+            self.durability = durability
             self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -6082,6 +6140,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
             case dataTiering = "DataTiering"
+            case durability = "Durability"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"

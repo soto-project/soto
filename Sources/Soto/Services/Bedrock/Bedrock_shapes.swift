@@ -25,6 +25,17 @@ import Foundation
 extension Bedrock {
     // MARK: Enums
 
+    public enum AdvancedPromptOptimizationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "Completed"
+        case deleting = "Deleting"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case partiallyCompleted = "PartiallyCompleted"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgreementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case error = "ERROR"
@@ -115,9 +126,12 @@ extension Bedrock {
 
     public enum AutomatedReasoningPolicyBuildWorkflowType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case generateFidelityReport = "GENERATE_FIDELITY_REPORT"
+        case generatePolicyScenarios = "GENERATE_POLICY_SCENARIOS"
         case importPolicy = "IMPORT_POLICY"
         case ingestContent = "INGEST_CONTENT"
+        case iterativelyRefinePolicy = "ITERATIVELY_REFINE_POLICY"
         case refinePolicy = "REFINE_POLICY"
+        case resolvePolicyAmbiguities = "RESOLVE_POLICY_AMBIGUITIES"
         public var description: String { return self.rawValue }
     }
 
@@ -168,6 +182,14 @@ extension Bedrock {
         case fineTuning = "FINE_TUNING"
         case imported = "IMPORTED"
         case reinforcementFineTuning = "REINFORCEMENT_FINE_TUNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataRetentionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case inherit = "inherit"
+        case none = "none"
+        case providerDataShare = "provider_data_share"
         public var description: String { return self.rawValue }
     }
 
@@ -521,6 +543,12 @@ extension Bedrock {
     public enum SearchType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hybrid = "HYBRID"
         case semantic = "SEMANTIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelectiveGuardingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case comprehensive = "COMPREHENSIVE"
+        case selective = "SELECTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -1050,6 +1078,8 @@ extension Bedrock {
         case documents([AutomatedReasoningPolicyBuildWorkflowDocument])
         /// The content configuration for generating a fidelity report workflow. This can include source documents to analyze or an existing fidelity report to update with a new policy definition.
         case generateFidelityReportContent(AutomatedReasoningPolicyGenerateFidelityReportContent)
+        /// Content configuration to start an iterative policy refinement workflow that uses generative AI to automatically make changes to the policy based on test results and the optional feedback provided.
+        case iterativeRefinementContent(AutomatedReasoningPolicyIterativeRefinementContent)
         /// The assets and instructions needed for a policy repair workflow, including repair annotations and guidance.
         case policyRepairAssets(AutomatedReasoningPolicyBuildWorkflowRepairContent)
 
@@ -1060,6 +1090,8 @@ extension Bedrock {
                 try container.encode(value, forKey: .documents)
             case .generateFidelityReportContent(let value):
                 try container.encode(value, forKey: .generateFidelityReportContent)
+            case .iterativeRefinementContent(let value):
+                try container.encode(value, forKey: .iterativeRefinementContent)
             case .policyRepairAssets(let value):
                 try container.encode(value, forKey: .policyRepairAssets)
             }
@@ -1075,6 +1107,8 @@ extension Bedrock {
                 try self.validate(value, name: "documents", parent: name, min: 1)
             case .generateFidelityReportContent(let value):
                 try value.validate(name: "\(name).generateFidelityReportContent")
+            case .iterativeRefinementContent(let value):
+                try value.validate(name: "\(name).iterativeRefinementContent")
             case .policyRepairAssets(let value):
                 try value.validate(name: "\(name).policyRepairAssets")
             }
@@ -1083,6 +1117,7 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case documents = "documents"
             case generateFidelityReportContent = "generateFidelityReportContent"
+            case iterativeRefinementContent = "iterativeRefinementContent"
             case policyRepairAssets = "policyRepairAssets"
         }
     }
@@ -1791,17 +1826,17 @@ extension Bedrock {
         public let guardrailIdentifier: String
         /// Numerical guardrail version.
         public let guardrailVersion: String
-        /// Whether to honor or ignore input tags at runtime.
-        public let inputTags: InputTags
         /// Model-specific information for the enforced guardrail configuration. If not present, the configuration is enforced on all models
         public let modelEnforcement: ModelEnforcement?
+        /// Selective content guarding controls for enforced guardrails.
+        public let selectiveContentGuarding: SelectiveContentGuarding?
 
         @inlinable
-        public init(guardrailIdentifier: String, guardrailVersion: String, inputTags: InputTags, modelEnforcement: ModelEnforcement? = nil) {
+        public init(guardrailIdentifier: String, guardrailVersion: String, modelEnforcement: ModelEnforcement? = nil, selectiveContentGuarding: SelectiveContentGuarding? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
-            self.inputTags = inputTags
             self.modelEnforcement = modelEnforcement
+            self.selectiveContentGuarding = selectiveContentGuarding
         }
 
         public func validate(name: String) throws {
@@ -1814,8 +1849,8 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case guardrailIdentifier = "guardrailIdentifier"
             case guardrailVersion = "guardrailVersion"
-            case inputTags = "inputTags"
             case modelEnforcement = "modelEnforcement"
+            case selectiveContentGuarding = "selectiveContentGuarding"
         }
     }
 
@@ -1839,6 +1874,8 @@ extension Bedrock {
         public let modelEnforcement: ModelEnforcement?
         /// Configuration owner type.
         public let owner: ConfigurationOwner?
+        /// Selective content guarding controls for enforced guardrails.
+        public let selectiveContentGuarding: SelectiveContentGuarding?
         /// Timestamp.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
@@ -1846,7 +1883,24 @@ extension Bedrock {
         public let updatedBy: String?
 
         @inlinable
-        public init(configId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, guardrailArn: String? = nil, guardrailId: String? = nil, guardrailVersion: String? = nil, inputTags: InputTags? = nil, modelEnforcement: ModelEnforcement? = nil, owner: ConfigurationOwner? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(configId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, guardrailArn: String? = nil, guardrailId: String? = nil, guardrailVersion: String? = nil, modelEnforcement: ModelEnforcement? = nil, owner: ConfigurationOwner? = nil, selectiveContentGuarding: SelectiveContentGuarding? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.configId = configId
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailVersion = guardrailVersion
+            self.inputTags = nil
+            self.modelEnforcement = modelEnforcement
+            self.owner = owner
+            self.selectiveContentGuarding = selectiveContentGuarding
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        @available(*, deprecated, message: "Members inputTags have been deprecated")
+        @inlinable
+        public init(configId: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, guardrailArn: String? = nil, guardrailId: String? = nil, guardrailVersion: String? = nil, inputTags: InputTags? = nil, modelEnforcement: ModelEnforcement? = nil, owner: ConfigurationOwner? = nil, selectiveContentGuarding: SelectiveContentGuarding? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.configId = configId
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1856,6 +1910,7 @@ extension Bedrock {
             self.inputTags = inputTags
             self.modelEnforcement = modelEnforcement
             self.owner = owner
+            self.selectiveContentGuarding = selectiveContentGuarding
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
         }
@@ -1870,8 +1925,81 @@ extension Bedrock {
             case inputTags = "inputTags"
             case modelEnforcement = "modelEnforcement"
             case owner = "owner"
+            case selectiveContentGuarding = "selectiveContentGuarding"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct AdvancedPromptOptimizationInputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 URI of the JSONL input file containing prompt templates and evaluation samples.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct AdvancedPromptOptimizationJobSummary: AWSDecodableShape {
+        /// The time at which the job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The Amazon Resource Name (ARN) of the job.
+        public let jobArn: String
+        /// The name of the job.
+        public let jobName: String
+        /// The status of the job.
+        public let jobStatus: AdvancedPromptOptimizationJobStatus
+        /// The time at which the job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+
+        @inlinable
+        public init(creationTime: Date, jobArn: String, jobName: String, jobStatus: AdvancedPromptOptimizationJobStatus, lastModifiedTime: Date? = nil) {
+            self.creationTime = creationTime
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case jobArn = "jobArn"
+            case jobName = "jobName"
+            case jobStatus = "jobStatus"
+            case lastModifiedTime = "lastModifiedTime"
+        }
+    }
+
+    public struct AdvancedPromptOptimizationOutputConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 URI prefix where the optimization results will be written.
+        public let s3Uri: String
+
+        @inlinable
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}[a-z0-9](?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -3113,6 +3241,33 @@ extension Bedrock {
         }
     }
 
+    public struct AutomatedReasoningPolicyIterativeRefinementContent: AWSEncodableShape {
+        /// Source documents used for iterative policy refinement. These documents provide context for refining the policy definition.
+        public let documents: [AutomatedReasoningPolicyBuildWorkflowDocument]
+        /// Optional feedback to guide the iterative refinement workflow. Provide specific instructions or constraints for policy refinement.
+        public let feedback: String?
+
+        @inlinable
+        public init(documents: [AutomatedReasoningPolicyBuildWorkflowDocument], feedback: String? = nil) {
+            self.documents = documents
+            self.feedback = feedback
+        }
+
+        public func validate(name: String) throws {
+            try self.documents.forEach {
+                try $0.validate(name: "\(name).documents[]")
+            }
+            try self.validate(self.documents, name: "documents", parent: name, max: 5)
+            try self.validate(self.documents, name: "documents", parent: name, min: 1)
+            try self.validate(self.feedback, name: "feedback", parent: name, max: 4000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documents = "documents"
+            case feedback = "feedback"
+        }
+    }
+
     public struct AutomatedReasoningPolicyPlanning: AWSDecodableShape {
         public init() {}
     }
@@ -3666,6 +3821,87 @@ extension Bedrock {
         }
     }
 
+    public struct BatchDeleteAdvancedPromptOptimizationJobError: AWSDecodableShape {
+        /// The error code for the deletion failure.
+        public let code: String
+        /// The identifier of the job that could not be deleted.
+        public let jobIdentifier: String
+        /// A message describing the error.
+        public let message: String?
+
+        @inlinable
+        public init(code: String, jobIdentifier: String, message: String? = nil) {
+            self.code = code
+            self.jobIdentifier = jobIdentifier
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case jobIdentifier = "jobIdentifier"
+            case message = "message"
+        }
+    }
+
+    public struct BatchDeleteAdvancedPromptOptimizationJobItem: AWSDecodableShape {
+        /// The identifier of the deleted job.
+        public let jobIdentifier: String
+        /// The status of the deleted job.
+        public let jobStatus: AdvancedPromptOptimizationJobStatus
+
+        @inlinable
+        public init(jobIdentifier: String, jobStatus: AdvancedPromptOptimizationJobStatus) {
+            self.jobIdentifier = jobIdentifier
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIdentifier = "jobIdentifier"
+            case jobStatus = "jobStatus"
+        }
+    }
+
+    public struct BatchDeleteAdvancedPromptOptimizationJobRequest: AWSEncodableShape {
+        /// A list of advanced prompt optimization job identifiers (ARNs or IDs) to delete.
+        public let jobIdentifiers: [String]
+
+        @inlinable
+        public init(jobIdentifiers: [String]) {
+            self.jobIdentifiers = jobIdentifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.jobIdentifiers.forEach {
+                try validate($0, name: "jobIdentifiers[]", parent: name, max: 1011)
+                try validate($0, name: "jobIdentifiers[]", parent: name, pattern: "^((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})$")
+            }
+            try self.validate(self.jobIdentifiers, name: "jobIdentifiers", parent: name, max: 25)
+            try self.validate(self.jobIdentifiers, name: "jobIdentifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobIdentifiers = "jobIdentifiers"
+        }
+    }
+
+    public struct BatchDeleteAdvancedPromptOptimizationJobResponse: AWSDecodableShape {
+        /// A list of successfully deleted advanced prompt optimization jobs.
+        public let advancedPromptOptimizationJobs: [BatchDeleteAdvancedPromptOptimizationJobItem]
+        /// A list of errors encountered during batch deletion.
+        public let errors: [BatchDeleteAdvancedPromptOptimizationJobError]
+
+        @inlinable
+        public init(advancedPromptOptimizationJobs: [BatchDeleteAdvancedPromptOptimizationJobItem], errors: [BatchDeleteAdvancedPromptOptimizationJobError]) {
+            self.advancedPromptOptimizationJobs = advancedPromptOptimizationJobs
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedPromptOptimizationJobs = "advancedPromptOptimizationJobs"
+            case errors = "errors"
+        }
+    }
+
     public struct BatchDeleteEvaluationJobError: AWSDecodableShape {
         /// A HTTP status code of the evaluation job being deleted.
         public let code: String
@@ -3858,6 +4094,87 @@ extension Bedrock {
             case largeDataDeliveryS3Config = "largeDataDeliveryS3Config"
             case logGroupName = "logGroupName"
             case roleArn = "roleArn"
+        }
+    }
+
+    public struct CreateAdvancedPromptOptimizationJobRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used for encrypting the output data. If not specified, the output is encrypted with an Amazon-owned KMS key.
+        public let encryptionKeyArn: String?
+        /// Specifies the S3 location of your JSONL input file containing prompt templates and evaluation samples.
+        public let inputConfig: AdvancedPromptOptimizationInputConfig
+        /// A description of the advanced prompt optimization job.
+        public let jobDescription: String?
+        /// A name for the advanced prompt optimization job.
+        public let jobName: String
+        /// A list of model configurations specifying the target models for prompt optimization. You can specify up to 5 models.
+        public let modelConfigurations: [ModelConfiguration]
+        /// Specifies the S3 location where optimization results will be stored.
+        public let outputConfig: AdvancedPromptOptimizationOutputConfig
+        /// Tags to associate with the advanced prompt optimization job.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String? = CreateAdvancedPromptOptimizationJobRequest.idempotencyToken(), encryptionKeyArn: String? = nil, inputConfig: AdvancedPromptOptimizationInputConfig, jobDescription: String? = nil, jobName: String, modelConfigurations: [ModelConfiguration], outputConfig: AdvancedPromptOptimizationOutputConfig, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.encryptionKeyArn = encryptionKeyArn
+            self.inputConfig = inputConfig
+            self.jobDescription = jobDescription
+            self.jobName = jobName
+            self.modelConfigurations = modelConfigurations
+            self.outputConfig = outputConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.inputConfig.validate(name: "\(name).inputConfig")
+            try self.validate(self.jobDescription, name: "jobDescription", parent: name, max: 500)
+            try self.validate(self.jobDescription, name: "jobDescription", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 100)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9.+-]*$")
+            try self.modelConfigurations.forEach {
+                try $0.validate(name: "\(name).modelConfigurations[]")
+            }
+            try self.validate(self.modelConfigurations, name: "modelConfigurations", parent: name, max: 5)
+            try self.validate(self.modelConfigurations, name: "modelConfigurations", parent: name, min: 1)
+            try self.outputConfig.validate(name: "\(name).outputConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case encryptionKeyArn = "encryptionKeyArn"
+            case inputConfig = "inputConfig"
+            case jobDescription = "jobDescription"
+            case jobName = "jobName"
+            case modelConfigurations = "modelConfigurations"
+            case outputConfig = "outputConfig"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAdvancedPromptOptimizationJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created advanced prompt optimization job.
+        public let jobArn: String
+
+        @inlinable
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
         }
     }
 
@@ -4180,20 +4497,23 @@ extension Bedrock {
     public struct CreateCustomModelRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
         public let clientRequestToken: String?
+        /// The data source for the custom model. Use this field to specify a SageMaker AI model package ARN as the source for your custom model. Amazon Bedrock resolves the model package to retrieve the model artifacts. You can specify either customModelDataSource or modelSourceConfig, but not both.
+        public let customModelDataSource: CustomModelDataSource?
         /// The Amazon Resource Name (ARN) of the customer managed KMS key to encrypt the custom model. If you don't provide a KMS key, Amazon Bedrock uses an Amazon Web Services-managed KMS key to encrypt the model.  If you provide a customer managed KMS key, your Amazon Bedrock service role must have permissions to use it. For more information see Encryption of imported models.
         public let modelKmsKeyArn: String?
         /// A unique name for the custom model.
         public let modelName: String
         /// The data source for the model. The Amazon S3 URI in the model source must be for the Amazon-managed Amazon S3 bucket containing your model artifacts.
-        public let modelSourceConfig: ModelDataSource
+        public let modelSourceConfig: ModelDataSource?
         /// A list of key-value pairs to associate with the custom model resource. You can use these tags to organize and identify your resources. For more information, see Tagging resources in the Amazon Bedrock User Guide.
         public let modelTags: [Tag]?
-        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide.
+        /// The Amazon Resource Name (ARN) of an IAM service role that Amazon Bedrock assumes to perform tasks on your behalf. This role must have permissions to access the Amazon S3 bucket containing your model artifacts and the KMS key (if specified). For more information, see Setting up an IAM service role for importing models in the Amazon Bedrock User Guide. This field is required when you use modelSourceConfig with an Amazon S3 data source. It is not required when you use customModelDataSource with a model package ARN, because Amazon Bedrock uses its own credentials to access the model artifacts.
         public let roleArn: String?
 
         @inlinable
-        public init(clientRequestToken: String? = CreateCustomModelRequest.idempotencyToken(), modelKmsKeyArn: String? = nil, modelName: String, modelSourceConfig: ModelDataSource, modelTags: [Tag]? = nil, roleArn: String? = nil) {
+        public init(clientRequestToken: String? = CreateCustomModelRequest.idempotencyToken(), customModelDataSource: CustomModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String, modelSourceConfig: ModelDataSource? = nil, modelTags: [Tag]? = nil, roleArn: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.customModelDataSource = customModelDataSource
             self.modelKmsKeyArn = modelKmsKeyArn
             self.modelName = modelName
             self.modelSourceConfig = modelSourceConfig
@@ -4205,13 +4525,14 @@ extension Bedrock {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9]([-a-zA-Z0-9]{0,254}[a-zA-Z0-9])?$")
+            try self.customModelDataSource?.validate(name: "\(name).customModelDataSource")
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, max: 2048)
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, min: 1)
             try self.validate(self.modelKmsKeyArn, name: "modelKmsKeyArn", parent: name, pattern: "^arn:aws(-[^:]+)?:kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
             try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
             try self.validate(self.modelName, name: "modelName", parent: name, min: 1)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,63}$")
-            try self.modelSourceConfig.validate(name: "\(name).modelSourceConfig")
+            try self.modelSourceConfig?.validate(name: "\(name).modelSourceConfig")
             try self.modelTags?.forEach {
                 try $0.validate(name: "\(name).modelTags[]")
             }
@@ -4222,6 +4543,7 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case customModelDataSource = "customModelDataSource"
             case modelKmsKeyArn = "modelKmsKeyArn"
             case modelName = "modelName"
             case modelSourceConfig = "modelSourceConfig"
@@ -5778,6 +6100,33 @@ extension Bedrock {
         public init() {}
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The ARN of the Bedrock resource to which this resource policy applies.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeregisterMarketplaceModelEndpointRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the endpoint you want to deregister.
         public let endpointArn: String
@@ -6486,6 +6835,108 @@ extension Bedrock {
             case guardrailConfiguration = "guardrailConfiguration"
             case kbInferenceConfig = "kbInferenceConfig"
             case promptTemplate = "promptTemplate"
+        }
+    }
+
+    public struct GetAccountDataRetentionRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetAccountDataRetentionResponse: AWSDecodableShape {
+        /// The data retention mode configured for the account.
+        public let mode: DataRetentionMode
+        /// The time at which the data retention mode was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(mode: DataRetentionMode, updatedAt: Date? = nil) {
+            self.mode = mode
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetAdvancedPromptOptimizationJobRequest: AWSEncodableShape {
+        /// The ARN or ID of the advanced prompt optimization job.
+        public let jobIdentifier: String
+
+        @inlinable
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAdvancedPromptOptimizationJobResponse: AWSDecodableShape {
+        /// The time at which the advanced prompt optimization job was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var creationTime: Date
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the output data.
+        public let encryptionKeyArn: String?
+        /// If the job failed, a message describing the reason for the failure.
+        public let failureMessage: String?
+        /// The input data configuration for the optimization job.
+        public let inputConfig: AdvancedPromptOptimizationInputConfig
+        /// The Amazon Resource Name (ARN) of the advanced prompt optimization job.
+        public let jobArn: String
+        /// The description of the advanced prompt optimization job.
+        public let jobDescription: String?
+        /// The name of the advanced prompt optimization job.
+        public let jobName: String
+        /// The status of the advanced prompt optimization job.
+        public let jobStatus: AdvancedPromptOptimizationJobStatus
+        /// The time at which the advanced prompt optimization job was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// The model configurations used in the optimization job.
+        public let modelConfigurations: [ModelConfiguration]
+        /// The output data configuration for the optimization job.
+        public let outputConfig: AdvancedPromptOptimizationOutputConfig
+
+        @inlinable
+        public init(creationTime: Date, encryptionKeyArn: String? = nil, failureMessage: String? = nil, inputConfig: AdvancedPromptOptimizationInputConfig, jobArn: String, jobDescription: String? = nil, jobName: String, jobStatus: AdvancedPromptOptimizationJobStatus, lastModifiedTime: Date? = nil, modelConfigurations: [ModelConfiguration], outputConfig: AdvancedPromptOptimizationOutputConfig) {
+            self.creationTime = creationTime
+            self.encryptionKeyArn = encryptionKeyArn
+            self.failureMessage = failureMessage
+            self.inputConfig = inputConfig
+            self.jobArn = jobArn
+            self.jobDescription = jobDescription
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.modelConfigurations = modelConfigurations
+            self.outputConfig = outputConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case encryptionKeyArn = "encryptionKeyArn"
+            case failureMessage = "failureMessage"
+            case inputConfig = "inputConfig"
+            case jobArn = "jobArn"
+            case jobDescription = "jobDescription"
+            case jobName = "jobName"
+            case jobStatus = "jobStatus"
+            case lastModifiedTime = "lastModifiedTime"
+            case modelConfigurations = "modelConfigurations"
+            case outputConfig = "outputConfig"
         }
     }
 
@@ -7895,6 +8346,8 @@ extension Bedrock {
         /// The time at which the batch inference job ended.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
+        /// The number of records that failed to process in the batch inference job.
+        public let errorRecordCount: Int64?
         /// Details about the location of the input to the batch inference job.
         public let inputDataConfig: ModelInvocationJobInputDataConfig
         /// The Amazon Resource Name (ARN) of the batch inference job.
@@ -7915,6 +8368,8 @@ extension Bedrock {
         public let modelInvocationType: ModelInvocationType?
         /// Details about the location of the output of the batch inference job.
         public let outputDataConfig: ModelInvocationJobOutputDataConfig
+        /// The number of records that have been processed in the batch inference job.
+        public let processedRecordCount: Int64?
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
         public let roleArn: String
         /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
@@ -7922,15 +8377,20 @@ extension Bedrock {
         /// The time at which the batch inference job was submitted.
         @CustomCoding<ISO8601DateCoder>
         public var submitTime: Date
+        /// The number of records that were successfully processed in the batch inference job.
+        public let successRecordCount: Int64?
         /// The number of hours after which batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
+        /// The total number of records in the batch inference job.
+        public let totalRecordCount: Int64?
         /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, modelInvocationType: ModelInvocationType? = nil, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, errorRecordCount: Int64? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String? = nil, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, modelInvocationType: ModelInvocationType? = nil, outputDataConfig: ModelInvocationJobOutputDataConfig, processedRecordCount: Int64? = nil, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, successRecordCount: Int64? = nil, timeoutDurationInHours: Int? = nil, totalRecordCount: Int64? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
+            self.errorRecordCount = errorRecordCount
             self.inputDataConfig = inputDataConfig
             self.jobArn = jobArn
             self.jobExpirationTime = jobExpirationTime
@@ -7940,16 +8400,20 @@ extension Bedrock {
             self.modelId = modelId
             self.modelInvocationType = modelInvocationType
             self.outputDataConfig = outputDataConfig
+            self.processedRecordCount = processedRecordCount
             self.roleArn = roleArn
             self.status = status
             self.submitTime = submitTime
+            self.successRecordCount = successRecordCount
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.totalRecordCount = totalRecordCount
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case endTime = "endTime"
+            case errorRecordCount = "errorRecordCount"
             case inputDataConfig = "inputDataConfig"
             case jobArn = "jobArn"
             case jobExpirationTime = "jobExpirationTime"
@@ -7959,10 +8423,13 @@ extension Bedrock {
             case modelId = "modelId"
             case modelInvocationType = "modelInvocationType"
             case outputDataConfig = "outputDataConfig"
+            case processedRecordCount = "processedRecordCount"
             case roleArn = "roleArn"
             case status = "status"
             case submitTime = "submitTime"
+            case successRecordCount = "successRecordCount"
             case timeoutDurationInHours = "timeoutDurationInHours"
+            case totalRecordCount = "totalRecordCount"
             case vpcConfig = "vpcConfig"
         }
     }
@@ -8145,6 +8612,43 @@ extension Bedrock {
             case provisionedModelArn = "provisionedModelArn"
             case provisionedModelName = "provisionedModelName"
             case status = "status"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The ARN of the Bedrock resource to which this resource policy applies.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON string representing the Bedrock resource policy.
+        public let resourcePolicy: String?
+
+        @inlinable
+        public init(resourcePolicy: String? = nil) {
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourcePolicy = "resourcePolicy"
         }
     }
 
@@ -9248,6 +9752,32 @@ extension Bedrock {
         }
     }
 
+    public struct InferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens to allow in the generated response. The default value is the maximum allowed value for the model that you are using.
+        public let maxTokens: Int?
+        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
+        public let stopSequences: [String]?
+        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options.
+        public let temperature: Float?
+        /// The percentage of most-likely candidates that the model considers for the next token. For example, if you choose a value of 0.8 for topP, the model selects from the top 80% of the probability distribution of tokens that could be next in the sequence.
+        public let topP: Float?
+
+        @inlinable
+        public init(maxTokens: Int? = nil, stopSequences: [String]? = nil, temperature: Float? = nil, topP: Float? = nil) {
+            self.maxTokens = maxTokens
+            self.stopSequences = stopSequences
+            self.temperature = temperature
+            self.topP = topP
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokens = "maxTokens"
+            case stopSequences = "stopSequences"
+            case temperature = "temperature"
+            case topP = "topP"
+        }
+    }
+
     public struct InferenceProfileModel: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the model.
         public let modelArn: String?
@@ -9480,6 +10010,62 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case url = "url"
+        }
+    }
+
+    public struct ListAdvancedPromptOptimizationJobsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token in a subsequent request to get the next set of results.
+        public let nextToken: String?
+        /// The field to sort the results by.
+        public let sortBy: SortJobsBy?
+        /// The sort order for the results.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortJobsBy? = nil, sortOrder: SortOrder? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.sortBy, key: "sortBy")
+            request.encodeQuery(self.sortOrder, key: "sortOrder")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAdvancedPromptOptimizationJobsResponse: AWSDecodableShape {
+        /// A list of advanced prompt optimization job summaries.
+        public let jobSummaries: [AdvancedPromptOptimizationJobSummary]?
+        /// If the total number of results is greater than the maxResults value provided in the request, use this token in a subsequent request to get the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobSummaries: [AdvancedPromptOptimizationJobSummary]? = nil, nextToken: String? = nil) {
+            self.jobSummaries = jobSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobSummaries = "jobSummaries"
+            case nextToken = "nextToken"
         }
     }
 
@@ -10996,6 +11582,37 @@ extension Bedrock {
         }
     }
 
+    public struct ModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Additional model request fields. Use this to pass model-specific parameters that are not included in the standard inference configuration.
+        public let additionalModelRequestFields: [String: AWSDocument]?
+        /// The inference configuration for the model, including parameters such as maximum tokens, temperature, and top-p.
+        public let inferenceConfig: InferenceConfiguration?
+        /// The ID of the model to use for optimization.
+        public let modelId: String
+
+        @inlinable
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, inferenceConfig: InferenceConfiguration? = nil, modelId: String) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.modelId = modelId
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalModelRequestFields?.forEach {
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
+                try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
+            }
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
+            case inferenceConfig = "inferenceConfig"
+            case modelId = "modelId"
+        }
+    }
+
     public struct ModelCopyJobSummary: AWSDecodableShape {
         /// The time that the model copy job was created.
         @CustomCoding<ISO8601DateCoder>
@@ -11248,6 +11865,8 @@ extension Bedrock {
         /// The time at which the batch inference job ended.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endTime: Date?
+        /// The number of records that failed to process in the batch inference job.
+        public let errorRecordCount: Int64?
         /// Details about the location of the input to the batch inference job.
         public let inputDataConfig: ModelInvocationJobInputDataConfig
         /// The Amazon Resource Name (ARN) of the batch inference job.
@@ -11268,6 +11887,8 @@ extension Bedrock {
         public let modelInvocationType: ModelInvocationType?
         /// Details about the location of the output of the batch inference job.
         public let outputDataConfig: ModelInvocationJobOutputDataConfig
+        /// The number of records that have been processed in the batch inference job.
+        public let processedRecordCount: Int64?
         /// The Amazon Resource Name (ARN) of the service role with permissions to carry out and manage batch inference. You can use the console to create a default service role or follow the steps at Create a service role for batch inference.
         public let roleArn: String
         /// The status of the batch inference job. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
@@ -11275,15 +11896,20 @@ extension Bedrock {
         /// The time at which the batch inference job was submitted.
         @CustomCoding<ISO8601DateCoder>
         public var submitTime: Date
+        /// The number of records that were successfully processed in the batch inference job.
+        public let successRecordCount: Int64?
         /// The number of hours after which the batch inference job was set to time out.
         public let timeoutDurationInHours: Int?
+        /// The total number of records in the batch inference job.
+        public let totalRecordCount: Int64?
         /// The configuration of the Virtual Private Cloud (VPC) for the data in the batch inference job. For more information, see Protect batch inference jobs using a VPC.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, endTime: Date? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, modelInvocationType: ModelInvocationType? = nil, outputDataConfig: ModelInvocationJobOutputDataConfig, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, timeoutDurationInHours: Int? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = nil, endTime: Date? = nil, errorRecordCount: Int64? = nil, inputDataConfig: ModelInvocationJobInputDataConfig, jobArn: String, jobExpirationTime: Date? = nil, jobName: String, lastModifiedTime: Date? = nil, message: String? = nil, modelId: String, modelInvocationType: ModelInvocationType? = nil, outputDataConfig: ModelInvocationJobOutputDataConfig, processedRecordCount: Int64? = nil, roleArn: String, status: ModelInvocationJobStatus? = nil, submitTime: Date, successRecordCount: Int64? = nil, timeoutDurationInHours: Int? = nil, totalRecordCount: Int64? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.endTime = endTime
+            self.errorRecordCount = errorRecordCount
             self.inputDataConfig = inputDataConfig
             self.jobArn = jobArn
             self.jobExpirationTime = jobExpirationTime
@@ -11293,16 +11919,20 @@ extension Bedrock {
             self.modelId = modelId
             self.modelInvocationType = modelInvocationType
             self.outputDataConfig = outputDataConfig
+            self.processedRecordCount = processedRecordCount
             self.roleArn = roleArn
             self.status = status
             self.submitTime = submitTime
+            self.successRecordCount = successRecordCount
             self.timeoutDurationInHours = timeoutDurationInHours
+            self.totalRecordCount = totalRecordCount
             self.vpcConfig = vpcConfig
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
             case endTime = "endTime"
+            case errorRecordCount = "errorRecordCount"
             case inputDataConfig = "inputDataConfig"
             case jobArn = "jobArn"
             case jobExpirationTime = "jobExpirationTime"
@@ -11312,11 +11942,32 @@ extension Bedrock {
             case modelId = "modelId"
             case modelInvocationType = "modelInvocationType"
             case outputDataConfig = "outputDataConfig"
+            case processedRecordCount = "processedRecordCount"
             case roleArn = "roleArn"
             case status = "status"
             case submitTime = "submitTime"
+            case successRecordCount = "successRecordCount"
             case timeoutDurationInHours = "timeoutDurationInHours"
+            case totalRecordCount = "totalRecordCount"
             case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct ModelPackageArnDataSource: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the SageMaker AI model package. The ARN must be for a model package of restricted type. To use a model package ARN, you must have the sagemaker:DescribeModelPackage and sagemaker:AccessModelPackageData permissions on the model package resource.
+        public let modelPackageArn: String
+
+        @inlinable
+        public init(modelPackageArn: String) {
+            self.modelPackageArn = modelPackageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageArn = "modelPackageArn"
         }
     }
 
@@ -11556,6 +12207,39 @@ extension Bedrock {
         }
     }
 
+    public struct PutAccountDataRetentionRequest: AWSEncodableShape {
+        /// The data retention mode to set for the account.
+        public let mode: DataRetentionMode
+
+        @inlinable
+        public init(mode: DataRetentionMode) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+        }
+    }
+
+    public struct PutAccountDataRetentionResponse: AWSDecodableShape {
+        /// The data retention mode set for the account.
+        public let mode: DataRetentionMode
+        /// The time at which the data retention mode was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        @inlinable
+        public init(mode: DataRetentionMode, updatedAt: Date? = nil) {
+            self.mode = mode
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct PutEnforcedGuardrailConfigurationRequest: AWSEncodableShape {
         /// Unique ID for the account enforced configuration.
         public let configId: String?
@@ -11622,6 +12306,46 @@ extension Bedrock {
 
     public struct PutModelInvocationLoggingConfigurationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The ARN of the Bedrock resource to which this resource policy applies.
+        public let resourceArn: String
+        /// The JSON string representing the Bedrock resource policy.
+        public let resourcePolicy: String
+
+        @inlinable
+        public init(resourceArn: String, resourcePolicy: String) {
+            self.resourceArn = resourceArn
+            self.resourcePolicy = resourcePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 255)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20480)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: "^[\t\n\r -ÿ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case resourcePolicy = "resourcePolicy"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The ARN of the Bedrock resource to which this resource policy applies.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
     }
 
     public struct PutUseCaseForModelAccessRequest: AWSEncodableShape {
@@ -12002,6 +12726,24 @@ extension Bedrock {
         }
     }
 
+    public struct SelectiveContentGuarding: AWSEncodableShape & AWSDecodableShape {
+        /// Selective guarding mode for user messages.
+        public let messages: SelectiveGuardingMode?
+        /// Selective guarding mode for system prompts."
+        public let system: SelectiveGuardingMode?
+
+        @inlinable
+        public init(messages: SelectiveGuardingMode? = nil, system: SelectiveGuardingMode? = nil) {
+            self.messages = messages
+            self.system = system
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messages = "messages"
+            case system = "system"
+        }
+    }
+
     public struct StartAutomatedReasoningPolicyBuildWorkflowRequest: AWSEncodableShape {
         /// The type of build workflow to start (e.g., DOCUMENT_INGESTION for processing new documents, POLICY_REPAIR for fixing existing policies).
         public let buildWorkflowType: AutomatedReasoningPolicyBuildWorkflowType
@@ -12144,6 +12886,33 @@ extension Bedrock {
             case trainingDetails = "trainingDetails"
             case validationDetails = "validationDetails"
         }
+    }
+
+    public struct StopAdvancedPromptOptimizationJobRequest: AWSEncodableShape {
+        /// The ARN or ID of the advanced prompt optimization job to stop.
+        public let jobIdentifier: String
+
+        @inlinable
+        public init(jobIdentifier: String) {
+            self.jobIdentifier = jobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.jobIdentifier, key: "jobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, max: 1011)
+            try self.validate(self.jobIdentifier, name: "jobIdentifier", parent: name, pattern: "^((arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:advanced-prompt-optimization-job/)?[a-z0-9]{12})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopAdvancedPromptOptimizationJobResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StopEvaluationJobRequest: AWSEncodableShape {
@@ -13255,6 +14024,24 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case documents = "documents"
+        }
+    }
+
+    public struct CustomModelDataSource: AWSEncodableShape {
+        /// A SageMaker AI model package ARN as the data source for the custom model. When you specify a model package ARN, Amazon Bedrock resolves the model package to retrieve the model artifacts.
+        public let modelPackageArnDataSource: ModelPackageArnDataSource?
+
+        @inlinable
+        public init(modelPackageArnDataSource: ModelPackageArnDataSource? = nil) {
+            self.modelPackageArnDataSource = modelPackageArnDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.modelPackageArnDataSource?.validate(name: "\(name).modelPackageArnDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageArnDataSource = "modelPackageArnDataSource"
         }
     }
 

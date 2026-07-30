@@ -1788,6 +1788,7 @@ public struct IoTWireless: AWSService {
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
     /// Parameters:
+    ///   - advancedConfiguration: Optional configuration to customize position estimates. If not provided, defaults are applied.
     ///   - cellTowers: Retrieves an estimated device position by resolving measurement data from cellular radio towers. The position is resolved using HERE's cellular-based solver.
     ///   - gnss: Retrieves an estimated device position by resolving the global navigation satellite system (GNSS) scan data. The position is resolved using the GNSS solver powered by LoRa Cloud.
     ///   - ip: Retrieves an estimated device position by resolving the IP address information from the device. The position is resolved using MaxMind's IP-based solver.
@@ -1796,6 +1797,7 @@ public struct IoTWireless: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getPositionEstimate(
+        advancedConfiguration: AdvancedConfiguration? = nil,
         cellTowers: CellTowers? = nil,
         gnss: Gnss? = nil,
         ip: Ip? = nil,
@@ -1804,6 +1806,7 @@ public struct IoTWireless: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetPositionEstimateResponse {
         let input = GetPositionEstimateRequest(
+            advancedConfiguration: advancedConfiguration, 
             cellTowers: cellTowers, 
             gnss: gnss, 
             ip: ip, 

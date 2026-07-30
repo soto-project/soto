@@ -216,7 +216,7 @@ public struct OpenSearch: AWSService {
     ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    ///   - openSearchArns:  An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     ///   - tagList: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -225,7 +225,7 @@ public struct OpenSearch: AWSService {
         dataSourceName: String,
         dataSourceType: DirectQueryDataSourceType,
         description: String? = nil,
-        openSearchArns: [String],
+        openSearchArns: [String]? = nil,
         tagList: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AddDirectQueryDataSourceResponse {
@@ -342,6 +342,47 @@ public struct OpenSearch: AWSService {
         return try await self.associatePackages(input, logger: logger)
     }
 
+    /// Attaches a data source to an OpenSearch application. The data source can be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless collection. If both the application and data source are in the ACTIVE state, the attachment completes immediately and returns a status of ATTACHED. If either resource is not yet active, the operation stores the request and returns a status of PENDING. A background process then completes the attachment when both resources become active. Pending attachments that are not completed within 24 hours are marked as FAILED. This operation is idempotent. If a data source is already attached or pending for the same application, the existing attachment is returned.
+    @Sendable
+    @inlinable
+    public func attachDataSource(_ input: AttachDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AttachDataSourceResponse {
+        try await self.client.execute(
+            operation: "AttachDataSource", 
+            path: "/2021-01-01/opensearch/application/{id}/attachDataSource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a data source to an OpenSearch application. The data source can be an Amazon OpenSearch Service domain or an Amazon OpenSearch Serverless collection. If both the application and data source are in the ACTIVE state, the attachment completes immediately and returns a status of ATTACHED. If either resource is not yet active, the operation stores the request and returns a status of PENDING. A background process then completes the attachment when both resources become active. Pending attachments that are not completed within 24 hours are marked as FAILED. This operation is idempotent. If a data source is already attached or pending for the same application, the existing attachment is returned.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. If you retry a request with the same client token and the same parameters, the retry succeeds without performing any further actions.
+    ///   - dataSourceArn: 
+    ///   - id: The unique identifier or name of the OpenSearch application to attach the data source to. This is the same identifier used with UpdateApplication, GetApplication, and DeleteApplication.
+    ///   - workspaceConfiguration: Configuration for creating a new workspace during the attachment. If specified, a workspace is created and linked to the data source after the attachment completes. Mutually exclusive with workspaceId.
+    ///   - workspaceId: The identifier of an existing workspace to update with the new data source. Mutually exclusive with workspaceConfiguration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func attachDataSource(
+        clientToken: String? = nil,
+        dataSourceArn: String,
+        id: String,
+        workspaceConfiguration: WorkspaceConfigurationInput? = nil,
+        workspaceId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AttachDataSourceResponse {
+        let input = AttachDataSourceRequest(
+            clientToken: clientToken, 
+            dataSourceArn: dataSourceArn, 
+            id: id, 
+            workspaceConfiguration: workspaceConfiguration, 
+            workspaceId: workspaceId
+        )
+        return try await self.attachDataSource(input, logger: logger)
+    }
+
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
     @Sendable
     @inlinable
@@ -361,18 +402,21 @@ public struct OpenSearch: AWSService {
     ///   - account: The Amazon Web Services account ID to grant access to.
     ///   - domainName: The name of the OpenSearch Service domain to provide access to.
     ///   - service: The Amazon Web Services service SP to grant access to.
+    ///   - serviceOptions: The options for the service, including the supported Regions for the endpoint access.
     ///   - logger: Logger use during operation
     @inlinable
     public func authorizeVpcEndpointAccess(
         account: String? = nil,
         domainName: String,
         service: AWSServicePrincipal? = nil,
+        serviceOptions: ServiceOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AuthorizeVpcEndpointAccessResponse {
         let input = AuthorizeVpcEndpointAccessRequest(
             account: account, 
             domainName: domainName, 
-            service: service
+            service: service, 
+            serviceOptions: serviceOptions
         )
         return try await self.authorizeVpcEndpointAccess(input, logger: logger)
     }
@@ -505,6 +549,7 @@ public struct OpenSearch: AWSService {
     ///   - advancedOptions: Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.    "override_main_response_version": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether the domain reports its version as 7.10 to allow Elasticsearch OSS clients and plugins to continue working with it. Default is false when creating a domain and true when upgrading a domain.   For more information, see Advanced cluster parameters.
     ///   - advancedSecurityOptions: Options for fine-grained access control.
     ///   - aimlOptions: Options for all machine learning features for the specified domain.
+    ///   - automatedSnapshotPauseOptions: Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
     ///   - autoTuneOptions: Options for Auto-Tune.
     ///   - clusterConfig: Container for the cluster configuration of a domain.
     ///   - cognitoOptions: Key-value pairs to configure Amazon Cognito authentication. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
@@ -513,6 +558,7 @@ public struct OpenSearch: AWSService {
     ///   - domainName: Name of the OpenSearch Service domain to create. Domain names are unique across the domains owned by an account within an Amazon Web Services Region.
     ///   - ebsOptions: Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
     ///   - encryptionAtRestOptions: Key-value pairs to enable encryption at rest.
+    ///   - engineMode: The engine mode for the domain. For valid values and requirements, see EngineMode.
     ///   - engineVersion: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
     ///   - identityCenterOptions: Configuration options for enabling and managing IAM Identity Center integration within a domain.
     ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
@@ -522,6 +568,7 @@ public struct OpenSearch: AWSService {
     ///   - snapshotOptions: DEPRECATED. Container for the parameters required to configure automated snapshots of domain indexes.
     ///   - softwareUpdateOptions: Software update options for the domain.
     ///   - tagList: List of tags to add to the domain upon creation.
+    ///   - useCase: The primary use case for the domain. For valid values, see DomainUseCase.
     ///   - vpcOptions: Container for the values required to configure VPC access domains. If you don't specify these values, OpenSearch Service creates the domain with a public endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
     ///   - logger: Logger use during operation
     @inlinable
@@ -530,6 +577,7 @@ public struct OpenSearch: AWSService {
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
         aimlOptions: AIMLOptionsInput? = nil,
+        automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil,
         autoTuneOptions: AutoTuneOptionsInput? = nil,
         clusterConfig: ClusterConfig? = nil,
         cognitoOptions: CognitoOptions? = nil,
@@ -538,6 +586,7 @@ public struct OpenSearch: AWSService {
         domainName: String,
         ebsOptions: EBSOptions? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
+        engineMode: EngineMode? = nil,
         engineVersion: String? = nil,
         identityCenterOptions: IdentityCenterOptionsInput? = nil,
         ipAddressType: IPAddressType? = nil,
@@ -547,6 +596,7 @@ public struct OpenSearch: AWSService {
         snapshotOptions: SnapshotOptions? = nil,
         softwareUpdateOptions: SoftwareUpdateOptions? = nil,
         tagList: [Tag]? = nil,
+        useCase: DomainUseCase? = nil,
         vpcOptions: VPCOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDomainResponse {
@@ -555,6 +605,7 @@ public struct OpenSearch: AWSService {
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 
             aimlOptions: aimlOptions, 
+            automatedSnapshotPauseOptions: automatedSnapshotPauseOptions, 
             autoTuneOptions: autoTuneOptions, 
             clusterConfig: clusterConfig, 
             cognitoOptions: cognitoOptions, 
@@ -563,6 +614,7 @@ public struct OpenSearch: AWSService {
             domainName: domainName, 
             ebsOptions: ebsOptions, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
+            engineMode: engineMode, 
             engineVersion: engineVersion, 
             identityCenterOptions: identityCenterOptions, 
             ipAddressType: ipAddressType, 
@@ -572,6 +624,7 @@ public struct OpenSearch: AWSService {
             snapshotOptions: snapshotOptions, 
             softwareUpdateOptions: softwareUpdateOptions, 
             tagList: tagList, 
+            useCase: useCase, 
             vpcOptions: vpcOptions
         )
         return try await self.createDomain(input, logger: logger)
@@ -1005,6 +1058,70 @@ public struct OpenSearch: AWSService {
         return try await self.deleteVpcEndpoint(input, logger: logger)
     }
 
+    /// Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration.
+    @Sendable
+    @inlinable
+    public func deregisterCapability(_ input: DeregisterCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterCapabilityResponse {
+        try await self.client.execute(
+            operation: "DeregisterCapability", 
+            path: "/2021-01-01/opensearch/application/{applicationId}/capability/deregister/{capabilityName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deregisters a capability from an OpenSearch UI application. This operation removes the capability and its associated configuration.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the OpenSearch UI application to deregister the capability from.
+    ///   - capabilityName: The name of the capability to deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterCapability(
+        applicationId: String,
+        capabilityName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterCapabilityResponse {
+        let input = DeregisterCapabilityRequest(
+            applicationId: applicationId, 
+            capabilityName: capabilityName
+        )
+        return try await self.deregisterCapability(input, logger: logger)
+    }
+
+    /// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination.
+    @Sendable
+    @inlinable
+    public func describeDataSourceAttachment(_ input: DescribeDataSourceAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDataSourceAttachmentResponse {
+        try await self.client.execute(
+            operation: "DescribeDataSourceAttachment", 
+            path: "/2021-01-01/opensearch/application/{id}/describeDataSourceAttachment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current status and details of a specific data source attachment for an OpenSearch application. Throws a ResourceNotFoundException if no attachment record exists for the specified application and data source combination.
+    ///
+    /// Parameters:
+    ///   - dataSourceArn: 
+    ///   - id: The unique identifier or name of the OpenSearch application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDataSourceAttachment(
+        dataSourceArn: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDataSourceAttachmentResponse {
+        let input = DescribeDataSourceAttachmentRequest(
+            dataSourceArn: dataSourceArn, 
+            id: id
+        )
+        return try await self.describeDataSourceAttachment(input, logger: logger)
+    }
+
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
     @Sendable
     @inlinable
@@ -1287,6 +1404,41 @@ public struct OpenSearch: AWSService {
         return try await self.describeInboundConnections(input, logger: logger)
     }
 
+    /// Describes the details of an existing insight for an Amazon OpenSearch Service domain. Returns detailed fields associated with the specified insight, such as text descriptions and metric data.
+    @Sendable
+    @inlinable
+    public func describeInsightDetails(_ input: DescribeInsightDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInsightDetailsResponse {
+        try await self.client.execute(
+            operation: "DescribeInsightDetails", 
+            path: "/2021-01-01/opensearch/insight-details", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the details of an existing insight for an Amazon OpenSearch Service domain. Returns detailed fields associated with the specified insight, such as text descriptions and metric data.
+    ///
+    /// Parameters:
+    ///   - entity: The entity for which to retrieve insight details. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+    ///   - insightId: The unique identifier of the insight to describe.
+    ///   - showHtmlContent: Specifies whether to show response with HTML content in response or not.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeInsightDetails(
+        entity: InsightEntity,
+        insightId: String,
+        showHtmlContent: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeInsightDetailsResponse {
+        let input = DescribeInsightDetailsRequest(
+            entity: entity, 
+            insightId: insightId, 
+            showHtmlContent: showHtmlContent
+        )
+        return try await self.describeInsightDetails(input, logger: logger)
+    }
+
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
     @Sendable
     @inlinable
@@ -1491,6 +1643,38 @@ public struct OpenSearch: AWSService {
         return try await self.describeVpcEndpoints(input, logger: logger)
     }
 
+    /// Removes a data source from an OpenSearch application. The application must be in the ACTIVE state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a ConflictException if the specified data source has a PENDING attachment, and a ResourceNotFoundException if the data source is not currently attached to the application.
+    @Sendable
+    @inlinable
+    public func detachDataSource(_ input: DetachDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DetachDataSourceResponse {
+        try await self.client.execute(
+            operation: "DetachDataSource", 
+            path: "/2021-01-01/opensearch/application/{id}/detachDataSource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a data source from an OpenSearch application. The application must be in the ACTIVE state. This operation removes the data source saved object from the application and deletes the attachment record. Throws a ConflictException if the specified data source has a PENDING attachment, and a ResourceNotFoundException if the data source is not currently attached to the application.
+    ///
+    /// Parameters:
+    ///   - dataSourceArn: 
+    ///   - id: The unique identifier or name of the OpenSearch application to detach the data source from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func detachDataSource(
+        dataSourceArn: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DetachDataSourceResponse {
+        let input = DetachDataSourceRequest(
+            dataSourceArn: dataSourceArn, 
+            id: id
+        )
+        return try await self.detachDataSource(input, logger: logger)
+    }
+
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see Custom packages for Amazon OpenSearch Service.
     @Sendable
     @inlinable
@@ -1582,6 +1766,38 @@ public struct OpenSearch: AWSService {
             id: id
         )
         return try await self.getApplication(input, logger: logger)
+    }
+
+    /// Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status.
+    @Sendable
+    @inlinable
+    public func getCapability(_ input: GetCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapabilityResponse {
+        try await self.client.execute(
+            operation: "GetCapability", 
+            path: "/2021-01-01/opensearch/application/{applicationId}/capability/{capabilityName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a registered capability for an OpenSearch UI application, including its configuration and current status.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the OpenSearch UI application.
+    ///   - capabilityName: The name of the capability to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCapability(
+        applicationId: String,
+        capabilityName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCapabilityResponse {
+        let input = GetCapabilityRequest(
+            applicationId: applicationId, 
+            capabilityName: capabilityName
+        )
+        return try await self.getCapability(input, logger: logger)
     }
 
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
@@ -1764,6 +1980,35 @@ public struct OpenSearch: AWSService {
         return try await self.getIndex(input, logger: logger)
     }
 
+    /// Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed.
+    @Sendable
+    @inlinable
+    public func getMigration(_ input: GetMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMigrationResponse {
+        try await self.client.execute(
+            operation: "GetMigration", 
+            path: "/2021-01-01/opensearch/app-migrations/{migrationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current status and progress of a migration job, including the number of exported and imported objects and error details if the migration failed.
+    ///
+    /// Parameters:
+    ///   - migrationId: The unique identifier of the migration job to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMigration(
+        migrationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMigrationResponse {
+        let input = GetMigrationRequest(
+            migrationId: migrationId
+        )
+        return try await self.getMigration(input, logger: logger)
+    }
+
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     @Sendable
     @inlinable
@@ -1863,6 +2108,44 @@ public struct OpenSearch: AWSService {
         return try await self.getUpgradeStatus(input, logger: logger)
     }
 
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight.
+    @Sendable
+    @inlinable
+    public func insightFeedback(_ input: InsightFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InsightFeedbackResponse {
+        try await self.client.execute(
+            operation: "InsightFeedback", 
+            path: "/2021-01-01/opensearch/insight-feedback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits feedback for an existing insight in an Amazon OpenSearch Service domain. Allows users to provide a thumbs up or thumbs down rating and optional text feedback for a specific insight.
+    ///
+    /// Parameters:
+    ///   - entity: The entity for which to submit insight feedback. Specifies the type and value of the entity, such as a domain name.
+    ///   - feedbackText: Optional text feedback providing additional details about the insight. Maximum length is 1000 characters.
+    ///   - insightId: The unique identifier of the insight for which to submit feedback.
+    ///   - thumbs: The thumbs up or thumbs down feedback for the insight. Possible values are Up and Down.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func insightFeedback(
+        entity: InsightFeedbackEntity,
+        feedbackText: String? = nil,
+        insightId: String,
+        thumbs: InsightFeedbackThumbs,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InsightFeedbackResponse {
+        let input = InsightFeedbackRequest(
+            entity: entity, 
+            feedbackText: feedbackText, 
+            insightId: insightId, 
+            thumbs: thumbs
+        )
+        return try await self.insightFeedback(input, logger: logger)
+    }
+
     /// Lists all OpenSearch applications under your account.
     @Sendable
     @inlinable
@@ -1896,6 +2179,41 @@ public struct OpenSearch: AWSService {
             statuses: statuses
         )
         return try await self.listApplications(input, logger: logger)
+    }
+
+    /// Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (PENDING, ATTACHED, and FAILED).
+    @Sendable
+    @inlinable
+    public func listDataSourceAttachments(_ input: ListDataSourceAttachmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourceAttachmentsResponse {
+        try await self.client.execute(
+            operation: "ListDataSourceAttachments", 
+            path: "/2021-01-01/opensearch/application/{id}/listDataSourceAttachments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of all data source attachments for an OpenSearch application, including attachments in all states (PENDING, ATTACHED, and FAILED).
+    ///
+    /// Parameters:
+    ///   - id: The unique identifier or name of the OpenSearch application to list attachments for.
+    ///   - maxResults: The maximum number of results to return per page. The default is 50.
+    ///   - nextToken: The pagination token from a previous call to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataSourceAttachments(
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataSourceAttachmentsResponse {
+        let input = ListDataSourceAttachmentsRequest(
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataSourceAttachments(input, logger: logger)
     }
 
     /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
@@ -2061,6 +2379,47 @@ public struct OpenSearch: AWSService {
         return try await self.listDomainsForPackage(input, logger: logger)
     }
 
+    /// Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account. Returns a paginated list of insights based on the specified entity, filters, time range, and sort order.
+    @Sendable
+    @inlinable
+    public func listInsights(_ input: ListInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsResponse {
+        try await self.client.execute(
+            operation: "ListInsights", 
+            path: "/2021-01-01/opensearch/insights", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists insights for an Amazon OpenSearch Service domain or Amazon Web Services account. Returns a paginated list of insights based on the specified entity, filters, time range, and sort order.
+    ///
+    /// Parameters:
+    ///   - entity: The entity for which to list insights. Specifies the type and value of the entity, such as a domain name or Amazon Web Services account ID.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use NextToken to get the next page of results. Valid values are 1 to 500.
+    ///   - nextToken: If your initial ListInsights operation returns a NextToken, include the returned NextToken in subsequent ListInsights operations to retrieve the next page of results.
+    ///   - sortOrder: The sort order for the results. Possible values are ASC (ascending) and DESC (descending).
+    ///   - timeRange: The time range for filtering insights, specified as epoch millisecond timestamps.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInsights(
+        entity: InsightEntity,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortOrder: InsightSortOrder? = nil,
+        timeRange: InsightTimeRange? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInsightsResponse {
+        let input = ListInsightsRequest(
+            entity: entity, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortOrder: sortOrder, 
+            timeRange: timeRange
+        )
+        return try await self.listInsights(input, logger: logger)
+    }
+
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
     @Sendable
     @inlinable
@@ -2103,6 +2462,44 @@ public struct OpenSearch: AWSService {
             retrieveAZs: retrieveAZs
         )
         return try await self.listInstanceTypeDetails(input, logger: logger)
+    }
+
+    /// Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listMigrations(_ input: ListMigrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMigrationsResponse {
+        try await self.client.execute(
+            operation: "ListMigrations", 
+            path: "/2021-01-01/opensearch/app-migrations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists migration jobs for an Amazon OpenSearch Service application. You can filter results by migration status. Use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the OpenSearch application to list migrations for.
+    ///   - maxResults: The maximum number of results to return in a single call.
+    ///   - nextToken: The pagination token from a previous call to retrieve the next set of results.
+    ///   - status: Filters the results by migration status. Valid values are PENDING, IN_PROGRESS, SUCCEEDED, and FAILED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMigrations(
+        applicationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMigrationsResponse {
+        let input = ListMigrationsRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listMigrations(input, logger: logger)
     }
 
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see Custom packages for Amazon OpenSearch Service.
@@ -2396,6 +2793,41 @@ public struct OpenSearch: AWSService {
         return try await self.putDefaultApplicationSetting(input, logger: logger)
     }
 
+    /// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI.
+    @Sendable
+    @inlinable
+    public func registerCapability(_ input: RegisterCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterCapabilityResponse {
+        try await self.client.execute(
+            operation: "RegisterCapability", 
+            path: "/2021-01-01/opensearch/application/{applicationId}/capability/register", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a capability for an OpenSearch UI application. Use this operation to enable specific capabilities, such as AI features, for a given application. The capability configuration defines the type and settings of the capability to register. For more information about the AI features, see Agentic AI for OpenSearch UI.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the OpenSearch UI application to register the capability for.
+    ///   - capabilityConfig: The configuration settings for the capability being registered. This includes capability-specific settings such as AI configuration.
+    ///   - capabilityName: The name of the capability to register. Must be between 3 and 30 characters and contain only alphanumeric characters and hyphens. This identifies the type of capability being enabled for the application. For registering AI Assistant capability, use ai-capability
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerCapability(
+        applicationId: String,
+        capabilityConfig: CapabilityBaseRequestConfig,
+        capabilityName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterCapabilityResponse {
+        let input = RegisterCapabilityRequest(
+            applicationId: applicationId, 
+            capabilityConfig: capabilityConfig, 
+            capabilityName: capabilityName
+        )
+        return try await self.registerCapability(input, logger: logger)
+    }
+
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     @Sendable
     @inlinable
@@ -2476,20 +2908,52 @@ public struct OpenSearch: AWSService {
     ///   - account: The account ID to revoke access from.
     ///   - domainName: The name of the OpenSearch Service domain.
     ///   - service: The service SP to revoke access from.
+    ///   - serviceOptions: The options for the service, including the supported Regions for the endpoint access.
     ///   - logger: Logger use during operation
     @inlinable
     public func revokeVpcEndpointAccess(
         account: String? = nil,
         domainName: String,
         service: AWSServicePrincipal? = nil,
+        serviceOptions: ServiceOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RevokeVpcEndpointAccessResponse {
         let input = RevokeVpcEndpointAccessRequest(
             account: account, 
             domainName: domainName, 
-            service: service
+            service: service, 
+            serviceOptions: serviceOptions
         )
         return try await self.revokeVpcEndpointAccess(input, logger: logger)
+    }
+
+    /// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service.
+    @Sendable
+    @inlinable
+    public func rollbackServiceSoftwareUpdate(_ input: RollbackServiceSoftwareUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RollbackServiceSoftwareUpdateResponse {
+        try await self.client.execute(
+            operation: "RollbackServiceSoftwareUpdate", 
+            path: "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Rolls back a service software update for a domain to the previous version. For more information, see Service software updates in Amazon OpenSearch Service.
+    ///
+    /// Parameters:
+    ///   - domainName: The name of the domain to roll back the service software update on.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rollbackServiceSoftwareUpdate(
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RollbackServiceSoftwareUpdateResponse {
+        let input = RollbackServiceSoftwareUpdateRequest(
+            domainName: domainName
+        )
+        return try await self.rollbackServiceSoftwareUpdate(input, logger: logger)
     }
 
     /// Starts the node maintenance process on the data node. These processes can include a node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
@@ -2525,6 +2989,41 @@ public struct OpenSearch: AWSService {
             nodeId: nodeId
         )
         return try await self.startDomainMaintenance(input, logger: logger)
+    }
+
+    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace.
+    @Sendable
+    @inlinable
+    public func startMigration(_ input: StartMigrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMigrationResponse {
+        try await self.client.execute(
+            operation: "StartMigration", 
+            path: "/2021-01-01/opensearch/app-migrations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a migration job to migrate saved objects from a data source to an Amazon OpenSearch Service application workspace. Saved objects include dashboards, visualizations, index patterns, and searches. You can specify export filters to control the scope of the migration and a conflict resolution strategy for handling existing objects in the target workspace.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the OpenSearch application to migrate saved objects into.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon OpenSearch Service ignores the request but does not return an error.
+    ///   - migrationOptions: The configuration options for the migration, including the source data source, target workspace, export filters, and conflict resolution strategy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMigration(
+        applicationId: String,
+        clientToken: String? = nil,
+        migrationOptions: MigrationOptions,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMigrationResponse {
+        let input = StartMigrationRequest(
+            applicationId: applicationId, 
+            clientToken: clientToken, 
+            migrationOptions: migrationOptions
+        )
+        return try await self.startMigration(input, logger: logger)
     }
 
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see Service software updates in Amazon OpenSearch Service.
@@ -2580,18 +3079,21 @@ public struct OpenSearch: AWSService {
     /// Parameters:
     ///   - appConfigs: The configuration settings to modify for the OpenSearch application.
     ///   - dataSources: The data sources to associate with the OpenSearch application.
+    ///   - iamIdentityCenterOptions: Configuration settings for integrating IAM Identity Center with the OpenSearch application.
     ///   - id: The unique identifier for the OpenSearch application to be updated.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
         appConfigs: [AppConfig]? = nil,
         dataSources: [DataSource]? = nil,
+        iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil,
         id: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateApplicationResponse {
         let input = UpdateApplicationRequest(
             appConfigs: appConfigs, 
             dataSources: dataSources, 
+            iamIdentityCenterOptions: iamIdentityCenterOptions, 
             id: id
         )
         return try await self.updateApplication(input, logger: logger)
@@ -2658,7 +3160,7 @@ public struct OpenSearch: AWSService {
     ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
+    ///   - openSearchArns:  An optional list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source. This field is required for CloudWatchLogs and SecurityLake datasource types.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectQueryDataSource(
@@ -2666,7 +3168,7 @@ public struct OpenSearch: AWSService {
         dataSourceName: String,
         dataSourceType: DirectQueryDataSourceType,
         description: String? = nil,
-        openSearchArns: [String],
+        openSearchArns: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDirectQueryDataSourceResponse {
         let input = UpdateDirectQueryDataSourceRequest(
@@ -2699,6 +3201,7 @@ public struct OpenSearch: AWSService {
     ///   - advancedOptions: Key-value pairs to specify advanced configuration options. The following key-value pairs are supported:    "rest.action.multi.allow_explicit_index": "true" | "false" - Note the use of a string rather than a boolean. Specifies whether explicit references to indexes are allowed inside the body of HTTP requests. If you want to configure access policies for domain sub-resources, such as specific indexes and domain APIs, you must disable this property. Default is true.    "indices.fielddata.cache.size": "80"  - Note the use of a string rather than a boolean. Specifies the percentage of heap space allocated to field data. Default is unbounded.    "indices.query.bool.max_clause_count": "1024" - Note the use of a string rather than a boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses error.   For more information, see Advanced cluster parameters.
     ///   - advancedSecurityOptions: Options for fine-grained access control.
     ///   - aimlOptions: Options for all machine learning features for the specified domain.
+    ///   - automatedSnapshotPauseOptions: Specifies the automated snapshot pause options for the domain.  Suspending snapshots reduces data protection. You cannot restore your domain to points in time when snapshots are suspended. Use this feature only for short-term operational needs such as migrations or maintenance windows.  Maximum suspension duration: 3 days.
     ///   - autoTuneOptions: Options for Auto-Tune.
     ///   - clusterConfig: Changes that you want to make to the cluster configuration, such as the instance type and number of EC2 instances.
     ///   - cognitoOptions: Key-value pairs to configure Amazon Cognito authentication for OpenSearch Dashboards.
@@ -2709,6 +3212,7 @@ public struct OpenSearch: AWSService {
     ///   - dryRunMode: The type of dry run to perform.    Basic only returns the type of deployment (blue/green or dynamic) that the update will cause.    Verbose runs an additional check to validate the changes you're making. For more information, see Validating a domain update.
     ///   - ebsOptions: The type and size of the EBS volume to attach to instances in the domain.
     ///   - encryptionAtRestOptions: Encryption at rest options for the domain.
+    ///   - engineMode: The engine mode for the domain. The engine mode can't be changed after the domain is created. For valid values, see EngineMode.
     ///   - identityCenterOptions: 
     ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
     ///   - logPublishingOptions: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
@@ -2716,6 +3220,7 @@ public struct OpenSearch: AWSService {
     ///   - offPeakWindowOptions: Off-peak window options for the domain.
     ///   - snapshotOptions: Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
     ///   - softwareUpdateOptions: Service software update options for the domain.
+    ///   - useCase: The primary use case for the domain. For valid values, see DomainUseCase.
     ///   - vpcOptions: Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2724,6 +3229,7 @@ public struct OpenSearch: AWSService {
         advancedOptions: [String: String]? = nil,
         advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil,
         aimlOptions: AIMLOptionsInput? = nil,
+        automatedSnapshotPauseOptions: AutomatedSnapshotPauseRequestOptions? = nil,
         autoTuneOptions: AutoTuneOptions? = nil,
         clusterConfig: ClusterConfig? = nil,
         cognitoOptions: CognitoOptions? = nil,
@@ -2734,6 +3240,7 @@ public struct OpenSearch: AWSService {
         dryRunMode: DryRunMode? = nil,
         ebsOptions: EBSOptions? = nil,
         encryptionAtRestOptions: EncryptionAtRestOptions? = nil,
+        engineMode: EngineMode? = nil,
         identityCenterOptions: IdentityCenterOptionsInput? = nil,
         ipAddressType: IPAddressType? = nil,
         logPublishingOptions: [LogType: LogPublishingOption]? = nil,
@@ -2741,6 +3248,7 @@ public struct OpenSearch: AWSService {
         offPeakWindowOptions: OffPeakWindowOptions? = nil,
         snapshotOptions: SnapshotOptions? = nil,
         softwareUpdateOptions: SoftwareUpdateOptions? = nil,
+        useCase: DomainUseCase? = nil,
         vpcOptions: VPCOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainConfigResponse {
@@ -2749,6 +3257,7 @@ public struct OpenSearch: AWSService {
             advancedOptions: advancedOptions, 
             advancedSecurityOptions: advancedSecurityOptions, 
             aimlOptions: aimlOptions, 
+            automatedSnapshotPauseOptions: automatedSnapshotPauseOptions, 
             autoTuneOptions: autoTuneOptions, 
             clusterConfig: clusterConfig, 
             cognitoOptions: cognitoOptions, 
@@ -2759,6 +3268,7 @@ public struct OpenSearch: AWSService {
             dryRunMode: dryRunMode, 
             ebsOptions: ebsOptions, 
             encryptionAtRestOptions: encryptionAtRestOptions, 
+            engineMode: engineMode, 
             identityCenterOptions: identityCenterOptions, 
             ipAddressType: ipAddressType, 
             logPublishingOptions: logPublishingOptions, 
@@ -2766,6 +3276,7 @@ public struct OpenSearch: AWSService {
             offPeakWindowOptions: offPeakWindowOptions, 
             snapshotOptions: snapshotOptions, 
             softwareUpdateOptions: softwareUpdateOptions, 
+            useCase: useCase, 
             vpcOptions: vpcOptions
         )
         return try await self.updateDomainConfig(input, logger: logger)

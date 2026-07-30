@@ -32,15 +32,25 @@ extension WAFV2 {
         case challenge = "CHALLENGE"
         case count = "COUNT"
         case excludedAsCount = "EXCLUDED_AS_COUNT"
+        case monetize = "MONETIZE"
         public var description: String { return self.rawValue }
     }
 
     public enum AssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentcoreGateway = "AGENTCORE_GATEWAY"
         case apiGateway = "API_GATEWAY"
         case appRunnerService = "APP_RUNNER_SERVICE"
         case cloudfront = "CLOUDFRONT"
         case cognitoUserPool = "COGNITO_USER_POOL"
         case verifiedAccessInstance = "VERIFIED_ACCESS_INSTANCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BlockchainChain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case base = "BASE"
+        case baseSepolia = "BASE_SEPOLIA"
+        case solana = "SOLANA"
+        case solanaDevnet = "SOLANA_DEVNET"
         public var description: String { return self.rawValue }
     }
 
@@ -315,6 +325,22 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CryptoCurrency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case usdc = "USDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Currency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case usdc = "USDC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrencyMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case real = "REAL"
+        case test = "TEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataProtectionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hash = "HASH"
         case substitution = "SUBSTITUTION"
@@ -363,6 +389,15 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case category = "CATEGORY"
+        case intent = "INTENT"
+        case name = "NAME"
+        case organization = "ORGANIZATION"
+        case webacl = "WEBACL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IPAddressVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipv4 = "IPV4"
         case ipv6 = "IPV6"
@@ -372,6 +407,14 @@ extension WAFV2 {
     public enum InspectionLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case common = "COMMON"
         case targeted = "TARGETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntervalType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case daily = "DAILY"
+        case fiveMinutely = "FIVE_MINUTELY"
+        case hourly = "HOURLY"
+        case minutely = "MINUTELY"
         public var description: String { return self.rawValue }
     }
 
@@ -464,12 +507,16 @@ extension WAFV2 {
         case managedRuleSetStatement = "MANAGED_RULE_SET_STATEMENT"
         case mapMatchScope = "MAP_MATCH_SCOPE"
         case metricName = "METRIC_NAME"
+        case monetizationConfig = "MONETIZATION_CONFIG"
         case notStatement = "NOT_STATEMENT"
         case orStatement = "OR_STATEMENT"
         case overrideAction = "OVERRIDE_ACTION"
         case oversizeHandling = "OVERSIZE_HANDLING"
         case payloadType = "PAYLOAD_TYPE"
+        case paymentNetwork = "PAYMENT_NETWORK"
         case position = "POSITION"
+        case preParseTextTransformation = "PRE_PARSE_TEXT_TRANSFORMATION"
+        case priceAmount = "PRICE_AMOUNT"
         case rateBasedStatement = "RATE_BASED_STATEMENT"
         case regexPatternReferenceStatement = "REGEX_PATTERN_REFERENCE_STATEMENT"
         case regexPatternSet = "REGEX_PATTERN_SET"
@@ -491,6 +538,7 @@ extension WAFV2 {
         case tags = "TAGS"
         case textTransformation = "TEXT_TRANSFORMATION"
         case tokenDomain = "TOKEN_DOMAIN"
+        case walletAddress = "WALLET_ADDRESS"
         case webAcl = "WEB_ACL"
         case xssMatchStatement = "XSS_MATCH_STATEMENT"
         public var description: String { return self.rawValue }
@@ -517,6 +565,28 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PreParseTextTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case combineDuplicateQueryArgsByComma = "COMBINE_DUPLICATE_QUERY_ARGS_BY_COMMA"
+        case none = "NONE"
+        case replaceSemicolonsWithAmpersands = "REPLACE_SEMICOLONS_WITH_AMPERSANDS"
+        case urlDecode = "URL_DECODE"
+        case urlDecodeUni = "URL_DECODE_UNI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RankingSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case name = "NAME"
+        case percentage = "PERCENTAGE"
+        case revenue = "REVENUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RankingStatisticType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case topPathsByRevenue = "TOP_PATHS_BY_REVENUE"
+        case topSourcesByRevenue = "TOP_SOURCES_BY_REVENUE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RateBasedStatementAggregateKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case constant = "CONSTANT"
         case customKeys = "CUSTOM_KEYS"
@@ -526,6 +596,7 @@ extension WAFV2 {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentcoreGateway = "AGENTCORE_GATEWAY"
         case amplify = "AMPLIFY"
         case apiGateway = "API_GATEWAY"
         case appRunnerService = "APP_RUNNER_SERVICE"
@@ -562,6 +633,24 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SettlementSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case amount = "AMOUNT"
+        case name = "NAME"
+        case status = "STATUS"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SettlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case duplicate = "DUPLICATE"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case serviceError = "SERVICE_ERROR"
+        case settled = "SETTLED"
+        case skippedOriginError = "SKIPPED_ORIGIN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SizeInspectionLimit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kb16 = "KB_16"
         case kb32 = "KB_32"
@@ -570,28 +659,50 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asc = "ASC"
+        case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TextTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case base64Decode = "BASE64_DECODE"
         case base64DecodeExt = "BASE64_DECODE_EXT"
         case cmdLine = "CMD_LINE"
+        case cmdLineUnix = "CMD_LINE_UNIX"
+        case cmdLineWin = "CMD_LINE_WIN"
         case compressWhiteSpace = "COMPRESS_WHITE_SPACE"
         case cssDecode = "CSS_DECODE"
         case escapeSeqDecode = "ESCAPE_SEQ_DECODE"
         case hexDecode = "HEX_DECODE"
         case htmlEntityDecode = "HTML_ENTITY_DECODE"
         case jsDecode = "JS_DECODE"
+        case jsDecodeExt = "JS_DECODE_EXT"
         case lowercase = "LOWERCASE"
         case md5 = "MD5"
         case none = "NONE"
         case normalizePath = "NORMALIZE_PATH"
         case normalizePathWin = "NORMALIZE_PATH_WIN"
+        case removeCommentsChar = "REMOVE_COMMENTS_CHAR"
         case removeNulls = "REMOVE_NULLS"
+        case removeWhitespace = "REMOVE_WHITESPACE"
         case replaceComments = "REPLACE_COMMENTS"
         case replaceNulls = "REPLACE_NULLS"
+        case sha256 = "SHA256"
         case sqlHexDecode = "SQL_HEX_DECODE"
+        case trim = "TRIM"
+        case trimLeft = "TRIM_LEFT"
+        case trimRight = "TRIM_RIGHT"
+        case uppercase = "UPPERCASE"
         case urlDecode = "URL_DECODE"
         case urlDecodeUni = "URL_DECODE_UNI"
         case utf8ToUnicode = "UTF8_TO_UNICODE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TimeSeriesStatisticType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dateHistogram = "DATE_HISTOGRAM"
+        case paymentTraffic = "PAYMENT_TRAFFIC"
         public var description: String { return self.rawValue }
     }
 
@@ -919,7 +1030,7 @@ extension WAFV2 {
     }
 
     public struct AssociateWebACLRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+        /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
         public let resourceArn: String
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         public let webACLArn: String
@@ -1022,6 +1133,8 @@ extension WAFV2 {
         public let fieldToMatch: FieldToMatch
         /// The area within the portion of the web request that you want WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
         public let positionalConstraint: PositionalConstraint
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
         /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 200 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.     JA3Fingerprint: Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to  EXACTLY.  You can obtain the JA3 fingerprint for client requests from the web ACL logs.
         /// 						If WAF is able to calculate the fingerprint, it includes it in the logs.
         /// 						For information about the logging fields,
@@ -1031,15 +1144,19 @@ extension WAFV2 {
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, searchString: AWSBase64Data, textTransformations: [TextTransformation]) {
+        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, preParseTextTransformations: [PreParseTextTransformation]? = nil, searchString: AWSBase64Data, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
+            self.preParseTextTransformations = preParseTextTransformations
             self.searchString = searchString
             self.textTransformations = textTransformations
         }
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
@@ -1049,6 +1166,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case fieldToMatch = "FieldToMatch"
             case positionalConstraint = "PositionalConstraint"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case searchString = "SearchString"
             case textTransformations = "TextTransformations"
         }
@@ -1535,6 +1653,8 @@ extension WAFV2 {
         public let customResponseBodies: [String: CustomResponseBody]?
         /// A description of the rule group that helps with identification.
         public let description: String?
+        /// The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
         /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
@@ -1547,10 +1667,11 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(capacity: Int64, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(capacity: Int64, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, monetizationConfig: MonetizationConfig? = nil, name: String, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, visibilityConfig: VisibilityConfig) {
             self.capacity = capacity
             self.customResponseBodies = customResponseBodies
             self.description = description
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.rules = rules
             self.scope = scope
@@ -1570,6 +1691,7 @@ extension WAFV2 {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.monetizationConfig?.validate(name: "\(name).monetizationConfig")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1587,6 +1709,7 @@ extension WAFV2 {
             case capacity = "Capacity"
             case customResponseBodies = "CustomResponseBodies"
             case description = "Description"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case rules = "Rules"
             case scope = "Scope"
@@ -1627,6 +1750,8 @@ extension WAFV2 {
         public let defaultAction: DefaultAction
         /// A description of the web ACL that helps with identification.
         public let description: String?
+        /// The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
         /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
@@ -1643,7 +1768,7 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, monetizationConfig: MonetizationConfig? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tags: [Tag]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.applicationConfig = applicationConfig
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
@@ -1652,6 +1777,7 @@ extension WAFV2 {
             self.dataProtectionConfig = dataProtectionConfig
             self.defaultAction = defaultAction
             self.description = description
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.rules = rules
@@ -1677,6 +1803,7 @@ extension WAFV2 {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w+=:#@/\\-,\\.][\\w+=:#@/\\-,\\.\\s]+[\\w+=:#@/\\-,\\.]$")
+            try self.monetizationConfig?.validate(name: "\(name).monetizationConfig")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -1704,6 +1831,7 @@ extension WAFV2 {
             case dataProtectionConfig = "DataProtectionConfig"
             case defaultAction = "DefaultAction"
             case description = "Description"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case rules = "Rules"
@@ -1725,6 +1853,28 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case summary = "Summary"
+        }
+    }
+
+    public struct CryptoConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The blockchain payment networks configured to receive payments. You can specify 1 to 2 networks. All networks must be in the same environment-either all production networks (Base, Solana) or all test networks (Base Sepolia, Solana Devnet).
+        public let paymentNetworks: [PaymentNetwork]
+
+        @inlinable
+        public init(paymentNetworks: [PaymentNetwork]) {
+            self.paymentNetworks = paymentNetworks
+        }
+
+        public func validate(name: String) throws {
+            try self.paymentNetworks.forEach {
+                try $0.validate(name: "\(name).paymentNetworks[]")
+            }
+            try self.validate(self.paymentNetworks, name: "paymentNetworks", parent: name, max: 2)
+            try self.validate(self.paymentNetworks, name: "paymentNetworks", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentNetworks = "PaymentNetworks"
         }
     }
 
@@ -1831,6 +1981,44 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case contentType = "ContentType"
+        }
+    }
+
+    public struct DataPointEntry: AWSDecodableShape {
+        /// The bot category for this data point, when grouped by category.
+        public let category: String?
+        /// The timestamp for this data point.
+        public let date: Date?
+        /// The group-by dimension value for this data point.
+        public let groupByValue: String?
+        /// The intent classification for this data point, when grouped by intent.
+        public let intent: String?
+        /// The number of HTTP 402 Payment Required responses served during this interval.
+        public let monetizeServedCount: Int64?
+        /// The number of successfully settled payments during this interval.
+        public let settledCount: Int64?
+        /// The total revenue amount during this interval in the specified currency.
+        public let totalAmount: String?
+
+        @inlinable
+        public init(category: String? = nil, date: Date? = nil, groupByValue: String? = nil, intent: String? = nil, monetizeServedCount: Int64? = nil, settledCount: Int64? = nil, totalAmount: String? = nil) {
+            self.category = category
+            self.date = date
+            self.groupByValue = groupByValue
+            self.intent = intent
+            self.monetizeServedCount = monetizeServedCount
+            self.settledCount = settledCount
+            self.totalAmount = totalAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case date = "Date"
+            case groupByValue = "GroupByValue"
+            case intent = "Intent"
+            case monetizeServedCount = "MonetizeServedCount"
+            case settledCount = "SettledCount"
+            case totalAmount = "TotalAmount"
         }
     }
 
@@ -2364,7 +2552,7 @@ extension WAFV2 {
     }
 
     public struct DisassociateWebACLRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+        /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
         public let resourceArn: String
 
         @inlinable
@@ -3087,6 +3275,216 @@ extension WAFV2 {
         }
     }
 
+    public struct GetRevenueStatisticsRequest: AWSEncodableShape {
+        /// The currency for the revenue amounts in the response.
+        public let currency: Currency
+        /// Optional filters to narrow the results.
+        public let filters: [MonetizationFilter]?
+        /// The dimension to group results by: NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL. Required when StatisticType is TOP_SOURCES_BY_REVENUE. Not required for TOP_PATHS_BY_REVENUE, where results are grouped by content path. If StatisticType is TOP_SOURCES_BY_REVENUE and GroupBy is omitted, the request is rejected with a WAFInvalidParameterException.
+        public let groupBy: GroupByType?
+        /// The maximum number of results to return.
+        public let limit: Int?
+        /// When you get a paginated response, this marker indicates that additional results are available. Use it in a subsequent request to retrieve the next page of results.
+        public let nextMarker: String?
+        /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+        public let scope: Scope
+        /// The field to sort results by: REVENUE, PERCENTAGE, or NAME.
+        public let sortBy: RankingSortBy?
+        /// The sort order: ASC for ascending or DESC for descending.
+        public let sortOrder: SortOrder?
+        ///  TOP_SOURCES_BY_REVENUE ranks revenue from AI bot traffic, grouped by the dimension you specify in the GroupBy parameter (NAME, CATEGORY, INTENT, ORGANIZATION, or WEBACL); GroupBy is required for this statistic type. TOP_PATHS_BY_REVENUE ranks revenue by path.
+        public let statisticType: RankingStatisticType
+        /// The time range for the query. Specify start and end timestamps.
+        public let timeWindow: TimeWindow
+
+        @inlinable
+        public init(currency: Currency, filters: [MonetizationFilter]? = nil, groupBy: GroupByType? = nil, limit: Int? = nil, nextMarker: String? = nil, scope: Scope, sortBy: RankingSortBy? = nil, sortOrder: SortOrder? = nil, statisticType: RankingStatisticType, timeWindow: TimeWindow) {
+            self.currency = currency
+            self.filters = filters
+            self.groupBy = groupBy
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.scope = scope
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.statisticType = statisticType
+            self.timeWindow = timeWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case filters = "Filters"
+            case groupBy = "GroupBy"
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case scope = "Scope"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case statisticType = "StatisticType"
+            case timeWindow = "TimeWindow"
+        }
+    }
+
+    public struct GetRevenueStatisticsResponse: AWSDecodableShape {
+        /// When you get a paginated response, this marker indicates that additional results are available.
+        public let nextMarker: String?
+        /// Statistics for top revenue paths. Populated when StatisticType is TOP_PATHS_BY_REVENUE.
+        public let revenuePathStatistics: [RevenuePathStatistics]?
+        /// Statistics for top revenue sources (AI bots). Populated when StatisticType is TOP_SOURCES_BY_REVENUE.
+        public let sourceStatistics: [SourceStatistics]?
+
+        @inlinable
+        public init(nextMarker: String? = nil, revenuePathStatistics: [RevenuePathStatistics]? = nil, sourceStatistics: [SourceStatistics]? = nil) {
+            self.nextMarker = nextMarker
+            self.revenuePathStatistics = revenuePathStatistics
+            self.sourceStatistics = sourceStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case revenuePathStatistics = "RevenuePathStatistics"
+            case sourceStatistics = "SourceStatistics"
+        }
+    }
+
+    public struct GetRevenueStatisticsSummaryRequest: AWSEncodableShape {
+        /// The currency for the revenue amounts in the response. Currently only USDC is supported.
+        public let currency: Currency
+        /// Optional filters to narrow the results. You can filter by source name, category, organization, intent, verified status, content path, web ACL ARN, or currency mode.
+        public let filters: [MonetizationFilter]?
+        /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL). AI bot monetization is only available for CLOUDFRONT scope.
+        public let scope: Scope
+        /// The time range for the revenue summary query. Specify start and end timestamps.
+        public let timeWindow: TimeWindow
+
+        @inlinable
+        public init(currency: Currency, filters: [MonetizationFilter]? = nil, scope: Scope, timeWindow: TimeWindow) {
+            self.currency = currency
+            self.filters = filters
+            self.scope = scope
+            self.timeWindow = timeWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case filters = "Filters"
+            case scope = "Scope"
+            case timeWindow = "TimeWindow"
+        }
+    }
+
+    public struct GetRevenueStatisticsSummaryResponse: AWSDecodableShape {
+        /// The revenue breakdown summary for the specified time window and filters.
+        public let revenueBreakdown: RevenueBreakdown?
+
+        @inlinable
+        public init(revenueBreakdown: RevenueBreakdown? = nil) {
+            self.revenueBreakdown = revenueBreakdown
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revenueBreakdown = "RevenueBreakdown"
+        }
+    }
+
+    public struct GetRevenueStatisticsTimeSeriesRequest: AWSEncodableShape {
+        /// The currency for the amounts in the response.
+        public let currency: Currency
+        /// Optional filters to narrow the results.
+        public let filters: [MonetizationFilter]?
+        /// The dimension to group results by.
+        public let groupBy: GroupByType?
+        /// The time interval for aggregating data points: MINUTELY, FIVE_MINUTELY, HOURLY, or DAILY.
+        public let interval: IntervalType
+        /// The maximum number of data points to return. Minimum: 1. Maximum: 10000.
+        public let limit: Int?
+        /// When you get a paginated response, this marker indicates that additional results are available.
+        public let nextMarker: String?
+        /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+        public let scope: Scope
+        /// The type of time series data to retrieve: DATE_HISTOGRAM for revenue over time, or PAYMENT_TRAFFIC for payment traffic patterns.
+        public let statisticType: TimeSeriesStatisticType
+        /// The time range for the query. Specify start and end timestamps.
+        public let timeWindow: TimeWindow
+
+        @inlinable
+        public init(currency: Currency, filters: [MonetizationFilter]? = nil, groupBy: GroupByType? = nil, interval: IntervalType, limit: Int? = nil, nextMarker: String? = nil, scope: Scope, statisticType: TimeSeriesStatisticType, timeWindow: TimeWindow) {
+            self.currency = currency
+            self.filters = filters
+            self.groupBy = groupBy
+            self.interval = interval
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.scope = scope
+            self.statisticType = statisticType
+            self.timeWindow = timeWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 10000)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case filters = "Filters"
+            case groupBy = "GroupBy"
+            case interval = "Interval"
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case scope = "Scope"
+            case statisticType = "StatisticType"
+            case timeWindow = "TimeWindow"
+        }
+    }
+
+    public struct GetRevenueStatisticsTimeSeriesResponse: AWSDecodableShape {
+        /// The list of time series data points.
+        public let dataPoints: [DataPointEntry]?
+        /// When you get a paginated response, this marker indicates that additional results are available.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(dataPoints: [DataPointEntry]? = nil, nextMarker: String? = nil) {
+            self.dataPoints = dataPoints
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPoints = "DataPoints"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct GetRuleGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String?
@@ -3307,7 +3705,7 @@ extension WAFV2 {
     }
 
     public struct GetWebACLForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
+        /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve.  The ARN must be in one of the following formats:   For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Amazon API Gateway REST API: arn:partition:apigateway:region::/restapis/api-id/stages/stage-name     For an AppSync GraphQL API: arn:partition:appsync:region:account-id:apis/GraphQLApiId     For an Amazon Cognito user pool: arn:partition:cognito-idp:region:account-id:userpool/user-pool-id     For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id     For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id     For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id     For an Amazon Bedrock AgentCore Gateway: arn:partition:bedrock-agentcore:region:account-id:gateway/gateway-id
         public let resourceArn: String
 
         @inlinable
@@ -4327,6 +4725,79 @@ extension WAFV2 {
         }
     }
 
+    public struct ListSettlementRecordsRequest: AWSEncodableShape {
+        /// The currency for the amounts in the response.
+        public let currency: Currency
+        /// Optional filters to narrow the results. You can filter by payer address, status, source name, network, or other settlement fields.
+        public let filters: [MonetizationFilter]?
+        /// The maximum number of settlement records to return. Minimum: 1. Maximum: 100.
+        public let limit: Int?
+        /// When you get a paginated response, this marker indicates that additional results are available.
+        public let nextMarker: String?
+        /// Specifies whether this is for a Amazon CloudFront distribution (CLOUDFRONT) or for a regional application (REGIONAL).
+        public let scope: Scope
+        /// The field to sort settlement records by: TIMESTAMP, AMOUNT, NAME, or STATUS.
+        public let sortBy: SettlementSortBy?
+        /// The sort order: ASC for ascending or DESC for descending.
+        public let sortOrder: SortOrder?
+        /// The time range for the query. Specify start and end timestamps.
+        public let timeWindow: TimeWindow
+
+        @inlinable
+        public init(currency: Currency, filters: [MonetizationFilter]? = nil, limit: Int? = nil, nextMarker: String? = nil, scope: Scope, sortBy: SettlementSortBy? = nil, sortOrder: SortOrder? = nil, timeWindow: TimeWindow) {
+            self.currency = currency
+            self.filters = filters
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.scope = scope
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.timeWindow = timeWindow
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 20)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case filters = "Filters"
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case scope = "Scope"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case timeWindow = "TimeWindow"
+        }
+    }
+
+    public struct ListSettlementRecordsResponse: AWSDecodableShape {
+        /// When you get a paginated response, this marker indicates that additional results are available.
+        public let nextMarker: String?
+        /// The list of settlement records.
+        public let settlements: [SettlementRecord]?
+
+        @inlinable
+        public init(nextMarker: String? = nil, settlements: [SettlementRecord]? = nil) {
+            self.nextMarker = nextMarker
+            self.settlements = settlements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case settlements = "Settlements"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The maximum number of objects that you want WAF to return for this request. If more  objects are available, in the response, WAF provides a  NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -4863,6 +5334,77 @@ extension WAFV2 {
         }
     }
 
+    public struct MonetizationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The cryptocurrency payment configuration, including the blockchain networks and wallet addresses where you receive payments.
+        public let cryptoConfig: CryptoConfig?
+        /// Specifies whether the configuration uses real or test currency. Set to REAL to settle payments in USDC on production blockchain networks (Base, Solana). Set to TEST to settle on testnet networks (Base Sepolia, Solana Devnet) with tokens that have no monetary value. If not specified, defaults to REAL.
+        public let currencyMode: CurrencyMode?
+
+        @inlinable
+        public init(cryptoConfig: CryptoConfig? = nil, currencyMode: CurrencyMode? = nil) {
+            self.cryptoConfig = cryptoConfig
+            self.currencyMode = currencyMode
+        }
+
+        public func validate(name: String) throws {
+            try self.cryptoConfig?.validate(name: "\(name).cryptoConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cryptoConfig = "CryptoConfig"
+            case currencyMode = "CurrencyMode"
+        }
+    }
+
+    public struct MonetizationFilter: AWSEncodableShape {
+        /// The filter name. Format: Key is a string, Value is a list of strings. Enum-restricted (invalid values rejected):    CurrencyMode: REAL, TEST     ChainName: BASE, SOLANA, BASE_SEPOLIA, SOLANA_DEVNET     SettlementStatus: SETTLED, PENDING, FAILED, SERVICE_ERROR, SKIPPED_ORIGIN_ERROR, DUPLICATE     HttpSourceName: CF, ALB, APIGW, APPRUNNER, COGNITO, VERIFIED_ACCESS    ARN-validated:    WebACLArn: valid WAFv2 web ACL ARN   Free-text (any string up to 256 chars):    SourceName: The name of the bot. Populated from Bot Control verified bot labels.    SourceCategory: The category classification of the bot. From Bot Control categorization.    Intent: The declared intent of the bot request.    Organization: The organization operating the bot.    UriPathPrefix: The URI path of the request that was monetized.    RequestId: The WAF request ID associated with the transaction. Matches the requestId in WAF logs. Pattern: ^[a-zA-Z0-9:._\-=+/]+$     TransactionId: The blockchain transaction identifier. Pattern: ^[a-zA-Z0-9:._\-=+/]+$     TerminatingRuleName: The name of the WAF rule that triggered the Monetize action.    PayerAddress: The blockchain wallet address of the paying client. Pattern: ^[a-zA-Z0-9:._\-=+/]+$     HttpSourceId: The identifier of the Amazon Web Services resource associated with the web ACL (for example, CloudFront distribution ID).
+        public let name: String
+        /// The values to filter on. Specify as a list of strings. Results match any of the specified values (OR logic). Duplicate values are silently deduplicated. Maximum: 20 values per filter.
+        public let values: [String]
+
+        @inlinable
+        public init(name: String, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct MonetizeAction: AWSEncodableShape & AWSDecodableShape {
+        /// An integer multiplier applied to the base price defined in the web ACL's MonetizationConfig. The effective price for the request is the base price multiplied by this value. Specify as a string. Valid values: 1 to 100.
+        public let priceMultiplier: String?
+
+        @inlinable
+        public init(priceMultiplier: String? = nil) {
+            self.priceMultiplier = priceMultiplier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priceMultiplier, name: "priceMultiplier", parent: name, max: 3)
+            try self.validate(self.priceMultiplier, name: "priceMultiplier", parent: name, min: 1)
+            try self.validate(self.priceMultiplier, name: "priceMultiplier", parent: name, pattern: "^([1-9][0-9]?|100)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priceMultiplier = "PriceMultiplier"
+        }
+    }
+
     public struct NoneAction: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -4991,6 +5533,39 @@ extension WAFV2 {
         }
     }
 
+    public struct PaymentNetwork: AWSEncodableShape & AWSDecodableShape {
+        /// The blockchain network for receiving payments. Production networks: BASE (Base mainnet), SOLANA (Solana mainnet). Test networks: BASE_SEPOLIA (Base Sepolia testnet), SOLANA_DEVNET (Solana Devnet).
+        public let chain: BlockchainChain
+        /// The price configuration for this payment network. Currently supports a single price entry in USDC.
+        public let prices: [Price]
+        /// Your wallet address on the specified blockchain where payments are sent. For EVM chains (Base, Base Sepolia), provide a valid Ethereum address (42 characters including 0x prefix). For Solana chains, provide a valid Base58-encoded public key (32-44 characters). For EVM addresses, WAF performs EIP-55 checksum validation for typo detection when the address uses a mix of lower and upper case letters. You can bypass this validation by providing the address in all lowercase or all uppercase.
+        public let walletAddress: String
+
+        @inlinable
+        public init(chain: BlockchainChain, prices: [Price], walletAddress: String) {
+            self.chain = chain
+            self.prices = prices
+            self.walletAddress = walletAddress
+        }
+
+        public func validate(name: String) throws {
+            try self.prices.forEach {
+                try $0.validate(name: "\(name).prices[]")
+            }
+            try self.validate(self.prices, name: "prices", parent: name, max: 1)
+            try self.validate(self.prices, name: "prices", parent: name, min: 1)
+            try self.validate(self.walletAddress, name: "walletAddress", parent: name, max: 44)
+            try self.validate(self.walletAddress, name: "walletAddress", parent: name, min: 26)
+            try self.validate(self.walletAddress, name: "walletAddress", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chain = "Chain"
+            case prices = "Prices"
+            case walletAddress = "WalletAddress"
+        }
+    }
+
     public struct PhoneNumberField: AWSEncodableShape & AWSDecodableShape {
         /// The name of a single primary phone number field.  How you specify the phone number fields depends on the request inspection payload type.   For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation JavaScript 	Object Notation (JSON) Pointer.  For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } },  the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.   For form encoded payload types, use the HTML form names. For example, for an HTML form with input elements named primaryphoneline1, primaryphoneline2, and primaryphoneline3, the phone number field identifiers are primaryphoneline1, primaryphoneline2, and primaryphoneline3.
         public let identifier: String
@@ -5008,6 +5583,52 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+        }
+    }
+
+    public struct PreParseTextTransformation: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the relative processing order for the pre-parse text transformations that you define. WAF processes all transformations, from lowest priority value to highest, before inspecting the transformed content.
+        public let priority: Int
+        /// The type of pre-parse text transformation to apply to the raw query string.
+        public let type: PreParseTextTransformationType
+
+        @inlinable
+        public init(priority: Int, type: PreParseTextTransformationType) {
+            self.priority = priority
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case type = "Type"
+        }
+    }
+
+    public struct Price: AWSEncodableShape & AWSDecodableShape {
+        /// The price per request as a decimal string in the specified currency. Minimum: 0.001. Maximum: 999999999.999. Supports up to 3 decimal places.
+        public let amount: String
+        /// The cryptocurrency for payment. Currently only USDC is supported.
+        public let currency: CryptoCurrency
+
+        @inlinable
+        public init(amount: String, currency: CryptoCurrency) {
+            self.amount = amount
+            self.currency = currency
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.amount, name: "amount", parent: name, max: 13)
+            try self.validate(self.amount, name: "amount", parent: name, min: 1)
+            try self.validate(self.amount, name: "amount", parent: name, pattern: "^([1-9][0-9]*(\\.[0-9]{1,3})?|0\\.([1-9][0-9]{0,2}|0[1-9][0-9]?|00[1-9]))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case currency = "Currency"
         }
     }
 
@@ -5466,7 +6087,7 @@ extension WAFV2 {
     }
 
     public struct Regex: AWSEncodableShape & AWSDecodableShape {
-        /// The string representing the regular expression.
+        /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide.
         public let regexString: String?
 
         @inlinable
@@ -5488,20 +6109,26 @@ extension WAFV2 {
     public struct RegexMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
-        /// The string representing the regular expression.
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
+        /// The string representing the regular expression. WAF enforces a quota on the maximum number of characters in a regex pattern. For the current limit, see WAF quotas in the WAF Developer Guide.
         public let regexString: String
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(fieldToMatch: FieldToMatch, regexString: String, textTransformations: [TextTransformation]) {
+        public init(fieldToMatch: FieldToMatch, preParseTextTransformations: [PreParseTextTransformation]? = nil, regexString: String, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.regexString = regexString
             self.textTransformations = textTransformations
         }
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.validate(self.regexString, name: "regexString", parent: name, max: 512)
             try self.validate(self.regexString, name: "regexString", parent: name, min: 1)
             try self.validate(self.regexString, name: "regexString", parent: name, pattern: ".*")
@@ -5513,6 +6140,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case fieldToMatch = "FieldToMatch"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case regexString = "RegexString"
             case textTransformations = "TextTransformations"
         }
@@ -5553,13 +6181,16 @@ extension WAFV2 {
         public let arn: String
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(arn: String, fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {
+        public init(arn: String, fieldToMatch: FieldToMatch, preParseTextTransformations: [PreParseTextTransformation]? = nil, textTransformations: [TextTransformation]) {
             self.arn = arn
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.textTransformations = textTransformations
         }
 
@@ -5568,6 +6199,9 @@ extension WAFV2 {
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
@@ -5577,6 +6211,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case fieldToMatch = "FieldToMatch"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case textTransformations = "TextTransformations"
         }
     }
@@ -5901,6 +6536,66 @@ extension WAFV2 {
         }
     }
 
+    public struct RevenueBreakdown: AWSDecodableShape {
+        /// The currency of the revenue amounts.
+        public let currency: Currency?
+        /// The total revenue amount in the specified currency.
+        public let totalAmount: String?
+        /// The total number of HTTP 402 Payment Required responses served to AI agents.
+        public let totalMonetizeServed: Int64?
+        /// The total number of successfully settled payment transactions.
+        public let totalSettled: Int64?
+        /// The revenue amount from unverified AI bots.
+        public let unverifiedAmount: String?
+        /// The revenue amount from verified AI bots.
+        public let verifiedAmount: String?
+
+        @inlinable
+        public init(currency: Currency? = nil, totalAmount: String? = nil, totalMonetizeServed: Int64? = nil, totalSettled: Int64? = nil, unverifiedAmount: String? = nil, verifiedAmount: String? = nil) {
+            self.currency = currency
+            self.totalAmount = totalAmount
+            self.totalMonetizeServed = totalMonetizeServed
+            self.totalSettled = totalSettled
+            self.unverifiedAmount = unverifiedAmount
+            self.verifiedAmount = verifiedAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case totalAmount = "TotalAmount"
+            case totalMonetizeServed = "TotalMonetizeServed"
+            case totalSettled = "TotalSettled"
+            case unverifiedAmount = "UnverifiedAmount"
+            case verifiedAmount = "VerifiedAmount"
+        }
+    }
+
+    public struct RevenuePathStatistics: AWSDecodableShape {
+        /// The total revenue amount from this path in the specified currency.
+        public let amount: String
+        /// The URI path.
+        public let path: String
+        /// The percentage of total revenue from this path.
+        public let percentage: Double
+        /// The number of monetized requests to this path.
+        public let requestCount: Int64
+
+        @inlinable
+        public init(amount: String, path: String, percentage: Double, requestCount: Int64) {
+            self.amount = amount
+            self.path = path
+            self.percentage = percentage
+            self.requestCount = requestCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case path = "Path"
+            case percentage = "Percentage"
+            case requestCount = "RequestCount"
+        }
+    }
+
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
         /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting.  This is used only for rules whose statements do not reference a rule group. Rule statements that reference a rule group include RuleGroupReferenceStatement and ManagedRuleGroupStatement.  You must specify either this Action setting or the rule OverrideAction setting, but not both:   If the rule statement does not reference a rule group, use this rule action setting and not the rule override action setting.    If the rule statement references a rule group, use the override action setting and not this action setting.
         public let action: RuleAction?
@@ -5974,14 +6669,17 @@ extension WAFV2 {
         public let challenge: ChallengeAction?
         /// Instructs WAF to count the web request and then continue evaluating the request using the remaining rules in the web ACL.
         public let count: CountAction?
+        /// Instructs WAF to return an HTTP 402 Payment Required response with a price manifest. The requesting client can complete payment and resubmit the request to gain access. This is a terminating action-requests that do not complete payment are blocked. This action is available only for web ACLs associated with Amazon CloudFront distributions and requires a MonetizationConfig on the web ACL.
+        public let monetize: MonetizeAction?
 
         @inlinable
-        public init(allow: AllowAction? = nil, block: BlockAction? = nil, captcha: CaptchaAction? = nil, challenge: ChallengeAction? = nil, count: CountAction? = nil) {
+        public init(allow: AllowAction? = nil, block: BlockAction? = nil, captcha: CaptchaAction? = nil, challenge: ChallengeAction? = nil, count: CountAction? = nil, monetize: MonetizeAction? = nil) {
             self.allow = allow
             self.block = block
             self.captcha = captcha
             self.challenge = challenge
             self.count = count
+            self.monetize = monetize
         }
 
         public func validate(name: String) throws {
@@ -5990,6 +6688,7 @@ extension WAFV2 {
             try self.captcha?.validate(name: "\(name).captcha")
             try self.challenge?.validate(name: "\(name).challenge")
             try self.count?.validate(name: "\(name).count")
+            try self.monetize?.validate(name: "\(name).monetize")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5998,6 +6697,7 @@ extension WAFV2 {
             case captcha = "Captcha"
             case challenge = "Challenge"
             case count = "Count"
+            case monetize = "Monetize"
         }
     }
 
@@ -6045,6 +6745,8 @@ extension WAFV2 {
         public let id: String
         /// The label namespace prefix for this rule group. All labels added by rules in this rule group have this prefix.    The syntax for the label namespace prefix for your rule groups is the following:   awswaf::rulegroup::    When a rule with a label matches a web request, WAF adds the fully qualified label to the request. A fully qualified label is made up of the label namespace from the rule group or web ACL where the rule is defined and the label from the rule, separated by a colon:   :
         public let labelNamespace: String?
+        /// The monetization configuration for the rule group. Required when any rule in the rule group uses the Monetize action. When a rule group with a MonetizationConfig is used in a web ACL, the rule group's configuration applies to rules within that group unless overridden at the web ACL level.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
         /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
@@ -6053,7 +6755,7 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(arn: String, availableLabels: [LabelSummary]? = nil, capacity: Int64, consumedLabels: [LabelSummary]? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, labelNamespace: String? = nil, name: String, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(arn: String, availableLabels: [LabelSummary]? = nil, capacity: Int64, consumedLabels: [LabelSummary]? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, labelNamespace: String? = nil, monetizationConfig: MonetizationConfig? = nil, name: String, rules: [Rule]? = nil, visibilityConfig: VisibilityConfig) {
             self.arn = arn
             self.availableLabels = availableLabels
             self.capacity = capacity
@@ -6062,6 +6764,7 @@ extension WAFV2 {
             self.description = description
             self.id = id
             self.labelNamespace = labelNamespace
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.rules = rules
             self.visibilityConfig = visibilityConfig
@@ -6076,6 +6779,7 @@ extension WAFV2 {
             case description = "Description"
             case id = "Id"
             case labelNamespace = "LabelNamespace"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case rules = "Rules"
             case visibilityConfig = "VisibilityConfig"
@@ -6220,6 +6924,84 @@ extension WAFV2 {
         }
     }
 
+    public struct SettlementRecord: AWSDecodableShape {
+        /// The payment amount in the specified currency.
+        public let amount: String
+        /// The content path that was accessed.
+        public let contentPath: String?
+        /// The currency of the payment amount.
+        public let currency: Currency?
+        /// The declared intent of the AI bot request.
+        public let intent: String?
+        /// The blockchain network on which the settlement occurred.
+        public let network: String?
+        /// The organization associated with the AI bot.
+        public let organization: String?
+        /// The blockchain wallet address of the paying AI agent.
+        public let payerAddress: String?
+        /// The WAF request ID associated with this settlement.
+        public let requestId: String?
+        /// The timestamp of the original web request.
+        public let requestTimestamp: Date?
+        /// The category of the AI bot source.
+        public let sourceCategory: String?
+        /// The name of the AI bot that made the payment.
+        public let sourceName: String?
+        /// The status of the settlement. Possible values:    SETTLED - The payment was successfully settled on the blockchain and the transfer from the payer's wallet to the publisher's wallet is confirmed. The TransactionId field contains the on-chain transaction hash. Content is served to the client.    PENDING - The blockchain transaction has been submitted but not yet confirmed on-chain. This is a transient state that automatically resolves to either SETTLED or FAILED. No action is required. While pending, content is not served and the API returns a 402 response. Clients can retry the request.    FAILED - The payment settlement was attempted but failed. Possible causes include insufficient funds, an expired payment authorization, or a reverted blockchain transaction. The failureReason field contains a machine-readable error code. Content is not served.    SERVICE_ERROR - Settlement could not be completed due to an internal service issue or an issue with the payment network. Content is not served. The client's payment authorization remains valid and the request can be retried.    SKIPPED_ORIGIN_ERROR - The origin returned a non-2xx response, so settlement was intentionally skipped. The client is not charged.    DUPLICATE - A prior request with the same payment payload has already been settled. This status typically appears when a previous attempt timed out but the payment was ultimately processed. The client is not charged again.
+        public let status: SettlementStatus
+        /// The timestamp when the settlement was recorded.
+        public let timestamp: Date
+        /// The blockchain transaction identifier. You can use this to verify the transaction on a blockchain explorer.
+        public let transactionId: String?
+        /// Whether the AI bot's identity was verified.
+        public let verified: Bool?
+        /// Your receiving wallet address.
+        public let walletAddress: String?
+        /// The ARN of the web ACL that processed the request.
+        public let webAclArn: String?
+
+        @inlinable
+        public init(amount: String, contentPath: String? = nil, currency: Currency? = nil, intent: String? = nil, network: String? = nil, organization: String? = nil, payerAddress: String? = nil, requestId: String? = nil, requestTimestamp: Date? = nil, sourceCategory: String? = nil, sourceName: String? = nil, status: SettlementStatus, timestamp: Date, transactionId: String? = nil, verified: Bool? = nil, walletAddress: String? = nil, webAclArn: String? = nil) {
+            self.amount = amount
+            self.contentPath = contentPath
+            self.currency = currency
+            self.intent = intent
+            self.network = network
+            self.organization = organization
+            self.payerAddress = payerAddress
+            self.requestId = requestId
+            self.requestTimestamp = requestTimestamp
+            self.sourceCategory = sourceCategory
+            self.sourceName = sourceName
+            self.status = status
+            self.timestamp = timestamp
+            self.transactionId = transactionId
+            self.verified = verified
+            self.walletAddress = walletAddress
+            self.webAclArn = webAclArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case contentPath = "ContentPath"
+            case currency = "Currency"
+            case intent = "Intent"
+            case network = "Network"
+            case organization = "Organization"
+            case payerAddress = "PayerAddress"
+            case requestId = "RequestId"
+            case requestTimestamp = "RequestTimestamp"
+            case sourceCategory = "SourceCategory"
+            case sourceName = "SourceName"
+            case status = "Status"
+            case timestamp = "Timestamp"
+            case transactionId = "TransactionId"
+            case verified = "Verified"
+            case walletAddress = "WalletAddress"
+            case webAclArn = "WebAclArn"
+        }
+    }
+
     public struct SingleHeader: AWSEncodableShape & AWSDecodableShape {
         /// The name of the query header to inspect.
         public let name: String
@@ -6265,21 +7047,27 @@ extension WAFV2 {
         public let comparisonOperator: ComparisonOperator
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
         /// The size, in byte, to compare to the request part, after any transformations.
         public let size: Int64
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, size: Int64, textTransformations: [TextTransformation]) {
+        public init(comparisonOperator: ComparisonOperator, fieldToMatch: FieldToMatch, preParseTextTransformations: [PreParseTextTransformation]? = nil, size: Int64, textTransformations: [TextTransformation]) {
             self.comparisonOperator = comparisonOperator
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.size = size
             self.textTransformations = textTransformations
         }
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.validate(self.size, name: "size", parent: name, max: 21474836480)
             try self.validate(self.size, name: "size", parent: name, min: 0)
             try self.textTransformations.forEach {
@@ -6291,28 +7079,81 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case comparisonOperator = "ComparisonOperator"
             case fieldToMatch = "FieldToMatch"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case size = "Size"
             case textTransformations = "TextTransformations"
+        }
+    }
+
+    public struct SourceStatistics: AWSDecodableShape {
+        /// The total revenue amount from this source in the specified currency.
+        public let amount: String
+        /// The value for the group-by dimension, when grouping is applied.
+        public let groupByValue: String?
+        /// The declared intent of the AI bot (for example, summarize, index, or train).
+        public let intent: String?
+        /// The organization associated with the AI bot.
+        public let organization: String?
+        /// The percentage of total revenue from this source.
+        public let percentage: Double
+        /// The number of monetized requests from this source.
+        public let requestCount: Int64
+        /// The category of this AI bot source.
+        public let sourceCategory: String?
+        /// The name of the AI bot.
+        public let sourceName: String
+        /// Indicates whether the AI bot's identity was verified — for example, through a cryptographically signed request (Web Bot Auth) or another published verification method. This value is meaningful only when GroupBy is NAME, where each result represents a single, identifiable bot. For all other GroupBy values (CATEGORY, INTENT, ORGANIZATION, or WEBACL), a result aggregates multiple bots that may have different verification states, so Verified is always returned as false and should be ignored. Type and required-ness are unchanged (Boolean, optional).
+        public let verified: Bool?
+
+        @inlinable
+        public init(amount: String, groupByValue: String? = nil, intent: String? = nil, organization: String? = nil, percentage: Double, requestCount: Int64, sourceCategory: String? = nil, sourceName: String, verified: Bool? = nil) {
+            self.amount = amount
+            self.groupByValue = groupByValue
+            self.intent = intent
+            self.organization = organization
+            self.percentage = percentage
+            self.requestCount = requestCount
+            self.sourceCategory = sourceCategory
+            self.sourceName = sourceName
+            self.verified = verified
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case groupByValue = "GroupByValue"
+            case intent = "Intent"
+            case organization = "Organization"
+            case percentage = "Percentage"
+            case requestCount = "RequestCount"
+            case sourceCategory = "SourceCategory"
+            case sourceName = "SourceName"
+            case verified = "Verified"
         }
     }
 
     public struct SqliMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
         /// The sensitivity that you want WAF to use to inspect for SQL injection attacks.   HIGH detects more attacks, but might generate more false positives,  especially if your web requests frequently contain unusual strings.  For information about identifying and mitigating false positives, see  Testing and tuning in the                                                                              WAF Developer Guide.  LOW is generally a better choice for resources that already have other  protections against SQL injection attacks or that have a low tolerance for false positives.  Default: LOW
         public let sensitivityLevel: SensitivityLevel?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(fieldToMatch: FieldToMatch, sensitivityLevel: SensitivityLevel? = nil, textTransformations: [TextTransformation]) {
+        public init(fieldToMatch: FieldToMatch, preParseTextTransformations: [PreParseTextTransformation]? = nil, sensitivityLevel: SensitivityLevel? = nil, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.sensitivityLevel = sensitivityLevel
             self.textTransformations = textTransformations
         }
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
@@ -6321,6 +7162,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case fieldToMatch = "FieldToMatch"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case sensitivityLevel = "SensitivityLevel"
             case textTransformations = "TextTransformations"
         }
@@ -6783,6 +7625,8 @@ extension WAFV2 {
         public let id: String
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let lockToken: String
+        /// The monetization configuration for the rule group. Provide this when any rule in the rule group uses the Monetize action.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the rule group. You cannot change the name of a rule group after you create it.
         public let name: String
         /// The Rule statements used to identify the web requests that you  want to manage. Each rule includes one top-level statement that WAF uses to identify matching   web requests, and parameters that govern how WAF handles them.
@@ -6793,11 +7637,12 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, lockToken: String, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
+        public init(customResponseBodies: [String: CustomResponseBody]? = nil, description: String? = nil, id: String, lockToken: String, monetizationConfig: MonetizationConfig? = nil, name: String, rules: [Rule]? = nil, scope: Scope, visibilityConfig: VisibilityConfig) {
             self.customResponseBodies = customResponseBodies
             self.description = description
             self.id = id
             self.lockToken = lockToken
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.rules = rules
             self.scope = scope
@@ -6821,6 +7666,7 @@ extension WAFV2 {
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.monetizationConfig?.validate(name: "\(name).monetizationConfig")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -6835,6 +7681,7 @@ extension WAFV2 {
             case description = "Description"
             case id = "Id"
             case lockToken = "LockToken"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case rules = "Rules"
             case scope = "Scope"
@@ -6878,6 +7725,8 @@ extension WAFV2 {
         public let id: String
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let lockToken: String
+        /// The monetization configuration for the web ACL. Provide this when any rule in the web ACL uses the Monetize action.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
         /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS.  If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
@@ -6892,7 +7741,7 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, associationConfig: AssociationConfig? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, lockToken: String, monetizationConfig: MonetizationConfig? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, rules: [Rule]? = nil, scope: Scope, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.applicationConfig = applicationConfig
             self.associationConfig = associationConfig
             self.captchaConfig = captchaConfig
@@ -6903,6 +7752,7 @@ extension WAFV2 {
             self.description = description
             self.id = id
             self.lockToken = lockToken
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.rules = rules
@@ -6933,6 +7783,7 @@ extension WAFV2 {
             try self.validate(self.lockToken, name: "lockToken", parent: name, max: 36)
             try self.validate(self.lockToken, name: "lockToken", parent: name, min: 1)
             try self.validate(self.lockToken, name: "lockToken", parent: name, pattern: "^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$")
+            try self.monetizationConfig?.validate(name: "\(name).monetizationConfig")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -6958,6 +7809,7 @@ extension WAFV2 {
             case description = "Description"
             case id = "Id"
             case lockToken = "LockToken"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case rules = "Rules"
@@ -7162,6 +8014,8 @@ extension WAFV2 {
         public let labelNamespace: String?
         /// Indicates whether this web ACL was created by Firewall Manager and is being managed by Firewall Manager. If true, then only Firewall Manager can delete the web ACL or any Firewall Manager rule groups in the web ACL.  See also the properties RetrofittedByFirewallManager, PreProcessFirewallManagerRuleGroups, and PostProcessFirewallManagerRuleGroups.
         public let managedByFirewallManager: Bool?
+        /// The monetization configuration for the web ACL. Required when any rule in the web ACL uses the Monetize action. Specifies the cryptocurrency payment networks and currency mode for AI bot monetization.
+        public let monetizationConfig: MonetizationConfig?
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         public let name: String
         /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
@@ -7180,7 +8034,7 @@ extension WAFV2 {
         public let visibilityConfig: VisibilityConfig
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, arn: String, associationConfig: AssociationConfig? = nil, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, retrofittedByFirewallManager: Bool? = nil, rules: [Rule]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
+        public init(applicationConfig: ApplicationConfig? = nil, arn: String, associationConfig: AssociationConfig? = nil, capacity: Int64? = nil, captchaConfig: CaptchaConfig? = nil, challengeConfig: ChallengeConfig? = nil, customResponseBodies: [String: CustomResponseBody]? = nil, dataProtectionConfig: DataProtectionConfig? = nil, defaultAction: DefaultAction, description: String? = nil, id: String, labelNamespace: String? = nil, managedByFirewallManager: Bool? = nil, monetizationConfig: MonetizationConfig? = nil, name: String, onSourceDDoSProtectionConfig: OnSourceDDoSProtectionConfig? = nil, postProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, preProcessFirewallManagerRuleGroups: [FirewallManagerRuleGroup]? = nil, retrofittedByFirewallManager: Bool? = nil, rules: [Rule]? = nil, tokenDomains: [String]? = nil, visibilityConfig: VisibilityConfig) {
             self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig
@@ -7194,6 +8048,7 @@ extension WAFV2 {
             self.id = id
             self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
+            self.monetizationConfig = monetizationConfig
             self.name = name
             self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
@@ -7218,6 +8073,7 @@ extension WAFV2 {
             case id = "Id"
             case labelNamespace = "LabelNamespace"
             case managedByFirewallManager = "ManagedByFirewallManager"
+            case monetizationConfig = "MonetizationConfig"
             case name = "Name"
             case onSourceDDoSProtectionConfig = "OnSourceDDoSProtectionConfig"
             case postProcessFirewallManagerRuleGroups = "PostProcessFirewallManagerRuleGroups"
@@ -7262,17 +8118,23 @@ extension WAFV2 {
     public struct XssMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
+        /// Pre-parse text transformations normalize the raw query string before WAF parses it into individual query arguments. They are applied before the standard text transformations. Pre-parse text transformations are only supported when FieldToMatch is SingleQueryArgument or AllQueryArguments. You can specify up to 3 pre-parse text transformations per rule statement.
+        public let preParseTextTransformations: [PreParseTextTransformation]?
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         public let textTransformations: [TextTransformation]
 
         @inlinable
-        public init(fieldToMatch: FieldToMatch, textTransformations: [TextTransformation]) {
+        public init(fieldToMatch: FieldToMatch, preParseTextTransformations: [PreParseTextTransformation]? = nil, textTransformations: [TextTransformation]) {
             self.fieldToMatch = fieldToMatch
+            self.preParseTextTransformations = preParseTextTransformations
             self.textTransformations = textTransformations
         }
 
         public func validate(name: String) throws {
             try self.fieldToMatch.validate(name: "\(name).fieldToMatch")
+            try self.preParseTextTransformations?.forEach {
+                try $0.validate(name: "\(name).preParseTextTransformations[]")
+            }
             try self.textTransformations.forEach {
                 try $0.validate(name: "\(name).textTransformations[]")
             }
@@ -7281,6 +8143,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case fieldToMatch = "FieldToMatch"
+            case preParseTextTransformations = "PreParseTextTransformations"
             case textTransformations = "TextTransformations"
         }
     }

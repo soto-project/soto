@@ -80,6 +80,12 @@ extension BCMDashboards {
         public var description: String { return self.rawValue }
     }
 
+    public enum HealthStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "HEALTHY"
+        case unhealthy = "UNHEALTHY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case absent = "ABSENT"
         case caseInsensitive = "CASE_INSENSITIVE"
@@ -104,6 +110,23 @@ extension BCMDashboards {
         case unblendedCost = "UnblendedCost"
         case unit = "Unit"
         case usageQuantity = "UsageQuantity"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScheduleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dashboardAccessDenied = "DASHBOARD_ACCESS_DENIED"
+        case dashboardNotFound = "DASHBOARD_NOT_FOUND"
+        case dataSourceAccessDenied = "DATA_SOURCE_ACCESS_DENIED"
+        case executionRoleAssumeFailed = "EXECUTION_ROLE_ASSUME_FAILED"
+        case executionRoleInsufficientPermissions = "EXECUTION_ROLE_INSUFFICIENT_PERMISSIONS"
+        case internalFailure = "INTERNAL_FAILURE"
+        case widgetIdNotFound = "WIDGET_ID_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -362,6 +385,60 @@ extension BCMDashboards {
         }
     }
 
+    public struct CreateScheduledReportRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The tags to apply to the scheduled report resource for organization and management.
+        public let resourceTags: [ResourceTag]?
+        /// The configuration for the scheduled report, including the dashboard to report on, the schedule, and the execution role that the service will use to generate the dashboard snapshot.
+        public let scheduledReport: ScheduledReportInput
+
+        @inlinable
+        public init(clientToken: String? = CreateScheduledReportRequest.idempotencyToken(), resourceTags: [ResourceTag]? = nil, scheduledReport: ScheduledReportInput) {
+            self.clientToken = clientToken
+            self.resourceTags = resourceTags
+            self.scheduledReport = scheduledReport
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.resourceTags, forKey: .resourceTags)
+            try container.encode(self.scheduledReport, forKey: .scheduledReport)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0021-\\u007E]+$")
+            try self.resourceTags?.forEach {
+                try $0.validate(name: "\(name).resourceTags[]")
+            }
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 200)
+            try self.scheduledReport.validate(name: "\(name).scheduledReport")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTags = "resourceTags"
+            case scheduledReport = "scheduledReport"
+        }
+    }
+
+    public struct CreateScheduledReportResponse: AWSDecodableShape {
+        /// The ARN of the newly created scheduled report.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct DashboardReference: AWSDecodableShape {
         /// The ARN of the referenced dashboard.
         public let arn: String
@@ -476,6 +553,40 @@ extension BCMDashboards {
         }
     }
 
+    public struct DeleteScheduledReportRequest: AWSEncodableShape {
+        /// The ARN of the scheduled report to delete.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\\*|[-a-z0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteScheduledReportResponse: AWSDecodableShape {
+        /// The ARN of the scheduled report that was deleted.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
         /// The key of the dimension to filter on (for example, SERVICE, USAGE_TYPE, or OPERATION).
         public let key: Dimension
@@ -495,6 +606,62 @@ extension BCMDashboards {
             case key = "key"
             case matchOptions = "matchOptions"
             case values = "values"
+        }
+    }
+
+    public struct ExecuteScheduledReportRequest: AWSEncodableShape {
+        /// The ARN of the scheduled report to execute.
+        public let arn: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// When set to true, validates the scheduled report configuration without triggering an actual execution.
+        public let dryRun: Bool?
+
+        @inlinable
+        public init(arn: String, clientToken: String? = ExecuteScheduledReportRequest.idempotencyToken(), dryRun: Bool? = nil) {
+            self.arn = arn
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.arn, forKey: .arn)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0021-\\u007E]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dryRun = "dryRun"
+        }
+    }
+
+    public struct ExecuteScheduledReportResponse: AWSDecodableShape {
+        /// Indicates whether the execution was successfully triggered.
+        public let executionTriggered: Bool?
+        /// The health status of the scheduled report after the execution request.
+        public let healthStatus: HealthStatus?
+
+        @inlinable
+        public init(executionTriggered: Bool? = nil, healthStatus: HealthStatus? = nil) {
+            self.executionTriggered = executionTriggered
+            self.healthStatus = healthStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionTriggered = "executionTriggered"
+            case healthStatus = "healthStatus"
         }
     }
 
@@ -628,6 +795,40 @@ extension BCMDashboards {
         }
     }
 
+    public struct GetScheduledReportRequest: AWSEncodableShape {
+        /// The ARN of the scheduled report to retrieve.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\\*|[-a-z0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetScheduledReportResponse: AWSDecodableShape {
+        /// The scheduled report configuration and metadata.
+        public let scheduledReport: ScheduledReport
+
+        @inlinable
+        public init(scheduledReport: ScheduledReport) {
+            self.scheduledReport = scheduledReport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduledReport = "scheduledReport"
+        }
+    }
+
     public struct GraphDisplayConfig: AWSEncodableShape & AWSDecodableShape {
         /// The type of visualization to use for the data.
         public let visualType: VisualType
@@ -657,6 +858,28 @@ extension BCMDashboards {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case type = "type"
+        }
+    }
+
+    public struct HealthStatus: AWSDecodableShape {
+        /// The timestamp when the health status was last refreshed.
+        public let lastRefreshedAt: Date?
+        /// The health status code. HEALTHY indicates the scheduled report is configured properly and has all required permissions to execute. UNHEALTHY indicates the scheduled report is unable to deliver the notification to the default Amazon EventBridge EventBus in your account and your action is needed. The reason for the unhealthy state is captured in the health status reasons.
+        public let statusCode: HealthStatusCode
+        /// The list of reasons for the current health status. Only present when the status is UNHEALTHY.
+        public let statusReasons: [StatusReason]?
+
+        @inlinable
+        public init(lastRefreshedAt: Date? = nil, statusCode: HealthStatusCode, statusReasons: [StatusReason]? = nil) {
+            self.lastRefreshedAt = lastRefreshedAt
+            self.statusCode = statusCode
+            self.statusReasons = statusReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastRefreshedAt = "lastRefreshedAt"
+            case statusCode = "statusCode"
+            case statusReasons = "statusReasons"
         }
     }
 
@@ -704,6 +927,50 @@ extension BCMDashboards {
         }
     }
 
+    public struct ListScheduledReportsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call. Valid range is 1 to 100. The default value is 50.
+        public let maxResults: Int?
+        /// The token for the next page of results. Use the value returned in the previous response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListScheduledReportsResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. Not returned if there are no more results to retrieve.
+        public let nextToken: String?
+        /// An array of scheduled report summaries, containing basic information about each scheduled report.
+        public let scheduledReports: [ScheduledReportSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, scheduledReports: [ScheduledReportSummary]) {
+            self.nextToken = nextToken
+            self.scheduledReports = scheduledReports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case scheduledReports = "scheduledReports"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The unique identifier for the resource.
         public let resourceArn: String
@@ -716,7 +983,7 @@ extension BCMDashboards {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\\*|[-a-z0-9]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -880,6 +1147,213 @@ extension BCMDashboards {
         }
     }
 
+    public struct ScheduleConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The schedule expression that specifies when to trigger the scheduled report run. This value must be a cron expression consisting of six fields separated by white spaces: cron(minutes hours day_of_month month day_of_week year).
+        public let scheduleExpression: String?
+        /// The time zone for the schedule expression, for example, UTC.
+        public let scheduleExpressionTimeZone: String?
+        /// The time period during which the schedule is active.
+        public let schedulePeriod: SchedulePeriod?
+        /// The state of the schedule. ENABLED means the scheduled report runs according to its schedule expression. DISABLED means the scheduled report is paused and will not run until re-enabled.
+        public let state: ScheduleState?
+
+        @inlinable
+        public init(scheduleExpression: String? = nil, scheduleExpressionTimeZone: String? = nil, schedulePeriod: SchedulePeriod? = nil, state: ScheduleState? = nil) {
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimeZone = scheduleExpressionTimeZone
+            self.schedulePeriod = schedulePeriod
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 1024)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.scheduleExpressionTimeZone, name: "scheduleExpressionTimeZone", parent: name, max: 1024)
+            try self.validate(self.scheduleExpressionTimeZone, name: "scheduleExpressionTimeZone", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scheduleExpression = "scheduleExpression"
+            case scheduleExpressionTimeZone = "scheduleExpressionTimeZone"
+            case schedulePeriod = "schedulePeriod"
+            case state = "state"
+        }
+    }
+
+    public struct SchedulePeriod: AWSEncodableShape & AWSDecodableShape {
+        /// The end time of the schedule period. If not specified, defaults to 3 years from the time of the create or update request. The maximum allowed value is 3 years from the current time. Setting an end time beyond this limit returns a ValidationException.
+        public let endTime: Date?
+        /// The start time of the schedule period. If not specified, defaults to the time of the create or update request. The start time cannot be more than 5 minutes before the time of the request.
+        public let startTime: Date?
+
+        @inlinable
+        public init(endTime: Date? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
+    public struct ScheduledReport: AWSDecodableShape {
+        /// The ARN of the scheduled report.
+        public let arn: String?
+        /// The timestamp when the scheduled report was created.
+        public let createdAt: Date?
+        /// The ARN of the dashboard associated with the scheduled report.
+        public let dashboardArn: String
+        /// A description of the scheduled report's purpose or contents.
+        public let description: String?
+        /// The health status of the scheduled report at last refresh time.
+        public let healthStatus: HealthStatus?
+        /// The timestamp of the most recent execution of the scheduled report.
+        public let lastExecutionAt: Date?
+        /// The name of the scheduled report.
+        public let name: String
+        /// The schedule configuration that defines when and how often the report is generated.
+        public let scheduleConfig: ScheduleConfig
+        /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+        public let scheduledReportExecutionRoleArn: String
+        /// The timestamp when the scheduled report was last modified.
+        public let updatedAt: Date?
+        /// The date range override applied to widgets in the scheduled report.
+        public let widgetDateRangeOverride: DateTimeRange?
+        /// The list of widget identifiers included in the scheduled report.
+        public let widgetIds: [String]?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, dashboardArn: String, description: String? = nil, healthStatus: HealthStatus? = nil, lastExecutionAt: Date? = nil, name: String, scheduleConfig: ScheduleConfig, scheduledReportExecutionRoleArn: String, updatedAt: Date? = nil, widgetDateRangeOverride: DateTimeRange? = nil, widgetIds: [String]? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dashboardArn = dashboardArn
+            self.description = description
+            self.healthStatus = healthStatus
+            self.lastExecutionAt = lastExecutionAt
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+            self.updatedAt = updatedAt
+            self.widgetDateRangeOverride = widgetDateRangeOverride
+            self.widgetIds = widgetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dashboardArn = "dashboardArn"
+            case description = "description"
+            case healthStatus = "healthStatus"
+            case lastExecutionAt = "lastExecutionAt"
+            case name = "name"
+            case scheduleConfig = "scheduleConfig"
+            case scheduledReportExecutionRoleArn = "scheduledReportExecutionRoleArn"
+            case updatedAt = "updatedAt"
+            case widgetDateRangeOverride = "widgetDateRangeOverride"
+            case widgetIds = "widgetIds"
+        }
+    }
+
+    public struct ScheduledReportInput: AWSEncodableShape {
+        /// The ARN of the dashboard to generate the scheduled report from.
+        public let dashboardArn: String
+        /// A description of the scheduled report's purpose or contents.
+        public let description: String?
+        /// The name of the scheduled report.
+        public let name: String
+        /// The schedule configuration that defines when and how often the report is generated. If the schedule state is not specified, it defaults to ENABLED.
+        public let scheduleConfig: ScheduleConfig
+        /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+        public let scheduledReportExecutionRoleArn: String
+        /// The date range override to apply to widgets in the scheduled report.
+        public let widgetDateRangeOverride: DateTimeRange?
+        /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.
+        public let widgetIds: [String]?
+
+        @inlinable
+        public init(dashboardArn: String, description: String? = nil, name: String, scheduleConfig: ScheduleConfig, scheduledReportExecutionRoleArn: String, widgetDateRangeOverride: DateTimeRange? = nil, widgetIds: [String]? = nil) {
+            self.dashboardArn = dashboardArn
+            self.description = description
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+            self.widgetDateRangeOverride = widgetDateRangeOverride
+            self.widgetIds = widgetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, max: 2048)
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, min: 20)
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&\\-_/\\\\]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]$")
+            try self.scheduleConfig.validate(name: "\(name).scheduleConfig")
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, max: 2048)
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, min: 20)
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.widgetDateRangeOverride?.validate(name: "\(name).widgetDateRangeOverride")
+            try self.validate(self.widgetIds, name: "widgetIds", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardArn = "dashboardArn"
+            case description = "description"
+            case name = "name"
+            case scheduleConfig = "scheduleConfig"
+            case scheduledReportExecutionRoleArn = "scheduledReportExecutionRoleArn"
+            case widgetDateRangeOverride = "widgetDateRangeOverride"
+            case widgetIds = "widgetIds"
+        }
+    }
+
+    public struct ScheduledReportSummary: AWSDecodableShape {
+        /// The ARN of the scheduled report.
+        public let arn: String
+        /// The ARN of the dashboard associated with the scheduled report.
+        public let dashboardArn: String
+        /// The health status of the scheduled report as of its last refresh time.
+        public let healthStatus: HealthStatus
+        /// The name of the scheduled report.
+        public let name: String
+        /// The schedule expression that defines when the report runs.
+        public let scheduleExpression: String
+        /// The time zone for the schedule expression, for example, UTC.
+        public let scheduleExpressionTimeZone: String?
+        /// The state of the schedule: ENABLED or DISABLED.
+        public let state: ScheduleState
+        /// The list of widget identifiers included in the scheduled report.
+        public let widgetIds: [String]?
+
+        @inlinable
+        public init(arn: String, dashboardArn: String, healthStatus: HealthStatus, name: String, scheduleExpression: String, scheduleExpressionTimeZone: String? = nil, state: ScheduleState, widgetIds: [String]? = nil) {
+            self.arn = arn
+            self.dashboardArn = dashboardArn
+            self.healthStatus = healthStatus
+            self.name = name
+            self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimeZone = scheduleExpressionTimeZone
+            self.state = state
+            self.widgetIds = widgetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dashboardArn = "dashboardArn"
+            case healthStatus = "healthStatus"
+            case name = "name"
+            case scheduleExpression = "scheduleExpression"
+            case scheduleExpressionTimeZone = "scheduleExpressionTimeZone"
+            case state = "state"
+            case widgetIds = "widgetIds"
+        }
+    }
+
     public struct TableDisplayConfigStruct: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -899,7 +1373,7 @@ extension BCMDashboards {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\\*|[-a-z0-9]+)$")
             try self.resourceTags.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -953,7 +1427,7 @@ extension BCMDashboards {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:(dashboard|scheduled-report)/(\\*|[-a-z0-9]+)$")
             try self.resourceTagKeys.forEach {
                 try validate($0, name: "resourceTagKeys[]", parent: name, max: 128)
                 try validate($0, name: "resourceTagKeys[]", parent: name, min: 1)
@@ -975,15 +1449,15 @@ extension BCMDashboards {
     public struct UpdateDashboardRequest: AWSEncodableShape {
         /// The ARN of the dashboard to update.
         public let arn: String
-        /// The new description for the dashboard. If not specified, the existing description is retained.
+        /// The new description for the dashboard.
         public let description: String?
-        /// The new name for the dashboard. If not specified, the existing name is retained.
-        public let name: String?
+        /// The new name for the dashboard.
+        public let name: String
         /// The updated array of widget configurations for the dashboard. Replaces all existing widgets.
         public let widgets: [Widget]?
 
         @inlinable
-        public init(arn: String, description: String? = nil, name: String? = nil, widgets: [Widget]? = nil) {
+        public init(arn: String, description: String? = nil, name: String, widgets: [Widget]? = nil) {
             self.arn = arn
             self.description = description
             self.name = name
@@ -1016,6 +1490,91 @@ extension BCMDashboards {
 
     public struct UpdateDashboardResponse: AWSDecodableShape {
         /// The ARN of the updated dashboard.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct UpdateScheduledReportRequest: AWSEncodableShape {
+        /// The ARN of the scheduled report to update.
+        public let arn: String
+        /// Set to true to clear existing widgetDateRangeOverride.
+        public let clearWidgetDateRangeOverride: Bool?
+        /// Set to true to clear existing widgetIds.
+        public let clearWidgetIds: Bool?
+        /// The ARN of the dashboard to associate with the scheduled report.
+        public let dashboardArn: String?
+        /// The new description for the scheduled report.
+        public let description: String?
+        /// The new name for the scheduled report.
+        public let name: String?
+        /// The updated schedule configuration for the report.
+        public let scheduleConfig: ScheduleConfig?
+        /// The ARN of the IAM role that the scheduled report uses to execute. Amazon Web Services Billing and Cost Management Dashboards will assume this IAM role while executing the scheduled report.
+        public let scheduledReportExecutionRoleArn: String?
+        /// The date range override to apply to widgets in the scheduled report.
+        public let widgetDateRangeOverride: DateTimeRange?
+        /// The list of widget identifiers to include in the scheduled report. If not specified, all widgets in the dashboard are included.
+        public let widgetIds: [String]?
+
+        @inlinable
+        public init(arn: String, clearWidgetDateRangeOverride: Bool? = nil, clearWidgetIds: Bool? = nil, dashboardArn: String? = nil, description: String? = nil, name: String? = nil, scheduleConfig: ScheduleConfig? = nil, scheduledReportExecutionRoleArn: String? = nil, widgetDateRangeOverride: DateTimeRange? = nil, widgetIds: [String]? = nil) {
+            self.arn = arn
+            self.clearWidgetDateRangeOverride = clearWidgetDateRangeOverride
+            self.clearWidgetIds = clearWidgetIds
+            self.dashboardArn = dashboardArn
+            self.description = description
+            self.name = name
+            self.scheduleConfig = scheduleConfig
+            self.scheduledReportExecutionRoleArn = scheduledReportExecutionRoleArn
+            self.widgetDateRangeOverride = widgetDateRangeOverride
+            self.widgetIds = widgetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
+            try self.validate(self.arn, name: "arn", parent: name, min: 20)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:scheduled-report/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, max: 2048)
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, min: 20)
+            try self.validate(self.dashboardArn, name: "dashboardArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:bcm-dashboards::[0-9]{12}:dashboard/(\\*|[-a-z0-9]+)$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(?!.* {2})[ a-zA-Z0-9.,!?;:@#$%&\\-_/\\\\]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 50)
+            try self.validate(self.name, name: "name", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!.* {2})[a-zA-Z][a-zA-Z0-9 _-]{0,48}[a-zA-Z0-9_-]$")
+            try self.scheduleConfig?.validate(name: "\(name).scheduleConfig")
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, max: 2048)
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, min: 20)
+            try self.validate(self.scheduledReportExecutionRoleArn, name: "scheduledReportExecutionRoleArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:iam::[0-9]{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+            try self.widgetDateRangeOverride?.validate(name: "\(name).widgetDateRangeOverride")
+            try self.validate(self.widgetIds, name: "widgetIds", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clearWidgetDateRangeOverride = "clearWidgetDateRangeOverride"
+            case clearWidgetIds = "clearWidgetIds"
+            case dashboardArn = "dashboardArn"
+            case description = "description"
+            case name = "name"
+            case scheduleConfig = "scheduleConfig"
+            case scheduledReportExecutionRoleArn = "scheduledReportExecutionRoleArn"
+            case widgetDateRangeOverride = "widgetDateRangeOverride"
+            case widgetIds = "widgetIds"
+        }
+    }
+
+    public struct UpdateScheduledReportResponse: AWSDecodableShape {
+        /// The ARN of the updated scheduled report.
         public let arn: String
 
         @inlinable
@@ -1117,6 +1676,7 @@ extension BCMDashboards {
 public struct BCMDashboardsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -1144,11 +1704,13 @@ public struct BCMDashboardsErrorType: AWSErrorType {
 
     /// You do not have sufficient permissions to perform this action. Verify your IAM permissions and any resource policies.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request could not be completed due to a conflict with the current state of the resource. For example, attempting to create a resource that already exists or is being created.
+    public static var conflictException: Self { .init(.conflictException) }
     /// An internal error occurred while processing the request. Retry your request. If the problem persists, contact Amazon Web Services Support.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource (dashboard, policy, or widget) was not found. Verify the ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request would exceed service quotas. For example, attempting to create more than 20 widgets in a dashboard or exceeding the maximum number of dashboards per account.
+    /// The request would exceed a service quota. Review the service quotas for Amazon Web Services Billing and Cost Management Dashboards and retry your request.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling. Reduce the frequency of requests and use exponential backoff.
     public static var throttlingException: Self { .init(.throttlingException) }

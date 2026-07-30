@@ -345,6 +345,7 @@ extension IoT {
     }
 
     public enum DisconnectReasonValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiInitiatedDisconnect = "API_INITIATED_DISCONNECT"
         case authError = "AUTH_ERROR"
         case clientError = "CLIENT_ERROR"
         case clientInitiatedDisconnect = "CLIENT_INITIATED_DISCONNECT"
@@ -413,6 +414,11 @@ extension IoT {
         case boolean = "Boolean"
         case number = "Number"
         case string = "String"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FleetIndexingApi: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case getThingConnectivityData = "GET_THING_CONNECTIVITY_DATA"
         public var description: String { return self.rawValue }
     }
 
@@ -2166,6 +2172,8 @@ extension IoT {
     }
 
     public struct BatchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to allow batching messages from different MQTT topics into a single HTTP request. By default, only messages from the same topic are batched together. The default value is false.  When batchAcrossTopics is enabled, the error payload format changes: the topic field moves from the top level to inside each entry in the payloadsWithMetadata array, since each message in the batch may originate from a different topic.   Messages are always batched within the scope of the same account, rule name, target HTTP endpoint URL, and billing group. Messages that differ in any of these attributes are never combined into the same batch, regardless of the batchAcrossTopics setting.
+        public let batchAcrossTopics: Bool?
         /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
         public let maxBatchOpenMs: Int?
         /// The maximum number of messages that are batched together in a single action execution.
@@ -2174,7 +2182,8 @@ extension IoT {
         public let maxBatchSizeBytes: Int?
 
         @inlinable
-        public init(maxBatchOpenMs: Int? = nil, maxBatchSize: Int? = nil, maxBatchSizeBytes: Int? = nil) {
+        public init(batchAcrossTopics: Bool? = nil, maxBatchOpenMs: Int? = nil, maxBatchSize: Int? = nil, maxBatchSizeBytes: Int? = nil) {
+            self.batchAcrossTopics = batchAcrossTopics
             self.maxBatchOpenMs = maxBatchOpenMs
             self.maxBatchSize = maxBatchSize
             self.maxBatchSizeBytes = maxBatchSizeBytes
@@ -2190,6 +2199,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case batchAcrossTopics = "batchAcrossTopics"
             case maxBatchOpenMs = "maxBatchOpenMs"
             case maxBatchSize = "maxBatchSize"
             case maxBatchSizeBytes = "maxBatchSizeBytes"
@@ -3393,6 +3403,20 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case resourceId = "resourceId"
+        }
+    }
+
+    public struct ConnectivityFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A list of fleet indexing APIs for which to enable socket information retrieval. Currently, the only supported value is GET_THING_CONNECTIVITY_DATA.
+        public let includeSocketInformation: [FleetIndexingApi]?
+
+        @inlinable
+        public init(includeSocketInformation: [FleetIndexingApi]? = nil) {
+            self.includeSocketInformation = includeSocketInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case includeSocketInformation = "includeSocketInformation"
         }
     }
 
@@ -10641,17 +10665,21 @@ extension IoT {
     }
 
     public struct GetThingConnectivityDataRequest: AWSEncodableShape {
+        /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnectivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false.
+        public let includeSocketInformation: Bool?
         /// The name of your IoT thing.
         public let thingName: String
 
         @inlinable
-        public init(thingName: String) {
+        public init(includeSocketInformation: Bool? = nil, thingName: String) {
+            self.includeSocketInformation = includeSocketInformation
             self.thingName = thingName
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            _ = encoder.container(keyedBy: CodingKeys.self)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.includeSocketInformation, forKey: .includeSocketInformation)
             request.encodePath(self.thingName, key: "thingName")
         }
 
@@ -10661,32 +10689,70 @@ extension IoT {
             try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
         }
 
-        private enum CodingKeys: CodingKey {}
+        private enum CodingKeys: String, CodingKey {
+            case includeSocketInformation = "includeSocketInformation"
+        }
     }
 
     public struct GetThingConnectivityDataResponse: AWSDecodableShape {
+        /// Indicates whether the client is using a clean session. Returns true for clean sessions.
+        public let cleanSession: Bool?
+        /// The unique identifier of the MQTT client.
+        public let clientId: String?
         /// A Boolean that indicates the connectivity status.
         public let connected: Bool?
-        /// The reason why the client is disconnecting.
+        /// The reason that the client is disconnected.
         public let disconnectReason: DisconnectReasonValue?
+        /// The keep-alive interval in seconds that the client specified when establishing the connection.
+        public let keepAliveDuration: Int?
+        /// The session expiry interval in seconds for the MQTT client connection. This value indicates how long the session will remain active after the client disconnects.
+        public let sessionExpiry: Int64?
+        /// The IP address of the client that initiated the connection.
+        public let sourceIp: String?
+        /// The client's source port.
+        public let sourcePort: Int?
+        /// The IP address of the Amazon Web Services IoT Core endpoint that the client connected to.
+        public let targetIp: String?
+        /// The port number of the Amazon Web Services IoT Core endpoint that the client connected to.
+        public let targetPort: Int?
         /// The name of your IoT thing.
         public let thingName: String?
-        /// The timestamp of when the event occurred.
+        /// The timestamp of when the device connected or disconnected.
         public let timestamp: Date?
+        /// The ID of the VPC endpoint. Present for clients connected to Amazon Web Services IoT Core via a VPC endpoint.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(connected: Bool? = nil, disconnectReason: DisconnectReasonValue? = nil, thingName: String? = nil, timestamp: Date? = nil) {
+        public init(cleanSession: Bool? = nil, clientId: String? = nil, connected: Bool? = nil, disconnectReason: DisconnectReasonValue? = nil, keepAliveDuration: Int? = nil, sessionExpiry: Int64? = nil, sourceIp: String? = nil, sourcePort: Int? = nil, targetIp: String? = nil, targetPort: Int? = nil, thingName: String? = nil, timestamp: Date? = nil, vpcEndpointId: String? = nil) {
+            self.cleanSession = cleanSession
+            self.clientId = clientId
             self.connected = connected
             self.disconnectReason = disconnectReason
+            self.keepAliveDuration = keepAliveDuration
+            self.sessionExpiry = sessionExpiry
+            self.sourceIp = sourceIp
+            self.sourcePort = sourcePort
+            self.targetIp = targetIp
+            self.targetPort = targetPort
             self.thingName = thingName
             self.timestamp = timestamp
+            self.vpcEndpointId = vpcEndpointId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cleanSession = "cleanSession"
+            case clientId = "clientId"
             case connected = "connected"
             case disconnectReason = "disconnectReason"
+            case keepAliveDuration = "keepAliveDuration"
+            case sessionExpiry = "sessionExpiry"
+            case sourceIp = "sourceIp"
+            case sourcePort = "sourcePort"
+            case targetIp = "targetIp"
+            case targetPort = "targetPort"
             case thingName = "thingName"
             case timestamp = "timestamp"
+            case vpcEndpointId = "vpcEndpointId"
         }
     }
 
@@ -11000,13 +11066,16 @@ extension IoT {
     }
 
     public struct IndexingFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Provides additional connectivity filter selections for the fleet indexing configuration.
+        public let connectivity: ConnectivityFilter?
         /// The list of geolocation targets that you select to index. The default maximum number of geolocation targets for indexing is 1. To increase the limit, see Amazon Web Services IoT Device Management Quotas in the Amazon Web Services General Reference.
         public let geoLocations: [GeoLocationTarget]?
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase  the limit, see Amazon Web Services IoT Device Management  Quotas in the Amazon Web Services General Reference.
         public let namedShadowNames: [String]?
 
         @inlinable
-        public init(geoLocations: [GeoLocationTarget]? = nil, namedShadowNames: [String]? = nil) {
+        public init(connectivity: ConnectivityFilter? = nil, geoLocations: [GeoLocationTarget]? = nil, namedShadowNames: [String]? = nil) {
+            self.connectivity = connectivity
             self.geoLocations = geoLocations
             self.namedShadowNames = namedShadowNames
         }
@@ -11020,6 +11089,7 @@ extension IoT {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectivity = "connectivity"
             case geoLocations = "geoLocations"
             case namedShadowNames = "namedShadowNames"
         }
@@ -18569,23 +18639,39 @@ extension IoT {
     }
 
     public struct ThingConnectivity: AWSDecodableShape {
+        /// Indicates whether the client is using a clean session. Returns true for clean sessions.
+        public let cleanSession: Bool?
+        /// The unique identifier of the MQTT client.
+        public let clientId: String?
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public let connected: Bool?
-        /// The reason why the client is disconnected. If the thing has been disconnected for approximately an hour, the disconnectReason value might be missing.
+        /// The reason that the client is disconnected.
         public let disconnectReason: String?
-        /// The epoch time (in milliseconds) when the thing last connected or disconnected. If the thing has been disconnected for approximately an hour, the time value might be missing.
+        /// The keep-alive interval in seconds that the client specified when establishing the connection.
+        public let keepAliveDuration: Int?
+        /// The session expiry interval in seconds for the MQTT client connection. This value indicates how long the session will remain active after the client disconnects.
+        public let sessionExpiry: Int64?
+        /// The epoch time (in milliseconds) when the thing last connected or disconnected.
         public let timestamp: Int64?
 
         @inlinable
-        public init(connected: Bool? = nil, disconnectReason: String? = nil, timestamp: Int64? = nil) {
+        public init(cleanSession: Bool? = nil, clientId: String? = nil, connected: Bool? = nil, disconnectReason: String? = nil, keepAliveDuration: Int? = nil, sessionExpiry: Int64? = nil, timestamp: Int64? = nil) {
+            self.cleanSession = cleanSession
+            self.clientId = clientId
             self.connected = connected
             self.disconnectReason = disconnectReason
+            self.keepAliveDuration = keepAliveDuration
+            self.sessionExpiry = sessionExpiry
             self.timestamp = timestamp
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cleanSession = "cleanSession"
+            case clientId = "clientId"
             case connected = "connected"
             case disconnectReason = "disconnectReason"
+            case keepAliveDuration = "keepAliveDuration"
+            case sessionExpiry = "sessionExpiry"
             case timestamp = "timestamp"
         }
     }

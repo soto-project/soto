@@ -93,11 +93,13 @@ extension Mgn {
         case failedToAuthenticateWithService = "FAILED_TO_AUTHENTICATE_WITH_SERVICE"
         case failedToBootReplicationServer = "FAILED_TO_BOOT_REPLICATION_SERVER"
         case failedToConnectAgentToReplicationServer = "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER"
+        case failedToCreateFsxSnapshot = "FAILED_TO_CREATE_FSX_SNAPSHOT"
         case failedToCreateSecurityGroup = "FAILED_TO_CREATE_SECURITY_GROUP"
         case failedToCreateStagingDisks = "FAILED_TO_CREATE_STAGING_DISKS"
         case failedToDownloadReplicationSoftware = "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE"
         case failedToLaunchReplicationServer = "FAILED_TO_LAUNCH_REPLICATION_SERVER"
         case failedToPairReplicationServerWithAgent = "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT"
+        case failedToSetupFsxProxy = "FAILED_TO_SETUP_FSX_PROXY"
         case failedToStartDataTransfer = "FAILED_TO_START_DATA_TRANSFER"
         case lastSnapshotJobFailed = "LAST_SNAPSHOT_JOB_FAILED"
         case notConverging = "NOT_CONVERGING"
@@ -117,6 +119,7 @@ extension Mgn {
         case downloadReplicationSoftware = "DOWNLOAD_REPLICATION_SOFTWARE"
         case launchReplicationServer = "LAUNCH_REPLICATION_SERVER"
         case pairReplicationServerWithAgent = "PAIR_REPLICATION_SERVER_WITH_AGENT"
+        case setupFsxProxy = "SETUP_FSX_PROXY"
         case startDataTransfer = "START_DATA_TRANSFER"
         case wait = "WAIT"
         public var description: String { return self.rawValue }
@@ -271,6 +274,19 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum LastKnownCheckStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case passed = "PASSED"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastKnownCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ec2 = "EC2"
+        case fSx = "FSx"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LaunchDisposition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case started = "STARTED"
         case stopped = "STOPPED"
@@ -396,6 +412,7 @@ extension Mgn {
 
     public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
+        case fsxOntap = "FSX_ONTAP"
         case gp2 = "GP2"
         case gp3 = "GP3"
         case io1 = "IO1"
@@ -414,11 +431,13 @@ extension Mgn {
 
     public enum SecurityGroupMappingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case map = "MAP"
+        case mapDhcp = "MAP_DHCP"
         case skip = "SKIP"
         public var description: String { return self.rawValue }
     }
 
     public enum SourceEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsDiscoveryCollector = "AWS_DISCOVERY_COLLECTOR"
         case ciscoAci = "CISCO_ACI"
         case fortigateFirewall = "FORTIGATE_FIREWALL"
         case logicalModel = "LOGICAL_MODEL"
@@ -438,6 +457,12 @@ extension Mgn {
     public enum SsmParameterStoreParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case secureString = "SECURE_STRING"
         case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebs = "EBS"
+        case fsxOntap = "FSX_ONTAP"
         public var description: String { return self.rawValue }
     }
 
@@ -490,6 +515,51 @@ extension Mgn {
         case inProgress = "IN_PROGRESS"
         case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum OperationUnion: AWSEncodableShape, Sendable {
+        /// A delete operation to remove a construct from the mapping.
+        case delete(DeleteOperation)
+        /// A merge operation to combine constructs from different segments.
+        case merge(MergeOperation)
+        /// A split operation to divide a construct into multiple constructs with specified CIDR blocks.
+        case split(SplitOperation)
+        /// An update operation to modify construct properties.
+        case update(UpdateOperation)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .delete(let value):
+                try container.encode(value, forKey: .delete)
+            case .merge(let value):
+                try container.encode(value, forKey: .merge)
+            case .split(let value):
+                try container.encode(value, forKey: .split)
+            case .update(let value):
+                try container.encode(value, forKey: .update)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .merge(let value):
+                try value.validate(name: "\(name).merge")
+            case .split(let value):
+                try value.validate(name: "\(name).split")
+            case .update(let value):
+                try value.validate(name: "\(name).update")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delete = "delete"
+            case merge = "merge"
+            case split = "split"
+            case update = "update"
+        }
     }
 
     // MARK: Shapes
@@ -1183,6 +1253,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String
         /// Request to configure Staging Area tags during Replication Settings template creation.
         public let stagingAreaTags: [String: String]
+        /// Request to configure storage during Replication Settings template creation.
+        public let storageConfiguration: StorageConfiguration?
         /// Request to store snapshot on local zone during Replication Settings template creation.
         public let storeSnapshotOnLocalZone: Bool?
         /// Request to configure tags during Replication Settings template creation.
@@ -1193,7 +1265,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], storageConfiguration: StorageConfiguration? = nil, storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -1206,6 +1278,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storageConfiguration = storageConfiguration
             self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
@@ -1230,6 +1303,7 @@ extension Mgn {
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
@@ -1250,6 +1324,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storageConfiguration = "storageConfiguration"
             case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
@@ -1556,6 +1631,10 @@ extension Mgn {
     }
 
     public struct DeleteNetworkMigrationDefinitionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteOperation: AWSEncodableShape {
         public init() {}
     }
 
@@ -2413,6 +2492,33 @@ extension Mgn {
         }
     }
 
+    public struct FsxOntapConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// FSx ONTAP configuration credentials secret ARN.
+        public let credentialsSecretArn: String
+        /// FSx ONTAP configuration storage virtual machine ID.
+        public let storageVirtualMachineId: String
+
+        @inlinable
+        public init(credentialsSecretArn: String, storageVirtualMachineId: String) {
+            self.credentialsSecretArn = credentialsSecretArn
+            self.storageVirtualMachineId = storageVirtualMachineId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, max: 256)
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, min: 20)
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, pattern: "^arn:[\\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:secret:(.+)$")
+            try self.validate(self.storageVirtualMachineId, name: "storageVirtualMachineId", parent: name, max: 21)
+            try self.validate(self.storageVirtualMachineId, name: "storageVirtualMachineId", parent: name, min: 21)
+            try self.validate(self.storageVirtualMachineId, name: "storageVirtualMachineId", parent: name, pattern: "^(svm-[0-9a-f]{17,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialsSecretArn = "credentialsSecretArn"
+            case storageVirtualMachineId = "storageVirtualMachineId"
+        }
+    }
+
     public struct GetLaunchConfigurationRequest: AWSEncodableShape {
         /// Request to get Launch Configuration information by Account ID.
         public let accountID: String?
@@ -2955,6 +3061,36 @@ extension Mgn {
         }
     }
 
+    public struct LastKnownCheck: AWSDecodableShape {
+        /// Last known check timestamp.
+        public let checkedAt: Date?
+        /// Last known check error.
+        public let error: String?
+        /// Last known check name.
+        public let name: String?
+        /// Last known check status.
+        public let status: LastKnownCheckStatus?
+        /// Last known check type.
+        public let type: LastKnownCheckType?
+
+        @inlinable
+        public init(checkedAt: Date? = nil, error: String? = nil, name: String? = nil, status: LastKnownCheckStatus? = nil, type: LastKnownCheckType? = nil) {
+            self.checkedAt = checkedAt
+            self.error = error
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkedAt = "checkedAt"
+            case error = "error"
+            case name = "name"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
     public struct LaunchConfiguration: AWSDecodableShape {
         /// Launch configuration boot mode.
         public let bootMode: BootMode?
@@ -3133,18 +3269,26 @@ extension Mgn {
         public let firstBoot: FirstBoot?
         /// Launched instance Job ID.
         public let jobID: String?
+        /// Launched instance last known checks.
+        public let lastKnownChecks: [LastKnownCheck]?
+        /// Launched instance last known FSx checks status.
+        public let lastKnownFsxChecksStatus: LastKnownCheckStatus?
 
         @inlinable
-        public init(ec2InstanceID: String? = nil, firstBoot: FirstBoot? = nil, jobID: String? = nil) {
+        public init(ec2InstanceID: String? = nil, firstBoot: FirstBoot? = nil, jobID: String? = nil, lastKnownChecks: [LastKnownCheck]? = nil, lastKnownFsxChecksStatus: LastKnownCheckStatus? = nil) {
             self.ec2InstanceID = ec2InstanceID
             self.firstBoot = firstBoot
             self.jobID = jobID
+            self.lastKnownChecks = lastKnownChecks
+            self.lastKnownFsxChecksStatus = lastKnownFsxChecksStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case ec2InstanceID = "ec2InstanceID"
             case firstBoot = "firstBoot"
             case jobID = "jobID"
+            case lastKnownChecks = "lastKnownChecks"
+            case lastKnownFsxChecksStatus = "lastKnownFsxChecksStatus"
         }
     }
 
@@ -5097,6 +5241,55 @@ extension Mgn {
         }
     }
 
+    public struct MergeConstruct: AWSEncodableShape {
+        /// The construct ID to merge.
+        public let constructID: String?
+        /// The segment ID of the construct to merge.
+        public let segmentID: String?
+
+        @inlinable
+        public init(constructID: String? = nil, segmentID: String? = nil) {
+            self.constructID = constructID
+            self.segmentID = segmentID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.constructID, name: "constructID", parent: name, max: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, min: 36)
+            try self.validate(self.constructID, name: "constructID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.segmentID, name: "segmentID", parent: name, max: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, min: 36)
+            try self.validate(self.segmentID, name: "segmentID", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constructID = "constructID"
+            case segmentID = "segmentID"
+        }
+    }
+
+    public struct MergeOperation: AWSEncodableShape {
+        /// The list of constructs to merge into the target.
+        public let mergeConstructs: [MergeConstruct]?
+
+        @inlinable
+        public init(mergeConstructs: [MergeConstruct]? = nil) {
+            self.mergeConstructs = mergeConstructs
+        }
+
+        public func validate(name: String) throws {
+            try self.mergeConstructs?.forEach {
+                try $0.validate(name: "\(name).mergeConstructs[]")
+            }
+            try self.validate(self.mergeConstructs, name: "mergeConstructs", parent: name, max: 1)
+            try self.validate(self.mergeConstructs, name: "mergeConstructs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mergeConstructs = "mergeConstructs"
+        }
+    }
+
     public struct NetworkInterface: AWSDecodableShape {
         /// Network interface IPs.
         public let ips: [String]?
@@ -5330,13 +5523,15 @@ extension Mgn {
         public let networkMigrationDefinitionID: String?
         /// The unique identifier of the network migration execution.
         public let networkMigrationExecutionID: String?
+        /// A list of other segments that this segment depends on or references.
+        public let referencedSegments: [String]?
         /// The unique identifier of the segment.
         public let segmentID: String?
         /// The type of the segment.
         public let segmentType: NetworkMigrationCodeGenerationSegmentType?
 
         @inlinable
-        public init(artifacts: [NetworkMigrationCodeGenerationArtifact]? = nil, createdAt: Date? = nil, jobID: String? = nil, logicalID: String? = nil, mapperSegmentID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, segmentID: String? = nil, segmentType: NetworkMigrationCodeGenerationSegmentType? = nil) {
+        public init(artifacts: [NetworkMigrationCodeGenerationArtifact]? = nil, createdAt: Date? = nil, jobID: String? = nil, logicalID: String? = nil, mapperSegmentID: String? = nil, networkMigrationDefinitionID: String? = nil, networkMigrationExecutionID: String? = nil, referencedSegments: [String]? = nil, segmentID: String? = nil, segmentType: NetworkMigrationCodeGenerationSegmentType? = nil) {
             self.artifacts = artifacts
             self.createdAt = createdAt
             self.jobID = jobID
@@ -5344,6 +5539,7 @@ extension Mgn {
             self.mapperSegmentID = mapperSegmentID
             self.networkMigrationDefinitionID = networkMigrationDefinitionID
             self.networkMigrationExecutionID = networkMigrationExecutionID
+            self.referencedSegments = referencedSegments
             self.segmentID = segmentID
             self.segmentType = segmentType
         }
@@ -5356,6 +5552,7 @@ extension Mgn {
             case mapperSegmentID = "mapperSegmentID"
             case networkMigrationDefinitionID = "networkMigrationDefinitionID"
             case networkMigrationExecutionID = "networkMigrationExecutionID"
+            case referencedSegments = "referencedSegments"
             case segmentID = "segmentID"
             case segmentType = "segmentType"
         }
@@ -5668,6 +5865,8 @@ extension Mgn {
         public let createdAt: Date?
         /// A description of the construct.
         public let description: String?
+        /// Whether this construct is excluded from the migration.
+        public let excluded: Bool?
         /// The logical identifier for the construct in the infrastructure code.
         public let logicalID: String?
         /// The name of the construct.
@@ -5678,11 +5877,12 @@ extension Mgn {
         public let updatedAt: Date?
 
         @inlinable
-        public init(constructID: String? = nil, constructType: String? = nil, createdAt: Date? = nil, description: String? = nil, logicalID: String? = nil, name: String? = nil, properties: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(constructID: String? = nil, constructType: String? = nil, createdAt: Date? = nil, description: String? = nil, excluded: Bool? = nil, logicalID: String? = nil, name: String? = nil, properties: [String: String]? = nil, updatedAt: Date? = nil) {
             self.constructID = constructID
             self.constructType = constructType
             self.createdAt = createdAt
             self.description = description
+            self.excluded = excluded
             self.logicalID = logicalID
             self.name = name
             self.properties = properties
@@ -5694,6 +5894,7 @@ extension Mgn {
             case constructType = "constructType"
             case createdAt = "createdAt"
             case description = "description"
+            case excluded = "excluded"
             case logicalID = "logicalID"
             case name = "name"
             case properties = "properties"
@@ -6205,6 +6406,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Replication Configuration Staging Area tags.
         public let stagingAreaTags: [String: String]?
+        /// Replication Configuration storage configuration.
+        public let storageConfiguration: StorageConfiguration?
         /// Replication Configuration store snapshot on local zone.
         public let storeSnapshotOnLocalZone: Bool?
         /// Replication Configuration use Dedicated Replication Server.
@@ -6213,7 +6416,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storageConfiguration: StorageConfiguration? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -6229,6 +6432,7 @@ extension Mgn {
             self.sourceServerID = sourceServerID
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storageConfiguration = storageConfiguration
             self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -6250,6 +6454,7 @@ extension Mgn {
             case sourceServerID = "sourceServerID"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storageConfiguration = "storageConfiguration"
             case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
@@ -6321,6 +6526,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Replication Configuration template Staging Area Tags.
         public let stagingAreaTags: [String: String]?
+        /// Replication Configuration template storage configuration.
+        public let storageConfiguration: StorageConfiguration?
         /// Replication Configuration template store snapshot on local zone.
         public let storeSnapshotOnLocalZone: Bool?
         /// Replication Configuration template Tags.
@@ -6331,7 +6538,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storageConfiguration: StorageConfiguration? = nil, storeSnapshotOnLocalZone: Bool? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -6346,6 +6553,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storageConfiguration = storageConfiguration
             self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.tags = tags
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
@@ -6367,6 +6575,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storageConfiguration = "storageConfiguration"
             case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case tags = "tags"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
@@ -6797,7 +7006,7 @@ extension Mgn {
             try self.validate(self.connectorArn, name: "connectorArn", parent: name, max: 100)
             try self.validate(self.connectorArn, name: "connectorArn", parent: name, min: 27)
             try self.validate(self.connectorArn, name: "connectorArn", parent: name, pattern: "^arn:[\\w-]+:mgn:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:connector\\/(connector-[0-9a-zA-Z]{17})$")
-            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, max: 100)
+            try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, max: 256)
             try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, min: 20)
             try self.validate(self.credentialsSecretArn, name: "credentialsSecretArn", parent: name, pattern: "^arn:[\\w-]+:secretsmanager:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:secret:(.+)$")
         }
@@ -6805,6 +7014,46 @@ extension Mgn {
         private enum CodingKeys: String, CodingKey {
             case connectorArn = "connectorArn"
             case credentialsSecretArn = "credentialsSecretArn"
+        }
+    }
+
+    public struct SplitConstruct: AWSEncodableShape {
+        /// The CIDR block for the split construct.
+        public let cidrBlock: String?
+
+        @inlinable
+        public init(cidrBlock: String? = nil) {
+            self.cidrBlock = cidrBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "^([0-9]{1,3}\\.){3}[0-9]{1,3}/[0-9]{1,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "cidrBlock"
+        }
+    }
+
+    public struct SplitOperation: AWSEncodableShape {
+        /// The list of split targets with their CIDR blocks.
+        public let splitConstructs: [SplitConstruct]?
+
+        @inlinable
+        public init(splitConstructs: [SplitConstruct]? = nil) {
+            self.splitConstructs = splitConstructs
+        }
+
+        public func validate(name: String) throws {
+            try self.splitConstructs?.forEach {
+                try $0.validate(name: "\(name).splitConstructs[]")
+            }
+            try self.validate(self.splitConstructs, name: "splitConstructs", parent: name, max: 2)
+            try self.validate(self.splitConstructs, name: "splitConstructs", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case splitConstructs = "splitConstructs"
         }
     }
 
@@ -7499,6 +7748,28 @@ extension Mgn {
         private enum CodingKeys: String, CodingKey {
             case accountID = "accountID"
             case sourceServerID = "sourceServerID"
+        }
+    }
+
+    public struct StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Storage configuration FSx ONTAP configuration.
+        public let fsxOntapConfiguration: FsxOntapConfiguration?
+        /// Storage configuration storage type.
+        public let storageType: StorageType
+
+        @inlinable
+        public init(fsxOntapConfiguration: FsxOntapConfiguration? = nil, storageType: StorageType) {
+            self.fsxOntapConfiguration = fsxOntapConfiguration
+            self.storageType = storageType
+        }
+
+        public func validate(name: String) throws {
+            try self.fsxOntapConfiguration?.validate(name: "\(name).fsxOntapConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fsxOntapConfiguration = "fsxOntapConfiguration"
+            case storageType = "storageType"
         }
     }
 
@@ -8275,15 +8546,24 @@ extension Mgn {
     }
 
     public struct UpdateOperation: AWSEncodableShape {
+        /// Whether to exclude this construct from the migration.
+        public let excluded: Bool?
+        /// The updated name for the construct.
+        public let name: String?
         /// The properties to update on the construct.
         public let properties: [String: String]?
 
         @inlinable
-        public init(properties: [String: String]? = nil) {
+        public init(excluded: Bool? = nil, name: String? = nil, properties: [String: String]? = nil) {
+            self.excluded = excluded
+            self.name = name
             self.properties = properties
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
             try self.properties?.forEach {
                 try validate($0.key, name: "properties.key", parent: name, max: 24)
                 try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 65536)
@@ -8292,6 +8572,8 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case excluded = "excluded"
+            case name = "name"
             case properties = "properties"
         }
     }
@@ -8329,6 +8611,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Update replication configuration Staging Area Tags request.
         public let stagingAreaTags: [String: String]?
+        /// Update replication configuration storage configuration.
+        public let storageConfiguration: StorageConfiguration?
         /// Update replication configuration store snapshot on local zone.
         public let storeSnapshotOnLocalZone: Bool?
         /// Update replication configuration use dedicated Replication Server request.
@@ -8337,7 +8621,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storageConfiguration: StorageConfiguration? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.accountID = accountID
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -8354,6 +8638,7 @@ extension Mgn {
             self.sourceServerID = sourceServerID
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storageConfiguration = storageConfiguration
             self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -8388,6 +8673,7 @@ extension Mgn {
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8407,6 +8693,7 @@ extension Mgn {
             case sourceServerID = "sourceServerID"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storageConfiguration = "storageConfiguration"
             case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
@@ -8442,6 +8729,8 @@ extension Mgn {
         public let stagingAreaSubnetId: String?
         /// Update replication configuration template Staging Area Tags request.
         public let stagingAreaTags: [String: String]?
+        /// Update replication configuration template storage configuration request.
+        public let storageConfiguration: StorageConfiguration?
         /// Update replication configuration template store snapshot on local zone request.
         public let storeSnapshotOnLocalZone: Bool?
         /// Update replication configuration template use dedicated Replication Server request.
@@ -8450,7 +8739,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, storageConfiguration: StorageConfiguration? = nil, storeSnapshotOnLocalZone: Bool? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -8465,6 +8754,7 @@ extension Mgn {
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
             self.stagingAreaTags = stagingAreaTags
+            self.storageConfiguration = storageConfiguration
             self.storeSnapshotOnLocalZone = storeSnapshotOnLocalZone
             self.useDedicatedReplicationServer = useDedicatedReplicationServer
             self.useFipsEndpoint = useFipsEndpoint
@@ -8493,6 +8783,7 @@ extension Mgn {
                 try validate($0.value, name: "stagingAreaTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.stagingAreaTags, name: "stagingAreaTags", parent: name, max: 50)
+            try self.storageConfiguration?.validate(name: "\(name).storageConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8510,6 +8801,7 @@ extension Mgn {
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
             case stagingAreaTags = "stagingAreaTags"
+            case storageConfiguration = "storageConfiguration"
             case storeSnapshotOnLocalZone = "storeSnapshotOnLocalZone"
             case useDedicatedReplicationServer = "useDedicatedReplicationServer"
             case useFipsEndpoint = "useFipsEndpoint"
@@ -8552,14 +8844,23 @@ extension Mgn {
         public let accountID: String?
         /// Update Source Server request connector action.
         public let connectorAction: SourceServerConnectorAction?
+        /// Update Source Server request FQDN for action framework.
+        public let fqdnForActionFramework: String?
+        /// Update Source Server request platform operating system.
+        public let platform: String?
         /// Update Source Server request source server ID.
         public let sourceServerID: String
+        /// Update Source Server request user provided ID.
+        public let userProvidedID: String?
 
         @inlinable
-        public init(accountID: String? = nil, connectorAction: SourceServerConnectorAction? = nil, sourceServerID: String) {
+        public init(accountID: String? = nil, connectorAction: SourceServerConnectorAction? = nil, fqdnForActionFramework: String? = nil, platform: String? = nil, sourceServerID: String, userProvidedID: String? = nil) {
             self.accountID = accountID
             self.connectorAction = connectorAction
+            self.fqdnForActionFramework = fqdnForActionFramework
+            self.platform = platform
             self.sourceServerID = sourceServerID
+            self.userProvidedID = userProvidedID
         }
 
         public func validate(name: String) throws {
@@ -8567,15 +8868,25 @@ extension Mgn {
             try self.validate(self.accountID, name: "accountID", parent: name, min: 12)
             try self.validate(self.accountID, name: "accountID", parent: name, pattern: "[0-9]{12,}")
             try self.connectorAction?.validate(name: "\(name).connectorAction")
+            try self.validate(self.fqdnForActionFramework, name: "fqdnForActionFramework", parent: name, max: 256)
+            try self.validate(self.fqdnForActionFramework, name: "fqdnForActionFramework", parent: name, min: 1)
+            try self.validate(self.fqdnForActionFramework, name: "fqdnForActionFramework", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_\\-]{0,61}[a-zA-Z0-9_])?\\.)+[a-zA-Z]{2,63}$|^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$|^(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}$")
+            try self.validate(self.platform, name: "platform", parent: name, pattern: "^(linux|windows)$")
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
             try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+            try self.validate(self.userProvidedID, name: "userProvidedID", parent: name, max: 256)
+            try self.validate(self.userProvidedID, name: "userProvidedID", parent: name, min: 1)
+            try self.validate(self.userProvidedID, name: "userProvidedID", parent: name, pattern: "^[^\\s\\x00]( *[^\\s\\x00])*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountID = "accountID"
             case connectorAction = "connectorAction"
+            case fqdnForActionFramework = "fqdnForActionFramework"
+            case platform = "platform"
             case sourceServerID = "sourceServerID"
+            case userProvidedID = "userProvidedID"
         }
     }
 
@@ -8776,24 +9087,6 @@ extension Mgn {
             case progressStatus = "progressStatus"
             case replicationStartedDateTime = "replicationStartedDateTime"
             case totalApplications = "totalApplications"
-        }
-    }
-
-    public struct OperationUnion: AWSEncodableShape {
-        /// An update operation to modify construct properties.
-        public let update: UpdateOperation?
-
-        @inlinable
-        public init(update: UpdateOperation? = nil) {
-            self.update = update
-        }
-
-        public func validate(name: String) throws {
-            try self.update?.validate(name: "\(name).update")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case update = "update"
         }
     }
 

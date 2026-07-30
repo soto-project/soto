@@ -316,6 +316,7 @@ extension WorkSpaces {
     }
 
     public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `protocol` = "PROTOCOL"
         case computeType = "COMPUTE_TYPE"
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
@@ -323,6 +324,7 @@ extension WorkSpaces {
     }
 
     public enum ModificationStateEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateInitiated = "UPDATE_INITIATED"
         public var description: String { return self.rawValue }
@@ -1487,7 +1489,7 @@ extension WorkSpaces {
         public let name: String
         /// The directory identifier for which to configure the client add-in.
         public let resourceId: String
-        /// The endpoint URL of the Amazon Connect client add-in.
+        /// The endpoint URL of the Connect Customer client add-in.
         public let url: String
 
         @inlinable
@@ -5824,7 +5826,7 @@ extension WorkSpaces {
         public let name: String?
         /// The directory identifier for which the client add-in is configured.
         public let resourceId: String
-        /// The endpoint URL of the Amazon Connect client add-in.
+        /// The endpoint URL of the Connect Customer client add-in.
         public let url: String?
 
         @inlinable
@@ -6627,7 +6629,7 @@ extension WorkSpaces {
         public let globalAccelerator: GlobalAcceleratorForWorkSpace?
         /// The name of the operating system.
         public let operatingSystemName: OperatingSystemName?
-        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
+        /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6).
         public let protocols: [`Protocol`]?
         /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?

@@ -370,6 +370,7 @@ extension CloudFront {
 
     public enum ViewerMtlsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optional = "optional"
+        case passthrough = "passthrough"
         case required = "required"
         public var description: String { return self.rawValue }
     }
@@ -1087,6 +1088,20 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case cachePolicy = "CachePolicy"
             case type = "Type"
+        }
+    }
+
+    public struct CacheTagConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the HTTP header that your origin includes in responses. CloudFront uses this header to extract cache tags. The header value must contain comma-separated tag values (for example, product:electronics, category:tv, brand:example).
+        public let headerName: String
+
+        @inlinable
+        public init(headerName: String) {
+            self.headerName = headerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case headerName = "HeaderName"
         }
     }
 
@@ -2349,12 +2364,14 @@ extension CloudFront {
         public let functionConfig: FunctionConfig
         /// A name to identify the function.
         public let name: String
+        public let tags: Tags?
 
         @inlinable
-        public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, name: String) {
+        public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, name: String, tags: Tags? = nil) {
             self.functionCode = functionCode
             self.functionConfig = functionConfig
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2364,12 +2381,14 @@ extension CloudFront {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+            try self.tags?.validate(name: "\(name).tags")
         }
 
         private enum CodingKeys: String, CodingKey {
             case functionCode = "FunctionCode"
             case functionConfig = "FunctionConfig"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -2538,12 +2557,14 @@ extension CloudFront {
         public let importSource: ImportSource?
         /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
         public let name: String
+        public let tags: Tags?
 
         @inlinable
-        public init(comment: String? = nil, importSource: ImportSource? = nil, name: String) {
+        public init(comment: String? = nil, importSource: ImportSource? = nil, name: String, tags: Tags? = nil) {
             self.comment = comment
             self.importSource = importSource
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2551,12 +2572,14 @@ extension CloudFront {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]{1,64}$")
+            try self.tags?.validate(name: "\(name).tags")
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case importSource = "ImportSource"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -2948,12 +2971,15 @@ extension CloudFront {
         /// A name for the trust store.
         public let name: String
         public let tags: Tags?
+        /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+        public let useClientCertificateOCSPEndpoint: Bool?
 
         @inlinable
-        public init(caCertificatesBundleSource: CaCertificatesBundleSource, name: String, tags: Tags? = nil) {
+        public init(caCertificatesBundleSource: CaCertificatesBundleSource, name: String, tags: Tags? = nil, useClientCertificateOCSPEndpoint: Bool? = nil) {
             self.caCertificatesBundleSource = caCertificatesBundleSource
             self.name = name
             self.tags = tags
+            self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
         }
 
         public func validate(name: String) throws {
@@ -2964,6 +2990,7 @@ extension CloudFront {
             case caCertificatesBundleSource = "CaCertificatesBundleSource"
             case name = "Name"
             case tags = "Tags"
+            case useClientCertificateOCSPEndpoint = "UseClientCertificateOCSPEndpoint"
         }
     }
 
@@ -4111,6 +4138,8 @@ extension CloudFront {
         public let anycastIpListId: String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public let cacheBehaviors: CacheBehaviors?
+        /// Configuration for cache tag extraction from origin responses. When specified, CloudFront reads the header named in HeaderName from origin responses and stores the comma-separated values as cache tags on the object. Distributions without CacheTagConfig do not extract tags. When CacheTagConfig is removed from a distribution via UpdateDistribution, CloudFront stops extracting tags from origin responses.  Changing the HeaderName on an existing distribution does not retroactively affect previously cached objects. Tag-based invalidations will not apply to objects already cached using a previous header. To ensure tag invalidations function after updating the header name, use path-based invalidations to recache all objects that use cache tags.
+        public let cacheTagConfig: CacheTagConfig?
         /// A unique value (for example, a date-time stamp) that ensures that the request can't be replayed. If the value of CallerReference is new (regardless of the content of the DistributionConfig object), CloudFront creates a new distribution. If CallerReference is a value that you already sent in a previous request to create a distribution, CloudFront returns a DistributionAlreadyExists error.
         public let callerReference: String
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
@@ -4155,10 +4184,11 @@ extension CloudFront {
         public let webACLId: String?
 
         @inlinable
-        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, connectionFunctionAssociation: ConnectionFunctionAssociation? = nil, connectionMode: ConnectionMode? = nil, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, tenantConfig: TenantConfig? = nil, viewerCertificate: ViewerCertificate? = nil, viewerMtlsConfig: ViewerMtlsConfig? = nil, webACLId: String? = nil) {
+        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, cacheTagConfig: CacheTagConfig? = nil, callerReference: String, comment: String, connectionFunctionAssociation: ConnectionFunctionAssociation? = nil, connectionMode: ConnectionMode? = nil, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, tenantConfig: TenantConfig? = nil, viewerCertificate: ViewerCertificate? = nil, viewerMtlsConfig: ViewerMtlsConfig? = nil, webACLId: String? = nil) {
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
+            self.cacheTagConfig = cacheTagConfig
             self.callerReference = callerReference
             self.comment = comment
             self.connectionFunctionAssociation = connectionFunctionAssociation
@@ -4196,6 +4226,7 @@ extension CloudFront {
             case aliases = "Aliases"
             case anycastIpListId = "AnycastIpListId"
             case cacheBehaviors = "CacheBehaviors"
+            case cacheTagConfig = "CacheTagConfig"
             case callerReference = "CallerReference"
             case comment = "Comment"
             case connectionFunctionAssociation = "ConnectionFunctionAssociation"
@@ -11268,9 +11299,11 @@ extension CloudFront {
         public let reason: String?
         /// The trust store's status.
         public let status: TrustStoreStatus?
+        /// A Boolean that determines whether the trust store uses the CA certificate's OCSP endpoint to check certificate revocation status.
+        public let useClientCertificateOCSPEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, numberOfCaCertificates: Int? = nil, reason: String? = nil, status: TrustStoreStatus? = nil) {
+        public init(arn: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, numberOfCaCertificates: Int? = nil, reason: String? = nil, status: TrustStoreStatus? = nil, useClientCertificateOCSPEndpoint: Bool? = nil) {
             self.arn = arn
             self.id = id
             self.lastModifiedTime = lastModifiedTime
@@ -11278,6 +11311,7 @@ extension CloudFront {
             self.numberOfCaCertificates = numberOfCaCertificates
             self.reason = reason
             self.status = status
+            self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11288,6 +11322,7 @@ extension CloudFront {
             case numberOfCaCertificates = "NumberOfCaCertificates"
             case reason = "Reason"
             case status = "Status"
+            case useClientCertificateOCSPEndpoint = "UseClientCertificateOCSPEndpoint"
         }
     }
 
@@ -11434,18 +11469,24 @@ extension CloudFront {
     }
 
     public struct UpdateAnycastIpListRequest: AWSEncodableShape {
+        public struct _IpamCidrConfigsEncoding: ArrayCoderProperties { public static let member = "IpamCidrConfig" }
+
         /// The ID of the Anycast static IP list.
         public let id: String
         /// The current version (ETag value) of the Anycast static IP list that you are updating.
         public let ifMatch: String
         /// The IP address type for the Anycast static IP list. You can specify one of the following options:    ipv4 only    ipv6 only    dualstack - Allocate a list of both IPv4 and IPv6 addresses
         public let ipAddressType: IpAddressType?
+        /// A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for updating the Anycast static IP list.
+        @OptionalCustomCoding<ArrayCoder<_IpamCidrConfigsEncoding, IpamCidrConfig>>
+        public var ipamCidrConfigs: [IpamCidrConfig]?
 
         @inlinable
-        public init(id: String, ifMatch: String, ipAddressType: IpAddressType? = nil) {
+        public init(id: String, ifMatch: String, ipAddressType: IpAddressType? = nil, ipamCidrConfigs: [IpamCidrConfig]? = nil) {
             self.id = id
             self.ifMatch = ifMatch
             self.ipAddressType = ipAddressType
+            self.ipamCidrConfigs = ipamCidrConfigs
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -11454,10 +11495,12 @@ extension CloudFront {
             request.encodePath(self.id, key: "Id")
             request.encodeHeader(self.ifMatch, key: "If-Match")
             try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
+            try container.encodeIfPresent(self.ipamCidrConfigs, forKey: .ipamCidrConfigs)
         }
 
         private enum CodingKeys: String, CodingKey {
             case ipAddressType = "IpAddressType"
+            case ipamCidrConfigs = "IpamCidrConfigs"
         }
     }
 
@@ -12565,17 +12608,20 @@ extension CloudFront {
     public struct UpdateTrustStoreRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "CaCertificatesBundleSource"
         /// The CA certificates bundle source.
-        public let caCertificatesBundleSource: CaCertificatesBundleSource
+        public let caCertificatesBundleSource: CaCertificatesBundleSource?
         /// The trust store ID.
         public let id: String
         /// The current version (ETag value) of the trust store you are updating.
         public let ifMatch: String
+        /// A Boolean that determines whether to use the CA certificate's OCSP endpoint to check certificate revocation status.
+        public let useClientCertificateOCSPEndpoint: Bool?
 
         @inlinable
-        public init(caCertificatesBundleSource: CaCertificatesBundleSource, id: String, ifMatch: String) {
+        public init(caCertificatesBundleSource: CaCertificatesBundleSource? = nil, id: String, ifMatch: String, useClientCertificateOCSPEndpoint: Bool? = nil) {
             self.caCertificatesBundleSource = caCertificatesBundleSource
             self.id = id
             self.ifMatch = ifMatch
+            self.useClientCertificateOCSPEndpoint = useClientCertificateOCSPEndpoint
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -12584,6 +12630,7 @@ extension CloudFront {
             try container.encode(self.caCertificatesBundleSource)
             request.encodePath(self.id, key: "Id")
             request.encodeHeader(self.ifMatch, key: "If-Match")
+            request.encodeHeader(self.useClientCertificateOCSPEndpoint, key: "UseClientCertificateOCSPEndpoint")
         }
 
         public func validate(name: String) throws {
@@ -12735,7 +12782,7 @@ extension CloudFront {
         public let iamCertificateId: String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:   The minimum SSL/TLS protocol that CloudFront can use to communicate with viewers.   The ciphers that CloudFront can use to encrypt the content that it returns to viewers.   For more information, see Security Policy and Supported Protocols and Ciphers Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  On the CloudFront console, this setting is called Security Policy.  When you're using SNI only (you set SSLSupportMethod to sni-only), you must specify TLSv1 or higher. If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net (you set CloudFrontDefaultCertificate to true), CloudFront automatically sets the security policy to TLSv1 regardless of the value that you set here.
         public let minimumProtocolVersion: MinimumProtocolVersion?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
+        /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify which viewers the distribution accepts HTTPS connections from.    sni-only – The distribution accepts HTTPS connections from only viewers that support server name indication (SNI). This is recommended. Most browsers and clients support SNI.    vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the Amazon Web Services Support Center.   If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
         @inlinable

@@ -750,6 +750,38 @@ extension Wickr {
         }
     }
 
+    public struct ConsentPopupConfig: AWSEncodableShape {
+        /// Label for the close button on the consent popup. Maximum 20 characters. Defaults to "Acknowledge" if not provided.
+        public let closeButtonLabel: String?
+        /// Body content of the consent popup in Markdown format. Maximum 5000 characters.
+        public let content: String?
+        /// Whether the consent popup is enabled. When set to true, the popup is displayed to users on login.
+        public let enabled: Bool
+        /// Header text displayed at the top of the consent popup. Maximum 100 characters.
+        public let header: String?
+
+        @inlinable
+        public init(closeButtonLabel: String? = nil, content: String? = nil, enabled: Bool, header: String? = nil) {
+            self.closeButtonLabel = closeButtonLabel
+            self.content = content
+            self.enabled = enabled
+            self.header = header
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.closeButtonLabel, name: "closeButtonLabel", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.content, name: "content", parent: name, pattern: "^[\\S\\s]*$")
+            try self.validate(self.header, name: "header", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case closeButtonLabel = "closeButtonLabel"
+            case content = "content"
+            case enabled = "enabled"
+            case header = "header"
+        }
+    }
+
     public struct CreateBotRequest: AWSEncodableShape {
         /// The password for the bot account.
         public let challenge: String
@@ -2501,6 +2533,8 @@ extension Wickr {
     }
 
     public struct NetworkSettings: AWSEncodableShape {
+        /// Consent popup configuration for the network, displayed to users on login.
+        public let consentPopup: ConsentPopupConfig?
         /// Indicates whether the data retention feature is enabled for the network. When true, messages are captured by the data retention bot for compliance and archiving purposes.
         public let dataRetention: Bool?
         /// Allows Wickr clients to send anonymized performance and usage metrics to the Wickr backend server for service improvement and troubleshooting.
@@ -2511,14 +2545,20 @@ extension Wickr {
         public let readReceiptConfig: ReadReceiptConfig?
 
         @inlinable
-        public init(dataRetention: Bool? = nil, enableClientMetrics: Bool? = nil, enableTrustedDataFormat: Bool? = nil, readReceiptConfig: ReadReceiptConfig? = nil) {
+        public init(consentPopup: ConsentPopupConfig? = nil, dataRetention: Bool? = nil, enableClientMetrics: Bool? = nil, enableTrustedDataFormat: Bool? = nil, readReceiptConfig: ReadReceiptConfig? = nil) {
+            self.consentPopup = consentPopup
             self.dataRetention = dataRetention
             self.enableClientMetrics = enableClientMetrics
             self.enableTrustedDataFormat = enableTrustedDataFormat
             self.readReceiptConfig = readReceiptConfig
         }
 
+        public func validate(name: String) throws {
+            try self.consentPopup?.validate(name: "\(name).consentPopup")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case consentPopup = "consentPopup"
             case dataRetention = "dataRetention"
             case enableClientMetrics = "enableClientMetrics"
             case enableTrustedDataFormat = "enableTrustedDataFormat"
@@ -3114,6 +3154,8 @@ extension Wickr {
         public let maxAutoDownloadSize: Int64?
         /// The maximum burn-on-read (BOR) time in seconds, which determines how long messages remain visible before auto-deletion after being read.
         public let maxBor: Int?
+        /// Maximum session duration in minutes for non-SSO users. Set to 0 to disable. Valid range is 60 to 525600 (1 hour to 365 days).
+        public let maxNonSsoSessionMinutes: Int?
         /// The maximum time-to-live (TTL) in seconds for messages, after which they will be automatically deleted from all devices.
         public let maxTtl: Int64?
         /// Enables message forwarding, allowing users to forward messages from one conversation to another.
@@ -3138,7 +3180,7 @@ extension Wickr {
         public let ssoMaxIdleMinutes: Int?
 
         @inlinable
-        public init(alwaysReauthenticate: Bool? = nil, atakPackageValues: [String]? = nil, calling: CallingSettings? = nil, checkForUpdates: Bool? = nil, enableAtak: Bool? = nil, enableCrashReports: Bool? = nil, enableFileDownload: Bool? = nil, enableGuestFederation: Bool? = nil, enableNotificationPreview: Bool? = nil, enableOpenAccessOption: Bool? = nil, enableRestrictedGlobalFederation: Bool? = nil, federationMode: Int? = nil, filesEnabled: Bool? = nil, forceDeviceLockout: Int? = nil, forceOpenAccess: Bool? = nil, forceReadReceipts: Bool? = nil, globalFederation: Bool? = nil, isAtoEnabled: Bool? = nil, isLinkPreviewEnabled: Bool? = nil, locationAllowMaps: Bool? = nil, locationEnabled: Bool? = nil, lockoutThreshold: Int? = nil, maxAutoDownloadSize: Int64? = nil, maxBor: Int? = nil, maxTtl: Int64? = nil, messageForwardingEnabled: Bool? = nil, passwordRequirements: PasswordRequirements? = nil, permittedNetworks: [String]? = nil, permittedWickrAwsNetworks: [WickrAwsNetworks]? = nil, permittedWickrEnterpriseNetworks: [PermittedWickrEnterpriseNetwork]? = nil, presenceEnabled: Bool? = nil, quickResponses: [String]? = nil, showMasterRecoveryKey: Bool? = nil, shredder: ShredderSettings? = nil, ssoMaxIdleMinutes: Int? = nil) {
+        public init(alwaysReauthenticate: Bool? = nil, atakPackageValues: [String]? = nil, calling: CallingSettings? = nil, checkForUpdates: Bool? = nil, enableAtak: Bool? = nil, enableCrashReports: Bool? = nil, enableFileDownload: Bool? = nil, enableGuestFederation: Bool? = nil, enableNotificationPreview: Bool? = nil, enableOpenAccessOption: Bool? = nil, enableRestrictedGlobalFederation: Bool? = nil, federationMode: Int? = nil, filesEnabled: Bool? = nil, forceDeviceLockout: Int? = nil, forceOpenAccess: Bool? = nil, forceReadReceipts: Bool? = nil, globalFederation: Bool? = nil, isAtoEnabled: Bool? = nil, isLinkPreviewEnabled: Bool? = nil, locationAllowMaps: Bool? = nil, locationEnabled: Bool? = nil, lockoutThreshold: Int? = nil, maxAutoDownloadSize: Int64? = nil, maxBor: Int? = nil, maxNonSsoSessionMinutes: Int? = nil, maxTtl: Int64? = nil, messageForwardingEnabled: Bool? = nil, passwordRequirements: PasswordRequirements? = nil, permittedNetworks: [String]? = nil, permittedWickrAwsNetworks: [WickrAwsNetworks]? = nil, permittedWickrEnterpriseNetworks: [PermittedWickrEnterpriseNetwork]? = nil, presenceEnabled: Bool? = nil, quickResponses: [String]? = nil, showMasterRecoveryKey: Bool? = nil, shredder: ShredderSettings? = nil, ssoMaxIdleMinutes: Int? = nil) {
             self.alwaysReauthenticate = alwaysReauthenticate
             self.atakPackageValues = atakPackageValues
             self.calling = calling
@@ -3163,6 +3205,7 @@ extension Wickr {
             self.lockoutThreshold = lockoutThreshold
             self.maxAutoDownloadSize = maxAutoDownloadSize
             self.maxBor = maxBor
+            self.maxNonSsoSessionMinutes = maxNonSsoSessionMinutes
             self.maxTtl = maxTtl
             self.messageForwardingEnabled = messageForwardingEnabled
             self.passwordRequirements = passwordRequirements
@@ -3221,6 +3264,7 @@ extension Wickr {
             case lockoutThreshold = "lockoutThreshold"
             case maxAutoDownloadSize = "maxAutoDownloadSize"
             case maxBor = "maxBor"
+            case maxNonSsoSessionMinutes = "maxNonSsoSessionMinutes"
             case maxTtl = "maxTtl"
             case messageForwardingEnabled = "messageForwardingEnabled"
             case passwordRequirements = "passwordRequirements"
@@ -3316,7 +3360,7 @@ extension Wickr {
     public struct ShredderSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether users can manually trigger the shredder to delete content.
         public let canProcessManually: Bool?
-        /// Prevents Wickr data from being recovered by overwriting deleted Wickr data. Valid Values: Must be one of [0, 20, 60, 100]
+        /// Controls the rate (MB/minute) at which the shredder function runs on clients. Valid Values: Must be one of [0, 20, 60, 100].  A higher intensity setting could lead to higher battery usage on mobile devices.
         public let intensity: Int?
 
         @inlinable
@@ -3574,6 +3618,7 @@ extension Wickr {
             try self.validate(self.networkId, name: "networkId", parent: name, max: 8)
             try self.validate(self.networkId, name: "networkId", parent: name, min: 8)
             try self.validate(self.networkId, name: "networkId", parent: name, pattern: "^[0-9]{8}$")
+            try self.settings.validate(name: "\(name).settings")
         }
 
         private enum CodingKeys: String, CodingKey {

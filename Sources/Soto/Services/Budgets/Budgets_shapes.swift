@@ -368,7 +368,8 @@ extension Budgets {
         public let budgetLimit: Spend?
         /// The name of a budget. The name must be unique within an account. The :
         /// 			and \ characters, and the "/action/" substring, aren't allowed in
-        /// 				BudgetName.
+        /// 				BudgetName. Budget names are validated for content. Names that contain phone numbers, URLs, or
+        /// 			email addresses combined with certain terms may be rejected.
         public let budgetName: String
         /// Specifies whether this budget tracks costs, usage, RI utilization, RI coverage,
         /// 			Savings Plans utilization, or Savings Plans coverage.

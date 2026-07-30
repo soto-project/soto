@@ -759,7 +759,7 @@ extension Macie2 {
     public struct AutomatedDiscoveryAccountUpdateError: AWSDecodableShape {
         /// The Amazon Web Services account ID for the account that the request applied to.
         public let accountId: String?
-        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn’t exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn’t enabled for the account in the current Amazon Web Services Region.
+        /// The error code for the error that caused the request to fail for the account (accountId). Possible values are: ACCOUNT_NOT_FOUND, the account doesn't exist or you're not the Amazon Macie administrator for the account; and, ACCOUNT_PAUSED, Macie isn't enabled for the account in the current Amazon Web Services Region.
         public let errorCode: AutomatedDiscoveryAccountUpdateErrorCode?
 
         @inlinable
@@ -888,7 +888,7 @@ extension Macie2 {
     }
 
     public struct BatchUpdateAutomatedDiscoveryAccountsResponse: AWSDecodableShape {
-        /// An array of objects, one for each account whose status wasn’t changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn’t changed for the account. This value is null if the request succeeded for all specified accounts.
+        /// An array of objects, one for each account whose status wasn't changed. Each object identifies the account and explains why the status of automated sensitive data discovery wasn't changed for the account. This value is null if the request succeeded for all specified accounts.
         public let errors: [AutomatedDiscoveryAccountUpdateError]?
 
         @inlinable
@@ -5348,20 +5348,24 @@ extension Macie2 {
     public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
         /// The name of the bucket. This must be the name of an existing general purpose bucket.
         public let bucketName: String?
+        /// The unique identifier (ID) for the Amazon Web Services account that owns the bucket. This must be the ID for the account that owns the specified bucket.
+        public let expectedBucketOwner: String?
         /// The path prefix to use in the path to the location in the bucket. This prefix specifies where to store classification results in the bucket.
         public let keyPrefix: String?
         /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for encryption of the results. This must be the ARN of an existing, symmetric encryption KMS key that's enabled in the same Amazon Web Services Region as the bucket.
         public let kmsKeyArn: String?
 
         @inlinable
-        public init(bucketName: String? = nil, keyPrefix: String? = nil, kmsKeyArn: String? = nil) {
+        public init(bucketName: String? = nil, expectedBucketOwner: String? = nil, keyPrefix: String? = nil, kmsKeyArn: String? = nil) {
             self.bucketName = bucketName
+            self.expectedBucketOwner = expectedBucketOwner
             self.keyPrefix = keyPrefix
             self.kmsKeyArn = kmsKeyArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
+            case expectedBucketOwner = "expectedBucketOwner"
             case keyPrefix = "keyPrefix"
             case kmsKeyArn = "kmsKeyArn"
         }

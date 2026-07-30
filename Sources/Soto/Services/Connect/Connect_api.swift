@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Connect service.
 ///
-///    Amazon Connect actions     Amazon Connect data types    Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. You can use an endpoint to connect programmatically to an Amazon Web Services service. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.
+///  Amazon Connect now refers to a portfolio of agentic solutions for business functions. The legacy product is now called Amazon Connect Customer, or simply Customer. The legacy name is used interchangeably in this documentation.     Connect Customer Customer actions     Connect Customer Customer data types    Connect Customer Customer engages customers at every touchpoint and creates deeper relationships with AI powered capabilities. Build and manage customer communication experiences. Connect customers to agents, enable intelligent routing, and track performance in real-time. There are limits to the number of Connect Customer resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Connect Customer Service Quotas in the Connect Customer Administrator Guide. You can use an endpoint to connect programmatically to an Amazon Web Services service. For a list of Connect Customer endpoints, see Connect Customer Endpoints.
 public struct Connect: AWSService {
     // MARK: Member variables
 
@@ -88,7 +88,7 @@ public struct Connect: AWSService {
 
     // MARK: API Calls
 
-    /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
+    /// Activates an evaluation form in the specified Connect Customer instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
     @Sendable
     @inlinable
     public func activateEvaluationForm(_ input: ActivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateEvaluationFormResponse {
@@ -101,12 +101,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Activates an evaluation form in the specified Amazon Connect instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
+    /// Activates an evaluation form in the specified Connect Customer instance. After the evaluation form is activated, it is available to start new evaluations based on the form.
     ///
     /// Parameters:
     ///   - evaluationFormId: The unique identifier for the evaluation form.
     ///   - evaluationFormVersion: The version of the evaluation form to activate. If the version property is not provided, the latest version of the evaluation form is activated.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func activateEvaluationForm(
@@ -123,7 +123,7 @@ public struct Connect: AWSService {
         return try await self.activateEvaluationForm(input, logger: logger)
     }
 
-    /// Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
+    /// Associates the specified dataset for a Connect Customer instance with the target account. You can associate only one dataset in a single call.
     @Sendable
     @inlinable
     public func associateAnalyticsDataSet(_ input: AssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateAnalyticsDataSetResponse {
@@ -136,12 +136,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified dataset for a Amazon Connect instance with the target account. You can associate only one dataset in a single call.
+    /// Associates the specified dataset for a Connect Customer instance with the target account. You can associate only one dataset in a single call.
     ///
     /// Parameters:
     ///   - dataSetId: The identifier of the dataset to associate with the target account.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateAnalyticsDataSet(
@@ -158,7 +158,7 @@ public struct Connect: AWSService {
         return try await self.associateAnalyticsDataSet(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates an approved origin to an Connect Customer instance.
     @Sendable
     @inlinable
     public func associateApprovedOrigin(_ input: AssociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -171,11 +171,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates an approved origin to an Amazon Connect instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates an approved origin to an Connect Customer instance.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - origin: The domain to add to your allow list.
     ///   - logger: Logger use during operation
     @inlinable
@@ -193,7 +193,7 @@ public struct Connect: AWSService {
         return try await self.associateApprovedOrigin(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     @Sendable
     @inlinable
     public func associateBot(_ input: AssociateBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -206,11 +206,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexBot: 
     ///   - lexV2Bot: The Amazon Lex V2 bot to associate with the instance.
     ///   - logger: Logger use during operation
@@ -231,7 +231,7 @@ public struct Connect: AWSService {
         return try await self.associateBot(input, logger: logger)
     }
 
-    /// Associates a queued contact with an agent.  Use cases  Following are common uses cases for this API:   Programmatically assign queued contacts to available users.   Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.    Important things to know    Use this API with chat, email, and task contacts. It does not support voice contacts.   Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.   It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.   It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.   The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see Amazon Connect quotas in the Amazon Connect Administrator Guide.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Associates a queued contact with an agent.  Use cases  Following are common uses cases for this API:   Programmatically assign queued contacts to available users.   Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.    Important things to know    Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode.   This API can be used to offer a contact to an agent even if the agent is currently at maximum concurrency for the channel.   Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.   It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.   It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.   The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see Connect Customer quotas in the Connect Customer Administrator Guide.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func associateContactWithUser(_ input: AssociateContactWithUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateContactWithUserResponse {
@@ -244,11 +244,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates a queued contact with an agent.  Use cases  Following are common uses cases for this API:   Programmatically assign queued contacts to available users.   Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.    Important things to know    Use this API with chat, email, and task contacts. It does not support voice contacts.   Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.   It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.   It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.   The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see Amazon Connect quotas in the Amazon Connect Administrator Guide.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Associates a queued contact with an agent.  Use cases  Following are common uses cases for this API:   Programmatically assign queued contacts to available users.   Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.    Important things to know    Use this API with chat, email, task, and voice contacts. For voice callbacks, this API does not support customer-first mode.   This API can be used to offer a contact to an agent even if the agent is currently at maximum concurrency for the channel.   Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.   It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.   It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.   The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see Connect Customer quotas in the Connect Customer Administrator Guide.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier for the user. This can be the ID or the ARN of the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -266,7 +266,7 @@ public struct Connect: AWSService {
         return try await self.associateContactWithUser(input, logger: logger)
     }
 
-    /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
+    /// Associates an existing vocabulary as the default. Contact Lens for Connect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language.
     @Sendable
     @inlinable
     public func associateDefaultVocabulary(_ input: AssociateDefaultVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDefaultVocabularyResponse {
@@ -279,10 +279,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
+    /// Associates an existing vocabulary as the default. Contact Lens for Connect Customer uses the vocabulary in post-call and real-time analysis sessions for the given language.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - vocabularyId: The identifier of the custom vocabulary. If this is empty, the default is set to none.
     ///   - logger: Logger use during operation
@@ -301,7 +301,7 @@ public struct Connect: AWSService {
         return try await self.associateDefaultVocabulary(input, logger: logger)
     }
 
-    /// Associates an email address alias with an existing email address in an Amazon Connect instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address.   Use cases  Following are common uses cases for this API:    Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.    Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.    Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Amazon Connect instance email address.    Important things to know    Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.    If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.   You cannot chain email aliases together (that is, create an alias of an alias).    AssociateEmailAddressAlias does not return the following information:   A confirmation of the alias relationship details (you must call DescribeEmailAddress to verify).   The timestamp of when the association occurred.   The status of the forwarding configuration.    Endpoints: See Amazon Connect endpoints and quotas.  Related operations     DisassociateEmailAddressAlias: Removes the alias association between two email addresses in an Amazon Connect instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
+    /// Associates an email address alias with an existing email address in an Connect Customer instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address.   Use cases  Following are common uses cases for this API:    Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.    Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.    Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Connect Customer instance email address.    Important things to know    Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.    If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.   You cannot chain email aliases together (that is, create an alias of an alias).    AssociateEmailAddressAlias does not return the following information:   A confirmation of the alias relationship details (you must call DescribeEmailAddress to verify).   The timestamp of when the association occurred.   The status of the forwarding configuration.    Endpoints: See Connect Customer endpoints and quotas.  Related operations     DisassociateEmailAddressAlias: Removes the alias association between two email addresses in an Connect Customer instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
     @Sendable
     @inlinable
     public func associateEmailAddressAlias(_ input: AssociateEmailAddressAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEmailAddressAliasResponse {
@@ -314,13 +314,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates an email address alias with an existing email address in an Amazon Connect instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address.   Use cases  Following are common uses cases for this API:    Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.    Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.    Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Amazon Connect instance email address.    Important things to know    Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.    If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.   You cannot chain email aliases together (that is, create an alias of an alias).    AssociateEmailAddressAlias does not return the following information:   A confirmation of the alias relationship details (you must call DescribeEmailAddress to verify).   The timestamp of when the association occurred.   The status of the forwarding configuration.    Endpoints: See Amazon Connect endpoints and quotas.  Related operations     DisassociateEmailAddressAlias: Removes the alias association between two email addresses in an Amazon Connect instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
+    /// Associates an email address alias with an existing email address in an Connect Customer instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address.   Use cases  Following are common uses cases for this API:    Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.    Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.    Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Connect Customer instance email address.    Important things to know    Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.    If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.   You cannot chain email aliases together (that is, create an alias of an alias).    AssociateEmailAddressAlias does not return the following information:   A confirmation of the alias relationship details (you must call DescribeEmailAddress to verify).   The timestamp of when the association occurred.   The status of the forwarding configuration.    Endpoints: See Connect Customer endpoints and quotas.  Related operations     DisassociateEmailAddressAlias: Removes the alias association between two email addresses in an Connect Customer instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
     ///
     /// Parameters:
-    ///   - aliasConfiguration: Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Amazon Connect instance and cannot already be configured as an alias or have an alias of its own.
+    ///   - aliasConfiguration: Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Connect Customer instance and cannot already be configured as an alias or have an alias of its own.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - emailAddressId: The identifier of the email address.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateEmailAddressAlias(
@@ -356,7 +356,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - flowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceId: The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger use during operation
@@ -377,7 +377,7 @@ public struct Connect: AWSService {
         return try await self.associateFlow(input, logger: logger)
     }
 
-    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    /// Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
     @Sendable
     @inlinable
     public func associateHoursOfOperations(_ input: AssociateHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -390,7 +390,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    /// Associates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier of the child hours of operation.
@@ -412,7 +412,7 @@ public struct Connect: AWSService {
         return try await self.associateHoursOfOperations(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     @Sendable
     @inlinable
     public func associateInstanceStorageConfig(_ input: AssociateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateInstanceStorageConfigResponse {
@@ -425,11 +425,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceType: A valid resource type. To enable streaming for real-time analysis of contacts, use the following types:   For chat contacts, use REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS.   For voice contacts, use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.     REAL_TIME_CONTACT_ANALYSIS_SEGMENTS is deprecated, but it is still supported and will apply only to VOICE channel contacts. Use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS for voice contacts moving forward. If you have previously associated a stream with REAL_TIME_CONTACT_ANALYSIS_SEGMENTS, no action is needed to update the stream to REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.
     ///   - storageConfig: A valid storage type.
     ///   - logger: Logger use during operation
@@ -450,7 +450,7 @@ public struct Connect: AWSService {
         return try await self.associateInstanceStorageConfig(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Lambda function.
     @Sendable
     @inlinable
     public func associateLambdaFunction(_ input: AssociateLambdaFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -463,12 +463,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Lambda function.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Lambda function.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - functionArn: The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateLambdaFunction(
@@ -485,7 +485,7 @@ public struct Connect: AWSService {
         return try await self.associateLambdaFunction(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
     @Sendable
     @inlinable
     public func associateLexBot(_ input: AssociateLexBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -498,11 +498,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
+    /// This API is in preview release for Connect Customer and is subject to change. Allows the specified Connect Customer instance to access the specified Amazon Lex V1 bot. This API only supports the association of Amazon Lex V1 bots.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexBot: The Amazon Lex bot to associate with the instance.
     ///   - logger: Logger use during operation
     @inlinable
@@ -520,7 +520,7 @@ public struct Connect: AWSService {
         return try await self.associateLexBot(input, logger: logger)
     }
 
-    /// Associates a flow with a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// Associates a flow with a phone number claimed to your Connect Customer instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     @inlinable
     public func associatePhoneNumberContactFlow(_ input: AssociatePhoneNumberContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -533,11 +533,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates a flow with a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// Associates a flow with a phone number claimed to your Connect Customer instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - phoneNumberId: A unique identifier for the phone number.
     ///   - logger: Logger use during operation
     @inlinable
@@ -555,7 +555,7 @@ public struct Connect: AWSService {
         return try await self.associatePhoneNumberContactFlow(input, logger: logger)
     }
 
-    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Amazon Connect instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Connect Customer instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
     @Sendable
     @inlinable
     public func associateQueueEmailAddresses(_ input: AssociateQueueEmailAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -568,12 +568,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Amazon Connect instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
+    /// Associates a set of email addresses with a queue to enable agents to select different "From" (system) email addresses when replying to inbound email contacts or initiating outbound email contacts. This allows agents to handle email contacts across different brands and business units within the same queue.  Important things to know    You can associate up to 49 additional email addresses with a single queue, plus 1 default outbound email address, for a total of 50.   The email addresses must already exist in the Connect Customer instance before they can be associated with a queue.   Agents will be able to select from these associated email addresses when handling email contacts in the queue.   For inbound email contacts, agents can select from email addresses associated with the queue where the contact was accepted.   For outbound email contacts, agents can select from email addresses associated with their default outbound queue configured in their routing profile.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - emailAddressesConfig: Configuration list containing the email addresses to associate with the queue. Each configuration specifies an email address ID that should be linked to this queue for routing purposes.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
     @inlinable
@@ -609,7 +609,7 @@ public struct Connect: AWSService {
     /// Associates a set of quick connects with a queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - quickConnectIds: The quick connects to associate with this queue.
     ///   - logger: Logger use during operation
@@ -644,8 +644,8 @@ public struct Connect: AWSService {
     /// Associates a set of queues with a routing profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - manualAssignmentQueueConfigs: The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - manualAssignmentQueueConfigs: The manual assignment queues to associate with this routing profile.  For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
     ///   - queueConfigs: The queues to associate with this routing profile.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
@@ -666,7 +666,7 @@ public struct Connect: AWSService {
         return try await self.associateRoutingProfileQueues(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates a security key to the instance.
     @Sendable
     @inlinable
     public func associateSecurityKey(_ input: AssociateSecurityKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSecurityKeyResponse {
@@ -679,11 +679,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a security key to the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Associates a security key to the instance.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - key: A valid security key in PEM format as a String.
     ///   - logger: Logger use during operation
     @inlinable
@@ -755,7 +755,7 @@ public struct Connect: AWSService {
     /// Associates an agent with a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - trafficDistributionGroupId: The identifier of the traffic distribution group.
     ///   - userId: The identifier of the user account. This can be the ID or the ARN of the user.
     ///   - logger: Logger use during operation
@@ -790,7 +790,7 @@ public struct Connect: AWSService {
     /// Associates a set of proficiencies with a user.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN of the instance).
     ///   - userId: The identifier of the user account.
     ///   - userProficiencies: The proficiencies to associate with the user.
     ///   - logger: Logger use during operation
@@ -844,7 +844,7 @@ public struct Connect: AWSService {
         return try await self.associateWorkspace(input, logger: logger)
     }
 
-    /// Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
+    /// Associates a list of analytics datasets for a given Connect Customer instance to a target account. You can associate multiple datasets in a single call.
     @Sendable
     @inlinable
     public func batchAssociateAnalyticsDataSet(_ input: BatchAssociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateAnalyticsDataSetResponse {
@@ -857,12 +857,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Associates a list of analytics datasets for a given Amazon Connect instance to a target account. You can associate multiple datasets in a single call.
+    /// Associates a list of analytics datasets for a given Connect Customer instance to a target account. You can associate multiple datasets in a single call.
     ///
     /// Parameters:
     ///   - dataSetIds: An array of dataset identifiers to associate.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchAssociateAnalyticsDataSet(
@@ -984,7 +984,7 @@ public struct Connect: AWSService {
         return try await self.batchDescribeDataTableValue(input, logger: logger)
     }
 
-    /// Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
+    /// Removes a list of analytics datasets associated with a given Connect Customer instance. You can disassociate multiple datasets in a single call.
     @Sendable
     @inlinable
     public func batchDisassociateAnalyticsDataSet(_ input: BatchDisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateAnalyticsDataSetResponse {
@@ -997,12 +997,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Removes a list of analytics datasets associated with a given Amazon Connect instance. You can disassociate multiple datasets in a single call.
+    /// Removes a list of analytics datasets associated with a given Connect Customer instance. You can disassociate multiple datasets in a single call.
     ///
     /// Parameters:
     ///   - dataSetIds: An array of associated dataset identifiers to remove.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - targetAccountId: The identifier of the target account.  Use to disassociate a dataset from a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - targetAccountId: The identifier of the target account.  Use to disassociate a dataset from a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchDisassociateAnalyticsDataSet(
@@ -1070,7 +1070,7 @@ public struct Connect: AWSService {
     /// Retrieve the flow associations for the given resources.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceIds: A list of resource identifiers to retrieve flow associations.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     ///   - resourceType: The type of resource association.
     ///   - logger: Logger use during operation
@@ -1089,7 +1089,7 @@ public struct Connect: AWSService {
         return try await self.batchGetFlowAssociation(input, logger: logger)
     }
 
-    ///  Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.  Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
+    ///  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.  Allows you to create a batch of contacts in Connect Customer. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
     @Sendable
     @inlinable
     public func batchPutContact(_ input: BatchPutContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutContactResponse {
@@ -1102,12 +1102,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    ///  Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.  Allows you to create a batch of contacts in Amazon Connect. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
+    ///  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.  Allows you to create a batch of contacts in Connect Customer. The outbound campaigns capability ingests dial requests via the PutDialRequestBatch API. It then uses BatchPutContact to create contacts corresponding to those dial requests. If agents are available, the dial requests are dialed out, which results in a voice call. The resulting voice call uses the same contactId that was created by BatchPutContact.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactDataRequestList: List of individual contact requests.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchPutContact(
@@ -1159,7 +1159,7 @@ public struct Connect: AWSService {
         return try await self.batchUpdateDataTableValue(input, logger: logger)
     }
 
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     @inlinable
     public func claimPhoneNumber(_ input: ClaimPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ClaimPhoneNumberResponse {
@@ -1172,15 +1172,15 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Claims an available phone number to your Amazon Connect instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Amazon Connect Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Claims an available phone number to your Connect Customer instance or traffic distribution group. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance or traffic distribution group was created. For more information about how to use this operation, see Claim a phone number in your country and Claim phone numbers to traffic distribution groups in the Connect Customer Administrator Guide.   You can call the SearchAvailablePhoneNumbers API for available phone numbers that you can claim. Call the DescribePhoneNumber API to verify the status of a previous ClaimPhoneNumber operation.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. Pattern: ^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     ///   - phoneNumber: The phone number you want to claim. Phone numbers are formatted [+] [country code] [subscriber number including area code].
     ///   - phoneNumberDescription: The description of the phone number.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     ///   - logger: Logger use during operation
     @inlinable
     public func claimPhoneNumber(
@@ -1221,7 +1221,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
     ///   - fileId: The unique identifier of the attached file resource.
-    ///   - instanceId: The unique identifier of the Amazon Connect instance.
+    ///   - instanceId: The unique identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func completeAttachedFileUpload(
@@ -1238,7 +1238,7 @@ public struct Connect: AWSService {
         return try await self.completeAttachedFileUpload(input, logger: logger)
     }
 
-    /// Creates an agent status for the specified Amazon Connect instance.
+    /// Creates an agent status for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func createAgentStatus(_ input: CreateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgentStatusResponse {
@@ -1251,12 +1251,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates an agent status for the specified Amazon Connect instance.
+    /// Creates an agent status for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - description: The description of the status.
     ///   - displayOrder: The display order of the status.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the status.
     ///   - state: The state of the status.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -1282,6 +1282,88 @@ public struct Connect: AWSService {
         return try await self.createAgentStatus(input, logger: logger)
     }
 
+    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream processing such as conversational analytics.  The AssociatedResourceArn must be the ARN of a completed voice contact, FileUseCaseType must be set to VOICE_RECORDING, and FileSourceUri must be a valid S3 URI.   For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    @Sendable
+    @inlinable
+    public func createAttachedFile(_ input: CreateAttachedFileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAttachedFileResponse {
+        try await self.client.execute(
+            operation: "CreateAttachedFile", 
+            path: "/attached-files/{InstanceId}/files", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an attached file for a completed voice contact by copying a recording from a source S3 URI into Connect Customer managed storage. Use this API to attach voice recordings to contacts for downstream processing such as conversational analytics.  The AssociatedResourceArn must be the ARN of a completed voice contact, FileUseCaseType must be set to VOICE_RECORDING, and FileSourceUri must be a valid S3 URI.   For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    ///
+    /// Parameters:
+    ///   - associatedResourceArn: The ARN of the completed voice contact to attach the file to. Only voice contacts with Telephony subtype are supported.  This value must be a valid ARN.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - fileSourceUri: The S3 URI of the file to be attached. Only S3 source URIs are supported.
+    ///   - fileUseCaseType: The use case for the file.  Only VOICE_RECORDING is supported.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAttachedFile(
+        associatedResourceArn: String,
+        clientToken: String? = CreateAttachedFileRequest.idempotencyToken(),
+        fileSourceUri: String,
+        fileUseCaseType: FileUseCaseType,
+        instanceId: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAttachedFileResponse {
+        let input = CreateAttachedFileRequest(
+            associatedResourceArn: associatedResourceArn, 
+            clientToken: clientToken, 
+            fileSourceUri: fileSourceUri, 
+            fileUseCaseType: fileUseCaseType, 
+            instanceId: instanceId, 
+            tags: tags
+        )
+        return try await self.createAttachedFile(input, logger: logger)
+    }
+
+    /// Creates an authorization code for the specified Connect Customer instance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters.
+    @Sendable
+    @inlinable
+    public func createAuthCode(_ input: CreateAuthCodeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAuthCodeResponse {
+        try await self.client.execute(
+            operation: "CreateAuthCode", 
+            path: "/auth/code/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an authorization code for the specified Connect Customer instance. The authorization code can be used to establish a session with scoped permissions defined by the specified scope parameters.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxSessionDurationMinutes: The maximum duration of the session, in minutes. Minimum value of 1440 (24 hours). Maximum value of 43200 (30 days). If no value is provided, the session will expire after 400 days.
+    ///   - scope: The scope for the authorization code. Defines the permissions and access boundaries for the session.
+    ///   - sessionInactivityDurationMinutes: The duration of inactivity, in minutes, after which the session expires. Minimum value of 1440 (24 hours). Maximum value of 20160 (14 days).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAuthCode(
+        instanceId: String,
+        maxSessionDurationMinutes: Int? = nil,
+        scope: AuthScope,
+        sessionInactivityDurationMinutes: Int = 0,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAuthCodeResponse {
+        let input = CreateAuthCodeRequest(
+            instanceId: instanceId, 
+            maxSessionDurationMinutes: maxSessionDurationMinutes, 
+            scope: scope, 
+            sessionInactivityDurationMinutes: sessionInactivityDurationMinutes
+        )
+        return try await self.createAuthCode(input, logger: logger)
+    }
+
     ///  Only the VOICE, EMAIL, and TASK channels are supported.    For VOICE: The supported initiation method is TRANSFER. The contacts created with this initiation method have a subtype connect:ExternalAudio.    For EMAIL: The supported initiation methods are OUTBOUND, AGENT_REPLY, and FLOW.    For TASK: The supported initiation method is API. Contacts created with this API have a sub-type of connect:ExternalTask.    Creates a new VOICE, EMAIL, or TASK contact.  After a contact is created, you can move it to the desired state by using the InitiateAs parameter. While you can use API to create task contacts that are in the COMPLETED state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or fail if your CreateContact limits aren't high enough.
     @Sendable
     @inlinable
@@ -1298,19 +1380,19 @@ public struct Connect: AWSService {
     ///  Only the VOICE, EMAIL, and TASK channels are supported.    For VOICE: The supported initiation method is TRANSFER. The contacts created with this initiation method have a subtype connect:ExternalAudio.    For EMAIL: The supported initiation methods are OUTBOUND, AGENT_REPLY, and FLOW.    For TASK: The supported initiation method is API. Contacts created with this API have a sub-type of connect:ExternalTask.    Creates a new VOICE, EMAIL, or TASK contact.  After a contact is created, you can move it to the desired state by using the InitiateAs parameter. While you can use API to create task contacts that are in the COMPLETED state, you must contact Amazon Web Services Support before using it for bulk import use cases. Bulk import causes your requests to be throttled or fail if your CreateContact limits aren't high enough.
     ///
     /// Parameters:
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - channel: The channel for the contact.  The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: A description of the contact.
     ///   - expiryDurationInMinutes: Number of minutes the contact will be active for before expiring
     ///   - initiateAs: Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state.
     ///   - initiationMethod: Indicates how the contact was initiated.   CreateContact only supports the following initiation methods. Valid values by channel are:    For VOICE: TRANSFER and the subtype connect:ExternalAudio    For EMAIL: OUTBOUND | AGENT_REPLY | FLOW    For TASK: API    The other channels listed below are incorrect. We're working to correct this information.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of a the contact.
-    ///   - previousContactId: The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Amazon Connect Contact Lens with external voice systems in the Amazon Connect Administrator Guide.
+    ///   - previousContactId: The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Connect Customer Contact Lens with external voice systems in the Connect Customer Administrator Guide.
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
-    ///   - relatedContactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
+    ///   - relatedContactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
     ///   - userInfo: User details for the contact  UserInfo is required when creating an EMAIL contact with OUTBOUND and AGENT_REPLY contact initiation methods.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1350,7 +1432,7 @@ public struct Connect: AWSService {
         return try await self.createContact(input, logger: logger)
     }
 
-    /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language.
+    /// Creates a flow for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language.
     @Sendable
     @inlinable
     public func createContactFlow(_ input: CreateContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactFlowResponse {
@@ -1363,16 +1445,16 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a flow for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language.
+    /// Creates a flow for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language.
     ///
     /// Parameters:
-    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
+    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
     ///   - description: The description of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - name: The name of the flow.
     ///   - status: Indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. the SAVED status does not initiate validation of the content. SAVED | PUBLISHED.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
-    ///   - type: The type of the flow. For descriptions of the available types, see Choose a flow type in the Amazon Connect Administrator Guide.
+    ///   - type: The type of the flow. For descriptions of the available types, see Choose a flow type in the Connect Customer Administrator Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createContactFlow(
@@ -1397,7 +1479,7 @@ public struct Connect: AWSService {
         return try await self.createContactFlow(input, logger: logger)
     }
 
-    /// Creates a flow module for the specified Amazon Connect instance.
+    /// Creates a flow module for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func createContactFlowModule(_ input: CreateContactFlowModuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateContactFlowModuleResponse {
@@ -1410,14 +1492,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a flow module for the specified Amazon Connect instance.
+    /// Creates a flow module for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
+    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.
     ///   - description: The description of the flow module.
     ///   - externalInvocationConfiguration: The external invocation configuration for the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the flow module.
     ///   - settings: The configuration settings for the flow module.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -1467,7 +1549,7 @@ public struct Connect: AWSService {
     ///   - contactFlowModuleId: The identifier of the flow module.
     ///   - contactFlowModuleVersion: The version of the flow module.
     ///   - description: The description of the alias.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func createContactFlowModuleAlias(
@@ -1507,7 +1589,7 @@ public struct Connect: AWSService {
     ///   - contactFlowModuleId: The identifier of the flow module.
     ///   - description: The description of the flow module version.
     ///   - flowModuleContentSha256: Indicates the checksum value of the flow module content.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func createContactFlowModuleVersion(
@@ -1546,7 +1628,7 @@ public struct Connect: AWSService {
     ///   - contactFlowVersion: The identifier of the flow version.
     ///   - description: The description of the flow version.
     ///   - flowContentSha256: Indicates the checksum value of the flow content.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - lastModifiedRegion: The Amazon Web Services Region where this resource was last modified.
     ///   - lastModifiedTime: The Amazon Web Services Region where this resource was last modified.
     ///   - logger: Logger use during operation
@@ -1667,7 +1749,7 @@ public struct Connect: AWSService {
         return try await self.createDataTableAttribute(input, logger: logger)
     }
 
-    /// Create new email address in the specified Amazon Connect instance. For more information about email addresses, see Create email addresses in the Amazon Connect Administrator Guide.
+    /// Create new email address in the specified Connect Customer instance. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createEmailAddress(_ input: CreateEmailAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEmailAddressResponse {
@@ -1680,14 +1762,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Create new email address in the specified Amazon Connect instance. For more information about email addresses, see Create email addresses in the Amazon Connect Administrator Guide.
+    /// Create new email address in the specified Connect Customer instance. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the email address.
     ///   - displayName: The display name of email address
     ///   - emailAddress: The email address, including the domain.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1711,7 +1793,7 @@ public struct Connect: AWSService {
         return try await self.createEmailAddress(input, logger: logger)
     }
 
-    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
+    /// Creates an evaluation form in the specified Connect Customer instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     @Sendable
     @inlinable
     public func createEvaluationForm(_ input: CreateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluationFormResponse {
@@ -1724,14 +1806,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates an evaluation form in the specified Amazon Connect instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
+    /// Creates an evaluation form in the specified Connect Customer instance. The form can be used to define questions related to agent performance, and create sections to organize such questions. Question and section identifiers cannot be duplicated within the same evaluation form.
     ///
     /// Parameters:
     ///   - asDraft: A boolean flag indicating whether to create evaluation form in draft state.
     ///   - autoEvaluationConfiguration: Configuration information about automated evaluations.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - items: Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
     ///   - languageConfiguration: Configuration for language settings of the evaluation form.
     ///   - reviewConfiguration: Configuration information about evaluation reviews.
@@ -1791,7 +1873,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - config: Configuration information for the hours of operation: day, start time, and end time.
     ///   - description: The description of the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the hours of operation.
     ///   - parentHoursOfOperationConfigs: Configuration for parent hours of operations. Eg: ResourceArn.  For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -1820,7 +1902,7 @@ public struct Connect: AWSService {
         return try await self.createHoursOfOperation(input, logger: logger)
     }
 
-    /// Creates an hours of operation override in an Amazon Connect hours of operation resource.
+    /// Creates an hours of operation override in an Connect Customer hours of operation resource.
     @Sendable
     @inlinable
     public func createHoursOfOperationOverride(_ input: CreateHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateHoursOfOperationOverrideResponse {
@@ -1833,7 +1915,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates an hours of operation override in an Amazon Connect hours of operation resource.
+    /// Creates an hours of operation override in an Connect Customer hours of operation resource.
     ///
     /// Parameters:
     ///   - config: Configuration information for the hours of operation override: day, start time, and end time.
@@ -1841,7 +1923,7 @@ public struct Connect: AWSService {
     ///   - effectiveFrom: The date from when the hours of operation override is effective.
     ///   - effectiveTill: The date until when the hours of operation override is effective.
     ///   - hoursOfOperationId: The identifier for the hours of operation
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - name: The name of the hours of operation override.
     ///   - overrideType: Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see Build your list of overrides in the Administrator Guide.
     ///   - recurrenceConfig: Configuration for a recurring event.
@@ -1873,7 +1955,7 @@ public struct Connect: AWSService {
         return try await self.createHoursOfOperationOverride(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For more information, see Create an Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Connect Customer and is subject to change. Initiates an Connect Customer instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Connect Customer.  For more information, see Create an Connect Customer instance in the Connect Customer Administrator Guide. Connect Customer enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
@@ -1888,14 +1970,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Initiates an Amazon Connect instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For more information, see Create an Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Connect Customer and is subject to change. Initiates an Connect Customer instance with all the supported channels enabled. It does not attach any storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does not allow for any configurations on features, such as Contact Lens for Connect Customer.  For more information, see Create an Connect Customer instance in the Connect Customer Administrator Guide. Connect Customer enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
     /// Parameters:
     ///   - clientToken: The idempotency token.
     ///   - directoryId: The identifier for the directory.
-    ///   - identityManagementType: The type of identity management for your Amazon Connect users.
+    ///   - identityManagementType: The type of identity management for your Connect Customer users.
     ///   - inboundCallsEnabled: Your contact center handles incoming contacts.
     ///   - instanceAlias: The name for your instance.
     ///   - outboundCallsEnabled: Your contact center allows outbound calls.
@@ -1924,7 +2006,7 @@ public struct Connect: AWSService {
         return try await self.createInstance(input, logger: logger)
     }
 
-    /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
+    /// Creates an Amazon Web Services resource association with an Connect Customer instance.
     @Sendable
     @inlinable
     public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntegrationAssociationResponse {
@@ -1937,11 +2019,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
+    /// Creates an Amazon Web Services resource association with an Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - integrationArn: The Amazon Resource Name (ARN) of the integration.  When integrating with Amazon Web Services End User Messaging, the Amazon Connect and Amazon Web Services End User Messaging instances must be in the same account.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the integration.  When integrating with Amazon Web Services End User Messaging, the Connect Customer and Amazon Web Services End User Messaging instances must be in the same account.
     ///   - integrationType: The type of information to be ingested.
     ///   - sourceApplicationName: The name of the external application. This field is only required for the EVENT integration type.
     ///   - sourceApplicationUrl: The URL for the external application. This field is only required for the EVENT integration type.
@@ -2035,8 +2117,8 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.  Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.  Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantDetails: Information identifying the participant.  The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2056,7 +2138,7 @@ public struct Connect: AWSService {
         return try await self.createParticipant(input, logger: logger)
     }
 
-    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Amazon Connect Administrator Guide.
+    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createPersistentContactAssociation(_ input: CreatePersistentContactAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePersistentContactAssociationResponse {
@@ -2069,13 +2151,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Amazon Connect Administrator Guide.
+    /// Enables rehydration of chats for the lifespan of a contact. For more information about chat rehydration, see Enable persistent chat in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - initialContactId: This is the contactId of the current contact that the CreatePersistentContactAssociation API is being called from.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - rehydrationType: The contactId chosen for rehydration depends on the type chosen.    ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Amazon Connect determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1. Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2. At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3. After the chat survey, the chat session ends. Later, the customer returns and wants to resume their past chat session. At this point, the customer can have following use cases:     Use Case 1: The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C2"   RehydrationType = "FROM_SEGMENT"      Expected behavior    This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat session.        Use Case 2: The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C1"   RehydrationType = "ENTIRE_PAST_SESSION"      Expected behavior    This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat session.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - rehydrationType: The contactId chosen for rehydration depends on the type chosen.    ENTIRE_PAST_SESSION: Rehydrates a chat from the most recently terminated past chat contact of the specified past ended chat session. To use this type, provide the initialContactId of the past ended chat session in the sourceContactId field. In this type, Connect Customer determines what the most recent chat contact on the past ended chat session and uses it to start a persistent chat.     FROM_SEGMENT: Rehydrates a chat from the specified past chat contact provided in the sourceContactId field.    The actual contactId used for rehydration is provided in the response of this API. To illustrate how to use rehydration type, consider the following example: A customer starts a chat session. Agent a1 accepts the chat and a conversation starts between the customer and Agent a1. This first contact creates a contact ID C1. Agent a1 then transfers the chat to Agent a2. This creates another contact ID C2. At this point Agent a2 ends the chat. The customer is forwarded to the disconnect flow for a post chat survey that creates another contact ID C3. After the chat survey, the chat session ends. Later, the customer returns and wants to resume their past chat session. At this point, the customer can have following use cases:     Use Case 1: The customer wants to continue the past chat session but they want to hide the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C2"   RehydrationType = "FROM_SEGMENT"      Expected behavior    This starts a persistent chat session from the specified past ended contact (C2). Transcripts of past chat sessions C2 and C1 are accessible in the current persistent chat session. Note that chat segment C3 is dropped from the persistent chat session.        Use Case 2: The customer wants to continue the past chat session and see the transcript of the entire past engagement, including the post chat survey. For this they will use the following configuration:    Configuration    SourceContactId = "C1"   RehydrationType = "ENTIRE_PAST_SESSION"      Expected behavior    This starts a persistent chat session from the most recently ended chat contact (C3). Transcripts of past chat sessions C3, C2 and C1 are accessible in the current persistent chat session.
     ///   - sourceContactId: The contactId from which a persistent chat session must be started.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2097,7 +2179,7 @@ public struct Connect: AWSService {
         return try await self.createPersistentContactAssociation(input, logger: logger)
     }
 
-    /// Creates a new predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Amazon Connect quotas.  Use cases  Following are common uses cases for this API:   Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Creates a new predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas.  Use cases  Following are common uses cases for this API:   Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func createPredefinedAttribute(_ input: CreatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2110,13 +2192,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Amazon Connect quotas.  Use cases  Following are common uses cases for this API:   Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Creates a new predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas.  Use cases  Following are common uses cases for this API:   Create an attribute for routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Create an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - attributeConfiguration: Custom metadata that is associated to predefined attributes to control behavior
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name:  The name of the predefined attribute.
-    ///   - purposes: Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    ///   - purposes: Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
     ///   - values:  The values of the predefined attribute.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2138,7 +2220,7 @@ public struct Connect: AWSService {
         return try await self.createPredefinedAttribute(input, logger: logger)
     }
 
-    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator Guide.
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createPrompt(_ input: CreatePromptRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptResponse {
@@ -2151,11 +2233,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Amazon Connect Administrator Guide.
+    /// Creates a prompt. For more information about prompts, such as supported file types and maximum length, see Create prompts in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - description: The description of the prompt.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the prompt.
     ///   - s3Uri: The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -2179,7 +2261,7 @@ public struct Connect: AWSService {
         return try await self.createPrompt(input, logger: logger)
     }
 
-    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the Amazon Connect Administrator Guide.
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createPushNotificationRegistration(_ input: CreatePushNotificationRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePushNotificationRegistrationResponse {
@@ -2192,7 +2274,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Amazon Connect for mobile chat in the Amazon Connect Administrator Guide.
+    /// Creates registration for a device token and a chat contact to receive real-time push notifications. For more information about push notifications, see Set up push notifications in Connect Customer for mobile chat in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -2223,7 +2305,7 @@ public struct Connect: AWSService {
         return try await self.createPushNotificationRegistration(input, logger: logger)
     }
 
-    /// Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Creates a new queue for the specified Connect Customer instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @Sendable
     @inlinable
     public func createQueue(_ input: CreateQueueRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueResponse {
@@ -2236,13 +2318,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new queue for the specified Amazon Connect instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Creates a new queue for the specified Connect Customer instance.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     ///
     /// Parameters:
     ///   - description: The description of the queue.
     ///   - emailAddressesConfig: Configuration list containing the email addresses to associate with the queue during creation. Each configuration specifies an email address ID that agents can select when handling email contacts in this queue.
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxContacts: The maximum number of contacts that can be in the queue before it is considered full.
     ///   - name: The name of the queue.
     ///   - outboundCallerConfig: The outbound caller ID name, number, and outbound whisper flow.
@@ -2279,7 +2361,7 @@ public struct Connect: AWSService {
         return try await self.createQueue(input, logger: logger)
     }
 
-    /// Creates a quick connect for the specified Amazon Connect instance.
+    /// Creates a quick connect for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func createQuickConnect(_ input: CreateQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQuickConnectResponse {
@@ -2292,11 +2374,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a quick connect for the specified Amazon Connect instance.
+    /// Creates a quick connect for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - description: The description of the quick connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: A unique name of the quick connect.
     ///   - quickConnectConfig: Configuration settings for the quick connect.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -2339,11 +2421,11 @@ public struct Connect: AWSService {
     ///   - agentAvailabilityTimer: Whether agents with this routing profile will have their routing order calculated based on longest idle time or time since their last inbound contact.
     ///   - defaultOutboundQueueId: The default outbound queue for the routing profile.
     ///   - description: Description of the routing profile. Must not be more than 250 characters.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - manualAssignmentQueueConfigs: The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - manualAssignmentQueueConfigs: The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.  For voice contacts, manual assignment supports only agent-first callback contacts. Chat, email, and task contacts are fully supported.
     ///   - mediaConcurrencies: The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     ///   - name: The name of the routing profile. Must not be more than 127 characters.
-    ///   - queueConfigs: The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
+    ///   - queueConfigs: The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Connect Customer service quotas.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2373,7 +2455,7 @@ public struct Connect: AWSService {
         return try await self.createRoutingProfile(input, logger: logger)
     }
 
-    /// Creates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
+    /// Creates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule.
     @Sendable
     @inlinable
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleResponse {
@@ -2386,13 +2468,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
+    /// Creates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule.
     ///
     /// Parameters:
     ///   - actions: A list of actions to be run when the rule is triggered.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - function: The conditions of the rule.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: A unique name for the rule.
     ///   - publishStatus: The publish status of the rule.
     ///   - triggerEventSource: The event source to trigger the rule.
@@ -2420,7 +2502,7 @@ public struct Connect: AWSService {
         return try await self.createRule(input, logger: logger)
     }
 
-    /// Creates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Creates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func createSecurityProfile(_ input: CreateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSecurityProfileResponse {
@@ -2433,20 +2515,20 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Creates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - allowedAccessControlHierarchyGroupId: The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
-    ///   - allowedAccessControlTags: The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    ///   - allowedAccessControlHierarchyGroupId: The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
+    ///   - allowedAccessControlTags: The list of tags that a security profile uses to restrict access to resources in Connect Customer.
     ///   - allowedFlowModules:  A list of Flow Modules an AI Agent can invoke as a tool.
     ///   - applications: A list of third-party applications or MCP Servers that the security profile will give access to.
     ///   - description: The description of the security profile.
     ///   - granularAccessControlConfiguration: The granular access control configuration for the security profile, including data table permissions.
-    ///   - hierarchyRestrictedResources: The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - hierarchyRestrictedResources: The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - permissions: Permissions assigned to the security profile. For a list of valid permissions, see List of security profile permissions.
     ///   - securityProfileName: The name of the security profile.
-    ///   - tagRestrictedResources: The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see Add tags to resources in Amazon Connect in the Amazon Connect Administrator Guide.
+    ///   - tagRestrictedResources: The list of resources that a security profile applies tag restrictions to in Connect Customer. For a list of Connect Customer resources that you can tag, see Add tags to resources in Connect Customer in the Connect Customer Administrator Guide.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2482,7 +2564,7 @@ public struct Connect: AWSService {
         return try await self.createSecurityProfile(input, logger: logger)
     }
 
-    /// Creates a new task template in the specified Amazon Connect instance.
+    /// Creates a new task template in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func createTaskTemplate(_ input: CreateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskTemplateResponse {
@@ -2495,16 +2577,16 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new task template in the specified Amazon Connect instance.
+    /// Creates a new task template in the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - constraints: Constraints that are applicable to the fields listed.
-    ///   - contactFlowId: The identifier of the flow that runs by default when a task is created by referencing this template.
+    ///   - contactFlowId: The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     ///   - defaults: The default values for fields when a task is created by referencing this template.
     ///   - description: The description of the task template.
-    ///   - fields: Fields that are part of the template.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - fields: Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the task template.
     ///   - selfAssignFlowId: The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     ///   - status: Marks a template as ACTIVE or INACTIVE for a task to refer to it.
@@ -2597,9 +2679,9 @@ public struct Connect: AWSService {
         return try await self.createTestCase(input, logger: logger)
     }
 
-    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  The SignInConfig distribution is available only on a
+    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated.  The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
-    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createTrafficDistributionGroup(_ input: CreateTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrafficDistributionGroupResponse {
@@ -2612,14 +2694,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  The SignInConfig distribution is available only on a
+    /// Creates a traffic distribution group given an Connect Customer instance that has been replicated.  The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
-    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: A description for the traffic distribution group.
-    ///   - instanceId: The identifier of the Amazon Connect instance that has been replicated. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance that has been replicated. You can find the instanceId in the ARN of the instance.
     ///   - name: The name for the traffic distribution group.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - logger: Logger use during operation
@@ -2658,7 +2740,7 @@ public struct Connect: AWSService {
     /// Creates a use case for an integration association.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationAssociationId: The identifier for the integration association.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - useCaseType: The type of use case to associate to the integration association. Each integration association can have only one of each use case type.
@@ -2680,7 +2762,7 @@ public struct Connect: AWSService {
         return try await self.createUseCase(input, logger: logger)
     }
 
-    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Connect Customer instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Connect Customer or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Connect Customer admin website, see Add Users in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
@@ -2693,16 +2775,16 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Connect Customer instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Connect Customer or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Connect Customer admin website, see Add Users in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - afterContactWorkConfigs: The list of after contact work (ACW) timeout configuration settings for each channel.
     ///   - autoAcceptConfigs: The list of auto-accept configuration settings for each channel.
-    ///   - directoryUserId: The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
+    ///   - directoryUserId: The identifier of the user account in the directory used for identity management. If Connect Customer cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Connect Customer cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Connect Customer when Connect Customer cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     ///   - hierarchyGroupId: The identifier of the hierarchy group for the user.
     ///   - identityInfo: The information about the identity of the user.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - password: The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - password: The password for the user account. A password is required if you are using Connect Customer for identity management. Otherwise, it is an error to include a password.
     ///   - persistentConnectionConfigs: The list of persistent connection configuration settings for each channel.
     ///   - phoneConfig: The phone settings for the user. This parameter is optional. If not provided, the user can be configured using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs.
     ///   - phoneNumberConfigs: The list of phone number configuration settings for each channel.
@@ -2767,7 +2849,7 @@ public struct Connect: AWSService {
     /// Creates a new user hierarchy group.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the user hierarchy group. Must not be more than 100 characters.
     ///   - parentGroupId: The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -2808,7 +2890,7 @@ public struct Connect: AWSService {
     ///   - clientToken: A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is provided.
     ///   - content: View content containing all content necessary to render a view except for runtime input data. The total uncompressed content has a maximum file size of 400kB.
     ///   - description: The description of the view.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - name: The name of the view.
     ///   - status: Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
     ///   - tags: The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -2852,7 +2934,7 @@ public struct Connect: AWSService {
     /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - versionDescription: The description for the version being published.
     ///   - viewContentSha256: Indicates the checksum value of the latest published view content.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
@@ -2874,7 +2956,7 @@ public struct Connect: AWSService {
         return try await self.createViewVersion(input, logger: logger)
     }
 
-    /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
+    /// Creates a custom vocabulary associated with your Connect Customer instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     @Sendable
     @inlinable
     public func createVocabulary(_ input: CreateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVocabularyResponse {
@@ -2887,12 +2969,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
+    /// Creates a custom vocabulary associated with your Connect Customer instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Connect Customer uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
     ///   - content: The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - vocabularyName: A unique name of the custom vocabulary.
@@ -3006,7 +3088,7 @@ public struct Connect: AWSService {
         return try await self.createWorkspacePage(input, logger: logger)
     }
 
-    /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
+    /// Deactivates an evaluation form in the specified Connect Customer instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
     @Sendable
     @inlinable
     public func deactivateEvaluationForm(_ input: DeactivateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeactivateEvaluationFormResponse {
@@ -3019,12 +3101,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deactivates an evaluation form in the specified Amazon Connect instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
+    /// Deactivates an evaluation form in the specified Connect Customer instance. After a form is deactivated, it is no longer available for users to start new evaluations based on the form.
     ///
     /// Parameters:
     ///   - evaluationFormId: The unique identifier for the evaluation form.
     ///   - evaluationFormVersion: A version of the evaluation form. If the version property is not provided, the latest version of the evaluation form is deactivated.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deactivateEvaluationForm(
@@ -3076,7 +3158,42 @@ public struct Connect: AWSService {
         return try await self.deleteAttachedFile(input, logger: logger)
     }
 
-    /// Deletes a contact evaluation in the specified Amazon Connect instance.
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. This operation redacts PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.  This operation performs a hard deletion of the specified PII and cannot be undone. There is no retention period; after the data is deleted, it cannot be recovered. Only fields that Connect Customer identifies and stores as PII are removed. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
+    @Sendable
+    @inlinable
+    public func deleteContactData(_ input: DeleteContactDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactDataResponse {
+        try await self.client.execute(
+            operation: "DeleteContactData", 
+            path: "/contact/delete/{InstanceId}/{ContactId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. This operation redacts PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.  This operation performs a hard deletion of the specified PII and cannot be undone. There is no retention period; after the data is deleted, it cannot be recovered. Only fields that Connect Customer identifies and stores as PII are removed. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
+    ///
+    /// Parameters:
+    ///   - contactFields: The categories of PII to redact from the contact. Valid values are CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, and EMAIL_SUBJECT. ADDITIONAL_EMAIL_RECIPIENTS and EMAIL_SUBJECT are supported only for contacts in the email channel.
+    ///   - contactId: The identifier of the contact. PII can be deleted only from a contact that has been disconnected (is in a terminated state).
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteContactData(
+        contactFields: [ContactField],
+        contactId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteContactDataResponse {
+        let input = DeleteContactDataRequest(
+            contactFields: contactFields, 
+            contactId: contactId, 
+            instanceId: instanceId
+        )
+        return try await self.deleteContactData(input, logger: logger)
+    }
+
+    /// Deletes a contact evaluation in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func deleteContactEvaluation(_ input: DeleteContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3089,11 +3206,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a contact evaluation in the specified Amazon Connect instance.
+    /// Deletes a contact evaluation in the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - evaluationId: A unique identifier for the contact evaluation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactEvaluation(
@@ -3108,7 +3225,7 @@ public struct Connect: AWSService {
         return try await self.deleteContactEvaluation(input, logger: logger)
     }
 
-    /// Deletes a flow for the specified Amazon Connect instance.
+    /// Deletes a flow for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactFlowResponse {
@@ -3121,11 +3238,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a flow for the specified Amazon Connect instance.
+    /// Deletes a flow for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactFlow(
@@ -3157,7 +3274,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactFlowModule(
@@ -3190,7 +3307,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - aliasId: The identifier of the alias.
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactFlowModuleAlias(
@@ -3225,7 +3342,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
     ///   - contactFlowModuleVersion: The version of the flow module to delete.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactFlowModuleVersion(
@@ -3260,7 +3377,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
     ///   - contactFlowVersion: The identifier of the flow version.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteContactFlowVersion(
@@ -3344,7 +3461,7 @@ public struct Connect: AWSService {
         return try await self.deleteDataTableAttribute(input, logger: logger)
     }
 
-    /// Deletes email address from the specified Amazon Connect instance.
+    /// Deletes email address from the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func deleteEmailAddress(_ input: DeleteEmailAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEmailAddressResponse {
@@ -3357,11 +3474,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes email address from the specified Amazon Connect instance.
+    /// Deletes email address from the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - emailAddressId: The identifier of the email address.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteEmailAddress(
@@ -3376,7 +3493,7 @@ public struct Connect: AWSService {
         return try await self.deleteEmailAddress(input, logger: logger)
     }
 
-    /// Deletes an evaluation form in the specified Amazon Connect instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
+    /// Deletes an evaluation form in the specified Connect Customer instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
     @Sendable
     @inlinable
     public func deleteEvaluationForm(_ input: DeleteEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3389,12 +3506,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes an evaluation form in the specified Amazon Connect instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
+    /// Deletes an evaluation form in the specified Connect Customer instance.    If the version property is provided, only the specified version of the evaluation form is deleted.   If no version is provided, then the full form (all versions) is deleted.
     ///
     /// Parameters:
     ///   - evaluationFormId: The unique identifier for the evaluation form.
     ///   - evaluationFormVersion: The unique identifier for the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteEvaluationForm(
@@ -3428,7 +3545,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteHoursOfOperation(
@@ -3443,7 +3560,7 @@ public struct Connect: AWSService {
         return try await self.deleteHoursOfOperation(input, logger: logger)
     }
 
-    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource.
+    /// Deletes an hours of operation override in an Connect Customer hours of operation resource.
     @Sendable
     @inlinable
     public func deleteHoursOfOperationOverride(_ input: DeleteHoursOfOperationOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3456,12 +3573,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource.
+    /// Deletes an hours of operation override in an Connect Customer hours of operation resource.
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
     ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteHoursOfOperationOverride(
@@ -3478,7 +3595,7 @@ public struct Connect: AWSService {
         return try await self.deleteHoursOfOperationOverride(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Connect Customer and is subject to change. Deletes the Connect Customer instance. For more information, see Delete your Connect Customer instance in the Connect Customer Administrator Guide. Connect Customer enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     @Sendable
@@ -3493,13 +3610,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the Amazon Connect instance. For more information, see Delete your Amazon Connect instance in the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number of instances that you can create or delete in 30 days.
+    /// This API is in preview release for Connect Customer and is subject to change. Deletes the Connect Customer instance. For more information, see Delete your Connect Customer instance in the Connect Customer Administrator Guide. Connect Customer enforces a limit on the total number of instances that you can create or delete in 30 days.
     /// If you exceed this limit, you will get an error message indicating there has been an excessive number of attempts at creating or deleting instances.
     /// You must wait 30 days before you can restart creating and deleting instances in your account.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteInstance(
@@ -3514,7 +3631,7 @@ public struct Connect: AWSService {
         return try await self.deleteInstance(input, logger: logger)
     }
 
-    /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    /// Deletes an Amazon Web Services resource association from an Connect Customer instance. The association must not have any use cases associated with it.
     @Sendable
     @inlinable
     public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3527,10 +3644,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    /// Deletes an Amazon Web Services resource association from an Connect Customer instance. The association must not have any use cases associated with it.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationAssociationId: The identifier for the integration association.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3578,7 +3695,7 @@ public struct Connect: AWSService {
         return try await self.deleteNotification(input, logger: logger)
     }
 
-    /// Deletes a predefined attribute from the specified Amazon Connect instance.
+    /// Deletes a predefined attribute from the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func deletePredefinedAttribute(_ input: DeletePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3591,10 +3708,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a predefined attribute from the specified Amazon Connect instance.
+    /// Deletes a predefined attribute from the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId:  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name:  The name of the predefined attribute.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3626,7 +3743,7 @@ public struct Connect: AWSService {
     /// Deletes a prompt.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - promptId: A unique identifier for the prompt.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3658,7 +3775,7 @@ public struct Connect: AWSService {
     /// Deletes registration for a device token and a chat contact.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact within the Amazon Connect instance.
+    ///   - contactId: The identifier of the contact within the Connect Customer instance.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - registrationId: The identifier for the registration.
     ///   - logger: Logger use during operation
@@ -3693,7 +3810,7 @@ public struct Connect: AWSService {
     /// Deletes a queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3709,7 +3826,7 @@ public struct Connect: AWSService {
         return try await self.deleteQueue(input, logger: logger)
     }
 
-    /// Deletes a quick connect.   After calling DeleteUser, it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
+    /// Deletes a quick connect.   After calling DeleteUser, it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency.
     @Sendable
     @inlinable
     public func deleteQuickConnect(_ input: DeleteQuickConnectRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3722,10 +3839,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a quick connect.   After calling DeleteUser, it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
+    /// Deletes a quick connect.   After calling DeleteUser, it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - quickConnectId: The identifier for the quick connect.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3757,7 +3874,7 @@ public struct Connect: AWSService {
     /// Deletes a routing profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3773,7 +3890,7 @@ public struct Connect: AWSService {
         return try await self.deleteRoutingProfile(input, logger: logger)
     }
 
-    /// Deletes a rule for the specified Amazon Connect instance.
+    /// Deletes a rule for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3786,10 +3903,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a rule for the specified Amazon Connect instance.
+    /// Deletes a rule for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - ruleId: A unique identifier for the rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3821,7 +3938,7 @@ public struct Connect: AWSService {
     /// Deletes a security profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - securityProfileId: The identifier for the security profle.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3835,6 +3952,38 @@ public struct Connect: AWSService {
             securityProfileId: securityProfileId
         )
         return try await self.deleteSecurityProfile(input, logger: logger)
+    }
+
+    /// Deletes a session for the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSessionResponse {
+        try await self.client.execute(
+            operation: "DeleteSession", 
+            path: "/auth/sessions/{InstanceId}/{SessionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a session for the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - sessionId: The identifier of the session to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSession(
+        instanceId: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSessionResponse {
+        let input = DeleteSessionRequest(
+            instanceId: instanceId, 
+            sessionId: sessionId
+        )
+        return try await self.deleteSession(input, logger: logger)
     }
 
     /// Deletes the task template.
@@ -3853,7 +4002,7 @@ public struct Connect: AWSService {
     /// Deletes the task template.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - taskTemplateId: A unique identifier for the task template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3901,7 +4050,7 @@ public struct Connect: AWSService {
         return try await self.deleteTestCase(input, logger: logger)
     }
 
-    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func deleteTrafficDistributionGroup(_ input: DeleteTrafficDistributionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrafficDistributionGroupResponse {
@@ -3914,7 +4063,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Amazon Connect Administrator Guide.
+    /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - trafficDistributionGroupId: The identifier of the traffic distribution group.
@@ -3946,7 +4095,7 @@ public struct Connect: AWSService {
     /// Deletes a use case from an integration association.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationAssociationId: The identifier for the integration association.
     ///   - useCaseId: The identifier for the use case.
     ///   - logger: Logger use during operation
@@ -3965,7 +4114,7 @@ public struct Connect: AWSService {
         return try await self.deleteUseCase(input, logger: logger)
     }
 
-    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.  After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
+    /// Deletes a user account from the specified Connect Customer instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Connect Customer Instance in the Connect Customer Administrator Guide.  After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency.
     @Sendable
     @inlinable
     public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3978,10 +4127,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.  After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using Amazon Connect Global Resiliency.
+    /// Deletes a user account from the specified Connect Customer instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Connect Customer Instance in the Connect Customer Administrator Guide.  After calling DeleteUser, call DeleteQuickConnect to delete any records related to the deleted users. This will help you:   Avoid dangling resources that impact your service quotas.   Remove deleted users so they don't appear to agents as transfer options.   Avoid the disruption of other Connect Customer processes, such as instance replication and syncing if you're using Connect Customer Global Resiliency.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4014,7 +4163,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hierarchyGroupId: The identifier of the hierarchy group.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteUserHierarchyGroup(
@@ -4045,7 +4194,7 @@ public struct Connect: AWSService {
     /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4077,7 +4226,7 @@ public struct Connect: AWSService {
     /// Deletes the particular version specified in ViewVersion identifier.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
     ///   - viewVersion: The version number of the view.
     ///   - logger: Logger use during operation
@@ -4112,7 +4261,7 @@ public struct Connect: AWSService {
     /// Deletes the vocabulary that has the given identifier.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - vocabularyId: The identifier of the custom vocabulary.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4247,7 +4396,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - agentStatusId: The identifier for the agent status.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAgentStatus(
@@ -4262,7 +4411,39 @@ public struct Connect: AWSService {
         return try await self.describeAgentStatus(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned.
+    @Sendable
+    @inlinable
+    public func describeAttachedFilesConfiguration(_ input: DescribeAttachedFilesConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAttachedFilesConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeAttachedFilesConfiguration", 
+            path: "/attached-files-configurations/{InstanceId}/{AttachmentScope}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the attached files configuration for the specified Connect Customer instance and attachment scope. If a custom configuration exists for the specified attachment scope, the custom configuration is returned. If no custom configuration exists, the default configuration values for that attachment scope are returned.
+    ///
+    /// Parameters:
+    ///   - attachmentScope: The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAttachedFilesConfiguration(
+        attachmentScope: AttachmentScope,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAttachedFilesConfigurationResponse {
+        let input = DescribeAttachedFilesConfigurationRequest(
+            attachmentScope: attachmentScope, 
+            instanceId: instanceId
+        )
+        return try await self.describeAttachedFilesConfiguration(input, logger: logger)
+    }
+
+    /// This API is in preview release for Connect Customer and is subject to change. To
     /// request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
     @Sendable
     @inlinable
@@ -4276,12 +4457,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// This API is in preview release for Connect Customer and is subject to change. To
     /// request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
     ///
     /// Parameters:
     ///   - authenticationProfileId: A unique identifier for the authentication profile.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAuthenticationProfile(
@@ -4296,7 +4477,7 @@ public struct Connect: AWSService {
         return try await self.describeAuthenticationProfile(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Use cases  Following are common uses cases for this API:   Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.   Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the ContactTraceRecord to detect this event and then re-queue the chat for followup.   Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the contact event stream.     Important things to know     SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK   Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified contact.   Use cases  Following are common uses cases for this API:   Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.   Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the ContactTraceRecord to detect this event and then re-queue the chat for followup.   Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the contact event stream.     Important things to know     SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK   Contact information remains available in Connect Customer for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Connect Customer is returned by this API.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func describeContact(_ input: DescribeContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactResponse {
@@ -4309,11 +4490,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.   Use cases  Following are common uses cases for this API:   Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.   Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the ContactTraceRecord to detect this event and then re-queue the chat for followup.   Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the contact event stream.     Important things to know     SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK   Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified contact.   Use cases  Following are common uses cases for this API:   Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.   Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the ContactTraceRecord to detect this event and then re-queue the chat for followup.   Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the contact event stream.     Important things to know     SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK   Contact information remains available in Connect Customer for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Connect Customer is returned by this API.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeContact(
@@ -4328,7 +4509,7 @@ public struct Connect: AWSService {
         return try await self.describeContact(input, logger: logger)
     }
 
-    /// Describes a contact evaluation in the specified Amazon Connect instance.
+    /// Describes a contact evaluation in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func describeContactEvaluation(_ input: DescribeContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactEvaluationResponse {
@@ -4341,11 +4522,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes a contact evaluation in the specified Amazon Connect instance.
+    /// Describes a contact evaluation in the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - evaluationId: A unique identifier for the contact evaluation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeContactEvaluation(
@@ -4360,7 +4541,7 @@ public struct Connect: AWSService {
         return try await self.describeContactEvaluation(input, logger: logger)
     }
 
-    /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
+    /// Describes the specified flow. You can also create and update flows using the Connect Customer Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     @Sendable
     @inlinable
     public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeContactFlowResponse {
@@ -4373,11 +4554,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
+    /// Describes the specified flow. You can also create and update flows using the Connect Customer Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published. Use arn:aws:.../contact-flow/{id}:{version} to retrieve the content of a specific flow version. In the response, Status indicates the flow status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. SAVED does not initiate validation of the content. SAVED | PUBLISHED
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeContactFlow(
@@ -4409,7 +4590,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeContactFlowModule(
@@ -4442,7 +4623,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - aliasId: The identifier of the alias.
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeContactFlowModuleAlias(
@@ -4526,7 +4707,7 @@ public struct Connect: AWSService {
         return try await self.describeDataTableAttribute(input, logger: logger)
     }
 
-    /// Describe email address form the specified Amazon Connect instance.
+    /// Describe email address form the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func describeEmailAddress(_ input: DescribeEmailAddressRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEmailAddressResponse {
@@ -4539,11 +4720,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describe email address form the specified Amazon Connect instance.
+    /// Describe email address form the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - emailAddressId: The identifier of the email address.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEmailAddress(
@@ -4558,7 +4739,7 @@ public struct Connect: AWSService {
         return try await self.describeEmailAddress(input, logger: logger)
     }
 
-    /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
+    /// Describes an evaluation form in the specified Connect Customer instance. If the version property is not provided, the latest version of the evaluation form is described.
     @Sendable
     @inlinable
     public func describeEvaluationForm(_ input: DescribeEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEvaluationFormResponse {
@@ -4571,12 +4752,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes an evaluation form in the specified Amazon Connect instance. If the version property is not provided, the latest version of the evaluation form is described.
+    /// Describes an evaluation form in the specified Connect Customer instance. If the version property is not provided, the latest version of the evaluation form is described.
     ///
     /// Parameters:
     ///   - evaluationFormId: A unique identifier for the contact evaluation.
     ///   - evaluationFormVersion: A version of the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEvaluationForm(
@@ -4610,7 +4791,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeHoursOfOperation(
@@ -4643,7 +4824,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
     ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeHoursOfOperationOverride(
@@ -4660,7 +4841,7 @@ public struct Connect: AWSService {
         return try await self.describeHoursOfOperationOverride(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
     @Sendable
     @inlinable
     public func describeInstance(_ input: DescribeInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceResponse {
@@ -4673,10 +4854,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns the current state of the specified instance identifier. It tracks the instance while it is being created and returns an error status, if applicable.  If an instance is not created successfully, the instance status reason field returns details relevant to the reason. The instance in a failed state is returned only for 24 hours after the CreateInstance API was invoked.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeInstance(
@@ -4689,7 +4870,7 @@ public struct Connect: AWSService {
         return try await self.describeInstance(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute.
     @Sendable
     @inlinable
     public func describeInstanceAttribute(_ input: DescribeInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceAttributeResponse {
@@ -4702,11 +4883,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified instance attribute.
+    /// This API is in preview release for Connect Customer and is subject to change. Describes the specified instance attribute.
     ///
     /// Parameters:
     ///   - attributeType: The type of attribute.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeInstanceAttribute(
@@ -4721,7 +4902,7 @@ public struct Connect: AWSService {
         return try await self.describeInstanceAttribute(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
+    /// This API is in preview release for Connect Customer and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
     @Sendable
     @inlinable
     public func describeInstanceStorageConfig(_ input: DescribeInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceStorageConfigResponse {
@@ -4734,11 +4915,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
+    /// This API is in preview release for Connect Customer and is subject to change. Retrieves the current storage configurations for the specified resource type, association ID, and instance ID.
     ///
     /// Parameters:
     ///   - associationId: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4788,7 +4969,7 @@ public struct Connect: AWSService {
         return try await self.describeNotification(input, logger: logger)
     }
 
-    /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
+    /// Gets details and status of a phone number that’s claimed to your Connect Customer instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     @Sendable
     @inlinable
     public func describePhoneNumber(_ input: DescribePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePhoneNumberResponse {
@@ -4801,7 +4982,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
+    /// Gets details and status of a phone number that’s claimed to your Connect Customer instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     ///
     /// Parameters:
     ///   - phoneNumberId: A unique identifier for the phone number.
@@ -4817,7 +4998,7 @@ public struct Connect: AWSService {
         return try await self.describePhoneNumber(input, logger: logger)
     }
 
-    /// Describes a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Describes a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func describePredefinedAttribute(_ input: DescribePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePredefinedAttributeResponse {
@@ -4830,10 +5011,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Describes a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the predefined attribute.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4865,7 +5046,7 @@ public struct Connect: AWSService {
     /// Describes the prompt.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - promptId: A unique identifier for the prompt.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4897,7 +5078,7 @@ public struct Connect: AWSService {
     /// Describes the specified queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4929,7 +5110,7 @@ public struct Connect: AWSService {
     /// Describes the quick connect.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - quickConnectId: The identifier for the quick connect.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4961,7 +5142,7 @@ public struct Connect: AWSService {
     /// Describes the specified routing profile.   DescribeRoutingProfile does not populate AssociatedQueueIds in its response. The example Response Syntax shown on this page is incorrect; we are working to update it. SearchRoutingProfiles does include AssociatedQueueIds.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4977,7 +5158,7 @@ public struct Connect: AWSService {
         return try await self.describeRoutingProfile(input, logger: logger)
     }
 
-    /// Describes a rule for the specified Amazon Connect instance.
+    /// Describes a rule for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func describeRule(_ input: DescribeRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRuleResponse {
@@ -4990,10 +5171,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes a rule for the specified Amazon Connect instance.
+    /// Describes a rule for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - ruleId: A unique identifier for the rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5009,7 +5190,7 @@ public struct Connect: AWSService {
         return try await self.describeRule(input, logger: logger)
     }
 
-    /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func describeSecurityProfile(_ input: DescribeSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSecurityProfileResponse {
@@ -5022,10 +5203,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Gets basic information about the security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - securityProfileId: The identifier for the security profle.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5105,7 +5286,7 @@ public struct Connect: AWSService {
         return try await self.describeTrafficDistributionGroup(input, logger: logger)
     }
 
-    /// Describes the specified user. You can find the instance ID in the Amazon Connect console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
+    /// Describes the specified user. You can find the instance ID in the Connect Customer console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     @Sendable
     @inlinable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
@@ -5118,10 +5299,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified user. You can find the instance ID in the Amazon Connect console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
+    /// Describes the specified user. You can find the instance ID in the Connect Customer console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5154,7 +5335,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hierarchyGroupId: The identifier of the hierarchy group.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeUserHierarchyGroup(
@@ -5169,7 +5350,7 @@ public struct Connect: AWSService {
         return try await self.describeUserHierarchyGroup(input, logger: logger)
     }
 
-    /// Describes the hierarchy structure of the specified Amazon Connect instance.
+    /// Describes the hierarchy structure of the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserHierarchyStructureResponse {
@@ -5182,10 +5363,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Describes the hierarchy structure of the specified Amazon Connect instance.
+    /// Describes the hierarchy structure of the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeUserHierarchyStructure(
@@ -5198,7 +5379,7 @@ public struct Connect: AWSService {
         return try await self.describeUserHierarchyStructure(input, logger: logger)
     }
 
-    /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
+    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Connect Customer managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
     @Sendable
     @inlinable
     public func describeView(_ input: DescribeViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeViewResponse {
@@ -5211,10 +5392,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
+    /// Retrieves the view for the specified Connect Customer instance and view identifier. The view identifier can be supplied as a ViewId or ARN.  $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Connect Customer managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - viewId: The ViewId of the view. This must be an ARN for Amazon Web Services managed views.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5246,7 +5427,7 @@ public struct Connect: AWSService {
     /// Describes the specified vocabulary.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - vocabularyId: The identifier of the custom vocabulary.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5294,7 +5475,7 @@ public struct Connect: AWSService {
         return try await self.describeWorkspace(input, logger: logger)
     }
 
-    /// Removes the dataset ID associated with a given Amazon Connect instance.
+    /// Removes the dataset ID associated with a given Connect Customer instance.
     @Sendable
     @inlinable
     public func disassociateAnalyticsDataSet(_ input: DisassociateAnalyticsDataSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5307,12 +5488,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Removes the dataset ID associated with a given Amazon Connect instance.
+    /// Removes the dataset ID associated with a given Connect Customer instance.
     ///
     /// Parameters:
     ///   - dataSetId: The identifier of the dataset to remove.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Amazon Connect instance. If not specified, by default this value is the Amazon Web Services account that has the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - targetAccountId: The identifier of the target account.  Use to associate a dataset to a different account than the one containing the Connect Customer instance. If not specified, by default this value is the Amazon Web Services account that has the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateAnalyticsDataSet(
@@ -5329,7 +5510,7 @@ public struct Connect: AWSService {
         return try await self.disassociateAnalyticsDataSet(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes access to integrated applications from Connect Customer.
     @Sendable
     @inlinable
     public func disassociateApprovedOrigin(_ input: DisassociateApprovedOriginRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5342,11 +5523,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes access to integrated applications from Connect Customer.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - origin: The domain URL of the integrated application.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5364,7 +5545,7 @@ public struct Connect: AWSService {
         return try await self.disassociateApprovedOrigin(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     @Sendable
     @inlinable
     public func disassociateBot(_ input: DisassociateBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5377,11 +5558,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexBot: 
     ///   - lexV2Bot: The Amazon Lex V2 bot to disassociate from the instance.
     ///   - logger: Logger use during operation
@@ -5402,7 +5583,7 @@ public struct Connect: AWSService {
         return try await self.disassociateBot(input, logger: logger)
     }
 
-    /// Removes the alias association between two email addresses in an Amazon Connect instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly.  Use cases  Following are common uses cases for this API:    Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.    Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.    Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.    Important things to know    Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.   Emails sent to the former alias address are still delivered directly to that address if it exists.   You do not need to delete the email addresses after disassociation. Both addresses remain active independently.   After a successful disassociation, you can immediately create a new alias relationship with the same addresses.   200 status means alias was successfully disassociated.    DisassociateEmailAddressAlias does not return the following information:   Details in the response about the email that was disassociated. The response returns an empty body.   The timestamp of when the disassociation occurred.    Endpoints: See Amazon Connect endpoints and quotas.  Related operations     AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an Amazon Connect instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
+    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly.  Use cases  Following are common uses cases for this API:    Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.    Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.    Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.    Important things to know    Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.   Emails sent to the former alias address are still delivered directly to that address if it exists.   You do not need to delete the email addresses after disassociation. Both addresses remain active independently.   After a successful disassociation, you can immediately create a new alias relationship with the same addresses.   200 status means alias was successfully disassociated.    DisassociateEmailAddressAlias does not return the following information:   Details in the response about the email that was disassociated. The response returns an empty body.   The timestamp of when the disassociation occurred.    Endpoints: See Connect Customer endpoints and quotas.  Related operations     AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an Connect Customer instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
     @Sendable
     @inlinable
     public func disassociateEmailAddressAlias(_ input: DisassociateEmailAddressAliasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateEmailAddressAliasResponse {
@@ -5415,13 +5596,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Removes the alias association between two email addresses in an Amazon Connect instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly.  Use cases  Following are common uses cases for this API:    Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.    Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.    Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.    Important things to know    Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.   Emails sent to the former alias address are still delivered directly to that address if it exists.   You do not need to delete the email addresses after disassociation. Both addresses remain active independently.   After a successful disassociation, you can immediately create a new alias relationship with the same addresses.   200 status means alias was successfully disassociated.    DisassociateEmailAddressAlias does not return the following information:   Details in the response about the email that was disassociated. The response returns an empty body.   The timestamp of when the disassociation occurred.    Endpoints: See Amazon Connect endpoints and quotas.  Related operations     AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an Amazon Connect instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
+    /// Removes the alias association between two email addresses in an Connect Customer instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly.  Use cases  Following are common uses cases for this API:    Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.    Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.    Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.    Important things to know    Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.   Emails sent to the former alias address are still delivered directly to that address if it exists.   You do not need to delete the email addresses after disassociation. Both addresses remain active independently.   After a successful disassociation, you can immediately create a new alias relationship with the same addresses.   200 status means alias was successfully disassociated.    DisassociateEmailAddressAlias does not return the following information:   Details in the response about the email that was disassociated. The response returns an empty body.   The timestamp of when the disassociation occurred.    Endpoints: See Connect Customer endpoints and quotas.  Related operations     AssociateEmailAddressAlias: Associates an email address alias with an existing email address in an Connect Customer instance.    DescribeEmailAddress: View current alias configurations for an email address.    SearchEmailAddresses: Find email addresses and their alias relationships across an instance.    CreateEmailAddress: Create new email addresses that can participate in alias relationships.    DeleteEmailAddress: Remove email addresses (automatically removes any alias relationships).    UpdateEmailAddressMetadata: Modify email address properties (does not affect alias relationships).
     ///
     /// Parameters:
     ///   - aliasConfiguration: Configuration object that specifies which alias relationship to remove. The alias association must currently exist between the primary email address and the specified alias email address.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - emailAddressId: The identifier of the email address.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateEmailAddressAlias(
@@ -5456,7 +5637,7 @@ public struct Connect: AWSService {
     /// Disassociates a connect resource from a flow.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceId: The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger use during operation
@@ -5475,7 +5656,7 @@ public struct Connect: AWSService {
         return try await self.disassociateFlow(input, logger: logger)
     }
 
-    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    /// Disassociates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
     @Sendable
     @inlinable
     public func disassociateHoursOfOperations(_ input: DisassociateHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5488,7 +5669,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    /// Disassociates a set of hours of operations with another hours of operation. For more information about inheriting overrides from parent hours of operation, see Hours of operation overrides in the Administrator Guide.
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier of the child hours of operation.
@@ -5510,7 +5691,7 @@ public struct Connect: AWSService {
         return try await self.disassociateHoursOfOperations(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
+    /// This API is in preview release for Connect Customer and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
     @Sendable
     @inlinable
     public func disassociateInstanceStorageConfig(_ input: DisassociateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5523,12 +5704,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
+    /// This API is in preview release for Connect Customer and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
     ///
     /// Parameters:
     ///   - associationId: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5548,7 +5729,7 @@ public struct Connect: AWSService {
         return try await self.disassociateInstanceStorageConfig(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
+    /// This API is in preview release for Connect Customer and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
     @Sendable
     @inlinable
     public func disassociateLambdaFunction(_ input: DisassociateLambdaFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5561,12 +5742,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
+    /// This API is in preview release for Connect Customer and is subject to change. Remove the Lambda function from the dropdown options available in the relevant flow blocks.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - functionArn: The Amazon Resource Name (ARN) of the Lambda function being disassociated.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateLambdaFunction(
@@ -5583,7 +5764,7 @@ public struct Connect: AWSService {
         return try await self.disassociateLambdaFunction(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
     @Sendable
     @inlinable
     public func disassociateLexBot(_ input: DisassociateLexBotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5596,12 +5777,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
+    /// This API is in preview release for Connect Customer and is subject to change. Revokes authorization from the specified instance to access the specified Amazon Lex bot.
     ///
     /// Parameters:
     ///   - botName: The name of the Amazon Lex bot. Maximum character limit of 50.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexRegion: The Amazon Web Services Region in which the Amazon Lex bot has been created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5621,7 +5802,7 @@ public struct Connect: AWSService {
         return try await self.disassociateLexBot(input, logger: logger)
     }
 
-    /// Removes the flow association from a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// Removes the flow association from a phone number claimed to your Connect Customer instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     @Sendable
     @inlinable
     public func disassociatePhoneNumberContactFlow(_ input: DisassociatePhoneNumberContactFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5634,10 +5815,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Removes the flow association from a phone number claimed to your Amazon Connect instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    /// Removes the flow association from a phone number claimed to your Connect Customer instance.  If the number is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - phoneNumberId: A unique identifier for the phone number.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5671,7 +5852,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - emailAddressesId: List of email address identifiers to disassociate from the queue. These are the unique identifiers of email addresses that should no longer be routed to this queue.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5707,7 +5888,7 @@ public struct Connect: AWSService {
     /// Disassociates a set of quick connects from a queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - quickConnectIds: The quick connects to disassociate from the queue.
     ///   - logger: Logger use during operation
@@ -5742,7 +5923,7 @@ public struct Connect: AWSService {
     /// Disassociates a set of queues from a routing profile. Up to 10 queue references can be disassociated in a single API call. More than 10 queue references results in a single call results in an InvalidParameterException.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - manualAssignmentQueueReferences: The manual assignment queues to disassociate with this routing profile.
     ///   - queueReferences: The queues to disassociate from this routing profile.
     ///   - routingProfileId: The identifier of the routing profile.
@@ -5764,7 +5945,7 @@ public struct Connect: AWSService {
         return try await self.disassociateRoutingProfileQueues(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
+    /// This API is in preview release for Connect Customer and is subject to change. Deletes the specified security key.
     @Sendable
     @inlinable
     public func disassociateSecurityKey(_ input: DisassociateSecurityKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -5777,12 +5958,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes the specified security key.
+    /// This API is in preview release for Connect Customer and is subject to change. Deletes the specified security key.
     ///
     /// Parameters:
     ///   - associationId: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateSecurityKey(
@@ -5853,7 +6034,7 @@ public struct Connect: AWSService {
     /// Disassociates an agent from a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - trafficDistributionGroupId: The identifier of the traffic distribution group.
     ///   - userId: The identifier for the user. This can be the ID or the ARN of the user.
     ///   - logger: Logger use during operation
@@ -5888,7 +6069,7 @@ public struct Connect: AWSService {
     /// Disassociates a set of proficiencies from a user.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user account.
     ///   - userProficiencies: The proficiencies to disassociate from the user.
     ///   - logger: Logger use during operation
@@ -5959,7 +6140,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6039,7 +6220,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
     ///   - fileId: The unique identifier of the attached file resource.
-    ///   - instanceId: The unique identifier of the Amazon Connect instance.
+    ///   - instanceId: The unique identifier of the Connect Customer instance.
     ///   - urlExpiryInSeconds: Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6076,7 +6257,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - initialContactId: The identifier of the initial contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func getContactAttributes(
@@ -6091,7 +6272,7 @@ public struct Connect: AWSService {
         return try await self.getContactAttributes(input, logger: logger)
     }
 
-    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
+    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Connect Customer Administrator Guide.     Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func getContactMetrics(_ input: GetContactMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactMetricsResponse {
@@ -6104,11 +6285,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
+    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Connect Customer Administrator Guide.     Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - metrics: A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
     ///   - logger: Logger use during operation
     @inlinable
@@ -6126,7 +6307,7 @@ public struct Connect: AWSService {
         return try await self.getContactMetrics(input, logger: logger)
     }
 
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Metrics definitions in the Amazon Connect Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
+    /// Gets the real-time metric data from the specified Connect Customer instance. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
     @Sendable
     @inlinable
     public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentMetricDataResponse {
@@ -6139,13 +6320,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Metrics definitions in the Amazon Connect Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
+    /// Gets the real-time metric data from the specified Connect Customer instance. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
     ///
     /// Parameters:
-    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
     ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
     ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - sortCriteria: The way to sort the resulting response based on metrics. You can enter one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics. Note the following:   Sorting on SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
@@ -6173,7 +6354,7 @@ public struct Connect: AWSService {
         return try await self.getCurrentMetricData(input, logger: logger)
     }
 
-    /// Gets the real-time active user data from the specified Amazon Connect instance.
+    /// Gets the real-time active user data from the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func getCurrentUserData(_ input: GetCurrentUserDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCurrentUserDataResponse {
@@ -6186,11 +6367,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets the real-time active user data from the specified Amazon Connect instance.
+    /// Gets the real-time active user data from the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - filters: The filters to apply to returned user data. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Agents: 100   Contact states: 9   User hierarchy groups: 1   The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups.  Currently tagging is only supported on the resources that are passed in the filter.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6229,7 +6410,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - fromDate: The date from when the hours of operation are listed.
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - toDate: The date until when the hours of operation are listed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6249,7 +6430,42 @@ public struct Connect: AWSService {
         return try await self.getEffectiveHoursOfOperations(input, logger: logger)
     }
 
-    /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
+    /// Retrieves the status and results of a validation process started by StartEvaluationFormValidation. Returns the current execution status (IN_PROGRESS, COMPLETED, or FAILED), the validated form version, and when completed, a list of findings that identify structural issues and quality improvements for the evaluation form, and may include suggested fixes. If the validation failed, a reason is provided indicating the cause of the failure.
+    @Sendable
+    @inlinable
+    public func getEvaluationFormValidation(_ input: GetEvaluationFormValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluationFormValidationResponse {
+        try await self.client.execute(
+            operation: "GetEvaluationFormValidation", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/validation-results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status and results of a validation process started by StartEvaluationFormValidation. Returns the current execution status (IN_PROGRESS, COMPLETED, or FAILED), the validated form version, and when completed, a list of findings that identify structural issues and quality improvements for the evaluation form, and may include suggested fixes. If the validation failed, a reason is provided indicating the cause of the failure.
+    ///
+    /// Parameters:
+    ///   - evaluationFormId: The unique identifier for the evaluation form.
+    ///   - evaluationFormVersion: The version of the evaluation form to retrieve validation results for.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEvaluationFormValidation(
+        evaluationFormId: String,
+        evaluationFormVersion: Int? = nil,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEvaluationFormValidationResponse {
+        let input = GetEvaluationFormValidationRequest(
+            evaluationFormId: evaluationFormId, 
+            evaluationFormVersion: evaluationFormVersion, 
+            instanceId: instanceId
+        )
+        return try await self.getEvaluationFormValidation(input, logger: logger)
+    }
+
+    /// Supports SAML sign-in for Connect Customer. Retrieves a token for federation. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Connect Customer, see Configure SAML with IAM for Connect Customer in the Connect Customer Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Connect Customer
     @Sendable
     @inlinable
     public func getFederationToken(_ input: GetFederationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFederationTokenResponse {
@@ -6262,10 +6478,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Supports SAML sign-in for Amazon Connect. Retrieves a token for federation. The token is for the Amazon Connect user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Amazon Connect, see Configure SAML with IAM for Amazon Connect in the Amazon Connect Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Amazon Connect
+    /// Supports SAML sign-in for Connect Customer. Retrieves a token for federation. The token is for the Connect Customer user which corresponds to the IAM credentials that were used to invoke this action.  For more information about how SAML sign-in works in Connect Customer, see Configure SAML with IAM for Connect Customer in the Connect Customer Administrator Guide.   This API doesn't support root users. If you try to invoke GetFederationToken with root credentials, an error message similar to the following one appears:   Provided identity: Principal: .... User: .... cannot be used for federation with Connect Customer
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func getFederationToken(
@@ -6294,7 +6510,7 @@ public struct Connect: AWSService {
     /// Retrieves the flow associated for a given resource.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceId: The identifier of the resource.   Amazon Web Services End User Messaging SMS phone number ARN when using SMS_PHONE_NUMBER    Amazon Web Services End User Messaging Social phone number ARN when using WHATSAPP_MESSAGING_PHONE_NUMBER
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger use during operation
@@ -6313,7 +6529,7 @@ public struct Connect: AWSService {
         return try await self.getFlowAssociation(input, logger: logger)
     }
 
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Metrics definitions in the Amazon Connect Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
+    /// Gets historical metric data from the specified Connect Customer instance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     @Sendable
     @inlinable
     public func getMetricData(_ input: GetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataResponse {
@@ -6326,14 +6542,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Metrics definitions in the Amazon Connect Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
+    /// Gets historical metric data from the specified Connect Customer instance. For a description of each historical metric, see Metrics definitions in the Connect Customer Administrator Guide.  We recommend using the GetMetricDataV2 API. It provides more flexibility, features, and the ability to query longer time ranges than GetMetricData. Use it to retrieve historical agent and contact metrics for the last 3 months, at varying intervals. You can also use it to build custom dashboards to measure historical queue and agent performance. For example, you can track the number of incoming contacts for the last 7 days, with data split by day, to see how contact volume changed per day of the week.
     ///
     /// Parameters:
     ///   - endTime: The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
     ///   - filters: The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.  To filter by Queues, enter the queue ID/ARN, not the name of the queue.
     ///   - groupings: The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.
-    ///   - historicalMetrics: The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - historicalMetrics: The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - startTime: The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
@@ -6363,7 +6579,7 @@ public struct Connect: AWSService {
         return try await self.getMetricData(input, logger: logger)
     }
 
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Metrics definitions in the Amazon Connect Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Narrow the time range of your request   Add filters to reduce the amount of data returned
+    /// Gets metric data from the specified Connect Customer instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Metrics definitions in the Connect Customer Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Narrow the time range of your request   Add filters to reduce the amount of data returned
     @Sendable
     @inlinable
     public func getMetricDataV2(_ input: GetMetricDataV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMetricDataV2Response {
@@ -6376,17 +6592,17 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Metrics definitions in the Amazon Connect Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Narrow the time range of your request   Add filters to reduce the amount of data returned
+    /// Gets metric data from the specified Connect Customer instance.   GetMetricDataV2 offers more features than GetMetricData, the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see Metrics definitions in the Connect Customer Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Narrow the time range of your request   Add filters to reduce the amount of data returned
     ///
     /// Parameters:
     ///   - endTime: The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
-    ///   - filters: The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_FIVE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_ HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_TWO |  ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |  CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL |  contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType |  DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_ TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_ CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow   EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filterValues for the contact/segmentAttributes/connect:ValidationTestType filter key   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
-    ///   - groupings: The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
-    ///   - interval: The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
+    ///   - filters: Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation.  Filter keys  The following are valid filter keys for a GetMetricDataV2 request:  AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE | WEB_NOTIFICATION_TYPE   The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters:  QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID  You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys.   Filter values    VOICE, CHAT, TASK, and EMAIL are valid filter values for the CHANNEL filter key. They do not count towards the limit of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 4 channel filters.    contact_lens_conversational_analytics is a valid filter value for the FEATURE filter key. It is available only for contacts analyzed by Contact Lens conversational analytics.    connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filter value examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.    ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.   TRUE and FALSE are the only valid filter values for the Q_CONNECT_ENABLED filter key.   TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow.      EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filter values for the contact/segmentAttributes/connect:ValidationTestType filter key. This filter is available only for contact record-driven metrics.    Campaign ARNs are valid filter values for the CAMPAIGN filter key.   To filter by phone number, see Create a historical metrics report in the Connect Customer Administrator Guide.
+    ///   - groupings: The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_NAME_VERSION | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_NAME_VERSION | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_ARTICLE_NAME | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD | WEB_NOTIFICATION_TYPE    AI_AGENT_NAME_VERSION, AI_PROMPT_NAME_VERSION, and KNOWLEDGE_ARTICLE_NAME are valid groupings but not valid filters.  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
+    ///   - interval: The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - metrics: The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents  AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Handoff Rate  AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count  AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate  AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Contacts  AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Conversation Turns  AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: KnowledgeBase Reference Count  PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate  PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile  UI name: Proactive Intent Response Rate  PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered  PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected    Unit:  Valid groupings and filters:  UI name:     Unit:  Valid groupings and filters:  UI name:   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: UI name:  AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+    ///   - metrics: The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, AI Use Case, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents   AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Rate   AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count   AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_NOT_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Not Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate   AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Involved Contacts   AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Conversation Turns   AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_PARAMETER_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Parameter Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_SELECTION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Selection Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_UTILIZATION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: AI Tool Utilization Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   COMPLETENESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Completeness Score   FAITHFULNESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Faithfulness Score   GOAL_SUCCESS_RATE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Goal Success Rate   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: Knowledge Content References   PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate   PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Response Rate   PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered   PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Engaged   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email, WhatsApp, and web notification delivery modes.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Web Notification Type UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Connect Customer instance.
     ///   - startTime: The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The start and end time depends on the IntervalPeriod selected. By default the time range between start and end time is 35 days. Historical metrics are available for 3 months.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6432,7 +6648,7 @@ public struct Connect: AWSService {
     /// Gets the prompt file.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - promptId: A unique identifier for the prompt.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6448,7 +6664,7 @@ public struct Connect: AWSService {
         return try await self.getPromptFile(input, logger: logger)
     }
 
-    /// Gets details about a specific task template in the specified Amazon Connect instance.
+    /// Gets details about a specific task template in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func getTaskTemplate(_ input: GetTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaskTemplateResponse {
@@ -6461,10 +6677,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a specific task template in the specified Amazon Connect instance.
+    /// Gets details about a specific task template in the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - snapshotVersion: The system generated version of a task template that is associated with a task, when the task is created.
     ///   - taskTemplateId: A unique identifier for the task template.
     ///   - logger: Logger use during operation
@@ -6547,7 +6763,7 @@ public struct Connect: AWSService {
         return try await self.getTrafficDistribution(input, logger: logger)
     }
 
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.  Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation.   If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.  By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Connect Customer instance. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance was created.  Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation.   If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.  By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     @Sendable
     @inlinable
     public func importPhoneNumber(_ input: ImportPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportPhoneNumberResponse {
@@ -6560,11 +6776,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created.  Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation.   If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.  By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Connect Customer instance. You can call this API only in the same Amazon Web Services Region where the Connect Customer instance was created.  Call the DescribePhoneNumber API to verify the status of a previous ImportPhoneNumber operation.   If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired.  By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - phoneNumberDescription: The description of the phone number.
     ///   - sourcePhoneNumberArn: The claimed phone number ARN being imported from the external service, such as Amazon Web Services End User Messaging. If it is from Amazon Web Services End User Messaging, it looks like the ARN of the phone number to import from Amazon Web Services End User Messaging.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -6643,7 +6859,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - agentStatusTypes: Available agent status types.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6664,7 +6880,7 @@ public struct Connect: AWSService {
         return try await self.listAgentStatuses(input, logger: logger)
     }
 
-    /// Lists the association status of requested dataset ID for a given Amazon Connect instance.
+    /// Lists the association status of requested dataset ID for a given Connect Customer instance.
     @Sendable
     @inlinable
     public func listAnalyticsDataAssociations(_ input: ListAnalyticsDataAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyticsDataAssociationsResponse {
@@ -6677,11 +6893,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the association status of requested dataset ID for a given Amazon Connect instance.
+    /// Lists the association status of requested dataset ID for a given Connect Customer instance.
     ///
     /// Parameters:
     ///   - dataSetId: The identifier of the dataset to get the association status.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6702,7 +6918,7 @@ public struct Connect: AWSService {
         return try await self.listAnalyticsDataAssociations(input, logger: logger)
     }
 
-    /// Lists the data lake datasets available to associate with for a given Amazon Connect instance.
+    /// Lists the data lake datasets available to associate with for a given Connect Customer instance.
     @Sendable
     @inlinable
     public func listAnalyticsDataLakeDataSets(_ input: ListAnalyticsDataLakeDataSetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalyticsDataLakeDataSetsResponse {
@@ -6715,10 +6931,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the data lake datasets available to associate with for a given Amazon Connect instance.
+    /// Lists the data lake datasets available to associate with for a given Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6737,7 +6953,7 @@ public struct Connect: AWSService {
         return try await self.listAnalyticsDataLakeDataSets(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     @Sendable
     @inlinable
     public func listApprovedOrigins(_ input: ListApprovedOriginsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApprovedOriginsResponse {
@@ -6750,10 +6966,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all approved origins associated with the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all approved origins associated with the instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6788,8 +7004,8 @@ public struct Connect: AWSService {
     /// Provides information about contact tree, a list of associated contacts with a unique identifier.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6810,8 +7026,43 @@ public struct Connect: AWSService {
         return try await self.listAssociatedContacts(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To
-    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// Provides summary information about the attached files configurations for the specified Connect Customer instance. This API returns effective configurations (custom overrides or defaults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned.
+    @Sendable
+    @inlinable
+    public func listAttachedFilesConfigurations(_ input: ListAttachedFilesConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachedFilesConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListAttachedFilesConfigurations", 
+            path: "/attached-files-configurations/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides summary information about the attached files configurations for the specified Connect Customer instance. This API returns effective configurations (custom overrides or defaults) for each attachment scope. If no custom configuration exists for a scope, the default configuration values are returned.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAttachedFilesConfigurations(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAttachedFilesConfigurationsResponse {
+        let input = ListAttachedFilesConfigurationsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAttachedFilesConfigurations(input, logger: logger)
+    }
+
+    /// This API is in preview release for Connect Customer and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listAuthenticationProfiles(_ input: ListAuthenticationProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAuthenticationProfilesResponse {
@@ -6824,11 +7075,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. To
-    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// This API is in preview release for Connect Customer and is subject to change. To
+    /// request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -6847,7 +7098,7 @@ public struct Connect: AWSService {
         return try await self.listAuthenticationProfiles(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
     @Sendable
     @inlinable
     public func listBots(_ input: ListBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBotsResponse {
@@ -6860,10 +7111,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified version of Amazon Lex, returns a paginated list of all the Amazon Lex bots currently associated with the instance. Use this API to return both Amazon Lex V1 and V2 bots.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexVersion: The version of Amazon Lex or Amazon Lex V2.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
@@ -6923,7 +7174,7 @@ public struct Connect: AWSService {
         return try await self.listChildHoursOfOperations(input, logger: logger)
     }
 
-    /// Lists contact evaluations in the specified Amazon Connect instance.
+    /// Lists contact evaluations in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listContactEvaluations(_ input: ListContactEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactEvaluationsResponse {
@@ -6936,11 +7187,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists contact evaluations in the specified Amazon Connect instance.
+    /// Lists contact evaluations in the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
     @inlinable
@@ -6975,7 +7226,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7013,7 +7264,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7034,7 +7285,7 @@ public struct Connect: AWSService {
         return try await self.listContactFlowModuleVersions(input, logger: logger)
     }
 
-    /// Provides information about the flow modules for the specified Amazon Connect instance.
+    /// Provides information about the flow modules for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listContactFlowModules(_ input: ListContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactFlowModulesResponse {
@@ -7047,11 +7298,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the flow modules for the specified Amazon Connect instance.
+    /// Provides information about the flow modules for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - contactFlowModuleState: The state of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7072,7 +7323,7 @@ public struct Connect: AWSService {
         return try await self.listContactFlowModules(input, logger: logger)
     }
 
-    /// Returns all the available versions for the specified Amazon Connect instance and flow identifier.
+    /// Returns all the available versions for the specified Connect Customer instance and flow identifier.
     @Sendable
     @inlinable
     public func listContactFlowVersions(_ input: ListContactFlowVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactFlowVersionsResponse {
@@ -7085,11 +7336,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Returns all the available versions for the specified Amazon Connect instance and flow identifier.
+    /// Returns all the available versions for the specified Connect Customer instance and flow identifier.
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7110,7 +7361,7 @@ public struct Connect: AWSService {
         return try await self.listContactFlowVersions(input, logger: logger)
     }
 
-    /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
+    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language. For more information about flows, see Flows in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listContactFlows(_ input: ListContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactFlowsResponse {
@@ -7123,11 +7374,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the flows for the specified Amazon Connect instance. You can also create and update flows using the Amazon Connect Flow language. For more information about flows, see Flows in the Amazon Connect Administrator Guide.
+    /// Provides information about the flows for the specified Connect Customer instance. You can also create and update flows using the Connect Customer Flow language. For more information about flows, see Flows in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - contactFlowTypes: The type of flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7148,7 +7399,7 @@ public struct Connect: AWSService {
         return try await self.listContactFlows(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     @Sendable
     @inlinable
     public func listContactReferences(_ input: ListContactReferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactReferencesResponse {
@@ -7161,11 +7412,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
+    /// This API is in preview release for Connect Customer and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the initial contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - referenceTypes: The type of reference.
     ///   - logger: Logger use during operation
@@ -7350,7 +7601,7 @@ public struct Connect: AWSService {
         return try await self.listDataTables(input, logger: logger)
     }
 
-    /// Lists the default vocabularies for the specified Amazon Connect instance.
+    /// Lists the default vocabularies for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listDefaultVocabularies(_ input: ListDefaultVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDefaultVocabulariesResponse {
@@ -7363,10 +7614,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the default vocabularies for the specified Amazon Connect instance.
+    /// Lists the default vocabularies for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
@@ -7429,7 +7680,7 @@ public struct Connect: AWSService {
         return try await self.listEntitySecurityProfiles(input, logger: logger)
     }
 
-    /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    /// Lists versions of an evaluation form in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listEvaluationFormVersions(_ input: ListEvaluationFormVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationFormVersionsResponse {
@@ -7442,11 +7693,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists versions of an evaluation form in the specified Amazon Connect instance.
+    /// Lists versions of an evaluation form in the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - evaluationFormId: The unique identifier for the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7467,7 +7718,7 @@ public struct Connect: AWSService {
         return try await self.listEvaluationFormVersions(input, logger: logger)
     }
 
-    /// Lists evaluation forms in the specified Amazon Connect instance.
+    /// Lists evaluation forms in the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listEvaluationForms(_ input: ListEvaluationFormsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluationFormsResponse {
@@ -7480,10 +7731,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists evaluation forms in the specified Amazon Connect instance.
+    /// Lists evaluation forms in the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7518,7 +7769,7 @@ public struct Connect: AWSService {
     /// List the flow association based on the filters.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - resourceType: A valid resource type.
@@ -7557,7 +7808,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -7578,7 +7829,7 @@ public struct Connect: AWSService {
         return try await self.listHoursOfOperationOverrides(input, logger: logger)
     }
 
-    /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
+    /// Provides information about the hours of operation for the specified Connect Customer instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListHoursOfOperationsResponse {
@@ -7591,10 +7842,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
+    /// Provides information about the hours of operation for the specified Connect Customer instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7613,7 +7864,7 @@ public struct Connect: AWSService {
         return try await self.listHoursOfOperations(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all attribute types for the given instance.
     @Sendable
     @inlinable
     public func listInstanceAttributes(_ input: ListInstanceAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceAttributesResponse {
@@ -7626,10 +7877,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all attribute types for the given instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all attribute types for the given instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7648,7 +7899,7 @@ public struct Connect: AWSService {
         return try await self.listInstanceAttributes(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     @Sendable
     @inlinable
     public func listInstanceStorageConfigs(_ input: ListInstanceStorageConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstanceStorageConfigsResponse {
@@ -7661,10 +7912,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of storage configs for the identified instance and resource type.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - resourceType: A valid resource type.
@@ -7686,7 +7937,7 @@ public struct Connect: AWSService {
         return try await self.listInstanceStorageConfigs(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     @Sendable
     @inlinable
     public func listInstances(_ input: ListInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInstancesResponse {
@@ -7699,7 +7950,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
+    /// This API is in preview release for Connect Customer and is subject to change. Return a list of instances which are in active state, creation-in-progress state, and failed state. Instances that aren't successfully created (they are in a failed state) are returned only for 24 hours after the CreateInstance API was invoked.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per page.
@@ -7718,7 +7969,7 @@ public struct Connect: AWSService {
         return try await self.listInstances(input, logger: logger)
     }
 
-    /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
+    /// Provides summary information about the Amazon Web Services resource associations for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listIntegrationAssociations(_ input: ListIntegrationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntegrationAssociationsResponse {
@@ -7731,10 +7982,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
+    /// Provides summary information about the Amazon Web Services resource associations for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationArn: The Amazon Resource Name (ARN) of the integration.
     ///   - integrationType: The integration type.
     ///   - maxResults: The maximum number of results to return per page.
@@ -7759,7 +8010,7 @@ public struct Connect: AWSService {
         return try await self.listIntegrationAssociations(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     @Sendable
     @inlinable
     public func listLambdaFunctions(_ input: ListLambdaFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLambdaFunctionsResponse {
@@ -7772,10 +8023,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all Lambda functions that display in the dropdown options in the relevant flow blocks.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7794,7 +8045,7 @@ public struct Connect: AWSService {
         return try await self.listLambdaFunctions(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     @Sendable
     @inlinable
     public func listLexBots(_ input: ListLexBotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLexBotsResponse {
@@ -7807,10 +8058,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all the Amazon Lex V1 bots currently associated with the instance. To return both Amazon Lex V1 and V2 bots, use the ListBots API.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. If no value is specified, the default is 10.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -7864,7 +8115,7 @@ public struct Connect: AWSService {
         return try await self.listNotifications(input, logger: logger)
     }
 
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Connect Customer instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     @Sendable
     @inlinable
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersResponse {
@@ -7877,10 +8128,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Connect Customer instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - phoneNumberCountryCodes: The ISO country code.
@@ -7905,7 +8156,7 @@ public struct Connect: AWSService {
         return try await self.listPhoneNumbers(input, logger: logger)
     }
 
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
+    /// Lists phone numbers claimed to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     @Sendable
     @inlinable
     public func listPhoneNumbersV2(_ input: ListPhoneNumbersV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPhoneNumbersV2Response {
@@ -7918,16 +8169,16 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
+    /// Lists phone numbers claimed to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Connect Customer Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - phoneNumberCountryCodes: The ISO country code.
     ///   - phoneNumberPrefix: The prefix of the phone number. If provided, it must contain + as part of the country code.
     ///   - phoneNumberTypes: The type of phone number.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPhoneNumbersV2(
@@ -7952,7 +8203,7 @@ public struct Connect: AWSService {
         return try await self.listPhoneNumbersV2(input, logger: logger)
     }
 
-    /// Lists predefined attributes for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Lists predefined attributes for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func listPredefinedAttributes(_ input: ListPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPredefinedAttributesResponse {
@@ -7965,10 +8216,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists predefined attributes for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Lists predefined attributes for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -7987,7 +8238,7 @@ public struct Connect: AWSService {
         return try await self.listPredefinedAttributes(input, logger: logger)
     }
 
-    /// Provides information about the prompts for the specified Amazon Connect instance.
+    /// Provides information about the prompts for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listPrompts(_ input: ListPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPromptsResponse {
@@ -8000,10 +8251,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the prompts for the specified Amazon Connect instance.
+    /// Provides information about the prompts for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -8038,7 +8289,7 @@ public struct Connect: AWSService {
     /// Lists all email addresses that are currently associated with a specific queue, providing details about which "From" email addresses agents can select when handling email contacts. This helps administrators manage agent email address options and understand the available choices for different brands and business units.  Important things to know    The response includes metadata about each email address available for agent selection, including whether it's configured as the default outbound email.   Agents can select from these email addresses when replying to inbound contacts or initiating outbound contacts in this queue.   The list includes both explicitly associated email addresses and any default outbound email address configured for the queue.   Results are paginated to handle queues with many associated email addresses (up to 50 per queue).
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - queueId: The identifier for the queue.
@@ -8076,7 +8327,7 @@ public struct Connect: AWSService {
     /// Lists the quick connects associated with a queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - queueId: The identifier for the queue.
@@ -8098,7 +8349,7 @@ public struct Connect: AWSService {
         return try await self.listQueueQuickConnects(input, logger: logger)
     }
 
-    /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
+    /// Provides information about the queues for the specified Connect Customer instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listQueues(_ input: ListQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueuesResponse {
@@ -8111,10 +8362,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the queues for the specified Amazon Connect instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
+    /// Provides information about the queues for the specified Connect Customer instance. If you do not specify a QueueTypes parameter, both standard and agent queues are returned. This might cause an unexpected truncation of results if you have more than 1000 agents and you limit the number of results of the API call in code. For more information about queues, see Queues: Standard and Agent in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - queueTypes: The type of queue.
@@ -8136,7 +8387,7 @@ public struct Connect: AWSService {
         return try await self.listQueues(input, logger: logger)
     }
 
-    /// Provides information about the quick connects for the specified Amazon Connect instance.
+    /// Provides information about the quick connects for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listQuickConnects(_ input: ListQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQuickConnectsResponse {
@@ -8149,13 +8400,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides information about the quick connects for the specified Amazon Connect instance.
+    /// Provides information about the quick connects for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
-    ///   - quickConnectTypes: The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+    ///   - quickConnectTypes: The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
     ///   - logger: Logger use during operation
     @inlinable
     public func listQuickConnects(
@@ -8190,8 +8441,8 @@ public struct Connect: AWSService {
     /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only.   This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - outputType: The Contact Lens output type to be returned.
@@ -8218,7 +8469,7 @@ public struct Connect: AWSService {
         return try await self.listRealtimeContactAnalysisSegmentsV2(input, logger: logger)
     }
 
-    /// Lists the manual assignment queues associated with a routing profile.  Use cases  Following are common uses cases for this API:   This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Worklist app in the Amazon Connect agent workspace in the Amazon Connect Administrator Guide.     Important things to know    This API only returns the manual assignment queues associated with a routing profile. Use the ListRoutingProfileQueues API to list the auto assignment queues for the routing profile.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Lists the manual assignment queues associated with a routing profile.  Use cases  Following are common uses cases for this API:   This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Worklist app in the Connect Customer agent workspace in the Connect Customer Administrator Guide.     Important things to know    This API only returns the manual assignment queues associated with a routing profile. Use the ListRoutingProfileQueues API to list the auto assignment queues for the routing profile.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func listRoutingProfileManualAssignmentQueues(_ input: ListRoutingProfileManualAssignmentQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingProfileManualAssignmentQueuesResponse {
@@ -8231,10 +8482,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the manual assignment queues associated with a routing profile.  Use cases  Following are common uses cases for this API:   This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Worklist app in the Amazon Connect agent workspace in the Amazon Connect Administrator Guide.     Important things to know    This API only returns the manual assignment queues associated with a routing profile. Use the ListRoutingProfileQueues API to list the auto assignment queues for the routing profile.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Lists the manual assignment queues associated with a routing profile.  Use cases  Following are common uses cases for this API:   This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the Access the Worklist app in the Connect Customer agent workspace in the Connect Customer Administrator Guide.     Important things to know    This API only returns the manual assignment queues associated with a routing profile. Use the ListRoutingProfileQueues API to list the auto assignment queues for the routing profile.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - routingProfileId: The identifier of the routing profile.
@@ -8272,7 +8523,7 @@ public struct Connect: AWSService {
     /// Lists the queues associated with a routing profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - routingProfileId: The identifier of the routing profile.
@@ -8294,7 +8545,7 @@ public struct Connect: AWSService {
         return try await self.listRoutingProfileQueues(input, logger: logger)
     }
 
-    /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the routing profiles for the specified Connect Customer instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listRoutingProfiles(_ input: ListRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoutingProfilesResponse {
@@ -8307,10 +8558,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the routing profiles for the specified Connect Customer instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -8329,7 +8580,7 @@ public struct Connect: AWSService {
         return try await self.listRoutingProfiles(input, logger: logger)
     }
 
-    /// List all rules for the specified Amazon Connect instance.
+    /// List all rules for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listRules(_ input: ListRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRulesResponse {
@@ -8342,11 +8593,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// List all rules for the specified Amazon Connect instance.
+    /// List all rules for the specified Connect Customer instance.
     ///
     /// Parameters:
     ///   - eventSourceName: The name of the event source.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - publishStatus: The publish status of the rule.
@@ -8370,7 +8621,7 @@ public struct Connect: AWSService {
         return try await self.listRules(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all security keys associated with the instance.
     @Sendable
     @inlinable
     public func listSecurityKeys(_ input: ListSecurityKeysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityKeysResponse {
@@ -8383,10 +8634,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Returns a paginated list of all security keys associated with the instance.
+    /// This API is in preview release for Connect Customer and is subject to change. Returns a paginated list of all security keys associated with the instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -8421,7 +8672,7 @@ public struct Connect: AWSService {
     /// Returns a list of third-party applications or MCP Servers in a specific security profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - securityProfileId: The identifier for the security profle.
@@ -8459,7 +8710,7 @@ public struct Connect: AWSService {
     ///  A list of Flow Modules an AI Agent can invoke as a tool
     ///
     /// Parameters:
-    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId:  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults:  The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - securityProfileId:  The identifier for the security profile.
@@ -8481,7 +8732,7 @@ public struct Connect: AWSService {
         return try await self.listSecurityProfileFlowModules(input, logger: logger)
     }
 
-    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func listSecurityProfilePermissions(_ input: ListSecurityProfilePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilePermissionsResponse {
@@ -8494,10 +8745,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Lists the permissions granted to a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - securityProfileId: The identifier for the security profle.
@@ -8519,7 +8770,7 @@ public struct Connect: AWSService {
         return try await self.listSecurityProfilePermissions(input, logger: logger)
     }
 
-    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Provides summary information about the security profiles for the specified Connect Customer instance. For more information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSecurityProfilesResponse {
@@ -8532,10 +8783,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Provides summary information about the security profiles for the specified Connect Customer instance. For more information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -8554,7 +8805,7 @@ public struct Connect: AWSService {
         return try await self.listSecurityProfiles(input, logger: logger)
     }
 
-    /// Lists the tags for the specified resource. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Lists the tags for the specified resource. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -8567,10 +8818,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags for the specified resource. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Lists the tags for the specified resource. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. All Amazon Connect resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Amazon Connect instance ID/ARN.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. All Connect Customer resources (instances, queues, flows, routing profiles, etc) have an ARN. To locate the ARN for an instance, for example, see Find your Connect Customer instance ID/ARN.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -8583,7 +8834,7 @@ public struct Connect: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists task templates for the specified Amazon Connect instance.
+    /// Lists task templates for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listTaskTemplates(_ input: ListTaskTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaskTemplatesResponse {
@@ -8596,10 +8847,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Lists task templates for the specified Amazon Connect instance.
+    /// Lists task templates for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.  It is not expected that you set this.
     ///   - name: The name of the task template.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
@@ -8695,11 +8946,11 @@ public struct Connect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listTestCaseExecutions(
-        endTime: Date? = nil,
+        endTime: Int64? = nil,
         instanceId: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
-        startTime: Date? = nil,
+        startTime: Int64? = nil,
         status: TestCaseExecutionStatus? = nil,
         testCaseId: String? = nil,
         testCaseName: String? = nil,
@@ -8804,7 +9055,7 @@ public struct Connect: AWSService {
     /// Lists traffic distribution groups.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -8839,7 +9090,7 @@ public struct Connect: AWSService {
     /// Lists the use cases for the integration association.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationAssociationId: The identifier for the integration association.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
@@ -8861,7 +9112,7 @@ public struct Connect: AWSService {
         return try await self.listUseCases(input, logger: logger)
     }
 
-    /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the hierarchy groups for the specified Connect Customer instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserHierarchyGroupsResponse {
@@ -8874,10 +9125,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
+    /// Provides summary information about the hierarchy groups for the specified Connect Customer instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -8950,7 +9201,7 @@ public struct Connect: AWSService {
     /// Lists proficiencies associated with a user.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - userId: The identifier of the user account.
@@ -8972,7 +9223,7 @@ public struct Connect: AWSService {
         return try await self.listUserProficiencies(input, logger: logger)
     }
 
-    /// Provides summary information about the users for the specified Amazon Connect instance.
+    /// Provides summary information about the users for the specified Connect Customer instance.
     @Sendable
     @inlinable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
@@ -8985,10 +9236,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides summary information about the users for the specified Amazon Connect instance.
+    /// Provides summary information about the users for the specified Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
@@ -9007,7 +9258,7 @@ public struct Connect: AWSService {
         return try await self.listUsers(input, logger: logger)
     }
 
-    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    /// Returns all the available versions for the specified Connect Customer instance and view identifier. Results will be sorted from highest to lowest.
     @Sendable
     @inlinable
     public func listViewVersions(_ input: ListViewVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListViewVersionsResponse {
@@ -9020,10 +9271,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    /// Returns all the available versions for the specified Connect Customer instance and view identifier. Results will be sorted from highest to lowest.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
@@ -9061,7 +9312,7 @@ public struct Connect: AWSService {
     /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - type: The type of the view.
@@ -9207,7 +9458,7 @@ public struct Connect: AWSService {
     ///   - allowedMonitorCapabilities: Specify which monitoring actions the user is allowed to take. For example, whether the user is allowed to escalate from silent monitoring to barge. AllowedMonitorCapabilities is required if barge is enabled.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -9247,7 +9498,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func pauseContact(
@@ -9264,7 +9515,7 @@ public struct Connect: AWSService {
         return try await self.pauseContact(input, logger: logger)
     }
 
-    /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Amazon Connect Administrator Guide.
+    /// Changes the current status of a user or agent in Connect Customer. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func putUserStatus(_ input: PutUserStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutUserStatusResponse {
@@ -9277,11 +9528,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Changes the current status of a user or agent in Amazon Connect. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Amazon Connect Administrator Guide.
+    /// Changes the current status of a user or agent in Connect Customer. If the agent is currently handling a contact, this sets the agent's next status. For more information, see Agent status and Set your next status in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - agentStatusId: The identifier of the agent status.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -9299,7 +9550,7 @@ public struct Connect: AWSService {
         return try await self.putUserStatus(input, logger: logger)
     }
 
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Connect Customer instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Connect Customer admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     @Sendable
     @inlinable
     public func releasePhoneNumber(_ input: ReleasePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -9312,7 +9563,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Connect Customer instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed.  To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Connect Customer admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support.  If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired.  For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -9331,7 +9582,7 @@ public struct Connect: AWSService {
         return try await self.releasePhoneNumber(input, logger: logger)
     }
 
-    /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration information for Amazon Connect resources across Amazon Web Services Regions.  For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
+    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Customer resources across Amazon Web Services Regions.  For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func replicateInstance(_ input: ReplicateInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicateInstanceResponse {
@@ -9344,13 +9595,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Replicates an Amazon Connect instance in the specified Amazon Web Services Region and copies configuration information for Amazon Connect resources across Amazon Web Services Regions.  For more information about replicating an Amazon Connect instance, see Create a replica of your existing Amazon Connect instance in the Amazon Connect Administrator Guide.
+    /// Replicates an Connect Customer instance in the specified Amazon Web Services Region and copies configuration information for Connect Customer resources across Amazon Web Services Regions.  For more information about replicating an Connect Customer instance, see Create a replica of your existing Connect Customer instance in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You can provide the InstanceId, or the entire ARN.
     ///   - replicaAlias: The alias for the replicated instance. The ReplicaAlias must be unique.
-    ///   - replicaRegion: The Amazon Web Services Region where to replicate the Amazon Connect instance.
+    ///   - replicaRegion: The Amazon Web Services Region where to replicate the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func replicateInstance(
@@ -9387,7 +9638,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func resumeContact(
@@ -9423,7 +9674,7 @@ public struct Connect: AWSService {
     ///   - contactId: The identifier of the contact.
     ///   - contactRecordingType: The type of recording being operated on.
     ///   - initialContactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func resumeContactRecording(
@@ -9442,7 +9693,7 @@ public struct Connect: AWSService {
         return try await self.resumeContactRecording(input, logger: logger)
     }
 
-    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    /// Searches AgentStatuses in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchAgentStatuses(_ input: SearchAgentStatusesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAgentStatusesResponse {
@@ -9455,10 +9706,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+    /// Searches AgentStatuses in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return agent statuses.
@@ -9483,7 +9734,7 @@ public struct Connect: AWSService {
         return try await self.searchAgentStatuses(input, logger: logger)
     }
 
-    /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
+    /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     @Sendable
     @inlinable
     public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAvailablePhoneNumbersResponse {
@@ -9496,16 +9747,16 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches for available phone numbers that you can claim to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
+    /// Searches for available phone numbers that you can claim to your Connect Customer instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with the traffic distribution group.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - phoneNumberCountryCode: The ISO country code.
     ///   - phoneNumberPrefix: The prefix of the phone number. If provided, it must contain + as part of the country code.
     ///   - phoneNumberType: The type of phone number.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     ///   - logger: Logger use during operation
     @inlinable
     public func searchAvailablePhoneNumbers(
@@ -9530,7 +9781,7 @@ public struct Connect: AWSService {
         return try await self.searchAvailablePhoneNumbers(input, logger: logger)
     }
 
-    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches contact evaluations in an Connect Customer instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func searchContactEvaluations(_ input: SearchContactEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactEvaluationsResponse {
@@ -9543,10 +9794,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches contact evaluations in an Connect Customer instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return contact evaluations.
@@ -9571,7 +9822,7 @@ public struct Connect: AWSService {
         return try await self.searchContactEvaluations(input, logger: logger)
     }
 
-    /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
+    /// Searches the flow modules in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchContactFlowModules(_ input: SearchContactFlowModulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactFlowModulesResponse {
@@ -9584,10 +9835,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches the flow modules in an Amazon Connect instance, with optional filtering.
+    /// Searches the flow modules in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return flow modules.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
@@ -9612,7 +9863,7 @@ public struct Connect: AWSService {
         return try await self.searchContactFlowModules(input, logger: logger)
     }
 
-    /// Searches the flows in an Amazon Connect instance, with optional filtering.
+    /// Searches the flows in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchContactFlows(_ input: SearchContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactFlowsResponse {
@@ -9625,10 +9876,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches the flows in an Amazon Connect instance, with optional filtering.
+    /// Searches the flows in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return flows.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
@@ -9653,7 +9904,7 @@ public struct Connect: AWSService {
         return try await self.searchContactFlows(input, logger: logger)
     }
 
-    /// Searches contacts in an Amazon Connect instance.
+    /// Searches contacts in an Connect Customer instance.
     @Sendable
     @inlinable
     public func searchContacts(_ input: SearchContactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactsResponse {
@@ -9666,10 +9917,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches contacts in an Amazon Connect instance.
+    /// Searches contacts in an Connect Customer instance.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return contacts.
@@ -9754,7 +10005,7 @@ public struct Connect: AWSService {
     /// Searches email address in an instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return email addresses.
@@ -9779,7 +10030,7 @@ public struct Connect: AWSService {
         return try await self.searchEmailAddresses(input, logger: logger)
     }
 
-    /// Searches evaluation forms in an Amazon Connect instance, with optional filtering.  Use cases  Following are common uses cases for this API:   List all evaluation forms in an instance.   Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.   Find all evaluation forms that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches evaluation forms in an Connect Customer instance, with optional filtering.  Use cases  Following are common uses cases for this API:   List all evaluation forms in an instance.   Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.   Find all evaluation forms that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func searchEvaluationForms(_ input: SearchEvaluationFormsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchEvaluationFormsResponse {
@@ -9792,10 +10043,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches evaluation forms in an Amazon Connect instance, with optional filtering.  Use cases  Following are common uses cases for this API:   List all evaluation forms in an instance.   Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.   Find all evaluation forms that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches evaluation forms in an Connect Customer instance, with optional filtering.  Use cases  Following are common uses cases for this API:   List all evaluation forms in an instance.   Find all evaluation forms that meet specific criteria, such as Title, Description, Status, and more.   Find all evaluation forms that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return evaluation forms.
@@ -9836,7 +10087,7 @@ public struct Connect: AWSService {
     /// Searches the hours of operation overrides.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return hours of operations overrides.
@@ -9861,7 +10112,7 @@ public struct Connect: AWSService {
         return try await self.searchHoursOfOperationOverrides(input, logger: logger)
     }
 
-    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    /// Searches the hours of operation in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchHoursOfOperations(_ input: SearchHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchHoursOfOperationsResponse {
@@ -9874,10 +10125,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+    /// Searches the hours of operation in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return hours of operations.
@@ -9943,7 +10194,7 @@ public struct Connect: AWSService {
         return try await self.searchNotifications(input, logger: logger)
     }
 
-    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func searchPredefinedAttributes(_ input: SearchPredefinedAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchPredefinedAttributesResponse {
@@ -9956,10 +10207,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Connect Customer quotas.  Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return predefined attributes.
@@ -9981,7 +10232,7 @@ public struct Connect: AWSService {
         return try await self.searchPredefinedAttributes(input, logger: logger)
     }
 
-    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    /// Searches prompts in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchPrompts(_ input: SearchPromptsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchPromptsResponse {
@@ -9994,10 +10245,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches prompts in an Amazon Connect instance, with optional filtering.
+    /// Searches prompts in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return prompts.
@@ -10022,7 +10273,7 @@ public struct Connect: AWSService {
         return try await self.searchPrompts(input, logger: logger)
     }
 
-    /// Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchQueues(_ input: SearchQueuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQueuesResponse {
@@ -10035,10 +10286,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches queues in an Amazon Connect instance, with optional filtering.
+    /// Searches queues in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return queues.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
@@ -10063,7 +10314,7 @@ public struct Connect: AWSService {
         return try await self.searchQueues(input, logger: logger)
     }
 
-    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    /// Searches quick connects in an Connect Customer instance, with optional filtering.
     @Sendable
     @inlinable
     public func searchQuickConnects(_ input: SearchQuickConnectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchQuickConnectsResponse {
@@ -10076,10 +10327,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches quick connects in an Amazon Connect instance, with optional filtering.
+    /// Searches quick connects in an Connect Customer instance, with optional filtering.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return quick connects.
@@ -10104,7 +10355,7 @@ public struct Connect: AWSService {
         return try await self.searchQuickConnects(input, logger: logger)
     }
 
-    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    /// Searches tags used in an Connect Customer instance using optional search criteria.
     @Sendable
     @inlinable
     public func searchResourceTags(_ input: SearchResourceTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourceTagsResponse {
@@ -10117,10 +10368,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches tags used in an Amazon Connect instance using optional search criteria.
+    /// Searches tags used in an Connect Customer instance using optional search criteria.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)
@@ -10145,7 +10396,7 @@ public struct Connect: AWSService {
         return try await self.searchResourceTags(input, logger: logger)
     }
 
-    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.   SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
+    /// Searches routing profiles in an Connect Customer instance, with optional filtering.   SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
     @Sendable
     @inlinable
     public func searchRoutingProfiles(_ input: SearchRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRoutingProfilesResponse {
@@ -10158,10 +10409,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches routing profiles in an Amazon Connect instance, with optional filtering.   SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
+    /// Searches routing profiles in an Connect Customer instance, with optional filtering.   SearchRoutingProfiles does not populate LastModifiedRegion, LastModifiedTime, MediaConcurrencies.CrossChannelBehavior, and AgentAvailabilityTimer in its response, but DescribeRoutingProfile does.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return routing profiles.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
@@ -10186,7 +10437,48 @@ public struct Connect: AWSService {
         return try await self.searchRoutingProfiles(input, logger: logger)
     }
 
-    /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Searches rules in an Connect Customer instance, with optional filtering.
+    @Sendable
+    @inlinable
+    public func searchRules(_ input: SearchRulesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRulesResponse {
+        try await self.client.execute(
+            operation: "SearchRules", 
+            path: "/search-rules", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches rules in an Connect Customer instance, with optional filtering.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - searchCriteria: The search criteria to be used to return rules.
+    ///   - searchFilter: Filters to be applied to search results, such as tag-based filters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchRules(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchCriteria: RulesSearchCriteria? = nil,
+        searchFilter: RulesSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchRulesResponse {
+        let input = SearchRulesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return try await self.searchRules(input, logger: logger)
+    }
+
+    /// Searches security profiles in an Connect Customer instance, with optional filtering. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func searchSecurityProfiles(_ input: SearchSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSecurityProfilesResponse {
@@ -10199,10 +10491,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches security profiles in an Amazon Connect instance, with optional filtering. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Searches security profiles in an Connect Customer instance, with optional filtering. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: The search criteria to be used to return security profiles.   The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.   The currently supported value for FieldName: name
@@ -10268,7 +10560,7 @@ public struct Connect: AWSService {
         return try await self.searchTestCases(input, logger: logger)
     }
 
-    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    /// Searches UserHierarchyGroups in an Connect Customer instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
     @Sendable
     @inlinable
     public func searchUserHierarchyGroups(_ input: SearchUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUserHierarchyGroupsResponse {
@@ -10281,10 +10573,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
+    /// Searches UserHierarchyGroups in an Connect Customer instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to be used to return UserHierarchyGroups.
@@ -10309,7 +10601,7 @@ public struct Connect: AWSService {
         return try await self.searchUserHierarchyGroups(input, logger: logger)
     }
 
-    /// Searches users in an Amazon Connect instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
+    /// Searches users in an Connect Customer instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
     @Sendable
     @inlinable
     public func searchUsers(_ input: SearchUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchUsersResponse {
@@ -10322,10 +10614,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches users in an Amazon Connect instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
+    /// Searches users in an Connect Customer instance, with optional filtering.    AfterContactWorkTimeLimit is returned in milliseconds.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - searchCriteria: 
@@ -10391,7 +10683,7 @@ public struct Connect: AWSService {
         return try await self.searchViews(input, logger: logger)
     }
 
-    /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    /// Searches for vocabularies within a specific Connect Customer instance using State, NameStartsWith, and LanguageCode.
     @Sendable
     @inlinable
     public func searchVocabularies(_ input: SearchVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchVocabulariesResponse {
@@ -10404,10 +10696,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    /// Searches for vocabularies within a specific Connect Customer instance using State, NameStartsWith, and LanguageCode.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nameStartsWith: The starting pattern of the name of the vocabulary.
@@ -10517,7 +10809,7 @@ public struct Connect: AWSService {
         return try await self.searchWorkspaces(input, logger: logger)
     }
 
-    /// Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:   SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat   ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat   When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.  Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
+    /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes:   SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat   ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat   When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.  Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
     @Sendable
     @inlinable
     public func sendChatIntegrationEvent(_ input: SendChatIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendChatIntegrationEventResponse {
@@ -10530,10 +10822,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Processes chat integration events from Amazon Web Services or external integrations to Amazon Connect. A chat integration event includes:   SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat   ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat   When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.  Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
+    /// Processes chat integration events from Amazon Web Services or external integrations to Connect Customer. A chat integration event includes:   SourceId, DestinationId, and Subtype: a set of identifiers, uniquely representing a chat   ChatEvent: details of the chat action to perform such as sending a message, event, or disconnecting from a chat   When a chat integration event is sent with chat identifiers that do not map to an active chat contact, a new chat contact is also created before handling chat action.  Access to this API is currently restricted to Amazon Web Services End User Messaging for supporting SMS integration.
     ///
     /// Parameters:
-    ///   - destinationId: Chat system identifier, used in part to uniquely identify chat. This is associated with the Amazon Connect instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
+    ///   - destinationId: Chat system identifier, used in part to uniquely identify chat. This is associated with the Connect Customer instance and flow to be used to start chats. For Server Migration Service, this is the phone number destination of inbound Server Migration Service messages represented by an Amazon Web Services End User Messaging phone number ARN.
     ///   - event: Chat integration event payload
     ///   - newSessionDetails: Contact properties to apply when starting a new chat. If the integration event is handled with an existing chat, this is ignored.
     ///   - sourceId: External identifier of chat customer participant, used in part to uniquely identify a chat. For SMS, this is the E164 phone number of the chat customer participant.
@@ -10558,7 +10850,7 @@ public struct Connect: AWSService {
         return try await self.sendChatIntegrationEvent(input, logger: logger)
     }
 
-    /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Amazon Connect outbound campaigns.  Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.
+    /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns.  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.
     @Sendable
     @inlinable
     public func sendOutboundEmail(_ input: SendOutboundEmailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendOutboundEmailResponse {
@@ -10571,7 +10863,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Amazon Connect outbound campaigns.  Only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API.
+    /// Send outbound email for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns.  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.
     ///
     /// Parameters:
     ///   - additionalRecipients: The additional recipients address of the email in CC.
@@ -10579,7 +10871,7 @@ public struct Connect: AWSService {
     ///   - destinationEmailAddress: The email address to send the email to.
     ///   - emailMessage: The email message body to be sent to the newly created email.
     ///   - fromEmailAddress: The email address to be used for sending email.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - sourceCampaign: A Campaign object need for Campaign traffic type.
     ///   - trafficType: Denotes the class of traffic.  Only the CAMPAIGN traffic type is supported.
     ///   - logger: Logger use during operation
@@ -10608,7 +10900,57 @@ public struct Connect: AWSService {
         return try await self.sendOutboundEmail(input, logger: logger)
     }
 
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
+    /// Sends an outbound web notification to a customer's web browser for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns.  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.
+    @Sendable
+    @inlinable
+    public func sendOutboundWebNotification(_ input: SendOutboundWebNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendOutboundWebNotificationResponse {
+        try await self.client.execute(
+            operation: "SendOutboundWebNotification", 
+            path: "/instance/{InstanceId}/outbound-web-notification", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends an outbound web notification to a customer's web browser for outbound campaigns. For more information about outbound campaigns, see Set up Connect Customer outbound campaigns.  Only the Connect Customer outbound campaigns service principal is allowed to assume a role in your account and call this API.
+    ///
+    /// Parameters:
+    ///   - browserId: A unique identifier for the customer's web browser instance to which the notification is being sent.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - content: The content of the web notification, including the notification type, the view to render, and any optional attributes used to populate it.
+    ///   - destination: The destination for the web notification, specifying the communication widget that delivers the notification and the customer profile of the recipient.
+    ///   - expiresAt: The timestamp, in Unix epoch time format, at which the web notification expires. After this time, the notification is no longer delivered to the customer's browser.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - sessionId: A unique identifier for the customer's web session to which the notification is being sent.
+    ///   - source: The source of the web notification. A SourceCampaign object identifies the campaign and outbound request that triggered this notification.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendOutboundWebNotification(
+        browserId: String,
+        clientToken: String? = SendOutboundWebNotificationRequest.idempotencyToken(),
+        content: WebNotificationContent,
+        destination: WidgetDestination,
+        expiresAt: Date,
+        instanceId: String,
+        sessionId: String,
+        source: WebNotificationSource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendOutboundWebNotificationResponse {
+        let input = SendOutboundWebNotificationRequest(
+            browserId: browserId, 
+            clientToken: clientToken, 
+            content: content, 
+            destination: destination, 
+            expiresAt: expiresAt, 
+            instanceId: instanceId, 
+            sessionId: sessionId, 
+            source: source
+        )
+        return try await self.sendOutboundWebNotification(input, logger: logger)
+    }
+
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Connect Customer Case or Connect Customer Email.
     @Sendable
     @inlinable
     public func startAttachedFileUpload(_ input: StartAttachedFileUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAttachedFileUploadResponse {
@@ -10621,7 +10963,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Amazon Connect Case or Amazon Connect Email.
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Connect Customer Case or Connect Customer Email.
     ///
     /// Parameters:
     ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
@@ -10630,7 +10972,7 @@ public struct Connect: AWSService {
     ///   - fileName: A case-sensitive name of the attached file being uploaded.
     ///   - fileSizeInBytes: The size of the attached file in bytes.
     ///   - fileUseCaseType: The use case for the file.  Only ATTACHMENTS are supported.
-    ///   - instanceId: The unique identifier of the Amazon Connect instance.
+    ///   - instanceId: The unique identifier of the Connect Customer instance.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - urlExpiryInSeconds: Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
     ///   - logger: Logger use during operation
@@ -10661,7 +11003,7 @@ public struct Connect: AWSService {
         return try await self.startAttachedFileUpload(input, logger: logger)
     }
 
-    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
     @Sendable
     @inlinable
     public func startChatContact(_ input: StartChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChatContactResponse {
@@ -10674,22 +11016,22 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
+    /// Initiates a flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Connect Customer Participant Service. When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.  For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
     ///
     /// Parameters:
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - chatDurationInMinutes: The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactFlowId: The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    ///   - contactFlowId: The identifier of the flow for initiating the chat. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - customerId: The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
     ///   - disconnectOnCustomerExit: A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms.
     ///   - initialMessage: The initial message to be sent to the newly created chat.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantConfiguration:  The configuration of the participant.
     ///   - participantDetails: Information identifying the participant.
     ///   - persistentChat: Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see Enable persistent chat.
-    ///   - relatedContactId: The unique identifier for an Amazon Connect contact. This identifier is related to the chat starting.  You cannot provide data for both RelatedContactId and PersistentChat.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
+    ///   - relatedContactId: The unique identifier for an Connect Customer contact. This identifier is related to the chat starting.  You cannot provide data for both RelatedContactId and PersistentChat.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  The types application/vnd.amazonaws.connect.message.interactive and application/vnd.amazonaws.connect.message.interactive.response must be present in the SupportedMessagingContentTypes field of this API in order to set SegmentAttributes as { "connect:Subtype": {"valueString" : "connect:Guide" }}.
     ///   - supportedMessagingContentTypes: The supported chat message content types. Supported types are text/plain, text/markdown, application/json, application/vnd.amazonaws.connect.message.interactive, and application/vnd.amazonaws.connect.message.interactive.response.  Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain: [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response].   The type application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow block.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10729,7 +11071,48 @@ public struct Connect: AWSService {
         return try await self.startChatContact(input, logger: logger)
     }
 
-    /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
+    /// Starts a Contact Lens post-call analytics job for the specified contact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration.  A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI.   For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    @Sendable
+    @inlinable
+    public func startContactConversationalAnalyticsJob(_ input: StartContactConversationalAnalyticsJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactConversationalAnalyticsJobResponse {
+        try await self.client.execute(
+            operation: "StartContactConversationalAnalyticsJob", 
+            path: "/contact/start-conversational-analytics-job/{InstanceId}/{ContactId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a Contact Lens post-call analytics job for the specified contact. This API runs Conversational Analytics post-contact analysis on a voice recording that is already attached to the contact, generating transcription, sentiment analysis, redaction, and summarization results based on the provided configuration.  A voice recording must already be attached to the contact before calling this API. Use CreateAttachedFile to attach a recording from an S3 source URI.   For example, you can call CreateContact, then CreateAttachedFile, then StartContactConversationalAnalyticsJob to create a contact, attach a recording, and run post-call analytics.
+    ///
+    /// Parameters:
+    ///   - analyticsConfiguration: The configuration for the conversational analytics job.
+    ///   - analyticsModes: The analytics modes to run for the contact. Valid values: PostContact.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startContactConversationalAnalyticsJob(
+        analyticsConfiguration: AnalyticsConfiguration,
+        analyticsModes: [AnalyticsMode],
+        clientToken: String? = nil,
+        contactId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartContactConversationalAnalyticsJobResponse {
+        let input = StartContactConversationalAnalyticsJobRequest(
+            analyticsConfiguration: analyticsConfiguration, 
+            analyticsModes: analyticsModes, 
+            clientToken: clientToken, 
+            contactId: contactId, 
+            instanceId: instanceId
+        )
+        return try await self.startContactConversationalAnalyticsJob(input, logger: logger)
+    }
+
+    /// Starts an empty evaluation in the specified Connect Customer instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
     @Sendable
     @inlinable
     public func startContactEvaluation(_ input: StartContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactEvaluationResponse {
@@ -10742,14 +11125,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Starts an empty evaluation in the specified Amazon Connect instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
+    /// Starts an empty evaluation in the specified Connect Customer instance, using the given evaluation form for the particular contact. The evaluation form version used for the contact evaluation corresponds to the currently activated version. If no version is activated for the evaluation form, the contact evaluation cannot be started.   Evaluations created through the public API do not contain answer values suggested from automation.
     ///
     /// Parameters:
     ///   - autoEvaluationConfiguration: Whether automated evaluations are enabled.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
     ///   - evaluationFormId: The unique identifier for the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10791,7 +11174,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactId: The identifier of the contact.
     ///   - failureMode:  The desired behavior for failed message processing.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - processorArn:  The Amazon Resource Name (ARN) of the Lambda processor. You can find the Amazon Resource Name of the lambda in the lambda console.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10829,7 +11212,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactId: The identifier of the contact.
     ///   - initialContactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - voiceRecordingConfiguration: The person being recorded.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10849,7 +11232,7 @@ public struct Connect: AWSService {
         return try await self.startContactRecording(input, logger: logger)
     }
 
-    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
+    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Connect Customer Administrator Guide. For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
     @Sendable
     @inlinable
     public func startContactStreaming(_ input: StartContactStreamingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartContactStreamingResponse {
@@ -10862,13 +11245,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Amazon Connect Administrator Guide. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon Connect     Amazon Connect Chat security best practices
+    ///  Initiates real-time message streaming for a new chat contact. For more information about message streaming, see Enable real-time chat message streaming in the Connect Customer Administrator Guide. For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
     ///
     /// Parameters:
     ///   - chatStreamingConfiguration: The streaming configuration, such as the Amazon SNS streaming endpoint.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func startContactStreaming(
@@ -10905,18 +11288,18 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - additionalRecipients: The additional recipients address of the email.
     ///   - attachments: List of S3 presigned URLs of email attachments and their file name.
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactFlowId: The identifier of the flow for initiating the emails. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    ///   - contactFlowId: The identifier of the flow for initiating the emails. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - description: A description of the email contact.
-    ///   - destinationEmailAddress: The email address associated with the Amazon Connect instance.
+    ///   - destinationEmailAddress: The email address associated with the Connect Customer instance.
     ///   - emailMessage: The email message body to be sent to the newly created email.
     ///   - fromEmailAddress: The email address of the customer.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of a email that is shown to an agent in the Contact Control Panel (CCP).
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Emails can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE. EMAIL | EMAIL_MESSAGE |ATTACHMENT are not a supported reference type during email creation.
     ///   - relatedContactId: The contactId that is related to this contact. Linking emails together by using RelatedContactID copies over contact attributes from the related email contact to the new email contact. All updates to user-defined attributes in the new email contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger":135}}}}.
     ///   - logger: Logger use during operation
     @inlinable
     public func startEmailContact(
@@ -10955,7 +11338,42 @@ public struct Connect: AWSService {
         return try await self.startEmailContact(input, logger: logger)
     }
 
-    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
+    /// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes.
+    @Sendable
+    @inlinable
+    public func startEvaluationFormValidation(_ input: StartEvaluationFormValidationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartEvaluationFormValidationResponse {
+        try await self.client.execute(
+            operation: "StartEvaluationFormValidation", 
+            path: "/evaluation-forms/{InstanceId}/{EvaluationFormId}/validate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous validation process for an evaluation form version in the specified Connect Customer instance. The validation first performs structural checks on the form content (such as verifying required fields, valid scoring configuration, and correct conditional logic), then asynchronously analyzes questions configured for generative AI evaluation against a set of best practices. Use GetEvaluationFormValidation to retrieve the status and results once the validation completes.
+    ///
+    /// Parameters:
+    ///   - evaluationFormId: The unique identifier for the evaluation form.
+    ///   - evaluationFormVersion: The version of the evaluation form to validate.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startEvaluationFormValidation(
+        evaluationFormId: String,
+        evaluationFormVersion: Int = 0,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartEvaluationFormValidationResponse {
+        let input = StartEvaluationFormValidationRequest(
+            evaluationFormId: evaluationFormId, 
+            evaluationFormVersion: evaluationFormVersion, 
+            instanceId: instanceId
+        )
+        return try await self.startEvaluationFormValidation(input, logger: logger)
+    }
+
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Connect Customer, see the following topics in the Connect Customer Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
     @Sendable
     @inlinable
     public func startOutboundChatContact(_ input: StartOutboundChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutboundChatContactResponse {
@@ -10968,20 +11386,20 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Connect Customer, see the following topics in the Connect Customer Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
     ///
     /// Parameters:
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes.
     ///   - chatDurationInMinutes: The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    ///   - contactFlowId: The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
+    ///   - contactFlowId: The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
     ///   - destinationEndpoint: 
     ///   - initialSystemMessage: 
     ///   - initialTemplatedSystemMessage: 
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantDetails: 
-    ///   - relatedContactId: The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
+    ///   - relatedContactId: The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
     ///   - sourceEndpoint: 
     ///   - supportedMessagingContentTypes: The supported chat message content types. Supported types are:    text/plain     text/markdown     application/json, application/vnd.amazonaws.connect.message.interactive     application/vnd.amazonaws.connect.message.interactive.response    Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:    [text/plain, text/markdown, application/json]     [text/markdown, text/plain]     [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
     ///   - logger: Logger use during operation
@@ -11038,11 +11456,11 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - additionalRecipients: The additional recipients address of email in CC.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
     ///   - destinationEmailAddress: The email address of the customer.
     ///   - emailMessage: The email message body to be sent to the newly created email.
-    ///   - fromEmailAddress: The email address associated with the Amazon Connect instance.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - fromEmailAddress: The email address associated with the Connect Customer instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func startOutboundEmailContact(
@@ -11067,7 +11485,7 @@ public struct Connect: AWSService {
         return try await self.startOutboundEmailContact(input, logger: logger)
     }
 
-    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota Amazon Connect campaigns.    For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Connect Customer Service Quotas in the Connect Customer Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota Connect Customer campaigns.    For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
     @Sendable
     @inlinable
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutboundVoiceContactResponse {
@@ -11080,25 +11498,25 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota Amazon Connect campaigns.    For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
+    /// Places an outbound call to a contact, and then initiates the flow. It performs the actions in the flow that's specified (in ContactFlowId). Agents do not initiate the outbound API, which means that they do not dial the contact. If the flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case. Dialing timeout for this operation can be configured with the “RingTimeoutInSeconds” parameter. If not specified, the default dialing timeout will be 60 seconds which means if the call is not connected within 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Connect Customer Service Quotas in the Connect Customer Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request to the quota Connect Customer campaigns.    For Preview dialing mode, only the Amazon Connect outbound campaigns service principal is allowed to assume a role in your account and call this API with OutboundStrategy.
     ///
     /// Parameters:
     ///   - answerMachineDetectionConfig: Configuration of the answering machine detection for this outbound call.
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - campaignId: The campaign identifier of the outbound communication.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    ///   - contactFlowId: The identifier of the flow for the outbound call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-    ///   - description: A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Amazon Connect Administrator Guide.
+    ///   - contactFlowId: The identifier of the flow for the outbound call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    ///   - description: A description of the voice contact that appears in the agent's snapshot in the CCP logs. For more information about CCP logs, see Download and review CCP logs in the Connect Customer Administrator Guide.
     ///   - destinationPhoneNumber: The phone number of the customer, in E.164 format.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
     ///   - outboundStrategy: Information about the outbound strategy.
     ///   - queueId: The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the flow is used. If you do not specify a queue, you must specify a source phone number.
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during voice contact creation.
     ///   - relatedContactId: The contactId that is related to this contact. Linking voice, task, or chat by using RelatedContactID copies over contact attributes from the related contact to the new contact. All updates to user-defined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
     ///   - ringTimeoutInSeconds: The maximum time the outbound call will wait for the destination to answer the call, in seconds
-    ///   - sourcePhoneNumber: The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
-    ///   - trafficType: Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
+    ///   - sourcePhoneNumber: The phone number associated with the Connect Customer instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
+    ///   - trafficType: Denotes the class of traffic. Calls with different traffic types are handled differently by Connect Customer. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
     ///   - logger: Logger use during operation
     @inlinable
     public func startOutboundVoiceContact(
@@ -11141,7 +11559,7 @@ public struct Connect: AWSService {
         return try await self.startOutboundVoiceContact(input, logger: logger)
     }
 
-    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing capabilities in the Amazon Connect Administrator Guide.
+    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing capabilities in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func startScreenSharing(_ input: StartScreenSharingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartScreenSharingResponse {
@@ -11154,12 +11572,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing capabilities in the Amazon Connect Administrator Guide.
+    /// Starts screen sharing for a contact. For more information about screen sharing, see Set up in-app, web, video calling, and screen sharing capabilities in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func startScreenSharing(
@@ -11176,7 +11594,7 @@ public struct Connect: AWSService {
         return try await self.startScreenSharing(input, logger: logger)
     }
 
-    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the Amazon Connect Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Amazon Connect cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Amazon Connect service quotas in the Amazon Connect Administrator Guide.
+    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Connect Customer cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Connect Customer service quotas in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func startTaskContact(_ input: StartTaskContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTaskContactResponse {
@@ -11189,23 +11607,23 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the Amazon Connect Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Amazon Connect cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Amazon Connect service quotas in the Amazon Connect Administrator Guide.
+    /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Connect Customer in the Connect Customer Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Connect Customer cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Connect Customer service quotas in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - attachments: List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - contactFlowId: The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    ///   - contactFlowId: The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - description: A description of the task that is shown to an agent in the Contact Control Panel (CCP).
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of a task that is shown to an agent in the Contact Control Panel (CCP).
     ///   - previousContactId: The identifier of the previous chat, voice, or task contact. Any updates to user-defined attributes to task contacts linked using the same PreviousContactID will affect every contact in the chain. There can be a maximum of 12 linked task contacts in a chain.
     ///   - quickConnectId: The identifier for the quick connect. Tasks that are created by using QuickConnectId will use the flow that is defined on agent or queue quick connect. For more information about quick connects, see Create quick connects.
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
     ///   - relatedContactId: The contactId that is related to this contact. Linking tasks together by using RelatedContactID copies over contact attributes from the related task contact to the new task contact. All updates to user-defined attributes in the new task contact are limited to the individual contact ID, unlike what happens when tasks are linked by using PreviousContactID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
     ///   - scheduledTime: The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.  To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
-    ///   - taskTemplateId: A unique identifier for the task template. For more information about task templates, see Create task templates in the Amazon Connect Administrator Guide.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Contact Expiry as a duration in minutes and set a UserId for the User who created a task.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.  To set the created by user, a valid AgentResourceId must be supplied, with SegmentAttributes like { "connect:CreatedByUser" { "ValueString": "arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/agent/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}}}.
+    ///   - taskTemplateId: A unique identifier for the task template. For more information about task templates, see Create task templates in the Connect Customer Administrator Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func startTaskContact(
@@ -11266,7 +11684,7 @@ public struct Connect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startTestCaseExecution(
-        clientToken: String? = nil,
+        clientToken: String? = StartTestCaseExecutionRequest.idempotencyToken(),
         instanceId: String,
         testCaseId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -11279,7 +11697,7 @@ public struct Connect: AWSService {
         return try await self.startTestCaseExecution(input, logger: logger)
     }
 
-    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId).
     @Sendable
     @inlinable
     public func startWebRTCContact(_ input: StartWebRTCContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartWebRTCContactResponse {
@@ -11292,18 +11710,18 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
+    /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Connect Customer instance (specified as InstanceId).
     ///
     /// Parameters:
     ///   - allowedCapabilities: Information about the video sharing capabilities of the participants (customer, agent).
-    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
+    ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Connect Customer attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, -, and _ characters.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
-    ///   - contactFlowId: The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+    ///   - contactFlowId: The identifier of the flow for the call. To see the ContactFlowId in the Connect Customer admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - description: A description of the task that is shown to an agent in the Contact Control Panel (CCP).
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantDetails: 
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
-    ///   - relatedContactId: The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
+    ///   - relatedContactId: The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
     ///   - logger: Logger use during operation
     @inlinable
     public func startWebRTCContact(
@@ -11349,8 +11767,8 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactId: The ID of the contact.
-    ///   - disconnectReason: The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Amazon Connect Administrator Guide.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - disconnectReason: The reason a contact can be disconnected. Only Connect Customer outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Connect Customer Administrator Guide.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopContact(
@@ -11384,7 +11802,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactId:  The identifier of the contact.
-    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId:  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopContactMediaProcessing(
@@ -11418,7 +11836,7 @@ public struct Connect: AWSService {
     ///   - contactId: The identifier of the contact.
     ///   - contactRecordingType: The type of recording being operated on.
     ///   - initialContactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopContactRecording(
@@ -11454,7 +11872,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact. This is the identifier of the contact that is associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - streamingId: The identifier of the streaming configuration enabled.
     ///   - logger: Logger use during operation
     @inlinable
@@ -11495,7 +11913,7 @@ public struct Connect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func stopTestCaseExecution(
-        clientToken: String? = nil,
+        clientToken: String? = StopTestCaseExecutionRequest.idempotencyToken(),
         instanceId: String,
         testCaseExecutionId: String,
         testCaseId: String,
@@ -11510,7 +11928,7 @@ public struct Connect: AWSService {
         return try await self.stopTestCaseExecution(input, logger: logger)
     }
 
-    /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
+    /// Submits a contact evaluation in the specified Connect Customer instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
     @Sendable
     @inlinable
     public func submitContactEvaluation(_ input: SubmitContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SubmitContactEvaluationResponse {
@@ -11523,12 +11941,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
+    /// Submits a contact evaluation in the specified Connect Customer instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
     ///
     /// Parameters:
     ///   - answers: A map of question identifiers to answer value.
     ///   - evaluationId: A unique identifier for the contact evaluation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - notes: A map of question identifiers to note value.
     ///   - submittedBy: The ID of the user who submitted the contact evaluation.
     ///   - logger: Logger use during operation
@@ -11570,7 +11988,7 @@ public struct Connect: AWSService {
     ///   - contactId: The identifier of the contact.
     ///   - contactRecordingType: The type of recording being operated on.
     ///   - initialContactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func suspendContactRecording(
@@ -11589,7 +12007,7 @@ public struct Connect: AWSService {
         return try await self.suspendContactRecording(input, logger: logger)
     }
 
-    /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage.
     @Sendable
     @inlinable
     public func tagContact(_ input: TagContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagContactResponse {
@@ -11602,11 +12020,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    /// Adds the specified tags to the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - tags: The tags to be assigned to the contact resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.  Authorization is not supported by this tag.
     ///   - logger: Logger use during operation
     @inlinable
@@ -11624,7 +12042,7 @@ public struct Connect: AWSService {
         return try await self.tagContact(input, logger: logger)
     }
 
-    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -11637,7 +12055,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Amazon Connect. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -11674,8 +12092,8 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactFlowId: The identifier of the flow.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - userId: The identifier for the user. This can be the ID or the ARN of the user.
     ///   - logger: Logger use during operation
@@ -11700,7 +12118,7 @@ public struct Connect: AWSService {
         return try await self.transferContact(input, logger: logger)
     }
 
-    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage.
     @Sendable
     @inlinable
     public func untagContact(_ input: UntagContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagContactResponse {
@@ -11713,11 +12131,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Amazon Connect usage.
+    /// Removes the specified tags from the contact resource. For more information about this API is used, see Set up granular billing for a detailed view of your Connect Customer usage.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - tagKeys: A list of tag keys. Existing tags on the contact whose keys are members of this list will be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -11786,7 +12204,7 @@ public struct Connect: AWSService {
     ///   - agentStatusId: The identifier of the agent status.
     ///   - description: The description of the agent status.
     ///   - displayOrder: The display order of the agent status.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the agent status.
     ///   - resetOrderNumber: A number indicating the reset order of the agent status.
     ///   - state: The state of the agent status.
@@ -11814,7 +12232,45 @@ public struct Connect: AWSService {
         return try await self.updateAgentStatus(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// Updates the attached files configuration for the specified Connect Customer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supported—only specified fields are updated, while unspecified fields retain their current values.
+    @Sendable
+    @inlinable
+    public func updateAttachedFilesConfiguration(_ input: UpdateAttachedFilesConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAttachedFilesConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateAttachedFilesConfiguration", 
+            path: "/attached-files-configurations/{InstanceId}/{AttachmentScope}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the attached files configuration for the specified Connect Customer instance and attachment scope. If no instance-specific configuration exists, this operation creates one. Partial updates are supported—only specified fields are updated, while unspecified fields retain their current values.
+    ///
+    /// Parameters:
+    ///   - attachmentScope: The scope of the attachment. Valid values are EMAIL, CHAT, CASE, and TASK.
+    ///   - extensionConfiguration: The configuration for allowed file extensions.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maximumSizeLimitInBytes: The maximum size limit for attached files in bytes. The minimum value is 1 and the maximum value is 104857600 (100 MB).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAttachedFilesConfiguration(
+        attachmentScope: AttachmentScope,
+        extensionConfiguration: ExtensionConfiguration? = nil,
+        instanceId: String,
+        maximumSizeLimitInBytes: Int64? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAttachedFilesConfigurationResponse {
+        let input = UpdateAttachedFilesConfigurationRequest(
+            attachmentScope: attachmentScope, 
+            extensionConfiguration: extensionConfiguration, 
+            instanceId: instanceId, 
+            maximumSizeLimitInBytes: maximumSizeLimitInBytes
+        )
+        return try await self.updateAttachedFilesConfiguration(input, logger: logger)
+    }
+
+    /// This API is in preview release for Connect Customer and is subject to change. To
     /// request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
     @Sendable
     @inlinable
@@ -11828,15 +12284,15 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. To
+    /// This API is in preview release for Connect Customer and is subject to change. To
     /// request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
     ///
     /// Parameters:
-    ///   - allowedIps: A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, seeConfigure session timeouts in the Amazon Connect Administrator Guide.
+    ///   - allowedIps: A list of IP address range strings that are allowed to access the instance. For more information on how to configure IP addresses, seeConfigure session timeouts in the Connect Customer Administrator Guide.
     ///   - authenticationProfileId: A unique identifier for the authentication profile.
-    ///   - blockedIps: A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see Configure IP-based access control in the Amazon Connect Administrator Guide.
+    ///   - blockedIps: A list of IP address range strings that are blocked from accessing the instance. For more information on how to configure IP addresses, For more information on how to configure IP addresses, see Configure IP-based access control in the Connect Customer Administrator Guide.
     ///   - description: The description for the authentication profile.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name for the authentication profile.
     ///   - sessionInactivityDuration: The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
     ///   - sessionInactivityHandlingEnabled: Determines if automatic logout on user inactivity is enabled.
@@ -11866,7 +12322,7 @@ public struct Connect: AWSService {
         return try await self.updateAuthenticationProfile(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
+    /// This API is in preview release for Connect Customer and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
     @Sendable
     @inlinable
     public func updateContact(_ input: UpdateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactResponse {
@@ -11879,19 +12335,19 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
+    /// This API is in preview release for Connect Customer and is subject to change. Adds or updates user-defined contact information associated with the specified contact. At least one field to be updated must be present in the request.  You can add or update user-defined contact information for both ongoing and completed contacts.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with your contact center.
-    ///   - customerEndpoint: The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see Amazon Connect Contact Lens integration in the Amazon Connect Administrator Guide.
+    ///   - customerEndpoint: The endpoint of the customer for which the contact was initiated. For external audio contacts, this is usually the end customer's phone number. This value can only be updated for external audio contacts. For more information, see Connect Customer Contact Lens integration in the Connect Customer Administrator Guide.
     ///   - description: The description of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the contact.
-    ///   - queueInfo:  Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Amazon Connect Contact Lens integration in the  Amazon Connect Administrator Guide.
+    ///   - queueInfo:  Information about the queue associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Connect Customer Contact Lens integration in the  Connect Customer Administrator Guide.
     ///   - references: Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
-    ///   - systemEndpoint: External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see Amazon Connect Contact Lens integration in the Amazon Connect Administrator Guide.
-    ///   - userInfo: Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Amazon Connect Contact Lens integration in the  Amazon Connect Administrator Guide.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Connect Customer attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to show channel subtype, such as connect:Guide. Contact Expiry, and user-defined attributes (String - String) that are defined in predefined attributes, can be updated by using the UpdateContact API.
+    ///   - systemEndpoint: External system endpoint for the contact was initiated. For external audio contacts, this is the phone number of the external system such as the contact center. This value can only be updated for external audio contacts. For more information, see Connect Customer Contact Lens integration in the Connect Customer Administrator Guide.
+    ///   - userInfo: Information about the agent associated with a contact. This parameter can only be updated for external audio contacts. It is used when you integrate third-party systems with Contact Lens for analytics. For more information, see Connect Customer Contact Lens integration in the  Connect Customer Administrator Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContact(
@@ -11922,7 +12378,7 @@ public struct Connect: AWSService {
         return try await self.updateContact(input, logger: logger)
     }
 
-    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see Feature specifications in the Amazon Connect Administrator Guide.
+    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Connect Customer. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Connect Customer for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see Feature specifications in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func updateContactAttributes(_ input: UpdateContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactAttributesResponse {
@@ -11935,12 +12391,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see Feature specifications in the Amazon Connect Administrator Guide.
+    /// Creates or updates user-defined contact attributes associated with the specified contact. You can create or update user-defined attributes for both ongoing and completed contacts. For example, while the call is active, you can update the customer's name or the reason the customer called. You can add notes about steps that the agent took during the call that display to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Connect Customer. You could also flag calls for additional analysis, such as legal review or to identify abusive callers. Contact attributes are available in Connect Customer for 24 months, and are then deleted. For information about contact record retention and the maximum size of the contact record attributes section, see Feature specifications in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
-    ///   - attributes: The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Amazon Connect Administrator Guide.
+    ///   - attributes: The Connect Customer attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Connect Customer Administrator Guide.
     ///   - initialContactId: The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContactAttributes(
@@ -11957,7 +12413,7 @@ public struct Connect: AWSService {
         return try await self.updateContactAttributes(input, logger: logger)
     }
 
-    /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
+    /// Updates details about a contact evaluation in the specified Connect Customer instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
     @Sendable
     @inlinable
     public func updateContactEvaluation(_ input: UpdateContactEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactEvaluationResponse {
@@ -11970,12 +12426,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates details about a contact evaluation in the specified Amazon Connect instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
+    /// Updates details about a contact evaluation in the specified Connect Customer instance. A contact evaluation must be in draft state. Answers included in the request are merged with existing answers for the given evaluation. An answer or note can be deleted by passing an empty object ({}) to the question identifier.
     ///
     /// Parameters:
     ///   - answers: A map of question identifiers to answer value.
     ///   - evaluationId: A unique identifier for the contact evaluation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - notes: A map of question identifiers to note value.
     ///   - updatedBy: The ID of the user who updated the contact evaluation.
     ///   - logger: Logger use during operation
@@ -11998,7 +12454,7 @@ public struct Connect: AWSService {
         return try await self.updateContactEvaluation(input, logger: logger)
     }
 
-    /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates the specified flow. You can also create and update flows using the Connect Customer Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     @Sendable
     @inlinable
     public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowContentResponse {
@@ -12011,12 +12467,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified flow. You can also create and update flows using the Amazon Connect Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates the specified flow. You can also create and update flows using the Connect Customer Flow language. Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.  Length Constraints: Minimum length of 1. Maximum length of 256000.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateContactFlowContent(
@@ -12052,7 +12508,7 @@ public struct Connect: AWSService {
     ///   - contactFlowId: The identifier of the flow.
     ///   - contactFlowState: The state of flow.
     ///   - description: The description of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the flow.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12094,7 +12550,7 @@ public struct Connect: AWSService {
     ///   - contactFlowModuleId: The identifier of the flow module.
     ///   - contactFlowModuleVersion: The version of the flow module.
     ///   - description: The description of the alias.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the alias.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12118,7 +12574,7 @@ public struct Connect: AWSService {
         return try await self.updateContactFlowModuleAlias(input, logger: logger)
     }
 
-    /// Updates specified flow module for the specified Amazon Connect instance.  Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates specified flow module for the specified Connect Customer instance.  Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     @Sendable
     @inlinable
     public func updateContactFlowModuleContent(_ input: UpdateContactFlowModuleContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowModuleContentResponse {
@@ -12131,12 +12587,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates specified flow module for the specified Amazon Connect instance.  Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
+    /// Updates specified flow module for the specified Connect Customer instance.  Use the $SAVED alias in the request to describe the SAVED content of a Flow. For example, arn:aws:.../contact-flow/{id}:$SAVED. After a flow is published, $SAVED needs to be supplied to view saved content that has not been published.
     ///
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - content: The JSON string that represents the content of the flow. For an example, see Example flow in Connect Customer Flow language.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - settings: Serialized JSON string of the flow module Settings schema.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12174,7 +12630,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
     ///   - description: The description of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the flow module.
     ///   - state: The state of flow module.
     ///   - logger: Logger use during operation
@@ -12197,7 +12653,7 @@ public struct Connect: AWSService {
         return try await self.updateContactFlowModuleMetadata(input, logger: logger)
     }
 
-    /// The name of the flow. You can also create and update flows using the Amazon Connect Flow language.
+    /// The name of the flow. You can also create and update flows using the Connect Customer Flow language.
     @Sendable
     @inlinable
     public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactFlowNameResponse {
@@ -12210,12 +12666,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// The name of the flow. You can also create and update flows using the Amazon Connect Flow language.
+    /// The name of the flow. You can also create and update flows using the Connect Customer Flow language.
     ///
     /// Parameters:
     ///   - contactFlowId: The identifier of the flow.
     ///   - description: The description of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - name: The name of the flow.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12251,8 +12707,8 @@ public struct Connect: AWSService {
     /// Updates routing priority and age on the contact (QueuePriority and QueueTimeAdjustmentInSeconds). These properties can be used to change a customer's position in the queue. For example, you can move a contact to the back of the queue by setting a lower routing priority relative to other contacts in queue; or you can move a contact to the front of the queue by increasing the routing age which will make the contact look artificially older and therefore higher up in the first-in-first-out routing order. Note that adjusting the routing age of a contact affects only its position in queue, and not its actual queue wait time as reported through metrics. These properties can also be updated by using the Set routing priority / age flow block.  Either QueuePriority or QueueTimeAdjustmentInSeconds should be provided within the request body, but not both.
     ///
     /// Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queuePriority: Priority of the contact in the queue. The default priority for new contacts is 5. You can raise the priority of a contact compared to other contacts in the queue by assigning them a higher priority, such as 1 or 2.
     ///   - queueTimeAdjustmentSeconds: The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
     ///   - routingCriteria: Updates the routing criteria on the contact. These properties can be used to change how a contact is routed within the queue.
@@ -12293,7 +12749,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - scheduledTime: The timestamp, in Unix Epoch seconds format, at which to start running the inbound flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12446,7 +12902,7 @@ public struct Connect: AWSService {
         return try await self.updateDataTablePrimaryValues(input, logger: logger)
     }
 
-    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect Administrator Guide.
+    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func updateEmailAddressMetadata(_ input: UpdateEmailAddressMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEmailAddressMetadataResponse {
@@ -12459,14 +12915,14 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Amazon Connect Administrator Guide.
+    /// Updates an email address metadata. For more information about email addresses, see Create email addresses in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the email address.
     ///   - displayName: The display name of email address.
     ///   - emailAddressId: The identifier of the email address.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateEmailAddressMetadata(
@@ -12487,7 +12943,7 @@ public struct Connect: AWSService {
         return try await self.updateEmailAddressMetadata(input, logger: logger)
     }
 
-    /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
+    /// Updates details about a specific evaluation form version in the specified Connect Customer instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
     @Sendable
     @inlinable
     public func updateEvaluationForm(_ input: UpdateEvaluationFormRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEvaluationFormResponse {
@@ -12500,7 +12956,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates details about a specific evaluation form version in the specified Amazon Connect instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
+    /// Updates details about a specific evaluation form version in the specified Connect Customer instance. Question and section identifiers cannot be duplicated within the same evaluation form. This operation does not support partial updates. Instead it does a full update of evaluation form content.
     ///
     /// Parameters:
     ///   - asDraft: A boolean flag indicating whether to update evaluation form to draft state.
@@ -12510,7 +12966,7 @@ public struct Connect: AWSService {
     ///   - description: The description of the evaluation form.
     ///   - evaluationFormId: The unique identifier for the evaluation form.
     ///   - evaluationFormVersion: A version of the evaluation form to update.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - items: Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
     ///   - languageConfiguration: Configuration for language settings of the evaluation form.
     ///   - reviewConfiguration: Configuration for evaluation review settings of the evaluation form.
@@ -12574,7 +13030,7 @@ public struct Connect: AWSService {
     ///   - config: Configuration information of the hours of operation.
     ///   - description: The description of the hours of operation.
     ///   - hoursOfOperationId: The identifier of the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the hours of operation.
     ///   - timeZone: The time zone of the hours of operation.
     ///   - logger: Logger use during operation
@@ -12621,7 +13077,7 @@ public struct Connect: AWSService {
     ///   - effectiveTill: The date until the hours of operation override is effective.
     ///   - hoursOfOperationId: The identifier for the hours of operation.
     ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - name: The name of the hours of operation override.
     ///   - overrideType: Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see Build your list of overrides in the Administrator Guide.
     ///   - recurrenceConfig: Configuration for a recurring event.
@@ -12655,7 +13111,7 @@ public struct Connect: AWSService {
         return try await self.updateHoursOfOperationOverride(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
+    /// This API is in preview release for Connect Customer and is subject to change. Updates the value for the specified attribute type.
     @Sendable
     @inlinable
     public func updateInstanceAttribute(_ input: UpdateInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12668,12 +13124,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the value for the specified attribute type.
+    /// This API is in preview release for Connect Customer and is subject to change. Updates the value for the specified attribute type.
     ///
     /// Parameters:
     ///   - attributeType: The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.   If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - value: The value for the attribute. Maximum character limit is 100.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12693,7 +13149,7 @@ public struct Connect: AWSService {
         return try await self.updateInstanceAttribute(input, logger: logger)
     }
 
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
+    /// This API is in preview release for Connect Customer and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     @Sendable
     @inlinable
     public func updateInstanceStorageConfig(_ input: UpdateInstanceStorageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12706,12 +13162,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
+    /// This API is in preview release for Connect Customer and is subject to change. Updates an existing configuration for a resource type. This API is idempotent.
     ///
     /// Parameters:
     ///   - associationId: The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - resourceType: A valid resource type.
     ///   - storageConfig: 
     ///   - logger: Logger use during operation
@@ -12769,7 +13225,7 @@ public struct Connect: AWSService {
         return try await self.updateNotificationContent(input, logger: logger)
     }
 
-    /// Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request body contents:    If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.    If an error is provided: The error branch of the Authenticate Customer block is executed.    The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
+    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents:    If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.    If an error is provided: The error branch of the Authenticate Customer block is executed.    The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
     @Sendable
     @inlinable
     public func updateParticipantAuthentication(_ input: UpdateParticipantAuthenticationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateParticipantAuthenticationResponse {
@@ -12782,13 +13238,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request body contents:    If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.    If an error is provided: The error branch of the Authenticate Customer block is executed.    The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
+    /// Instructs Connect Customer to resume the authentication process. The subsequent actions depend on the request body contents:    If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.    If an error is provided: The error branch of the Authenticate Customer block is executed.    The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
     ///
     /// Parameters:
     ///   - code: The code query parameter provided by Cognito in the redirectUri.
     ///   - error: The error query parameter provided by Cognito in the redirectUri.
     ///   - errorDescription: The error_description parameter provided by Cognito in the redirectUri.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - state: The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12826,9 +13282,9 @@ public struct Connect: AWSService {
     /// Updates timeouts for when human chat participants are to be considered idle, and when agents are automatically disconnected from a chat due to idleness. You can set four timers:   Customer idle timeout   Customer auto-disconnect timeout   Agent idle timeout   Agent auto-disconnect timeout   For more information about how chat timeouts work, see  Set up chat timeouts for human participants.
     ///
     /// Parameters:
-    ///   - channelConfiguration: The Amazon Connect channel you want to configure.
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - channelConfiguration: The Connect Customer channel you want to configure.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateParticipantRoleConfig(
@@ -12845,7 +13301,7 @@ public struct Connect: AWSService {
         return try await self.updateParticipantRoleConfig(input, logger: logger)
     }
 
-    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
+    /// Updates your claimed phone number from its current Connect Customer instance or traffic distribution group to another Connect Customer instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
     @Sendable
     @inlinable
     public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePhoneNumberResponse {
@@ -12858,13 +13314,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates your claimed phone number from its current Amazon Connect instance or traffic distribution group to another Amazon Connect instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
+    /// Updates your claimed phone number from its current Connect Customer instance or traffic distribution group to another Connect Customer instance or traffic distribution group in the same Amazon Web Services Region.  After using this API, you must verify that the phone number is attached to the correct flow in the target instance or traffic distribution group. You need to do this because the API switches only the phone number to a new instance or traffic distribution group. It doesn't migrate the flow configuration of the phone number, too. You can call DescribePhoneNumber API to verify the status of a previous UpdatePhoneNumber operation.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     ///   - phoneNumberId: A unique identifier for the phone number.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePhoneNumber(
@@ -12918,7 +13374,7 @@ public struct Connect: AWSService {
         return try await self.updatePhoneNumberMetadata(input, logger: logger)
     }
 
-    /// Updates a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Amazon Connect quotas.  Use cases  Following are common uses cases for this API:   Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Updates a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas.  Use cases  Following are common uses cases for this API:   Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Connect Customer endpoints and quotas.
     @Sendable
     @inlinable
     public func updatePredefinedAttribute(_ input: UpdatePredefinedAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12931,13 +13387,13 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates a predefined attribute for the specified Amazon Connect instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Amazon Connect quotas.  Use cases  Following are common uses cases for this API:   Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Updates a predefined attribute for the specified Connect Customer instance. A predefined attribute is made up of a name and a value. For the predefined attributes per instance quota, see Connect Customer quotas.  Use cases  Following are common uses cases for this API:   Update routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Update an attribute for business unit name that has a list of predefined business unit names used in your organization. This is a use case where information for a contact varies between transfers or conferences. For more information, see Use contact segment attributes.    Endpoints: See Connect Customer endpoints and quotas.
     ///
     /// Parameters:
     ///   - attributeConfiguration: Custom metadata that is associated to predefined attributes to control behavior
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the predefined attribute.
-    ///   - purposes: Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Amazon Connect admin website.
+    ///   - purposes: Values that enable you to categorize your predefined attributes. You can use them in custom UI elements across the Connect Customer admin website.
     ///   - values: The values of the predefined attribute.
     ///   - logger: Logger use during operation
     @inlinable
@@ -12976,7 +13432,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: A description of the prompt.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the prompt.
     ///   - promptId: A unique identifier for the prompt.
     ///   - s3Uri: The URI for the S3 bucket where the prompt is stored. You can provide S3 pre-signed URLs returned by the
@@ -13017,7 +13473,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13051,7 +13507,7 @@ public struct Connect: AWSService {
     /// Updates the maximum number of contacts allowed in a queue before it is considered full.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxContacts: The maximum number of contacts that can be in the queue before it is considered full.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
@@ -13087,7 +13543,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the queue.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the queue.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
@@ -13108,7 +13564,7 @@ public struct Connect: AWSService {
         return try await self.updateQueueName(input, logger: logger)
     }
 
-    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     @Sendable
     @inlinable
     public func updateQueueOutboundCallerConfig(_ input: UpdateQueueOutboundCallerConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -13121,10 +13577,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.    If the phone number is claimed to a traffic distribution group that was created in the same Region as the Connect Customer instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.   Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the ListPhoneNumbersV2 API.   If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see Allow or Deny queue API actions for phone numbers in a replica Region.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - outboundCallerConfig: The outbound caller ID name, number, and outbound whisper flow.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
@@ -13159,7 +13615,7 @@ public struct Connect: AWSService {
     /// Updates the outbound email address Id for a specified queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - outboundEmailConfig: The outbound email address ID for a specified queue.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger use during operation
@@ -13194,7 +13650,7 @@ public struct Connect: AWSService {
     /// Updates the status of the queue.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueId: The identifier for the queue.
     ///   - status: The status of the queue.
     ///   - logger: Logger use during operation
@@ -13229,7 +13685,7 @@ public struct Connect: AWSService {
     /// Updates the configuration settings for the specified quick connect.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - quickConnectConfig: Information about the configuration settings for the quick connect.
     ///   - quickConnectId: The identifier for the quick connect.
     ///   - logger: Logger use during operation
@@ -13265,7 +13721,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the quick connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the quick connect.
     ///   - quickConnectId: The identifier for the quick connect.
     ///   - logger: Logger use during operation
@@ -13303,7 +13759,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - agentAvailabilityTimer: Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13337,7 +13793,7 @@ public struct Connect: AWSService {
     /// Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - mediaConcurrencies: The channels that agents can handle in the Contact Control Panel (CCP).
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
@@ -13373,7 +13829,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - defaultOutboundQueueId: The identifier for the default outbound queue.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13408,7 +13864,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the routing profile. Must not be more than 250 characters.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the routing profile. Must not be more than 127 characters.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
@@ -13445,7 +13901,7 @@ public struct Connect: AWSService {
     /// Updates the properties associated with a set of queues for a routing profile.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - queueConfigs: The queues to be updated for this routing profile. Queues must first be associated to the routing profile. You can do this using AssociateRoutingProfileQueues.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
@@ -13464,7 +13920,7 @@ public struct Connect: AWSService {
         return try await self.updateRoutingProfileQueues(input, logger: logger)
     }
 
-    /// Updates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
+    /// Updates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule.
     @Sendable
     @inlinable
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -13477,12 +13933,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates a rule for the specified Amazon Connect instance. Use the Rules Function language to code conditions for the rule.
+    /// Updates a rule for the specified Connect Customer instance. Use the Rules Function language to code conditions for the rule.
     ///
     /// Parameters:
     ///   - actions: A list of actions to be run when the rule is triggered.
     ///   - function: The conditions of the rule.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
     ///   - publishStatus: The publish status of the rule.
     ///   - ruleId: A unique identifier for the rule.
@@ -13508,7 +13964,7 @@ public struct Connect: AWSService {
         return try await self.updateRule(input, logger: logger)
     }
 
-    /// Updates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Updates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     @Sendable
     @inlinable
     public func updateSecurityProfile(_ input: UpdateSecurityProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -13521,20 +13977,20 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates a security profile. For information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
+    /// Updates a security profile. For information about security profiles, see Security Profiles in the Connect Customer Administrator Guide. For a mapping of the API name and user interface name of the security profile permissions, see List of security profile permissions.
     ///
     /// Parameters:
-    ///   - allowedAccessControlHierarchyGroupId: The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
-    ///   - allowedAccessControlTags: The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
+    ///   - allowedAccessControlHierarchyGroupId: The identifier of the hierarchy group that a security profile uses to restrict access to resources in Connect Customer.
+    ///   - allowedAccessControlTags: The list of tags that a security profile uses to restrict access to resources in Connect Customer.
     ///   - allowedFlowModules:  A list of Flow Modules an AI Agent can invoke as a tool
     ///   - applications: A list of the third-party application's metadata.
     ///   - description: The description of the security profile.
     ///   - granularAccessControlConfiguration: The granular access control configuration for the security profile, including data table permissions.
-    ///   - hierarchyRestrictedResources: The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - hierarchyRestrictedResources: The list of resources that a security profile applies hierarchy restrictions to in Connect Customer. Following are acceptable ResourceNames: User.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - permissions: The permissions granted to a security profile. For a list of valid permissions, see List of security profile permissions.
     ///   - securityProfileId: The identifier for the security profle.
-    ///   - tagRestrictedResources: The list of resources that a security profile applies tag restrictions to in Amazon Connect.
+    ///   - tagRestrictedResources: The list of resources that a security profile applies tag restrictions to in Connect Customer.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSecurityProfile(
@@ -13567,7 +14023,7 @@ public struct Connect: AWSService {
         return try await self.updateSecurityProfile(input, logger: logger)
     }
 
-    /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
+    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. Instead it does a full update of template content.
     @Sendable
     @inlinable
     public func updateTaskTemplate(_ input: UpdateTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskTemplateResponse {
@@ -13580,15 +14036,15 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates details about a specific task template in the specified Amazon Connect instance. This operation does not support partial updates. Instead it does a full update of template content.
+    /// Updates details about a specific task template in the specified Connect Customer instance. This operation does not support partial updates. Instead it does a full update of template content.
     ///
     /// Parameters:
     ///   - constraints: Constraints that are applicable to the fields listed.
-    ///   - contactFlowId: The identifier of the flow that runs by default when a task is created by referencing this template.
+    ///   - contactFlowId: The identifier of the flow that runs by default when a task is created by referencing this template. Although this parameter is marked as optional, the request must contain either a ContactFlowId or a field of type QUICK_CONNECT.
     ///   - defaults: The default values for fields when a task is created by referencing this template.
     ///   - description: The description of the task template.
-    ///   - fields: Fields that are part of the template.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - fields: Fields that are part of the template. The request must contain exactly one field of type NAME. This field must also be listed in the RequiredFields array within the Constraints parameter.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the task template.
     ///   - selfAssignFlowId: The ContactFlowId for the flow that will be run if this template is used to create a self-assigned task.
     ///   - status: Marks a template as ACTIVE or INACTIVE for a task to refer to it.
@@ -13681,7 +14137,7 @@ public struct Connect: AWSService {
 
     /// Updates the traffic distribution for a given traffic distribution group.   When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls.   The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
-    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Connect Customer Administrator Guide.   Important things to know    Invoke the UpdateTrafficDistribution API in the region that should handle traffic.
     @Sendable
     @inlinable
     public func updateTrafficDistribution(_ input: UpdateTrafficDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrafficDistributionResponse {
@@ -13696,7 +14152,7 @@ public struct Connect: AWSService {
     }
     /// Updates the traffic distribution for a given traffic distribution group.   When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls.   The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
-    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
+    /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Connect Customer Administrator Guide.   Important things to know    Invoke the UpdateTrafficDistribution API in the region that should handle traffic.
     ///
     /// Parameters:
     ///   - agentConfig: The distribution of agents between the instance and its replica(s).
@@ -13739,7 +14195,7 @@ public struct Connect: AWSService {
     /// Parameters:
     ///   - afterContactWorkConfigs: The list of after contact work (ACW) timeout configuration settings for each channel. ACW timeout specifies how many seconds agents have for after contact work, such as entering notes about the contact. The minimum setting is 1 second, and the maximum is 2,000,000 seconds (24 days). Enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
     ///   - autoAcceptConfigs: The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - persistentConnectionConfigs: The list of persistent connection configuration settings for each channel.
     ///   - phoneNumberConfigs: The list of phone number configuration settings for each channel.
     ///   - userId: The identifier of the user account.
@@ -13785,7 +14241,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hierarchyGroupId: The identifier of the hierarchy group.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13820,7 +14276,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hierarchyGroupId: The identifier of the hierarchy group.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the hierarchy group. Must not be more than 100 characters.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13855,7 +14311,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - hierarchyStructure: The hierarchy levels to update.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateUserHierarchyStructure(
@@ -13870,7 +14326,7 @@ public struct Connect: AWSService {
         return try await self.updateUserHierarchyStructure(input, logger: logger)
     }
 
-    /// Updates the identity information for the specified user.  We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Amazon Connect Administrator Guide.
+    /// Updates the identity information for the specified user.  We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -13883,11 +14339,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates the identity information for the specified user.  We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Amazon Connect Administrator Guide.
+    /// Updates the identity information for the specified user.  We strongly recommend limiting who has the ability to invoke UpdateUserIdentityInfo. Someone with that ability can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. For more information, see Best Practices for Security Profiles in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - identityInfo: The identity information for the user.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13965,7 +14421,7 @@ public struct Connect: AWSService {
     /// Updates the phone configuration settings for the specified user.  We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - phoneConfig: Information about phone configuration settings for the user.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
@@ -14000,7 +14456,7 @@ public struct Connect: AWSService {
     /// Updates the properties associated with the proficiencies of a user.
     ///
     /// Parameters:
-    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId:  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - userId: The identifier of the user account.
     ///   - userProficiencies: The proficiencies to be updated for the user. Proficiencies must first be associated to the user. You can do this using AssociateUserProficiencies API.
     ///   - logger: Logger use during operation
@@ -14035,7 +14491,7 @@ public struct Connect: AWSService {
     /// Assigns the specified routing profile to the specified user.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - routingProfileId: The identifier of the routing profile for the user.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
@@ -14070,7 +14526,7 @@ public struct Connect: AWSService {
     /// Assigns the specified security profiles to the specified user.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - securityProfileIds: The identifiers of the security profiles for the user.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger use during operation
@@ -14089,7 +14545,7 @@ public struct Connect: AWSService {
         return try await self.updateUserSecurityProfiles(input, logger: logger)
     }
 
-    /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
+    /// Updates the view content of the given view identifier in the specified Connect Customer instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
     @Sendable
     @inlinable
     public func updateViewContent(_ input: UpdateViewContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateViewContentResponse {
@@ -14102,11 +14558,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
+    /// Updates the view content of the given view identifier in the specified Connect Customer instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
     ///
     /// Parameters:
     ///   - content: View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation. The total uncompressed content has a maximum file size of 400kB.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - status: Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
     ///   - logger: Logger use during operation
@@ -14144,7 +14600,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - description: The description of the view.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - name: The name of the view.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
     ///   - logger: Logger use during operation
@@ -14404,10 +14860,10 @@ extension Connect {
     /// Return PaginatorSequence for operation ``getCurrentMetricData(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
     ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
     ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - sortCriteria: The way to sort the resulting response based on metrics. You can enter one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics. Note the following:   Sorting on SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
     ///   - logger: Logger used for logging
@@ -14454,7 +14910,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - filters: The filters to apply to returned user data. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Agents: 100   Contact states: 9   User hierarchy groups: 1   The user data is retrieved for only the specified values/resources in the filter. A maximum of one filter can be passed from queues, routing profiles, agents, and user hierarchy groups.  Currently tagging is only supported on the resources that are passed in the filter.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14496,8 +14952,8 @@ extension Connect {
     ///   - endTime: The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be specified using an interval of 5 minutes, such as 11:00, 11:05, 11:10, and must be later than the start time timestamp. The time range between the start and end time must be less than 24 hours.
     ///   - filters: The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. VOICE, CHAT, and TASK channels are supported. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.  To filter by Queues, enter the queue ID/ARN, not the name of the queue.
     ///   - groupings: The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. If no grouping is specified, a summary of metrics for all queues is returned. RoutingStepExpression is not a valid filter for GetMetricData and we recommend switching to GetMetricDataV2 for more up-to-date features.
-    ///   - historicalMetrics: The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - historicalMetrics: The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  This API does not support a contacts incoming metric (there's no CONTACTS_INCOMING metric missing from the documented list).    ABANDON_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue abandon time   AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG UI name: After contact work time   API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: API contacts handled   AVG_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average customer hold time   CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Callback contacts handled   CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM UI name: Contacts abandoned   CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM UI name: Contacts agent hung up first   CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM UI name: Contacts consulted   CONTACTS_HANDLED  Unit: COUNT Statistic: SUM UI name: Contacts handled   CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM UI name: Contacts handled incoming   CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM UI name: Contacts handled outbound   CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM UI name: Contacts hold disconnect   CONTACTS_MISSED  Unit: COUNT Statistic: SUM UI name: AGENT_NON_RESPONSE   CONTACTS_QUEUED  Unit: COUNT Statistic: SUM UI name: Contacts queued   CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM UI name: Contacts transferred in   CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM UI name: Contacts transferred out   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM UI name: Contacts transferred out queue   HANDLE_TIME  Unit: SECONDS Statistic: AVG UI name: Average handle time   INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction and customer hold time   INTERACTION_TIME  Unit: SECONDS Statistic: AVG UI name: Average agent interaction time   OCCUPANCY  Unit: PERCENT Statistic: AVG UI name: Occupancy   QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG UI name: Average queue answer time   QUEUED_TIME  Unit: SECONDS Statistic: MAX UI name: Minimum flow time   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: PERCENT Statistic: AVG Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for "Less than").  UI name: Average queue abandon time
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - startTime: The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be specified using a multiple of 5 minutes, such as 10:05, 10:10, 10:15. The start time cannot be earlier than 24 hours before the time of the request. Historical metrics are available only for 24 hours.
     ///   - logger: Logger used for logging
@@ -14546,12 +15002,12 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - endTime: The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
-    ///   - filters: The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_FIVE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_ HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_TWO |  ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |  CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL |  contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType |  DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_ TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_ CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow   EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filterValues for the contact/segmentAttributes/connect:ValidationTestType filter key   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
-    ///   - groupings: The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
-    ///   - interval: The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
+    ///   - filters: Filtering is an operation that selects records that match a set of specified criteria. By narrowing the dataset before aggregation, filters ensure that only relevant records are included in the computation.  Filter keys  The following are valid filter keys for a GetMetricDataV2 request:  AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL | contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE | WEB_NOTIFICATION_TYPE   The following filter keys correspond to Connect Customer resources and are used for authorizing requests. A GetMetricDataV2 request requires at least one of these filters:  QUEUE, ROUTING_PROFILE, AGENT, AGENT_HIERARCHY_LEVEL_ONE, AGENT_HIERARCHY_LEVEL_TWO, AGENT_HIERARCHY_LEVEL_THREE, AGENT_HIERARCHY_LEVEL_FOUR, AGENT_HIERARCHY_LEVEL_FIVE, CAMPAIGN, EVALUATION_FORM, EVALUATOR_ID  You can use up to 5 filter keys in a single request, and up to 100 filter values across all filter keys.   Filter values    VOICE, CHAT, TASK, and EMAIL are valid filter values for the CHANNEL filter key. They do not count towards the limit of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 4 channel filters.    contact_lens_conversational_analytics is a valid filter value for the FEATURE filter key. It is available only for contacts analyzed by Contact Lens conversational analytics.    connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filter value examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.    ROUTING_STEP_EXPRESSION accepts a filter value up to 3,000 characters in length. Filter values are case-sensitive. JSON object key order and whitespace may be arbitrary; array order and tree structure must be preserved.   TRUE and FALSE are the only valid filter values for the Q_CONNECT_ENABLED filter key.   TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow.      EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filter values for the contact/segmentAttributes/connect:ValidationTestType filter key. This filter is available only for contact record-driven metrics.    Campaign ARNs are valid filter values for the CAMPAIGN filter key.   To filter by phone number, see Create a historical metrics report in the Connect Customer Administrator Guide.
+    ///   - groupings: The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AI_AGENT | AI_AGENT_ID | AI_AGENT_NAME | AI_AGENT_NAME_VERSION | AI_AGENT_TYPE | AI_PROMPT | AI_PROMPT_ID | AI_PROMPT_NAME | AI_PROMPT_NAME_VERSION | AI_PROMPT_TYPE | AI_TOOL_ID | AI_TOOL_NAME | AI_TOOL_TYPE | AI_USE_CASE | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | BROWSER_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DEVICE_MODEL | DEVICE_TYPE | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | KNOWLEDGE_ARTICLE_NAME | KNOWLEDGE_BASE_NAME | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | SESSION_ID | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD | WEB_NOTIFICATION_TYPE    AI_AGENT_NAME_VERSION, AI_PROMPT_NAME_VERSION, and KNOWLEDGE_ARTICLE_NAME are valid groupings but not valid filters.  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
+    ///   - interval: The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Connect Customer returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Connect Customer aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - metrics: The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents  AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Handoff Rate  AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count  AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate  AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Contacts  AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Conversation Turns  AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: KnowledgeBase Reference Count  PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate  PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile  UI name: Proactive Intent Response Rate  PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered  PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected    Unit:  Valid groupings and filters:  UI name:     Unit:  Valid groupings and filters:  UI name:   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: UI name:  AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Amazon Connect instance.
+    ///   - metrics: The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Connect Customer Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, AI Use Case, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents   AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Rate   AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count   AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_RESPONSE_NOT_HELPFUL  Unit: Count Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Response Not Helpful   AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate   AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Involved Contacts   AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Success Rate   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocations   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Conversation Turns   AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_PARAMETER_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Parameter Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_SELECTION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Selection Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_UTILIZATION_ACCURACY  Unit: Double Valid groupings and filters: AI Agent, AI Agent ID, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: AI Tool Utilization Accuracy   AI Agent Name Version is not a valid filter but a valid grouping.   COMPLETENESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Completeness Score   FAITHFULNESS_SCORE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Faithfulness Score   GOAL_SUCCESS_RATE  Unit: Double Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile, Session ID UI name: Goal Success Rate   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: Knowledge Content References   PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate   PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Response Rate   PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered   PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Agent ID, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Engaged   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email, WhatsApp, and web notification delivery modes.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Web Notification Type UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Browser Name, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Device Model, Device Type, Disconnect Reason, Queue, Routing Profile, Web Notification Type UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS, Email, WhatsApp, and web notification campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource. This includes the instanceId an Connect Customer instance.
     ///   - startTime: The timestamp, in UNIX Epoch time format, at which to start the reporting interval for the retrieval of historical metrics data. The time must be before the end time timestamp. The start and end time depends on the IntervalPeriod selected. By default the time range between start and end time is 35 days. Historical metrics are available for 3 months.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14601,7 +15057,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - agentStatusTypes: Available agent status types.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14640,7 +15096,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listApprovedOrigins(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14654,6 +15110,43 @@ extension Connect {
             maxResults: maxResults
         )
         return self.listApprovedOriginsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAttachedFilesConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachedFilesConfigurationsPaginator(
+        _ input: ListAttachedFilesConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttachedFilesConfigurationsRequest, ListAttachedFilesConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAttachedFilesConfigurations,
+            inputKey: \ListAttachedFilesConfigurationsRequest.nextToken,
+            outputKey: \ListAttachedFilesConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAttachedFilesConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachedFilesConfigurationsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAttachedFilesConfigurationsRequest, ListAttachedFilesConfigurationsResponse> {
+        let input = ListAttachedFilesConfigurationsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listAttachedFilesConfigurationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAuthenticationProfiles(_:logger:)``.
@@ -14677,7 +15170,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listAuthenticationProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14714,7 +15207,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listBots(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - lexVersion: The version of Amazon Lex or Amazon Lex V2.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
@@ -14794,8 +15287,8 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listContactEvaluations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger used for logging
     @inlinable
     public func listContactEvaluationsPaginator(
@@ -14832,7 +15325,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14872,7 +15365,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactFlowModuleId: The identifier of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14912,7 +15405,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactFlowModuleState: The state of the flow module.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14952,7 +15445,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactFlowId: The identifier of the flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -14992,7 +15485,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactFlowTypes: The type of flow.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15032,7 +15525,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - contactId: The identifier of the initial contact.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - referenceTypes: The type of reference.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15243,7 +15736,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listDefaultVocabularies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
@@ -15327,7 +15820,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - evaluationFormId: The unique identifier for the evaluation form.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15366,7 +15859,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listEvaluationForms(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15403,7 +15896,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listFlowAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger used for logging
@@ -15444,7 +15937,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - hoursOfOperationId: The identifier for the hours of operation.
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15483,7 +15976,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listHoursOfOperations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15520,7 +16013,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listInstanceAttributes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15557,7 +16050,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listInstanceStorageConfigs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - resourceType: A valid resource type.
     ///   - logger: Logger used for logging
@@ -15631,7 +16124,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listIntegrationAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationArn: The Amazon Resource Name (ARN) of the integration.
     ///   - integrationType: The integration type.
     ///   - maxResults: The maximum number of results to return per page.
@@ -15674,7 +16167,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listLambdaFunctions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15711,7 +16204,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listLexBots(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. If no value is specified, the default is 10.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15748,7 +16241,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listPhoneNumbers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - phoneNumberCountryCodes: The ISO country code.
     ///   - phoneNumberTypes: The type of phone number.  We recommend using ListPhoneNumbersV2 to return phone number types. While ListPhoneNumbers returns number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID, it incorrectly lists them as TOLL_FREE or DID.
@@ -15791,12 +16284,12 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listPhoneNumbersV2(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - phoneNumberCountryCodes: The ISO country code.
     ///   - phoneNumberPrefix: The prefix of the phone number. If provided, it must contain + as part of the country code.
     ///   - phoneNumberTypes: The type of phone number.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. If both TargetArn and InstanceId input are not provided, this API lists numbers claimed to all the Connect Customer instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPhoneNumbersV2Paginator(
@@ -15840,7 +16333,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listPredefinedAttributes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15877,7 +16370,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listPrompts(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -15914,7 +16407,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listQueueQuickConnects(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - queueId: The identifier for the queue.
     ///   - logger: Logger used for logging
@@ -15954,7 +16447,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listQueues(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - queueTypes: The type of queue.
     ///   - logger: Logger used for logging
@@ -15994,9 +16487,9 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listQuickConnects(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
-    ///   - quickConnectTypes: The type of quick connect. In the Amazon Connect admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+    ///   - quickConnectTypes: The type of quick connect. In the Connect Customer admin website, when you create a quick connect, you are prompted to assign one of the following types: Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
     ///   - logger: Logger used for logging
     @inlinable
     public func listQuickConnectsPaginator(
@@ -16034,8 +16527,8 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listRealtimeContactAnalysisSegmentsV2(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - outputType: The Contact Lens output type to be returned.
     ///   - segmentTypes: Enum with segment types . Each value corresponds to a segment type returned in the segments list of the API. Each segment type has its own structure. Different channels may have different sets of supported segment types.
@@ -16080,7 +16573,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listRoutingProfileManualAssignmentQueues(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger used for logging
@@ -16120,7 +16613,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listRoutingProfileQueues(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger used for logging
@@ -16160,7 +16653,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listRoutingProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16198,7 +16691,7 @@ extension Connect {
     ///
     /// - Parameters:
     ///   - eventSourceName: The name of the event source.
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - publishStatus: The publish status of the rule.
     ///   - logger: Logger used for logging
@@ -16240,7 +16733,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listSecurityKeys(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16277,7 +16770,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listSecurityProfileApplications(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - securityProfileId: The identifier for the security profle.
     ///   - logger: Logger used for logging
@@ -16317,7 +16810,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listSecurityProfileFlowModules(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId:  The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults:  The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - securityProfileId:  The identifier for the security profile.
     ///   - logger: Logger used for logging
@@ -16357,7 +16850,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listSecurityProfilePermissions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - securityProfileId: The identifier for the security profle.
     ///   - logger: Logger used for logging
@@ -16397,7 +16890,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listSecurityProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16434,7 +16927,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listTaskTemplates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.  It is not expected that you set this.
     ///   - name: The name of the task template.
     ///   - status: Marks a template as ACTIVE or INACTIVE for a task to refer to it.
@@ -16551,7 +17044,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listTrafficDistributionGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16588,7 +17081,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listUseCases(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - integrationAssociationId: The identifier for the integration association.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
@@ -16628,7 +17121,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listUserHierarchyGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16665,7 +17158,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listUserProficiencies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - userId: The identifier of the user account.
     ///   - logger: Logger used for logging
@@ -16705,7 +17198,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listUsers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - logger: Logger used for logging
     @inlinable
@@ -16742,7 +17235,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listViewVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - viewId: The identifier of the view. Both ViewArn and ViewId can be used.
     ///   - logger: Logger used for logging
@@ -16782,7 +17275,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listViews(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
     ///   - type: The type of the view.
     ///   - logger: Logger used for logging
@@ -16899,7 +17392,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchAgentStatuses(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return agent statuses.
     ///   - searchFilter: Filters to be applied to search results.
@@ -16942,12 +17435,12 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchAvailablePhoneNumbers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
+    ///   - instanceId: The identifier of the Connect Customer instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. You must enter InstanceId or TargetArn.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - phoneNumberCountryCode: The ISO country code.
     ///   - phoneNumberPrefix: The prefix of the phone number. If provided, it must contain + as part of the country code.
     ///   - phoneNumberType: The type of phone number.
-    ///   - targetArn: The Amazon Resource Name (ARN) for Amazon Connect instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
+    ///   - targetArn: The Amazon Resource Name (ARN) for Connect Customer instances or traffic distribution groups that phone number inbound traffic is routed through. You must enter InstanceId or TargetArn.
     ///   - logger: Logger used for logging
     @inlinable
     public func searchAvailablePhoneNumbersPaginator(
@@ -16991,7 +17484,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchContactFlowModules(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return flow modules.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17034,7 +17527,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchContactFlows(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return flows.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will result in invalid results.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17077,7 +17570,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchContacts(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return contacts.
     ///   - sort: Specifies a field to sort by and a sort order.
@@ -17166,7 +17659,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchHoursOfOperationOverrides(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - instanceId: The identifier of the Connect Customer instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return hours of operations overrides.
     ///   - searchFilter: 
@@ -17209,7 +17702,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchHoursOfOperations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return hours of operations.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17252,7 +17745,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchPredefinedAttributes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return predefined attributes.
     ///   - logger: Logger used for logging
@@ -17292,7 +17785,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchPrompts(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return prompts.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17335,7 +17828,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchQueues(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return queues.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17378,7 +17871,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchQuickConnects(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return quick connects.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17421,7 +17914,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchResourceTags(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)
     ///   - searchCriteria: The search criteria to be used to return tags.
@@ -17464,7 +17957,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchRoutingProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return routing profiles.  The name and description fields support "contains" queries with a minimum of 2 characters and a maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17484,6 +17977,49 @@ extension Connect {
             searchFilter: searchFilter
         )
         return self.searchRoutingProfilesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``searchRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchRulesPaginator(
+        _ input: SearchRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchRulesRequest, SearchRulesResponse> {
+        return .init(
+            input: input,
+            command: self.searchRules,
+            inputKey: \SearchRulesRequest.nextToken,
+            outputKey: \SearchRulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - searchCriteria: The search criteria to be used to return rules.
+    ///   - searchFilter: Filters to be applied to search results, such as tag-based filters.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchRulesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        searchCriteria: RulesSearchCriteria? = nil,
+        searchFilter: RulesSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchRulesRequest, SearchRulesResponse> {
+        let input = SearchRulesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return self.searchRulesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``searchSecurityProfiles(_:logger:)``.
@@ -17507,7 +18043,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchSecurityProfiles(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return security profiles.   The name field support "contains" queries with a minimum of 2 characters and maximum of 25 characters. Any queries with character lengths outside of this range will throw invalid results.   The currently supported value for FieldName: name
     ///   - searchFilter: Filters to be applied to search results.
@@ -17593,7 +18129,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchUserHierarchyGroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the ARN of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: The search criteria to be used to return UserHierarchyGroups.
     ///   - searchFilter: Filters to be applied to search results.
@@ -17636,7 +18172,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchUsers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - searchCriteria: 
     ///   - searchFilter: Filters to be applied to search results.
@@ -17722,7 +18258,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``searchVocabularies(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - languageCode: The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nameStartsWith: The starting pattern of the name of the vocabulary.
@@ -17923,6 +18459,17 @@ extension Connect.ListAgentStatusRequest: AWSPaginateToken {
 extension Connect.ListApprovedOriginsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.ListApprovedOriginsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Connect.ListAttachedFilesConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListAttachedFilesConfigurationsRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,
@@ -18771,6 +19318,19 @@ extension Connect.SearchResourceTagsRequest: AWSPaginateToken {
 extension Connect.SearchRoutingProfilesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.SearchRoutingProfilesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchRulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.SearchRulesRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,

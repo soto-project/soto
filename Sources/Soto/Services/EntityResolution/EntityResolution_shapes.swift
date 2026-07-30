@@ -528,7 +528,7 @@ extension EntityResolution {
     public struct CreateMatchingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]
@@ -1019,7 +1019,7 @@ extension EntityResolution {
     }
 
     public struct GenerateMatchIdInput: AWSEncodableShape {
-        /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.
+        /// The processing mode that determines how Match IDs are generated and results are saved. Each mode provides different levels of accuracy, response time, and completeness of results. If not specified, defaults to CONSISTENT.  CONSISTENT: Performs immediate lookup and matching against all existing records, with results saved synchronously. Provides highest accuracy but slower response time.  EVENTUAL (shown as Background in the console): Performs initial match ID lookup or generation immediately, with record updates processed asynchronously in the background. Offers faster initial response time, with complete matching results available later in S3.   EVENTUAL_NO_LOOKUP (shown as Quick ID generation in the console): Generates new match IDs without checking existing matches, with updates processed asynchronously. Provides fastest response time but should only be used for records known to be unique.   Advanced matching workflows don't support the processingType field.
         public let processingType: ProcessingType?
         ///  The records to match.
         public let records: [Record]
@@ -2053,7 +2053,7 @@ extension EntityResolution {
     }
 
     public struct IncrementalRunConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console.  For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+        /// The type of incremental run. The only valid value is IMMEDIATE. This appears as "Automatic" in the console.  For workflows where resolutionType is PROVIDER, incremental processing is not supported.
         public let incrementalRunType: IncrementalRunType?
 
         @inlinable
@@ -2610,6 +2610,20 @@ extension EntityResolution {
         }
     }
 
+    public struct MatchingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Enables transitive matching for the rule-based matching workflow. When enabled, records that match through different rules are grouped together into the same match group.
+        public let enableTransitiveMatching: Bool?
+
+        @inlinable
+        public init(enableTransitiveMatching: Bool? = nil) {
+            self.enableTransitiveMatching = enableTransitiveMatching
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableTransitiveMatching = "enableTransitiveMatching"
+        }
+    }
+
     public struct MatchingWorkflowSummary: AWSDecodableShape {
         /// The timestamp of when the workflow was created.
         public let createdAt: Date
@@ -3018,6 +3032,8 @@ extension EntityResolution {
     }
 
     public struct ResolutionTechniques: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether real-time matching is enabled for the rule-based matching workflow. When you enable real-time matching, you can use the GenerateMatchId operation with the workflow.
+        public let enableRealTimeMatching: Bool?
         /// The properties of the provider service.
         public let providerProperties: ProviderProperties?
         /// The type of matching workflow to create. Specify one of the following types:     RULE_MATCHING: Match records using configurable rule-based criteria     ML_MATCHING: Match records using machine learning models     PROVIDER: Match records using a third-party matching provider
@@ -3028,7 +3044,8 @@ extension EntityResolution {
         public let ruleConditionProperties: RuleConditionProperties?
 
         @inlinable
-        public init(providerProperties: ProviderProperties? = nil, resolutionType: ResolutionType, ruleBasedProperties: RuleBasedProperties? = nil, ruleConditionProperties: RuleConditionProperties? = nil) {
+        public init(enableRealTimeMatching: Bool? = nil, providerProperties: ProviderProperties? = nil, resolutionType: ResolutionType, ruleBasedProperties: RuleBasedProperties? = nil, ruleConditionProperties: RuleConditionProperties? = nil) {
+            self.enableRealTimeMatching = enableRealTimeMatching
             self.providerProperties = providerProperties
             self.resolutionType = resolutionType
             self.ruleBasedProperties = ruleBasedProperties
@@ -3041,6 +3058,7 @@ extension EntityResolution {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableRealTimeMatching = "enableRealTimeMatching"
             case providerProperties = "providerProperties"
             case resolutionType = "resolutionType"
             case ruleBasedProperties = "ruleBasedProperties"
@@ -3120,15 +3138,19 @@ extension EntityResolution {
     }
 
     public struct RuleConditionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// An object that contains configuration settings for the matching process.
+        public let matchingConfig: MatchingConfig?
         ///  A list of rule objects, each of which have fields ruleName and condition.
         public let rules: [RuleCondition]
 
         @inlinable
-        public init(rules: [RuleCondition]) {
+        public init(matchingConfig: MatchingConfig? = nil, rules: [RuleCondition]) {
+            self.matchingConfig = matchingConfig
             self.rules = rules
         }
 
         private enum CodingKeys: String, CodingKey {
+            case matchingConfig = "matchingConfig"
             case rules = "rules"
         }
     }
@@ -3597,7 +3619,7 @@ extension EntityResolution {
     public struct UpdateMatchingWorkflowInput: AWSEncodableShape {
         /// A description of the workflow.
         public let description: String?
-        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
+        /// Optional. An object that defines the incremental run type. This object contains only the incrementalRunType field, which appears as "Automatic" in the console.   For workflows where resolutionType is PROVIDER, incremental processing is not supported.
         public let incrementalRunConfig: IncrementalRunConfig?
         /// A list of InputSource objects, which have the fields InputSourceARN and SchemaName.
         public let inputSourceConfig: [InputSource]

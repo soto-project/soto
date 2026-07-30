@@ -123,6 +123,8 @@ extension KinesisAnalyticsV2 {
         case flink120 = "FLINK-1_20"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
+        case flink22 = "FLINK-2_2"
+        case flink23 = "FLINK-2_3"
         case sql10 = "SQL-1_0"
         case zeppelinFlink10 = "ZEPPELIN-FLINK-1_0"
         case zeppelinFlink20 = "ZEPPELIN-FLINK-2_0"

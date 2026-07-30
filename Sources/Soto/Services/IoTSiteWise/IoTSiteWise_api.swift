@@ -167,7 +167,47 @@ public struct IoTSiteWise: AWSService {
         return try await self.associateTimeSeriesToAssetProperty(input, logger: logger)
     }
 
-    /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
+    /// Associates a batch of data segments with a curated dataset. Data segments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to.
+    @Sendable
+    @inlinable
+    public func batchAssociateDataSegmentsToDataset(_ input: BatchAssociateDataSegmentsToDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateDataSegmentsToDatasetResponse {
+        try await self.client.execute(
+            operation: "BatchAssociateDataSegmentsToDataset", 
+            path: "/datasets/{datasetId}/data-segments/associate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Associates a batch of data segments with a curated dataset. Data segments are time-bounded slices of time series data selected from source session datasets. Data segments that belong to the same time series can't overlap in time, regardless of which dataset they belong to.
+    ///
+    /// Parameters:
+    ///   - associateDataSegmentEntries: The list of data segment entries to associate with the dataset.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - datasetId: The ID of the curated dataset to associate data segments with.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchAssociateDataSegmentsToDataset(
+        associateDataSegmentEntries: [AssociateDataSegmentEntry],
+        clientToken: String? = BatchAssociateDataSegmentsToDatasetRequest.idempotencyToken(),
+        datasetId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchAssociateDataSegmentsToDatasetResponse {
+        let input = BatchAssociateDataSegmentsToDatasetRequest(
+            associateDataSegmentEntries: associateDataSegmentEntries, 
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            workspaceName: workspaceName
+        )
+        return try await self.batchAssociateDataSegmentsToDataset(input, logger: logger)
+    }
+
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     @Sendable
     @inlinable
     public func batchAssociateProjectAssets(_ input: BatchAssociateProjectAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchAssociateProjectAssetsResponse {
@@ -181,7 +221,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     ///
     /// Parameters:
     ///   - assetIds: The IDs of the assets to be associated to the project.
@@ -201,6 +242,84 @@ public struct IoTSiteWise: AWSService {
             projectId: projectId
         )
         return try await self.batchAssociateProjectAssets(input, logger: logger)
+    }
+
+    /// Deletes a batch of data segments from a session dataset. Deleting a data segment deletes the underlying time series data for the segment's time range.
+    @Sendable
+    @inlinable
+    public func batchDeleteDatasetDataSegments(_ input: BatchDeleteDatasetDataSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteDatasetDataSegmentsResponse {
+        try await self.client.execute(
+            operation: "BatchDeleteDatasetDataSegments", 
+            path: "/datasets/{datasetId}/data-segments/batch-delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a batch of data segments from a session dataset. Deleting a data segment deletes the underlying time series data for the segment's time range.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - datasetId: The ID of the session dataset from which to delete data segments.
+    ///   - deleteDataSegmentEntries: The list of data segment entries to delete.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDeleteDatasetDataSegments(
+        clientToken: String? = BatchDeleteDatasetDataSegmentsRequest.idempotencyToken(),
+        datasetId: String,
+        deleteDataSegmentEntries: [DeleteDataSegmentEntry],
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDeleteDatasetDataSegmentsResponse {
+        let input = BatchDeleteDatasetDataSegmentsRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            deleteDataSegmentEntries: deleteDataSegmentEntries, 
+            workspaceName: workspaceName
+        )
+        return try await self.batchDeleteDatasetDataSegments(input, logger: logger)
+    }
+
+    /// Disassociates a batch of data segments from a curated dataset. Disassociating a data segment doesn't delete the underlying data in the source session dataset.
+    @Sendable
+    @inlinable
+    public func batchDisassociateDataSegmentsFromDataset(_ input: BatchDisassociateDataSegmentsFromDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisassociateDataSegmentsFromDatasetResponse {
+        try await self.client.execute(
+            operation: "BatchDisassociateDataSegmentsFromDataset", 
+            path: "/datasets/{datasetId}/data-segments/disassociate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Disassociates a batch of data segments from a curated dataset. Disassociating a data segment doesn't delete the underlying data in the source session dataset.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - datasetId: The ID of the curated dataset to disassociate data segments from.
+    ///   - disassociateDataSegmentEntries: The list of data segment entries to disassociate from the dataset.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchDisassociateDataSegmentsFromDataset(
+        clientToken: String? = BatchDisassociateDataSegmentsFromDatasetRequest.idempotencyToken(),
+        datasetId: String,
+        disassociateDataSegmentEntries: [DisassociateDataSegmentEntry],
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchDisassociateDataSegmentsFromDatasetResponse {
+        let input = BatchDisassociateDataSegmentsFromDatasetRequest(
+            clientToken: clientToken, 
+            datasetId: datasetId, 
+            disassociateDataSegmentEntries: disassociateDataSegmentEntries, 
+            workspaceName: workspaceName
+        )
+        return try await self.batchDisassociateDataSegmentsFromDataset(input, logger: logger)
     }
 
     /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
@@ -377,7 +496,161 @@ public struct IoTSiteWise: AWSService {
         return try await self.batchPutAssetPropertyValue(input, logger: logger)
     }
 
-    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
+    /// Cancels a running or pending enrichment job. This is an idempotent operation—calling it multiple
+    /// times with the same jobId is safe and returns the current status.
+    /// Behavior
+    /// Jobs in PENDING or RUNNING status transition to CANCELLED
+    /// Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages
+    /// Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled;
+    /// the operation returns a ConflictingOperationException
+    /// Cancelling an already-CANCELLED job is a no-op and returns the current status (idempotent behavior)
+    /// The API responds immediately after recording the cancellation
+    /// Cleanup of job resources happens asynchronously in the background
+    /// When to Cancel
+    /// Cancel a job when:
+    /// The job is taking longer than expected
+    /// The job was created with incorrect parameters
+    /// You no longer need the results
+    /// Idempotency
+    /// You can safely retry cancellation requests. Calling CancelEnrichmentJob multiple times for the same
+    /// job returns the current status without error as long as the job is not in a terminal state other
+    /// than CANCELLED.
+    @Sendable
+    @inlinable
+    public func cancelEnrichmentJob(_ input: CancelEnrichmentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelEnrichmentJobResponse {
+        try await self.client.execute(
+            operation: "CancelEnrichmentJob", 
+            path: "/workspaces/{workspaceName}/enrichment-jobs/{jobId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Cancels a running or pending enrichment job. This is an idempotent operation—calling it multiple
+    /// times with the same jobId is safe and returns the current status.
+    /// Behavior
+    /// Jobs in PENDING or RUNNING status transition to CANCELLED
+    /// Jobs in RUNNING state may not be cancellable once they have progressed to certain processing stages
+    /// Jobs already in terminal states (COMPLETED, FAILED, TIMED_OUT) cannot be cancelled;
+    /// the operation returns a ConflictingOperationException
+    /// Cancelling an already-CANCELLED job is a no-op and returns the current status (idempotent behavior)
+    /// The API responds immediately after recording the cancellation
+    /// Cleanup of job resources happens asynchronously in the background
+    /// When to Cancel
+    /// Cancel a job when:
+    /// The job is taking longer than expected
+    /// The job was created with incorrect parameters
+    /// You no longer need the results
+    /// Idempotency
+    /// You can safely retry cancellation requests. Calling CancelEnrichmentJob multiple times for the same
+    /// job returns the current status without error as long as the job is not in a terminal state other
+    /// than CANCELLED.
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier of the enrichment job to cancel. This is the jobId returned by CreateEnrichmentJob.
+    ///   - workspaceName: The name of the IoT SiteWise workspace containing the enrichment job to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelEnrichmentJob(
+        jobId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelEnrichmentJobResponse {
+        let input = CancelEnrichmentJobRequest(
+            jobId: jobId, 
+            workspaceName: workspaceName
+        )
+        return try await self.cancelEnrichmentJob(input, logger: logger)
+    }
+
+    /// Cancels a pipeline execution in the specified workspace. If the execution
+    /// is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to
+    /// CANCELLING and asynchronously to CANCELLED. This operation is idempotent: calling
+    /// it on an execution that is already CANCELLING or CANCELLED returns success with
+    /// the current state. Calling it on a terminal execution (SUCCEEDED or FAILED)
+    /// returns a conflict error. You can optionally provide a reason; it is returned in
+    /// the stateDetails field when you describe the execution.
+    @Sendable
+    @inlinable
+    public func cancelPipelineExecution(_ input: CancelPipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelPipelineExecutionResponse {
+        try await self.client.execute(
+            operation: "CancelPipelineExecution", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions/{pipelineExecutionId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Cancels a pipeline execution in the specified workspace. If the execution
+    /// is not in a terminal state (such as NOT_STARTED or RUNNING), it transitions to
+    /// CANCELLING and asynchronously to CANCELLED. This operation is idempotent: calling
+    /// it on an execution that is already CANCELLING or CANCELLED returns success with
+    /// the current state. Calling it on a terminal execution (SUCCEEDED or FAILED)
+    /// returns a conflict error. You can optionally provide a reason; it is returned in
+    /// the stateDetails field when you describe the execution.
+    ///
+    /// Parameters:
+    ///   - pipelineExecutionId: The unique identifier of the pipeline execution.
+    ///   - pipelineName: The name of the pipeline.
+    ///   - reason: A message describing why the pipeline execution is being cancelled.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelPipelineExecution(
+        pipelineExecutionId: String,
+        pipelineName: String,
+        reason: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelPipelineExecutionResponse {
+        let input = CancelPipelineExecutionRequest(
+            pipelineExecutionId: pipelineExecutionId, 
+            pipelineName: pipelineName, 
+            reason: reason, 
+            workspaceName: workspaceName
+        )
+        return try await self.cancelPipelineExecution(input, logger: logger)
+    }
+
+    /// Cancels a running query.
+    @Sendable
+    @inlinable
+    public func cancelQuery(_ input: CancelQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelQueryResponse {
+        try await self.client.execute(
+            operation: "CancelQuery", 
+            path: "/workspaces/{workspaceName}/queries/{queryId}/cancel", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Cancels a running query.
+    ///
+    /// Parameters:
+    ///   - queryId: The unique identifier for the query execution to cancel.
+    ///   - workspaceName: The name of the workspace associated with the query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelQuery(
+        queryId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelQueryResponse {
+        let input = CancelQueryRequest(
+            queryId: queryId, 
+            workspaceName: workspaceName
+        )
+        return try await self.cancelQuery(input, logger: logger)
+    }
+
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
     @Sendable
     @inlinable
     public func createAccessPolicy(_ input: CreateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPolicyResponse {
@@ -391,7 +664,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.  Support for access policies that use an SSO Group as the identity is not supported at this time.
     ///
     /// Parameters:
     ///   - accessPolicyIdentity: The identity for this access policy. Choose an IAM Identity Center user, an IAM Identity Center group, or an IAM user.
@@ -417,6 +691,51 @@ public struct IoTSiteWise: AWSService {
             tags: tags
         )
         return try await self.createAccessPolicy(input, logger: logger)
+    }
+
+    /// Creates a new application for the workspace and IdC application provided
+    @Sendable
+    @inlinable
+    public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
+        try await self.client.execute(
+            operation: "CreateApplication", 
+            path: "/applications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates a new application for the workspace and IdC application provided
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique client token for idempotent request handling
+    ///   - description: Description of the application
+    ///   - idcInstanceArn: Identity Center Instance ARN to create the application in
+    ///   - name: Name of the application
+    ///   - tags: A list of key-value pairs that contain metadata for the application.
+    ///   - workspaceName: Name of the workspace to associate with the underlying Application
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createApplication(
+        clientToken: String? = CreateApplicationRequest.idempotencyToken(),
+        description: String? = nil,
+        idcInstanceArn: String,
+        name: String,
+        tags: [String: String]? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateApplicationResponse {
+        let input = CreateApplicationRequest(
+            clientToken: clientToken, 
+            description: description, 
+            idcInstanceArn: idcInstanceArn, 
+            name: name, 
+            tags: tags, 
+            workspaceName: workspaceName
+        )
+        return try await self.createApplication(input, logger: logger)
     }
 
     /// Creates an asset from an existing asset model. For more information, see Creating assets in the IoT SiteWise User Guide.
@@ -590,7 +909,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.createAssetModelCompositeModel(input, logger: logger)
     }
 
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job that ingests data into time series outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. This requirement doesn't apply to bulk import jobs that ingest data into a session dataset in a workspace (jobs that specify a workspaceName and datasetId). Those jobs don't use IoT SiteWise warm or cold tier storage. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
     @Sendable
     @inlinable
     public func createBulkImportJob(_ input: CreateBulkImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBulkImportJobResponse {
@@ -604,36 +923,42 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
+    /// Defines a job to ingest data to IoT SiteWise from Amazon S3. For more information, see Create a bulk import job (CLI) in the Amazon Simple Storage Service User Guide.  Before you create a bulk import job that ingests data into time series outside of a workspace, you must enable IoT SiteWise warm tier or IoT SiteWise cold tier. For more information about how to configure storage settings, see PutStorageConfiguration. This requirement doesn't apply to bulk import jobs that ingest data into a session dataset in a workspace (jobs that specify a workspaceName and datasetId). Those jobs don't use IoT SiteWise warm or cold tier storage. Bulk import is designed to store historical data to IoT SiteWise.   Newly ingested data in the hot tier triggers notifications and computations.   After data moves from the hot tier to the warm or cold tier based on retention settings, it does not trigger computations or notifications.   Data older than 7 days does not trigger computations or notifications.
     ///
     /// Parameters:
     ///   - adaptiveIngestion: If set to true, ingest new data into IoT SiteWise storage. Measurements with notifications, metrics and transforms are  computed. If set to false, historical data is ingested into IoT SiteWise as is.
+    ///   - datasetId: The ID of the session dataset to ingest data into. Specify this field, together with workspaceName, to ingest data into a session dataset in a workspace.
     ///   - deleteFilesAfterImport: If set to true, your data files is deleted from S3, after ingestion into IoT SiteWise storage.
     ///   - errorReportLocation: The Amazon S3 destination where errors associated with the job creation request are saved.
-    ///   - files: The files in the specified Amazon S3 bucket that contain your data.
+    ///   - files: The files in the specified Amazon S3 bucket that contain your data. You can specify up to 100 files for each bulk import job. Each file supports the following size limits:   Parquet files – Up to 256 MiB.   Other file formats – Up to 5 GiB.
     ///   - jobConfiguration: Contains the configuration information of a job, such as the file format used to save data in Amazon S3.
     ///   - jobName: The unique name that helps identify the job request.
     ///   - jobRoleArn: The ARN of the IAM role that allows IoT SiteWise to read Amazon S3 data.
+    ///   - workspaceName: The name of the workspace that contains the session dataset. Specify this field together with datasetId.
     ///   - logger: Logger use during operation
     @inlinable
     public func createBulkImportJob(
         adaptiveIngestion: Bool? = nil,
+        datasetId: String? = nil,
         deleteFilesAfterImport: Bool? = nil,
         errorReportLocation: ErrorReportLocation,
         files: [File],
-        jobConfiguration: JobConfiguration,
+        jobConfiguration: JobConfiguration? = nil,
         jobName: String,
         jobRoleArn: String,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBulkImportJobResponse {
         let input = CreateBulkImportJobRequest(
             adaptiveIngestion: adaptiveIngestion, 
+            datasetId: datasetId, 
             deleteFilesAfterImport: deleteFilesAfterImport, 
             errorReportLocation: errorReportLocation, 
             files: files, 
             jobConfiguration: jobConfiguration, 
             jobName: jobName, 
-            jobRoleArn: jobRoleArn
+            jobRoleArn: jobRoleArn, 
+            workspaceName: workspaceName
         )
         return try await self.createBulkImportJob(input, logger: logger)
     }
@@ -683,7 +1008,8 @@ public struct IoTSiteWise: AWSService {
         return try await self.createComputationModel(input, logger: logger)
     }
 
-    /// Creates a dashboard in an IoT SiteWise Monitor project.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a dashboard in an IoT SiteWise Monitor project.
     @Sendable
     @inlinable
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDashboardResponse {
@@ -697,7 +1023,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates a dashboard in an IoT SiteWise Monitor project.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a dashboard in an IoT SiteWise Monitor project.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -728,7 +1055,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.createDashboard(input, logger: logger)
     }
 
-    /// Creates a dataset to connect an external datasource.
+    /// Creates a dataset. Session and curated datasets are created in a workspace. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source session datasets. A dataset that connects to an external datasource is created outside of a workspace.
     @Sendable
     @inlinable
     public func createDataset(_ input: CreateDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetResponse {
@@ -742,35 +1069,171 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates a dataset to connect an external datasource.
+    /// Creates a dataset. Session and curated datasets are created in a workspace. A session dataset contains data segments of time series data, and a curated dataset curates data segments selected from source session datasets. A dataset that connects to an external datasource is created outside of a workspace.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - datasetConfig: The configuration for the dataset.
     ///   - datasetDescription: A description about the dataset, and its functionality.
     ///   - datasetId: The ID of the dataset.
     ///   - datasetName: The name of the dataset.
     ///   - datasetSource: The data source for the dataset.
+    ///   - datasetType: The type of dataset: a session dataset, a curated dataset, or a connection to an external datasource.
+    ///   - metadata: The metadata for the dataset, provided as key-value pairs.
     ///   - tags: A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+    ///   - workspaceName: The name of the workspace that contains the dataset. Required for session and curated datasets. Omit this field for datasets that connect to an external datasource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataset(
         clientToken: String? = CreateDatasetRequest.idempotencyToken(),
+        datasetConfig: DatasetConfig? = nil,
         datasetDescription: String? = nil,
         datasetId: String? = nil,
         datasetName: String,
         datasetSource: DatasetSource,
+        datasetType: DatasetTypeEnum? = nil,
+        metadata: [String: String]? = nil,
         tags: [String: String]? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDatasetResponse {
         let input = CreateDatasetRequest(
             clientToken: clientToken, 
+            datasetConfig: datasetConfig, 
             datasetDescription: datasetDescription, 
             datasetId: datasetId, 
             datasetName: datasetName, 
             datasetSource: datasetSource, 
-            tags: tags
+            datasetType: datasetType, 
+            metadata: metadata, 
+            tags: tags, 
+            workspaceName: workspaceName
         )
         return try await self.createDataset(input, logger: logger)
+    }
+
+    /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon
+    /// S3. The operation returns a jobId immediately; poll DescribeDatasetExportJob to track progress and
+    /// ListDatasetExportJobs to enumerate a workspace's jobs.
+    @Sendable
+    @inlinable
+    public func createDatasetExportJob(_ input: CreateDatasetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDatasetExportJobResponse {
+        try await self.client.execute(
+            operation: "CreateDatasetExportJob", 
+            path: "/workspaces/{workspaceName}/dataset-export-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous job that exports dataset and time-series data from a workspace to Amazon
+    /// S3. The operation returns a jobId immediately; poll DescribeDatasetExportJob to track progress and
+    /// ListDatasetExportJobs to enumerate a workspace's jobs.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - destinationS3Uri: The S3 URI where output clips will be written.
+    ///   - errorReportLocation: The location where the error report will be written on failure.
+    ///   - input: The processing input source.
+    ///   - workspaceName: The name of the workspace in which to create the dataset export job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDatasetExportJob(
+        clientToken: String? = CreateDatasetExportJobRequest.idempotencyToken(),
+        destinationS3Uri: String,
+        errorReportLocation: ExportErrorReportLocation,
+        input: ProcessingInput,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDatasetExportJobResponse {
+        let input = CreateDatasetExportJobRequest(
+            clientToken: clientToken, 
+            destinationS3Uri: destinationS3Uri, 
+            errorReportLocation: errorReportLocation, 
+            input: input, 
+            workspaceName: workspaceName
+        )
+        return try await self.createDatasetExportJob(input, logger: logger)
+    }
+
+    /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns
+    /// immediately with job details while processing continues in the background.
+    /// Idempotency
+    /// Include a clientToken to make the operation idempotent. If you submit the same request with the same
+    /// token within the idempotency window, you receive the original job details without creating a duplicate.
+    /// Prerequisites
+    /// Before creating a job, ensure:
+    /// The workspace is in ACTIVE state (not being deleted)
+    /// You have IAM permissions for the workspace, dataset, and time-series resources
+    /// You have KMS Decrypt permission on the workspace's customer-managed encryption key
+    /// No duplicate job (same workspace, dataset, property, and job type) is currently running
+    /// Workflow
+    /// Submit the job with configuration specifying which video data to analyze and the time range
+    /// Capture the jobId from the response
+    /// Use DescribeEnrichmentJob to monitor progress and check job status
+    /// When status reaches a terminal state (COMPLETED, FAILED, TIMED_OUT, CANCELLED), check results
+    /// For COMPLETED jobs, query IoT SiteWise for semantic search on video events
+    /// Error Handling
+    /// ConflictingOperationException: A duplicate job is already running for the same configuration
+    /// InvalidRequestException: Invalid parameters (e.g., both timeSeriesId and propertyAlias specified)
+    /// AccessDeniedException: Insufficient IAM or KMS permissions
+    /// LimitExceededException: Too many concurrent jobs or requests
+    @Sendable
+    @inlinable
+    public func createEnrichmentJob(_ input: CreateEnrichmentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEnrichmentJobResponse {
+        try await self.client.execute(
+            operation: "CreateEnrichmentJob", 
+            path: "/workspaces/{workspaceName}/enrichment-jobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Creates an asynchronous enrichment job to analyze time-series sensor data. The operation returns
+    /// immediately with job details while processing continues in the background.
+    /// Idempotency
+    /// Include a clientToken to make the operation idempotent. If you submit the same request with the same
+    /// token within the idempotency window, you receive the original job details without creating a duplicate.
+    /// Prerequisites
+    /// Before creating a job, ensure:
+    /// The workspace is in ACTIVE state (not being deleted)
+    /// You have IAM permissions for the workspace, dataset, and time-series resources
+    /// You have KMS Decrypt permission on the workspace's customer-managed encryption key
+    /// No duplicate job (same workspace, dataset, property, and job type) is currently running
+    /// Workflow
+    /// Submit the job with configuration specifying which video data to analyze and the time range
+    /// Capture the jobId from the response
+    /// Use DescribeEnrichmentJob to monitor progress and check job status
+    /// When status reaches a terminal state (COMPLETED, FAILED, TIMED_OUT, CANCELLED), check results
+    /// For COMPLETED jobs, query IoT SiteWise for semantic search on video events
+    /// Error Handling
+    /// ConflictingOperationException: A duplicate job is already running for the same configuration
+    /// InvalidRequestException: Invalid parameters (e.g., both timeSeriesId and propertyAlias specified)
+    /// AccessDeniedException: Insufficient IAM or KMS permissions
+    /// LimitExceededException: Too many concurrent jobs or requests
+    ///
+    /// Parameters:
+    ///   - clientToken: Optional unique token that makes the operation idempotent. If you submit the same request with the
+    ///   - jobConfiguration: Configuration defining the type of enrichment analysis to perform and which video data to analyze.
+    ///   - workspaceName: The name of the IoT SiteWise workspace containing the video data to analyze.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEnrichmentJob(
+        clientToken: String? = CreateEnrichmentJobRequest.idempotencyToken(),
+        jobConfiguration: EnrichmentJobConfiguration,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEnrichmentJobResponse {
+        let input = CreateEnrichmentJobRequest(
+            clientToken: clientToken, 
+            jobConfiguration: jobConfiguration, 
+            workspaceName: workspaceName
+        )
+        return try await self.createEnrichmentJob(input, logger: logger)
     }
 
     /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the IoT SiteWise User Guide.
@@ -812,7 +1275,68 @@ public struct IoTSiteWise: AWSService {
         return try await self.createGateway(input, logger: logger)
     }
 
-    /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
+    /// Creates a new pipeline in the specified workspace. A pipeline defines a
+    /// directed acyclic graph (DAG) of compute nodes, where each node references a task
+    /// and can declare dependencies on other nodes. Cyclic dependencies are not
+    /// allowed. Nodes without dependencies run in parallel, while nodes with dependencies
+    /// wait for all upstream nodes to complete successfully before starting.
+    /// You can set environment variables at the pipeline level that are shared across all
+    /// compute nodes, and override them at the individual compute node level.
+    @Sendable
+    @inlinable
+    public func createPipeline(_ input: CreatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePipelineResponse {
+        try await self.client.execute(
+            operation: "CreatePipeline", 
+            path: "/workspaces/{workspaceName}/pipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates a new pipeline in the specified workspace. A pipeline defines a
+    /// directed acyclic graph (DAG) of compute nodes, where each node references a task
+    /// and can declare dependencies on other nodes. Cyclic dependencies are not
+    /// allowed. Nodes without dependencies run in parallel, while nodes with dependencies
+    /// wait for all upstream nodes to complete successfully before starting.
+    /// You can set environment variables at the pipeline level that are shared across all
+    /// compute nodes, and override them at the individual compute node level.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - computations: The list of compute nodes that form the pipeline DAG. Each compute node references a task and can declare dependencies on other nodes.
+    ///   - description: A description of the pipeline.
+    ///   - environmentVariables: Environment variables shared across all compute nodes in the pipeline. Individual compute nodes can override these values with their own environment variables.
+    ///   - pipelineName: The name of the pipeline to create. Must be unique within the workspace.
+    ///   - tags: A list of key-value pairs that contain metadata for the pipeline. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPipeline(
+        clientToken: String? = CreatePipelineRequest.idempotencyToken(),
+        computations: [ComputeNode],
+        description: String? = nil,
+        environmentVariables: [String: String]? = nil,
+        pipelineName: String,
+        tags: [String: String]? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePipelineResponse {
+        let input = CreatePipelineRequest(
+            clientToken: clientToken, 
+            computations: computations, 
+            description: description, 
+            environmentVariables: environmentVariables, 
+            pipelineName: pipelineName, 
+            tags: tags, 
+            workspaceName: workspaceName
+        )
+        return try await self.createPipeline(input, logger: logger)
+    }
+
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
     @Sendable
     @inlinable
     public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortalResponse {
@@ -826,7 +1350,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the IoT SiteWise User Guide.
     ///
     /// Parameters:
     ///   - alarms: Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
@@ -875,7 +1400,8 @@ public struct IoTSiteWise: AWSService {
         return try await self.createPortal(input, logger: logger)
     }
 
-    /// Creates a project in the specified portal.  Make sure that the project name and description don't contain confidential information.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a project in the specified portal.  Make sure that the project name and description don't contain confidential information.
     @Sendable
     @inlinable
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProjectResponse {
@@ -889,7 +1415,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Creates a project in the specified portal.  Make sure that the project name and description don't contain confidential information.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Creates a project in the specified portal.  Make sure that the project name and description don't contain confidential information.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -915,6 +1442,99 @@ public struct IoTSiteWise: AWSService {
             tags: tags
         )
         return try await self.createProject(input, logger: logger)
+    }
+
+    /// Creates a new task in the specified workspace. A task defines a reusable
+    /// containerized compute workload that can be referenced by one or more pipeline compute nodes.
+    /// Specify a containerTaskConfiguration for custom container workloads with
+    /// configurable ECR image, processing type, processing unit, and environment variables.
+    @Sendable
+    @inlinable
+    public func createTask(_ input: CreateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTaskResponse {
+        try await self.client.execute(
+            operation: "CreateTask", 
+            path: "/workspaces/{workspaceName}/tasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates a new task in the specified workspace. A task defines a reusable
+    /// containerized compute workload that can be referenced by one or more pipeline compute nodes.
+    /// Specify a containerTaskConfiguration for custom container workloads with
+    /// configurable ECR image, processing type, processing unit, and environment variables.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: A description of the task.
+    ///   - tags: A list of key-value pairs that contain metadata for the task. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
+    ///   - taskConfiguration: The task execution configuration. Specify a containerTaskConfiguration for custom container workloads.
+    ///   - taskName: The name of the task to create. Must be unique within the workspace.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTask(
+        clientToken: String? = CreateTaskRequest.idempotencyToken(),
+        description: String? = nil,
+        tags: [String: String]? = nil,
+        taskConfiguration: TaskConfiguration,
+        taskName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTaskResponse {
+        let input = CreateTaskRequest(
+            clientToken: clientToken, 
+            description: description, 
+            tags: tags, 
+            taskConfiguration: taskConfiguration, 
+            taskName: taskName, 
+            workspaceName: workspaceName
+        )
+        return try await self.createTask(input, logger: logger)
+    }
+
+    /// Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling limits. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE, or FAILED if provisioning doesn't complete.
+    @Sendable
+    @inlinable
+    public func createWorkspace(_ input: CreateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceResponse {
+        try await self.client.execute(
+            operation: "CreateWorkspace", 
+            path: "/workspaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Creates a workspace in IoT SiteWise. A workspace isolates its resources, such as datasets, time series, pipelines, and tasks, and their data from other workspaces, and has its own quotas and throttling limits. You must specify an encryption configuration when you create a workspace. The operation returns immediately with the workspace in the CREATING state. Provisioning completes asynchronously, after which the workspace state is ACTIVE, or FAILED if provisioning doesn't complete.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - encryptionConfiguration: The encryption configuration for the workspace.
+    ///   - tags: A list of key-value pairs that contain metadata for the workspace. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
+    ///   - workspaceDescription: A description for the workspace.
+    ///   - workspaceName: The name of the workspace to create.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createWorkspace(
+        clientToken: String? = CreateWorkspaceRequest.idempotencyToken(),
+        encryptionConfiguration: WorkspaceEncryptionConfiguration,
+        tags: [String: String]? = nil,
+        workspaceDescription: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateWorkspaceResponse {
+        let input = CreateWorkspaceRequest(
+            clientToken: clientToken, 
+            encryptionConfiguration: encryptionConfiguration, 
+            tags: tags, 
+            workspaceDescription: workspaceDescription, 
+            workspaceName: workspaceName
+        )
+        return try await self.createWorkspace(input, logger: logger)
     }
 
     /// Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource.
@@ -948,6 +1568,39 @@ public struct IoTSiteWise: AWSService {
             clientToken: clientToken
         )
         return try await self.deleteAccessPolicy(input, logger: logger)
+    }
+
+    /// Deletes an application by ID
+    @Sendable
+    @inlinable
+    public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
+        try await self.client.execute(
+            operation: "DeleteApplication", 
+            path: "/workspaces/{workspaceName}/applications/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes an application by ID
+    ///
+    /// Parameters:
+    ///   - id: ID of the Application to delete
+    ///   - workspaceName: Name of the workspace to associate with the underlying Application
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApplication(
+        id: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteApplicationResponse {
+        let input = DeleteApplicationRequest(
+            id: id, 
+            workspaceName: workspaceName
+        )
+        return try await self.deleteApplication(input, logger: logger)
     }
 
     /// Deletes an asset. This action can't be undone. For more information, see Deleting assets and models in the IoT SiteWise User Guide.  You can't delete an asset that's associated to another asset. For more information, see DisassociateAssets.
@@ -1172,7 +1825,7 @@ public struct IoTSiteWise: AWSService {
         return try await self.deleteDashboard(input, logger: logger)
     }
 
-    /// Deletes a dataset. This cannot be undone.
+    /// Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets.
     @Sendable
     @inlinable
     public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDatasetResponse {
@@ -1186,21 +1839,24 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Deletes a dataset. This cannot be undone.
+    /// Deletes a dataset. This can't be undone. Deleting a session dataset also deletes the underlying time series data in the session. You can't delete a session dataset while a curated dataset references its data segments. First delete the curated dataset or disassociate the data segments. Deleting a curated dataset doesn't delete the underlying data in the source session datasets.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     ///   - datasetId: The ID of the dataset.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDataset(
         clientToken: String? = DeleteDatasetRequest.idempotencyToken(),
         datasetId: String,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteDatasetResponse {
         let input = DeleteDatasetRequest(
             clientToken: clientToken, 
-            datasetId: datasetId
+            datasetId: datasetId, 
+            workspaceName: workspaceName
         )
         return try await self.deleteDataset(input, logger: logger)
     }
@@ -1233,6 +1889,45 @@ public struct IoTSiteWise: AWSService {
             gatewayId: gatewayId
         )
         return try await self.deleteGateway(input, logger: logger)
+    }
+
+    /// Deletes a pipeline from the specified workspace. A pipeline cannot be
+    /// deleted if it has any active executions. Wait for all executions to complete before
+    /// attempting to delete the pipeline, or use CancelPipelineExecution to stop a running
+    /// execution.
+    @Sendable
+    @inlinable
+    public func deletePipeline(_ input: DeletePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePipelineResponse {
+        try await self.client.execute(
+            operation: "DeletePipeline", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a pipeline from the specified workspace. A pipeline cannot be
+    /// deleted if it has any active executions. Wait for all executions to complete before
+    /// attempting to delete the pipeline, or use CancelPipelineExecution to stop a running
+    /// execution.
+    ///
+    /// Parameters:
+    ///   - pipelineName: The name of the pipeline to delete.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePipeline(
+        pipelineName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePipelineResponse {
+        let input = DeletePipelineRequest(
+            pipelineName: pipelineName, 
+            workspaceName: workspaceName
+        )
+        return try await self.deletePipeline(input, logger: logger)
     }
 
     /// Deletes a portal from IoT SiteWise Monitor.
@@ -1301,7 +1996,44 @@ public struct IoTSiteWise: AWSService {
         return try await self.deleteProject(input, logger: logger)
     }
 
-    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    /// Deletes a task from the specified workspace. A task cannot be deleted
+    /// if it is currently referenced by any existing pipeline. Remove the task from all
+    /// pipelines before attempting to delete it.
+    @Sendable
+    @inlinable
+    public func deleteTask(_ input: DeleteTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTaskResponse {
+        try await self.client.execute(
+            operation: "DeleteTask", 
+            path: "/workspaces/{workspaceName}/tasks/{taskName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a task from the specified workspace. A task cannot be deleted
+    /// if it is currently referenced by any existing pipeline. Remove the task from all
+    /// pipelines before attempting to delete it.
+    ///
+    /// Parameters:
+    ///   - taskName: The name of the task to delete.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTask(
+        taskName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTaskResponse {
+        let input = DeleteTaskRequest(
+            taskName: taskName, 
+            workspaceName: workspaceName
+        )
+        return try await self.deleteTask(input, logger: logger)
+    }
+
+    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. You can't delete a time series until all of its data segments have been deleted from session datasets. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
     @Sendable
     @inlinable
     public func deleteTimeSeries(_ input: DeleteTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1315,13 +2047,14 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. You can't delete a time series until all of its data segments have been deleted from session datasets. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
     ///
     /// Parameters:
     ///   - alias: The alias that identifies the time series.
     ///   - assetId: The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     ///   - propertyId: The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTimeSeries(
@@ -1329,15 +2062,50 @@ public struct IoTSiteWise: AWSService {
         assetId: String? = nil,
         clientToken: String? = DeleteTimeSeriesRequest.idempotencyToken(),
         propertyId: String? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteTimeSeriesRequest(
             alias: alias, 
             assetId: assetId, 
             clientToken: clientToken, 
-            propertyId: propertyId
+            propertyId: propertyId, 
+            workspaceName: workspaceName
         )
         return try await self.deleteTimeSeries(input, logger: logger)
+    }
+
+    /// Deletes a workspace. Before you delete a workspace, you must delete all resources contained in or associated with the workspace, such as datasets, time series, pipelines, and tasks.
+    @Sendable
+    @inlinable
+    public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceResponse {
+        try await self.client.execute(
+            operation: "DeleteWorkspace", 
+            path: "/workspaces/{workspaceName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Deletes a workspace. Before you delete a workspace, you must delete all resources contained in or associated with the workspace, such as datasets, time series, pipelines, and tasks.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - workspaceName: The name of the workspace to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteWorkspace(
+        clientToken: String? = DeleteWorkspaceRequest.idempotencyToken(),
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteWorkspaceResponse {
+        let input = DeleteWorkspaceRequest(
+            clientToken: clientToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.deleteWorkspace(input, logger: logger)
     }
 
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
@@ -1398,6 +2166,39 @@ public struct IoTSiteWise: AWSService {
             actionId: actionId
         )
         return try await self.describeAction(input, logger: logger)
+    }
+
+    /// Retrieves Application details based on the ID
+    @Sendable
+    @inlinable
+    public func describeApplication(_ input: DescribeApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationResponse {
+        try await self.client.execute(
+            operation: "DescribeApplication", 
+            path: "/workspaces/{workspaceName}/applications/{id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves Application details based on the ID
+    ///
+    /// Parameters:
+    ///   - id: ID of the Application
+    ///   - workspaceName: Name of the workspace to associate with the underlying Application
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApplication(
+        id: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeApplicationResponse {
+        let input = DescribeApplicationRequest(
+            id: id, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeApplication(input, logger: logger)
     }
 
     /// Retrieves information about an asset.
@@ -1622,14 +2423,17 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - jobId: The ID of the job.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeBulkImportJob(
         jobId: String,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeBulkImportJobResponse {
         let input = DescribeBulkImportJobRequest(
-            jobId: jobId
+            jobId: jobId, 
+            workspaceName: workspaceName
         )
         return try await self.describeBulkImportJob(input, logger: logger)
     }
@@ -1751,16 +2555,55 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - datasetId: The ID of the dataset.
+    ///   - datasetVersion: The version of the dataset.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeDataset(
         datasetId: String,
+        datasetVersion: String? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeDatasetResponse {
         let input = DescribeDatasetRequest(
-            datasetId: datasetId
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion, 
+            workspaceName: workspaceName
         )
         return try await self.describeDataset(input, logger: logger)
+    }
+
+    /// Retrieves information about a dataset export job.
+    @Sendable
+    @inlinable
+    public func describeDatasetExportJob(_ input: DescribeDatasetExportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDatasetExportJobResponse {
+        try await self.client.execute(
+            operation: "DescribeDatasetExportJob", 
+            path: "/workspaces/{workspaceName}/dataset-export-jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a dataset export job.
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier for the dataset export job.
+    ///   - workspaceName: The name of the workspace that contains the dataset export job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeDatasetExportJob(
+        jobId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeDatasetExportJobResponse {
+        let input = DescribeDatasetExportJobRequest(
+            jobId: jobId, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeDatasetExportJob(input, logger: logger)
     }
 
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see Key management in the IoT SiteWise User Guide.
@@ -1788,6 +2631,77 @@ public struct IoTSiteWise: AWSService {
         let input = DescribeDefaultEncryptionConfigurationRequest(
         )
         return try await self.describeDefaultEncryptionConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific enrichment job, including its current status,
+    /// configuration, and timestamps.
+    /// Use Cases
+    /// Monitor job progress by checking status updates with DescribeEnrichmentJob
+    /// Retrieve the complete job configuration submitted during creation
+    /// Debug failed jobs by examining the failureMessage field
+    /// Track job lifecycle with creation, update, completion, and cancellation timestamps
+    /// Status Monitoring
+    /// Jobs progress through statuses: PENDING → RUNNING → terminal state
+    /// Terminal states:
+    /// COMPLETED: Job finished successfully; query IoT SiteWise for semantic search results
+    /// FAILED: Job encountered an error; check failureMessage for details
+    /// TIMED_OUT: Job exceeded maximum processing time
+    /// CANCELLED: Job was cancelled via CancelEnrichmentJob
+    /// Response Fields
+    /// The response includes:
+    /// Current job status and type
+    /// Full job configuration as originally submitted
+    /// Lifecycle timestamps (created, updated, completed, cancelled)
+    /// Failure details if status is FAILED
+    @Sendable
+    @inlinable
+    public func describeEnrichmentJob(_ input: DescribeEnrichmentJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEnrichmentJobResponse {
+        try await self.client.execute(
+            operation: "DescribeEnrichmentJob", 
+            path: "/workspaces/{workspaceName}/enrichment-jobs/{jobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific enrichment job, including its current status,
+    /// configuration, and timestamps.
+    /// Use Cases
+    /// Monitor job progress by checking status updates with DescribeEnrichmentJob
+    /// Retrieve the complete job configuration submitted during creation
+    /// Debug failed jobs by examining the failureMessage field
+    /// Track job lifecycle with creation, update, completion, and cancellation timestamps
+    /// Status Monitoring
+    /// Jobs progress through statuses: PENDING → RUNNING → terminal state
+    /// Terminal states:
+    /// COMPLETED: Job finished successfully; query IoT SiteWise for semantic search results
+    /// FAILED: Job encountered an error; check failureMessage for details
+    /// TIMED_OUT: Job exceeded maximum processing time
+    /// CANCELLED: Job was cancelled via CancelEnrichmentJob
+    /// Response Fields
+    /// The response includes:
+    /// Current job status and type
+    /// Full job configuration as originally submitted
+    /// Lifecycle timestamps (created, updated, completed, cancelled)
+    /// Failure details if status is FAILED
+    ///
+    /// Parameters:
+    ///   - jobId: The unique identifier of the enrichment job to retrieve. This is the jobId returned by CreateEnrichmentJob.
+    ///   - workspaceName: The name of the IoT SiteWise workspace containing the enrichment job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeEnrichmentJob(
+        jobId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeEnrichmentJobResponse {
+        let input = DescribeEnrichmentJobRequest(
+            jobId: jobId, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeEnrichmentJob(input, logger: logger)
     }
 
     /// Retrieves information about the execution.
@@ -1900,14 +2814,101 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves the current IoT SiteWise logging options.
     ///
     /// Parameters:
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeLoggingOptions(
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeLoggingOptionsResponse {
         let input = DescribeLoggingOptionsRequest(
+            workspaceName: workspaceName
         )
         return try await self.describeLoggingOptions(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific pipeline in a workspace.
+    @Sendable
+    @inlinable
+    public func describePipeline(_ input: DescribePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePipelineResponse {
+        try await self.client.execute(
+            operation: "DescribePipeline", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific pipeline in a workspace.
+    ///
+    /// Parameters:
+    ///   - pipelineName: The name of the pipeline.
+    ///   - pipelineVersion: The version number of the pipeline to retrieve. If not specified, returns the latest version.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describePipeline(
+        pipelineName: String,
+        pipelineVersion: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribePipelineResponse {
+        let input = DescribePipelineRequest(
+            pipelineName: pipelineName, 
+            pipelineVersion: pipelineVersion, 
+            workspaceName: workspaceName
+        )
+        return try await self.describePipeline(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific pipeline execution, including the
+    /// overall execution status and the status of each individual compute node. Use this
+    /// operation to monitor execution progress and inspect per-node results, environment
+    /// variables, and error details.
+    @Sendable
+    @inlinable
+    public func describePipelineExecution(_ input: DescribePipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePipelineExecutionResponse {
+        try await self.client.execute(
+            operation: "DescribePipelineExecution", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions/{pipelineExecutionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific pipeline execution, including the
+    /// overall execution status and the status of each individual compute node. Use this
+    /// operation to monitor execution progress and inspect per-node results, environment
+    /// variables, and error details.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of compute nodes to return per request. This is an upper bound; the actual number of results may be less. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - pipelineExecutionId: The unique identifier of the pipeline execution.
+    ///   - pipelineName: The name of the pipeline.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describePipelineExecution(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pipelineExecutionId: String,
+        pipelineName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribePipelineExecutionResponse {
+        let input = DescribePipelineExecutionRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pipelineExecutionId: pipelineExecutionId, 
+            pipelineName: pipelineName, 
+            workspaceName: workspaceName
+        )
+        return try await self.describePipelineExecution(input, logger: logger)
     }
 
     /// Retrieves information about a portal.
@@ -1970,6 +2971,78 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeProject(input, logger: logger)
     }
 
+    /// Retrieves information about a query, including its status.
+    @Sendable
+    @inlinable
+    public func describeQuery(_ input: DescribeQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueryResponse {
+        try await self.client.execute(
+            operation: "DescribeQuery", 
+            path: "/workspaces/{workspaceName}/queries/{queryId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a query, including its status.
+    ///
+    /// Parameters:
+    ///   - queryId: The unique identifier for the query execution.
+    ///   - workspaceName: The name of the workspace associated with the query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeQuery(
+        queryId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeQueryResponse {
+        let input = DescribeQueryRequest(
+            queryId: queryId, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeQuery(input, logger: logger)
+    }
+
+    /// Returns the current status and metadata of a single search, including the query that was
+    /// submitted, the search type, and — when the search has failed — the reason. Use this to poll a
+    /// search started with StartSearch until it reaches a terminal status (SUCCEEDED or
+    /// FAILED).
+    @Sendable
+    @inlinable
+    public func describeSearch(_ input: DescribeSearchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSearchResponse {
+        try await self.client.execute(
+            operation: "DescribeSearch", 
+            path: "/workspaces/{workspaceName}/searches/{searchId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Returns the current status and metadata of a single search, including the query that was
+    /// submitted, the search type, and — when the search has failed — the reason. Use this to poll a
+    /// search started with StartSearch until it reaches a terminal status (SUCCEEDED or
+    /// FAILED).
+    ///
+    /// Parameters:
+    ///   - searchId: The identifier of the search to describe.
+    ///   - workspaceName: The name of the workspace the search belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSearch(
+        searchId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSearchResponse {
+        let input = DescribeSearchRequest(
+            searchId: searchId, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeSearch(input, logger: logger)
+    }
+
     /// Retrieves information about the storage configuration for IoT SiteWise.
     @Sendable
     @inlinable
@@ -1997,6 +3070,42 @@ public struct IoTSiteWise: AWSService {
         return try await self.describeStorageConfiguration(input, logger: logger)
     }
 
+    /// Retrieves detailed information about a specific task in a workspace.
+    @Sendable
+    @inlinable
+    public func describeTask(_ input: DescribeTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTaskResponse {
+        try await self.client.execute(
+            operation: "DescribeTask", 
+            path: "/workspaces/{workspaceName}/tasks/{taskName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific task in a workspace.
+    ///
+    /// Parameters:
+    ///   - taskName: The name of the task.
+    ///   - taskVersion: The version number of the task to retrieve. If not specified, returns the latest version.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTask(
+        taskName: String,
+        taskVersion: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTaskResponse {
+        let input = DescribeTaskRequest(
+            taskName: taskName, 
+            taskVersion: taskVersion, 
+            workspaceName: workspaceName
+        )
+        return try await self.describeTask(input, logger: logger)
+    }
+
     /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
     @Sendable
     @inlinable
@@ -2017,20 +3126,53 @@ public struct IoTSiteWise: AWSService {
     ///   - alias: The alias that identifies the time series.
     ///   - assetId: The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
     ///   - propertyId: The ID of the asset property. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeTimeSeries(
         alias: String? = nil,
         assetId: String? = nil,
         propertyId: String? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeTimeSeriesResponse {
         let input = DescribeTimeSeriesRequest(
             alias: alias, 
             assetId: assetId, 
-            propertyId: propertyId
+            propertyId: propertyId, 
+            workspaceName: workspaceName
         )
         return try await self.describeTimeSeries(input, logger: logger)
+    }
+
+    /// Retrieves information about a workspace.
+    @Sendable
+    @inlinable
+    public func describeWorkspace(_ input: DescribeWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceResponse {
+        try await self.client.execute(
+            operation: "DescribeWorkspace", 
+            path: "/workspaces/{workspaceName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a workspace.
+    ///
+    /// Parameters:
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeWorkspace(
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeWorkspaceResponse {
+        let input = DescribeWorkspaceRequest(
+            workspaceName: workspaceName
+        )
+        return try await self.describeWorkspace(input, logger: logger)
     }
 
     /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
@@ -2342,6 +3484,54 @@ public struct IoTSiteWise: AWSService {
         return try await self.getAssetPropertyValueHistory(input, logger: logger)
     }
 
+    /// Retrieves video data for a specific time range.
+    @Sendable
+    @inlinable
+    public func getCaptureData(_ input: GetCaptureDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCaptureDataResponse {
+        try await self.client.execute(
+            operation: "GetCaptureData", 
+            path: "/workspaces/{workspaceName}/get-capture-data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves video data for a specific time range.
+    ///
+    /// Parameters:
+    ///   - endTime: The end time for the video data range. Must be greater than startTime.
+    ///   - formatSettings: The optional format settings for the output.
+    ///   - nextToken: The token from a previous response used to continue retrieving data.
+    ///   - propertyAlias: The property alias that identifies the capture source. Mutually exclusive with timeSeriesId.
+    ///   - startTime: The start time for the video data range.
+    ///   - timeSeriesId: The time series ID that identifies the capture source. Mutually exclusive with propertyAlias.
+    ///   - workspaceName: The name of the workspace that contains the capture source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCaptureData(
+        endTime: TimeInNanos,
+        formatSettings: FormatSettings? = nil,
+        nextToken: String? = nil,
+        propertyAlias: String? = nil,
+        startTime: TimeInNanos,
+        timeSeriesId: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCaptureDataResponse {
+        let input = GetCaptureDataRequest(
+            endTime: endTime, 
+            formatSettings: formatSettings, 
+            nextToken: nextToken, 
+            propertyAlias: propertyAlias, 
+            startTime: startTime, 
+            timeSeriesId: timeSeriesId, 
+            workspaceName: workspaceName
+        )
+        return try await self.getCaptureData(input, logger: logger)
+    }
+
     /// Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
     @Sendable
     @inlinable
@@ -2406,6 +3596,92 @@ public struct IoTSiteWise: AWSService {
             type: type
         )
         return try await self.getInterpolatedAssetPropertyValues(input, logger: logger)
+    }
+
+    /// Retrieves the paginated results of a query. Returns empty rows if the query is not yet complete.
+    @Sendable
+    @inlinable
+    public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsResponse {
+        try await self.client.execute(
+            operation: "GetQueryResults", 
+            path: "/workspaces/{workspaceName}/queries/{queryId}/results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves the paginated results of a query. Returns empty rows if the query is not yet complete.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - queryId: The unique identifier for the query execution.
+    ///   - workspaceName: The name of the workspace associated with the query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQueryResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        queryId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQueryResultsResponse {
+        let input = GetQueryResultsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            queryId: queryId, 
+            workspaceName: workspaceName
+        )
+        return try await self.getQueryResults(input, logger: logger)
+    }
+
+    /// Retrieves the ranked results of a search, ordered by descending relevance score. Results are
+    /// available only after the search has reached the SUCCEEDED status. Calling this on a search
+    /// that exists but has not yet completed returns InvalidRequestException, while calling it on a
+    /// search that does not exist returns ResourceNotFoundException. The response is paginated: when
+    /// nextToken is present, pass it on a subsequent call to retrieve the next page.
+    @Sendable
+    @inlinable
+    public func getSearchResults(_ input: GetSearchResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSearchResultsResponse {
+        try await self.client.execute(
+            operation: "GetSearchResults", 
+            path: "/workspaces/{workspaceName}/searches/{searchId}/results", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves the ranked results of a search, ordered by descending relevance score. Results are
+    /// available only after the search has reached the SUCCEEDED status. Calling this on a search
+    /// that exists but has not yet completed returns InvalidRequestException, while calling it on a
+    /// search that does not exist returns ResourceNotFoundException. The response is paginated: when
+    /// nextToken is present, pass it on a subsequent call to retrieve the next page.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Valid range is 1 to 10,000; if
+    ///   - nextToken: The pagination token returned by a previous GetSearchResults call. Provide it to retrieve the
+    ///   - searchId: The identifier of the search whose results are retrieved.
+    ///   - workspaceName: The name of the workspace the search belongs to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSearchResults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSearchResultsResponse {
+        let input = GetSearchResultsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchId: searchId, 
+            workspaceName: workspaceName
+        )
+        return try await self.getSearchResults(input, logger: logger)
     }
 
     /// Invokes SiteWise Assistant to start or continue a conversation.
@@ -2535,6 +3811,39 @@ public struct IoTSiteWise: AWSService {
             targetResourceType: targetResourceType
         )
         return try await self.listActions(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of existing applications
+    @Sendable
+    @inlinable
+    public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
+        try await self.client.execute(
+            operation: "ListApplications", 
+            path: "/applications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of existing applications
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return
+    ///   - nextToken: Next Page Token
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listApplications(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListApplicationsResponse {
+        let input = ListApplicationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listApplications(input, logger: logger)
     }
 
     /// Retrieves a paginated list of composite models associated with the asset model
@@ -2836,18 +4145,21 @@ public struct IoTSiteWise: AWSService {
     ///   - filter: You can use a filter to select the bulk import jobs that you want to retrieve.
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func listBulkImportJobs(
         filter: ListBulkImportJobsFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListBulkImportJobsResponse {
         let input = ListBulkImportJobsRequest(
             filter: filter, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            workspaceName: workspaceName
         )
         return try await self.listBulkImportJobs(input, logger: logger)
     }
@@ -3032,6 +4344,126 @@ public struct IoTSiteWise: AWSService {
         return try await self.listDashboards(input, logger: logger)
     }
 
+    /// Retrieves a paginated list of data segment relationships for a session dataset. Use this operation to find the curated datasets that reference data segments of the specified session dataset. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDatasetDataSegmentRelationships(_ input: ListDatasetDataSegmentRelationshipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetDataSegmentRelationshipsResponse {
+        try await self.client.execute(
+            operation: "ListDatasetDataSegmentRelationships", 
+            path: "/datasets/{datasetId}/data-segment-relationships", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of data segment relationships for a session dataset. Use this operation to find the curated datasets that reference data segments of the specified session dataset. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - datasetId: The ID of the session dataset to list data segment relationships for.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetDataSegmentRelationships(
+        datasetId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetDataSegmentRelationshipsResponse {
+        let input = ListDatasetDataSegmentRelationshipsRequest(
+            datasetId: datasetId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listDatasetDataSegmentRelationships(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of data segments associated with a dataset. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listDatasetDataSegments(_ input: ListDatasetDataSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetDataSegmentsResponse {
+        try await self.client.execute(
+            operation: "ListDatasetDataSegments", 
+            path: "/datasets/{datasetId}/data-segments", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of data segments associated with a dataset. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - datasetId: The ID of the dataset.
+    ///   - datasetVersion: The version of the dataset to list data segments for.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetDataSegments(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetDataSegmentsResponse {
+        let input = ListDatasetDataSegmentsRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listDatasetDataSegments(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of dataset export jobs for a workspace.
+    @Sendable
+    @inlinable
+    public func listDatasetExportJobs(_ input: ListDatasetExportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDatasetExportJobsResponse {
+        try await self.client.execute(
+            operation: "ListDatasetExportJobs", 
+            path: "/workspaces/{workspaceName}/dataset-export-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of dataset export jobs for a workspace.
+    ///
+    /// Parameters:
+    ///   - filter: The optional filter that returns only jobs matching the given filter value. Defaults to ALL.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace whose dataset export jobs should be listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDatasetExportJobs(
+        filter: DatasetExportJobFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDatasetExportJobsResponse {
+        let input = ListDatasetExportJobsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listDatasetExportJobs(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of datasets for a specific target resource.
     @Sendable
     @inlinable
@@ -3049,23 +4481,132 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves a paginated list of datasets for a specific target resource.
     ///
     /// Parameters:
+    ///   - datasetType: The type of dataset to filter by: a session dataset, a curated dataset, or a connection to an external datasource.
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - nextToken: The token for the next set of results, or null if there are no additional results.
     ///   - sourceType: The type of data source for the dataset.
+    ///   - workspaceName: The name of the workspace to filter datasets by.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDatasets(
+        datasetType: DatasetTypeEnum? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         sourceType: DatasetSourceType,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDatasetsResponse {
         let input = ListDatasetsRequest(
+            datasetType: datasetType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            sourceType: sourceType
+            sourceType: sourceType, 
+            workspaceName: workspaceName
         )
         return try await self.listDatasets(input, logger: logger)
+    }
+
+    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered
+    /// by createdAt timestamp descending (newest first).
+    /// Filtering
+    /// Combine filters to narrow results:
+    /// datasetId: Filter by dataset
+    /// propertyAlias OR timeSeriesId: Filter by time series (specify one, not both)
+    /// status: Filter by job status (e.g., RUNNING to find active jobs)
+    /// jobType: Filter by enrichment type (currently only EVENT_DETECTION)
+    /// startDate and endDate: Filter by job creation time range
+    /// Important Constraints
+    /// You must specify either propertyAlias OR timeSeriesId, but not both
+    /// Attempting to specify both results in an InvalidRequestException
+    /// Date filters use ISO 8601 format
+    /// startDate is exclusive, endDate is inclusive
+    /// Pagination
+    /// The operation returns up to maxResults jobs per page (default 50). If more results exist, the
+    /// response includes a nextToken. Submit this token in a subsequent request to retrieve the next page.
+    /// Common Use Cases
+    /// Find all running jobs: Filter by status=RUNNING
+    /// List recent jobs for a dataset: Filter by datasetId with optional date range
+    /// Monitor jobs for a specific sensor: Filter by propertyAlias or timeSeriesId
+    /// Track all event detection jobs: Filter by jobType=EVENT_DETECTION
+    /// Performance
+    /// Performance is optimal when filtering by supported fields (datasetId, propertyAlias, timeSeriesId, status, jobType).
+    @Sendable
+    @inlinable
+    public func listEnrichmentJobs(_ input: ListEnrichmentJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnrichmentJobsResponse {
+        try await self.client.execute(
+            operation: "ListEnrichmentJobs", 
+            path: "/workspaces/{workspaceName}/enrichment-jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Lists enrichment jobs within a workspace with optional filtering and pagination. Results are ordered
+    /// by createdAt timestamp descending (newest first).
+    /// Filtering
+    /// Combine filters to narrow results:
+    /// datasetId: Filter by dataset
+    /// propertyAlias OR timeSeriesId: Filter by time series (specify one, not both)
+    /// status: Filter by job status (e.g., RUNNING to find active jobs)
+    /// jobType: Filter by enrichment type (currently only EVENT_DETECTION)
+    /// startDate and endDate: Filter by job creation time range
+    /// Important Constraints
+    /// You must specify either propertyAlias OR timeSeriesId, but not both
+    /// Attempting to specify both results in an InvalidRequestException
+    /// Date filters use ISO 8601 format
+    /// startDate is exclusive, endDate is inclusive
+    /// Pagination
+    /// The operation returns up to maxResults jobs per page (default 50). If more results exist, the
+    /// response includes a nextToken. Submit this token in a subsequent request to retrieve the next page.
+    /// Common Use Cases
+    /// Find all running jobs: Filter by status=RUNNING
+    /// List recent jobs for a dataset: Filter by datasetId with optional date range
+    /// Monitor jobs for a specific sensor: Filter by propertyAlias or timeSeriesId
+    /// Track all event detection jobs: Filter by jobType=EVENT_DETECTION
+    /// Performance
+    /// Performance is optimal when filtering by supported fields (datasetId, propertyAlias, timeSeriesId, status, jobType).
+    ///
+    /// Parameters:
+    ///   - datasetId: Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset.
+    ///   - endDate: The inclusive end of the date range for filtering jobs by creation time. Jobs created on or before
+    ///   - jobType: Filter by enrichment job type. Currently only EVENT_DETECTION is supported.
+    ///   - maxResults: Maximum number of jobs to return per page. Defaults to 50 if not specified.
+    ///   - nextToken: Pagination token from a previous ListEnrichmentJobs response. Include this token to retrieve the
+    ///   - propertyAlias: Filter by property alias (human-readable sensor name). Specify either propertyAlias or timeSeriesId,
+    ///   - startDate: The exclusive start of the date range for filtering jobs by creation time. Jobs created after this
+    ///   - status: Filter by job status. Returns only jobs in the specified status.
+    ///   - timeSeriesId: Filter by time series ID (system identifier). Specify either timeSeriesId or propertyAlias, but not
+    ///   - workspaceName: The name of the IoT SiteWise workspace to list enrichment jobs from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEnrichmentJobs(
+        datasetId: String? = nil,
+        endDate: Date? = nil,
+        jobType: JobType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        propertyAlias: String? = nil,
+        startDate: Date? = nil,
+        status: EnrichmentJobStatus? = nil,
+        timeSeriesId: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEnrichmentJobsResponse {
+        let input = ListEnrichmentJobsRequest(
+            datasetId: datasetId, 
+            endDate: endDate, 
+            jobType: jobType, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            propertyAlias: propertyAlias, 
+            startDate: startDate, 
+            status: status, 
+            timeSeriesId: timeSeriesId, 
+            workspaceName: workspaceName
+        )
+        return try await self.listEnrichmentJobs(input, logger: logger)
     }
 
     /// Retrieves a paginated list of summaries of all executions.
@@ -3185,6 +4726,108 @@ public struct IoTSiteWise: AWSService {
         return try await self.listInterfaceRelationships(input, logger: logger)
     }
 
+    /// Lists pipeline executions for a specific pipeline in a workspace.
+    /// Supports filtering by state and time range. State can be combined with either
+    /// startTime or endTime filters. Time range filters are grouped: use startTime filters
+    /// (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore),
+    /// but not both. Combining startTime and endTime filters returns an InvalidRequestException.
+    /// Note: endTime filters only return executions in terminal states, as in-progress
+    /// executions have no endTime.
+    @Sendable
+    @inlinable
+    public func listPipelineExecutions(_ input: ListPipelineExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelineExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListPipelineExecutions", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Lists pipeline executions for a specific pipeline in a workspace.
+    /// Supports filtering by state and time range. State can be combined with either
+    /// startTime or endTime filters. Time range filters are grouped: use startTime filters
+    /// (startTimeAfter, startTimeBefore) or endTime filters (endTimeAfter, endTimeBefore),
+    /// but not both. Combining startTime and endTime filters returns an InvalidRequestException.
+    /// Note: endTime filters only return executions in terminal states, as in-progress
+    /// executions have no endTime.
+    ///
+    /// Parameters:
+    ///   - endTimeAfter: Inclusive lower bound on execution end time (ISO-8601).
+    ///   - endTimeBefore: Exclusive upper bound on execution end time (ISO-8601).
+    ///   - maxResults: The maximum number of results to return per request.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - pipelineName: The name of the pipeline.
+    ///   - startTimeAfter: Inclusive lower bound on execution start time (ISO-8601).
+    ///   - startTimeBefore: Exclusive upper bound on execution start time (ISO-8601).
+    ///   - state: Filter by execution state.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPipelineExecutions(
+        endTimeAfter: Date? = nil,
+        endTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        pipelineName: String,
+        startTimeAfter: Date? = nil,
+        startTimeBefore: Date? = nil,
+        state: PipelineExecutionState? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPipelineExecutionsResponse {
+        let input = ListPipelineExecutionsRequest(
+            endTimeAfter: endTimeAfter, 
+            endTimeBefore: endTimeBefore, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            pipelineName: pipelineName, 
+            startTimeAfter: startTimeAfter, 
+            startTimeBefore: startTimeBefore, 
+            state: state, 
+            workspaceName: workspaceName
+        )
+        return try await self.listPipelineExecutions(input, logger: logger)
+    }
+
+    /// Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline.
+    @Sendable
+    @inlinable
+    public func listPipelines(_ input: ListPipelinesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPipelinesResponse {
+        try await self.client.execute(
+            operation: "ListPipelines", 
+            path: "/workspaces/{workspaceName}/pipelines", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Lists pipelines in a workspace. To get complete details about a pipeline, use DescribePipeline.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPipelines(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPipelinesResponse {
+        let input = ListPipelinesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listPipelines(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of IoT SiteWise Monitor portals.
     @Sendable
     @inlinable
@@ -3290,6 +4933,88 @@ public struct IoTSiteWise: AWSService {
         return try await self.listProjects(input, logger: logger)
     }
 
+    /// Retrieves a paginated list of queries for a workspace.
+    @Sendable
+    @inlinable
+    public func listQueries(_ input: ListQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueriesResponse {
+        try await self.client.execute(
+            operation: "ListQueries", 
+            path: "/workspaces/{workspaceName}/queries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of queries for a workspace.
+    ///
+    /// Parameters:
+    ///   - filter: An optional filter to return only queries with the specified status. The value must be one of the supported query statuses: SUBMITTED, RUNNING, COMPLETED, FAILED, CANCELED, or CANCELING.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace to list queries for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQueries(
+        filter: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQueriesResponse {
+        let input = ListQueriesRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listQueries(input, logger: logger)
+    }
+
+    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with
+    /// optional filters (status, search type, group, and started-at time range) and are paginated: when
+    /// nextToken is present, pass it on a subsequent call to retrieve the next page.
+    @Sendable
+    @inlinable
+    public func listSearches(_ input: ListSearchesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSearchesResponse {
+        try await self.client.execute(
+            operation: "ListSearches", 
+            path: "/workspaces/{workspaceName}/searches/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Lists the searches in a workspace, most recently started first. Results can be narrowed with
+    /// optional filters (status, search type, group, and started-at time range) and are paginated: when
+    /// nextToken is present, pass it on a subsequent call to retrieve the next page.
+    ///
+    /// Parameters:
+    ///   - listSearchesFilters: Optional filters that restrict which searches are returned.
+    ///   - maxResults: The maximum number of searches to return in a single page. Valid range is 1 to 1,000; if
+    ///   - nextToken: The pagination token returned by a previous ListSearches call. Provide it to retrieve the next
+    ///   - workspaceName: The name of the workspace whose searches are listed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSearches(
+        listSearchesFilters: ListSearchesFilters? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSearchesResponse {
+        let input = ListSearchesRequest(
+            listSearchesFilters: listSearchesFilters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listSearches(input, logger: logger)
+    }
+
     /// Retrieves the list of tags for an IoT SiteWise resource.
     @Sendable
     @inlinable
@@ -3320,6 +5045,42 @@ public struct IoTSiteWise: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Lists tasks in a workspace. To get complete details about a task, use DescribeTask.
+    @Sendable
+    @inlinable
+    public func listTasks(_ input: ListTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTasksResponse {
+        try await self.client.execute(
+            operation: "ListTasks", 
+            path: "/workspaces/{workspaceName}/tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Lists tasks in a workspace. To get complete details about a task, use DescribeTask.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTasks(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTasksResponse {
+        let input = ListTasksRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceName: workspaceName
+        )
+        return try await self.listTasks(input, logger: logger)
+    }
+
     /// Retrieves a paginated list of time series (data streams).
     @Sendable
     @inlinable
@@ -3342,6 +5103,7 @@ public struct IoTSiteWise: AWSService {
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - nextToken: The token to be used for the next set of paginated results.
     ///   - timeSeriesType: The type of the time series. The time series type can be one of the following values:    ASSOCIATED – The time series is associated with an asset property.    DISASSOCIATED – The time series isn't associated with any asset property.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTimeSeries(
@@ -3350,6 +5112,7 @@ public struct IoTSiteWise: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         timeSeriesType: ListTimeSeriesType? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTimeSeriesResponse {
         let input = ListTimeSeriesRequest(
@@ -3357,9 +5120,43 @@ public struct IoTSiteWise: AWSService {
             assetId: assetId, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            timeSeriesType: timeSeriesType
+            timeSeriesType: timeSeriesType, 
+            workspaceName: workspaceName
         )
         return try await self.listTimeSeries(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of workspaces. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listWorkspaces(_ input: ListWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWorkspacesResponse {
+        try await self.client.execute(
+            operation: "ListWorkspaces", 
+            path: "/workspaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of workspaces. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - nextToken: The token to be used for the next set of paginated results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listWorkspaces(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListWorkspacesResponse {
+        let input = ListWorkspacesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listWorkspaces(input, logger: logger)
     }
 
     /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an asset model.
@@ -3452,14 +5249,17 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - loggingOptions: The logging options to set.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func putLoggingOptions(
         loggingOptions: LoggingOptions,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutLoggingOptionsResponse {
         let input = PutLoggingOptionsRequest(
-            loggingOptions: loggingOptions
+            loggingOptions: loggingOptions, 
+            workspaceName: workspaceName
         )
         return try await self.putLoggingOptions(input, logger: logger)
     }
@@ -3510,6 +5310,147 @@ public struct IoTSiteWise: AWSService {
             warmTierRetentionPeriod: warmTierRetentionPeriod
         )
         return try await self.putStorageConfiguration(input, logger: logger)
+    }
+
+    /// Starts execution of a pipeline in the specified workspace. Each compute node runs
+    /// according to the DAG dependency order defined in the pipeline. Nodes without
+    /// dependencies start immediately, while dependent nodes wait for all upstream nodes
+    /// to complete successfully.
+    /// You can provide runtime environment variable overrides that take the highest priority
+    /// in the environment variable hierarchy, without modifying the pipeline definition.
+    @Sendable
+    @inlinable
+    public func startPipelineExecution(_ input: StartPipelineExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPipelineExecutionResponse {
+        try await self.client.execute(
+            operation: "StartPipelineExecution", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}/executions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Starts execution of a pipeline in the specified workspace. Each compute node runs
+    /// according to the DAG dependency order defined in the pipeline. Nodes without
+    /// dependencies start immediately, while dependent nodes wait for all upstream nodes
+    /// to complete successfully.
+    /// You can provide runtime environment variable overrides that take the highest priority
+    /// in the environment variable hierarchy, without modifying the pipeline definition.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - executionEnvironmentVariableOverrides: Runtime environment variable overrides for the execution. Includes global variables
+    ///   - executionPriority: Scheduling priority for the execution. Lower values indicate higher priority. Defaults to 2 when not specified.
+    ///   - pipelineName: The name of the pipeline to execute.
+    ///   - workspaceName: The name of the workspace containing the pipeline.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startPipelineExecution(
+        clientToken: String? = StartPipelineExecutionRequest.idempotencyToken(),
+        executionEnvironmentVariableOverrides: ExecutionEnvironmentVariables? = nil,
+        executionPriority: Int? = nil,
+        pipelineName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartPipelineExecutionResponse {
+        let input = StartPipelineExecutionRequest(
+            clientToken: clientToken, 
+            executionEnvironmentVariableOverrides: executionEnvironmentVariableOverrides, 
+            executionPriority: executionPriority, 
+            pipelineName: pipelineName, 
+            workspaceName: workspaceName
+        )
+        return try await self.startPipelineExecution(input, logger: logger)
+    }
+
+    /// Starts an asynchronous SQL query against workspace telemetry, annotations, data segment, and dataset data.
+    @Sendable
+    @inlinable
+    public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryResponse {
+        try await self.client.execute(
+            operation: "StartQuery", 
+            path: "/workspaces/{workspaceName}/queries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous SQL query against workspace telemetry, annotations, data segment, and dataset data.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - queryStatement: The SQL query to execute against the workspace telemetry, annotations, data segment, and dataset data.
+    ///   - workspaceName: The name of the workspace to query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startQuery(
+        clientToken: String? = StartQueryRequest.idempotencyToken(),
+        queryStatement: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartQueryResponse {
+        let input = StartQueryRequest(
+            clientToken: clientToken, 
+            queryStatement: queryStatement, 
+            workspaceName: workspaceName
+        )
+        return try await self.startQuery(input, logger: logger)
+    }
+
+    /// Starts an asynchronous search over the data in a workspace. The search runs in the background;
+    /// the response returns immediately with a searchId and an initial status of QUEUED. Use
+    /// DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the
+    /// search reaches SUCCEEDED. The request is idempotent on clientToken: repeating a call with the
+    /// same token returns the original search instead of starting a new one.
+    @Sendable
+    @inlinable
+    public func startSearch(_ input: StartSearchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSearchResponse {
+        try await self.client.execute(
+            operation: "StartSearch", 
+            path: "/workspaces/{workspaceName}/searches", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "data.", 
+            logger: logger
+        )
+    }
+    /// Starts an asynchronous search over the data in a workspace. The search runs in the background;
+    /// the response returns immediately with a searchId and an initial status of QUEUED. Use
+    /// DescribeSearch to poll for completion and GetSearchResults to retrieve the results once the
+    /// search reaches SUCCEEDED. The request is idempotent on clientToken: repeating a call with the
+    /// same token returns the original search instead of starting a new one.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier you provide to ensure the request is idempotent. Repeating
+    ///   - groupId: An optional caller-supplied identifier used to group related searches together.
+    ///   - queryStatement: The natural-language query describing the data to search for.
+    ///   - searchFilters: Optional filters that restrict the search to a subset of the workspace's data.
+    ///   - searchType: The search strategy to use. Defaults to QUICK when omitted.
+    ///   - workspaceName: The name of the workspace whose data is searched.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSearch(
+        clientToken: String? = StartSearchRequest.idempotencyToken(),
+        groupId: String? = nil,
+        queryStatement: String,
+        searchFilters: SearchFilters? = nil,
+        searchType: SearchType? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSearchResponse {
+        let input = StartSearchRequest(
+            clientToken: clientToken, 
+            groupId: groupId, 
+            queryStatement: queryStatement, 
+            searchFilters: searchFilters, 
+            searchType: searchType, 
+            workspaceName: workspaceName
+        )
+        return try await self.startSearch(input, logger: logger)
     }
 
     /// Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.
@@ -3578,7 +5519,8 @@ public struct IoTSiteWise: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
     @Sendable
     @inlinable
     public func updateAccessPolicy(_ input: UpdateAccessPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAccessPolicyResponse {
@@ -3592,7 +5534,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
     ///
     /// Parameters:
     ///   - accessPolicyId: The ID of the access policy.
@@ -3869,7 +5812,8 @@ public struct IoTSiteWise: AWSService {
         return try await self.updateComputationModel(input, logger: logger)
     }
 
-    /// Updates an IoT SiteWise Monitor dashboard.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor dashboard.
     @Sendable
     @inlinable
     public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDashboardResponse {
@@ -3883,7 +5827,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Updates an IoT SiteWise Monitor dashboard.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor dashboard.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -3929,26 +5874,35 @@ public struct IoTSiteWise: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    ///   - datasetConfig: The updated configuration for the dataset.
     ///   - datasetDescription: A description about the dataset, and its functionality.
     ///   - datasetId: The ID of the dataset.
     ///   - datasetName: The name of the dataset.
     ///   - datasetSource: The data source for the dataset.
+    ///   - metadata: The updated metadata for the dataset.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDataset(
         clientToken: String? = UpdateDatasetRequest.idempotencyToken(),
+        datasetConfig: DatasetConfig? = nil,
         datasetDescription: String? = nil,
         datasetId: String,
         datasetName: String,
         datasetSource: DatasetSource,
+        metadata: [String: String]? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDatasetResponse {
         let input = UpdateDatasetRequest(
             clientToken: clientToken, 
+            datasetConfig: datasetConfig, 
             datasetDescription: datasetDescription, 
             datasetId: datasetId, 
             datasetName: datasetName, 
-            datasetSource: datasetSource
+            datasetSource: datasetSource, 
+            metadata: metadata, 
+            workspaceName: workspaceName
         )
         return try await self.updateDataset(input, logger: logger)
     }
@@ -4022,7 +5976,56 @@ public struct IoTSiteWise: AWSService {
         return try await self.updateGatewayCapabilityConfiguration(input, logger: logger)
     }
 
-    /// Updates an IoT SiteWise Monitor portal.
+    /// Updates an existing pipeline in the specified workspace. Only the fields
+    /// provided in the request are updated; fields not included in the request are preserved
+    /// unchanged. You can update the pipeline description, environment variables, and the
+    /// list of compute nodes independently.
+    @Sendable
+    @inlinable
+    public func updatePipeline(_ input: UpdatePipelineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePipelineResponse {
+        try await self.client.execute(
+            operation: "UpdatePipeline", 
+            path: "/workspaces/{workspaceName}/pipelines/{pipelineName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Updates an existing pipeline in the specified workspace. Only the fields
+    /// provided in the request are updated; fields not included in the request are preserved
+    /// unchanged. You can update the pipeline description, environment variables, and the
+    /// list of compute nodes independently.
+    ///
+    /// Parameters:
+    ///   - computations: Updated list of compute nodes forming the pipeline DAG.
+    ///   - description: A new description for the pipeline.
+    ///   - environmentVariables: Updated environment variables shared across all compute nodes.
+    ///   - pipelineName: The name of the pipeline to update.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePipeline(
+        computations: [ComputeNode]? = nil,
+        description: String? = nil,
+        environmentVariables: [String: String]? = nil,
+        pipelineName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePipelineResponse {
+        let input = UpdatePipelineRequest(
+            computations: computations, 
+            description: description, 
+            environmentVariables: environmentVariables, 
+            pipelineName: pipelineName, 
+            workspaceName: workspaceName
+        )
+        return try await self.updatePipeline(input, logger: logger)
+    }
+
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor portal.
     @Sendable
     @inlinable
     public func updatePortal(_ input: UpdatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortalResponse {
@@ -4036,7 +6039,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Updates an IoT SiteWise Monitor portal.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor portal.
     ///
     /// Parameters:
     ///   - alarms: Contains the configuration information of an alarm created in an IoT SiteWise Monitor portal. You can use the alarm to monitor an asset property and get notified when the asset property value is outside a specified range. For more information, see Monitoring with alarms in the IoT SiteWise Application Guide.
@@ -4082,7 +6086,8 @@ public struct IoTSiteWise: AWSService {
         return try await self.updatePortal(input, logger: logger)
     }
 
-    /// Updates an IoT SiteWise Monitor project.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor project.
     @Sendable
     @inlinable
     public func updateProject(_ input: UpdateProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProjectResponse {
@@ -4096,7 +6101,8 @@ public struct IoTSiteWise: AWSService {
             logger: logger
         )
     }
-    /// Updates an IoT SiteWise Monitor project.
+    ///  The IoT SiteWise Monitor feature will no longer be open to new  customers starting November 7, 2025. If you would like to use the IoT SiteWise Monitor feature, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// IoT SiteWise Monitor availability change.  Updates an IoT SiteWise Monitor project.
     ///
     /// Parameters:
     ///   - clientToken: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -4119,6 +6125,88 @@ public struct IoTSiteWise: AWSService {
             projectName: projectName
         )
         return try await self.updateProject(input, logger: logger)
+    }
+
+    /// Updates an existing task in the specified workspace. Only the fields
+    /// provided in the request are updated; fields not included in the request are preserved
+    /// unchanged.
+    @Sendable
+    @inlinable
+    public func updateTask(_ input: UpdateTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTaskResponse {
+        try await self.client.execute(
+            operation: "UpdateTask", 
+            path: "/workspaces/{workspaceName}/tasks/{taskName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Updates an existing task in the specified workspace. Only the fields
+    /// provided in the request are updated; fields not included in the request are preserved
+    /// unchanged.
+    ///
+    /// Parameters:
+    ///   - description: A new description for the task.
+    ///   - taskConfiguration: The updated task execution configuration.
+    ///   - taskName: The name of the task to update.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTask(
+        description: String? = nil,
+        taskConfiguration: TaskConfiguration? = nil,
+        taskName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTaskResponse {
+        let input = UpdateTaskRequest(
+            description: description, 
+            taskConfiguration: taskConfiguration, 
+            taskName: taskName, 
+            workspaceName: workspaceName
+        )
+        return try await self.updateTask(input, logger: logger)
+    }
+
+    /// Updates a workspace. You can update only workspaces in the ACTIVE or FAILED state. Fields that you omit from the request are left unchanged. To recover a workspace in the FAILED state, call this operation and supply its encryption configuration again.
+    @Sendable
+    @inlinable
+    public func updateWorkspace(_ input: UpdateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceResponse {
+        try await self.client.execute(
+            operation: "UpdateWorkspace", 
+            path: "/workspaces/{workspaceName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "api.", 
+            logger: logger
+        )
+    }
+    /// Updates a workspace. You can update only workspaces in the ACTIVE or FAILED state. Fields that you omit from the request are left unchanged. To recover a workspace in the FAILED state, call this operation and supply its encryption configuration again.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the request is idempotent. If you retry a request that completed successfully using the same client token, the retry succeeds without performing any further actions.
+    ///   - encryptionConfiguration: The encryption configuration for the workspace. Omit this field to leave encryption unchanged. After a customer managed key configuration becomes active, the key can't be changed; supplying the same key is accepted.
+    ///   - workspaceDescription: A new description for the workspace.
+    ///   - workspaceName: The name of the workspace to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWorkspace(
+        clientToken: String? = UpdateWorkspaceRequest.idempotencyToken(),
+        encryptionConfiguration: WorkspaceEncryptionConfiguration? = nil,
+        workspaceDescription: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWorkspaceResponse {
+        let input = UpdateWorkspaceRequest(
+            clientToken: clientToken, 
+            encryptionConfiguration: encryptionConfiguration, 
+            workspaceDescription: workspaceDescription, 
+            workspaceName: workspaceName
+        )
+        return try await self.updateWorkspace(input, logger: logger)
     }
 }
 
@@ -4241,6 +6329,49 @@ extension IoTSiteWise {
             maxResults: maxResults
         )
         return self.batchGetAssetPropertyValueHistoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describePipelineExecution(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describePipelineExecutionPaginator(
+        _ input: DescribePipelineExecutionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribePipelineExecutionRequest, DescribePipelineExecutionResponse> {
+        return .init(
+            input: input,
+            command: self.describePipelineExecution,
+            inputKey: \DescribePipelineExecutionRequest.nextToken,
+            outputKey: \DescribePipelineExecutionResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describePipelineExecution(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of compute nodes to return per request. This is an upper bound; the actual number of results may be less. Default: 50.
+    ///   - pipelineExecutionId: The unique identifier of the pipeline execution.
+    ///   - pipelineName: The name of the pipeline.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describePipelineExecutionPaginator(
+        maxResults: Int? = nil,
+        pipelineExecutionId: String,
+        pipelineName: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribePipelineExecutionRequest, DescribePipelineExecutionResponse> {
+        let input = DescribePipelineExecutionRequest(
+            maxResults: maxResults, 
+            pipelineExecutionId: pipelineExecutionId, 
+            pipelineName: pipelineName, 
+            workspaceName: workspaceName
+        )
+        return self.describePipelineExecutionPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``executeQuery(_:logger:)``.
@@ -4466,6 +6597,86 @@ extension IoTSiteWise {
         return self.getInterpolatedAssetPropertyValuesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getQueryResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getQueryResultsPaginator(
+        _ input: GetQueryResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetQueryResultsRequest, GetQueryResultsResponse> {
+        return .init(
+            input: input,
+            command: self.getQueryResults,
+            inputKey: \GetQueryResultsRequest.nextToken,
+            outputKey: \GetQueryResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getQueryResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - queryId: The unique identifier for the query execution.
+    ///   - workspaceName: The name of the workspace associated with the query.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getQueryResultsPaginator(
+        maxResults: Int? = nil,
+        queryId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetQueryResultsRequest, GetQueryResultsResponse> {
+        let input = GetQueryResultsRequest(
+            maxResults: maxResults, 
+            queryId: queryId, 
+            workspaceName: workspaceName
+        )
+        return self.getQueryResultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getSearchResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSearchResultsPaginator(
+        _ input: GetSearchResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetSearchResultsRequest, GetSearchResultsResponse> {
+        return .init(
+            input: input,
+            command: self.getSearchResults,
+            inputKey: \GetSearchResultsRequest.nextToken,
+            outputKey: \GetSearchResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getSearchResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single page. Valid range is 1 to 10,000; if
+    ///   - searchId: The identifier of the search whose results are retrieved.
+    ///   - workspaceName: The name of the workspace the search belongs to.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getSearchResultsPaginator(
+        maxResults: Int? = nil,
+        searchId: String,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetSearchResultsRequest, GetSearchResultsResponse> {
+        let input = GetSearchResultsRequest(
+            maxResults: maxResults, 
+            searchId: searchId, 
+            workspaceName: workspaceName
+        )
+        return self.getSearchResultsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAccessPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -4513,6 +6724,86 @@ extension IoTSiteWise {
             resourceType: resourceType
         )
         return self.listAccessPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActionsPaginator(
+        _ input: ListActionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListActionsRequest, ListActionsResponse> {
+        return .init(
+            input: input,
+            command: self.listActions,
+            inputKey: \ListActionsRequest.nextToken,
+            outputKey: \ListActionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listActions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - resolveToResourceId: The ID of the resolved resource.
+    ///   - resolveToResourceType: The type of the resolved resource.
+    ///   - targetResourceId: The ID of the target resource.
+    ///   - targetResourceType: The type of resource.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listActionsPaginator(
+        maxResults: Int? = nil,
+        resolveToResourceId: String? = nil,
+        resolveToResourceType: ResolveToResourceType? = nil,
+        targetResourceId: String,
+        targetResourceType: TargetResourceType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListActionsRequest, ListActionsResponse> {
+        let input = ListActionsRequest(
+            maxResults: maxResults, 
+            resolveToResourceId: resolveToResourceId, 
+            resolveToResourceType: resolveToResourceType, 
+            targetResourceId: targetResourceId, 
+            targetResourceType: targetResourceType
+        )
+        return self.listActionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApplicationsPaginator(
+        _ input: ListApplicationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        return .init(
+            input: input,
+            command: self.listApplications,
+            inputKey: \ListApplicationsRequest.nextToken,
+            outputKey: \ListApplicationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listApplicationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
+        let input = ListApplicationsRequest(
+            maxResults: maxResults
+        )
+        return self.listApplicationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAssetModelCompositeModels(_:logger:)``.
@@ -4824,16 +7115,19 @@ extension IoTSiteWise {
     /// - Parameters:
     ///   - filter: You can use a filter to select the bulk import jobs that you want to retrieve.
     ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger used for logging
     @inlinable
     public func listBulkImportJobsPaginator(
         filter: ListBulkImportJobsFilter? = nil,
         maxResults: Int? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListBulkImportJobsRequest, ListBulkImportJobsResponse> {
         let input = ListBulkImportJobsRequest(
             filter: filter, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            workspaceName: workspaceName
         )
         return self.listBulkImportJobsPaginator(input, logger: logger)
     }
@@ -5023,6 +7317,129 @@ extension IoTSiteWise {
         return self.listDashboardsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDatasetDataSegmentRelationships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetDataSegmentRelationshipsPaginator(
+        _ input: ListDatasetDataSegmentRelationshipsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetDataSegmentRelationshipsRequest, ListDatasetDataSegmentRelationshipsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasetDataSegmentRelationships,
+            inputKey: \ListDatasetDataSegmentRelationshipsRequest.nextToken,
+            outputKey: \ListDatasetDataSegmentRelationshipsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetDataSegmentRelationships(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datasetId: The ID of the session dataset to list data segment relationships for.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetDataSegmentRelationshipsPaginator(
+        datasetId: String,
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetDataSegmentRelationshipsRequest, ListDatasetDataSegmentRelationshipsResponse> {
+        let input = ListDatasetDataSegmentRelationshipsRequest(
+            datasetId: datasetId, 
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listDatasetDataSegmentRelationshipsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasetDataSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetDataSegmentsPaginator(
+        _ input: ListDatasetDataSegmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetDataSegmentsRequest, ListDatasetDataSegmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasetDataSegments,
+            inputKey: \ListDatasetDataSegmentsRequest.nextToken,
+            outputKey: \ListDatasetDataSegmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetDataSegments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datasetId: The ID of the dataset.
+    ///   - datasetVersion: The version of the dataset to list data segments for.
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - workspaceName: The name of the workspace that contains the dataset.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetDataSegmentsPaginator(
+        datasetId: String,
+        datasetVersion: String? = nil,
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetDataSegmentsRequest, ListDatasetDataSegmentsResponse> {
+        let input = ListDatasetDataSegmentsRequest(
+            datasetId: datasetId, 
+            datasetVersion: datasetVersion, 
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listDatasetDataSegmentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDatasetExportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetExportJobsPaginator(
+        _ input: ListDatasetExportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDatasetExportJobsRequest, ListDatasetExportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listDatasetExportJobs,
+            inputKey: \ListDatasetExportJobsRequest.nextToken,
+            outputKey: \ListDatasetExportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDatasetExportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: The optional filter that returns only jobs matching the given filter value. Defaults to ALL.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - workspaceName: The name of the workspace whose dataset export jobs should be listed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDatasetExportJobsPaginator(
+        filter: DatasetExportJobFilter? = nil,
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDatasetExportJobsRequest, ListDatasetExportJobsResponse> {
+        let input = ListDatasetExportJobsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listDatasetExportJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
     ///
     /// - Parameters:
@@ -5044,20 +7461,84 @@ extension IoTSiteWise {
     /// Return PaginatorSequence for operation ``listDatasets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - datasetType: The type of dataset to filter by: a session dataset, a curated dataset, or a connection to an external datasource.
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - sourceType: The type of data source for the dataset.
+    ///   - workspaceName: The name of the workspace to filter datasets by.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDatasetsPaginator(
+        datasetType: DatasetTypeEnum? = nil,
         maxResults: Int? = nil,
         sourceType: DatasetSourceType,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDatasetsRequest, ListDatasetsResponse> {
         let input = ListDatasetsRequest(
+            datasetType: datasetType, 
             maxResults: maxResults, 
-            sourceType: sourceType
+            sourceType: sourceType, 
+            workspaceName: workspaceName
         )
         return self.listDatasetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listEnrichmentJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnrichmentJobsPaginator(
+        _ input: ListEnrichmentJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnrichmentJobsRequest, ListEnrichmentJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listEnrichmentJobs,
+            inputKey: \ListEnrichmentJobsRequest.nextToken,
+            outputKey: \ListEnrichmentJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEnrichmentJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - datasetId: Filter jobs by dataset ID. Returns only jobs analyzing data from the specified dataset.
+    ///   - endDate: The inclusive end of the date range for filtering jobs by creation time. Jobs created on or before
+    ///   - jobType: Filter by enrichment job type. Currently only EVENT_DETECTION is supported.
+    ///   - maxResults: Maximum number of jobs to return per page. Defaults to 50 if not specified.
+    ///   - propertyAlias: Filter by property alias (human-readable sensor name). Specify either propertyAlias or timeSeriesId,
+    ///   - startDate: The exclusive start of the date range for filtering jobs by creation time. Jobs created after this
+    ///   - status: Filter by job status. Returns only jobs in the specified status.
+    ///   - timeSeriesId: Filter by time series ID (system identifier). Specify either timeSeriesId or propertyAlias, but not
+    ///   - workspaceName: The name of the IoT SiteWise workspace to list enrichment jobs from.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnrichmentJobsPaginator(
+        datasetId: String? = nil,
+        endDate: Date? = nil,
+        jobType: JobType? = nil,
+        maxResults: Int? = nil,
+        propertyAlias: String? = nil,
+        startDate: Date? = nil,
+        status: EnrichmentJobStatus? = nil,
+        timeSeriesId: String? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEnrichmentJobsRequest, ListEnrichmentJobsResponse> {
+        let input = ListEnrichmentJobsRequest(
+            datasetId: datasetId, 
+            endDate: endDate, 
+            jobType: jobType, 
+            maxResults: maxResults, 
+            propertyAlias: propertyAlias, 
+            startDate: startDate, 
+            status: status, 
+            timeSeriesId: timeSeriesId, 
+            workspaceName: workspaceName
+        )
+        return self.listEnrichmentJobsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listExecutions(_:logger:)``.
@@ -5180,6 +7661,98 @@ extension IoTSiteWise {
         return self.listInterfaceRelationshipsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listPipelineExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineExecutionsPaginator(
+        _ input: ListPipelineExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelineExecutionsRequest, ListPipelineExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listPipelineExecutions,
+            inputKey: \ListPipelineExecutionsRequest.nextToken,
+            outputKey: \ListPipelineExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPipelineExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endTimeAfter: Inclusive lower bound on execution end time (ISO-8601).
+    ///   - endTimeBefore: Exclusive upper bound on execution end time (ISO-8601).
+    ///   - maxResults: The maximum number of results to return per request.
+    ///   - pipelineName: The name of the pipeline.
+    ///   - startTimeAfter: Inclusive lower bound on execution start time (ISO-8601).
+    ///   - startTimeBefore: Exclusive upper bound on execution start time (ISO-8601).
+    ///   - state: Filter by execution state.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelineExecutionsPaginator(
+        endTimeAfter: Date? = nil,
+        endTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        pipelineName: String,
+        startTimeAfter: Date? = nil,
+        startTimeBefore: Date? = nil,
+        state: PipelineExecutionState? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPipelineExecutionsRequest, ListPipelineExecutionsResponse> {
+        let input = ListPipelineExecutionsRequest(
+            endTimeAfter: endTimeAfter, 
+            endTimeBefore: endTimeBefore, 
+            maxResults: maxResults, 
+            pipelineName: pipelineName, 
+            startTimeAfter: startTimeAfter, 
+            startTimeBefore: startTimeBefore, 
+            state: state, 
+            workspaceName: workspaceName
+        )
+        return self.listPipelineExecutionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPipelines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelinesPaginator(
+        _ input: ListPipelinesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPipelinesRequest, ListPipelinesResponse> {
+        return .init(
+            input: input,
+            command: self.listPipelines,
+            inputKey: \ListPipelinesRequest.nextToken,
+            outputKey: \ListPipelinesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPipelines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPipelinesPaginator(
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPipelinesRequest, ListPipelinesResponse> {
+        let input = ListPipelinesRequest(
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listPipelinesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPortals(_:logger:)``.
     ///
     /// - Parameters:
@@ -5288,6 +7861,123 @@ extension IoTSiteWise {
         return self.listProjectsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQueriesPaginator(
+        _ input: ListQueriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQueriesRequest, ListQueriesResponse> {
+        return .init(
+            input: input,
+            command: self.listQueries,
+            inputKey: \ListQueriesRequest.nextToken,
+            outputKey: \ListQueriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: An optional filter to return only queries with the specified status. The value must be one of the supported query statuses: SUBMITTED, RUNNING, COMPLETED, FAILED, CANCELED, or CANCELING.
+    ///   - maxResults: The maximum number of results to return for each paginated request.
+    ///   - workspaceName: The name of the workspace to list queries for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQueriesPaginator(
+        filter: String? = nil,
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListQueriesRequest, ListQueriesResponse> {
+        let input = ListQueriesRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listQueriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSearches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSearchesPaginator(
+        _ input: ListSearchesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSearchesRequest, ListSearchesResponse> {
+        return .init(
+            input: input,
+            command: self.listSearches,
+            inputKey: \ListSearchesRequest.nextToken,
+            outputKey: \ListSearchesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSearches(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - listSearchesFilters: Optional filters that restrict which searches are returned.
+    ///   - maxResults: The maximum number of searches to return in a single page. Valid range is 1 to 1,000; if
+    ///   - workspaceName: The name of the workspace whose searches are listed.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSearchesPaginator(
+        listSearchesFilters: ListSearchesFilters? = nil,
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSearchesRequest, ListSearchesResponse> {
+        let input = ListSearchesRequest(
+            listSearchesFilters: listSearchesFilters, 
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listSearchesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTasksPaginator(
+        _ input: ListTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTasksRequest, ListTasksResponse> {
+        return .init(
+            input: input,
+            command: self.listTasks,
+            inputKey: \ListTasksRequest.nextToken,
+            outputKey: \ListTasksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - workspaceName: The name of the workspace.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTasksPaginator(
+        maxResults: Int? = nil,
+        workspaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTasksRequest, ListTasksResponse> {
+        let input = ListTasksRequest(
+            maxResults: maxResults, 
+            workspaceName: workspaceName
+        )
+        return self.listTasksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTimeSeries(_:logger:)``.
     ///
     /// - Parameters:
@@ -5313,6 +8003,7 @@ extension IoTSiteWise {
     ///   - assetId: The ID of the asset in which the asset property was created. This can be either the actual ID in UUID format, or else externalId: followed by the external ID, if it has one. For more information, see Referencing objects with external IDs in the IoT SiteWise User Guide.
     ///   - maxResults: The maximum number of results to return for each paginated request.
     ///   - timeSeriesType: The type of the time series. The time series type can be one of the following values:    ASSOCIATED – The time series is associated with an asset property.    DISASSOCIATED – The time series isn't associated with any asset property.
+    ///   - workspaceName: The name of the workspace.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTimeSeriesPaginator(
@@ -5320,15 +8011,51 @@ extension IoTSiteWise {
         assetId: String? = nil,
         maxResults: Int? = nil,
         timeSeriesType: ListTimeSeriesType? = nil,
+        workspaceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListTimeSeriesRequest, ListTimeSeriesResponse> {
         let input = ListTimeSeriesRequest(
             aliasPrefix: aliasPrefix, 
             assetId: assetId, 
             maxResults: maxResults, 
-            timeSeriesType: timeSeriesType
+            timeSeriesType: timeSeriesType, 
+            workspaceName: workspaceName
         )
         return self.listTimeSeriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listWorkspaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWorkspacesPaginator(
+        _ input: ListWorkspacesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListWorkspacesRequest, ListWorkspacesResponse> {
+        return .init(
+            input: input,
+            command: self.listWorkspaces,
+            inputKey: \ListWorkspacesRequest.nextToken,
+            outputKey: \ListWorkspacesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listWorkspaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return for each paginated request. Default: 50.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listWorkspacesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListWorkspacesRequest, ListWorkspacesResponse> {
+        let input = ListWorkspacesRequest(
+            maxResults: maxResults
+        )
+        return self.listWorkspacesPaginator(input, logger: logger)
     }
 }
 
@@ -5360,6 +8087,19 @@ extension IoTSiteWise.BatchGetAssetPropertyValueRequest: AWSPaginateToken {
         return .init(
             entries: self.entries,
             nextToken: token
+        )
+    }
+}
+
+extension IoTSiteWise.DescribePipelineExecutionRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.DescribePipelineExecutionRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineExecutionId: self.pipelineExecutionId,
+            pipelineName: self.pipelineName,
+            workspaceName: self.workspaceName
         )
     }
 }
@@ -5433,6 +8173,30 @@ extension IoTSiteWise.GetInterpolatedAssetPropertyValuesRequest: AWSPaginateToke
     }
 }
 
+extension IoTSiteWise.GetQueryResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.GetQueryResultsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            queryId: self.queryId,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.GetSearchResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.GetSearchResultsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchId: self.searchId,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
 extension IoTSiteWise.ListAccessPoliciesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListAccessPoliciesRequest {
@@ -5444,6 +8208,30 @@ extension IoTSiteWise.ListAccessPoliciesRequest: AWSPaginateToken {
             nextToken: token,
             resourceId: self.resourceId,
             resourceType: self.resourceType
+        )
+    }
+}
+
+extension IoTSiteWise.ListActionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListActionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resolveToResourceId: self.resolveToResourceId,
+            resolveToResourceType: self.resolveToResourceType,
+            targetResourceId: self.targetResourceId,
+            targetResourceType: self.targetResourceType
+        )
+    }
+}
+
+extension IoTSiteWise.ListApplicationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListApplicationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -5540,7 +8328,8 @@ extension IoTSiteWise.ListBulkImportJobsRequest: AWSPaginateToken {
         return .init(
             filter: self.filter,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            workspaceName: self.workspaceName
         )
     }
 }
@@ -5600,13 +8389,70 @@ extension IoTSiteWise.ListDashboardsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListDatasetDataSegmentRelationshipsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDatasetDataSegmentRelationshipsRequest {
+        return .init(
+            datasetId: self.datasetId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListDatasetDataSegmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDatasetDataSegmentsRequest {
+        return .init(
+            datasetId: self.datasetId,
+            datasetVersion: self.datasetVersion,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListDatasetExportJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDatasetExportJobsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
 extension IoTSiteWise.ListDatasetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListDatasetsRequest {
         return .init(
+            datasetType: self.datasetType,
             maxResults: self.maxResults,
             nextToken: token,
-            sourceType: self.sourceType
+            sourceType: self.sourceType,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListEnrichmentJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListEnrichmentJobsRequest {
+        return .init(
+            datasetId: self.datasetId,
+            endDate: self.endDate,
+            jobType: self.jobType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            propertyAlias: self.propertyAlias,
+            startDate: self.startDate,
+            status: self.status,
+            timeSeriesId: self.timeSeriesId,
+            workspaceName: self.workspaceName
         )
     }
 }
@@ -5647,6 +8493,34 @@ extension IoTSiteWise.ListInterfaceRelationshipsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListPipelineExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListPipelineExecutionsRequest {
+        return .init(
+            endTimeAfter: self.endTimeAfter,
+            endTimeBefore: self.endTimeBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName,
+            startTimeAfter: self.startTimeAfter,
+            startTimeBefore: self.startTimeBefore,
+            state: self.state,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListPipelinesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListPipelinesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
 extension IoTSiteWise.ListPortalsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListPortalsRequest {
@@ -5679,6 +8553,41 @@ extension IoTSiteWise.ListProjectsRequest: AWSPaginateToken {
     }
 }
 
+extension IoTSiteWise.ListQueriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListQueriesRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListSearchesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListSearchesRequest {
+        return .init(
+            listSearchesFilters: self.listSearchesFilters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListTasksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
 extension IoTSiteWise.ListTimeSeriesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListTimeSeriesRequest {
@@ -5687,7 +8596,18 @@ extension IoTSiteWise.ListTimeSeriesRequest: AWSPaginateToken {
             assetId: self.assetId,
             maxResults: self.maxResults,
             nextToken: token,
-            timeSeriesType: self.timeSeriesType
+            timeSeriesType: self.timeSeriesType,
+            workspaceName: self.workspaceName
+        )
+    }
+}
+
+extension IoTSiteWise.ListWorkspacesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> IoTSiteWise.ListWorkspacesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

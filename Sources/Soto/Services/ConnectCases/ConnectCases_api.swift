@@ -1551,6 +1551,47 @@ public struct ConnectCases: AWSService {
         return try await self.updateLayout(input, logger: logger)
     }
 
+    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Amazon Connect endpoints and quotas.
+    @Sendable
+    @inlinable
+    public func updateRelatedItem(_ input: UpdateRelatedItemRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRelatedItemResponse {
+        try await self.client.execute(
+            operation: "UpdateRelatedItem", 
+            path: "/domains/{domainId}/cases/{caseId}/related-items/{relatedItemId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the content of a related item associated with a case. The following related item types are supported:    Comment - Update the text content of an existing comment    Custom - Update the fields of a custom related item. You can add, modify, and remove fields from a custom related item. There's a quota for the number of fields allowed in a Custom type related item. See Amazon Connect Cases quotas.    Important things to know    When updating a Custom related item, all existing and new fields, and their associated values should be included in the request. Fields not included as part of this request will be removed.   If you provide a value for performedBy.userArn you must also have DescribeUser permission on the ARN of the user that you provide.    System case fields cannot be used in a custom related item.    Endpoints: See Amazon Connect endpoints and quotas.
+    ///
+    /// Parameters:
+    ///   - caseId: A unique identifier of the case.
+    ///   - content: The content of a related item to be updated.
+    ///   - domainId: The unique identifier of the Cases domain.
+    ///   - performedBy: Represents the user who performed the update of the related item.
+    ///   - relatedItemId: Unique identifier of a related item.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRelatedItem(
+        caseId: String,
+        content: RelatedItemUpdateContent,
+        domainId: String,
+        performedBy: UserUnion? = nil,
+        relatedItemId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRelatedItemResponse {
+        let input = UpdateRelatedItemRequest(
+            caseId: caseId, 
+            content: content, 
+            domainId: domainId, 
+            performedBy: performedBy, 
+            relatedItemId: relatedItemId
+        )
+        return try await self.updateRelatedItem(input, logger: logger)
+    }
+
     /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved. Other template APIs are:    CreateTemplate     DeleteTemplate     GetTemplate     ListTemplates
     @Sendable
     @inlinable

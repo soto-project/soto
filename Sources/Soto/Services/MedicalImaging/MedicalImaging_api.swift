@@ -575,7 +575,7 @@ public struct MedicalImaging: AWSService {
         return try await self.searchImageSets(input, logger: logger)
     }
 
-    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
+    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     @Sendable
     @inlinable
     public func startDICOMImportJob(_ input: StartDICOMImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDICOMImportJobResponse {
@@ -588,12 +588,13 @@ public struct MedicalImaging: AWSService {
             logger: logger
         )
     }
-    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
+    /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files or enhances existing DICOM files with JSON metadata. The importConfiguration parameter specifies the import type. The data is found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier for API idempotency.
     ///   - dataAccessRoleArn: The Amazon Resource Name (ARN) of the IAM role that grants permission to access medical imaging resources.
     ///   - datastoreId: The data store identifier.
+    ///   - importConfiguration: The import configuration for the import job.
     ///   - inputOwnerAccountId: The account ID of the source S3 bucket owner.
     ///   - inputS3Uri: The input prefix path for the S3 bucket that contains the DICOM files to be imported.
     ///   - jobName: The import job name.
@@ -604,6 +605,7 @@ public struct MedicalImaging: AWSService {
         clientToken: String = StartDICOMImportJobRequest.idempotencyToken(),
         dataAccessRoleArn: String,
         datastoreId: String,
+        importConfiguration: ImportConfiguration? = nil,
         inputOwnerAccountId: String? = nil,
         inputS3Uri: String,
         jobName: String? = nil,
@@ -614,6 +616,7 @@ public struct MedicalImaging: AWSService {
             clientToken: clientToken, 
             dataAccessRoleArn: dataAccessRoleArn, 
             datastoreId: datastoreId, 
+            importConfiguration: importConfiguration, 
             inputOwnerAccountId: inputOwnerAccountId, 
             inputS3Uri: inputS3Uri, 
             jobName: jobName, 
@@ -706,6 +709,7 @@ public struct MedicalImaging: AWSService {
     ///   - datastoreId: The data store identifier.
     ///   - force: Setting this flag will force the UpdateImageSetMetadata operation for the following attributes:    Tag.StudyInstanceUID, Tag.SeriesInstanceUID, Tag.SOPInstanceUID, and Tag.StudyID    Adding, removing, or updating private tags for an individual SOP Instance
     ///   - imageSetId: The image set identifier.
+    ///   - includeStudyImageSets: Flag to apply the metadata updates to all image sets in the same Study as the requested image set ID.
     ///   - latestVersionId: The latest image set version identifier.
     ///   - updateImageSetMetadataUpdates: Update image set metadata updates.
     ///   - logger: Logger use during operation
@@ -714,6 +718,7 @@ public struct MedicalImaging: AWSService {
         datastoreId: String,
         force: Bool? = nil,
         imageSetId: String,
+        includeStudyImageSets: Bool? = nil,
         latestVersionId: String,
         updateImageSetMetadataUpdates: MetadataUpdates,
         logger: Logger = AWSClient.loggingDisabled        
@@ -722,6 +727,7 @@ public struct MedicalImaging: AWSService {
             datastoreId: datastoreId, 
             force: force, 
             imageSetId: imageSetId, 
+            includeStudyImageSets: includeStudyImageSets, 
             latestVersionId: latestVersionId, 
             updateImageSetMetadataUpdates: updateImageSetMetadataUpdates
         )

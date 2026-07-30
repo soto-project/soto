@@ -219,6 +219,44 @@ public struct Billing: AWSService {
         return try await self.disassociateSourceViews(input, logger: logger)
     }
 
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options.
+    @Sendable
+    @inlinable
+    public func getBillingPreferences(_ input: GetBillingPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingPreferencesResponse {
+        try await self.client.execute(
+            operation: "GetBillingPreferences", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves billing preferences for the specified feature. Each feature controls a distinct billing capability: which accounts can share Reserved Instances or credits, whether billing alerts are enabled, the historical record of sharing changes, and per-credit options.
+    ///
+    /// Parameters:
+    ///   - features: The feature to retrieve. Specify exactly one value. Valid values: BILLING_ALERTS, RI_SHARING, RI_SHARING_HISTORY, CREDIT_SHARING, CREDIT_SHARING_HISTORY, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS.
+    ///   - filters: Filters to narrow results. Specify exactly one filter when supplied. The supported filter name is PREFERENCE_KEY, which accepts 1 to 10 values to match preference keys.
+    ///   - maxResults: The maximum number of records to return per page. Range: 1 to 50. Default: 50.
+    ///   - nextToken: Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBillingPreferences(
+        features: [BillingFeature],
+        filters: [BillingFeatureFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBillingPreferencesResponse {
+        let input = GetBillingPreferencesRequest(
+            features: features, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getBillingPreferences(input, logger: logger)
+    }
+
     /// Returns the metadata associated to the specified billing view ARN.
     @Sendable
     @inlinable
@@ -246,6 +284,88 @@ public struct Billing: AWSService {
             arn: arn
         )
         return try await self.getBillingView(input, logger: logger)
+    }
+
+    /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit.
+    @Sendable
+    @inlinable
+    public func getCreditAllocationHistory(_ input: GetCreditAllocationHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCreditAllocationHistoryResponse {
+        try await self.client.execute(
+            operation: "GetCreditAllocationHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the per-billing-month allocation history for credits applied to an Amazon Web Services account's bills. Traverses the consolidated billing family to capture cross-account credit applications. Supports pagination and optional filtering to a single credit.
+    ///
+    /// Parameters:
+    ///   - accountId: The Amazon Web Services account ID whose allocation history to retrieve. Must be a 12-digit numeric string.
+    ///   - creditId: Filters the result to a single credit. When omitted, returns allocation entries for all credits.
+    ///   - endDate: Inclusive end date as Unix epoch seconds.
+    ///   - maxResults: The maximum number of records to return per page. Range: 1 to 1000. Default: 100.
+    ///   - nextToken: Pagination token from a previous response. Pass the value returned in nextToken to retrieve the next page of results.
+    ///   - startDate: Inclusive start date as Unix epoch seconds. Must be on or before endDate. The range from startDate to endDate cannot exceed 24 billing months.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCreditAllocationHistory(
+        accountId: String,
+        creditId: Int64? = nil,
+        endDate: Date,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startDate: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCreditAllocationHistoryResponse {
+        let input = GetCreditAllocationHistoryRequest(
+            accountId: accountId, 
+            creditId: creditId, 
+            endDate: endDate, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startDate: startDate
+        )
+        return try await self.getCreditAllocationHistory(input, logger: logger)
+    }
+
+    /// Returns the list of Amazon Web Services account credits for the specified account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true, the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId.
+    @Sendable
+    @inlinable
+    public func getCredits(_ input: GetCreditsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCreditsResponse {
+        try await self.client.execute(
+            operation: "GetCredits", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the list of Amazon Web Services account credits for the specified account. Each credit includes its identifier, type, monetary amounts, applicable products, expiration, sharing configuration, and current enabled status. When the caller is the management account of a consolidated billing family and payerAccountFlag is true, the response aggregates credits across the entire family. Otherwise, the response includes only credits owned by the account specified in accountId.
+    ///
+    /// Parameters:
+    ///   - accountId: The Amazon Web Services account ID. Must be a 12-digit numeric string.
+    ///   - endDate: The end date for the credit period as Unix epoch seconds. Must not be a future date and must be on or after startDate. Defaults to the current date when omitted.
+    ///   - payerAccountFlag: When true and the caller is the management account, the response aggregates credits across the entire consolidated billing family. When false or omitted, returns only credits for the specified accountId.
+    ///   - startDate: The start date for the credit period as Unix epoch seconds. Must be a past date that is not more than one year before the current date.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCredits(
+        accountId: String,
+        endDate: Date? = nil,
+        payerAccountFlag: Bool? = nil,
+        startDate: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCreditsResponse {
+        let input = GetCreditsRequest(
+            accountId: accountId, 
+            endDate: endDate, 
+            payerAccountFlag: payerAccountFlag, 
+            startDate: startDate
+        )
+        return try await self.getCredits(input, logger: logger)
     }
 
     /// Returns the resource-based policy document attached to the resource in JSON format.
@@ -391,6 +511,35 @@ public struct Billing: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Redeems an Amazon Web Services promotional credit code on behalf of the calling account. On success, a new credit is added to the account's credit ledger with the amount, validity period, and applicable products defined by the promotion. The credit is then automatically applied to subsequent bills according to the standard credit application order.
+    @Sendable
+    @inlinable
+    public func redeemCredits(_ input: RedeemCreditsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RedeemCreditsResponse {
+        try await self.client.execute(
+            operation: "RedeemCredits", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Redeems an Amazon Web Services promotional credit code on behalf of the calling account. On success, a new credit is added to the account's credit ledger with the amount, validity period, and applicable products defined by the promotion. The credit is then automatically applied to subsequent bills according to the standard credit application order.
+    ///
+    /// Parameters:
+    ///   - promoCode: The promotional credit code to redeem.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func redeemCredits(
+        promoCode: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RedeemCreditsResponse {
+        let input = RedeemCreditsRequest(
+            promoCode: promoCode
+        )
+        return try await self.redeemCredits(input, logger: logger)
+    }
+
     ///  An API operation for adding one or more tags (key-value pairs) to a resource.
     @Sendable
     @inlinable
@@ -455,6 +604,38 @@ public struct Billing: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, and sharing keys under CREDIT_PREFERENCE_OPTIONS) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts for credits they own, or by the management account for any credit in the family.
+    @Sendable
+    @inlinable
+    public func updateBillingPreferences(_ input: UpdateBillingPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBillingPreferencesResponse {
+        try await self.client.execute(
+            operation: "UpdateBillingPreferences", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates billing preferences for the specified feature. Each feature targets a distinct billing capability and has its own set of supported keys. The action sets the value for each provided key; keys not present in the request are unchanged. Sharing keys (RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, and sharing keys under CREDIT_PREFERENCE_OPTIONS) may only be set by the management account of a consolidated billing family. The credit/{creditId}/status key may be set by member accounts for credits they own, or by the management account for any credit in the family.
+    ///
+    /// Parameters:
+    ///   - billingPreferencesPerKey: Key/value pairs to apply. All keys in a single request must be valid for the specified feature and must not be duplicated. For CREDIT_PREFERENCE_OPTIONS, all keys must reference the same creditId.
+    ///   - feature: The feature to update. Valid values: BILLING_ALERTS, RI_SHARING, CREDIT_SHARING, CREDIT_LEVEL_SHARING, CREDIT_PREFERENCE_OPTIONS. The history features (RI_SHARING_HISTORY and CREDIT_SHARING_HISTORY) are read-only and cannot be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBillingPreferences(
+        billingPreferencesPerKey: [BillingPreferenceForKey],
+        feature: BillingFeature,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBillingPreferencesResponse {
+        let input = UpdateBillingPreferencesRequest(
+            billingPreferencesPerKey: billingPreferencesPerKey, 
+            feature: feature
+        )
+        return try await self.updateBillingPreferences(input, logger: logger)
+    }
+
     /// An API to update the attributes of the billing view.
     @Sendable
     @inlinable
@@ -507,6 +688,52 @@ extension Billing {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Billing {
+    /// Return PaginatorSequence for operation ``getCreditAllocationHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCreditAllocationHistoryPaginator(
+        _ input: GetCreditAllocationHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetCreditAllocationHistoryRequest, GetCreditAllocationHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.getCreditAllocationHistory,
+            inputKey: \GetCreditAllocationHistoryRequest.nextToken,
+            outputKey: \GetCreditAllocationHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getCreditAllocationHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The Amazon Web Services account ID whose allocation history to retrieve. Must be a 12-digit numeric string.
+    ///   - creditId: Filters the result to a single credit. When omitted, returns allocation entries for all credits.
+    ///   - endDate: Inclusive end date as Unix epoch seconds.
+    ///   - maxResults: The maximum number of records to return per page. Range: 1 to 1000. Default: 100.
+    ///   - startDate: Inclusive start date as Unix epoch seconds. Must be on or before endDate. The range from startDate to endDate cannot exceed 24 billing months.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getCreditAllocationHistoryPaginator(
+        accountId: String,
+        creditId: Int64? = nil,
+        endDate: Date,
+        maxResults: Int? = nil,
+        startDate: Date,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetCreditAllocationHistoryRequest, GetCreditAllocationHistoryResponse> {
+        let input = GetCreditAllocationHistoryRequest(
+            accountId: accountId, 
+            creditId: creditId, 
+            endDate: endDate, 
+            maxResults: maxResults, 
+            startDate: startDate
+        )
+        return self.getCreditAllocationHistoryPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listBillingViews(_:logger:)``.
     ///
     /// - Parameters:
@@ -594,6 +821,20 @@ extension Billing {
             maxResults: maxResults
         )
         return self.listSourceViewsForBillingViewPaginator(input, logger: logger)
+    }
+}
+
+extension Billing.GetCreditAllocationHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.GetCreditAllocationHistoryRequest {
+        return .init(
+            accountId: self.accountId,
+            creditId: self.creditId,
+            endDate: self.endDate,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startDate: self.startDate
+        )
     }
 }
 

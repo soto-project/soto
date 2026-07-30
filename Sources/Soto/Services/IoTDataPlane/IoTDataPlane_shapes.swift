@@ -34,11 +34,11 @@ extension IoTDataPlane {
     // MARK: Shapes
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
-        /// Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
+        /// Specifies whether to remove the client's persistent session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state for persistent sessions. For clean sessions this parameter will be ignored. By default, this is set to FALSE (preserves the session state).
         public let cleanSession: Bool?
-        /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
+        /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
         public let clientId: String
-        /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+        /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to ensure that LWT is published. By default, this is set to FALSE (LWT message is published).
         public let preventWillMessage: Bool?
 
         @inlinable
@@ -112,6 +112,100 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionRequest: AWSEncodableShape {
+        /// The unique identifier of the MQTT client to retrieve connection information. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+        public let clientId: String
+        /// Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp) should be included in the GetConnection response. Set to TRUE to include socket information. Set to FALSE to omit socket information. By default, this is set to FALSE. See the developer guide for how to authorize this parameter.
+        public let includeSocketInformation: Bool?
+
+        @inlinable
+        public init(clientId: String, includeSocketInformation: Bool? = nil) {
+            self.clientId = clientId
+            self.includeSocketInformation = includeSocketInformation
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clientId, key: "clientId")
+            request.encodeQuery(self.includeSocketInformation, key: "includeSocketInformation")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^$]")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionResponse: AWSDecodableShape {
+        /// Indicates whether the client is using a clean session. Returns true for clean sessions or false for persistent sessions.
+        public let cleanSession: Bool?
+        /// The unique identifier of the MQTT client. This is the same client ID that was used when the client established the connection.
+        public let clientId: String?
+        /// The connection state of the client. Returns true if the client is currently connected, or false if the client is not connected.
+        public let connected: Bool?
+        /// Unix timestamp (in milliseconds) indicating when the client connected. Present only when connected is true.
+        public let connectedSince: Int64?
+        /// Unix timestamp (in milliseconds) indicating when the client disconnected. Present only when connected is false. This information is available for 30 minutes after the client disconnects.
+        public let disconnectedSince: Int64?
+        /// The reason for the last disconnection, if the client is currently disconnected. See the developer guide for valid disconnect reasons.
+        public let disconnectReason: String?
+        /// The keep-alive interval in seconds that the client specified when establishing the connection.
+        public let keepAliveDuration: Int?
+        /// The session expiry interval in seconds for the MQTT client connection. This is configured by the user. This value indicates how long the session will remain active after the client disconnects.
+        public let sessionExpiry: Int64?
+        /// The IP address of the client that initiated the connection.
+        public let sourceIp: String?
+        /// The client's source port.
+        public let sourcePort: Int?
+        /// The IP address of the Amazon Web Services IoT Core endpoint that the client connected to. For clients connected to VPC endpoints, this is the private IP address of the network interface the client is connected to.
+        public let targetIp: String?
+        /// The port number of the Amazon Web Services IoT Core endpoint that the client connected to.
+        public let targetPort: Int?
+        /// The name of the thing associated with the principal of the MQTT client, if applicable.
+        public let thingName: String?
+        /// The ID of the VPC endpoint. Present for clients connected to IoT Core via a VPC endpoint.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(cleanSession: Bool? = nil, clientId: String? = nil, connected: Bool? = nil, connectedSince: Int64? = nil, disconnectedSince: Int64? = nil, disconnectReason: String? = nil, keepAliveDuration: Int? = nil, sessionExpiry: Int64? = nil, sourceIp: String? = nil, sourcePort: Int? = nil, targetIp: String? = nil, targetPort: Int? = nil, thingName: String? = nil, vpcEndpointId: String? = nil) {
+            self.cleanSession = cleanSession
+            self.clientId = clientId
+            self.connected = connected
+            self.connectedSince = connectedSince
+            self.disconnectedSince = disconnectedSince
+            self.disconnectReason = disconnectReason
+            self.keepAliveDuration = keepAliveDuration
+            self.sessionExpiry = sessionExpiry
+            self.sourceIp = sourceIp
+            self.sourcePort = sourcePort
+            self.targetIp = targetIp
+            self.targetPort = targetPort
+            self.thingName = thingName
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cleanSession = "cleanSession"
+            case clientId = "clientId"
+            case connected = "connected"
+            case connectedSince = "connectedSince"
+            case disconnectedSince = "disconnectedSince"
+            case disconnectReason = "disconnectReason"
+            case keepAliveDuration = "keepAliveDuration"
+            case sessionExpiry = "sessionExpiry"
+            case sourceIp = "sourceIp"
+            case sourcePort = "sourcePort"
+            case targetIp = "targetIp"
+            case targetPort = "targetPort"
+            case thingName = "thingName"
+            case vpcEndpointId = "vpcEndpointId"
+        }
     }
 
     public struct GetRetainedMessageRequest: AWSEncodableShape {
@@ -312,6 +406,58 @@ extension IoTDataPlane {
         }
     }
 
+    public struct ListSubscriptionsRequest: AWSEncodableShape {
+        /// The unique identifier of the MQTT client to list subscriptions for. The client ID can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters.
+        public let clientId: String
+        /// The maximum number of subscriptions to return in a single request. By default, this is set to 20.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(clientId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clientId = clientId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clientId, key: "clientId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^$]")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 200)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSubscriptionsResponse: AWSDecodableShape {
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of topic filters and their associated Quality of Service (QoS) levels that the client is subscribed to.
+        public let subscriptions: [SubscriptionSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, subscriptions: [SubscriptionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.subscriptions = subscriptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case subscriptions = "subscriptions"
+        }
+    }
+
     public struct PublishRequest: AWSEncodableShape {
         /// A UTF-8 encoded string that describes the content of the publishing message.
         public let contentType: String?
@@ -397,6 +543,102 @@ extension IoTDataPlane {
         }
     }
 
+    public struct SendDirectMessageRequest: AWSEncodableShape {
+        /// The unique identifier of the MQTT client to send the message to. Client IDs must not exceed 128 characters and can't start with a dollar sign ($). MQTT client IDs must be URL encoded (percent-encoded) when they contain characters that are not valid in HTTP requests, such as spaces, forward slashes (/), and UTF-8 characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+        public let clientId: String
+        /// A Boolean value that specifies whether to wait for delivery confirmation from the receiving client. When set to true, the API delivers the message at QoS 1 and waits for the client to send a delivery confirmation (PUBACK) before returning a successful response. If delivery confirmation is not received within the specified timeout period, the API returns HTTP 504. When set to false, the API delivers the message at QoS 0 and returns after Amazon Web Services IoT Core attempts to deliver the message. Valid values: true | false  Default value: false
+        public let confirmation: Bool?
+        /// The MQTT5 content type property forwarded to the receiving client (for example, application/json).
+        public let contentType: String?
+        /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
+        public let correlationData: String?
+        /// The message body. MQTT accepts text, binary, and empty (null) message payloads.
+        public let payload: AWSHTTPBody?
+        /// An Enum string value that indicates whether the payload is formatted as UTF-8. payloadFormatIndicator is an HTTP header value in the API.
+        public let payloadFormatIndicator: PayloadFormatIndicator?
+        /// A UTF-8 encoded string that's used as the topic name for a response message. The response topic describes the topic which the receiver should publish to as part of the request-response flow. The topic must not contain wildcard characters. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+        public let responseTopic: String?
+        /// An integer that represents the maximum time, in seconds, to wait for a delivery confirmation (PUBACK) from the receiving client after the message has been delivered. This parameter is only used when confirmation is set to true. If confirmation is false, this parameter is ignored. The total API response time may be higher than this value due to internal processing. Set your HTTP client timeout to a value greater than this parameter. Valid range: 1 to 15 seconds. Default value: 5 seconds.
+        public let timeout: Int?
+        /// The topic of the outbound MQTT Publish message to the receiving client. For more information, see Amazon Web Services IoT Core message broker and protocol limits and quotas.
+        public let topic: String
+        /// A JSON string that contains an array of JSON objects. If you don't use Amazon Web Services SDK or CLI, you must encode the JSON string to base64 format before adding it to the HTTP header. userProperties is an HTTP header value in the API. For MQTT 3.1.1 clients, user properties are silently dropped. The following example userProperties parameter is a JSON string which represents two User Properties. Note that it needs to be base64-encoded:  [{"deviceName": "alpha"}, {"deviceCnt": "45"}]
+        public let userProperties: String?
+
+        @inlinable
+        public init(clientId: String, confirmation: Bool? = nil, contentType: String? = nil, correlationData: String? = nil, payload: AWSHTTPBody? = nil, payloadFormatIndicator: PayloadFormatIndicator? = nil, responseTopic: String? = nil, timeout: Int? = nil, topic: String, userProperties: String? = nil) {
+            self.clientId = clientId
+            self.confirmation = confirmation
+            self.contentType = contentType
+            self.correlationData = correlationData
+            self.payload = payload
+            self.payloadFormatIndicator = payloadFormatIndicator
+            self.responseTopic = responseTopic
+            self.timeout = timeout
+            self.topic = topic
+            self.userProperties = userProperties
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.clientId, key: "clientId")
+            request.encodeQuery(self.confirmation, key: "confirmation")
+            request.encodeQuery(self.contentType, key: "contentType")
+            request.encodeHeader(self.correlationData, key: "x-amz-mqtt5-correlation-data")
+            try container.encode(self.payload)
+            request.encodeHeader(self.payloadFormatIndicator, key: "x-amz-mqtt5-payload-format-indicator")
+            request.encodeQuery(self.responseTopic, key: "responseTopic")
+            request.encodeQuery(self.timeout, key: "timeout")
+            request.encodeQuery(self.topic, key: "topic")
+            request.encodeHeader(self.userProperties, key: "x-amz-mqtt5-user-properties")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 128)
+            try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[^$]")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct SendDirectMessageResponse: AWSDecodableShape {
+        /// The status message indicating the result of the operation.
+        public let message: String?
+        /// A unique identifier for the request. Include this value when contacting Amazon Web Services Support for troubleshooting.
+        public let traceId: String?
+
+        @inlinable
+        public init(message: String? = nil, traceId: String? = nil) {
+            self.message = message
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case traceId = "traceId"
+        }
+    }
+
+    public struct SubscriptionSummary: AWSDecodableShape {
+        /// The Quality of Service (QoS) level for the subscription. Valid values are 0 (at most once) and 1 (at least once).
+        public let qos: Int
+        /// The topic filter pattern that the client is subscribed to. May include MQTT wildcards such as + (single-level) and # (multi-level).
+        public let topicFilter: String
+
+        @inlinable
+        public init(qos: Int, topicFilter: String) {
+            self.qos = qos
+            self.topicFilter = topicFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qos = "qos"
+            case topicFilter = "topicFilter"
+        }
+    }
+
     public struct UpdateThingShadowRequest: AWSEncodableShape {
         /// The state information, in JSON format.
         public let payload: AWSHTTPBody
@@ -458,6 +700,7 @@ public struct IoTDataPlaneErrorType: AWSErrorType {
     enum Code: String {
         case conflictException = "ConflictException"
         case forbiddenException = "ForbiddenException"
+        case gatewayTimeoutException = "GatewayTimeoutException"
         case internalFailureException = "InternalFailureException"
         case invalidRequestException = "InvalidRequestException"
         case methodNotAllowedException = "MethodNotAllowedException"
@@ -491,6 +734,8 @@ public struct IoTDataPlaneErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The caller isn't authorized to make the request.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// The delivery confirmation was not received from the client within the specified timeout period.
+    public static var gatewayTimeoutException: Self { .init(.gatewayTimeoutException) }
     /// An unexpected error has occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// The request is not valid.

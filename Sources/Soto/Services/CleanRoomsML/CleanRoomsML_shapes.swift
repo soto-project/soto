@@ -486,6 +486,7 @@ extension CleanRoomsML {
     public enum WorkerComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cr1x = "CR.1X"
         case cr4x = "CR.4X"
+        case cr8x = "CR.8X"
         public var description: String { return self.rawValue }
     }
 
@@ -927,13 +928,15 @@ extension CleanRoomsML {
         public let mlInputChannelArn: String
         /// The name of the ML input channel.
         public let name: String
+        /// The payer configuration for the ML input channel.
+        public let payerConfiguration: PayerConfiguration?
         /// The status of the ML input channel.
         public let status: MLInputChannelStatus
         /// The most recent time at which the ML input channel was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, status: MLInputChannelStatus, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, payerConfiguration: PayerConfiguration? = nil, status: MLInputChannelStatus, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -942,6 +945,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
+            self.payerConfiguration = payerConfiguration
             self.status = status
             self.updateTime = updateTime
         }
@@ -955,6 +959,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case mlInputChannelArn = "mlInputChannelArn"
             case name = "name"
+            case payerConfiguration = "payerConfiguration"
             case status = "status"
             case updateTime = "updateTime"
         }
@@ -1037,6 +1042,8 @@ extension CleanRoomsML {
         public let metricsStatus: MetricsStatus?
         /// Details about the metrics status for trained model inference job.
         public let metricsStatusDetails: String?
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public let mlModelInferencePayerAccountId: String?
         /// The name of the trained model inference job.
         public let name: String
         /// Returns output configuration information for the trained model inference job.
@@ -1053,7 +1060,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, creatorAccountId: String, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, mlModelInferencePayerAccountId: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -1064,6 +1071,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.status = status
@@ -1084,6 +1092,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case metricsStatus = "metricsStatus"
             case metricsStatusDetails = "metricsStatusDetails"
+            case mlModelInferencePayerAccountId = "mlModelInferencePayerAccountId"
             case name = "name"
             case outputConfiguration = "outputConfiguration"
             case status = "status"
@@ -1109,6 +1118,8 @@ extension CleanRoomsML {
         public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         public let membershipIdentifier: String
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public let mlModelTrainingPayerAccountId: String?
         /// The name of the trained model.
         public let name: String
         /// The status of the trained model.
@@ -1121,7 +1132,7 @@ extension CleanRoomsML {
         public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, mlModelTrainingPayerAccountId: String? = nil, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -1129,6 +1140,7 @@ extension CleanRoomsML {
             self.description = description
             self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
@@ -1144,6 +1156,7 @@ extension CleanRoomsML {
             case description = "description"
             case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case membershipIdentifier = "membershipIdentifier"
+            case mlModelTrainingPayerAccountId = "mlModelTrainingPayerAccountId"
             case name = "name"
             case status = "status"
             case trainedModelArn = "trainedModelArn"
@@ -1701,19 +1714,22 @@ extension CleanRoomsML {
         public let membershipIdentifier: String
         /// The name of the ML input channel.
         public let name: String
+        /// The payer configuration for the ML input channel. Determines which member account pays for compute and synthetic data costs.
+        public let payerConfiguration: PayerConfiguration?
         /// The number of days that the data in the ML input channel is retained.
         public let retentionInDays: Int
         /// The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]?
 
         @inlinable
-        public init(configuredModelAlgorithmAssociations: [String], description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, retentionInDays: Int, tags: [String: String]? = nil) {
+        public init(configuredModelAlgorithmAssociations: [String], description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, payerConfiguration: PayerConfiguration? = nil, retentionInDays: Int, tags: [String: String]? = nil) {
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.description = description
             self.inputChannel = inputChannel
             self.kmsKeyArn = kmsKeyArn
             self.membershipIdentifier = membershipIdentifier
             self.name = name
+            self.payerConfiguration = payerConfiguration
             self.retentionInDays = retentionInDays
             self.tags = tags
         }
@@ -1727,6 +1743,7 @@ extension CleanRoomsML {
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.payerConfiguration, forKey: .payerConfiguration)
             try container.encode(self.retentionInDays, forKey: .retentionInDays)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -1749,6 +1766,7 @@ extension CleanRoomsML {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
+            try self.payerConfiguration?.validate(name: "\(name).payerConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1763,6 +1781,7 @@ extension CleanRoomsML {
             case inputChannel = "inputChannel"
             case kmsKeyArn = "kmsKeyArn"
             case name = "name"
+            case payerConfiguration = "payerConfiguration"
             case retentionInDays = "retentionInDays"
             case tags = "tags"
         }
@@ -1799,6 +1818,8 @@ extension CleanRoomsML {
         public let kmsKeyArn: String?
         /// The membership ID of the member that is creating the trained model.
         public let membershipIdentifier: String
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public let mlModelTrainingPayerAccountId: String?
         /// The name of the trained model.
         public let name: String
         /// Information about the EC2 resources that are used to train this model.
@@ -1811,7 +1832,7 @@ extension CleanRoomsML {
         public let trainingInputMode: TrainingInputMode?
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainingInputMode: TrainingInputMode? = nil) {
+        public init(configuredModelAlgorithmAssociationArn: String, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, mlModelTrainingPayerAccountId: String? = nil, name: String, resourceConfig: ResourceConfig, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainingInputMode: TrainingInputMode? = nil) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.dataChannels = dataChannels
             self.description = description
@@ -1820,6 +1841,7 @@ extension CleanRoomsML {
             self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.kmsKeyArn = kmsKeyArn
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.resourceConfig = resourceConfig
             self.stoppingCondition = stoppingCondition
@@ -1838,6 +1860,7 @@ extension CleanRoomsML {
             try container.encodeIfPresent(self.incrementalTrainingDataChannels, forKey: .incrementalTrainingDataChannels)
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.mlModelTrainingPayerAccountId, forKey: .mlModelTrainingPayerAccountId)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.resourceConfig, forKey: .resourceConfig)
             try container.encodeIfPresent(self.stoppingCondition, forKey: .stoppingCondition)
@@ -1869,6 +1892,9 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.mlModelTrainingPayerAccountId, name: "mlModelTrainingPayerAccountId", parent: name, max: 12)
+            try self.validate(self.mlModelTrainingPayerAccountId, name: "mlModelTrainingPayerAccountId", parent: name, min: 12)
+            try self.validate(self.mlModelTrainingPayerAccountId, name: "mlModelTrainingPayerAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
@@ -1888,6 +1914,7 @@ extension CleanRoomsML {
             case hyperparameters = "hyperparameters"
             case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case kmsKeyArn = "kmsKeyArn"
+            case mlModelTrainingPayerAccountId = "mlModelTrainingPayerAccountId"
             case name = "name"
             case resourceConfig = "resourceConfig"
             case stoppingCondition = "stoppingCondition"
@@ -2672,6 +2699,8 @@ extension CleanRoomsML {
         public let name: String
         /// The number of records in the ML input channel.
         public let numberOfRecords: Int64?
+        /// The payer configuration for the ML input channel.
+        public let payerConfiguration: PayerConfiguration?
         /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
         public let privacyBudgets: PrivacyBudgets?
         /// The number of days to retain the data for the ML input channel.
@@ -2685,7 +2714,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, payerConfiguration: PayerConfiguration? = nil, privacyBudgets: PrivacyBudgets? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -2695,6 +2724,7 @@ extension CleanRoomsML {
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
             self.numberOfRecords = numberOfRecords
+            self.payerConfiguration = payerConfiguration
             self.privacyBudgets = privacyBudgets
             self.retentionInDays = retentionInDays
             self.status = status
@@ -2713,6 +2743,7 @@ extension CleanRoomsML {
             case mlInputChannelArn = "mlInputChannelArn"
             case name = "name"
             case numberOfRecords = "numberOfRecords"
+            case payerConfiguration = "payerConfiguration"
             case privacyBudgets = "privacyBudgets"
             case retentionInDays = "retentionInDays"
             case status = "status"
@@ -2783,6 +2814,8 @@ extension CleanRoomsML {
         public let metricsStatus: MetricsStatus?
         /// Details about the status information for the model metrics.
         public let metricsStatusDetails: String?
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public let mlModelTrainingPayerAccountId: String?
         /// The name of the trained model.
         public let name: String
         /// The EC2 resource configuration that was used to train this model.
@@ -2804,7 +2837,7 @@ extension CleanRoomsML {
         public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, creatorAccountId: String, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, mlModelTrainingPayerAccountId: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -2816,6 +2849,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.resourceConfig = resourceConfig
             self.status = status
@@ -2840,6 +2874,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case metricsStatus = "metricsStatus"
             case metricsStatusDetails = "metricsStatusDetails"
+            case mlModelTrainingPayerAccountId = "mlModelTrainingPayerAccountId"
             case name = "name"
             case resourceConfig = "resourceConfig"
             case status = "status"
@@ -3244,6 +3279,8 @@ extension CleanRoomsML {
         public let numberOfFiles: Double?
         /// The number of records in the ML input channel.
         public let numberOfRecords: Int64?
+        /// The payer configuration for the ML input channel.
+        public let payerConfiguration: PayerConfiguration?
         /// Returns the privacy budgets that control access to this Clean Rooms ML input channel. Use these budgets to monitor and limit resource consumption over specified time periods.
         public let privacyBudgets: PrivacyBudgets?
         /// The ID of the protected query that was used to create the ML input channel.
@@ -3263,7 +3300,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, payerConfiguration: PayerConfiguration? = nil, privacyBudgets: PrivacyBudgets? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -3275,6 +3312,7 @@ extension CleanRoomsML {
             self.name = name
             self.numberOfFiles = numberOfFiles
             self.numberOfRecords = numberOfRecords
+            self.payerConfiguration = payerConfiguration
             self.privacyBudgets = privacyBudgets
             self.protectedQueryIdentifier = protectedQueryIdentifier
             self.retentionInDays = retentionInDays
@@ -3298,6 +3336,7 @@ extension CleanRoomsML {
             case name = "name"
             case numberOfFiles = "numberOfFiles"
             case numberOfRecords = "numberOfRecords"
+            case payerConfiguration = "payerConfiguration"
             case privacyBudgets = "privacyBudgets"
             case protectedQueryIdentifier = "protectedQueryIdentifier"
             case retentionInDays = "retentionInDays"
@@ -3368,6 +3407,8 @@ extension CleanRoomsML {
         public let metricsStatus: MetricsStatus?
         /// Details about the metrics status for the trained model inference job.
         public let metricsStatusDetails: String?
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public let mlModelInferencePayerAccountId: String?
         /// The name of the trained model inference job.
         public let name: String
         /// The output configuration information for the trained model inference job.
@@ -3389,7 +3430,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, createTime: Date, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, inferenceContainerImageDigest: String? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, status: TrainedModelInferenceJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, createTime: Date, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, inferenceContainerImageDigest: String? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, mlModelInferencePayerAccountId: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, status: TrainedModelInferenceJobStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.containerExecutionParameters = containerExecutionParameters
             self.createTime = createTime
@@ -3403,6 +3444,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.resourceConfig = resourceConfig
@@ -3429,6 +3471,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case metricsStatus = "metricsStatus"
             case metricsStatusDetails = "metricsStatusDetails"
+            case mlModelInferencePayerAccountId = "mlModelInferencePayerAccountId"
             case name = "name"
             case outputConfiguration = "outputConfiguration"
             case resourceConfig = "resourceConfig"
@@ -3509,6 +3552,8 @@ extension CleanRoomsML {
         public let metricsStatus: MetricsStatus?
         /// Details about the metrics status for the trained model.
         public let metricsStatusDetails: String?
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public let mlModelTrainingPayerAccountId: String?
         /// The name of the trained model.
         public let name: String
         /// The EC2 resource configuration that was used to create the trained model.
@@ -3532,7 +3577,7 @@ extension CleanRoomsML {
         public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, dataChannels: [ModelTrainingDataChannel], description: String? = nil, environment: [String: String]? = nil, hyperparameters: [String: String]? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, kmsKeyArn: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, mlModelTrainingPayerAccountId: String? = nil, name: String, resourceConfig: ResourceConfig? = nil, status: TrainedModelStatus, statusDetails: StatusDetails? = nil, stoppingCondition: StoppingCondition? = nil, tags: [String: String]? = nil, trainedModelArn: String, trainingContainerImageDigest: String? = nil, trainingInputMode: TrainingInputMode? = nil, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -3547,6 +3592,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.resourceConfig = resourceConfig
             self.status = status
@@ -3575,6 +3621,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case metricsStatus = "metricsStatus"
             case metricsStatusDetails = "metricsStatusDetails"
+            case mlModelTrainingPayerAccountId = "mlModelTrainingPayerAccountId"
             case name = "name"
             case resourceConfig = "resourceConfig"
             case status = "status"
@@ -4876,6 +4923,8 @@ extension CleanRoomsML {
         public let mlInputChannelArn: String
         /// The name of the ML input channel.
         public let name: String
+        /// The payer configuration for the ML input channel.
+        public let payerConfiguration: PayerConfiguration?
         /// The ID of the protected query that was used to create the ML input channel.
         public let protectedQueryIdentifier: String?
         /// The status of the ML input channel.
@@ -4884,7 +4933,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, protectedQueryIdentifier: String? = nil, status: MLInputChannelStatus, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, payerConfiguration: PayerConfiguration? = nil, protectedQueryIdentifier: String? = nil, status: MLInputChannelStatus, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -4892,6 +4941,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.mlInputChannelArn = mlInputChannelArn
             self.name = name
+            self.payerConfiguration = payerConfiguration
             self.protectedQueryIdentifier = protectedQueryIdentifier
             self.status = status
             self.updateTime = updateTime
@@ -4905,6 +4955,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case mlInputChannelArn = "mlInputChannelArn"
             case name = "name"
+            case payerConfiguration = "payerConfiguration"
             case protectedQueryIdentifier = "protectedQueryIdentifier"
             case status = "status"
             case updateTime = "updateTime"
@@ -5068,6 +5119,33 @@ extension CleanRoomsML {
         }
     }
 
+    public struct PayerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The account ID of the member that is responsible for paying compute costs.
+        public let computePayerAccountId: String?
+        /// The account ID of the member that is responsible for paying synthetic data generation costs.
+        public let syntheticDataPayerAccountId: String?
+
+        @inlinable
+        public init(computePayerAccountId: String? = nil, syntheticDataPayerAccountId: String? = nil) {
+            self.computePayerAccountId = computePayerAccountId
+            self.syntheticDataPayerAccountId = syntheticDataPayerAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.computePayerAccountId, name: "computePayerAccountId", parent: name, max: 12)
+            try self.validate(self.computePayerAccountId, name: "computePayerAccountId", parent: name, min: 12)
+            try self.validate(self.computePayerAccountId, name: "computePayerAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.syntheticDataPayerAccountId, name: "syntheticDataPayerAccountId", parent: name, max: 12)
+            try self.validate(self.syntheticDataPayerAccountId, name: "syntheticDataPayerAccountId", parent: name, min: 12)
+            try self.validate(self.syntheticDataPayerAccountId, name: "syntheticDataPayerAccountId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case computePayerAccountId = "computePayerAccountId"
+            case syntheticDataPayerAccountId = "syntheticDataPayerAccountId"
+        }
+    }
+
     public struct PrivacyConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The privacy configuration policies for a configured model algorithm association.
         public let policies: PrivacyConfigurationPolicies
@@ -5162,7 +5240,7 @@ extension CleanRoomsML {
                 try validate($0.key, name: "parameters.key", parent: name, max: 100)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "^[0-9a-zA-Z_]+$")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 250)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1000)
             }
         }
 
@@ -5533,6 +5611,8 @@ extension CleanRoomsML {
         public let kmsKeyArn: String?
         /// The membership ID of the membership that contains the trained model inference job.
         public let membershipIdentifier: String
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public let mlModelInferencePayerAccountId: String?
         /// The name of the trained model inference job.
         public let name: String
         /// Defines the output configuration information for the trained model inference job.
@@ -5547,7 +5627,7 @@ extension CleanRoomsML {
         public let trainedModelVersionIdentifier: String?
 
         @inlinable
-        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, tags: [String: String]? = nil, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil) {
+        public init(configuredModelAlgorithmAssociationArn: String? = nil, containerExecutionParameters: InferenceContainerExecutionParameters? = nil, dataSource: ModelInferenceDataSource, description: String? = nil, environment: [String: String]? = nil, kmsKeyArn: String? = nil, membershipIdentifier: String, mlModelInferencePayerAccountId: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, resourceConfig: InferenceResourceConfig, tags: [String: String]? = nil, trainedModelArn: String, trainedModelVersionIdentifier: String? = nil) {
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.containerExecutionParameters = containerExecutionParameters
             self.dataSource = dataSource
@@ -5555,6 +5635,7 @@ extension CleanRoomsML {
             self.environment = environment
             self.kmsKeyArn = kmsKeyArn
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.resourceConfig = resourceConfig
@@ -5573,6 +5654,7 @@ extension CleanRoomsML {
             try container.encodeIfPresent(self.environment, forKey: .environment)
             try container.encodeIfPresent(self.kmsKeyArn, forKey: .kmsKeyArn)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.mlModelInferencePayerAccountId, forKey: .mlModelInferencePayerAccountId)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.outputConfiguration, forKey: .outputConfiguration)
             try container.encode(self.resourceConfig, forKey: .resourceConfig)
@@ -5595,6 +5677,9 @@ extension CleanRoomsML {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.mlModelInferencePayerAccountId, name: "mlModelInferencePayerAccountId", parent: name, max: 12)
+            try self.validate(self.mlModelInferencePayerAccountId, name: "mlModelInferencePayerAccountId", parent: name, min: 12)
+            try self.validate(self.mlModelInferencePayerAccountId, name: "mlModelInferencePayerAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
@@ -5620,6 +5705,7 @@ extension CleanRoomsML {
             case description = "description"
             case environment = "environment"
             case kmsKeyArn = "kmsKeyArn"
+            case mlModelInferencePayerAccountId = "mlModelInferencePayerAccountId"
             case name = "name"
             case outputConfiguration = "outputConfiguration"
             case resourceConfig = "resourceConfig"
@@ -5782,7 +5868,7 @@ extension CleanRoomsML {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, max: 100.0)
             try self.validate(self.value, name: "value", parent: name, min: 0.01)
         }
 
@@ -5871,7 +5957,7 @@ extension CleanRoomsML {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 10.0)
+            try self.validate(self.value, name: "value", parent: name, max: 50.0)
             try self.validate(self.value, name: "value", parent: name, min: 0.01)
         }
 
@@ -5900,6 +5986,8 @@ extension CleanRoomsML {
         public let metricsStatus: MetricsStatus?
         /// Details about the metrics status for the trained model inference job.
         public let metricsStatusDetails: String?
+        /// The account ID of the member that is responsible for paying for model inference costs.
+        public let mlModelInferencePayerAccountId: String?
         /// The name of the trained model inference job.
         public let name: String
         /// The output configuration information of the trained model job.
@@ -5916,7 +6004,7 @@ extension CleanRoomsML {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String? = nil, createTime: Date, description: String? = nil, logsStatus: LogsStatus? = nil, logsStatusDetails: String? = nil, membershipIdentifier: String, metricsStatus: MetricsStatus? = nil, metricsStatusDetails: String? = nil, mlModelInferencePayerAccountId: String? = nil, name: String, outputConfiguration: InferenceOutputConfiguration, status: TrainedModelInferenceJobStatus, trainedModelArn: String, trainedModelInferenceJobArn: String, trainedModelVersionIdentifier: String? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
@@ -5926,6 +6014,7 @@ extension CleanRoomsML {
             self.membershipIdentifier = membershipIdentifier
             self.metricsStatus = metricsStatus
             self.metricsStatusDetails = metricsStatusDetails
+            self.mlModelInferencePayerAccountId = mlModelInferencePayerAccountId
             self.name = name
             self.outputConfiguration = outputConfiguration
             self.status = status
@@ -5945,6 +6034,7 @@ extension CleanRoomsML {
             case membershipIdentifier = "membershipIdentifier"
             case metricsStatus = "metricsStatus"
             case metricsStatusDetails = "metricsStatusDetails"
+            case mlModelInferencePayerAccountId = "mlModelInferencePayerAccountId"
             case name = "name"
             case outputConfiguration = "outputConfiguration"
             case status = "status"
@@ -5995,7 +6085,7 @@ extension CleanRoomsML {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 50.0)
+            try self.validate(self.value, name: "value", parent: name, max: 100.0)
             try self.validate(self.value, name: "value", parent: name, min: 0.01)
         }
 
@@ -6018,6 +6108,8 @@ extension CleanRoomsML {
         public let incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         public let membershipIdentifier: String
+        /// The account ID of the member that is responsible for paying for model training costs.
+        public let mlModelTrainingPayerAccountId: String?
         /// The name of the trained model.
         public let name: String
         /// The status of the trained model.
@@ -6030,13 +6122,14 @@ extension CleanRoomsML {
         public let versionIdentifier: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociationArn: String, createTime: Date, description: String? = nil, incrementalTrainingDataChannels: [IncrementalTrainingDataChannelOutput]? = nil, membershipIdentifier: String, mlModelTrainingPayerAccountId: String? = nil, name: String, status: TrainedModelStatus, trainedModelArn: String, updateTime: Date, versionIdentifier: String? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.description = description
             self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
+            self.mlModelTrainingPayerAccountId = mlModelTrainingPayerAccountId
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
@@ -6051,6 +6144,7 @@ extension CleanRoomsML {
             case description = "description"
             case incrementalTrainingDataChannels = "incrementalTrainingDataChannels"
             case membershipIdentifier = "membershipIdentifier"
+            case mlModelTrainingPayerAccountId = "mlModelTrainingPayerAccountId"
             case name = "name"
             case status = "status"
             case trainedModelArn = "trainedModelArn"

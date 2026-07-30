@@ -185,6 +185,7 @@ public struct EMRContainers: AWSService {
     ///   - executionRoleArn: The ARN of the execution role.
     ///   - name: The name of the managed endpoint.
     ///   - releaseLabel: The Amazon EMR release version.
+    ///   - sessionIdleTimeoutInMinutes: The number of idle minutes before the managed endpoint session times out.
     ///   - tags: The tags of the managed endpoint.
     ///   - type: The type of the managed endpoint.
     ///   - virtualClusterId: The ID of the virtual cluster for which a managed endpoint is created.
@@ -196,6 +197,7 @@ public struct EMRContainers: AWSService {
         executionRoleArn: String,
         name: String,
         releaseLabel: String,
+        sessionIdleTimeoutInMinutes: Int? = nil,
         tags: [String: String]? = nil,
         type: String,
         virtualClusterId: String,
@@ -207,6 +209,7 @@ public struct EMRContainers: AWSService {
             executionRoleArn: executionRoleArn, 
             name: name, 
             releaseLabel: releaseLabel, 
+            sessionIdleTimeoutInMinutes: sessionIdleTimeoutInMinutes, 
             tags: tags, 
             type: type, 
             virtualClusterId: virtualClusterId
@@ -255,7 +258,7 @@ public struct EMRContainers: AWSService {
         return try await self.createSecurityConfiguration(input, logger: logger)
     }
 
-    /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     @inlinable
     public func createVirtualCluster(_ input: CreateVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVirtualClusterResponse {
@@ -268,13 +271,15 @@ public struct EMRContainers: AWSService {
             logger: logger
         )
     }
-    /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// Parameters:
     ///   - clientToken: The client token of the virtual cluster.
     ///   - containerProvider: The container provider of the virtual cluster.
     ///   - name: The specified name of the virtual cluster.
+    ///   - schedulerConfiguration: The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied.
     ///   - securityConfigurationId: The ID of the security configuration.
+    ///   - sessionEnabled: Indicates whether the virtual cluster has session support enabled.
     ///   - tags: The tags assigned to the virtual cluster.
     ///   - logger: Logger use during operation
     @inlinable
@@ -282,7 +287,9 @@ public struct EMRContainers: AWSService {
         clientToken: String = CreateVirtualClusterRequest.idempotencyToken(),
         containerProvider: ContainerProvider,
         name: String,
+        schedulerConfiguration: SchedulerConfiguration? = nil,
         securityConfigurationId: String? = nil,
+        sessionEnabled: Bool? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateVirtualClusterResponse {
@@ -290,7 +297,9 @@ public struct EMRContainers: AWSService {
             clientToken: clientToken, 
             containerProvider: containerProvider, 
             name: name, 
+            schedulerConfiguration: schedulerConfiguration, 
             securityConfigurationId: securityConfigurationId, 
+            sessionEnabled: sessionEnabled, 
             tags: tags
         )
         return try await self.createVirtualCluster(input, logger: logger)
@@ -357,7 +366,36 @@ public struct EMRContainers: AWSService {
         return try await self.deleteManagedEndpoint(input, logger: logger)
     }
 
-    /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Deletes a security configuration.
+    @Sendable
+    @inlinable
+    public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSecurityConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteSecurityConfiguration", 
+            path: "/securityconfigurations/{id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a security configuration.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the security configuration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSecurityConfiguration(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSecurityConfigurationResponse {
+        let input = DeleteSecurityConfigurationRequest(
+            id: id
+        )
+        return try await self.deleteSecurityConfiguration(input, logger: logger)
+    }
+
+    /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     @inlinable
     public func deleteVirtualCluster(_ input: DeleteVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVirtualClusterResponse {
@@ -370,7 +408,7 @@ public struct EMRContainers: AWSService {
             logger: logger
         )
     }
-    /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// Parameters:
     ///   - id: The ID of the virtual cluster that will be deleted.
@@ -508,7 +546,7 @@ public struct EMRContainers: AWSService {
         return try await self.describeSecurityConfiguration(input, logger: logger)
     }
 
-    /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     @inlinable
     public func describeVirtualCluster(_ input: DescribeVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVirtualClusterResponse {
@@ -521,7 +559,7 @@ public struct EMRContainers: AWSService {
             logger: logger
         )
     }
-    /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// Parameters:
     ///   - id: The ID of the virtual cluster that will be described.
@@ -783,7 +821,7 @@ public struct EMRContainers: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     @Sendable
     @inlinable
     public func listVirtualClusters(_ input: ListVirtualClustersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVirtualClustersResponse {
@@ -796,7 +834,7 @@ public struct EMRContainers: AWSService {
             logger: logger
         )
     }
-    /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
     /// Parameters:
     ///   - containerProviderId: The container provider ID of the virtual cluster.
@@ -954,6 +992,41 @@ public struct EMRContainers: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    @Sendable
+    @inlinable
+    public func updateVirtualCluster(_ input: UpdateVirtualClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVirtualClusterResponse {
+        try await self.client.execute(
+            operation: "UpdateVirtualCluster", 
+            path: "/virtualclusters/{id}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, update, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - id: The ID of the virtual cluster to update.
+    ///   - schedulerConfiguration: The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateVirtualCluster(
+        clientToken: String = UpdateVirtualClusterRequest.idempotencyToken(),
+        id: String,
+        schedulerConfiguration: SchedulerConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateVirtualClusterResponse {
+        let input = UpdateVirtualClusterRequest(
+            clientToken: clientToken, 
+            id: id, 
+            schedulerConfiguration: schedulerConfiguration
+        )
+        return try await self.updateVirtualCluster(input, logger: logger)
     }
 }
 

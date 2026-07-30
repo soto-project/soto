@@ -135,6 +135,8 @@ extension ConnectHealth {
 
     public enum MedicalScribeInputStream: AWSEncodableShape, Sendable {
         case audioEvent(MedicalScribeAudioEvent)
+        /// An event containing raw binary audio data for the Medical Scribe stream. The audio is sent as a raw binary payload rather than as a base64-encoded value.
+        case binaryAudioEvent(MedicalScribeBinaryAudioEvent)
         case configurationEvent(MedicalScribeConfigurationEvent)
         case sessionControlEvent(MedicalScribeSessionControlEvent)
 
@@ -143,6 +145,8 @@ extension ConnectHealth {
             switch self {
             case .audioEvent(let value):
                 try container.encode(value, forKey: .audioEvent)
+            case .binaryAudioEvent(let value):
+                try container.encode(value, forKey: .binaryAudioEvent)
             case .configurationEvent(let value):
                 try container.encode(value, forKey: .configurationEvent)
             case .sessionControlEvent(let value):
@@ -161,6 +165,7 @@ extension ConnectHealth {
 
         private enum CodingKeys: String, CodingKey {
             case audioEvent = "audioEvent"
+            case binaryAudioEvent = "binaryAudioEvent"
             case configurationEvent = "configurationEvent"
             case sessionControlEvent = "sessionControlEvent"
         }
@@ -700,7 +705,7 @@ extension ConnectHealth {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.unstructuredContext, name: "unstructuredContext", parent: name, pattern: "^[a-zA-Z0-9\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~]+$")
+            try self.validate(self.unstructuredContext, name: "unstructuredContext", parent: name, pattern: "^[\\p{L}\\p{N}\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/|+=&%@\\\\{}^]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1221,6 +1226,18 @@ extension ConnectHealth {
         private enum CodingKeys: String, CodingKey {
             case audioChunk = "audioChunk"
         }
+    }
+
+    public struct MedicalScribeBinaryAudioEvent: AWSEncodableShape {
+        /// The raw binary audio data chunk
+        public let audioChunk: AWSEventPayload
+
+        @inlinable
+        public init(audioChunk: AWSEventPayload) {
+            self.audioChunk = audioChunk
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct MedicalScribeChannelDefinition: AWSEncodableShape & AWSDecodableShape {
@@ -1800,7 +1817,7 @@ extension ConnectHealth {
 
         public func validate(name: String) throws {
             try self.validate(self.sectionHeader, name: "sectionHeader", parent: name, pattern: "^[a-zA-Z0-9]+$")
-            try self.validate(self.sectionInstruction, name: "sectionInstruction", parent: name, pattern: "^[a-zA-Z0-9\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~]+$")
+            try self.validate(self.sectionInstruction, name: "sectionInstruction", parent: name, pattern: "^[\\p{L}\\p{N}\\s\\*_\\-#\\[\\]\\(\\)\\.,:;!?'\"`<>~/|+=&%@\\\\{}^]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

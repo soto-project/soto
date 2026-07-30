@@ -108,17 +108,17 @@ extension BackupGateway {
     }
 
     public struct BandwidthRateLimitInterval: AWSEncodableShape & AWSDecodableShape {
-        /// The average upload rate limit component of the bandwidth rate limit  interval, in bits per second. This field does not appear in the response if  the upload rate limit is not set.
+        /// The average upload rate limit component of the bandwidth rate limit interval, in bits per second. This field does not appear in the response if the upload rate limit is not set.
         public let averageUploadRateLimitInBitsPerSec: Int64?
-        /// The days of the week component of the bandwidth rate limit interval,  represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents  Saturday.
+        /// The days of the week component of the bandwidth rate limit interval, represented as ordinal numbers from 0 to 6, where 0 represents Sunday and 6 represents Saturday.
         public let daysOfWeek: [Int]
         /// The hour of the day to end the bandwidth rate limit interval.
         public let endHourOfDay: Int
-        /// The minute of the hour to end the bandwidth rate limit interval.  The bandwidth rate limit interval ends at the end of the minute.  To end an interval at the end of an hour, use the value 59.
+        /// The minute of the hour to end the bandwidth rate limit interval.  The bandwidth rate limit interval ends at the end of the minute. To end an interval at the end of an hour, use the value 59.
         public let endMinuteOfHour: Int
         /// The hour of the day to start the bandwidth rate limit interval.
         public let startHourOfDay: Int
-        /// The minute of the hour to start the bandwidth rate limit interval. The  interval begins at the start of that minute. To begin an interval exactly at  the start of the hour, use the value 0.
+        /// The minute of the hour to start the bandwidth rate limit interval. The interval begins at the start of that minute. To begin an interval exactly at the start of the hour, use the value 0.
         public let startMinuteOfHour: Int
 
         @inlinable
@@ -364,7 +364,7 @@ extension BackupGateway {
     public struct GatewayDetails: AWSDecodableShape {
         /// Date after which this gateway will not receive software updates for new features and bug fixes.
         public let deprecationDate: Date?
-        /// The Amazon Resource Name (ARN) of the  gateway. Use the ListGateways operation to return a list of gateways for your account and  Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String?
         /// The display name of the gateway.
         public let gatewayDisplayName: String?
@@ -374,13 +374,13 @@ extension BackupGateway {
         public let hypervisorId: String?
         /// Details showing the last time Backup gateway communicated with the cloud, in Unix format and UTC time.
         public let lastSeenTime: Date?
-        /// Returns your gateway's weekly maintenance start time including the day and time of the week.  Note that values are in terms of the gateway's time zone. Can be weekly or monthly.
+        /// Returns your gateway's weekly maintenance start time including the day and time of the week. Note that values are in terms of the gateway's time zone. Can be weekly or monthly.
         public let maintenanceStartTime: MaintenanceStartTime?
-        /// Details showing the next update availability time of the  gateway.
+        /// Details showing the next update availability time of the gateway.
         public let nextUpdateAvailabilityTime: Date?
         /// The version number of the software running on the gateway appliance.
         public let softwareVersion: String?
-        /// The DNS name for the virtual private cloud (VPC) endpoint the gateway  uses to connect to the cloud for backup gateway.
+        /// The DNS name for the virtual private cloud (VPC) endpoint the gateway uses to connect to the cloud for backup gateway.
         public let vpcEndpoint: String?
 
         @inlinable
@@ -412,7 +412,7 @@ extension BackupGateway {
     }
 
     public struct GetBandwidthRateLimitScheduleInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String
 
         @inlinable
@@ -432,9 +432,9 @@ extension BackupGateway {
     }
 
     public struct GetBandwidthRateLimitScheduleOutput: AWSDecodableShape {
-        /// An array containing bandwidth rate limit schedule intervals for a gateway.  When no bandwidth rate limit intervals have been scheduled, the array is empty.
+        /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
         public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]?
-        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String?
 
         @inlinable
@@ -542,7 +542,7 @@ extension BackupGateway {
         public let hypervisorArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role.
         public let iamRoleArn: String?
-        /// This is a display of the mappings of VMware tags to the  Amazon Web Services tags.
+        /// This is a display of the mappings of VMware tags to the Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]?
 
         @inlinable
@@ -580,7 +580,7 @@ extension BackupGateway {
     }
 
     public struct GetVirtualMachineOutput: AWSDecodableShape {
-        /// This object contains the basic attributes of VirtualMachine contained by the output of  GetVirtualMachine
+        /// This object contains the basic attributes of VirtualMachine contained by the output of GetVirtualMachine
         public let virtualMachine: VirtualMachineDetails?
 
         @inlinable
@@ -624,23 +624,23 @@ extension BackupGateway {
     }
 
     public struct HypervisorDetails: AWSDecodableShape {
-        /// The server host of the hypervisor. This can be either an IP address or  a fully-qualified domain name (FQDN).
+        /// The server host of the hypervisor. This can be either an IP address or a fully-qualified domain name (FQDN).
         public let host: String?
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String?
-        /// The Amazon Resource Name (ARN) of the KMS   used to encrypt the hypervisor.
+        /// The Amazon Resource Name (ARN) of the KMS used to encrypt the hypervisor.
         public let kmsKeyArn: String?
-        /// This is the time when the most recent successful sync  of metadata occurred.
+        /// This is the time when the most recent successful sync of metadata occurred.
         public let lastSuccessfulMetadataSyncTime: Date?
         /// This is the most recent status for the indicated metadata sync.
         public let latestMetadataSyncStatus: SyncMetadataStatus?
         /// This is the most recent status for the indicated metadata sync.
         public let latestMetadataSyncStatusMessage: String?
-        /// The Amazon Resource Name (ARN) of the group of gateways within  the requested log.
+        /// The Amazon Resource Name (ARN) of the group of gateways within the requested log.
         public let logGroupArn: String?
         /// This is the name of the specified hypervisor.
         public let name: String?
-        /// This is the current state of the specified hypervisor. The possible states are PENDING, ONLINE,  OFFLINE, or ERROR.
+        /// This is the current state of the specified hypervisor. The possible states are PENDING, ONLINE, OFFLINE, or ERROR.
         public let state: HypervisorState?
 
         @inlinable
@@ -913,13 +913,13 @@ extension BackupGateway {
     }
 
     public struct MaintenanceStartTime: AWSDecodableShape {
-        /// The day of the month component of the maintenance start time represented as an ordinal number from  1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
+        /// The day of the month component of the maintenance start time represented as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28 represents the last day of the month.
         public let dayOfMonth: Int?
-        /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday  and 6 represents Saturday. The day of week is in the time zone of the gateway.
+        /// An ordinal number between 0 and 6 that represents the day of the week, where 0 represents Sunday and 6 represents Saturday. The day of week is in the time zone of the gateway.
         public let dayOfWeek: Int?
-        /// The hour component of the maintenance start time represented as hh,  where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
+        /// The hour component of the maintenance start time represented as hh, where hh is the hour (0 to 23). The hour of the day is in the time zone of the gateway.
         public let hourOfDay: Int
-        /// The minute component of the maintenance start time represented as mm, where  mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
+        /// The minute component of the maintenance start time represented as mm, where mm is the minute (0 to 59). The minute of the hour is in the time zone of the gateway.
         public let minuteOfHour: Int
 
         @inlinable
@@ -939,9 +939,9 @@ extension BackupGateway {
     }
 
     public struct PutBandwidthRateLimitScheduleInput: AWSEncodableShape {
-        /// An array containing bandwidth rate limit schedule intervals for a gateway.  When no bandwidth rate limit intervals have been scheduled, the array is empty.
+        /// An array containing bandwidth rate limit schedule intervals for a gateway. When no bandwidth rate limit intervals have been scheduled, the array is empty.
         public let bandwidthRateLimitIntervals: [BandwidthRateLimitInterval]
-        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String
 
         @inlinable
@@ -967,7 +967,7 @@ extension BackupGateway {
     }
 
     public struct PutBandwidthRateLimitScheduleOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway. Use the   ListGateways operation to return a list of gateways  for your account and Amazon Web Services Region.
+        /// The Amazon Resource Name (ARN) of the gateway. Use the  ListGateways  operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String?
 
         @inlinable
@@ -985,7 +985,7 @@ extension BackupGateway {
         public let hypervisorArn: String
         /// The Amazon Resource Name (ARN) of the IAM role.
         public let iamRoleArn: String
-        /// This action requests the mappings of VMware tags to the  Amazon Web Services tags.
+        /// This action requests the mappings of VMware tags to the Amazon Web Services tags.
         public let vmwareToAwsTagMappings: [VmwareToAwsTagMapping]
 
         @inlinable
@@ -1480,9 +1480,9 @@ extension BackupGateway {
         public let name: String?
         /// The path of the virtual machine.
         public let path: String?
-        /// The Amazon Resource Name (ARN) of the virtual machine. For example,  arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
+        /// The Amazon Resource Name (ARN) of the virtual machine. For example, arn:aws:backup-gateway:us-west-1:0000000000000:vm/vm-0000ABCDEFGIJKL.
         public let resourceArn: String?
-        /// These are the details of the VMware tags associated with the specified  virtual machine.
+        /// These are the details of the VMware tags associated with the specified virtual machine.
         public let vmwareTags: [VmwareTag]?
 
         @inlinable
@@ -1607,7 +1607,7 @@ public struct BackupGatewayErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// A resource that is required for the action wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// TPS has been limited to protect against intentional or unintentional  high request volumes.
+    /// TPS has been limited to protect against intentional or unintentional high request volumes.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The operation did not succeed because a validation error occurred.
     public static var validationException: Self { .init(.validationException) }

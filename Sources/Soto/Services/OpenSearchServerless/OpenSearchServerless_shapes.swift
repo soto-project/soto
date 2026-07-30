@@ -31,6 +31,13 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoscalingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionScalingDown = "ACTION_SCALING_DOWN"
+        case actionScalingUp = "ACTION_SCALING_UP"
+        case noAction = "NO_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CollectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Collection resource is ready to use
         case active = "ACTIVE"
@@ -40,6 +47,10 @@ extension OpenSearchServerless {
         case deleting = "DELETING"
         /// Collection resource create or delete failed
         case failed = "FAILED"
+        /// Collection resource update failed
+        case updateFailed = "UPDATE_FAILED"
+        /// Updating collection resource
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -50,6 +61,14 @@ extension OpenSearchServerless {
         case timeseries = "TIMESERIES"
         /// Vectorsearch collection type
         case vectorsearch = "VECTORSEARCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeletionProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Deletion protection disabled
+        case disabled = "DISABLED"
+        /// Deletion protection enabled
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -98,6 +117,12 @@ extension OpenSearchServerless {
         case encryption = "encryption"
         /// network policy type
         case network = "network"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ServerlessGeneration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case nextgen = "NEXTGEN"
         public var description: String { return self.rawValue }
     }
 
@@ -306,7 +331,7 @@ extension OpenSearchServerless {
             try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
             try self.names?.forEach {
-                try validate($0, name: "names[]", parent: name, max: 32)
+                try validate($0, name: "names[]", parent: name, max: 64)
                 try validate($0, name: "names[]", parent: name, min: 3)
                 try validate($0, name: "names[]", parent: name, pattern: "^[a-z][a-z0-9-]+$")
             }
@@ -460,6 +485,24 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct CapacityDetails: AWSDecodableShape {
+        /// The current autoscaling status for the collection group.
+        public let autoscalingStatus: AutoscalingStatus?
+        /// The current capacity in OpenSearch Compute Units (OCUs).
+        public let capacityInOcu: Float?
+
+        @inlinable
+        public init(autoscalingStatus: AutoscalingStatus? = nil, capacityInOcu: Float? = nil) {
+            self.autoscalingStatus = autoscalingStatus
+            self.capacityInOcu = capacityInOcu
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoscalingStatus = "autoscalingStatus"
+            case capacityInOcu = "capacityInOcu"
+        }
+    }
+
     public struct CapacityLimits: AWSEncodableShape & AWSDecodableShape {
         /// The maximum indexing capacity for collections.
         public let maxIndexingCapacityInOCU: Int?
@@ -494,6 +537,8 @@ extension OpenSearchServerless {
         public let createdDate: Int64?
         /// Collection-specific endpoint used to access OpenSearch Dashboards.
         public let dashboardEndpoint: String?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public let deletionProtection: DeletionProtection?
         /// A description of the collection.
         public let description: String?
         /// A failure code associated with the request.
@@ -520,12 +565,13 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
+            self.deletionProtection = deletionProtection
             self.description = description
             self.failureCode = failureCode
             self.failureMessage = failureMessage
@@ -546,6 +592,7 @@ extension OpenSearchServerless {
             case collectionGroupName = "collectionGroupName"
             case createdDate = "createdDate"
             case dashboardEndpoint = "dashboardEndpoint"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case failureCode = "failureCode"
             case failureMessage = "failureMessage"
@@ -606,7 +653,7 @@ extension OpenSearchServerless {
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, max: 32)
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, min: 3)
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
         }
@@ -639,8 +686,8 @@ extension OpenSearchServerless {
         public func validate(name: String) throws {
             try self.validate(self.maxIndexingCapacityInOCU, name: "maxIndexingCapacityInOCU", parent: name, min: 1.0)
             try self.validate(self.maxSearchCapacityInOCU, name: "maxSearchCapacityInOCU", parent: name, min: 1.0)
-            try self.validate(self.minIndexingCapacityInOCU, name: "minIndexingCapacityInOCU", parent: name, min: 1.0)
-            try self.validate(self.minSearchCapacityInOCU, name: "minSearchCapacityInOCU", parent: name, min: 1.0)
+            try self.validate(self.minIndexingCapacityInOCU, name: "minIndexingCapacityInOCU", parent: name, min: 0.0)
+            try self.validate(self.minSearchCapacityInOCU, name: "minSearchCapacityInOCU", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -658,8 +705,12 @@ extension OpenSearchServerless {
         public let capacityLimits: CollectionGroupCapacityLimits?
         /// The Epoch time when the collection group was created.
         public let createdDate: Int64?
+        /// Current search and indexing capacity for the collection group.
+        public let currentCapacity: CurrentCapacity?
         /// The description of the collection group.
         public let description: String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public let generation: ServerlessGeneration?
         /// The unique identifier of the collection group.
         public let id: String?
         /// The name of the collection group.
@@ -672,11 +723,13 @@ extension OpenSearchServerless {
         public let tags: [Tag]?
 
         @inlinable
-        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, currentCapacity: CurrentCapacity? = nil, description: String? = nil, generation: ServerlessGeneration? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
+            self.currentCapacity = currentCapacity
             self.description = description
+            self.generation = generation
             self.id = id
             self.name = name
             self.numberOfCollections = numberOfCollections
@@ -688,7 +741,9 @@ extension OpenSearchServerless {
             case arn = "arn"
             case capacityLimits = "capacityLimits"
             case createdDate = "createdDate"
+            case currentCapacity = "currentCapacity"
             case description = "description"
+            case generation = "generation"
             case id = "id"
             case name = "name"
             case numberOfCollections = "numberOfCollections"
@@ -729,6 +784,8 @@ extension OpenSearchServerless {
         public let capacityLimits: CollectionGroupCapacityLimits?
         /// The Epoch time when the collection group was created.
         public let createdDate: Int64?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public let generation: ServerlessGeneration?
         /// The unique identifier of the collection group.
         public let id: String?
         /// The name of the collection group.
@@ -737,10 +794,11 @@ extension OpenSearchServerless {
         public let numberOfCollections: Int?
 
         @inlinable
-        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil) {
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, generation: ServerlessGeneration? = nil, id: String? = nil, name: String? = nil, numberOfCollections: Int? = nil) {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
+            self.generation = generation
             self.id = id
             self.name = name
             self.numberOfCollections = numberOfCollections
@@ -750,6 +808,7 @@ extension OpenSearchServerless {
             case arn = "arn"
             case capacityLimits = "capacityLimits"
             case createdDate = "createdDate"
+            case generation = "generation"
             case id = "id"
             case name = "name"
             case numberOfCollections = "numberOfCollections"
@@ -853,6 +912,8 @@ extension OpenSearchServerless {
         public let collectionGroupName: String?
         /// The Epoch time when the collection was created.
         public let createdDate: Int64?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public let deletionProtection: DeletionProtection?
         /// A description of the collection.
         public let description: String?
         /// The unique identifier of the collection.
@@ -873,10 +934,11 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(arn: String? = nil, collectionGroupName: String? = nil, createdDate: Int64? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
+            self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
             self.kmsKeyArn = kmsKeyArn
@@ -892,6 +954,7 @@ extension OpenSearchServerless {
             case arn = "arn"
             case collectionGroupName = "collectionGroupName"
             case createdDate = "createdDate"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case id = "id"
             case kmsKeyArn = "kmsKeyArn"
@@ -913,6 +976,8 @@ extension OpenSearchServerless {
         public let createdDate: Int64?
         /// The description of the collection group.
         public let description: String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public let generation: ServerlessGeneration?
         /// The unique identifier of the collection group.
         public let id: String?
         /// The name of the collection group.
@@ -923,11 +988,12 @@ extension OpenSearchServerless {
         public let tags: [Tag]?
 
         @inlinable
-        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, generation: ServerlessGeneration? = nil, id: String? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil) {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
             self.description = description
+            self.generation = generation
             self.id = id
             self.name = name
             self.standbyReplicas = standbyReplicas
@@ -939,6 +1005,7 @@ extension OpenSearchServerless {
             case capacityLimits = "capacityLimits"
             case createdDate = "createdDate"
             case description = "description"
+            case generation = "generation"
             case id = "id"
             case name = "name"
             case standbyReplicas = "standbyReplicas"
@@ -953,6 +1020,8 @@ extension OpenSearchServerless {
         public let clientToken: String?
         /// A description of the collection group.
         public let description: String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group. Valid values are CLASSIC and NEXTGEN.
+        public let generation: ServerlessGeneration?
         /// The name of the collection group.
         public let name: String
         /// Indicates whether standby replicas should be used for a collection group.
@@ -961,10 +1030,11 @@ extension OpenSearchServerless {
         public let tags: [Tag]?
 
         @inlinable
-        public init(capacityLimits: CollectionGroupCapacityLimits? = nil, clientToken: String? = CreateCollectionGroupRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas, tags: [Tag]? = nil) {
+        public init(capacityLimits: CollectionGroupCapacityLimits? = nil, clientToken: String? = CreateCollectionGroupRequest.idempotencyToken(), description: String? = nil, generation: ServerlessGeneration? = nil, name: String, standbyReplicas: StandbyReplicas, tags: [Tag]? = nil) {
             self.capacityLimits = capacityLimits
             self.clientToken = clientToken
             self.description = description
+            self.generation = generation
             self.name = name
             self.standbyReplicas = standbyReplicas
             self.tags = tags
@@ -987,6 +1057,7 @@ extension OpenSearchServerless {
             case capacityLimits = "capacityLimits"
             case clientToken = "clientToken"
             case description = "description"
+            case generation = "generation"
             case name = "name"
             case standbyReplicas = "standbyReplicas"
             case tags = "tags"
@@ -1012,6 +1083,8 @@ extension OpenSearchServerless {
         public let clientToken: String?
         /// The name of the collection group to associate with the collection.
         public let collectionGroupName: String?
+        /// Indicates whether to enable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
+        public let deletionProtection: DeletionProtection?
         /// Description of the collection.
         public let description: String?
         /// Encryption settings for the collection.
@@ -1028,9 +1101,10 @@ extension OpenSearchServerless {
         public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), collectionGroupName: String? = nil, description: String? = nil, encryptionConfig: EncryptionConfig? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
+        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), collectionGroupName: String? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, encryptionConfig: EncryptionConfig? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.clientToken = clientToken
             self.collectionGroupName = collectionGroupName
+            self.deletionProtection = deletionProtection
             self.description = description
             self.encryptionConfig = encryptionConfig
             self.name = name
@@ -1046,7 +1120,7 @@ extension OpenSearchServerless {
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, max: 32)
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, min: 3)
             try self.validate(self.collectionGroupName, name: "collectionGroupName", parent: name, pattern: "^[a-z][a-z0-9-]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 32)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9-]+$")
             try self.tags?.forEach {
@@ -1058,6 +1132,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case collectionGroupName = "collectionGroupName"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case encryptionConfig = "encryptionConfig"
             case name = "name"
@@ -1409,6 +1484,24 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct CurrentCapacity: AWSDecodableShape {
+        /// The indexing capacity for the collection group.
+        public let indexing: CapacityDetails?
+        /// The search capacity for the collection group.
+        public let search: CapacityDetails?
+
+        @inlinable
+        public init(indexing: CapacityDetails? = nil, search: CapacityDetails? = nil) {
+            self.indexing = indexing
+            self.search = search
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexing = "indexing"
+            case search = "search"
+        }
+    }
+
     public struct DeleteAccessPolicyRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
@@ -1444,6 +1537,8 @@ extension OpenSearchServerless {
     }
 
     public struct DeleteCollectionDetail: AWSDecodableShape {
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public let deletionProtection: DeletionProtection?
         /// The unique identifier of the collection.
         public let id: String?
         /// The name of the collection.
@@ -1452,13 +1547,15 @@ extension OpenSearchServerless {
         public let status: CollectionStatus?
 
         @inlinable
-        public init(id: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
+        public init(deletionProtection: DeletionProtection? = nil, id: String? = nil, name: String? = nil, status: CollectionStatus? = nil) {
+            self.deletionProtection = deletionProtection
             self.id = id
             self.name = name
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "deletionProtection"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -2179,7 +2276,7 @@ extension OpenSearchServerless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^index/[a-z][a-z0-9-]{3,32}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*)$")
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^index/[a-z][a-z0-9-]{3,63}/([a-z;0-9&$%][+.~=\\-_a-z;0-9&$%]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3006,6 +3103,8 @@ extension OpenSearchServerless {
         public let arn: String?
         /// The date and time when the collection was created.
         public let createdDate: Int64?
+        /// Indicates whether deletion protection is ENABLED or DISABLED for the collection.
+        public let deletionProtection: DeletionProtection?
         /// The description of the collection.
         public let description: String?
         /// The unique identifier of the collection.
@@ -3018,28 +3117,34 @@ extension OpenSearchServerless {
         public let status: CollectionStatus?
         /// The collection type.
         public let type: CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, createdDate: Int64? = nil, deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.createdDate = createdDate
+            self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdDate = "createdDate"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case id = "id"
             case lastModifiedDate = "lastModifiedDate"
             case name = "name"
             case status = "status"
             case type = "type"
+            case vectorOptions = "vectorOptions"
         }
     }
 
@@ -3052,6 +3157,8 @@ extension OpenSearchServerless {
         public let createdDate: Int64?
         /// The description of the collection group.
         public let description: String?
+        /// The generation of Amazon OpenSearch Serverless for the collection group.
+        public let generation: ServerlessGeneration?
         /// The unique identifier of the collection group.
         public let id: String?
         /// The date and time when the collection group was last modified.
@@ -3060,11 +3167,12 @@ extension OpenSearchServerless {
         public let name: String?
 
         @inlinable
-        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil) {
+        public init(arn: String? = nil, capacityLimits: CollectionGroupCapacityLimits? = nil, createdDate: Int64? = nil, description: String? = nil, generation: ServerlessGeneration? = nil, id: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil) {
             self.arn = arn
             self.capacityLimits = capacityLimits
             self.createdDate = createdDate
             self.description = description
+            self.generation = generation
             self.id = id
             self.lastModifiedDate = lastModifiedDate
             self.name = name
@@ -3075,6 +3183,7 @@ extension OpenSearchServerless {
             case capacityLimits = "capacityLimits"
             case createdDate = "createdDate"
             case description = "description"
+            case generation = "generation"
             case id = "id"
             case lastModifiedDate = "lastModifiedDate"
             case name = "name"
@@ -3133,16 +3242,22 @@ extension OpenSearchServerless {
     public struct UpdateCollectionRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
+        /// Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
+        public let deletionProtection: DeletionProtection?
         /// A description of the collection.
         public let description: String?
         /// The unique identifier of the collection.
         public let id: String
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(clientToken: String? = UpdateCollectionRequest.idempotencyToken(), description: String? = nil, id: String) {
+        public init(clientToken: String? = UpdateCollectionRequest.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, id: String, vectorOptions: VectorOptions? = nil) {
             self.clientToken = clientToken
+            self.deletionProtection = deletionProtection
             self.description = description
             self.id = id
+            self.vectorOptions = vectorOptions
         }
 
         public func validate(name: String) throws {
@@ -3155,8 +3270,10 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case id = "id"
+            case vectorOptions = "vectorOptions"
         }
     }
 
@@ -3682,7 +3799,7 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// When creating a resource, thrown when a resource with the same name already exists or is being created.
+    /// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE, FAILED, or UPDATE_FAILED state.
     public static var conflictException: Self { .init(.conflictException) }
     /// Thrown when an error internal to the service occurs while processing a request.
     public static var internalServerException: Self { .init(.internalServerException) }

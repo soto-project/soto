@@ -177,6 +177,7 @@ public struct Drs: AWSService {
     ///   - launchIntoSourceInstance: DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
     ///   - licensing: Licensing.
     ///   - postLaunchEnabled: Whether we want to activate post-launch actions.
+    ///   - recoveryMode: Recovery mode.
     ///   - tags: Request to associate tags during creation of a Launch Configuration Template.
     ///   - targetInstanceTypeRightSizingMethod: Target instance type right-sizing method.
     ///   - logger: Logger use during operation
@@ -189,6 +190,7 @@ public struct Drs: AWSService {
         launchIntoSourceInstance: Bool? = nil,
         licensing: Licensing? = nil,
         postLaunchEnabled: Bool? = nil,
+        recoveryMode: RecoveryMode? = nil,
         tags: [String: String]? = nil,
         targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -201,6 +203,7 @@ public struct Drs: AWSService {
             launchIntoSourceInstance: launchIntoSourceInstance, 
             licensing: licensing, 
             postLaunchEnabled: postLaunchEnabled, 
+            recoveryMode: recoveryMode, 
             tags: tags, 
             targetInstanceTypeRightSizingMethod: targetInstanceTypeRightSizingMethod
         )
@@ -231,6 +234,7 @@ public struct Drs: AWSService {
     ///   - defaultLargeStagingDiskType: The Staging Disk EBS volume type to be used during replication.
     ///   - ebsEncryption: The type of EBS encryption to be used during replication.
     ///   - ebsEncryptionKeyArn: The ARN of the EBS encryption key to be used during replication.
+    ///   - internetProtocol: Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
     ///   - pitPolicy: The Point in time (PIT) policy to manage snapshots taken during replication.
     ///   - replicationServerInstanceType: The instance type to be used for the replication server.
     ///   - replicationServersSecurityGroupsIDs: The security group IDs that will be used by the replication server.
@@ -241,21 +245,22 @@ public struct Drs: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createReplicationConfigurationTemplate(
-        associateDefaultSecurityGroup: Bool,
+        associateDefaultSecurityGroup: Bool? = nil,
         autoReplicateNewDisks: Bool? = nil,
         bandwidthThrottling: Int64 = 0,
-        createPublicIP: Bool,
-        dataPlaneRouting: ReplicationConfigurationDataPlaneRouting,
-        defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType,
+        createPublicIP: Bool? = nil,
+        dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil,
+        defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: ReplicationConfigurationEbsEncryption,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         pitPolicy: [PITPolicyRule],
-        replicationServerInstanceType: String,
+        replicationServerInstanceType: String? = nil,
         replicationServersSecurityGroupsIDs: [String],
         stagingAreaSubnetId: String,
         stagingAreaTags: [String: String],
         tags: [String: String]? = nil,
-        useDedicatedReplicationServer: Bool,
+        useDedicatedReplicationServer: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ReplicationConfigurationTemplate {
         let input = CreateReplicationConfigurationTemplateRequest(
@@ -267,6 +272,7 @@ public struct Drs: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             pitPolicy: pitPolicy, 
             replicationServerInstanceType: replicationServerInstanceType, 
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
@@ -1618,6 +1624,7 @@ public struct Drs: AWSService {
     ///
     /// Parameters:
     ///   - bandwidthThrottling: Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
+    ///   - internetProtocol: Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
     ///   - name: The name of the Failback Replication Configuration.
     ///   - recoveryInstanceID: The ID of the Recovery Instance.
     ///   - usePrivateIP: Whether to use Private IP for the failback replication of the Recovery Instance.
@@ -1625,6 +1632,7 @@ public struct Drs: AWSService {
     @inlinable
     public func updateFailbackReplicationConfiguration(
         bandwidthThrottling: Int64? = nil,
+        internetProtocol: InternetProtocol? = nil,
         name: String? = nil,
         recoveryInstanceID: String,
         usePrivateIP: Bool? = nil,
@@ -1632,6 +1640,7 @@ public struct Drs: AWSService {
     ) async throws {
         let input = UpdateFailbackReplicationConfigurationRequest(
             bandwidthThrottling: bandwidthThrottling, 
+            internetProtocol: internetProtocol, 
             name: name, 
             recoveryInstanceID: recoveryInstanceID, 
             usePrivateIP: usePrivateIP
@@ -1662,6 +1671,7 @@ public struct Drs: AWSService {
     ///   - licensing: The licensing configuration to be used for this launch configuration.
     ///   - name: The name of the launch configuration.
     ///   - postLaunchEnabled: Whether we want to enable post-launch actions for the Source Server.
+    ///   - recoveryMode: Recovery mode.
     ///   - sourceServerID: The ID of the Source Server that we want to retrieve a Launch Configuration for.
     ///   - targetInstanceTypeRightSizingMethod: Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
     ///   - logger: Logger use during operation
@@ -1674,6 +1684,7 @@ public struct Drs: AWSService {
         licensing: Licensing? = nil,
         name: String? = nil,
         postLaunchEnabled: Bool? = nil,
+        recoveryMode: RecoveryMode? = nil,
         sourceServerID: String,
         targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1686,6 +1697,7 @@ public struct Drs: AWSService {
             licensing: licensing, 
             name: name, 
             postLaunchEnabled: postLaunchEnabled, 
+            recoveryMode: recoveryMode, 
             sourceServerID: sourceServerID, 
             targetInstanceTypeRightSizingMethod: targetInstanceTypeRightSizingMethod
         )
@@ -1716,6 +1728,7 @@ public struct Drs: AWSService {
     ///   - launchIntoSourceInstance: DRS will set the 'launch into instance ID' of any source server when performing a drill, recovery or failback to the previous region or availability zone, using the instance ID of the source instance.
     ///   - licensing: Licensing.
     ///   - postLaunchEnabled: Whether we want to activate post-launch actions.
+    ///   - recoveryMode: Recovery mode.
     ///   - targetInstanceTypeRightSizingMethod: Target instance type right-sizing method.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1728,6 +1741,7 @@ public struct Drs: AWSService {
         launchIntoSourceInstance: Bool? = nil,
         licensing: Licensing? = nil,
         postLaunchEnabled: Bool? = nil,
+        recoveryMode: RecoveryMode? = nil,
         targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLaunchConfigurationTemplateResponse {
@@ -1740,6 +1754,7 @@ public struct Drs: AWSService {
             launchIntoSourceInstance: launchIntoSourceInstance, 
             licensing: licensing, 
             postLaunchEnabled: postLaunchEnabled, 
+            recoveryMode: recoveryMode, 
             targetInstanceTypeRightSizingMethod: targetInstanceTypeRightSizingMethod
         )
         return try await self.updateLaunchConfigurationTemplate(input, logger: logger)
@@ -1769,6 +1784,7 @@ public struct Drs: AWSService {
     ///   - defaultLargeStagingDiskType: The Staging Disk EBS volume type to be used during replication.
     ///   - ebsEncryption: The type of EBS encryption to be used during replication.
     ///   - ebsEncryptionKeyArn: The ARN of the EBS encryption key to be used during replication.
+    ///   - internetProtocol: Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
     ///   - name: The name of the Replication Configuration.
     ///   - pitPolicy: The Point in time (PIT) policy to manage snapshots taken during replication.
     ///   - replicatedDisks: The configuration of the disks of the Source Server to be replicated.
@@ -1789,6 +1805,7 @@ public struct Drs: AWSService {
         defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         name: String? = nil,
         pitPolicy: [PITPolicyRule]? = nil,
         replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil,
@@ -1809,6 +1826,7 @@ public struct Drs: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             name: name, 
             pitPolicy: pitPolicy, 
             replicatedDisks: replicatedDisks, 
@@ -1847,6 +1865,7 @@ public struct Drs: AWSService {
     ///   - defaultLargeStagingDiskType: The Staging Disk EBS volume type to be used during replication.
     ///   - ebsEncryption: The type of EBS encryption to be used during replication.
     ///   - ebsEncryptionKeyArn: The ARN of the EBS encryption key to be used during replication.
+    ///   - internetProtocol: Which version of the Internet Protocol to use for replication of data. (IPv4 or IPv6)
     ///   - pitPolicy: The Point in time (PIT) policy to manage snapshots taken during replication.
     ///   - replicationConfigurationTemplateID: The Replication Configuration Template ID.
     ///   - replicationServerInstanceType: The instance type to be used for the replication server.
@@ -1866,6 +1885,7 @@ public struct Drs: AWSService {
         defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         pitPolicy: [PITPolicyRule]? = nil,
         replicationConfigurationTemplateID: String,
         replicationServerInstanceType: String? = nil,
@@ -1885,6 +1905,7 @@ public struct Drs: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             pitPolicy: pitPolicy, 
             replicationConfigurationTemplateID: replicationConfigurationTemplateID, 
             replicationServerInstanceType: replicationServerInstanceType, 

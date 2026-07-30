@@ -71,6 +71,8 @@ extension MediaTailor {
         case makingAdsRequest = "MAKING_ADS_REQUEST"
         case modifiedTargetUrl = "MODIFIED_TARGET_URL"
         case nonAdMarkerFound = "NON_AD_MARKER_FOUND"
+        case preAdsRequestFunctionError = "PRE_ADS_REQUEST_FUNCTION_ERROR"
+        case preAdsRequestHookError = "PRE_ADS_REQUEST_HOOK_ERROR"
         case redirectedVastResponse = "REDIRECTED_VAST_RESPONSE"
         case vastRedirect = "VAST_REDIRECT"
         case vastResponse = "VAST_RESPONSE"
@@ -84,6 +86,8 @@ extension MediaTailor {
     }
 
     public enum AdsInteractionPublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preAdsRequestFunctionCompleted = "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
+        case preAdsRequestHookSummary = "PRE_ADS_REQUEST_HOOK_SUMMARY"
         case rawAdsRequest = "RAW_ADS_REQUEST"
         case rawAdsResponse = "RAW_ADS_RESPONSE"
         public var description: String { return self.rawValue }
@@ -108,9 +112,22 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preAdsRequest = "PRE_ADS_REQUEST"
+        case preSessionInitialization = "PRE_SESSION_INITIALIZATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FillPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullAvailOnly = "FULL_AVAIL_ONLY"
         case partialAvail = "PARTIAL_AVAIL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FunctionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customOutput = "CUSTOM_OUTPUT"
+        case httpRequest = "HTTP_REQUEST"
+        case sequentialExecutor = "SEQUENTIAL_EXECUTOR"
         public var description: String { return self.rawValue }
     }
 
@@ -164,6 +181,8 @@ extension MediaTailor {
         case noMediaPlaylist = "NO_MEDIA_PLAYLIST"
         case originManifest = "ORIGIN_MANIFEST"
         case parsingError = "PARSING_ERROR"
+        case preSessionInitFunctionError = "PRE_SESSION_INIT_FUNCTION_ERROR"
+        case preSessionInitHookError = "PRE_SESSION_INIT_HOOK_ERROR"
         case scte35ParsingError = "SCTE35_PARSING_ERROR"
         case sessionInitialized = "SESSION_INITIALIZED"
         case timeoutError = "TIMEOUT_ERROR"
@@ -174,6 +193,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManifestServicePublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case preSessionInitFunctionCompleted = "PRE_SESSION_INIT_FUNCTION_COMPLETED"
+        case preSessionInitHookSummary = "PRE_SESSION_INIT_HOOK_SUMMARY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case spliceInsert = "SPLICE_INSERT"
         case timeSignal = "TIME_SIGNAL"
@@ -181,6 +206,12 @@ extension MediaTailor {
     }
 
     public enum Method: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case get = "GET"
+        case post = "POST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MethodType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case get = "GET"
         case post = "POST"
         public var description: String { return self.rawValue }
@@ -219,6 +250,11 @@ extension MediaTailor {
     public enum RelativePosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterProgram = "AFTER_PROGRAM"
         case beforeProgram = "BEFORE_PROGRAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuntimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case jsonata = "JSONATA"
         public var description: String { return self.rawValue }
     }
 
@@ -378,6 +414,54 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case excludeEventTypes = "ExcludeEventTypes"
             case publishOptInEventTypes = "PublishOptInEventTypes"
+        }
+    }
+
+    public struct AdsPersonalizationConcurrency: AWSEncodableShape & AWSDecodableShape {
+        /// Enables parallel processing of ad decision server requests in VOD workflows when the ADS returns VAST responses. The default is false.
+        public let enableVodVastParallelization: Bool?
+        /// The maximum number of simultaneous requests that MediaTailor makes to the ad decision server per manifest request. The default is 1.
+        public let maxConcurrentAdsRequests: Int?
+
+        @inlinable
+        public init(enableVodVastParallelization: Bool? = nil, maxConcurrentAdsRequests: Int? = nil) {
+            self.enableVodVastParallelization = enableVodVastParallelization
+            self.maxConcurrentAdsRequests = maxConcurrentAdsRequests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableVodVastParallelization = "EnableVodVastParallelization"
+            case maxConcurrentAdsRequests = "MaxConcurrentAdsRequests"
+        }
+    }
+
+    public struct AdsPersonalizationTimeouts: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during live or VOD playback. The default is 3000.
+        public let adsRequestTimeoutMilliseconds: Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for live manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.
+        public let liveMaximumAdsPersonalizationTimeMilliseconds: Int?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a single ad decision server response during prefetch retrieval. If not set, the value of AdsRequestTimeoutMilliseconds is used.
+        public let prefetchAdsRequestTimeoutMilliseconds: Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity during prefetch retrieval, including making requests, waiting for responses, and following VAST wrapper redirects.
+        public let prefetchMaximumAdsPersonalizationTimeMilliseconds: Int?
+        /// The maximum total time, in milliseconds, that MediaTailor spends on ad decision server activity for VOD manifests, including making requests, waiting for responses, and following VAST wrapper redirects. The default is 10000.
+        public let vodMaximumAdsPersonalizationTimeMilliseconds: Int?
+
+        @inlinable
+        public init(adsRequestTimeoutMilliseconds: Int? = nil, liveMaximumAdsPersonalizationTimeMilliseconds: Int? = nil, prefetchAdsRequestTimeoutMilliseconds: Int? = nil, prefetchMaximumAdsPersonalizationTimeMilliseconds: Int? = nil, vodMaximumAdsPersonalizationTimeMilliseconds: Int? = nil) {
+            self.adsRequestTimeoutMilliseconds = adsRequestTimeoutMilliseconds
+            self.liveMaximumAdsPersonalizationTimeMilliseconds = liveMaximumAdsPersonalizationTimeMilliseconds
+            self.prefetchAdsRequestTimeoutMilliseconds = prefetchAdsRequestTimeoutMilliseconds
+            self.prefetchMaximumAdsPersonalizationTimeMilliseconds = prefetchMaximumAdsPersonalizationTimeMilliseconds
+            self.vodMaximumAdsPersonalizationTimeMilliseconds = vodMaximumAdsPersonalizationTimeMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adsRequestTimeoutMilliseconds = "AdsRequestTimeoutMilliseconds"
+            case liveMaximumAdsPersonalizationTimeMilliseconds = "LiveMaximumAdsPersonalizationTimeMilliseconds"
+            case prefetchAdsRequestTimeoutMilliseconds = "PrefetchAdsRequestTimeoutMilliseconds"
+            case prefetchMaximumAdsPersonalizationTimeMilliseconds = "PrefetchMaximumAdsPersonalizationTimeMilliseconds"
+            case vodMaximumAdsPersonalizationTimeMilliseconds = "VodMaximumAdsPersonalizationTimeMilliseconds"
         }
     }
 
@@ -923,9 +1007,11 @@ extension MediaTailor {
         public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
+        /// The tags to assign to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
+        public init(consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil, tags: [String: String]? = nil) {
             self.consumption = consumption
             self.name = name
             self.playbackConfigurationName = playbackConfigurationName
@@ -933,6 +1019,7 @@ extension MediaTailor {
             self.retrieval = retrieval
             self.scheduleType = scheduleType
             self.streamId = streamId
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -945,6 +1032,7 @@ extension MediaTailor {
             try container.encodeIfPresent(self.retrieval, forKey: .retrieval)
             try container.encodeIfPresent(self.scheduleType, forKey: .scheduleType)
             try container.encodeIfPresent(self.streamId, forKey: .streamId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -953,6 +1041,7 @@ extension MediaTailor {
             case retrieval = "Retrieval"
             case scheduleType = "ScheduleType"
             case streamId = "StreamId"
+            case tags = "tags"
         }
     }
 
@@ -973,9 +1062,11 @@ extension MediaTailor {
         public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
         public let streamId: String?
+        /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
@@ -984,6 +1075,7 @@ extension MediaTailor {
             self.retrieval = retrieval
             self.scheduleType = scheduleType
             self.streamId = streamId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -995,6 +1087,7 @@ extension MediaTailor {
             case retrieval = "Retrieval"
             case scheduleType = "ScheduleType"
             case streamId = "StreamId"
+            case tags = "tags"
         }
     }
 
@@ -1013,11 +1106,13 @@ extension MediaTailor {
         public let scheduleConfiguration: ScheduleConfiguration
         /// The name of the source location.
         public let sourceLocationName: String
+        /// The tags to assign to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
         @inlinable
-        public init(adBreaks: [AdBreak]? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String, liveSourceName: String? = nil, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String, liveSourceName: String? = nil, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.audienceMedia = audienceMedia
             self.channelName = channelName
@@ -1025,6 +1120,7 @@ extension MediaTailor {
             self.programName = programName
             self.scheduleConfiguration = scheduleConfiguration
             self.sourceLocationName = sourceLocationName
+            self.tags = tags
             self.vodSourceName = vodSourceName
         }
 
@@ -1038,6 +1134,7 @@ extension MediaTailor {
             request.encodePath(self.programName, key: "ProgramName")
             try container.encode(self.scheduleConfiguration, forKey: .scheduleConfiguration)
             try container.encode(self.sourceLocationName, forKey: .sourceLocationName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.vodSourceName, forKey: .vodSourceName)
         }
 
@@ -1047,6 +1144,7 @@ extension MediaTailor {
             case liveSourceName = "LiveSourceName"
             case scheduleConfiguration = "ScheduleConfiguration"
             case sourceLocationName = "SourceLocationName"
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -1076,11 +1174,13 @@ extension MediaTailor {
         public var scheduledStartTime: Date?
         /// The name to assign to the source location for this program.
         public let sourceLocationName: String?
+        /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
         @inlinable
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.audienceMedia = audienceMedia
@@ -1092,6 +1192,7 @@ extension MediaTailor {
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
+            self.tags = tags
             self.vodSourceName = vodSourceName
         }
 
@@ -1107,6 +1208,7 @@ extension MediaTailor {
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -1276,8 +1378,28 @@ extension MediaTailor {
         }
     }
 
+    public struct CustomOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.variant), and each value is an expression that MediaTailor evaluates at runtime against the current session state. For more information about expression syntax, see JSONata expression reference in the MediaTailor User Guide.
+        public let output: [String: String]?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        public let runtime: RuntimeType
+
+        @inlinable
+        public init(output: [String: String]? = nil, runtime: RuntimeType) {
+            self.output = output
+            self.runtime = runtime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "Output"
+            case runtime = "Runtime"
+        }
+    }
+
     public struct DashConfiguration: AWSDecodableShape {
-        /// The URL generated by MediaTailor to initiate a playback session. The session uses server-side reporting. This setting is ignored in PUT operations.
+        /// The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a playback session. The session uses server-side reporting.
+        public let dualStackManifestEndpointPrefix: String?
+        /// The URL that MediaTailor generates to initiate a playback session. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
         /// The setting that controls whether MediaTailor includes the Location tag in DASH manifests. MediaTailor populates the Location tag with the URL for manifest update requests, to be used by players that don't support sticky redirects. Disable this if you have CDN routing rules set up for accessing MediaTailor manifests, and you are either using client-side reporting or your players support sticky HTTP redirects. Valid values are DISABLED and EMT_DEFAULT. The EMT_DEFAULT setting enables the inclusion of the tag and is the default value.
         public let mpdLocation: String?
@@ -1285,13 +1407,15 @@ extension MediaTailor {
         public let originManifestType: OriginManifestType?
 
         @inlinable
-        public init(manifestEndpointPrefix: String? = nil, mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
+        public init(dualStackManifestEndpointPrefix: String? = nil, manifestEndpointPrefix: String? = nil, mpdLocation: String? = nil, originManifestType: OriginManifestType? = nil) {
+            self.dualStackManifestEndpointPrefix = dualStackManifestEndpointPrefix
             self.manifestEndpointPrefix = manifestEndpointPrefix
             self.mpdLocation = mpdLocation
             self.originManifestType = originManifestType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dualStackManifestEndpointPrefix = "DualStackManifestEndpointPrefix"
             case manifestEndpointPrefix = "ManifestEndpointPrefix"
             case mpdLocation = "MpdLocation"
             case originManifestType = "OriginManifestType"
@@ -1397,6 +1521,28 @@ extension MediaTailor {
     }
 
     public struct DeleteChannelResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteFunctionRequest: AWSEncodableShape {
+        /// The identifier of the function to delete.
+        public let functionId: String
+
+        @inlinable
+        public init(functionId: String) {
+            self.functionId = functionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionId, key: "FunctionId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFunctionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1739,11 +1885,13 @@ extension MediaTailor {
         public var scheduledStartTime: Date?
         /// The source location name.
         public let sourceLocationName: String?
+        /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
         @inlinable
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.audienceMedia = audienceMedia
@@ -1755,6 +1903,7 @@ extension MediaTailor {
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
+            self.tags = tags
             self.vodSourceName = vodSourceName
         }
 
@@ -1770,6 +1919,7 @@ extension MediaTailor {
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }
@@ -1906,6 +2056,66 @@ extension MediaTailor {
         }
     }
 
+    public struct Function: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the function.
+        public let arn: String?
+        /// The configuration for a CUSTOM_OUTPUT function.
+        public let customOutputConfiguration: CustomOutputConfiguration?
+        /// A description of the function.
+        public let description: String?
+        /// The identifier of the function.
+        public let functionId: String
+        /// The type of the function.
+        public let functionType: FunctionType
+        /// The configuration for an HTTP_REQUEST function.
+        public let httpRequestConfiguration: HttpRequestConfiguration?
+        /// The configuration for a SEQUENTIAL_EXECUTOR function.
+        public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
+        /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.customOutputConfiguration = customOutputConfiguration
+            self.description = description
+            self.functionId = functionId
+            self.functionType = functionType
+            self.httpRequestConfiguration = httpRequestConfiguration
+            self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case customOutputConfiguration = "CustomOutputConfiguration"
+            case description = "Description"
+            case functionId = "FunctionId"
+            case functionType = "FunctionType"
+            case httpRequestConfiguration = "HttpRequestConfiguration"
+            case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct FunctionRef: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the child function to execute in this step.
+        public let functionId: String?
+        /// An optional expression that evaluates to a boolean. MediaTailor evaluates this expression immediately before running the step, using the accumulated state at that point in the sequence. If the expression evaluates to false, MediaTailor skips the step and moves to the next one. If omitted, the step always runs.
+        public let runCondition: String?
+
+        @inlinable
+        public init(functionId: String? = nil, runCondition: String? = nil) {
+            self.functionId = functionId
+            self.runCondition = runCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionId = "FunctionId"
+            case runCondition = "RunCondition"
+        }
+    }
+
     public struct GetChannelPolicyRequest: AWSEncodableShape {
         /// The name of the channel associated with this Channel Policy.
         public let channelName: String
@@ -1995,6 +2205,66 @@ extension MediaTailor {
         }
     }
 
+    public struct GetFunctionRequest: AWSEncodableShape {
+        /// The identifier of the function.
+        public let functionId: String
+
+        @inlinable
+        public init(functionId: String) {
+            self.functionId = functionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.functionId, key: "FunctionId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the function.
+        public let arn: String?
+        /// The configuration for a CUSTOM_OUTPUT function.
+        public let customOutputConfiguration: CustomOutputConfiguration?
+        /// A description of the function.
+        public let description: String?
+        /// The identifier of the function.
+        public let functionId: String
+        /// The type of the function.
+        public let functionType: FunctionType
+        /// The configuration for an HTTP_REQUEST function.
+        public let httpRequestConfiguration: HttpRequestConfiguration?
+        /// The configuration for a SEQUENTIAL_EXECUTOR function.
+        public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
+        /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.customOutputConfiguration = customOutputConfiguration
+            self.description = description
+            self.functionId = functionId
+            self.functionType = functionType
+            self.httpRequestConfiguration = httpRequestConfiguration
+            self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case customOutputConfiguration = "CustomOutputConfiguration"
+            case description = "Description"
+            case functionId = "FunctionId"
+            case functionType = "FunctionType"
+            case httpRequestConfiguration = "HttpRequestConfiguration"
+            case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
+            case tags = "tags"
+        }
+    }
+
     public struct GetPlaybackConfigurationRequest: AWSEncodableShape {
         /// The identifier for the playback configuration.
         public let name: String
@@ -2020,6 +2290,10 @@ extension MediaTailor {
         public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+        public let adsPersonalizationConcurrency: AdsPersonalizationConcurrency?
+        /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+        public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
@@ -2030,6 +2304,12 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfiguration?
+        /// The dual-stack (IPv4 and IPv6) URL that your player accesses to get a manifest from AWS Elemental MediaTailor. The session uses server-side reporting.
+        public let dualStackPlaybackEndpointPrefix: String?
+        /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
+        public let dualStackSessionInitializationEndpointPrefix: String?
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -2046,9 +2326,9 @@ extension MediaTailor {
         public let personalizationThresholdSeconds: Int?
         /// The Amazon Resource Name (ARN) for the playback configuration.
         public let playbackConfigurationArn: String?
-        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor. This session will use server-side reporting.
+        /// The URL that your player accesses to get a manifest from AWS Elemental MediaTailor. The session uses server-side reporting.
         public let playbackEndpointPrefix: String?
-        /// The URL that the player uses to initialize a session that uses client-side reporting.
+        /// The URL that your player uses to initialize a session that uses client-side reporting.
         public let sessionInitializationEndpointPrefix: String?
         /// The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
@@ -2060,15 +2340,20 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+            self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.dualStackPlaybackEndpointPrefix = dualStackPlaybackEndpointPrefix
+            self.dualStackSessionInitializationEndpointPrefix = dualStackSessionInitializationEndpointPrefix
+            self.functionMapping = functionMapping
             self.hlsConfiguration = hlsConfiguration
             self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -2089,11 +2374,16 @@ extension MediaTailor {
             case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
+            case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
+            case dualStackPlaybackEndpointPrefix = "DualStackPlaybackEndpointPrefix"
+            case dualStackSessionInitializationEndpointPrefix = "DualStackSessionInitializationEndpointPrefix"
+            case functionMapping = "FunctionMapping"
             case hlsConfiguration = "HlsConfiguration"
             case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
@@ -2150,9 +2440,11 @@ extension MediaTailor {
         public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
+        /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
+        public init(arn: String? = nil, consumption: PrefetchConsumption? = nil, name: String? = nil, playbackConfigurationName: String? = nil, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
@@ -2161,6 +2453,7 @@ extension MediaTailor {
             self.retrieval = retrieval
             self.scheduleType = scheduleType
             self.streamId = streamId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2172,19 +2465,24 @@ extension MediaTailor {
             case retrieval = "Retrieval"
             case scheduleType = "ScheduleType"
             case streamId = "StreamId"
+            case tags = "tags"
         }
     }
 
     public struct HlsConfiguration: AWSDecodableShape {
-        /// The URL that is used to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
+        /// The dual-stack (IPv4 and IPv6) URL that MediaTailor generates to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
+        public let dualStackManifestEndpointPrefix: String?
+        /// The URL that MediaTailor generates to initiate a playback session for devices that support Apple HLS. The session uses server-side reporting.
         public let manifestEndpointPrefix: String?
 
         @inlinable
-        public init(manifestEndpointPrefix: String? = nil) {
+        public init(dualStackManifestEndpointPrefix: String? = nil, manifestEndpointPrefix: String? = nil) {
+            self.dualStackManifestEndpointPrefix = dualStackManifestEndpointPrefix
             self.manifestEndpointPrefix = manifestEndpointPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dualStackManifestEndpointPrefix = "DualStackManifestEndpointPrefix"
             case manifestEndpointPrefix = "ManifestEndpointPrefix"
         }
     }
@@ -2266,6 +2564,44 @@ extension MediaTailor {
             case compressRequest = "CompressRequest"
             case headers = "Headers"
             case method = "Method"
+        }
+    }
+
+    public struct HttpRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An expression that evaluates to the request body. Used with POST requests. The maximum size after evaluation is 64 KB.
+        public let body: String?
+        /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound HTTP request. Maximum 50 headers.
+        public let headers: [String: String]?
+        /// The HTTP method for the request. Valid values: GET and POST.
+        public let methodType: MethodType
+        /// A map of output bindings. Each key is a namespaced output path (such as player_params.device_type or temp.identity), and each value is an expression that MediaTailor evaluates at runtime. Output expressions in an HTTP_REQUEST function can reference the response object returned by the HTTP call. For more information about expression syntax, see JSONata expression reference in the MediaTailor User Guide.
+        public let output: [String: String]?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a response from the external service. If the call exceeds this timeout, MediaTailor sets the response status code to null and proceeds with output expression evaluation. Valid values: 100 to 2000.
+        public let requestTimeoutMilliseconds: Int
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        public let runtime: RuntimeType
+        /// An expression that evaluates to the request URL. Use {%...%} delimiters for dynamic expressions. The maximum length after evaluation is 2,048 characters.
+        public let url: String
+
+        @inlinable
+        public init(body: String? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
+            self.body = body
+            self.headers = headers
+            self.methodType = methodType
+            self.output = output
+            self.requestTimeoutMilliseconds = requestTimeoutMilliseconds
+            self.runtime = runtime
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case headers = "Headers"
+            case methodType = "MethodType"
+            case output = "Output"
+            case requestTimeoutMilliseconds = "RequestTimeoutMilliseconds"
+            case runtime = "Runtime"
+            case url = "Url"
         }
     }
 
@@ -2371,6 +2707,51 @@ extension MediaTailor {
 
         @inlinable
         public init(items: [Channel]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFunctionsRequest: AWSEncodableShape {
+        /// The maximum number of functions that you want MediaTailor to return in response to the current request. If there are more than MaxResults functions, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses token-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+        public let maxResults: Int?
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListFunctions request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFunctionsResponse: AWSDecodableShape {
+        /// A list of functions associated with your account in the current Region.
+        public let items: [Function]?
+        /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListFunctions request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [Function]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -2778,14 +3159,18 @@ extension MediaTailor {
     public struct ManifestServiceInteractionLog: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
         public let excludeEventTypes: [ManifestServiceExcludeEventType]?
+        /// Indicates that MediaTailor will emit the selected events in the logs for playback sessions that are initialized with this configuration. These events are not emitted by default and must be explicitly opted in.
+        public let publishOptInEventTypes: [ManifestServicePublishOptInEventType]?
 
         @inlinable
-        public init(excludeEventTypes: [ManifestServiceExcludeEventType]? = nil) {
+        public init(excludeEventTypes: [ManifestServiceExcludeEventType]? = nil, publishOptInEventTypes: [ManifestServicePublishOptInEventType]? = nil) {
             self.excludeEventTypes = excludeEventTypes
+            self.publishOptInEventTypes = publishOptInEventTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case excludeEventTypes = "ExcludeEventTypes"
+            case publishOptInEventTypes = "PublishOptInEventTypes"
         }
     }
 
@@ -2795,6 +3180,10 @@ extension MediaTailor {
         public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+        public let adsPersonalizationConcurrency: AdsPersonalizationConcurrency?
+        /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+        public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
@@ -2805,6 +3194,12 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for a DASH source.
         public let dashConfiguration: DashConfiguration?
+        /// The dual-stack (IPv4 and IPv6) URL that your player accesses to get a manifest from AWS Elemental MediaTailor.
+        public let dualStackPlaybackEndpointPrefix: String?
+        /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
+        public let dualStackSessionInitializationEndpointPrefix: String?
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -2821,9 +3216,9 @@ extension MediaTailor {
         public let personalizationThresholdSeconds: Int?
         /// The Amazon Resource Name (ARN) for the playback configuration.
         public let playbackConfigurationArn: String?
-        /// The URL that the player accesses to get a manifest from AWS Elemental MediaTailor.
+        /// The URL that your player accesses to get a manifest from AWS Elemental MediaTailor.
         public let playbackEndpointPrefix: String?
-        /// The URL that the player uses to initialize a session that uses client-side reporting.
+        /// The URL that your player uses to initialize a session that uses client-side reporting.
         public let sessionInitializationEndpointPrefix: String?
         /// The URL for a video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID playback configurations. For VPAID, the slate is required because MediaTailor provides it in the slots designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video.
         public let slateAdUrl: String?
@@ -2835,15 +3230,20 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+            self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.dualStackPlaybackEndpointPrefix = dualStackPlaybackEndpointPrefix
+            self.dualStackSessionInitializationEndpointPrefix = dualStackSessionInitializationEndpointPrefix
+            self.functionMapping = functionMapping
             self.hlsConfiguration = hlsConfiguration
             self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -2864,11 +3264,16 @@ extension MediaTailor {
             case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
+            case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
+            case dualStackPlaybackEndpointPrefix = "DualStackPlaybackEndpointPrefix"
+            case dualStackSessionInitializationEndpointPrefix = "DualStackSessionInitializationEndpointPrefix"
+            case functionMapping = "FunctionMapping"
             case hlsConfiguration = "HlsConfiguration"
             case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
@@ -2963,9 +3368,11 @@ extension MediaTailor {
         public let scheduleType: PrefetchScheduleType?
         /// An optional stream identifier that you can specify in order to prefetch for multiple streams that use the same playback configuration.
         public let streamId: String?
+        /// The tags assigned to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil) {
+        public init(arn: String, consumption: PrefetchConsumption? = nil, name: String, playbackConfigurationName: String, recurringPrefetchConfiguration: RecurringPrefetchConfiguration? = nil, retrieval: PrefetchRetrieval? = nil, scheduleType: PrefetchScheduleType? = nil, streamId: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.consumption = consumption
             self.name = name
@@ -2974,6 +3381,7 @@ extension MediaTailor {
             self.retrieval = retrieval
             self.scheduleType = scheduleType
             self.streamId = streamId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2985,6 +3393,7 @@ extension MediaTailor {
             case retrieval = "Retrieval"
             case scheduleType = "ScheduleType"
             case streamId = "StreamId"
+            case tags = "tags"
         }
     }
 
@@ -3016,6 +3425,97 @@ extension MediaTailor {
         public init() {}
     }
 
+    public struct PutFunctionRequest: AWSEncodableShape {
+        /// The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
+        public let customOutputConfiguration: CustomOutputConfiguration?
+        /// A description of the function.
+        public let description: String?
+        /// The identifier of the function. The identifier must be unique within your account.
+        public let functionId: String
+        /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see Function types and composition in the MediaTailor User Guide.
+        public let functionType: FunctionType
+        /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
+        public let httpRequestConfiguration: HttpRequestConfiguration?
+        /// The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
+        public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
+        /// The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+            self.customOutputConfiguration = customOutputConfiguration
+            self.description = description
+            self.functionId = functionId
+            self.functionType = functionType
+            self.httpRequestConfiguration = httpRequestConfiguration
+            self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.customOutputConfiguration, forKey: .customOutputConfiguration)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.functionId, key: "FunctionId")
+            try container.encode(self.functionType, forKey: .functionType)
+            try container.encodeIfPresent(self.httpRequestConfiguration, forKey: .httpRequestConfiguration)
+            try container.encodeIfPresent(self.sequentialExecutorConfiguration, forKey: .sequentialExecutorConfiguration)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customOutputConfiguration = "CustomOutputConfiguration"
+            case description = "Description"
+            case functionType = "FunctionType"
+            case httpRequestConfiguration = "HttpRequestConfiguration"
+            case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
+            case tags = "tags"
+        }
+    }
+
+    public struct PutFunctionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the function.
+        public let arn: String?
+        /// The configuration for a CUSTOM_OUTPUT function.
+        public let customOutputConfiguration: CustomOutputConfiguration?
+        /// A description of the function.
+        public let description: String?
+        /// The identifier of the function.
+        public let functionId: String
+        /// The type of the function.
+        public let functionType: FunctionType
+        /// The configuration for an HTTP_REQUEST function.
+        public let httpRequestConfiguration: HttpRequestConfiguration?
+        /// The configuration for a SEQUENTIAL_EXECUTOR function.
+        public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
+        /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.customOutputConfiguration = customOutputConfiguration
+            self.description = description
+            self.functionId = functionId
+            self.functionType = functionType
+            self.httpRequestConfiguration = httpRequestConfiguration
+            self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case customOutputConfiguration = "CustomOutputConfiguration"
+            case description = "Description"
+            case functionId = "FunctionId"
+            case functionType = "FunctionType"
+            case httpRequestConfiguration = "HttpRequestConfiguration"
+            case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
+            case tags = "tags"
+        }
+    }
+
     public struct PutPlaybackConfigurationRequest: AWSEncodableShape {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public let adConditioningConfiguration: AdConditioningConfiguration?
@@ -3023,6 +3523,10 @@ extension MediaTailor {
         public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+        public let adsPersonalizationConcurrency: AdsPersonalizationConcurrency?
+        /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+        public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
@@ -3033,6 +3537,8 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfigurationForPut?
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        public let functionMapping: [EventName: String]?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
         public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
@@ -3053,15 +3559,18 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, functionMapping: [EventName: String]? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+            self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.functionMapping = functionMapping
             self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -3081,11 +3590,14 @@ extension MediaTailor {
             case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
+            case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
+            case functionMapping = "FunctionMapping"
             case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
             case manifestProcessingRules = "ManifestProcessingRules"
@@ -3105,6 +3617,10 @@ extension MediaTailor {
         public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
+        /// The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+        public let adsPersonalizationConcurrency: AdsPersonalizationConcurrency?
+        /// The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
+        public let adsPersonalizationTimeouts: AdsPersonalizationTimeouts?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
         public let availSuppression: AvailSuppression?
         /// The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
@@ -3115,6 +3631,12 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfiguration?
+        /// The dual-stack (IPv4 and IPv6) playback endpoint prefix associated with the playback configuration.
+        public let dualStackPlaybackEndpointPrefix: String?
+        /// The dual-stack (IPv4 and IPv6) session initialization endpoint prefix associated with the playback configuration.
+        public let dualStackSessionInitializationEndpointPrefix: String?
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
@@ -3145,15 +3667,20 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
+            self.adsPersonalizationConcurrency = adsPersonalizationConcurrency
+            self.adsPersonalizationTimeouts = adsPersonalizationTimeouts
             self.availSuppression = availSuppression
             self.bumper = bumper
             self.cdnConfiguration = cdnConfiguration
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
+            self.dualStackPlaybackEndpointPrefix = dualStackPlaybackEndpointPrefix
+            self.dualStackSessionInitializationEndpointPrefix = dualStackSessionInitializationEndpointPrefix
+            self.functionMapping = functionMapping
             self.hlsConfiguration = hlsConfiguration
             self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
@@ -3174,11 +3701,16 @@ extension MediaTailor {
             case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
+            case adsPersonalizationConcurrency = "AdsPersonalizationConcurrency"
+            case adsPersonalizationTimeouts = "AdsPersonalizationTimeouts"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
             case cdnConfiguration = "CdnConfiguration"
             case configurationAliases = "ConfigurationAliases"
             case dashConfiguration = "DashConfiguration"
+            case dualStackPlaybackEndpointPrefix = "DualStackPlaybackEndpointPrefix"
+            case dualStackSessionInitializationEndpointPrefix = "DualStackSessionInitializationEndpointPrefix"
+            case functionMapping = "FunctionMapping"
             case hlsConfiguration = "HlsConfiguration"
             case insertionMode = "InsertionMode"
             case livePreRollConfiguration = "LivePreRollConfiguration"
@@ -3301,18 +3833,21 @@ extension MediaTailor {
     public struct ResponseOutputItem: AWSDecodableShape {
         /// DASH manifest configuration settings.
         public let dashPlaylistSettings: DashPlaylistSettings?
+        /// The dual-stack (IPv4 and IPv6) URL that your player uses for playback.
+        public let dualStackPlaybackUrl: String?
         /// HLS manifest configuration settings.
         public let hlsPlaylistSettings: HlsPlaylistSettings?
         /// The name of the manifest for the channel that will appear in the channel output's playback URL.
         public let manifestName: String
-        /// The URL used for playback by content players.
+        /// The URL that your player uses for playback.
         public let playbackUrl: String
         /// A string used to associate a package configuration source group with a channel output.
         public let sourceGroup: String
 
         @inlinable
-        public init(dashPlaylistSettings: DashPlaylistSettings? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, playbackUrl: String, sourceGroup: String) {
+        public init(dashPlaylistSettings: DashPlaylistSettings? = nil, dualStackPlaybackUrl: String? = nil, hlsPlaylistSettings: HlsPlaylistSettings? = nil, manifestName: String, playbackUrl: String, sourceGroup: String) {
             self.dashPlaylistSettings = dashPlaylistSettings
+            self.dualStackPlaybackUrl = dualStackPlaybackUrl
             self.hlsPlaylistSettings = hlsPlaylistSettings
             self.manifestName = manifestName
             self.playbackUrl = playbackUrl
@@ -3321,6 +3856,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case dashPlaylistSettings = "DashPlaylistSettings"
+            case dualStackPlaybackUrl = "DualStackPlaybackUrl"
             case hlsPlaylistSettings = "HlsPlaylistSettings"
             case manifestName = "ManifestName"
             case playbackUrl = "PlaybackUrl"
@@ -3507,6 +4043,32 @@ extension MediaTailor {
             case segmentsExpected = "SegmentsExpected"
             case subSegmentNum = "SubSegmentNum"
             case subSegmentsExpected = "SubSegmentsExpected"
+        }
+    }
+
+    public struct SequentialExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An ordered list of 1 to 10 steps. Each step specifies a child function to execute and an optional run condition expression that controls whether the step runs. MediaTailor executes steps in order, passing data between steps through temporary data.
+        public let functionList: [FunctionRef]
+        /// An optional map of output bindings that controls which bindings the sequence commits to the session state after all steps complete. If omitted, MediaTailor commits all accumulated output bindings from all child steps.
+        public let output: [String: String]?
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        public let runtime: RuntimeType
+        /// The maximum time, in milliseconds, for the entire sequence to complete. This timeout covers all steps, including any HTTP calls made by child functions. If the sequence exceeds this timeout, MediaTailor discards all output from the sequence and proceeds with default behavior.
+        public let timeoutMilliseconds: Int
+
+        @inlinable
+        public init(functionList: [FunctionRef], output: [String: String]? = nil, runtime: RuntimeType, timeoutMilliseconds: Int) {
+            self.functionList = functionList
+            self.output = output
+            self.runtime = runtime
+            self.timeoutMilliseconds = timeoutMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionList = "FunctionList"
+            case output = "Output"
+            case runtime = "Runtime"
+            case timeoutMilliseconds = "TimeoutMilliseconds"
         }
     }
 
@@ -4012,11 +4574,13 @@ extension MediaTailor {
         public var scheduledStartTime: Date?
         /// The name to assign to the source location for this program.
         public let sourceLocationName: String?
+        /// The tags assigned to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+        public let tags: [String: String]?
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
         @inlinable
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, audienceMedia: [AudienceMedia]? = nil, channelName: String? = nil, clipRange: ClipRange? = nil, creationTime: Date? = nil, durationMillis: Int64? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.audienceMedia = audienceMedia
@@ -4028,6 +4592,7 @@ extension MediaTailor {
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
+            self.tags = tags
             self.vodSourceName = vodSourceName
         }
 
@@ -4043,6 +4608,7 @@ extension MediaTailor {
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
+            case tags = "tags"
             case vodSourceName = "VodSourceName"
         }
     }

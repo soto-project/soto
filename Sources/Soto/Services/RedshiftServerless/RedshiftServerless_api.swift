@@ -1858,18 +1858,21 @@ public struct RedshiftServerless: AWSService {
     /// Restore the data from a recovery point.
     ///
     /// Parameters:
+    ///   - maintainIntegration: If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
     ///   - namespaceName: The name of the namespace to restore data into.
     ///   - recoveryPointId: The unique identifier of the recovery point to restore from.
     ///   - workgroupName: The name of the workgroup used to restore data.
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreFromRecoveryPoint(
+        maintainIntegration: Bool? = nil,
         namespaceName: String,
         recoveryPointId: String,
         workgroupName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreFromRecoveryPointResponse {
         let input = RestoreFromRecoveryPointRequest(
+            maintainIntegration: maintainIntegration, 
             namespaceName: namespaceName, 
             recoveryPointId: recoveryPointId, 
             workgroupName: workgroupName
@@ -1894,6 +1897,7 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
+    ///   - maintainIntegration: If true, maintain existing data sharing, zero-ETL and S3 event integrations when restoring. Otherwise, integrations will not be maintained after the restore operation. Integrations are only maintained when restored to the same serverless namespace. Default: true
     ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
     ///   - namespaceName: The name of the namespace to restore the snapshot to.
     ///   - ownerAccount: The Amazon Web Services account that owns the snapshot.
@@ -1904,6 +1908,7 @@ public struct RedshiftServerless: AWSService {
     @inlinable
     public func restoreFromSnapshot(
         adminPasswordSecretKmsKeyId: String? = nil,
+        maintainIntegration: Bool? = nil,
         manageAdminPassword: Bool? = nil,
         namespaceName: String,
         ownerAccount: String? = nil,
@@ -1914,6 +1919,7 @@ public struct RedshiftServerless: AWSService {
     ) async throws -> RestoreFromSnapshotResponse {
         let input = RestoreFromSnapshotRequest(
             adminPasswordSecretKmsKeyId: adminPasswordSecretKmsKeyId, 
+            maintainIntegration: maintainIntegration, 
             manageAdminPassword: manageAdminPassword, 
             namespaceName: namespaceName, 
             ownerAccount: ownerAccount, 

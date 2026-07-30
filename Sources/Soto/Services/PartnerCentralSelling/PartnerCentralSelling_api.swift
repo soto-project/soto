@@ -661,6 +661,38 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.getOpportunity(input, logger: logger)
     }
 
+    /// Retrieves the details and current status of a prospecting task previously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results.
+    @Sendable
+    @inlinable
+    public func getProspectingFromEngagementTask(_ input: GetProspectingFromEngagementTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProspectingFromEngagementTaskResponse {
+        try await self.client.execute(
+            operation: "GetProspectingFromEngagementTask", 
+            path: "/GetProspectingFromEngagementTask", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details and current status of a prospecting task previously started with StartProspectingFromEngagementTask to enable polling for completion and access to per-engagement processing results.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog associated with the task. Specify AWS for production environments and Sandbox for testing and development purposes. The value must match the catalog used when the task was created.
+    ///   - taskIdentifier: The unique identifier of the prospecting task to retrieve. This value is returned in the TaskId field of the StartProspectingFromEngagementTask response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProspectingFromEngagementTask(
+        catalog: String,
+        taskIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProspectingFromEngagementTaskResponse {
+        let input = GetProspectingFromEngagementTaskRequest(
+            catalog: catalog, 
+            taskIdentifier: taskIdentifier
+        )
+        return try await self.getProspectingFromEngagementTask(input, logger: logger)
+    }
+
     /// Use this action to retrieve a specific snapshot record.
     @Sendable
     @inlinable
@@ -1169,6 +1201,56 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.listOpportunityFromEngagementTasks(input, logger: logger)
     }
 
+    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the NextToken value from each response to retrieve subsequent pages.
+    @Sendable
+    @inlinable
+    public func listProspectingFromEngagementTasks(_ input: ListProspectingFromEngagementTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProspectingFromEngagementTasksResponse {
+        try await self.client.execute(
+            operation: "ListProspectingFromEngagementTasks", 
+            path: "/ListProspectingFromEngagementTasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all prospecting tasks initiated by the caller's account. Supports optional filters by task identifier, task name, or start time range. Results can be sorted using configurable options. The response is paginated. Use the NextToken value from each response to retrieve subsequent pages.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes.
+    ///   - maxResults: The maximum number of results to return in a single page. If additional results exist, the response includes a NextToken value for retrieving the next page. If omitted, the API uses a service-defined default page size.
+    ///   - nextToken: The pagination token from a previous call to this API. Include this value to retrieve the next page of results. If omitted, the first page is returned.
+    ///   - sort: Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order.
+    ///   - startAfter: Filters tasks to include only those that started after the specified timestamp. Use this with StartBefore to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    ///   - startBefore: Filters tasks to include only those that started before the specified timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    ///   - taskIdentifier: Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to specific tasks. If omitted, tasks are not filtered by identifier.
+    ///   - taskName: Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProspectingFromEngagementTasks(
+        catalog: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sort: ProspectingFromEngagementTaskSort? = nil,
+        startAfter: Date? = nil,
+        startBefore: Date? = nil,
+        taskIdentifier: [String]? = nil,
+        taskName: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProspectingFromEngagementTasksResponse {
+        let input = ListProspectingFromEngagementTasksRequest(
+            catalog: catalog, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sort: sort, 
+            startAfter: startAfter, 
+            startBefore: startBefore, 
+            taskIdentifier: taskIdentifier, 
+            taskName: taskName
+        )
+        return try await self.listProspectingFromEngagementTasks(input, logger: logger)
+    }
+
     ///  Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
     @Sendable
     @inlinable
@@ -1279,6 +1361,7 @@ public struct PartnerCentralSelling: AWSService {
     /// Retrieves a list of Partner Solutions that the partner registered on Partner Central. This API is used to generate a list of solutions that an end user selects from for association with an opportunity.
     ///
     /// Parameters:
+    ///   - awsMarketplaceSolutionArn: Filters results by AWS Marketplace solution ARN. You can provide up to 10 ARNs.
     ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
     ///   - category: Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific categories, such as Software, Consulting, or Managed Services.
     ///   - identifier: Filters the solutions based on their unique identifier. Use this filter to retrieve specific solutions by providing the solution's identifier for accurate results.
@@ -1289,6 +1372,7 @@ public struct PartnerCentralSelling: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listSolutions(
+        awsMarketplaceSolutionArn: [String]? = nil,
         catalog: String,
         category: [String]? = nil,
         identifier: [String]? = nil,
@@ -1299,6 +1383,7 @@ public struct PartnerCentralSelling: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListSolutionsResponse {
         let input = ListSolutionsRequest(
+            awsMarketplaceSolutionArn: awsMarketplaceSolutionArn, 
             catalog: catalog, 
             category: category, 
             identifier: identifier, 
@@ -1524,6 +1609,44 @@ public struct PartnerCentralSelling: AWSService {
             tags: tags
         )
         return try await self.startOpportunityFromEngagementTask(input, logger: logger)
+    }
+
+    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask, or use ListProspectingFromEngagementTasks to monitor multiple tasks.
+    @Sendable
+    @inlinable
+    public func startProspectingFromEngagementTask(_ input: StartProspectingFromEngagementTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProspectingFromEngagementTaskResponse {
+        try await self.client.execute(
+            operation: "StartProspectingFromEngagementTask", 
+            path: "/StartProspectingFromEngagementTask", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a task to convert one or more engagement contexts into new prospecting leads. The task runs asynchronously. To poll for status, use GetProspectingFromEngagementTask, or use ListProspectingFromEngagementTasks to monitor multiple tasks.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog in which the task is initiated. Specify AWS for production environments and Sandbox for testing and development purposes.
+    ///   - clientToken: A unique, case-sensitive identifier provided by the client to ensure idempotency. Making the same request with the same ClientToken returns the same response without creating a duplicate task.
+    ///   - identifiers: The list of engagement identifiers to include in this prospecting task. Each identifier must correspond to an existing engagement in the specified catalog. Maximum of 100 identifiers per task.
+    ///   - taskName: A descriptive name for the task. This name helps identify the task in list and get operations. The name must contain 1 to 128 characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startProspectingFromEngagementTask(
+        catalog: String,
+        clientToken: String = StartProspectingFromEngagementTaskRequest.idempotencyToken(),
+        identifiers: [String],
+        taskName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartProspectingFromEngagementTaskResponse {
+        let input = StartProspectingFromEngagementTaskRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            identifiers: identifiers, 
+            taskName: taskName
+        )
+        return try await self.startProspectingFromEngagementTask(input, logger: logger)
     }
 
     /// Starts a resource snapshot job that has been previously created.
@@ -2231,6 +2354,58 @@ extension PartnerCentralSelling {
         return self.listOpportunityFromEngagementTasksPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listProspectingFromEngagementTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProspectingFromEngagementTasksPaginator(
+        _ input: ListProspectingFromEngagementTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProspectingFromEngagementTasksRequest, ListProspectingFromEngagementTasksResponse> {
+        return .init(
+            input: input,
+            command: self.listProspectingFromEngagementTasks,
+            inputKey: \ListProspectingFromEngagementTasksRequest.nextToken,
+            outputKey: \ListProspectingFromEngagementTasksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProspectingFromEngagementTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog: Specifies the catalog to list tasks from. Specify AWS for production environments and Sandbox for testing and development purposes.
+    ///   - maxResults: The maximum number of results to return in a single page. If additional results exist, the response includes a NextToken value for retrieving the next page. If omitted, the API uses a service-defined default page size.
+    ///   - sort: Specifies the field and order used to sort the returned tasks. If omitted, tasks are returned in the default sort order.
+    ///   - startAfter: Filters tasks to include only those that started after the specified timestamp. Use this with StartBefore to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    ///   - startBefore: Filters tasks to include only those that started before the specified timestamp. Use this with StartAfter to define a start-time range for your query. The format follows ISO 8601 date-time notation.
+    ///   - taskIdentifier: Filters the results to include only the tasks with the specified identifiers. Provide up to 10 task IDs to narrow the list to specific tasks. If omitted, tasks are not filtered by identifier.
+    ///   - taskName: Filters the results to include only tasks with the specified names. Provide up to 10 task names to narrow the list. If omitted, tasks are not filtered by name.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProspectingFromEngagementTasksPaginator(
+        catalog: String,
+        maxResults: Int? = nil,
+        sort: ProspectingFromEngagementTaskSort? = nil,
+        startAfter: Date? = nil,
+        startBefore: Date? = nil,
+        taskIdentifier: [String]? = nil,
+        taskName: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProspectingFromEngagementTasksRequest, ListProspectingFromEngagementTasksResponse> {
+        let input = ListProspectingFromEngagementTasksRequest(
+            catalog: catalog, 
+            maxResults: maxResults, 
+            sort: sort, 
+            startAfter: startAfter, 
+            startBefore: startBefore, 
+            taskIdentifier: taskIdentifier, 
+            taskName: taskName
+        )
+        return self.listProspectingFromEngagementTasksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listResourceSnapshotJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -2350,6 +2525,7 @@ extension PartnerCentralSelling {
     /// Return PaginatorSequence for operation ``listSolutions(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - awsMarketplaceSolutionArn: Filters results by AWS Marketplace solution ARN. You can provide up to 10 ARNs.
     ///   - catalog: Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the solutions are listed in. Use AWS to list solutions in the Amazon Web Services catalog, and Sandbox to list solutions in a secure and isolated testing environment.
     ///   - category: Filters the solutions based on the category to which they belong. This allows partners to search for solutions within specific categories, such as Software, Consulting, or Managed Services.
     ///   - identifier: Filters the solutions based on their unique identifier. Use this filter to retrieve specific solutions by providing the solution's identifier for accurate results.
@@ -2359,6 +2535,7 @@ extension PartnerCentralSelling {
     ///   - logger: Logger used for logging
     @inlinable
     public func listSolutionsPaginator(
+        awsMarketplaceSolutionArn: [String]? = nil,
         catalog: String,
         category: [String]? = nil,
         identifier: [String]? = nil,
@@ -2368,6 +2545,7 @@ extension PartnerCentralSelling {
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListSolutionsRequest, ListSolutionsResponse> {
         let input = ListSolutionsRequest(
+            awsMarketplaceSolutionArn: awsMarketplaceSolutionArn, 
             catalog: catalog, 
             category: category, 
             identifier: identifier, 
@@ -2508,6 +2686,22 @@ extension PartnerCentralSelling.ListOpportunityFromEngagementTasksRequest: AWSPa
     }
 }
 
+extension PartnerCentralSelling.ListProspectingFromEngagementTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListProspectingFromEngagementTasksRequest {
+        return .init(
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort,
+            startAfter: self.startAfter,
+            startBefore: self.startBefore,
+            taskIdentifier: self.taskIdentifier,
+            taskName: self.taskName
+        )
+    }
+}
+
 extension PartnerCentralSelling.ListResourceSnapshotJobsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListResourceSnapshotJobsRequest {
@@ -2542,6 +2736,7 @@ extension PartnerCentralSelling.ListSolutionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListSolutionsRequest {
         return .init(
+            awsMarketplaceSolutionArn: self.awsMarketplaceSolutionArn,
             catalog: self.catalog,
             category: self.category,
             identifier: self.identifier,

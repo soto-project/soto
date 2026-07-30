@@ -347,7 +347,6 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - authenticationMaterial: The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code.
     ///   - authenticationMaterialType: The type of authentication material used for device connectivity setup requests.
     ///   - brand: The brand of the device.
-    ///   - capabilities: The capabilities of the device such as light bulb.
     ///   - capabilityReport: A report of the capabilities for the managed thing.
     ///   - capabilitySchemas: The capability schemas that define the functionality and features supported by the managed thing, including device capabilities and their associated properties.
     ///   - classification: The classification of the managed thing such as light bulb or thermostat.
@@ -367,7 +366,6 @@ public struct IoTManagedIntegrations: AWSService {
         authenticationMaterial: String,
         authenticationMaterialType: AuthMaterialType,
         brand: String? = nil,
-        capabilities: String? = nil,
         capabilityReport: CapabilityReport? = nil,
         capabilitySchemas: [CapabilitySchemaItem]? = nil,
         classification: String? = nil,
@@ -387,7 +385,6 @@ public struct IoTManagedIntegrations: AWSService {
             authenticationMaterial: authenticationMaterial, 
             authenticationMaterialType: authenticationMaterialType, 
             brand: brand, 
-            capabilities: capabilities, 
             capabilityReport: capabilityReport, 
             capabilitySchemas: capabilitySchemas, 
             classification: classification, 
@@ -540,7 +537,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createOtaTaskConfiguration(input, logger: logger)
     }
 
-    /// Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process.
     @Sendable
     @inlinable
     public func createProvisioningProfile(_ input: CreateProvisioningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProvisioningProfileResponse {
@@ -553,13 +550,13 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
+    /// Create a provisioning profile for executing device provisioning flows. The provisioning profile is a document that defines the set of resources and policies applied to a device during the provisioning process.
     ///
     /// Parameters:
-    ///   - caCertificate: The id of the certificate authority (CA) certificate.
-    ///   - claimCertificate: The claim certificate.
+    ///   - caCertificate: The body of the PEM-encoded certificate authority (CA) certificate.
+    ///   - claimCertificate: The body of the PEM-encoded claim certificate. If a claim certificate is provided, it will be used for the provisioning profile. Otherwise, a claim certificate will be generated.
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
-    ///   - name: The name of the provisioning template.
+    ///   - name: The name of the provisioning profile.
     ///   - provisioningType: The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
     ///   - tags: A set of key/value pairs that are used to manage the provisioning profile.
     ///   - logger: Logger use during operation
@@ -893,7 +890,7 @@ public struct IoTManagedIntegrations: AWSService {
     /// Delete a provisioning profile.
     ///
     /// Parameters:
-    ///   - identifier: The name of the provisioning template.
+    ///   - identifier: The id of the provisioning profile.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteProvisioningProfile(
@@ -1480,7 +1477,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getOtaTaskConfiguration(input, logger: logger)
     }
 
-    /// Get a provisioning profile by template name.
+    /// Get details of a provisioning profile.
     @Sendable
     @inlinable
     public func getProvisioningProfile(_ input: GetProvisioningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProvisioningProfileResponse {
@@ -1493,10 +1490,10 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Get a provisioning profile by template name.
+    /// Get details of a provisioning profile.
     ///
     /// Parameters:
-    ///   - identifier: The provisioning template the device uses for the provisioning process.
+    ///   - identifier: The id of a provisioning profile.
     ///   - logger: Logger use during operation
     @inlinable
     public func getProvisioningProfile(
@@ -2854,7 +2851,6 @@ public struct IoTManagedIntegrations: AWSService {
     ///
     /// Parameters:
     ///   - brand: The brand of the device.
-    ///   - capabilities: The capabilities of the device such as light bulb.
     ///   - capabilityReport: A report of the capabilities for the managed thing.
     ///   - capabilitySchemas: The updated capability schemas that define the functionality and features supported by the managed thing.
     ///   - classification: The classification of the managed thing such as light bulb or thermostat.
@@ -2871,7 +2867,6 @@ public struct IoTManagedIntegrations: AWSService {
     @inlinable
     public func updateManagedThing(
         brand: String? = nil,
-        capabilities: String? = nil,
         capabilityReport: CapabilityReport? = nil,
         capabilitySchemas: [CapabilitySchemaItem]? = nil,
         classification: String? = nil,
@@ -2888,7 +2883,6 @@ public struct IoTManagedIntegrations: AWSService {
     ) async throws {
         let input = UpdateManagedThingRequest(
             brand: brand, 
-            capabilities: capabilities, 
             capabilityReport: capabilityReport, 
             capabilitySchemas: capabilitySchemas, 
             classification: classification, 

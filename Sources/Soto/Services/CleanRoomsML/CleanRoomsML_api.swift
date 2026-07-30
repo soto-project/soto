@@ -358,6 +358,7 @@ public struct CleanRoomsML: AWSService {
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key that is used to access the input channel.
     ///   - membershipIdentifier: The membership ID of the member that is creating the ML input channel.
     ///   - name: The name of the ML input channel.
+    ///   - payerConfiguration: The payer configuration for the ML input channel. Determines which member account pays for compute and synthetic data costs.
     ///   - retentionInDays: The number of days that the data in the ML input channel is retained.
     ///   - tags: The optional metadata that you apply to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     ///   - logger: Logger use during operation
@@ -369,6 +370,7 @@ public struct CleanRoomsML: AWSService {
         kmsKeyArn: String? = nil,
         membershipIdentifier: String,
         name: String,
+        payerConfiguration: PayerConfiguration? = nil,
         retentionInDays: Int,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -380,6 +382,7 @@ public struct CleanRoomsML: AWSService {
             kmsKeyArn: kmsKeyArn, 
             membershipIdentifier: membershipIdentifier, 
             name: name, 
+            payerConfiguration: payerConfiguration, 
             retentionInDays: retentionInDays, 
             tags: tags
         )
@@ -410,6 +413,7 @@ public struct CleanRoomsML: AWSService {
     ///   - incrementalTrainingDataChannels: Specifies the incremental training data channels for the trained model.  Incremental training allows you to create a new trained model with updates without retraining from scratch. You can specify up to one incremental training data channel that references a previously trained model and its version. Limit: Maximum of 20 channels total (including both incrementalTrainingDataChannels and dataChannels).
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
     ///   - membershipIdentifier: The membership ID of the member that is creating the trained model.
+    ///   - mlModelTrainingPayerAccountId: The account ID of the member that is responsible for paying for model training costs.
     ///   - name: The name of the trained model.
     ///   - resourceConfig: Information about the EC2 resources that are used to train this model.
     ///   - stoppingCondition: The criteria that is used to stop model training.
@@ -426,6 +430,7 @@ public struct CleanRoomsML: AWSService {
         incrementalTrainingDataChannels: [IncrementalTrainingDataChannel]? = nil,
         kmsKeyArn: String? = nil,
         membershipIdentifier: String,
+        mlModelTrainingPayerAccountId: String? = nil,
         name: String,
         resourceConfig: ResourceConfig,
         stoppingCondition: StoppingCondition? = nil,
@@ -442,6 +447,7 @@ public struct CleanRoomsML: AWSService {
             incrementalTrainingDataChannels: incrementalTrainingDataChannels, 
             kmsKeyArn: kmsKeyArn, 
             membershipIdentifier: membershipIdentifier, 
+            mlModelTrainingPayerAccountId: mlModelTrainingPayerAccountId, 
             name: name, 
             resourceConfig: resourceConfig, 
             stoppingCondition: stoppingCondition, 
@@ -2053,6 +2059,7 @@ public struct CleanRoomsML: AWSService {
     ///   - environment: The environment variables to set in the Docker container.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the ML inference job and associated data.
     ///   - membershipIdentifier: The membership ID of the membership that contains the trained model inference job.
+    ///   - mlModelInferencePayerAccountId: The account ID of the member that is responsible for paying for model inference costs.
     ///   - name: The name of the trained model inference job.
     ///   - outputConfiguration: Defines the output configuration information for the trained model inference job.
     ///   - resourceConfig: Defines the resource configuration for the trained model inference job.
@@ -2069,6 +2076,7 @@ public struct CleanRoomsML: AWSService {
         environment: [String: String]? = nil,
         kmsKeyArn: String? = nil,
         membershipIdentifier: String,
+        mlModelInferencePayerAccountId: String? = nil,
         name: String,
         outputConfiguration: InferenceOutputConfiguration,
         resourceConfig: InferenceResourceConfig,
@@ -2085,6 +2093,7 @@ public struct CleanRoomsML: AWSService {
             environment: environment, 
             kmsKeyArn: kmsKeyArn, 
             membershipIdentifier: membershipIdentifier, 
+            mlModelInferencePayerAccountId: mlModelInferencePayerAccountId, 
             name: name, 
             outputConfiguration: outputConfiguration, 
             resourceConfig: resourceConfig, 

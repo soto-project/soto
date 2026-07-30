@@ -299,7 +299,7 @@ public struct CleanRooms: AWSService {
         creatorMLMemberAbilities: MLMemberAbilities? = nil,
         creatorPaymentConfiguration: PaymentConfiguration? = nil,
         dataEncryptionMetadata: DataEncryptionMetadata? = nil,
-        description: String,
+        description: String? = nil,
         isMetricsEnabled: Bool? = nil,
         jobLogStatus: CollaborationJobLogStatus? = nil,
         members: [MemberSpecification],
@@ -654,6 +654,91 @@ public struct CleanRooms: AWSService {
             tags: tags
         )
         return try await self.createIdNamespaceAssociation(input, logger: logger)
+    }
+
+    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    @Sendable
+    @inlinable
+    public func createIntermediateTable(_ input: CreateIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "CreateIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    ///
+    /// Parameters:
+    ///   - description: A description of the intermediate table.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data.
+    ///   - membershipIdentifier: The unique identifier of the membership where the intermediate table is created.
+    ///   - name: The display name for the intermediate table.
+    ///   - populationAnalysisConfiguration: The configuration that defines the analysis used to populate the intermediate table. This configuration contains the SQL query or analysis template reference.
+    ///   - retentionInDays: The number of days to retain populated data versions. Minimum value of 1, maximum value of 365.
+    ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntermediateTable(
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        membershipIdentifier: String,
+        name: String,
+        populationAnalysisConfiguration: PopulationAnalysisConfiguration,
+        retentionInDays: Int? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIntermediateTableOutput {
+        let input = CreateIntermediateTableInput(
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            membershipIdentifier: membershipIdentifier, 
+            name: name, 
+            populationAnalysisConfiguration: populationAnalysisConfiguration, 
+            retentionInDays: retentionInDays, 
+            tags: tags
+        )
+        return try await self.createIntermediateTable(input, logger: logger)
+    }
+
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func createIntermediateTableAnalysisRule(_ input: CreateIntermediateTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntermediateTableAnalysisRuleOutput {
+        try await self.client.execute(
+            operation: "CreateIntermediateTableAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - analysisRulePolicy: The analysis rule policy to apply to the intermediate table.
+    ///   - analysisRuleType: The type of analysis rule to create. Currently, only CUSTOM is supported.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table for which to create the analysis rule.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIntermediateTableAnalysisRule(
+        analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+        analysisRuleType: IntermediateTableAnalysisRuleType,
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIntermediateTableAnalysisRuleOutput {
+        let input = CreateIntermediateTableAnalysisRuleInput(
+            analysisRulePolicy: analysisRulePolicy, 
+            analysisRuleType: analysisRuleType, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.createIntermediateTableAnalysisRule(input, logger: logger)
     }
 
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
@@ -1032,6 +1117,73 @@ public struct CleanRooms: AWSService {
         return try await self.deleteIdNamespaceAssociation(input, logger: logger)
     }
 
+    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func deleteIntermediateTable(_ input: DeleteIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "DeleteIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table to delete.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntermediateTable(
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIntermediateTableOutput {
+        let input = DeleteIntermediateTableInput(
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.deleteIntermediateTable(input, logger: logger)
+    }
+
+    /// Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func deleteIntermediateTableAnalysisRule(_ input: DeleteIntermediateTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntermediateTableAnalysisRuleOutput {
+        try await self.client.execute(
+            operation: "DeleteIntermediateTableAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an analysis rule from an intermediate table. After the analysis rule is deleted, the intermediate table becomes unqueryable until a new analysis rule is attached. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - analysisRuleType: The type of analysis rule to delete. Currently, only CUSTOM is supported.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table from which to delete the analysis rule.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntermediateTableAnalysisRule(
+        analysisRuleType: IntermediateTableAnalysisRuleType,
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIntermediateTableAnalysisRuleOutput {
+        let input = DeleteIntermediateTableAnalysisRuleInput(
+            analysisRuleType: analysisRuleType, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.deleteIntermediateTableAnalysisRule(input, logger: logger)
+    }
+
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
     @Sendable
     @inlinable
@@ -1123,6 +1275,41 @@ public struct CleanRooms: AWSService {
             privacyBudgetTemplateIdentifier: privacyBudgetTemplateIdentifier
         )
         return try await self.deletePrivacyBudgetTemplate(input, logger: logger)
+    }
+
+    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    @Sendable
+    @inlinable
+    public func disallowIntermediateTable(_ input: DisallowIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisallowIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "DisallowIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/disallowIntermediateTable", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    ///
+    /// Parameters:
+    ///   - includeDescendants: Specifies whether to cascade the disallow action to descendant intermediate tables. Default is true.
+    ///   - intermediateTableName: The name of the intermediate table to disallow.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table to disallow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disallowIntermediateTable(
+        includeDescendants: Bool? = nil,
+        intermediateTableName: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisallowIntermediateTableOutput {
+        let input = DisallowIntermediateTableInput(
+            includeDescendants: includeDescendants, 
+            intermediateTableName: intermediateTableName, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.disallowIntermediateTable(input, logger: logger)
     }
 
     /// Retrieves an analysis template.
@@ -1568,6 +1755,73 @@ public struct CleanRooms: AWSService {
             membershipIdentifier: membershipIdentifier
         )
         return try await self.getIdNamespaceAssociation(input, logger: logger)
+    }
+
+    /// Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func getIntermediateTable(_ input: GetIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "GetIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves an intermediate table. Returns the full details of the intermediate table, including schema, table dependencies, inherited constraints, child resources, and status. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table to retrieve.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIntermediateTable(
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIntermediateTableOutput {
+        let input = GetIntermediateTableInput(
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.getIntermediateTable(input, logger: logger)
+    }
+
+    /// Retrieves the analysis rule for an intermediate table.
+    @Sendable
+    @inlinable
+    public func getIntermediateTableAnalysisRule(_ input: GetIntermediateTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIntermediateTableAnalysisRuleOutput {
+        try await self.client.execute(
+            operation: "GetIntermediateTableAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the analysis rule for an intermediate table.
+    ///
+    /// Parameters:
+    ///   - analysisRuleType: The type of analysis rule to retrieve. Currently, only CUSTOM is supported.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table for which to retrieve the analysis rule.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIntermediateTableAnalysisRule(
+        analysisRuleType: IntermediateTableAnalysisRuleType,
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIntermediateTableAnalysisRuleOutput {
+        let input = GetIntermediateTableAnalysisRuleInput(
+            analysisRuleType: analysisRuleType, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.getIntermediateTableAnalysisRule(input, logger: logger)
     }
 
     /// Retrieves a specified membership for an identifier.
@@ -2223,6 +2477,79 @@ public struct CleanRooms: AWSService {
         return try await self.listIdNamespaceAssociations(input, logger: logger)
     }
 
+    /// Lists the version history of an intermediate table. Each call to PopulateIntermediateTable creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listIntermediateTableVersions(_ input: ListIntermediateTableVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntermediateTableVersionsOutput {
+        try await self.client.execute(
+            operation: "ListIntermediateTableVersions", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the version history of an intermediate table. Each call to PopulateIntermediateTable creates a new version. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table for which to list versions.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIntermediateTableVersions(
+        intermediateTableIdentifier: String,
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIntermediateTableVersionsOutput {
+        let input = ListIntermediateTableVersionsInput(
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken
+        )
+        return try await self.listIntermediateTableVersions(input, logger: logger)
+    }
+
+    /// Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listIntermediateTables(_ input: ListIntermediateTablesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntermediateTablesOutput {
+        try await self.client.execute(
+            operation: "ListIntermediateTables", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists intermediate tables owned by the caller in a membership. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: The unique identifier of the membership for which to list intermediate tables.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIntermediateTables(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIntermediateTablesOutput {
+        let input = ListIntermediateTablesInput(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken
+        )
+        return try await self.listIntermediateTables(input, logger: logger)
+    }
+
     /// Lists all members within a collaboration.
     @Sendable
     @inlinable
@@ -2547,6 +2874,47 @@ public struct CleanRooms: AWSService {
         return try await self.populateIdMappingTable(input, logger: logger)
     }
 
+    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func populateIntermediateTable(_ input: PopulateIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PopulateIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "PopulateIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/populate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - analysisPayerAccountId: The account ID of the member that pays for the analysis compute costs.
+    ///   - computeConfiguration: The compute configuration for the population query execution.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table to populate.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - parameters: The runtime parameter values that override the defaults in the stored query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func populateIntermediateTable(
+        analysisPayerAccountId: String? = nil,
+        computeConfiguration: IntermediateTableComputeConfiguration? = nil,
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        parameters: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PopulateIntermediateTableOutput {
+        let input = PopulateIntermediateTableInput(
+            analysisPayerAccountId: analysisPayerAccountId, 
+            computeConfiguration: computeConfiguration, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier, 
+            parameters: parameters
+        )
+        return try await self.populateIntermediateTable(input, logger: logger)
+    }
+
     /// An estimate of the number of aggregation functions that the member who can query can run given epsilon and noise parameters.
     @Sendable
     @inlinable
@@ -2596,6 +2964,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - computeConfiguration: The compute configuration for the protected job.
+    ///   - jobComputePayerAccountId: The account ID of the member that pays for the job compute costs.
     ///   - jobParameters:  The job parameters.
     ///   - membershipIdentifier: A unique identifier for the membership to run this job against. Currently accepts a membership ID.
     ///   - resultConfiguration: The details needed to write the job results.
@@ -2604,6 +2973,7 @@ public struct CleanRooms: AWSService {
     @inlinable
     public func startProtectedJob(
         computeConfiguration: ProtectedJobComputeConfiguration? = nil,
+        jobComputePayerAccountId: String? = nil,
         jobParameters: ProtectedJobParameters,
         membershipIdentifier: String,
         resultConfiguration: ProtectedJobResultConfigurationInput? = nil,
@@ -2612,6 +2982,7 @@ public struct CleanRooms: AWSService {
     ) async throws -> StartProtectedJobOutput {
         let input = StartProtectedJobInput(
             computeConfiguration: computeConfiguration, 
+            jobComputePayerAccountId: jobComputePayerAccountId, 
             jobParameters: jobParameters, 
             membershipIdentifier: membershipIdentifier, 
             resultConfiguration: resultConfiguration, 
@@ -2638,6 +3009,7 @@ public struct CleanRooms: AWSService {
     /// Parameters:
     ///   - computeConfiguration:  The compute configuration for the protected query.
     ///   - membershipIdentifier: A unique identifier for the membership to run this query against. Currently accepts a membership ID.
+    ///   - queryComputePayerAccountId: The account ID of the member that pays for the query compute costs.
     ///   - resultConfiguration: The details needed to write the query results.
     ///   - sqlParameters: The protected SQL query parameters.
     ///   - type: The type of the protected query to be started.
@@ -2646,6 +3018,7 @@ public struct CleanRooms: AWSService {
     public func startProtectedQuery(
         computeConfiguration: ComputeConfiguration? = nil,
         membershipIdentifier: String,
+        queryComputePayerAccountId: String? = nil,
         resultConfiguration: ProtectedQueryResultConfiguration? = nil,
         sqlParameters: ProtectedQuerySQLParameters,
         type: ProtectedQueryType,
@@ -2654,6 +3027,7 @@ public struct CleanRooms: AWSService {
         let input = StartProtectedQueryInput(
             computeConfiguration: computeConfiguration, 
             membershipIdentifier: membershipIdentifier, 
+            queryComputePayerAccountId: queryComputePayerAccountId, 
             resultConfiguration: resultConfiguration, 
             sqlParameters: sqlParameters, 
             type: type
@@ -3108,6 +3482,85 @@ public struct CleanRooms: AWSService {
         return try await self.updateIdNamespaceAssociation(input, logger: logger)
     }
 
+    /// Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func updateIntermediateTable(_ input: UpdateIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntermediateTableOutput {
+        try await self.client.execute(
+            operation: "UpdateIntermediateTable", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an intermediate table. You can update the description, KMS key ARN, and column types of existing columns. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - columns: The list of columns with updated type definitions. Only the type of existing columns can be updated.
+    ///   - description: A new description for the intermediate table.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table to update.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer-managed KMS key to use for encrypting future population data.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntermediateTable(
+        columns: [IntermediateTableColumn]? = nil,
+        description: String? = nil,
+        intermediateTableIdentifier: String,
+        kmsKeyArn: String? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntermediateTableOutput {
+        let input = UpdateIntermediateTableInput(
+            columns: columns, 
+            description: description, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            kmsKeyArn: kmsKeyArn, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.updateIntermediateTable(input, logger: logger)
+    }
+
+    /// Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
+    @Sendable
+    @inlinable
+    public func updateIntermediateTableAnalysisRule(_ input: UpdateIntermediateTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIntermediateTableAnalysisRuleOutput {
+        try await self.client.execute(
+            operation: "UpdateIntermediateTableAnalysisRule", 
+            path: "/memberships/{membershipIdentifier}/intermediateTables/{intermediateTableIdentifier}/analysisRule/{analysisRuleType}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the analysis rule policy for an intermediate table. Only the intermediate table owner can call this operation.
+    ///
+    /// Parameters:
+    ///   - analysisRulePolicy: The updated analysis rule policy for the intermediate table.
+    ///   - analysisRuleType: The type of analysis rule to update. Currently, only CUSTOM is supported.
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table for which to update the analysis rule.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIntermediateTableAnalysisRule(
+        analysisRulePolicy: IntermediateTableAnalysisRulePolicy,
+        analysisRuleType: IntermediateTableAnalysisRuleType,
+        intermediateTableIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIntermediateTableAnalysisRuleOutput {
+        let input = UpdateIntermediateTableAnalysisRuleInput(
+            analysisRulePolicy: analysisRulePolicy, 
+            analysisRuleType: analysisRuleType, 
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.updateIntermediateTableAnalysisRule(input, logger: logger)
+    }
+
     /// Updates a membership.
     @Sendable
     @inlinable
@@ -3128,6 +3581,7 @@ public struct CleanRooms: AWSService {
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
     ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - membershipIdentifier: The unique identifier of the membership.
+    ///   - membershipPaymentConfiguration: The payment configuration to update for the membership.
     ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3136,6 +3590,7 @@ public struct CleanRooms: AWSService {
         defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil,
         jobLogStatus: MembershipJobLogStatus? = nil,
         membershipIdentifier: String,
+        membershipPaymentConfiguration: UpdateMembershipPaymentConfiguration? = nil,
         queryLogStatus: MembershipQueryLogStatus? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMembershipOutput {
@@ -3144,6 +3599,7 @@ public struct CleanRooms: AWSService {
             defaultResultConfiguration: defaultResultConfiguration, 
             jobLogStatus: jobLogStatus, 
             membershipIdentifier: membershipIdentifier, 
+            membershipPaymentConfiguration: membershipPaymentConfiguration, 
             queryLogStatus: queryLogStatus
         )
         return try await self.updateMembership(input, logger: logger)
@@ -3576,6 +4032,83 @@ extension CleanRooms {
         return self.listIdNamespaceAssociationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listIntermediateTableVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIntermediateTableVersionsPaginator(
+        _ input: ListIntermediateTableVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput> {
+        return .init(
+            input: input,
+            command: self.listIntermediateTableVersions,
+            inputKey: \ListIntermediateTableVersionsInput.nextToken,
+            outputKey: \ListIntermediateTableVersionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIntermediateTableVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - intermediateTableIdentifier: The unique identifier of the intermediate table for which to list versions.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: The unique identifier of the membership that contains the intermediate table.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIntermediateTableVersionsPaginator(
+        intermediateTableIdentifier: String,
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIntermediateTableVersionsInput, ListIntermediateTableVersionsOutput> {
+        let input = ListIntermediateTableVersionsInput(
+            intermediateTableIdentifier: intermediateTableIdentifier, 
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return self.listIntermediateTableVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listIntermediateTables(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIntermediateTablesPaginator(
+        _ input: ListIntermediateTablesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListIntermediateTablesInput, ListIntermediateTablesOutput> {
+        return .init(
+            input: input,
+            command: self.listIntermediateTables,
+            inputKey: \ListIntermediateTablesInput.nextToken,
+            outputKey: \ListIntermediateTablesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listIntermediateTables(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: The unique identifier of the membership for which to list intermediate tables.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listIntermediateTablesPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListIntermediateTablesInput, ListIntermediateTablesOutput> {
+        let input = ListIntermediateTablesInput(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return self.listIntermediateTablesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listPrivacyBudgetTemplates(_:logger:)``.
     ///
     /// - Parameters:
@@ -3820,6 +4353,29 @@ extension CleanRooms.ListIdMappingTablesInput: AWSPaginateToken {
 extension CleanRooms.ListIdNamespaceAssociationsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CleanRooms.ListIdNamespaceAssociationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRooms.ListIntermediateTableVersionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListIntermediateTableVersionsInput {
+        return .init(
+            intermediateTableIdentifier: self.intermediateTableIdentifier,
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token
+        )
+    }
+}
+
+extension CleanRooms.ListIntermediateTablesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListIntermediateTablesInput {
         return .init(
             maxResults: self.maxResults,
             membershipIdentifier: self.membershipIdentifier,

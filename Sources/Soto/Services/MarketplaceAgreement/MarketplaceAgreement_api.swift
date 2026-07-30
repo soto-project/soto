@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS MarketplaceAgreement service.
 ///
-/// AWS Marketplace is a curated digital catalog that customers can use to find, buy, deploy, and manage third-party software, data, and services to build solutions and run their businesses. The AWS Marketplace Agreement Service provides an API interface that helps AWS Marketplace sellers manage their product-related agreements, including listing, searching, and filtering agreements. To manage agreements in AWS Marketplace, you must ensure that your AWS Identity and Access Management (IAM) policies and roles are set up. The user must have the required policies/permissions that allow them to carry out the actions in AWS:    DescribeAgreement – Grants permission to users to obtain detailed meta data about any of their agreements.    GetAgreementTerms – Grants permission to users to obtain details about the terms of an agreement.    SearchAgreements – Grants permission to users to search through all their agreements.
+/// AWS Marketplace is a curated digital catalog that customers can use to find, buy, deploy, and manage third-party software, data, and services to build solutions and run their businesses. The AWS Marketplace Agreement Service provides an API interface that helps AWS Marketplace sellers and buyers manage their product-related agreements, including listing, searching, creating, and filtering agreements.
 public struct MarketplaceAgreement: AWSService {
     // MARK: Member variables
 
@@ -90,6 +90,274 @@ public struct MarketplaceAgreement: AWSService {
 
     // MARK: API Calls
 
+    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed.  Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status.
+    @Sendable
+    @inlinable
+    public func acceptAgreementCancellationRequest(_ input: AcceptAgreementCancellationRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAgreementCancellationRequestOutput {
+        try await self.client.execute(
+            operation: "AcceptAgreementCancellationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows buyers (acceptors) to accept a cancellation request that is in PENDING_APPROVAL status. Once accepted, the cancellation request transitions to APPROVED status and the agreement cancellation will be processed.  Only cancellation requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the cancellation request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementCancellationRequestId: The unique identifier of the cancellation request to accept.
+    ///   - agreementId: The unique identifier of the agreement associated with the cancellation request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptAgreementCancellationRequest(
+        agreementCancellationRequestId: String,
+        agreementId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptAgreementCancellationRequestOutput {
+        let input = AcceptAgreementCancellationRequestInput(
+            agreementCancellationRequestId: agreementCancellationRequestId, 
+            agreementId: agreementId
+        )
+        return try await self.acceptAgreementCancellationRequest(input, logger: logger)
+    }
+
+    /// Allows buyers (acceptors) to accept a payment request that is in PENDING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking.  Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status.
+    @Sendable
+    @inlinable
+    public func acceptAgreementPaymentRequest(_ input: AcceptAgreementPaymentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAgreementPaymentRequestOutput {
+        try await self.client.execute(
+            operation: "AcceptAgreementPaymentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows buyers (acceptors) to accept a payment request that is in PENDING_APPROVAL status. Once accepted, the payment request transitions to APPROVED status and the charge will be processed. Buyers can optionally provide a purchase order reference for their internal tracking.  Only payment requests in PENDING_APPROVAL status can be accepted. A ConflictException is thrown if the payment request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement associated with the payment request.
+    ///   - paymentRequestId: The unique identifier of the payment request to accept.
+    ///   - purchaseOrderReference: An optional purchase order reference that buyers can provide to associate the payment request with their internal purchase order system.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptAgreementPaymentRequest(
+        agreementId: String,
+        paymentRequestId: String,
+        purchaseOrderReference: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptAgreementPaymentRequestOutput {
+        let input = AcceptAgreementPaymentRequestInput(
+            agreementId: agreementId, 
+            paymentRequestId: paymentRequestId, 
+            purchaseOrderReference: purchaseOrderReference
+        )
+        return try await self.acceptAgreementPaymentRequest(input, logger: logger)
+    }
+
+    /// Accepts an agreement request to finalize the agreement. The acceptor can optionally provide purchase orders to associate with the agreement charges.
+    @Sendable
+    @inlinable
+    public func acceptAgreementRequest(_ input: AcceptAgreementRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAgreementRequestOutput {
+        try await self.client.execute(
+            operation: "AcceptAgreementRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Accepts an agreement request to finalize the agreement. The acceptor can optionally provide purchase orders to associate with the agreement charges.
+    ///
+    /// Parameters:
+    ///   - agreementRequestId: The unique identifier of the agreement request.
+    ///   - purchaseOrders: A list of purchase orders associated with accepting a marketplace agreement request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptAgreementRequest(
+        agreementRequestId: String,
+        purchaseOrders: [PurchaseOrder]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AcceptAgreementRequestOutput {
+        let input = AcceptAgreementRequestInput(
+            agreementRequestId: agreementRequestId, 
+            purchaseOrders: purchaseOrders
+        )
+        return try await self.acceptAgreementRequest(input, logger: logger)
+    }
+
+    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch specifies an invoice and the adjustment amount. The operation returns successfully created adjustment request IDs and any errors for entries that failed to process.  Each entry requires a unique clientToken for idempotency.
+    @Sendable
+    @inlinable
+    public func batchCreateBillingAdjustmentRequest(_ input: BatchCreateBillingAdjustmentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateBillingAdjustmentRequestOutput {
+        try await self.client.execute(
+            operation: "BatchCreateBillingAdjustmentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to submit billing adjustment requests for one or more invoices within an agreement. Each entry in the batch specifies an invoice and the adjustment amount. The operation returns successfully created adjustment request IDs and any errors for entries that failed to process.  Each entry requires a unique clientToken for idempotency.
+    ///
+    /// Parameters:
+    ///   - billingAdjustmentRequestEntries: A list of billing adjustment request entries. Each entry specifies the invoice and adjustment details.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchCreateBillingAdjustmentRequest(
+        billingAdjustmentRequestEntries: [BatchCreateBillingAdjustmentRequestEntry],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchCreateBillingAdjustmentRequestOutput {
+        let input = BatchCreateBillingAdjustmentRequestInput(
+            billingAdjustmentRequestEntries: billingAdjustmentRequestEntries
+        )
+        return try await self.batchCreateBillingAdjustmentRequest(input, logger: logger)
+    }
+
+    /// Allows an acceptor to cancel an active agreement. Not all agreements are eligible for cancellation. Use the error response to determine why a cancellation request was rejected.
+    @Sendable
+    @inlinable
+    public func cancelAgreement(_ input: CancelAgreementInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAgreementOutput {
+        try await self.client.execute(
+            operation: "CancelAgreement", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows an acceptor to cancel an active agreement. Not all agreements are eligible for cancellation. Use the error response to determine why a cancellation request was rejected.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelAgreement(
+        agreementId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelAgreementOutput {
+        let input = CancelAgreementInput(
+            agreementId: agreementId
+        )
+        return try await self.cancelAgreement(input, logger: logger)
+    }
+
+    /// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer.  Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status.
+    @Sendable
+    @inlinable
+    public func cancelAgreementCancellationRequest(_ input: CancelAgreementCancellationRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAgreementCancellationRequestOutput {
+        try await self.client.execute(
+            operation: "CancelAgreementCancellationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to withdraw an existing agreement cancellation request that is in a pending state. Once cancelled, the cancellation request transitions to CANCELLED status and can no longer be approved or rejected by the buyer.  Only cancellation requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the cancellation request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementCancellationRequestId: The unique identifier of the cancellation request to cancel.
+    ///   - agreementId: The unique identifier of the agreement associated with the cancellation request.
+    ///   - cancellationReason: A required message explaining why the cancellation request is being withdrawn (1-2000 characters).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelAgreementCancellationRequest(
+        agreementCancellationRequestId: String,
+        agreementId: String,
+        cancellationReason: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelAgreementCancellationRequestOutput {
+        let input = CancelAgreementCancellationRequestInput(
+            agreementCancellationRequestId: agreementCancellationRequestId, 
+            agreementId: agreementId, 
+            cancellationReason: cancellationReason
+        )
+        return try await self.cancelAgreementCancellationRequest(input, logger: logger)
+    }
+
+    /// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer.  Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status.
+    @Sendable
+    @inlinable
+    public func cancelAgreementPaymentRequest(_ input: CancelAgreementPaymentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAgreementPaymentRequestOutput {
+        try await self.client.execute(
+            operation: "CancelAgreementPaymentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to cancel a payment request that is in PENDING_APPROVAL status. Once cancelled, the payment request transitions to CANCELLED status and can no longer be accepted or rejected by the buyer.  Only payment requests in PENDING_APPROVAL status can be cancelled. A ConflictException is thrown if the payment request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement associated with the payment request.
+    ///   - paymentRequestId: The unique identifier of the payment request to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelAgreementPaymentRequest(
+        agreementId: String,
+        paymentRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelAgreementPaymentRequestOutput {
+        let input = CancelAgreementPaymentRequestInput(
+            agreementId: agreementId, 
+            paymentRequestId: paymentRequestId
+        )
+        return try await self.cancelAgreementPaymentRequest(input, logger: logger)
+    }
+
+    /// Creates an agreement request that acts as a quote for the terms you want to accept. The agreement request captures the requested terms, calculates charges, and returns a summary. Use AcceptAgreementRequest with the returned agreementRequestId to finalize the agreement.
+    @Sendable
+    @inlinable
+    public func createAgreementRequest(_ input: CreateAgreementRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgreementRequestOutput {
+        try await self.client.execute(
+            operation: "CreateAgreementRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an agreement request that acts as a quote for the terms you want to accept. The agreement request captures the requested terms, calculates charges, and returns a summary. Use AcceptAgreementRequest with the returned agreementRequestId to finalize the agreement.
+    ///
+    /// Parameters:
+    ///   - agreementProposalIdentifier: The agreement proposal signed by the proposer. The proposal includes the requested resources and the terms that outline an agreement outcome.   This parameter is required if the intent is not AMEND.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - intent: The purpose and desired outcome of the agreement request. This is a required parameter that determines how the agreement request is processed.    NEW – Creates a new agreement for terms in the request.    AMEND – Modifies an existing agreement with terms that are accepted in the request.    REPLACE – Creates a new agreement with accepted terms and replaces the existing agreement.
+    ///   - requestedTerms: A list of terms that define what is being accepted as part of the agreement. Some terms require configuration.
+    ///   - sourceAgreementIdentifier: The agreement's identifier that the request acts upon.   This parameter is required for all non-NEW intents (i.e., AMEND or REPLACE). Don't provide this parameter if the intent is NEW.
+    ///   - taxConfiguration: Configuration for tax estimation in the agreement request response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAgreementRequest(
+        agreementProposalIdentifier: String? = nil,
+        clientToken: String? = CreateAgreementRequestInput.idempotencyToken(),
+        intent: Intent,
+        requestedTerms: [RequestedTerm],
+        sourceAgreementIdentifier: String? = nil,
+        taxConfiguration: TaxConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAgreementRequestOutput {
+        let input = CreateAgreementRequestInput(
+            agreementProposalIdentifier: agreementProposalIdentifier, 
+            clientToken: clientToken, 
+            intent: intent, 
+            requestedTerms: requestedTerms, 
+            sourceAgreementIdentifier: sourceAgreementIdentifier, 
+            taxConfiguration: taxConfiguration
+        )
+        return try await self.createAgreementRequest(input, logger: logger)
+    }
+
     /// Provides details about an agreement, such as the proposer, acceptor, start date, and end date.
     @Sendable
     @inlinable
@@ -119,6 +387,105 @@ public struct MarketplaceAgreement: AWSService {
         return try await self.describeAgreement(input, logger: logger)
     }
 
+    /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements.
+    @Sendable
+    @inlinable
+    public func getAgreementCancellationRequest(_ input: GetAgreementCancellationRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgreementCancellationRequestOutput {
+        try await self.client.execute(
+            operation: "GetAgreementCancellationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific agreement cancellation request. Both sellers (proposers) and buyers (acceptors) can use this operation to view cancellation requests associated with their agreements.
+    ///
+    /// Parameters:
+    ///   - agreementCancellationRequestId: The unique identifier of the cancellation request.
+    ///   - agreementId: The unique identifier of the agreement associated with the cancellation request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgreementCancellationRequest(
+        agreementCancellationRequestId: String,
+        agreementId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgreementCancellationRequestOutput {
+        let input = GetAgreementCancellationRequestInput(
+            agreementCancellationRequestId: agreementCancellationRequestId, 
+            agreementId: agreementId
+        )
+        return try await self.getAgreementCancellationRequest(input, logger: logger)
+    }
+
+    /// Obtains details about the entitlements of an agreement.
+    @Sendable
+    @inlinable
+    public func getAgreementEntitlements(_ input: GetAgreementEntitlementsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgreementEntitlementsOutput {
+        try await self.client.execute(
+            operation: "GetAgreementEntitlements", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Obtains details about the entitlements of an agreement.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - maxResults: The maximum number of agreement entitlements to return in the response.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgreementEntitlements(
+        agreementId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgreementEntitlementsOutput {
+        let input = GetAgreementEntitlementsInput(
+            agreementId: agreementId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getAgreementEntitlements(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved.  The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the payment request does not exist.
+    @Sendable
+    @inlinable
+    public func getAgreementPaymentRequest(_ input: GetAgreementPaymentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgreementPaymentRequestOutput {
+        try await self.client.execute(
+            operation: "GetAgreementPaymentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific payment request. Both sellers (proposers) and buyers (acceptors) can use this operation to view payment requests associated with their agreements. The response includes the current status, charge details, timestamps, and the charge ID if the request has been approved.  The calling identity must be either the acceptor or proposer of the payment request. A ResourceNotFoundException is returned if the payment request does not exist.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement associated with the payment request.
+    ///   - paymentRequestId: The identifier of the payment request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgreementPaymentRequest(
+        agreementId: String,
+        paymentRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgreementPaymentRequestOutput {
+        let input = GetAgreementPaymentRequestInput(
+            agreementId: agreementId, 
+            paymentRequestId: paymentRequestId
+        )
+        return try await self.getAgreementPaymentRequest(input, logger: logger)
+    }
+
     /// Obtains details about the terms in an agreement that you participated in as proposer or acceptor. The details include:    TermType – The type of term, such as LegalTerm, RenewalTerm, or ConfigurableUpfrontPricingTerm.    TermID – The ID of the particular term, which is common between offer and agreement.    TermPayload – The key information contained in the term, such as the EULA for LegalTerm or pricing and dimensions for various pricing terms, such as ConfigurableUpfrontPricingTerm or UsageBasedPricingTerm.      Configuration – The buyer/acceptor's selection at the time of agreement creation, such as the number of units purchased for a dimension or setting the EnableAutoRenew flag.
     @Sendable
     @inlinable
@@ -137,7 +504,7 @@ public struct MarketplaceAgreement: AWSService {
     /// Parameters:
     ///   - agreementId: The unique identifier of the agreement.
     ///   - maxResults: The maximum number of agreements to return in the response.
-    ///   - nextToken: A token to specify where to start pagination
+    ///   - nextToken: A token to specify where to start pagination.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgreementTerms(
@@ -154,7 +521,347 @@ public struct MarketplaceAgreement: AWSService {
         return try await self.getAgreementTerms(input, logger: logger)
     }
 
-    /// Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:    AgreementType     AgreementType + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + ResourceType + Status     AgreementType + ResourceType + Status + EndTime     AgreementType + ResourceId     AgreementType + ResourceId + EndTime     AgreementType + ResourceId + Status     AgreementType + ResourceId + Status + EndTime     AgreementType + AcceptorAccountId     AgreementType + AcceptorAccountId + EndTime     AgreementType + AcceptorAccountId + Status     AgreementType + AcceptorAccountId + Status + EndTime     AgreementType + AcceptorAccountId + OfferId     AgreementType + AcceptorAccountId + OfferId + Status     AgreementType + AcceptorAccountId + OfferId + EndTime     AgreementType + AcceptorAccountId + OfferId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceId     AgreementType + AcceptorAccountId + ResourceId + Status     AgreementType + AcceptorAccountId + ResourceId + EndTime     AgreementType + AcceptorAccountId + ResourceId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceType     AgreementType + AcceptorAccountId + ResourceType + EndTime     AgreementType + AcceptorAccountId + ResourceType + Status     AgreementType + AcceptorAccountId + ResourceType + Status + EndTime     AgreementType + Status     AgreementType + Status + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime      To filter by EndTime, you can use either BeforeEndTime or AfterEndTime. Only EndTime is supported for sorting.
+    /// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted.
+    @Sendable
+    @inlinable
+    public func getBillingAdjustmentRequest(_ input: GetBillingAdjustmentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingAdjustmentRequestOutput {
+        try await self.client.execute(
+            operation: "GetBillingAdjustmentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific billing adjustment request. Sellers (proposers) can use this operation to view the status and details of a billing adjustment request they submitted.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement associated with the billing adjustment request.
+    ///   - billingAdjustmentRequestId: The unique identifier of the billing adjustment request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBillingAdjustmentRequest(
+        agreementId: String,
+        billingAdjustmentRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBillingAdjustmentRequestOutput {
+        let input = GetBillingAdjustmentRequestInput(
+            agreementId: agreementId, 
+            billingAdjustmentRequestId: billingAdjustmentRequestId
+        )
+        return try await self.getBillingAdjustmentRequest(input, logger: logger)
+    }
+
+    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find cancellation requests by specifying their party type and applying optional filters.   PartyType is a required parameter. A ValidationException is returned if PartyType is not provided.
+    @Sendable
+    @inlinable
+    public func listAgreementCancellationRequests(_ input: ListAgreementCancellationRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgreementCancellationRequestsOutput {
+        try await self.client.execute(
+            operation: "ListAgreementCancellationRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists agreement cancellation requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find cancellation requests by specifying their party type and applying optional filters.   PartyType is a required parameter. A ValidationException is returned if PartyType is not provided.
+    ///
+    /// Parameters:
+    ///   - agreementId: An optional parameter to filter cancellation requests for a specific agreement.
+    ///   - agreementType: An optional parameter to filter cancellation requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional parameter to filter cancellation requests by catalog (e.g., AWSMarketplace).
+    ///   - maxResults: The maximum number of cancellation requests to return in the response.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - partyType: The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer.
+    ///   - status: An optional parameter to filter cancellation requests by status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgreementCancellationRequests(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        partyType: String,
+        status: AgreementCancellationRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgreementCancellationRequestsOutput {
+        let input = ListAgreementCancellationRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            partyType: partyType, 
+            status: status
+        )
+        return try await self.listAgreementCancellationRequests(input, logger: logger)
+    }
+
+    /// Allows acceptors to view charges and purchase orders that are associated with an agreement. The response includes details about all charges regardless of whether a purchase order is linked to each charge.
+    @Sendable
+    @inlinable
+    public func listAgreementCharges(_ input: ListAgreementChargesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgreementChargesOutput {
+        try await self.client.execute(
+            operation: "ListAgreementCharges", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows acceptors to view charges and purchase orders that are associated with an agreement. The response includes details about all charges regardless of whether a purchase order is linked to each charge.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - agreementType: Filter to retrieve charges of a specific agreement type (for example, PurchaseAgreement).
+    ///   - catalog: The catalog in which the charges were created.
+    ///   - maxResults: The maximum number of charges to return in the response.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgreementCharges(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgreementChargesOutput {
+        let input = ListAgreementChargesInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgreementCharges(input, logger: logger)
+    }
+
+    /// Allows sellers (proposers) to retrieve aggregated billing data from AWS Marketplace agreements using flexible grouping. Supports invoice-level aggregation with filtering by billing period, invoice type, and issued date.  The groupBy parameter is required and supports only INVOICE_ID as a value. The agreementId parameter is required.
+    @Sendable
+    @inlinable
+    public func listAgreementInvoiceLineItems(_ input: ListAgreementInvoiceLineItemsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgreementInvoiceLineItemsOutput {
+        try await self.client.execute(
+            operation: "ListAgreementInvoiceLineItems", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to retrieve aggregated billing data from AWS Marketplace agreements using flexible grouping. Supports invoice-level aggregation with filtering by billing period, invoice type, and issued date.  The groupBy parameter is required and supports only INVOICE_ID as a value. The agreementId parameter is required.
+    ///
+    /// Parameters:
+    ///   - afterIssuedTime: An optional filter for invoices issued after the specified timestamp.
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - beforeIssuedTime: An optional filter for invoices issued before the specified timestamp.
+    ///   - groupBy: Specifies a grouping strategy for line items. Currently supports INVOICE_ID.
+    ///   - invoiceBillingPeriod: An optional filter for the billing period associated with the invoice.
+    ///   - invoiceId: An optional filter to retrieve invoice information for a specific invoice.
+    ///   - invoiceType: An optional filter for the type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgreementInvoiceLineItems(
+        afterIssuedTime: Date? = nil,
+        agreementId: String,
+        beforeIssuedTime: Date? = nil,
+        groupBy: LineItemGroupBy,
+        invoiceBillingPeriod: InvoiceBillingPeriod? = nil,
+        invoiceId: String? = nil,
+        invoiceType: InvoiceType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgreementInvoiceLineItemsOutput {
+        let input = ListAgreementInvoiceLineItemsInput(
+            afterIssuedTime: afterIssuedTime, 
+            agreementId: agreementId, 
+            beforeIssuedTime: beforeIssuedTime, 
+            groupBy: groupBy, 
+            invoiceBillingPeriod: invoiceBillingPeriod, 
+            invoiceId: invoiceId, 
+            invoiceType: invoiceType, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAgreementInvoiceLineItems(input, logger: logger)
+    }
+
+    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters.   PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters.
+    @Sendable
+    @inlinable
+    public func listAgreementPaymentRequests(_ input: ListAgreementPaymentRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAgreementPaymentRequestsOutput {
+        try await self.client.execute(
+            operation: "ListAgreementPaymentRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists payment requests available to you as a seller or buyer. Both sellers (proposers) and buyers (acceptors) can use this operation to find payment requests by specifying their party type and applying optional parameters.   PartyType is a required parameter. A ValidationException is returned if PartyType is not provided. Pagination is supported through maxResults (1-50, default 50) and nextToken parameters.
+    ///
+    /// Parameters:
+    ///   - agreementId: An optional parameter to list payment requests for a specific agreement.
+    ///   - agreementType: An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional parameter to list payment requests by catalog (e.g., AWSMarketplace).
+    ///   - maxResults: The maximum number of payment requests to return in a single response (1-50). Default is 50.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - partyType: The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer.
+    ///   - status: An optional parameter to list payment requests by status. Valid values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAgreementPaymentRequests(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        partyType: String,
+        status: PaymentRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAgreementPaymentRequestsOutput {
+        let input = ListAgreementPaymentRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            partyType: partyType, 
+            status: status
+        )
+        return try await self.listAgreementPaymentRequests(input, logger: logger)
+    }
+
+    /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement.
+    @Sendable
+    @inlinable
+    public func listBillingAdjustmentRequests(_ input: ListBillingAdjustmentRequestsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBillingAdjustmentRequestsOutput {
+        try await self.client.execute(
+            operation: "ListBillingAdjustmentRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists billing adjustment requests for a specific agreement. Sellers (proposers) can use this operation to view all billing adjustment requests associated with an agreement.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement to list billing adjustment requests for.
+    ///   - agreementType: An optional filter to return billing adjustment requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional filter to return billing adjustment requests by catalog (e.g., AWSMarketplace).
+    ///   - createdAfter: An optional filter to return billing adjustment requests created after the specified timestamp.
+    ///   - createdBefore: An optional filter to return billing adjustment requests created before the specified timestamp.
+    ///   - maxResults: The maximum number of billing adjustment requests to return in the response.
+    ///   - nextToken: A token to specify where to start pagination.
+    ///   - status: An optional filter to return billing adjustment requests with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBillingAdjustmentRequests(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: BillingAdjustmentStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBillingAdjustmentRequestsOutput {
+        let input = ListBillingAdjustmentRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listBillingAdjustmentRequests(input, logger: logger)
+    }
+
+    /// Allows buyers (acceptors) to reject a cancellation request that is in PENDING_APPROVAL status. Once rejected, the cancellation request transitions to REJECTED status and the agreement remains active. Buyers must provide a reason for the rejection.  Only cancellation requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the cancellation request is in any other status.
+    @Sendable
+    @inlinable
+    public func rejectAgreementCancellationRequest(_ input: RejectAgreementCancellationRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectAgreementCancellationRequestOutput {
+        try await self.client.execute(
+            operation: "RejectAgreementCancellationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows buyers (acceptors) to reject a cancellation request that is in PENDING_APPROVAL status. Once rejected, the cancellation request transitions to REJECTED status and the agreement remains active. Buyers must provide a reason for the rejection.  Only cancellation requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the cancellation request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementCancellationRequestId: The unique identifier of the cancellation request to reject.
+    ///   - agreementId: The unique identifier of the agreement associated with the cancellation request.
+    ///   - rejectionReason: The reason for rejecting the cancellation request (1-2000 characters). This message is visible to the seller.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectAgreementCancellationRequest(
+        agreementCancellationRequestId: String,
+        agreementId: String,
+        rejectionReason: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RejectAgreementCancellationRequestOutput {
+        let input = RejectAgreementCancellationRequestInput(
+            agreementCancellationRequestId: agreementCancellationRequestId, 
+            agreementId: agreementId, 
+            rejectionReason: rejectionReason
+        )
+        return try await self.rejectAgreementCancellationRequest(input, logger: logger)
+    }
+
+    /// Allows buyers (acceptors) to reject a payment request that is in PENDING_APPROVAL status. Once rejected, the payment request transitions to REJECTED status and cannot be accepted. Buyers can optionally provide a reason for the rejection.  Only payment requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the payment request is in any other status.
+    @Sendable
+    @inlinable
+    public func rejectAgreementPaymentRequest(_ input: RejectAgreementPaymentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RejectAgreementPaymentRequestOutput {
+        try await self.client.execute(
+            operation: "RejectAgreementPaymentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows buyers (acceptors) to reject a payment request that is in PENDING_APPROVAL status. Once rejected, the payment request transitions to REJECTED status and cannot be accepted. Buyers can optionally provide a reason for the rejection.  Only payment requests in PENDING_APPROVAL status can be rejected. A ConflictException is thrown if the payment request is in any other status.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement associated with the payment request.
+    ///   - paymentRequestId: The unique identifier of the payment request to reject.
+    ///   - rejectionReason: An optional reason for rejecting the payment request (1-250 characters). This message is visible to the seller.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectAgreementPaymentRequest(
+        agreementId: String,
+        paymentRequestId: String,
+        rejectionReason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RejectAgreementPaymentRequestOutput {
+        let input = RejectAgreementPaymentRequestInput(
+            agreementId: agreementId, 
+            paymentRequestId: paymentRequestId, 
+            rejectionReason: rejectionReason
+        )
+        return try await self.rejectAgreementPaymentRequest(input, logger: logger)
+    }
+
+    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:    AgreementType     AgreementType + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + ResourceType + Status     AgreementType + ResourceType + Status + EndTime     AgreementType + ResourceIdentifier     AgreementType + ResourceIdentifier + EndTime     AgreementType + ResourceIdentifier + Status     AgreementType + ResourceIdentifier + Status + EndTime     AgreementType + AcceptorAccountId     AgreementType + AcceptorAccountId + EndTime     AgreementType + AcceptorAccountId + Status     AgreementType + AcceptorAccountId + Status + EndTime     AgreementType + AcceptorAccountId + OfferId     AgreementType + AcceptorAccountId + OfferId + Status     AgreementType + AcceptorAccountId + OfferId + EndTime     AgreementType + AcceptorAccountId + OfferId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceIdentifier     AgreementType + AcceptorAccountId + ResourceIdentifier + Status     AgreementType + AcceptorAccountId + ResourceIdentifier + EndTime     AgreementType + AcceptorAccountId + ResourceIdentifier + Status + EndTime     AgreementType + AcceptorAccountId + ResourceType     AgreementType + AcceptorAccountId + ResourceType + EndTime     AgreementType + AcceptorAccountId + ResourceType + Status     AgreementType + AcceptorAccountId + ResourceType + Status + EndTime     AgreementType + Status     AgreementType + Status + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime      To filter by EndTime, you can use BeforeEndTime and/or AfterEndTime. Only EndTime is supported for sorting.  The following filter combinations are supported when the PartyType is Acceptor:    AgreementType     AgreementType + Status     AgreementType + EndTime     AgreementType + Status + EndTime     AgreementType + ResourceIdentifier     AgreementType + ResourceIdentifier + EndTime     AgreementType + ResourceIdentifier + Status     AgreementType + ResourceIdentifier + Status + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime
     @Sendable
     @inlinable
     public func searchAgreements(_ input: SearchAgreementsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchAgreementsOutput {
@@ -167,11 +874,11 @@ public struct MarketplaceAgreement: AWSService {
             logger: logger
         )
     }
-    /// Searches across all agreements that a proposer has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:    AgreementType     AgreementType + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + ResourceType + Status     AgreementType + ResourceType + Status + EndTime     AgreementType + ResourceId     AgreementType + ResourceId + EndTime     AgreementType + ResourceId + Status     AgreementType + ResourceId + Status + EndTime     AgreementType + AcceptorAccountId     AgreementType + AcceptorAccountId + EndTime     AgreementType + AcceptorAccountId + Status     AgreementType + AcceptorAccountId + Status + EndTime     AgreementType + AcceptorAccountId + OfferId     AgreementType + AcceptorAccountId + OfferId + Status     AgreementType + AcceptorAccountId + OfferId + EndTime     AgreementType + AcceptorAccountId + OfferId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceId     AgreementType + AcceptorAccountId + ResourceId + Status     AgreementType + AcceptorAccountId + ResourceId + EndTime     AgreementType + AcceptorAccountId + ResourceId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceType     AgreementType + AcceptorAccountId + ResourceType + EndTime     AgreementType + AcceptorAccountId + ResourceType + Status     AgreementType + AcceptorAccountId + ResourceType + Status + EndTime     AgreementType + Status     AgreementType + Status + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime      To filter by EndTime, you can use either BeforeEndTime or AfterEndTime. Only EndTime is supported for sorting.
+    /// Searches across all agreements that a proposer or an acceptor has in AWS Marketplace. The search returns a list of agreements with basic agreement information. The following filter combinations are supported when the PartyType is Proposer:    AgreementType     AgreementType + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + ResourceType + Status     AgreementType + ResourceType + Status + EndTime     AgreementType + ResourceIdentifier     AgreementType + ResourceIdentifier + EndTime     AgreementType + ResourceIdentifier + Status     AgreementType + ResourceIdentifier + Status + EndTime     AgreementType + AcceptorAccountId     AgreementType + AcceptorAccountId + EndTime     AgreementType + AcceptorAccountId + Status     AgreementType + AcceptorAccountId + Status + EndTime     AgreementType + AcceptorAccountId + OfferId     AgreementType + AcceptorAccountId + OfferId + Status     AgreementType + AcceptorAccountId + OfferId + EndTime     AgreementType + AcceptorAccountId + OfferId + Status + EndTime     AgreementType + AcceptorAccountId + ResourceIdentifier     AgreementType + AcceptorAccountId + ResourceIdentifier + Status     AgreementType + AcceptorAccountId + ResourceIdentifier + EndTime     AgreementType + AcceptorAccountId + ResourceIdentifier + Status + EndTime     AgreementType + AcceptorAccountId + ResourceType     AgreementType + AcceptorAccountId + ResourceType + EndTime     AgreementType + AcceptorAccountId + ResourceType + Status     AgreementType + AcceptorAccountId + ResourceType + Status + EndTime     AgreementType + Status     AgreementType + Status + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime      To filter by EndTime, you can use BeforeEndTime and/or AfterEndTime. Only EndTime is supported for sorting.  The following filter combinations are supported when the PartyType is Acceptor:    AgreementType     AgreementType + Status     AgreementType + EndTime     AgreementType + Status + EndTime     AgreementType + ResourceIdentifier     AgreementType + ResourceIdentifier + EndTime     AgreementType + ResourceIdentifier + Status     AgreementType + ResourceIdentifier + Status + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime
     ///
     /// Parameters:
     ///   - catalog: The catalog in which the agreement was created.
-    ///   - filters: The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. For agreements where the caller is the proposer, use the Proposer filter.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+    ///   - filters: The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. Use Proposer or Acceptor.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
     ///   - maxResults: The maximum number of agreements to return in the response.
     ///   - nextToken: A token to specify where to start pagination.
     ///   - sort: An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
@@ -194,6 +901,117 @@ public struct MarketplaceAgreement: AWSService {
         )
         return try await self.searchAgreements(input, logger: logger)
     }
+
+    /// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it.
+    @Sendable
+    @inlinable
+    public func sendAgreementCancellationRequest(_ input: SendAgreementCancellationRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SendAgreementCancellationRequestOutput {
+        try await self.client.execute(
+            operation: "SendAgreementCancellationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to submit a cancellation request for an active agreement. The cancellation request is created in PENDING_APPROVAL status, at which point the buyer can review it.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement for which the cancellation request is being submitted.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: An optional detailed description of the cancellation reason (1-2000 characters).
+    ///   - reasonCode: The reason code for the cancellation request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendAgreementCancellationRequest(
+        agreementId: String,
+        clientToken: String? = SendAgreementCancellationRequestInput.idempotencyToken(),
+        description: String? = nil,
+        reasonCode: AgreementCancellationRequestReasonCode,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendAgreementCancellationRequestOutput {
+        let input = SendAgreementCancellationRequestInput(
+            agreementId: agreementId, 
+            clientToken: clientToken, 
+            description: description, 
+            reasonCode: reasonCode
+        )
+        return try await self.sendAgreementCancellationRequest(input, logger: logger)
+    }
+
+    /// Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm. The payment request is created in PENDING_APPROVAL status, at which point the buyer can accept or reject it.  The agreement must be active and have a VariablePaymentTerm to support payment requests. The chargeAmount must not exceed the remaining available balance under the VariablePaymentTerm maxTotalChargeAmount.
+    @Sendable
+    @inlinable
+    public func sendAgreementPaymentRequest(_ input: SendAgreementPaymentRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> SendAgreementPaymentRequestOutput {
+        try await self.client.execute(
+            operation: "SendAgreementPaymentRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows sellers (proposers) to submit a payment request to buyers (acceptors) for a specific charge amount for an agreement that includes a VariablePaymentTerm. The payment request is created in PENDING_APPROVAL status, at which point the buyer can accept or reject it.  The agreement must be active and have a VariablePaymentTerm to support payment requests. The chargeAmount must not exceed the remaining available balance under the VariablePaymentTerm maxTotalChargeAmount.
+    ///
+    /// Parameters:
+    ///   - agreementId: The unique identifier of the agreement for which the payment request is being submitted. Use GetAgreementTerms to retrieve agreement term details.
+    ///   - chargeAmount: The amount requested to be charged to the buyer, positive decimal value in the currency of the accepted term.  A ValidationException is returned if the chargeAmount exceeds the available balance, if the agreement doesn't have an active VariablePaymentTerm, or if the termId is invalid.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: An optional detailed description of the payment request (1-2000 characters).
+    ///   - name: A descriptive name for the payment request (5-64 characters).
+    ///   - termId: The unique identifier of the VariablePaymentTerm for the agreement that the payment request is being sent for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendAgreementPaymentRequest(
+        agreementId: String,
+        chargeAmount: String,
+        clientToken: String? = SendAgreementPaymentRequestInput.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        termId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendAgreementPaymentRequestOutput {
+        let input = SendAgreementPaymentRequestInput(
+            agreementId: agreementId, 
+            chargeAmount: chargeAmount, 
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            termId: termId
+        )
+        return try await self.sendAgreementPaymentRequest(input, logger: logger)
+    }
+
+    /// Allows acceptors to associate purchase orders with agreement charges after an agreement is created.
+    @Sendable
+    @inlinable
+    public func updatePurchaseOrders(_ input: UpdatePurchaseOrdersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePurchaseOrdersOutput {
+        try await self.client.execute(
+            operation: "UpdatePurchaseOrders", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows acceptors to associate purchase orders with agreement charges after an agreement is created.
+    ///
+    /// Parameters:
+    ///   - purchaseOrders: Contains information about purchase order associations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePurchaseOrders(
+        purchaseOrders: [PurchaseOrder],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePurchaseOrdersOutput {
+        let input = UpdatePurchaseOrdersInput(
+            purchaseOrders: purchaseOrders
+        )
+        return try await self.updatePurchaseOrders(input, logger: logger)
+    }
 }
 
 extension MarketplaceAgreement {
@@ -202,5 +1020,486 @@ extension MarketplaceAgreement {
     public init(from: MarketplaceAgreement, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension MarketplaceAgreement {
+    /// Return PaginatorSequence for operation ``getAgreementEntitlements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAgreementEntitlementsPaginator(
+        _ input: GetAgreementEntitlementsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput> {
+        return .init(
+            input: input,
+            command: self.getAgreementEntitlements,
+            inputKey: \GetAgreementEntitlementsInput.nextToken,
+            outputKey: \GetAgreementEntitlementsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAgreementEntitlements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - maxResults: The maximum number of agreement entitlements to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAgreementEntitlementsPaginator(
+        agreementId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAgreementEntitlementsInput, GetAgreementEntitlementsOutput> {
+        let input = GetAgreementEntitlementsInput(
+            agreementId: agreementId, 
+            maxResults: maxResults
+        )
+        return self.getAgreementEntitlementsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getAgreementTerms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAgreementTermsPaginator(
+        _ input: GetAgreementTermsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAgreementTermsInput, GetAgreementTermsOutput> {
+        return .init(
+            input: input,
+            command: self.getAgreementTerms,
+            inputKey: \GetAgreementTermsInput.nextToken,
+            outputKey: \GetAgreementTermsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAgreementTerms(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - maxResults: The maximum number of agreements to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAgreementTermsPaginator(
+        agreementId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAgreementTermsInput, GetAgreementTermsOutput> {
+        let input = GetAgreementTermsInput(
+            agreementId: agreementId, 
+            maxResults: maxResults
+        )
+        return self.getAgreementTermsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgreementCancellationRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementCancellationRequestsPaginator(
+        _ input: ListAgreementCancellationRequestsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput> {
+        return .init(
+            input: input,
+            command: self.listAgreementCancellationRequests,
+            inputKey: \ListAgreementCancellationRequestsInput.nextToken,
+            outputKey: \ListAgreementCancellationRequestsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgreementCancellationRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: An optional parameter to filter cancellation requests for a specific agreement.
+    ///   - agreementType: An optional parameter to filter cancellation requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional parameter to filter cancellation requests by catalog (e.g., AWSMarketplace).
+    ///   - maxResults: The maximum number of cancellation requests to return in the response.
+    ///   - partyType: The party type for the cancellation requests. Required parameter. Use Proposer to list cancellation requests where you are the seller, or Acceptor to list cancellation requests where you are the buyer.
+    ///   - status: An optional parameter to filter cancellation requests by status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementCancellationRequestsPaginator(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        partyType: String,
+        status: AgreementCancellationRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgreementCancellationRequestsInput, ListAgreementCancellationRequestsOutput> {
+        let input = ListAgreementCancellationRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            partyType: partyType, 
+            status: status
+        )
+        return self.listAgreementCancellationRequestsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgreementCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementChargesPaginator(
+        _ input: ListAgreementChargesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgreementChargesInput, ListAgreementChargesOutput> {
+        return .init(
+            input: input,
+            command: self.listAgreementCharges,
+            inputKey: \ListAgreementChargesInput.nextToken,
+            outputKey: \ListAgreementChargesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgreementCharges(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - agreementType: Filter to retrieve charges of a specific agreement type (for example, PurchaseAgreement).
+    ///   - catalog: The catalog in which the charges were created.
+    ///   - maxResults: The maximum number of charges to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementChargesPaginator(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgreementChargesInput, ListAgreementChargesOutput> {
+        let input = ListAgreementChargesInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults
+        )
+        return self.listAgreementChargesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgreementInvoiceLineItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementInvoiceLineItemsPaginator(
+        _ input: ListAgreementInvoiceLineItemsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput> {
+        return .init(
+            input: input,
+            command: self.listAgreementInvoiceLineItems,
+            inputKey: \ListAgreementInvoiceLineItemsInput.nextToken,
+            outputKey: \ListAgreementInvoiceLineItemsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgreementInvoiceLineItems(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - afterIssuedTime: An optional filter for invoices issued after the specified timestamp.
+    ///   - agreementId: The unique identifier of the agreement.
+    ///   - beforeIssuedTime: An optional filter for invoices issued before the specified timestamp.
+    ///   - groupBy: Specifies a grouping strategy for line items. Currently supports INVOICE_ID.
+    ///   - invoiceBillingPeriod: An optional filter for the billing period associated with the invoice.
+    ///   - invoiceId: An optional filter to retrieve invoice information for a specific invoice.
+    ///   - invoiceType: An optional filter for the type of invoice. Valid values are INVOICE and CREDIT_MEMO.
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementInvoiceLineItemsPaginator(
+        afterIssuedTime: Date? = nil,
+        agreementId: String,
+        beforeIssuedTime: Date? = nil,
+        groupBy: LineItemGroupBy,
+        invoiceBillingPeriod: InvoiceBillingPeriod? = nil,
+        invoiceId: String? = nil,
+        invoiceType: InvoiceType? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgreementInvoiceLineItemsInput, ListAgreementInvoiceLineItemsOutput> {
+        let input = ListAgreementInvoiceLineItemsInput(
+            afterIssuedTime: afterIssuedTime, 
+            agreementId: agreementId, 
+            beforeIssuedTime: beforeIssuedTime, 
+            groupBy: groupBy, 
+            invoiceBillingPeriod: invoiceBillingPeriod, 
+            invoiceId: invoiceId, 
+            invoiceType: invoiceType, 
+            maxResults: maxResults
+        )
+        return self.listAgreementInvoiceLineItemsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAgreementPaymentRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementPaymentRequestsPaginator(
+        _ input: ListAgreementPaymentRequestsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput> {
+        return .init(
+            input: input,
+            command: self.listAgreementPaymentRequests,
+            inputKey: \ListAgreementPaymentRequestsInput.nextToken,
+            outputKey: \ListAgreementPaymentRequestsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAgreementPaymentRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: An optional parameter to list payment requests for a specific agreement.
+    ///   - agreementType: An optional parameter to list payment requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional parameter to list payment requests by catalog (e.g., AWSMarketplace).
+    ///   - maxResults: The maximum number of payment requests to return in a single response (1-50). Default is 50.
+    ///   - partyType: The party type for the payment requests. Required parameter. Use Proposer to list payment requests where you are the seller, or Acceptor to list payment requests where you are the buyer.
+    ///   - status: An optional parameter to list payment requests by status. Valid values include VALIDATING, VALIDATION_FAILED, PENDING_APPROVAL, APPROVED, REJECTED, and CANCELLED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAgreementPaymentRequestsPaginator(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        maxResults: Int? = nil,
+        partyType: String,
+        status: PaymentRequestStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAgreementPaymentRequestsInput, ListAgreementPaymentRequestsOutput> {
+        let input = ListAgreementPaymentRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            partyType: partyType, 
+            status: status
+        )
+        return self.listAgreementPaymentRequestsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBillingAdjustmentRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBillingAdjustmentRequestsPaginator(
+        _ input: ListBillingAdjustmentRequestsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput> {
+        return .init(
+            input: input,
+            command: self.listBillingAdjustmentRequests,
+            inputKey: \ListBillingAdjustmentRequestsInput.nextToken,
+            outputKey: \ListBillingAdjustmentRequestsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBillingAdjustmentRequests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agreementId: The unique identifier of the agreement to list billing adjustment requests for.
+    ///   - agreementType: An optional filter to return billing adjustment requests by agreement type (e.g., PurchaseAgreement).
+    ///   - catalog: An optional filter to return billing adjustment requests by catalog (e.g., AWSMarketplace).
+    ///   - createdAfter: An optional filter to return billing adjustment requests created after the specified timestamp.
+    ///   - createdBefore: An optional filter to return billing adjustment requests created before the specified timestamp.
+    ///   - maxResults: The maximum number of billing adjustment requests to return in the response.
+    ///   - status: An optional filter to return billing adjustment requests with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBillingAdjustmentRequestsPaginator(
+        agreementId: String? = nil,
+        agreementType: String? = nil,
+        catalog: String? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        maxResults: Int? = nil,
+        status: BillingAdjustmentStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBillingAdjustmentRequestsInput, ListBillingAdjustmentRequestsOutput> {
+        let input = ListBillingAdjustmentRequestsInput(
+            agreementId: agreementId, 
+            agreementType: agreementType, 
+            catalog: catalog, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            maxResults: maxResults, 
+            status: status
+        )
+        return self.listBillingAdjustmentRequestsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``searchAgreements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAgreementsPaginator(
+        _ input: SearchAgreementsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchAgreementsInput, SearchAgreementsOutput> {
+        return .init(
+            input: input,
+            command: self.searchAgreements,
+            inputKey: \SearchAgreementsInput.nextToken,
+            outputKey: \SearchAgreementsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchAgreements(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog: The catalog in which the agreement was created.
+    ///   - filters: The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. Use Proposer or Acceptor.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+    ///   - maxResults: The maximum number of agreements to return in the response.
+    ///   - sort: An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchAgreementsPaginator(
+        catalog: String? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        sort: Sort? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchAgreementsInput, SearchAgreementsOutput> {
+        let input = SearchAgreementsInput(
+            catalog: catalog, 
+            filters: filters, 
+            maxResults: maxResults, 
+            sort: sort
+        )
+        return self.searchAgreementsPaginator(input, logger: logger)
+    }
+}
+
+extension MarketplaceAgreement.GetAgreementEntitlementsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.GetAgreementEntitlementsInput {
+        return .init(
+            agreementId: self.agreementId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MarketplaceAgreement.GetAgreementTermsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.GetAgreementTermsInput {
+        return .init(
+            agreementId: self.agreementId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MarketplaceAgreement.ListAgreementCancellationRequestsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.ListAgreementCancellationRequestsInput {
+        return .init(
+            agreementId: self.agreementId,
+            agreementType: self.agreementType,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            partyType: self.partyType,
+            status: self.status
+        )
+    }
+}
+
+extension MarketplaceAgreement.ListAgreementChargesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.ListAgreementChargesInput {
+        return .init(
+            agreementId: self.agreementId,
+            agreementType: self.agreementType,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MarketplaceAgreement.ListAgreementInvoiceLineItemsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.ListAgreementInvoiceLineItemsInput {
+        return .init(
+            afterIssuedTime: self.afterIssuedTime,
+            agreementId: self.agreementId,
+            beforeIssuedTime: self.beforeIssuedTime,
+            groupBy: self.groupBy,
+            invoiceBillingPeriod: self.invoiceBillingPeriod,
+            invoiceId: self.invoiceId,
+            invoiceType: self.invoiceType,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MarketplaceAgreement.ListAgreementPaymentRequestsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.ListAgreementPaymentRequestsInput {
+        return .init(
+            agreementId: self.agreementId,
+            agreementType: self.agreementType,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token,
+            partyType: self.partyType,
+            status: self.status
+        )
+    }
+}
+
+extension MarketplaceAgreement.ListBillingAdjustmentRequestsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.ListBillingAdjustmentRequestsInput {
+        return .init(
+            agreementId: self.agreementId,
+            agreementType: self.agreementType,
+            catalog: self.catalog,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            status: self.status
+        )
+    }
+}
+
+extension MarketplaceAgreement.SearchAgreementsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceAgreement.SearchAgreementsInput {
+        return .init(
+            catalog: self.catalog,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sort: self.sort
+        )
     }
 }

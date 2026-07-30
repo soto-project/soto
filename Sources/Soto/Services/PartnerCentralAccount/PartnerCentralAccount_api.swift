@@ -622,6 +622,102 @@ public struct PartnerCentralAccount: AWSService {
         return try await self.getProfileVisibility(input, logger: logger)
     }
 
+    /// Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.
+    @Sendable
+    @inlinable
+    public func getQualificationsAssociationDetails(_ input: GetQualificationsAssociationDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQualificationsAssociationDetailsResponse {
+        try await self.client.execute(
+            operation: "GetQualificationsAssociationDetails", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns your current qualifications association status, the primary partner, and the full list of partners associated under the primary partner.
+    ///
+    /// Parameters:
+    ///   - catalog: The catalog in which to look up the qualifications association. Valid values: AWS, Sandbox.
+    ///   - identifier: Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQualificationsAssociationDetails(
+        catalog: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQualificationsAssociationDetailsResponse {
+        let input = GetQualificationsAssociationDetailsRequest(
+            catalog: catalog, 
+            identifier: identifier
+        )
+        return try await self.getQualificationsAssociationDetails(input, logger: logger)
+    }
+
+    /// Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssociationTask.
+    @Sendable
+    @inlinable
+    public func getQualificationsAssociationTask(_ input: GetQualificationsAssociationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQualificationsAssociationTaskResponse {
+        try await self.client.execute(
+            operation: "GetQualificationsAssociationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status and details of the most recent qualifications association task for your partner account. Use this operation to poll the progress of an association task initiated by StartQualificationsAssociationTask.
+    ///
+    /// Parameters:
+    ///   - catalog: The catalog in which to look up the qualifications association task. Valid values: AWS, Sandbox.
+    ///   - identifier: Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQualificationsAssociationTask(
+        catalog: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQualificationsAssociationTaskResponse {
+        let input = GetQualificationsAssociationTaskRequest(
+            catalog: catalog, 
+            identifier: identifier
+        )
+        return try await self.getQualificationsAssociationTask(input, logger: logger)
+    }
+
+    /// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask.
+    @Sendable
+    @inlinable
+    public func getQualificationsDisassociationTask(_ input: GetQualificationsDisassociationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQualificationsDisassociationTaskResponse {
+        try await self.client.execute(
+            operation: "GetQualificationsDisassociationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status and details of the most recent qualifications disassociation task for your partner account. Use this operation to poll the progress of a disassociation task initiated by StartQualificationsDisassociationTask.
+    ///
+    /// Parameters:
+    ///   - catalog: The catalog in which to look up the qualifications disassociation task. Valid values: AWS, Sandbox.
+    ///   - identifier: Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQualificationsDisassociationTask(
+        catalog: String,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQualificationsDisassociationTaskResponse {
+        let input = GetQualificationsDisassociationTaskRequest(
+            catalog: catalog, 
+            identifier: identifier
+        )
+        return try await self.getQualificationsDisassociationTask(input, logger: logger)
+    }
+
     /// Retrieves the current status and details of a verification process for a partner account. This operation allows partners to check the progress and results of business or registrant verification processes.
     @Sendable
     @inlinable
@@ -979,6 +1075,82 @@ public struct PartnerCentralAccount: AWSService {
             taskDetails: taskDetails
         )
         return try await self.startProfileUpdateTask(input, logger: logger)
+    }
+
+    /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociationTask to monitor task progress.
+    @Sendable
+    @inlinable
+    public func startQualificationsAssociationTask(_ input: StartQualificationsAssociationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQualificationsAssociationTaskResponse {
+        try await self.client.execute(
+            operation: "StartQualificationsAssociationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates an asynchronous task to associate your partner qualifications with a primary account. You must be a subsidiary of the primary account with an active subsidiary connection. Use GetQualificationsAssociationTask to monitor task progress.
+    ///
+    /// Parameters:
+    ///   - catalog: The catalog in which to perform the qualifications association. Valid values: AWS, Sandbox.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - identifier: Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    ///   - primaryPartner: The primary (acquiring) partner's profile and account identifier to associate qualifications with. You must provide at least one of ProfileId or AccountId. You cannot specify yourself as the primary partner.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startQualificationsAssociationTask(
+        catalog: String,
+        clientToken: String? = StartQualificationsAssociationTaskRequest.idempotencyToken(),
+        identifier: String,
+        primaryPartner: QualificationsAssociationPartner,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartQualificationsAssociationTaskResponse {
+        let input = StartQualificationsAssociationTaskRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            identifier: identifier, 
+            primaryPartner: primaryPartner
+        )
+        return try await self.startQualificationsAssociationTask(input, logger: logger)
+    }
+
+    /// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress.
+    @Sendable
+    @inlinable
+    public func startQualificationsDisassociationTask(_ input: StartQualificationsDisassociationTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQualificationsDisassociationTaskResponse {
+        try await self.client.execute(
+            operation: "StartQualificationsDisassociationTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates an asynchronous task to disassociate your partner qualifications from a primary account. You must currently be associated and cannot disassociate if you are the primary partner. Use GetQualificationsDisassociationTask to monitor task progress.
+    ///
+    /// Parameters:
+    ///   - associatedPartner: The primary partner's profile and account identifier that you are currently associated with and will disassociate from. You must provide at least one of ProfileId or AccountId. The specified partner must match your current primary association.
+    ///   - catalog: The catalog in which to perform the qualifications disassociation. Valid values: AWS, Sandbox.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - identifier: Your partner identifier. You can provide either a partner ID (for example, partner-abc123) or a partner ARN. You must own this identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startQualificationsDisassociationTask(
+        associatedPartner: QualificationsAssociationPartner,
+        catalog: String,
+        clientToken: String? = StartQualificationsDisassociationTaskRequest.idempotencyToken(),
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartQualificationsDisassociationTaskResponse {
+        let input = StartQualificationsDisassociationTaskRequest(
+            associatedPartner: associatedPartner, 
+            catalog: catalog, 
+            clientToken: clientToken, 
+            identifier: identifier
+        )
+        return try await self.startQualificationsDisassociationTask(input, logger: logger)
     }
 
     /// Initiates a new verification process for a partner account. This operation begins the verification workflow for either business registration or individual registrant identity verification as required by AWS Partner Central.

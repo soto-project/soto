@@ -86,6 +86,12 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoRepairActionsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AvailabilityZoneRebalancing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -218,6 +224,73 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DaemonDeploymentRollbackMonitorsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case monitoring = "MONITORING"
+        case monitoringComplete = "MONITORING_COMPLETE"
+        case triggered = "TRIGGERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonDeploymentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case rollbackSuccessful = "ROLLBACK_SUCCESSFUL"
+        case stopRequested = "STOP_REQUESTED"
+        case stopped = "STOPPED"
+        case successful = "SUCCESSFUL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonIpcMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The daemon gets its own isolated IPC namespace.
+        case none = "none"
+        /// The daemon shares the IPC namespace with co-located tasks on the same container instance.
+        case shared = "shared"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonPidMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The daemon gets its own isolated PID namespace.
+        case none = "none"
+        /// The daemon shares the PID namespace with co-located tasks on the same container instance.
+        case shared = "shared"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonPropagateTags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case daemon = "DAEMON"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonTaskDefinitionRevisionFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lastRegistered = "LAST_REGISTERED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonTaskDefinitionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case deleted = "DELETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DaemonTaskDefinitionStatusFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case all = "ALL"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentControllerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case codeDeploy = "CODE_DEPLOY"
         case ecs = "ECS"
@@ -225,14 +298,36 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentLifecycleHookAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `continue` = "CONTINUE"
+        case rollback = "ROLLBACK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentLifecycleHookStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case postProductionTrafficShift = "POST_PRODUCTION_TRAFFIC_SHIFT"
         case postScaleUp = "POST_SCALE_UP"
         case postTestTrafficShift = "POST_TEST_TRAFFIC_SHIFT"
+        case preProductionTrafficShift = "PRE_PRODUCTION_TRAFFIC_SHIFT"
         case preScaleUp = "PRE_SCALE_UP"
         case productionTrafficShift = "PRODUCTION_TRAFFIC_SHIFT"
         case reconcileService = "RECONCILE_SERVICE"
         case testTrafficShift = "TEST_TRAFFIC_SHIFT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentLifecycleHookStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awaitingAction = "AWAITING_ACTION"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeploymentLifecycleHookTargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsLambda = "AWS_LAMBDA"
+        case pause = "PAUSE"
         public var description: String { return self.rawValue }
     }
 
@@ -341,7 +436,9 @@ extension ECS {
     }
 
     public enum InstanceHealthCheckType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acceleratedCompute = "ACCELERATED_COMPUTE"
         case containerRuntime = "CONTAINER_RUNTIME"
+        case daemon = "DAEMON"
         public var description: String { return self.rawValue }
     }
 
@@ -466,6 +563,7 @@ extension ECS {
 
     public enum PlatformDeviceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
+        case neuronDevice = "NEURON_DEVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -496,6 +594,7 @@ extension ECS {
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gpu = "GPU"
         case inferenceAccelerator = "InferenceAccelerator"
+        case neuronDevice = "NeuronDevice"
         public var description: String { return self.rawValue }
     }
 
@@ -664,6 +763,16 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ThresholdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, then clamping the result to a minimum of 3 and a maximum of 200. This is the default threshold type, with a default value of 50.
+        case boundedPercent = "BOUNDED_PERCENT"
+        /// Amazon ECS uses the integer provided in value directly as the failure threshold.
+        case count = "COUNT"
+        /// Amazon ECS calculates the failure threshold by multiplying value by the latest service desired count, without applying the 3-to-200 bounds. Use this when the desired count is large enough that the calculated threshold should be allowed to exceed 200.
+        case unboundedPercent = "UNBOUNDED_PERCENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransportProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tcp = "tcp"
         case udp = "udp"
@@ -826,6 +935,20 @@ extension ECS {
             case targetId = "targetId"
             case targetType = "targetType"
             case value = "value"
+        }
+    }
+
+    public struct AutoRepairConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of auto repair actions for the capacity provider. When set to ENABLED, Amazon ECS automatically replaces container instances with an IMPAIRED health status. When set to DISABLED, Amazon ECS still monitors container instance health but does not automatically replace impaired instances.
+        public let actionsStatus: AutoRepairActionsStatus?
+
+        @inlinable
+        public init(actionsStatus: AutoRepairActionsStatus? = nil) {
+            self.actionsStatus = actionsStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsStatus = "actionsStatus"
         }
     }
 
@@ -1225,6 +1348,8 @@ extension ECS {
         public let networkBindings: [NetworkBinding]?
         /// The network interfaces associated with the container.
         public let networkInterfaces: [NetworkInterface]?
+        /// The IDs of each Neuron device assigned to the container.
+        public let neuronDeviceIds: [String]?
         /// A short (1024 max characters) human-readable string to provide additional details about a running or stopped container.
         public let reason: String?
         /// The ID of the Docker container.
@@ -1233,7 +1358,7 @@ extension ECS {
         public let taskArn: String?
 
         @inlinable
-        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, image: String? = nil, imageDigest: String? = nil, lastStatus: String? = nil, managedAgents: [ManagedAgent]? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
+        public init(containerArn: String? = nil, cpu: String? = nil, exitCode: Int? = nil, gpuIds: [String]? = nil, healthStatus: HealthStatus? = nil, image: String? = nil, imageDigest: String? = nil, lastStatus: String? = nil, managedAgents: [ManagedAgent]? = nil, memory: String? = nil, memoryReservation: String? = nil, name: String? = nil, networkBindings: [NetworkBinding]? = nil, networkInterfaces: [NetworkInterface]? = nil, neuronDeviceIds: [String]? = nil, reason: String? = nil, runtimeId: String? = nil, taskArn: String? = nil) {
             self.containerArn = containerArn
             self.cpu = cpu
             self.exitCode = exitCode
@@ -1248,6 +1373,7 @@ extension ECS {
             self.name = name
             self.networkBindings = networkBindings
             self.networkInterfaces = networkInterfaces
+            self.neuronDeviceIds = neuronDeviceIds
             self.reason = reason
             self.runtimeId = runtimeId
             self.taskArn = taskArn
@@ -1268,6 +1394,7 @@ extension ECS {
             case name = "name"
             case networkBindings = "networkBindings"
             case networkInterfaces = "networkInterfaces"
+            case neuronDeviceIds = "neuronDeviceIds"
             case reason = "reason"
             case runtimeId = "runtimeId"
             case taskArn = "taskArn"
@@ -1337,7 +1464,7 @@ extension ECS {
         public let readonlyRootFilesystem: Bool?
         /// The private repository authentication credentials to use.
         public let repositoryCredentials: RepositoryCredentials?
-        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container. The supported resources are GPUs and Neuron devices.
         public let resourceRequirements: [ResourceRequirement]?
         /// The restart policy for a container. When you set up a restart policy, Amazon ECS can restart the container without needing to replace the task. For more information, see Restart individual containers in Amazon ECS tasks with container restart policies in the Amazon Elastic Container Service Developer Guide.
         public let restartPolicy: ContainerRestartPolicy?
@@ -1607,7 +1734,7 @@ extension ECS {
         public let memoryReservation: Int?
         /// The name of the container that receives the override. This parameter is required if any override is specified.
         public let name: String?
-        /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The only supported resource is a GPU.
+        /// The type and amount of a resource to assign to a container, instead of the default value from the task definition. The supported resources are GPUs and Neuron devices.
         public let resourceRequirements: [ResourceRequirement]?
 
         @inlinable
@@ -1691,6 +1818,42 @@ extension ECS {
             case reason = "reason"
             case runtimeId = "runtimeId"
             case status = "status"
+        }
+    }
+
+    public struct ContinueServiceDeploymentRequest: AWSEncodableShape {
+        /// The action to take on the paused lifecycle hook. Valid values are:    CONTINUE - Proceeds the deployment to the next lifecycle stage.    ROLLBACK - Rolls back the deployment to the previous service revision.   If no value is specified, the default action is CONTINUE.
+        public let action: DeploymentLifecycleHookAction?
+        /// The ID of the paused lifecycle hook to act on. You can find the hookId by calling DescribeServiceDeployments and inspecting the lifecycleHookDetails field of the service deployment.
+        public let hookId: String
+        /// The ARN of the service deployment to continue or roll back.
+        public let serviceDeploymentArn: String
+
+        @inlinable
+        public init(action: DeploymentLifecycleHookAction? = nil, hookId: String, serviceDeploymentArn: String) {
+            self.action = action
+            self.hookId = hookId
+            self.serviceDeploymentArn = serviceDeploymentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case hookId = "hookId"
+            case serviceDeploymentArn = "serviceDeploymentArn"
+        }
+    }
+
+    public struct ContinueServiceDeploymentResponse: AWSDecodableShape {
+        /// The ARN of the service deployment that was continued or rolled back.
+        public let serviceDeploymentArn: String?
+
+        @inlinable
+        public init(serviceDeploymentArn: String? = nil) {
+            self.serviceDeploymentArn = serviceDeploymentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceDeploymentArn = "serviceDeploymentArn"
         }
     }
 
@@ -1809,13 +1972,97 @@ extension ECS {
         }
     }
 
+    public struct CreateDaemonRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers.
+        public let capacityProviderArns: [String]
+        /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the cluster to create the daemon in.
+        public let clusterArn: String?
+        /// The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public let daemonName: String
+        /// The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
+        public let daemonTaskDefinitionArn: String
+        /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+        public let deploymentConfiguration: DaemonDeploymentConfiguration?
+        /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide.
+        public let enableECSManagedTags: Bool?
+        /// Determines whether the execute command functionality is turned on for the daemon. If true, the execute command functionality is turned on for all tasks in the daemon.
+        public let enableExecuteCommand: Bool?
+        /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation. To add tags to a task after task creation, use the TagResource API action.
+        public let propagateTags: DaemonPropagateTags?
+        /// The metadata that you apply to the daemon to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(capacityProviderArns: [String], clientToken: String? = nil, clusterArn: String? = nil, daemonName: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil, tags: [Tag]? = nil) {
+            self.capacityProviderArns = capacityProviderArns
+            self.clientToken = clientToken
+            self.clusterArn = clusterArn
+            self.daemonName = daemonName
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.deploymentConfiguration = deploymentConfiguration
+            self.enableECSManagedTags = enableECSManagedTags
+            self.enableExecuteCommand = enableExecuteCommand
+            self.propagateTags = propagateTags
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProviderArns = "capacityProviderArns"
+            case clientToken = "clientToken"
+            case clusterArn = "clusterArn"
+            case daemonName = "daemonName"
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case propagateTags = "propagateTags"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDaemonResponse: AWSDecodableShape {
+        /// The Unix timestamp for the time when the daemon was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the initial daemon deployment. This deployment places daemon tasks on each container instance of the specified capacity providers.
+        public let deploymentArn: String?
+        /// The status of the daemon.
+        public let status: DaemonStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, daemonArn: String? = nil, deploymentArn: String? = nil, status: DaemonStatus? = nil) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.deploymentArn = deploymentArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case deploymentArn = "deploymentArn"
+            case status = "status"
+        }
+    }
+
     public struct CreateExpressGatewayServiceRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the cluster on which to create the Express service. If you do not specify a cluster, the default cluster is assumed.
         public let cluster: String?
         /// The number of CPU units used by the task. This parameter determines the CPU allocation for each task in the Express service. The default value for an Express service is 256 (.25 vCPU).
         public let cpu: String?
         /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. This role is required for Amazon ECS to pull container images from Amazon ECR, send container logs to Amazon CloudWatch Logs, and retrieve sensitive data from Amazon Web Services Systems Manager Parameter Store or Amazon Web Services Secrets Manager. The execution role must include the AmazonECSTaskExecutionRolePolicy managed policy or equivalent permissions. For Express services, this role is used during task startup and runtime for container management operations.
-        public let executionRoleArn: String
+        public let executionRoleArn: String?
         /// The path on the container that the Application Load Balancer uses for health checks. This should be a valid HTTP endpoint that returns a successful response (HTTP 200) when the application is healthy. If not specified, the default health check path is /ping. The health check path must start with a forward slash and can include query parameters. Examples: /health, /api/status, /ping?format=json.
         public let healthCheckPath: String?
         /// The Amazon Resource Name (ARN) of the infrastructure role that grants Amazon ECS permission to create and manage Amazon Web Services resources on your behalf for the Express service. This role is used to provision and manage Application Load Balancers, target groups, security groups, auto-scaling policies, and other Amazon Web Services infrastructure components. The infrastructure role must include permissions for Elastic Load Balancing, Application Auto Scaling, Amazon EC2 (for security groups), and other services required for managed infrastructure. This role is only used during Express service creation, updates, and deletion operations.
@@ -1825,18 +2072,20 @@ extension ECS {
         /// The network configuration for the Express service tasks. This specifies the VPC subnets and security groups for the tasks. For Express services, you can specify custom security groups and subnets. If not provided, Amazon ECS will use the default VPC configuration and create appropriate security groups automatically. The network configuration determines how your service integrates with your VPC and what network access it has.
         public let networkConfiguration: ExpressGatewayServiceNetworkConfiguration?
         /// The primary container configuration for the Express service. This defines the main application container that will receive traffic from the Application Load Balancer. The primary container must specify at minimum a container image. You can also configure the container port (defaults to 80), logging configuration, environment variables, secrets, and startup commands. The container image can be from Amazon ECR, Docker Hub, or any other container registry accessible to your execution role.
-        public let primaryContainer: ExpressGatewayContainer
+        public let primaryContainer: ExpressGatewayContainer?
         /// The auto-scaling configuration for the Express service. This defines how the service automatically adjusts the number of running tasks based on demand. You can specify the minimum and maximum number of tasks, the scaling metric (CPU utilization, memory utilization, or request count per target), and the target value for the metric. If not specified, the default target value for an Express service is 60.
         public let scalingTarget: ExpressGatewayScalingTarget?
         /// The name of the Express service. This name must be unique within the specified cluster and can contain up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens. The name is used to identify the service in the Amazon ECS console and API operations. If you don't specify a service name, Amazon ECS generates a unique name for the service. The service name becomes part of the service ARN and cannot be changed after the service is created.
         public let serviceName: String?
         /// The metadata that you apply to the Express service to help categorize and organize it. Each tag consists of a key and an optional value. You can apply up to 50 tags to a service.
         public let tags: [Tag]?
+        /// The Amazon Resource Name (ARN) of a task definition to use to create the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+        public let taskDefinitionArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role that containers in this task can assume. This role allows your application code to access other Amazon Web Services services securely. The task role is different from the execution role. While the execution role is used by the Amazon ECS agent to set up the task, the task role is used by your application code running inside the container to make Amazon Web Services API calls. If your application doesn't need to access Amazon Web Services services, you can omit this parameter.
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cluster: String? = nil, cpu: String? = nil, executionRoleArn: String, healthCheckPath: String? = nil, infrastructureRoleArn: String, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceName: String? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil) {
+        public init(cluster: String? = nil, cpu: String? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, infrastructureRoleArn: String, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceName: String? = nil, tags: [Tag]? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cluster = cluster
             self.cpu = cpu
             self.executionRoleArn = executionRoleArn
@@ -1848,6 +2097,7 @@ extension ECS {
             self.scalingTarget = scalingTarget
             self.serviceName = serviceName
             self.tags = tags
+            self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
         }
 
@@ -1870,6 +2120,7 @@ extension ECS {
             case scalingTarget = "scalingTarget"
             case serviceName = "serviceName"
             case tags = "tags"
+            case taskDefinitionArn = "taskDefinitionArn"
             case taskRoleArn = "taskRoleArn"
         }
     }
@@ -1889,6 +2140,8 @@ extension ECS {
     }
 
     public struct CreateManagedInstancesProviderConfiguration: AWSEncodableShape {
+        /// The auto repair configuration for the Amazon ECS Managed Instances capacity provider. Use this to enable or disable automatic replacement of container instances that are detected as unhealthy.
+        public let autoRepairConfiguration: AutoRepairConfiguration?
         /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Provides control over the delay between when EC2 instances become idle or underutilized and when Amazon ECS optimizes them.
         public let infrastructureOptimization: InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other Amazon Web Services services required for Amazon ECS Managed Instances functionality. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
@@ -1899,7 +2152,8 @@ extension ECS {
         public let propagateTags: PropagateMITags?
 
         @inlinable
-        public init(infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplate, propagateTags: PropagateMITags? = nil) {
+        public init(autoRepairConfiguration: AutoRepairConfiguration? = nil, infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplate, propagateTags: PropagateMITags? = nil) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -1911,6 +2165,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoRepairConfiguration = "autoRepairConfiguration"
             case infrastructureOptimization = "infrastructureOptimization"
             case infrastructureRoleArn = "infrastructureRoleArn"
             case instanceLaunchTemplate = "instanceLaunchTemplate"
@@ -1943,6 +2198,8 @@ extension ECS {
         public let launchType: LaunchType?
         /// A load balancer object representing the load balancers to use with your service. For more information, see Service load balancing in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see Using service-linked roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
         public let loadBalancers: [LoadBalancer]?
+        /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+        public let monitoring: MonitoringConfiguration?
         /// The network configuration for the service. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see Task networking in the Amazon Elastic Container Service Developer Guide.
         public let networkConfiguration: NetworkConfiguration?
         /// An array of placement constraint objects to use for tasks in your service. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
@@ -1973,7 +2230,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clientToken: String? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, role: String? = nil, schedulingStrategy: SchedulingStrategy? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceName: String, serviceRegistries: [ServiceRegistry]? = nil, tags: [Tag]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clientToken = clientToken
@@ -1986,6 +2243,7 @@ extension ECS {
             self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
             self.launchType = launchType
             self.loadBalancers = loadBalancers
+            self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.placementConstraints = placementConstraints
             self.placementStrategy = placementStrategy
@@ -2006,6 +2264,8 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.monitoring?.validate(name: "\(name).monitoring")
             try self.serviceConnectConfiguration?.validate(name: "\(name).serviceConnectConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -2029,6 +2289,7 @@ extension ECS {
             case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
             case launchType = "launchType"
             case loadBalancers = "loadBalancers"
+            case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
             case placementConstraints = "placementConstraints"
             case placementStrategy = "placementStrategy"
@@ -2047,7 +2308,7 @@ extension ECS {
     }
 
     public struct CreateServiceResponse: AWSDecodableShape {
-        /// The full description of your service following the create call. A service will return either a capacityProviderStrategy or launchType parameter, but not both, depending where one was specified when it was created. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. if the service uses the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list.
+        /// The full description of your service following the create call. A service will return either a capacityProviderStrategy or launchType parameter, but not both, depending where one was specified when it was created. If a service is using the ECS deployment controller, the deploymentController and taskSets parameters will not be returned. if the service uses the CODE_DEPLOY deployment controller, the deploymentController, taskSets and deployments parameters will be returned, however the deployments parameter will be an empty list. The response includes a lifecycleHookDetails field, which is an empty array when the service is created or updated. The values are populated when a lifecycle hook executes and are available as part of the service deployment details (DescribeServiceDeployments).
         public let service: Service?
 
         @inlinable
@@ -2161,6 +2422,727 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case after = "after"
             case before = "before"
+        }
+    }
+
+    public struct DaemonAlarmConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch alarm names to monitor during a daemon deployment.
+        public let alarmNames: [String]?
+        /// Determines whether to use the CloudWatch alarm option in the daemon deployment process. The default value is false.
+        public let enable: Bool?
+
+        @inlinable
+        public init(alarmNames: [String]? = nil, enable: Bool? = nil) {
+            self.alarmNames = alarmNames
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "alarmNames"
+            case enable = "enable"
+        }
+    }
+
+    public struct DaemonCapacityProvider: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        public let arn: String?
+        /// The number of daemon tasks running on this capacity provider.
+        public let runningCount: Int?
+
+        @inlinable
+        public init(arn: String? = nil, runningCount: Int? = nil) {
+            self.arn = arn
+            self.runningCount = runningCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case runningCount = "runningCount"
+        }
+    }
+
+    public struct DaemonCircuitBreaker: AWSDecodableShape {
+        /// The number of times the circuit breaker detected a daemon deployment failure.
+        public let failureCount: Int?
+        /// The circuit breaker status. Amazon ECS is not using the circuit breaker for daemon deployment failures when the status is DISABLED.
+        public let status: DaemonDeploymentRollbackMonitorsStatus?
+        /// The threshold which determines that the daemon deployment failed.
+        public let threshold: Int?
+
+        @inlinable
+        public init(failureCount: Int? = nil, status: DaemonDeploymentRollbackMonitorsStatus? = nil, threshold: Int? = nil) {
+            self.failureCount = failureCount
+            self.status = status
+            self.threshold = threshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCount = "failureCount"
+            case status = "status"
+            case threshold = "threshold"
+        }
+    }
+
+    public struct DaemonContainerDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The command that's passed to the container.
+        public let command: [String]?
+        /// The number of cpu units reserved for the container.
+        public let cpu: Int?
+        /// The dependencies defined for container startup and shutdown. A container can contain multiple dependencies on other containers in a task definition.
+        public let dependsOn: [ContainerDependency]?
+        /// The entry point that's passed to the container.
+        public let entryPoint: [String]?
+        /// The environment variables to pass to a container.
+        public let environment: [KeyValuePair]?
+        /// A list of files containing the environment variables to pass to a container.
+        public let environmentFiles: [EnvironmentFile]?
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped.
+        public let essential: Bool?
+        /// The FireLens configuration for the container. This is used to specify and configure a log router for container logs.
+        public let firelensConfiguration: FirelensConfiguration?
+        /// The container health check command and associated configuration parameters for the container.
+        public let healthCheck: HealthCheck?
+        /// The image used to start the container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with either  repository-url/image:tag  or  repository-url/image@digest .
+        public let image: String
+        /// When this parameter is true, you can deploy containerized applications that require stdin or a tty to be allocated.
+        public let interactive: Bool?
+        /// Linux-specific modifications that are applied to the container configuration, such as Linux kernel capabilities.
+        public let linuxParameters: DaemonLinuxParameters?
+        /// The log configuration specification for the container.
+        public let logConfiguration: LogConfiguration?
+        /// The amount (in MiB) of memory to present to the container. If the container attempts to exceed the memory specified here, the container is killed.
+        public let memory: Int?
+        /// The soft limit (in MiB) of memory to reserve for the container.
+        public let memoryReservation: Int?
+        /// The mount points for data volumes in your container.
+        public let mountPoints: [MountPoint]?
+        /// The name of the container. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public let name: String?
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user).
+        public let privileged: Bool?
+        /// When this parameter is true, a TTY is allocated.
+        public let pseudoTerminal: Bool?
+        /// When this parameter is true, the container is given read-only access to its root file system.
+        public let readonlyRootFilesystem: Bool?
+        /// The private repository authentication credentials to use.
+        public let repositoryCredentials: RepositoryCredentials?
+        /// The restart policy for the container. When you set up a restart policy, Amazon ECS can restart the container without needing to replace the task.
+        public let restartPolicy: ContainerRestartPolicy?
+        /// The secrets to pass to the container.
+        public let secrets: [Secret]?
+        /// Time duration (in seconds) to wait before giving up on resolving dependencies for a container.
+        public let startTimeout: Int?
+        /// Time duration (in seconds) to wait before the container is forcefully killed if it doesn't exit normally on its own.
+        public let stopTimeout: Int?
+        /// A list of namespaced kernel parameters to set in the container.
+        public let systemControls: [SystemControl]?
+        /// A list of ulimits to set in the container.
+        public let ulimits: [Ulimit]?
+        /// The user to use inside the container.
+        public let user: String?
+        /// The working directory to run commands inside the container in.
+        public let workingDirectory: String?
+
+        @inlinable
+        public init(command: [String]? = nil, cpu: Int? = nil, dependsOn: [ContainerDependency]? = nil, entryPoint: [String]? = nil, environment: [KeyValuePair]? = nil, environmentFiles: [EnvironmentFile]? = nil, essential: Bool? = nil, firelensConfiguration: FirelensConfiguration? = nil, healthCheck: HealthCheck? = nil, image: String, interactive: Bool? = nil, linuxParameters: DaemonLinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, memoryReservation: Int? = nil, mountPoints: [MountPoint]? = nil, name: String? = nil, privileged: Bool? = nil, pseudoTerminal: Bool? = nil, readonlyRootFilesystem: Bool? = nil, repositoryCredentials: RepositoryCredentials? = nil, restartPolicy: ContainerRestartPolicy? = nil, secrets: [Secret]? = nil, startTimeout: Int? = nil, stopTimeout: Int? = nil, systemControls: [SystemControl]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, workingDirectory: String? = nil) {
+            self.command = command
+            self.cpu = cpu
+            self.dependsOn = dependsOn
+            self.entryPoint = entryPoint
+            self.environment = environment
+            self.environmentFiles = environmentFiles
+            self.essential = essential
+            self.firelensConfiguration = firelensConfiguration
+            self.healthCheck = healthCheck
+            self.image = image
+            self.interactive = interactive
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.memory = memory
+            self.memoryReservation = memoryReservation
+            self.mountPoints = mountPoints
+            self.name = name
+            self.privileged = privileged
+            self.pseudoTerminal = pseudoTerminal
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.repositoryCredentials = repositoryCredentials
+            self.restartPolicy = restartPolicy
+            self.secrets = secrets
+            self.startTimeout = startTimeout
+            self.stopTimeout = stopTimeout
+            self.systemControls = systemControls
+            self.ulimits = ulimits
+            self.user = user
+            self.workingDirectory = workingDirectory
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "command"
+            case cpu = "cpu"
+            case dependsOn = "dependsOn"
+            case entryPoint = "entryPoint"
+            case environment = "environment"
+            case environmentFiles = "environmentFiles"
+            case essential = "essential"
+            case firelensConfiguration = "firelensConfiguration"
+            case healthCheck = "healthCheck"
+            case image = "image"
+            case interactive = "interactive"
+            case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
+            case memory = "memory"
+            case memoryReservation = "memoryReservation"
+            case mountPoints = "mountPoints"
+            case name = "name"
+            case privileged = "privileged"
+            case pseudoTerminal = "pseudoTerminal"
+            case readonlyRootFilesystem = "readonlyRootFilesystem"
+            case repositoryCredentials = "repositoryCredentials"
+            case restartPolicy = "restartPolicy"
+            case secrets = "secrets"
+            case startTimeout = "startTimeout"
+            case stopTimeout = "stopTimeout"
+            case systemControls = "systemControls"
+            case ulimits = "ulimits"
+            case user = "user"
+            case workingDirectory = "workingDirectory"
+        }
+    }
+
+    public struct DaemonContainerImage: AWSDecodableShape {
+        /// The name of the container.
+        public let containerName: String?
+        /// The container image.
+        public let image: String?
+        /// The container image digest.
+        public let imageDigest: String?
+
+        @inlinable
+        public init(containerName: String? = nil, image: String? = nil, imageDigest: String? = nil) {
+            self.containerName = containerName
+            self.image = image
+            self.imageDigest = imageDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerName = "containerName"
+            case image = "image"
+            case imageDigest = "imageDigest"
+        }
+    }
+
+    public struct DaemonDeployment: AWSDecodableShape {
+        /// The CloudWatch alarms that determine when a daemon deployment fails.
+        public let alarms: DaemonDeploymentAlarms?
+        /// The circuit breaker configuration that determines when a daemon deployment has failed.
+        public let circuitBreaker: DaemonCircuitBreaker?
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public let clusterArn: String?
+        /// The time the daemon deployment was created. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon deployment.
+        public let daemonDeploymentArn: String?
+        /// The deployment configuration used for this daemon deployment.
+        public let deploymentConfiguration: DaemonDeploymentConfiguration?
+        /// The time the daemon deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let finishedAt: Date?
+        /// The rollback options for the daemon deployment.
+        public let rollback: DaemonRollback?
+        /// The currently deployed daemon revisions that are being replaced.
+        public let sourceDaemonRevisions: [DaemonDeploymentRevisionDetail]?
+        /// The time the daemon deployment started. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let startedAt: Date?
+        /// The status of the daemon deployment.
+        public let status: DaemonDeploymentStatus?
+        /// Information about why the daemon deployment is in the current status.
+        public let statusReason: String?
+        /// The time the daemon deployment stopped. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let stoppedAt: Date?
+        /// The daemon revision being deployed.
+        public let targetDaemonRevision: DaemonDeploymentRevisionDetail?
+
+        @inlinable
+        public init(alarms: DaemonDeploymentAlarms? = nil, circuitBreaker: DaemonCircuitBreaker? = nil, clusterArn: String? = nil, createdAt: Date? = nil, daemonDeploymentArn: String? = nil, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, finishedAt: Date? = nil, rollback: DaemonRollback? = nil, sourceDaemonRevisions: [DaemonDeploymentRevisionDetail]? = nil, startedAt: Date? = nil, status: DaemonDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetDaemonRevision: DaemonDeploymentRevisionDetail? = nil) {
+            self.alarms = alarms
+            self.circuitBreaker = circuitBreaker
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.daemonDeploymentArn = daemonDeploymentArn
+            self.deploymentConfiguration = deploymentConfiguration
+            self.finishedAt = finishedAt
+            self.rollback = rollback
+            self.sourceDaemonRevisions = sourceDaemonRevisions
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.targetDaemonRevision = targetDaemonRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
+            case circuitBreaker = "circuitBreaker"
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case daemonDeploymentArn = "daemonDeploymentArn"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case finishedAt = "finishedAt"
+            case rollback = "rollback"
+            case sourceDaemonRevisions = "sourceDaemonRevisions"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+            case targetDaemonRevision = "targetDaemonRevision"
+        }
+    }
+
+    public struct DaemonDeploymentAlarms: AWSDecodableShape {
+        /// The name of the CloudWatch alarms that determine when a daemon deployment failed.
+        public let alarmNames: [String]?
+        /// The status of the alarms check. Amazon ECS is not using alarms for daemon deployment failures when the status is DISABLED.
+        public let status: DaemonDeploymentRollbackMonitorsStatus?
+        /// One or more CloudWatch alarm names that have been triggered during the daemon deployment.
+        public let triggeredAlarmNames: [String]?
+
+        @inlinable
+        public init(alarmNames: [String]? = nil, status: DaemonDeploymentRollbackMonitorsStatus? = nil, triggeredAlarmNames: [String]? = nil) {
+            self.alarmNames = alarmNames
+            self.status = status
+            self.triggeredAlarmNames = triggeredAlarmNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmNames = "alarmNames"
+            case status = "status"
+            case triggeredAlarmNames = "triggeredAlarmNames"
+        }
+    }
+
+    public struct DaemonDeploymentCapacityProvider: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the capacity provider.
+        public let arn: String?
+        /// The number of instances being drained on this capacity provider during the deployment.
+        public let drainingInstanceCount: Int?
+        /// The number of instances running daemon tasks on this capacity provider.
+        public let runningInstanceCount: Int?
+
+        @inlinable
+        public init(arn: String? = nil, drainingInstanceCount: Int? = nil, runningInstanceCount: Int? = nil) {
+            self.arn = arn
+            self.drainingInstanceCount = drainingInstanceCount
+            self.runningInstanceCount = runningInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case drainingInstanceCount = "drainingInstanceCount"
+            case runningInstanceCount = "runningInstanceCount"
+        }
+    }
+
+    public struct DaemonDeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch alarm configuration for the daemon deployment. When alarms are triggered during a deployment, the deployment can be automatically rolled back.
+        public let alarms: DaemonAlarmConfiguration?
+        /// The amount of time (in minutes) to wait after a successful deployment step before proceeding. This allows time to monitor for issues before continuing. The default value is 0.
+        public let bakeTimeInMinutes: Int?
+        /// The percentage of container instances to drain simultaneously during a daemon deployment. Valid values are between 0.0 and 100.0.
+        public let drainPercent: Double?
+
+        @inlinable
+        public init(alarms: DaemonAlarmConfiguration? = nil, bakeTimeInMinutes: Int? = nil, drainPercent: Double? = nil) {
+            self.alarms = alarms
+            self.bakeTimeInMinutes = bakeTimeInMinutes
+            self.drainPercent = drainPercent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.drainPercent, name: "drainPercent", parent: name, max: 100.0)
+            try self.validate(self.drainPercent, name: "drainPercent", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarms = "alarms"
+            case bakeTimeInMinutes = "bakeTimeInMinutes"
+            case drainPercent = "drainPercent"
+        }
+    }
+
+    public struct DaemonDeploymentRevisionDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public let arn: String?
+        /// The capacity providers associated with this daemon revision during the deployment.
+        public let capacityProviders: [DaemonDeploymentCapacityProvider]?
+        /// The total number of instances being drained for this revision during the deployment.
+        public let totalDrainingInstanceCount: Int?
+        /// The total number of instances running daemon tasks for this revision.
+        public let totalRunningInstanceCount: Int?
+
+        @inlinable
+        public init(arn: String? = nil, capacityProviders: [DaemonDeploymentCapacityProvider]? = nil, totalDrainingInstanceCount: Int? = nil, totalRunningInstanceCount: Int? = nil) {
+            self.arn = arn
+            self.capacityProviders = capacityProviders
+            self.totalDrainingInstanceCount = totalDrainingInstanceCount
+            self.totalRunningInstanceCount = totalRunningInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityProviders = "capacityProviders"
+            case totalDrainingInstanceCount = "totalDrainingInstanceCount"
+            case totalRunningInstanceCount = "totalRunningInstanceCount"
+        }
+    }
+
+    public struct DaemonDeploymentSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public let clusterArn: String?
+        /// The time the daemon deployment was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the daemon deployment.
+        public let daemonDeploymentArn: String?
+        /// The time the daemon deployment finished.
+        public let finishedAt: Date?
+        /// The time the daemon deployment started.
+        public let startedAt: Date?
+        /// The status of the daemon deployment.
+        public let status: DaemonDeploymentStatus?
+        /// Information about why the daemon deployment is in the current status.
+        public let statusReason: String?
+        /// The time the daemon deployment stopped.
+        public let stoppedAt: Date?
+        /// The ARN of the daemon revision being deployed.
+        public let targetDaemonRevisionArn: String?
+
+        @inlinable
+        public init(clusterArn: String? = nil, createdAt: Date? = nil, daemonArn: String? = nil, daemonDeploymentArn: String? = nil, finishedAt: Date? = nil, startedAt: Date? = nil, status: DaemonDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetDaemonRevisionArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.daemonDeploymentArn = daemonDeploymentArn
+            self.finishedAt = finishedAt
+            self.startedAt = startedAt
+            self.status = status
+            self.statusReason = statusReason
+            self.stoppedAt = stoppedAt
+            self.targetDaemonRevisionArn = targetDaemonRevisionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case daemonDeploymentArn = "daemonDeploymentArn"
+            case finishedAt = "finishedAt"
+            case startedAt = "startedAt"
+            case status = "status"
+            case statusReason = "statusReason"
+            case stoppedAt = "stoppedAt"
+            case targetDaemonRevisionArn = "targetDaemonRevisionArn"
+        }
+    }
+
+    public struct DaemonDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster that the daemon is running in.
+        public let clusterArn: String?
+        /// The Unix timestamp for the time when the daemon was created.
+        public let createdAt: Date?
+        /// The current daemon revision details, including the running task counts per capacity provider.
+        public let currentRevisions: [DaemonRevisionDetail]?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the most recent daemon deployment.
+        public let deploymentArn: String?
+        /// The status of the daemon.
+        public let status: DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(clusterArn: String? = nil, createdAt: Date? = nil, currentRevisions: [DaemonRevisionDetail]? = nil, daemonArn: String? = nil, deploymentArn: String? = nil, status: DaemonStatus? = nil, updatedAt: Date? = nil) {
+            self.clusterArn = clusterArn
+            self.createdAt = createdAt
+            self.currentRevisions = currentRevisions
+            self.daemonArn = daemonArn
+            self.deploymentArn = deploymentArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case createdAt = "createdAt"
+            case currentRevisions = "currentRevisions"
+            case daemonArn = "daemonArn"
+            case deploymentArn = "deploymentArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DaemonLinuxParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The Linux capabilities for the container that are added to or dropped from the default configuration provided by Docker.
+        public let capabilities: KernelCapabilities?
+        /// Any host devices to expose to the container.
+        public let devices: [Device]?
+        /// Run an init process inside the container that forwards signals and reaps processes.
+        public let initProcessEnabled: Bool?
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount.
+        public let tmpfs: [Tmpfs]?
+
+        @inlinable
+        public init(capabilities: KernelCapabilities? = nil, devices: [Device]? = nil, initProcessEnabled: Bool? = nil, tmpfs: [Tmpfs]? = nil) {
+            self.capabilities = capabilities
+            self.devices = devices
+            self.initProcessEnabled = initProcessEnabled
+            self.tmpfs = tmpfs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "capabilities"
+            case devices = "devices"
+            case initProcessEnabled = "initProcessEnabled"
+            case tmpfs = "tmpfs"
+        }
+    }
+
+    public struct DaemonRevision: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the daemon.
+        public let clusterArn: String?
+        /// The container images used by the daemon revision.
+        public let containerImages: [DaemonContainerImage]?
+        /// The Unix timestamp for the time when the daemon revision was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon for this revision.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public let daemonRevisionArn: String?
+        /// The Amazon Resource Name (ARN) of the daemon task definition used by this revision.
+        public let daemonTaskDefinitionArn: String?
+        /// Specifies whether Amazon ECS managed tags are turned on for the daemon tasks.
+        public let enableECSManagedTags: Bool?
+        /// Specifies whether the execute command functionality is turned on for the daemon tasks.
+        public let enableExecuteCommand: Bool?
+        /// Specifies whether tags are propagated from the daemon to the daemon tasks.
+        public let propagateTags: DaemonPropagateTags?
+
+        @inlinable
+        public init(clusterArn: String? = nil, containerImages: [DaemonContainerImage]? = nil, createdAt: Date? = nil, daemonArn: String? = nil, daemonRevisionArn: String? = nil, daemonTaskDefinitionArn: String? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
+            self.clusterArn = clusterArn
+            self.containerImages = containerImages
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.daemonRevisionArn = daemonRevisionArn
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.enableECSManagedTags = enableECSManagedTags
+            self.enableExecuteCommand = enableExecuteCommand
+            self.propagateTags = propagateTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case containerImages = "containerImages"
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case daemonRevisionArn = "daemonRevisionArn"
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case propagateTags = "propagateTags"
+        }
+    }
+
+    public struct DaemonRevisionDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the daemon revision.
+        public let arn: String?
+        /// The capacity providers associated with this daemon revision.
+        public let capacityProviders: [DaemonCapacityProvider]?
+        /// The total number of daemon tasks running for this revision.
+        public let totalRunningCount: Int?
+
+        @inlinable
+        public init(arn: String? = nil, capacityProviders: [DaemonCapacityProvider]? = nil, totalRunningCount: Int? = nil) {
+            self.arn = arn
+            self.capacityProviders = capacityProviders
+            self.totalRunningCount = totalRunningCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capacityProviders = "capacityProviders"
+            case totalRunningCount = "totalRunningCount"
+        }
+    }
+
+    public struct DaemonRollback: AWSDecodableShape {
+        /// The reason the rollback happened. For example, the circuit breaker initiated the rollback operation.
+        public let reason: String?
+        /// The capacity providers involved in the rollback.
+        public let rollbackCapacityProviders: [String]?
+        /// The ARN of the daemon revision deployed as part of the rollback.
+        public let rollbackTargetDaemonRevisionArn: String?
+        /// The time that the rollback started. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
+        public let startedAt: Date?
+
+        @inlinable
+        public init(reason: String? = nil, rollbackCapacityProviders: [String]? = nil, rollbackTargetDaemonRevisionArn: String? = nil, startedAt: Date? = nil) {
+            self.reason = reason
+            self.rollbackCapacityProviders = rollbackCapacityProviders
+            self.rollbackTargetDaemonRevisionArn = rollbackTargetDaemonRevisionArn
+            self.startedAt = startedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "reason"
+            case rollbackCapacityProviders = "rollbackCapacityProviders"
+            case rollbackTargetDaemonRevisionArn = "rollbackTargetDaemonRevisionArn"
+            case startedAt = "startedAt"
+        }
+    }
+
+    public struct DaemonSummary: AWSDecodableShape {
+        /// The Unix timestamp for the time when the daemon was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The status of the daemon.
+        public let status: DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, daemonArn: String? = nil, status: DaemonStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DaemonTaskDefinition: AWSDecodableShape {
+        /// A list of container definitions in JSON format that describe the containers that make up the daemon task.
+        public let containerDefinitions: [DaemonContainerDefinition]?
+        /// The number of CPU units used by the daemon task.
+        public let cpu: String?
+        /// The full Amazon Resource Name (ARN) of the daemon task definition.
+        public let daemonTaskDefinitionArn: String?
+        /// The Unix timestamp for the time when the daemon task definition delete was requested.
+        public let deleteRequestedAt: Date?
+        /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf.
+        public let executionRoleArn: String?
+        /// The name of a family that this daemon task definition is registered to.
+        public let family: String?
+        /// The IPC namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own IPC namespace, isolated from other tasks. If shared is specified, the daemon joins the host IPC namespace, making it accessible to non-daemon tasks that use ipcMode: "host" or other daemons that use ipcMode: "shared".
+        public let ipcMode: DaemonIpcMode?
+        /// The amount of memory (in MiB) used by the daemon task.
+        public let memory: String?
+        /// The PID namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own PID namespace, isolated from other tasks. If shared is specified, the daemon joins the host PID namespace, making it accessible to non-daemon tasks that use pidMode: "host" or other daemons that use pidMode: "shared".
+        public let pidMode: DaemonPidMode?
+        /// The Unix timestamp for the time when the daemon task definition was registered.
+        public let registeredAt: Date?
+        /// The principal that registered the daemon task definition.
+        public let registeredBy: String?
+        /// The revision of the daemon task in a particular family. The revision is a version number of a daemon task definition in a family. When you register a daemon task definition for the first time, the revision is 1. Each time that you register a new revision of a daemon task definition in the same family, the revision value always increases by one.
+        public let revision: Int?
+        /// The status of the daemon task definition. The valid values are ACTIVE, DELETE_IN_PROGRESS, and DELETED.
+        public let status: DaemonTaskDefinitionStatus?
+        /// The short name or full Amazon Resource Name (ARN) of the IAM role that grants containers in the daemon task permission to call Amazon Web Services APIs on your behalf.
+        public let taskRoleArn: String?
+        /// The list of data volume definitions for the daemon task.
+        public let volumes: [DaemonVolume]?
+
+        @inlinable
+        public init(containerDefinitions: [DaemonContainerDefinition]? = nil, cpu: String? = nil, daemonTaskDefinitionArn: String? = nil, deleteRequestedAt: Date? = nil, executionRoleArn: String? = nil, family: String? = nil, ipcMode: DaemonIpcMode? = nil, memory: String? = nil, pidMode: DaemonPidMode? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, revision: Int? = nil, status: DaemonTaskDefinitionStatus? = nil, taskRoleArn: String? = nil, volumes: [DaemonVolume]? = nil) {
+            self.containerDefinitions = containerDefinitions
+            self.cpu = cpu
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.deleteRequestedAt = deleteRequestedAt
+            self.executionRoleArn = executionRoleArn
+            self.family = family
+            self.ipcMode = ipcMode
+            self.memory = memory
+            self.pidMode = pidMode
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+            self.revision = revision
+            self.status = status
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
+            case deleteRequestedAt = "deleteRequestedAt"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case pidMode = "pidMode"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
+            case revision = "revision"
+            case status = "status"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
+        }
+    }
+
+    public struct DaemonTaskDefinitionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the daemon task definition.
+        public let arn: String?
+        /// The Unix timestamp for the time when the daemon task definition delete was requested.
+        public let deleteRequestedAt: Date?
+        /// The Unix timestamp for the time when the daemon task definition was registered.
+        public let registeredAt: Date?
+        /// The principal that registered the daemon task definition.
+        public let registeredBy: String?
+        /// The status of the daemon task definition.
+        public let status: DaemonTaskDefinitionStatus?
+
+        @inlinable
+        public init(arn: String? = nil, deleteRequestedAt: Date? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, status: DaemonTaskDefinitionStatus? = nil) {
+            self.arn = arn
+            self.deleteRequestedAt = deleteRequestedAt
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case deleteRequestedAt = "deleteRequestedAt"
+            case registeredAt = "registeredAt"
+            case registeredBy = "registeredBy"
+            case status = "status"
+        }
+    }
+
+    public struct DaemonVolume: AWSEncodableShape & AWSDecodableShape {
+        /// The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored.
+        public let host: HostVolumeProperties?
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public let name: String?
+
+        @inlinable
+        public init(host: HostVolumeProperties? = nil, name: String? = nil) {
+            self.host = host
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "host"
+            case name = "name"
         }
     }
 
@@ -2285,6 +3267,78 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
+        }
+    }
+
+    public struct DeleteDaemonRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the daemon to delete.
+        public let daemonArn: String
+
+        @inlinable
+        public init(daemonArn: String) {
+            self.daemonArn = daemonArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonArn = "daemonArn"
+        }
+    }
+
+    public struct DeleteDaemonResponse: AWSDecodableShape {
+        /// The Unix timestamp for the time when the daemon was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the daemon deployment that was triggered by the delete operation. This deployment drains existing daemon tasks from the container instances.
+        public let deploymentArn: String?
+        /// The status of the daemon. After you call DeleteDaemon, the status changes to DELETE_IN_PROGRESS.
+        public let status: DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, daemonArn: String? = nil, deploymentArn: String? = nil, status: DaemonStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.deploymentArn = deploymentArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case deploymentArn = "deploymentArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DeleteDaemonTaskDefinitionRequest: AWSEncodableShape {
+        /// The family and revision (family:revision) or full Amazon Resource Name (ARN) of the daemon task definition to delete.
+        public let daemonTaskDefinition: String
+
+        @inlinable
+        public init(daemonTaskDefinition: String) {
+            self.daemonTaskDefinition = daemonTaskDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinition = "daemonTaskDefinition"
+        }
+    }
+
+    public struct DeleteDaemonTaskDefinitionResponse: AWSDecodableShape {
+        /// The full Amazon Resource Name (ARN) of the deleted daemon task definition.
+        public let daemonTaskDefinitionArn: String?
+
+        @inlinable
+        public init(daemonTaskDefinitionArn: String? = nil) {
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
         }
     }
 
@@ -2543,18 +3597,26 @@ extension ECS {
     public struct DeploymentCircuitBreaker: AWSEncodableShape & AWSDecodableShape {
         /// Determines whether to use the deployment circuit breaker logic for the service.
         public let enable: Bool
+        /// Specifies whether the deployment circuit breaker resets its failure count when a task reaches a healthy state. When set to true, a task that reaches a healthy state resets the failure count to 0. When set to false, Amazon ECS does not reset the failure count. The default is true.
+        public let resetOnHealthyTask: Bool?
         /// Determines whether to configure Amazon ECS to roll back the service if a service deployment fails. If rollback is on, when a service deployment fails, the service is rolled back to the last deployment that completed successfully.
         public let rollback: Bool
+        /// The threshold configuration that controls when the deployment circuit breaker triggers. The type and value together determine how many task failures are tolerated before the circuit breaker activates.
+        public let thresholdConfiguration: ThresholdConfiguration?
 
         @inlinable
-        public init(enable: Bool, rollback: Bool) {
+        public init(enable: Bool, resetOnHealthyTask: Bool? = nil, rollback: Bool, thresholdConfiguration: ThresholdConfiguration? = nil) {
             self.enable = enable
+            self.resetOnHealthyTask = resetOnHealthyTask
             self.rollback = rollback
+            self.thresholdConfiguration = thresholdConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case enable = "enable"
+            case resetOnHealthyTask = "resetOnHealthyTask"
             case rollback = "rollback"
+            case thresholdConfiguration = "thresholdConfiguration"
         }
     }
 
@@ -2567,7 +3629,7 @@ extension ECS {
         public let canaryConfiguration: CanaryConfiguration?
         ///  The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type.  The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see Rolling update in the Amazon Elastic Container Service Developer Guide
         public let deploymentCircuitBreaker: DeploymentCircuitBreaker?
-        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
+        /// An array of deployment lifecycle hook objects to run custom logic or pause the deployment at specific stages of the deployment lifecycle.
         public let lifecycleHooks: [DeploymentLifecycleHook]?
         /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
         public let linearConfiguration: LinearConfiguration?
@@ -2589,6 +3651,12 @@ extension ECS {
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
             self.strategy = strategy
+        }
+
+        public func validate(name: String) throws {
+            try self.lifecycleHooks?.forEach {
+                try $0.validate(name: "\(name).lifecycleHooks[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2633,21 +3701,31 @@ extension ECS {
     }
 
     public struct DeploymentLifecycleHook: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field to specify custom parameters that Amazon ECS will pass to your hook target invocations (such as a Lambda function).
+        /// Use this field to specify custom parameters that Amazon ECS passes to your Lambda function on each invocation. This field is not used for PAUSE hooks.
         public let hookDetails: AWSDocument?
-        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
+        /// The Amazon Resource Name (ARN) of the hook target. For AWS_LAMBDA hooks, this is the Lambda function ARN. This field is not applicable for PAUSE hooks. You must provide this parameter when configuring an AWS_LAMBDA lifecycle hook.
         public let hookTargetArn: String?
-        /// The lifecycle stages at which to run the hook. Choose from these valid values:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.   You must provide this parameter when configuring a deployment lifecycle hook.
+        /// The lifecycle stages at which to run the hook. Choose from these valid values:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.   PRE_PRODUCTION_TRAFFIC_SHIFT Occurs before production traffic shift. For linear and canary deployments, this stage is invoked before every traffic shift step. You can use a lifecycle hook for this stage.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. For linear and canary deployments, this stage is invoked at every traffic shift step. You can use a lifecycle hook for this stage.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.     PAUSE hooks cannot be configured at TEST_TRAFFIC_SHIFT or PRODUCTION_TRAFFIC_SHIFT stages. These stages are only valid for AWS_LAMBDA hooks.  You must provide this parameter when configuring a deployment lifecycle hook.
         public let lifecycleStages: [DeploymentLifecycleHookStage]?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see Permissions required for Lambda functions in Amazon ECS blue/green deployments in the  Amazon Elastic Container Service Developer Guide.
         public let roleArn: String?
+        /// The type of action the lifecycle hook performs. Valid values are:    AWS_LAMBDA - Invokes a Lambda function at the specified lifecycle stage. This is the default value.    PAUSE - Pauses the deployment at the specified lifecycle stage until you call ContinueServiceDeployment to continue or roll back.   This field is optional. If not specified, the default value is AWS_LAMBDA.
+        public let targetType: DeploymentLifecycleHookTargetType?
+        /// The timeout configuration for the lifecycle hook. This specifies how long Amazon ECS waits before taking the timeout action if the hook is not resolved.
+        public let timeoutConfiguration: DeploymentLifecycleHookTimeoutConfiguration?
 
         @inlinable
-        public init(hookDetails: AWSDocument? = nil, hookTargetArn: String? = nil, lifecycleStages: [DeploymentLifecycleHookStage]? = nil, roleArn: String? = nil) {
+        public init(hookDetails: AWSDocument? = nil, hookTargetArn: String? = nil, lifecycleStages: [DeploymentLifecycleHookStage]? = nil, roleArn: String? = nil, targetType: DeploymentLifecycleHookTargetType? = nil, timeoutConfiguration: DeploymentLifecycleHookTimeoutConfiguration? = nil) {
             self.hookDetails = hookDetails
             self.hookTargetArn = hookTargetArn
             self.lifecycleStages = lifecycleStages
             self.roleArn = roleArn
+            self.targetType = targetType
+            self.timeoutConfiguration = timeoutConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.timeoutConfiguration?.validate(name: "\(name).timeoutConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2655,6 +3733,65 @@ extension ECS {
             case hookTargetArn = "hookTargetArn"
             case lifecycleStages = "lifecycleStages"
             case roleArn = "roleArn"
+            case targetType = "targetType"
+            case timeoutConfiguration = "timeoutConfiguration"
+        }
+    }
+
+    public struct DeploymentLifecycleHookDetail: AWSDecodableShape {
+        /// The time when the lifecycle hook times out. If the hook has not been completed by this time, Amazon ECS takes the timeout action.
+        public let expiresAt: Date?
+        /// The ID of the lifecycle hook. Use this value when calling ContinueServiceDeployment to continue or roll back a paused deployment.
+        public let hookId: String?
+        /// The status of the lifecycle hook. Valid values include AWAITING_ACTION, IN_PROGRESS, SUCCEEDED, FAILED, and TIMED_OUT.
+        public let status: DeploymentLifecycleHookStatus?
+        /// The Amazon Resource Name (ARN) of the hook target. For AWS_LAMBDA hooks, this is the Lambda function ARN. For PAUSE hooks, this field is not set.
+        public let targetArn: String?
+        /// The type of action the lifecycle hook performs, such as AWS_LAMBDA or PAUSE.
+        public let targetType: DeploymentLifecycleHookTargetType?
+        /// The action Amazon ECS takes when the lifecycle hook times out. Valid values are CONTINUE and ROLLBACK.
+        public let timeoutAction: DeploymentLifecycleHookAction?
+
+        @inlinable
+        public init(expiresAt: Date? = nil, hookId: String? = nil, status: DeploymentLifecycleHookStatus? = nil, targetArn: String? = nil, targetType: DeploymentLifecycleHookTargetType? = nil, timeoutAction: DeploymentLifecycleHookAction? = nil) {
+            self.expiresAt = expiresAt
+            self.hookId = hookId
+            self.status = status
+            self.targetArn = targetArn
+            self.targetType = targetType
+            self.timeoutAction = timeoutAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiresAt = "expiresAt"
+            case hookId = "hookId"
+            case status = "status"
+            case targetArn = "targetArn"
+            case targetType = "targetType"
+            case timeoutAction = "timeoutAction"
+        }
+    }
+
+    public struct DeploymentLifecycleHookTimeoutConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The action Amazon ECS takes when the lifecycle hook times out. Valid values are:    CONTINUE - Proceeds the deployment to the next lifecycle stage.    ROLLBACK - Rolls back the deployment to the previous service revision.   Default: ROLLBACK
+        public let action: DeploymentLifecycleHookAction?
+        /// The number of minutes Amazon ECS waits for the lifecycle hook to complete before taking the timeout action. Default: 1440 (24 hours)
+        public let timeoutInMinutes: Int?
+
+        @inlinable
+        public init(action: DeploymentLifecycleHookAction? = nil, timeoutInMinutes: Int? = nil) {
+            self.action = action
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, max: 20160)
+            try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case timeoutInMinutes = "timeoutInMinutes"
         }
     }
 
@@ -2847,6 +3984,126 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case containerInstances = "containerInstances"
             case failures = "failures"
+        }
+    }
+
+    public struct DescribeDaemonDeploymentsRequest: AWSEncodableShape {
+        /// The ARN of the daemon deployments to describe. You can specify up to 20 ARNs.
+        public let daemonDeploymentArns: [String]
+
+        @inlinable
+        public init(daemonDeploymentArns: [String]) {
+            self.daemonDeploymentArns = daemonDeploymentArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonDeploymentArns = "daemonDeploymentArns"
+        }
+    }
+
+    public struct DescribeDaemonDeploymentsResponse: AWSDecodableShape {
+        /// The list of daemon deployments.
+        public let daemonDeployments: [DaemonDeployment]?
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+
+        @inlinable
+        public init(daemonDeployments: [DaemonDeployment]? = nil, failures: [Failure]? = nil) {
+            self.daemonDeployments = daemonDeployments
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonDeployments = "daemonDeployments"
+            case failures = "failures"
+        }
+    }
+
+    public struct DescribeDaemonRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the daemon to describe.
+        public let daemonArn: String
+
+        @inlinable
+        public init(daemonArn: String) {
+            self.daemonArn = daemonArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonArn = "daemonArn"
+        }
+    }
+
+    public struct DescribeDaemonResponse: AWSDecodableShape {
+        /// The full description of the daemon, including the current revisions, deployment ARN, cluster, and status information.
+        public let daemon: DaemonDetail?
+
+        @inlinable
+        public init(daemon: DaemonDetail? = nil) {
+            self.daemon = daemon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemon = "daemon"
+        }
+    }
+
+    public struct DescribeDaemonRevisionsRequest: AWSEncodableShape {
+        /// The ARN of the daemon revisions to describe. You can specify up to 20 ARNs.
+        public let daemonRevisionArns: [String]
+
+        @inlinable
+        public init(daemonRevisionArns: [String]) {
+            self.daemonRevisionArns = daemonRevisionArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonRevisionArns = "daemonRevisionArns"
+        }
+    }
+
+    public struct DescribeDaemonRevisionsResponse: AWSDecodableShape {
+        /// The list of daemon revisions.
+        public let daemonRevisions: [DaemonRevision]?
+        /// Any failures associated with the call.
+        public let failures: [Failure]?
+
+        @inlinable
+        public init(daemonRevisions: [DaemonRevision]? = nil, failures: [Failure]? = nil) {
+            self.daemonRevisions = daemonRevisions
+            self.failures = failures
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonRevisions = "daemonRevisions"
+            case failures = "failures"
+        }
+    }
+
+    public struct DescribeDaemonTaskDefinitionRequest: AWSEncodableShape {
+        /// The family for the latest ACTIVE revision, family and revision (family:revision) for a specific revision in the family, or full Amazon Resource Name (ARN) of the daemon task definition to describe.
+        public let daemonTaskDefinition: String
+
+        @inlinable
+        public init(daemonTaskDefinition: String) {
+            self.daemonTaskDefinition = daemonTaskDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinition = "daemonTaskDefinition"
+        }
+    }
+
+    public struct DescribeDaemonTaskDefinitionResponse: AWSDecodableShape {
+        /// The full daemon task definition description.
+        public let daemonTaskDefinition: DaemonTaskDefinition?
+
+        @inlinable
+        public init(daemonTaskDefinition: DaemonTaskDefinition? = nil) {
+            self.daemonTaskDefinition = daemonTaskDefinition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinition = "daemonTaskDefinition"
         }
     }
 
@@ -3620,11 +4877,13 @@ extension ECS {
         public let scalingTarget: ExpressGatewayScalingTarget?
         /// The ARN of the service revision.
         public let serviceRevisionArn: String?
+        /// The ARN of the task definition used by this service revision. This is present for all Express services and reflects the task definition in use, whether managed by Amazon ECS or provided by the customer.
+        public let taskDefinitionArn: String?
         /// The ARN of the task role for the service revision.
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cpu: String? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, ingressPaths: [IngressPathSummary]? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceRevisionArn: String? = nil, taskRoleArn: String? = nil) {
+        public init(cpu: String? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, ingressPaths: [IngressPathSummary]? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceRevisionArn: String? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cpu = cpu
             self.createdAt = createdAt
             self.executionRoleArn = executionRoleArn
@@ -3635,6 +4894,7 @@ extension ECS {
             self.primaryContainer = primaryContainer
             self.scalingTarget = scalingTarget
             self.serviceRevisionArn = serviceRevisionArn
+            self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
         }
 
@@ -3649,6 +4909,7 @@ extension ECS {
             case primaryContainer = "primaryContainer"
             case scalingTarget = "scalingTarget"
             case serviceRevisionArn = "serviceRevisionArn"
+            case taskDefinitionArn = "taskDefinitionArn"
             case taskRoleArn = "taskRoleArn"
         }
     }
@@ -3942,14 +5203,17 @@ extension ECS {
         public let lastUpdated: Date?
         /// The container instance health status.
         public let status: InstanceHealthCheckState?
+        /// The reason for the container instance health status.
+        public let statusReason: String?
         /// The type of container instance health status that was verified.
         public let type: InstanceHealthCheckType?
 
         @inlinable
-        public init(lastStatusChange: Date? = nil, lastUpdated: Date? = nil, status: InstanceHealthCheckState? = nil, type: InstanceHealthCheckType? = nil) {
+        public init(lastStatusChange: Date? = nil, lastUpdated: Date? = nil, status: InstanceHealthCheckState? = nil, statusReason: String? = nil, type: InstanceHealthCheckType? = nil) {
             self.lastStatusChange = lastStatusChange
             self.lastUpdated = lastUpdated
             self.status = status
+            self.statusReason = statusReason
             self.type = type
         }
 
@@ -3957,6 +5221,7 @@ extension ECS {
             case lastStatusChange = "lastStatusChange"
             case lastUpdated = "lastUpdated"
             case status = "status"
+            case statusReason = "statusReason"
             case type = "type"
         }
     }
@@ -3968,24 +5233,30 @@ extension ECS {
         public let capacityReservations: CapacityReservationRequest?
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see Amazon ECS instance profile for Managed Instances in the Amazon ECS Developer Guide.
         public let ec2InstanceProfileArn: String
-        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in AWS GovCloud (US) regions and FIPS disabled in other regions.
+        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in Amazon Web Services GovCloud (US) regions and FIPS disabled in other regions.
         public let fipsEnabled: Bool?
+        /// Determines whether tags are propagated to the instance metadata service (IMDS) for Amazon EC2 instances launched by the Managed Instances capacity provider. When enabled, all tags associated with the instance are available through the instance metadata service. When disabled, tags are not propagated to IMDS. Disable this setting if your tags contain characters that are not compatible with IMDS, such as /. IMDS requires tag keys to match the pattern [0-9a-zA-Z\-_+=,.@:]{1,255}. The default value is true. For more information, see Work with instance tags in instance metadata in the Amazon EC2 User Guide.
+        public let instanceMetadataTagsPropagation: Bool?
         /// The instance requirements. You can specify:   The instance types   Instance requirements such as vCPU count, memory, network performance, and accelerator specifications   Amazon ECS automatically selects the instances that match the specified criteria.
         public let instanceRequirements: InstanceRequirementsRequest?
+        /// The local storage configuration for Amazon ECS Managed Instances. This defines how ECS uses instance store volumes available on the container instance.
+        public let localStorageConfiguration: ManagedInstancesLocalStorageConfiguration?
         /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see Detailed monitoring for Amazon ECS Managed Instances in the Amazon ECS Developer Guide.
         public let monitoring: ManagedInstancesMonitoringOptions?
         /// The network configuration for Amazon ECS Managed Instances. This specifies the subnets and security groups that instances use for network connectivity.
         public let networkConfiguration: ManagedInstancesNetworkConfiguration
-        /// The storage configuration for Amazon ECS Managed Instances. This defines the root volume size and type for the instances.
+        /// The storage configuration for Amazon ECS Managed Instances. This defines the data volume properties for the instances.
         public let storageConfiguration: ManagedInstancesStorageConfiguration?
 
         @inlinable
-        public init(capacityOptionType: CapacityOptionType? = nil, capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String, fipsEnabled: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+        public init(capacityOptionType: CapacityOptionType? = nil, capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String, fipsEnabled: Bool? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
             self.capacityOptionType = capacityOptionType
             self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.fipsEnabled = fipsEnabled
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.storageConfiguration = storageConfiguration
@@ -4001,7 +5272,9 @@ extension ECS {
             case capacityReservations = "capacityReservations"
             case ec2InstanceProfileArn = "ec2InstanceProfileArn"
             case fipsEnabled = "fipsEnabled"
+            case instanceMetadataTagsPropagation = "instanceMetadataTagsPropagation"
             case instanceRequirements = "instanceRequirements"
+            case localStorageConfiguration = "localStorageConfiguration"
             case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
             case storageConfiguration = "storageConfiguration"
@@ -4013,8 +5286,12 @@ extension ECS {
         public let capacityReservations: CapacityReservationRequest?
         /// The updated Amazon Resource Name (ARN) of the instance profile. The new instance profile must have the necessary permissions for your tasks. For more information, see Amazon ECS instance profile for Managed Instances in the Amazon ECS Developer Guide.
         public let ec2InstanceProfileArn: String?
+        /// Determines whether tags are propagated to the instance metadata service (IMDS) for Amazon EC2 instances launched by the Managed Instances capacity provider. When enabled, all tags associated with the instance are available through the instance metadata service. When disabled, tags are not propagated to IMDS. Disable this setting if your tags contain characters that are not compatible with IMDS, such as /. IMDS requires tag keys to match the pattern [0-9a-zA-Z\-_+=,.@:]{1,255}. The default value is true. For more information, see Work with instance tags in instance metadata in the Amazon EC2 User Guide.
+        public let instanceMetadataTagsPropagation: Bool?
         /// The updated instance requirements for attribute-based instance type selection. Changes to instance requirements affect which instance types Amazon ECS selects for new instances.
         public let instanceRequirements: InstanceRequirementsRequest?
+        /// The updated local storage configuration for Amazon ECS Managed Instances. Changes to local storage settings apply to new instances launched after the update.
+        public let localStorageConfiguration: ManagedInstancesLocalStorageConfiguration?
         /// CloudWatch provides two categories of monitoring: basic monitoring and detailed monitoring. By default, your managed instance is configured for basic monitoring. You can optionally enable detailed monitoring to help you more quickly identify and act on operational issues. You can enable or turn off detailed monitoring at launch or when the managed instance is running or stopped. For more information, see Detailed monitoring for Amazon ECS Managed Instances in the Amazon ECS Developer Guide.
         public let monitoring: ManagedInstancesMonitoringOptions?
         /// The updated network configuration for Amazon ECS Managed Instances. Changes to subnets and security groups affect new instances launched after the update.
@@ -4023,10 +5300,12 @@ extension ECS {
         public let storageConfiguration: ManagedInstancesStorageConfiguration?
 
         @inlinable
-        public init(capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+        public init(capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
             self.capacityReservations = capacityReservations
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
             self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.storageConfiguration = storageConfiguration
@@ -4040,7 +5319,9 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case capacityReservations = "capacityReservations"
             case ec2InstanceProfileArn = "ec2InstanceProfileArn"
+            case instanceMetadataTagsPropagation = "instanceMetadataTagsPropagation"
             case instanceRequirements = "instanceRequirements"
+            case localStorageConfiguration = "localStorageConfiguration"
             case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
             case storageConfiguration = "storageConfiguration"
@@ -4235,7 +5516,7 @@ extension ECS {
         public let sharedMemorySize: Int?
         /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run.  If you're using tasks that use the Fargate launch type, the swappiness parameter isn't supported. If you're using tasks on Amazon Linux 2023 the swappiness parameter isn't supported.
         public let swappiness: Int?
-        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.  If you're using tasks that use the Fargate launch type, the tmpfs parameter isn't supported.
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.
         public let tmpfs: [Tmpfs]?
 
         @inlinable
@@ -4444,6 +5725,154 @@ extension ECS {
 
         private enum CodingKeys: String, CodingKey {
             case containerInstanceArns = "containerInstanceArns"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDaemonDeploymentsRequest: AWSEncodableShape {
+        /// An optional filter to narrow the ListDaemonDeployments results by creation time. If you don't specify a time range, all deployments are returned.
+        public let createdAt: CreatedAt?
+        /// The Amazon Resource Name (ARN) of the daemon to list deployments for.
+        public let daemonArn: String
+        /// The maximum number of daemon deployment results that ListDaemonDeployments returned in paginated output. When this parameter is used, ListDaemonDeployments only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonDeployments request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonDeployments returns up to 20 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a ListDaemonDeployments request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// An optional filter to narrow the ListDaemonDeployments results by deployment status. If you don't specify a status, all deployments are returned.
+        public let status: [DaemonDeploymentStatus]?
+
+        @inlinable
+        public init(createdAt: CreatedAt? = nil, daemonArn: String, maxResults: Int? = nil, nextToken: String? = nil, status: [DaemonDeploymentStatus]? = nil) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case status = "status"
+        }
+    }
+
+    public struct ListDaemonDeploymentsResponse: AWSDecodableShape {
+        /// The list of daemon deployment summaries.
+        public let daemonDeployments: [DaemonDeploymentSummary]?
+        /// The nextToken value to include in a future ListDaemonDeployments request. When the results of a ListDaemonDeployments request exceed maxResults, this value can be used to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(daemonDeployments: [DaemonDeploymentSummary]? = nil, nextToken: String? = nil) {
+            self.daemonDeployments = daemonDeployments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonDeployments = "daemonDeployments"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDaemonTaskDefinitionsRequest: AWSEncodableShape {
+        /// The exact name of the daemon task definition family to filter results with.
+        public let family: String?
+        /// The full family name to filter the ListDaemonTaskDefinitions results with. Specifying a familyPrefix limits the listed daemon task definitions to daemon task definition families that start with the familyPrefix string.
+        public let familyPrefix: String?
+        /// The maximum number of daemon task definition results that ListDaemonTaskDefinitions returned in paginated output. When this parameter is used, ListDaemonTaskDefinitions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemonTaskDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemonTaskDefinitions returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a ListDaemonTaskDefinitions request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The revision filter to apply. Specify LAST_REGISTERED to return only the last registered revision for each daemon task definition family.
+        public let revision: DaemonTaskDefinitionRevisionFilter?
+        /// The order to sort the results. Valid values are ASC and DESC. By default (ASC), daemon task definitions are listed in ascending order by family name and revision number.
+        public let sort: SortOrder?
+        /// The daemon task definition status to filter the ListDaemonTaskDefinitions results with. By default, only ACTIVE daemon task definitions are listed. If you set this parameter to DELETE_IN_PROGRESS, only daemon task definitions that are in the process of being deleted are listed. If you set this parameter to ALL, all daemon task definitions are listed regardless of status.
+        public let status: DaemonTaskDefinitionStatusFilter?
+
+        @inlinable
+        public init(family: String? = nil, familyPrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, revision: DaemonTaskDefinitionRevisionFilter? = nil, sort: SortOrder? = nil, status: DaemonTaskDefinitionStatusFilter? = nil) {
+            self.family = family
+            self.familyPrefix = familyPrefix
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.revision = revision
+            self.sort = sort
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case family = "family"
+            case familyPrefix = "familyPrefix"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case revision = "revision"
+            case sort = "sort"
+            case status = "status"
+        }
+    }
+
+    public struct ListDaemonTaskDefinitionsResponse: AWSDecodableShape {
+        /// The list of daemon task definition summaries.
+        public let daemonTaskDefinitions: [DaemonTaskDefinitionSummary]?
+        /// The nextToken value to include in a future ListDaemonTaskDefinitions request. When the results of a ListDaemonTaskDefinitions request exceed maxResults, this value can be used to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(daemonTaskDefinitions: [DaemonTaskDefinitionSummary]? = nil, nextToken: String? = nil) {
+            self.daemonTaskDefinitions = daemonTaskDefinitions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinitions = "daemonTaskDefinitions"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDaemonsRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the capacity providers to filter daemons by. Only daemons associated with the specified capacity providers are returned.
+        public let capacityProviderArns: [String]?
+        /// The Amazon Resource Name (ARN) of the cluster to filter daemons by. If you do not specify a cluster, the default cluster is assumed.
+        public let clusterArn: String?
+        /// The maximum number of daemon results that ListDaemons returned in paginated output. When this parameter is used, ListDaemons only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDaemons request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListDaemons returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a ListDaemons request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it's possible for the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityProviderArns: [String]? = nil, clusterArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityProviderArns = capacityProviderArns
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProviderArns = "capacityProviderArns"
+            case clusterArn = "clusterArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListDaemonsResponse: AWSDecodableShape {
+        /// The list of daemon summaries.
+        public let daemonSummariesList: [DaemonSummary]?
+        /// The nextToken value to include in a future ListDaemons request. When the results of a ListDaemons request exceed maxResults, this value can be used to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(daemonSummariesList: [DaemonSummary]? = nil, nextToken: String? = nil) {
+            self.daemonSummariesList = daemonSummariesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonSummariesList = "daemonSummariesList"
             case nextToken = "nextToken"
         }
     }
@@ -4717,6 +6146,8 @@ extension ECS {
         public let cluster: String?
         /// The container instance ID or full ARN of the container instance to use when filtering the ListTasks results. Specifying a containerInstance limits the results to tasks that belong to that container instance.
         public let containerInstance: String?
+        /// The name of the daemon to use when filtering the ListTasks results. Specifying a daemonName limits the results to tasks that belong to that daemon.
+        public let daemonName: String?
         /// The task desired status to use when filtering the ListTasks results. Specifying a desiredStatus of STOPPED limits the results to tasks that Amazon ECS has set the desired status to STOPPED. This can be useful for debugging tasks that aren't starting properly or have died or finished. The default status filter is RUNNING, which shows tasks that Amazon ECS has set the desired status to RUNNING.  Although you can filter results based on a desired status of PENDING, this doesn't return any results. Amazon ECS never sets the desired status of a task to that value (only a task's lastStatus may have a value of PENDING).
         public let desiredStatus: DesiredStatus?
         /// The name of the task definition family to use when filtering the ListTasks results. Specifying a family limits the results to tasks that belong to that family.
@@ -4733,9 +6164,10 @@ extension ECS {
         public let startedBy: String?
 
         @inlinable
-        public init(cluster: String? = nil, containerInstance: String? = nil, desiredStatus: DesiredStatus? = nil, family: String? = nil, launchType: LaunchType? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil, startedBy: String? = nil) {
+        public init(cluster: String? = nil, containerInstance: String? = nil, daemonName: String? = nil, desiredStatus: DesiredStatus? = nil, family: String? = nil, launchType: LaunchType? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceName: String? = nil, startedBy: String? = nil) {
             self.cluster = cluster
             self.containerInstance = containerInstance
+            self.daemonName = daemonName
             self.desiredStatus = desiredStatus
             self.family = family
             self.launchType = launchType
@@ -4748,6 +6180,7 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case cluster = "cluster"
             case containerInstance = "containerInstance"
+            case daemonName = "daemonName"
             case desiredStatus = "desiredStatus"
             case family = "family"
             case launchType = "launchType"
@@ -5008,6 +6441,20 @@ extension ECS {
         }
     }
 
+    public struct ManagedInstancesLocalStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Use instance store volumes for data storage when available. EBS volumes are not provisioned for data storage. If the container instance has multiple instance store volumes, a single data volume is created. Consider defining instance store requirements using the localStorage, localStorageTypes and totalLocalStorageGB properties.
+        public let useLocalStorage: Bool?
+
+        @inlinable
+        public init(useLocalStorage: Bool? = nil) {
+            self.useLocalStorage = useLocalStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useLocalStorage = "useLocalStorage"
+        }
+    }
+
     public struct ManagedInstancesNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The list of security group IDs to apply to Amazon ECS Managed Instances. These security groups control the network traffic allowed to and from the instances.
         public let securityGroups: [String]?
@@ -5027,6 +6474,8 @@ extension ECS {
     }
 
     public struct ManagedInstancesProvider: AWSDecodableShape {
+        /// The auto repair configuration for the Amazon ECS Managed Instances capacity provider. Indicates whether Amazon ECS automatically replaces container instances that are detected as unhealthy.
+        public let autoRepairConfiguration: AutoRepairConfiguration?
         /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Configure it to turn on or off the infrastructure optimization in your capacity provider, and to control the idle or underutilized EC2 instances optimization delay.
         public let infrastructureOptimization: InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS assumes to manage instances. This role must include permissions for Amazon EC2 instance lifecycle management, networking, and any additional Amazon Web Services services required for your workloads. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
@@ -5037,7 +6486,8 @@ extension ECS {
         public let propagateTags: PropagateMITags?
 
         @inlinable
-        public init(infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String? = nil, instanceLaunchTemplate: InstanceLaunchTemplate? = nil, propagateTags: PropagateMITags? = nil) {
+        public init(autoRepairConfiguration: AutoRepairConfiguration? = nil, infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String? = nil, instanceLaunchTemplate: InstanceLaunchTemplate? = nil, propagateTags: PropagateMITags? = nil) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -5045,6 +6495,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoRepairConfiguration = "autoRepairConfiguration"
             case infrastructureOptimization = "infrastructureOptimization"
             case infrastructureRoleArn = "infrastructureRoleArn"
             case instanceLaunchTemplate = "instanceLaunchTemplate"
@@ -5053,7 +6504,7 @@ extension ECS {
     }
 
     public struct ManagedInstancesStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The size of the tasks volume.
+        /// The size of the data volume.
         public let storageSizeGiB: Int?
 
         @inlinable
@@ -5409,6 +6860,56 @@ extension ECS {
         }
     }
 
+    public struct MetricConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of metric names to configure. The supported metric names are CPUUtilization and MemoryUtilization.
+        public let metricNames: [String]
+        /// The resolution, in seconds, at which to collect the metrics. The valid values are 20 and 60.
+        public let resolutionSeconds: Int
+
+        @inlinable
+        public init(metricNames: [String], resolutionSeconds: Int) {
+            self.metricNames = metricNames
+            self.resolutionSeconds = resolutionSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.metricNames.forEach {
+                try validate($0, name: "metricNames[]", parent: name, max: 255)
+                try validate($0, name: "metricNames[]", parent: name, min: 1)
+            }
+            try self.validate(self.metricNames, name: "metricNames", parent: name, max: 5)
+            try self.validate(self.metricNames, name: "metricNames", parent: name, min: 1)
+            try self.validate(self.resolutionSeconds, name: "resolutionSeconds", parent: name, max: 60)
+            try self.validate(self.resolutionSeconds, name: "resolutionSeconds", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricNames = "metricNames"
+            case resolutionSeconds = "resolutionSeconds"
+        }
+    }
+
+    public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of metric configurations for the service monitoring.
+        public let metricConfigurations: [MetricConfiguration]?
+
+        @inlinable
+        public init(metricConfigurations: [MetricConfiguration]? = nil) {
+            self.metricConfigurations = metricConfigurations
+        }
+
+        public func validate(name: String) throws {
+            try self.metricConfigurations?.forEach {
+                try $0.validate(name: "\(name).metricConfigurations[]")
+            }
+            try self.validate(self.metricConfigurations, name: "metricConfigurations", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricConfigurations = "metricConfigurations"
+        }
+    }
+
     public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
         /// The path on the container to mount the host volume at.
         public let containerPath: String?
@@ -5574,9 +7075,9 @@ extension ECS {
     }
 
     public struct PlatformDevice: AWSEncodableShape {
-        /// The ID for the GPUs on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
+        /// The ID for the GPU or Neuron device on the container instance. For GPUs, the available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file. For Neuron devices, the ID corresponds to the device index (for example, 0 for /dev/neuron0).
         public let id: String
-        /// The type of device that's available on the container instance. The only supported value is GPU.
+        /// The type of device that's available on the container instance. The supported values are GPU and NEURON_DEVICE.
         public let type: PlatformDeviceType
 
         @inlinable
@@ -5822,7 +7323,7 @@ extension ECS {
         public let instanceIdentityDocument: String?
         /// The instance identity document signature for the EC2 instance to register. This signature can be found by running the following command from the instance: curl http://169.254.169.254/latest/dynamic/instance-identity/signature/
         public let instanceIdentityDocumentSignature: String?
-        /// The devices that are available on the container instance. The only supported device type is a GPU.
+        /// The devices that are available on the container instance. The supported device types are GPUs and Neuron devices.
         public let platformDevices: [PlatformDevice]?
         /// The metadata that you apply to the container instance to help you categorize and organize them. Each tag consists of a key and an optional value. You define both. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]?
@@ -5878,6 +7379,77 @@ extension ECS {
         }
     }
 
+    public struct RegisterDaemonTaskDefinitionRequest: AWSEncodableShape {
+        /// A list of container definitions in JSON format that describe the containers that make up your daemon task.
+        public let containerDefinitions: [DaemonContainerDefinition]
+        /// The number of CPU units used by the daemon task. It can be expressed as an integer using CPU units (for example, 1024).
+        public let cpu: String?
+        /// The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. The task execution role is required for daemon tasks that pull container images from Amazon ECR or send container logs to CloudWatch.
+        public let executionRoleArn: String?
+        /// You must specify a family for a daemon task definition. This family is used as a name for your daemon task definition. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
+        public let family: String
+        /// The IPC namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own IPC namespace, isolated from other tasks. If shared is specified, the daemon joins the host IPC namespace, making it accessible to non-daemon tasks that use ipcMode: "host" or other daemons that use ipcMode: "shared".
+        public let ipcMode: DaemonIpcMode?
+        /// The amount of memory (in MiB) used by the daemon task. It can be expressed as an integer using MiB (for example, 1024).
+        public let memory: String?
+        /// The PID namespace mode for the daemon. The valid values are none and shared. The default is none. If none is specified or no value is provided, the daemon runs with its own PID namespace, isolated from other tasks. If shared is specified, the daemon joins the host PID namespace, making it accessible to non-daemon tasks that use pidMode: "host" or other daemons that use pidMode: "shared".
+        public let pidMode: DaemonPidMode?
+        /// The metadata that you apply to the daemon task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
+        public let tags: [Tag]?
+        /// The short name or full Amazon Resource Name (ARN) of the IAM role that containers in this daemon task can assume. All containers in this daemon task are granted the permissions that are specified in this role.
+        public let taskRoleArn: String?
+        /// A list of volume definitions in JSON format that containers in your daemon task can use.
+        public let volumes: [DaemonVolume]?
+
+        @inlinable
+        public init(containerDefinitions: [DaemonContainerDefinition], cpu: String? = nil, executionRoleArn: String? = nil, family: String, ipcMode: DaemonIpcMode? = nil, memory: String? = nil, pidMode: DaemonPidMode? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [DaemonVolume]? = nil) {
+            self.containerDefinitions = containerDefinitions
+            self.cpu = cpu
+            self.executionRoleArn = executionRoleArn
+            self.family = family
+            self.ipcMode = ipcMode
+            self.memory = memory
+            self.pidMode = pidMode
+            self.tags = tags
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerDefinitions = "containerDefinitions"
+            case cpu = "cpu"
+            case executionRoleArn = "executionRoleArn"
+            case family = "family"
+            case ipcMode = "ipcMode"
+            case memory = "memory"
+            case pidMode = "pidMode"
+            case tags = "tags"
+            case taskRoleArn = "taskRoleArn"
+            case volumes = "volumes"
+        }
+    }
+
+    public struct RegisterDaemonTaskDefinitionResponse: AWSDecodableShape {
+        /// The full Amazon Resource Name (ARN) of the registered daemon task definition.
+        public let daemonTaskDefinitionArn: String?
+
+        @inlinable
+        public init(daemonTaskDefinitionArn: String? = nil) {
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
+        }
+    }
+
     public struct RegisterTaskDefinitionRequest: AWSEncodableShape {
         /// A list of container definitions in JSON format that describe the different containers that make up your task.
         public let containerDefinitions: [ContainerDefinition]
@@ -5916,6 +7488,29 @@ extension ECS {
         /// A list of volume definitions in JSON format that containers in your task might use.
         public let volumes: [Volume]?
 
+        @inlinable
+        public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+            self.containerDefinitions = containerDefinitions
+            self.cpu = cpu
+            self.enableFaultInjection = enableFaultInjection
+            self.ephemeralStorage = ephemeralStorage
+            self.executionRoleArn = executionRoleArn
+            self.family = family
+            self.inferenceAccelerators = nil
+            self.ipcMode = ipcMode
+            self.memory = memory
+            self.networkMode = networkMode
+            self.pidMode = pidMode
+            self.placementConstraints = placementConstraints
+            self.proxyConfiguration = proxyConfiguration
+            self.requiresCompatibilities = requiresCompatibilities
+            self.runtimePlatform = runtimePlatform
+            self.tags = tags
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+
+        @available(*, deprecated, message: "Members inferenceAccelerators have been deprecated")
         @inlinable
         public init(containerDefinitions: [ContainerDefinition], cpu: String? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, requiresCompatibilities: [Compatibility]? = nil, runtimePlatform: RuntimePlatform? = nil, tags: [Tag]? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containerDefinitions = containerDefinitions
@@ -6050,7 +7645,7 @@ extension ECS {
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container.
         public let type: ResourceType
-        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. When the type is InferenceAccelerator, the value matches the deviceName for an InferenceAccelerator specified in a task definition.
+        /// The value for the specified resource type. When the type is GPU, the value is the number of physical GPUs the Amazon ECS container agent reserves for the container. The number of GPUs that's reserved for all containers in a task can't exceed the number of available GPUs on the container instance that the task is launched on. You can also specify ALL to allocate all available GPUs on the instance to the container. When the type is NeuronDevice, the value must be ALL. This allocates all available Neuron devices on the instance to the container. Only one container in a task can specify NeuronDevice resources. This resource type is only supported on Managed Instances. When the type is InferenceAccelerator, the value matches the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
         @inlinable
@@ -6219,6 +7814,46 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case cpuArchitecture = "cpuArchitecture"
             case operatingSystemFamily = "operatingSystemFamily"
+        }
+    }
+
+    public struct RuntimePlatformOverride: AWSDecodableShape {
+        /// The CPU architecture that tasks in this service revision run on. This value might differ from the architecture declared in the task definition—for example, when Amazon ECS detects an architecture mismatch during an Amazon ECS Express deployment and runs tasks on a different architecture. You can't set this value. Valid values:    X86_64 - The x86 64-bit architecture.    ARM64 - The 64-bit ARM architecture.
+        public let cpuArchitecture: String?
+
+        @inlinable
+        public init(cpuArchitecture: String? = nil) {
+            self.cpuArchitecture = cpuArchitecture
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuArchitecture = "cpuArchitecture"
+        }
+    }
+
+    public struct S3FilesVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The full ARN of the S3 Files access point to use. If an access point is specified, the root directory value specified in the S3FilesVolumeConfiguration must either be omitted or set to / which will enforce the path set on the S3 Files access point. For more information, see Creating S3 Files access points.
+        public let accessPointArn: String?
+        /// The full ARN of the S3 Files file system to mount.
+        public let fileSystemArn: String
+        /// The directory within the Amazon S3 Files file system to mount as the root directory. If this parameter is omitted, the root of the Amazon S3 Files file system will be used. Specifying / will have the same effect as omitting this parameter.  If a S3 Files access point is specified in the accessPointArn, the root directory parameter must either be omitted or set to / which will enforce the path set on the S3 Files access point.
+        public let rootDirectory: String?
+        /// The port to use for sending encrypted data between the ECS host and the S3 Files file system. If you do not specify a transit encryption port, it will use the port selection strategy that the Amazon S3 Files mount helper uses. For more information, see S3 Files mount helper.
+        public let transitEncryptionPort: Int?
+
+        @inlinable
+        public init(accessPointArn: String? = nil, fileSystemArn: String, rootDirectory: String? = nil, transitEncryptionPort: Int? = nil) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemArn = fileSystemArn
+            self.rootDirectory = rootDirectory
+            self.transitEncryptionPort = transitEncryptionPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "accessPointArn"
+            case fileSystemArn = "fileSystemArn"
+            case rootDirectory = "rootDirectory"
+            case transitEncryptionPort = "transitEncryptionPort"
         }
     }
 
@@ -6669,7 +8304,9 @@ extension ECS {
         public let deploymentConfiguration: DeploymentConfiguration?
         /// The time the service deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
         public let finishedAt: Date?
-        /// The current lifecycle stage of the deployment. Possible values include:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   SCALE_UP The stage when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.   BAKE_TIME The stage when both blue and green service revisions are running simultaneously after the production traffic has shifted.   CLEAN_UP The stage when the blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage.
+        /// The details of the lifecycle hooks for the current service deployment.
+        public let lifecycleHookDetails: [DeploymentLifecycleHookDetail]?
+        /// The current lifecycle stage of the deployment. Possible values include:   RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state.   PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   SCALE_UP The stage when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point.   POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic.   TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic.   POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.   PRE_PRODUCTION_TRAFFIC_SHIFT Occurs before production traffic shift. For linear and canary deployments, this stage is invoked before every traffic shift step.   PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. For linear and canary deployments, this stage is invoked at every traffic shift step.   POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.   BAKE_TIME The stage when both blue and green service revisions are running simultaneously after the production traffic has shifted.   CLEAN_UP The stage when the blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage.
         public let lifecycleStage: ServiceDeploymentLifecycleStage?
         /// The rollback options the service deployment uses when the deployment fails.
         public let rollback: Rollback?
@@ -6693,13 +8330,14 @@ extension ECS {
         public let updatedAt: Date?
 
         @inlinable
-        public init(alarms: ServiceDeploymentAlarms? = nil, clusterArn: String? = nil, createdAt: Date? = nil, deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, finishedAt: Date? = nil, lifecycleStage: ServiceDeploymentLifecycleStage? = nil, rollback: Rollback? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, sourceServiceRevisions: [ServiceRevisionSummary]? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetServiceRevision: ServiceRevisionSummary? = nil, updatedAt: Date? = nil) {
+        public init(alarms: ServiceDeploymentAlarms? = nil, clusterArn: String? = nil, createdAt: Date? = nil, deploymentCircuitBreaker: ServiceDeploymentCircuitBreaker? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, finishedAt: Date? = nil, lifecycleHookDetails: [DeploymentLifecycleHookDetail]? = nil, lifecycleStage: ServiceDeploymentLifecycleStage? = nil, rollback: Rollback? = nil, serviceArn: String? = nil, serviceDeploymentArn: String? = nil, sourceServiceRevisions: [ServiceRevisionSummary]? = nil, startedAt: Date? = nil, status: ServiceDeploymentStatus? = nil, statusReason: String? = nil, stoppedAt: Date? = nil, targetServiceRevision: ServiceRevisionSummary? = nil, updatedAt: Date? = nil) {
             self.alarms = alarms
             self.clusterArn = clusterArn
             self.createdAt = createdAt
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.deploymentConfiguration = deploymentConfiguration
             self.finishedAt = finishedAt
+            self.lifecycleHookDetails = lifecycleHookDetails
             self.lifecycleStage = lifecycleStage
             self.rollback = rollback
             self.serviceArn = serviceArn
@@ -6720,6 +8358,7 @@ extension ECS {
             case deploymentCircuitBreaker = "deploymentCircuitBreaker"
             case deploymentConfiguration = "deploymentConfiguration"
             case finishedAt = "finishedAt"
+            case lifecycleHookDetails = "lifecycleHookDetails"
             case lifecycleStage = "lifecycleStage"
             case rollback = "rollback"
             case serviceArn = "serviceArn"
@@ -6950,7 +8589,11 @@ extension ECS {
         public let launchType: LaunchType?
         /// The load balancers the service revision uses.
         public let loadBalancers: [LoadBalancer]?
+        /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+        public let monitoring: MonitoringConfiguration?
         public let networkConfiguration: NetworkConfiguration?
+        /// The effective runtime overrides that Amazon ECS applies to this service revision. This value is present only when Amazon ECS detects a difference between the task definition and the actual runtime configuration.
+        public let overrides: ServiceRevisionOverrides?
         /// The platform family the service revision uses.
         public let platformFamily: String?
         /// For the Fargate launch type, the platform version the service revision uses.
@@ -6972,7 +8615,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, ecsManagedResources: ECSManagedResources? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, platformFamily: String? = nil, platformVersion: String? = nil, resolvedConfiguration: ResolvedConfiguration? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, clusterArn: String? = nil, containerImages: [ContainerImage]? = nil, createdAt: Date? = nil, ecsManagedResources: ECSManagedResources? = nil, fargateEphemeralStorage: DeploymentEphemeralStorage? = nil, guardDutyEnabled: Bool? = nil, launchType: LaunchType? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, overrides: ServiceRevisionOverrides? = nil, platformFamily: String? = nil, platformVersion: String? = nil, resolvedConfiguration: ResolvedConfiguration? = nil, serviceArn: String? = nil, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, serviceRevisionArn: String? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.capacityProviderStrategy = capacityProviderStrategy
             self.clusterArn = clusterArn
             self.containerImages = containerImages
@@ -6982,7 +8625,9 @@ extension ECS {
             self.guardDutyEnabled = guardDutyEnabled
             self.launchType = launchType
             self.loadBalancers = loadBalancers
+            self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
+            self.overrides = overrides
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion
             self.resolvedConfiguration = resolvedConfiguration
@@ -7005,7 +8650,9 @@ extension ECS {
             case guardDutyEnabled = "guardDutyEnabled"
             case launchType = "launchType"
             case loadBalancers = "loadBalancers"
+            case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
+            case overrides = "overrides"
             case platformFamily = "platformFamily"
             case platformVersion = "platformVersion"
             case resolvedConfiguration = "resolvedConfiguration"
@@ -7034,6 +8681,20 @@ extension ECS {
         private enum CodingKeys: String, CodingKey {
             case productionListenerRule = "productionListenerRule"
             case targetGroupArn = "targetGroupArn"
+        }
+    }
+
+    public struct ServiceRevisionOverrides: AWSDecodableShape {
+        /// The runtime platform override that Amazon ECS automatically applies to the service revision. You can't set this value.
+        public let runtimePlatform: RuntimePlatformOverride?
+
+        @inlinable
+        public init(runtimePlatform: RuntimePlatformOverride? = nil) {
+            self.runtimePlatform = runtimePlatform
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimePlatform = "runtimePlatform"
         }
     }
 
@@ -7689,6 +9350,8 @@ extension ECS {
         public let containerDefinitions: [ContainerDefinition]?
         /// The number of cpu units used by the task. If you use the EC2 launch type, this field is optional. Any value can be used. If you use the Fargate launch type, this field is required. You must use one of the following values. The value that you choose determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this field is optional. Supported values are between 128 CPU units (0.125 vCPUs) and 196608 CPU units (192 vCPUs).  This field is required for Fargate. For information about the valid values, see Task size in the Amazon Elastic Container Service Developer Guide.
         public let cpu: String?
+        /// The Unix timestamp for the time when the task definition delete was requested.
+        public let deleteRequestedAt: Date?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public let deregisteredAt: Date?
         /// Enables fault injection and allows for fault injection requests to be accepted from the task's containers. The default value is false.
@@ -7735,10 +9398,11 @@ extension ECS {
         public let volumes: [Volume]?
 
         @inlinable
-        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, deregisteredAt: Date? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, runtimePlatform: RuntimePlatform? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(compatibilities: [Compatibility]? = nil, containerDefinitions: [ContainerDefinition]? = nil, cpu: String? = nil, deleteRequestedAt: Date? = nil, deregisteredAt: Date? = nil, enableFaultInjection: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, family: String? = nil, inferenceAccelerators: [InferenceAccelerator]? = nil, ipcMode: IpcMode? = nil, memory: String? = nil, networkMode: NetworkMode? = nil, pidMode: PidMode? = nil, placementConstraints: [TaskDefinitionPlacementConstraint]? = nil, proxyConfiguration: ProxyConfiguration? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, requiresAttributes: [Attribute]? = nil, requiresCompatibilities: [Compatibility]? = nil, revision: Int? = nil, runtimePlatform: RuntimePlatform? = nil, status: TaskDefinitionStatus? = nil, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.compatibilities = compatibilities
             self.containerDefinitions = containerDefinitions
             self.cpu = cpu
+            self.deleteRequestedAt = deleteRequestedAt
             self.deregisteredAt = deregisteredAt
             self.enableFaultInjection = enableFaultInjection
             self.ephemeralStorage = ephemeralStorage
@@ -7767,6 +9431,7 @@ extension ECS {
             case compatibilities = "compatibilities"
             case containerDefinitions = "containerDefinitions"
             case cpu = "cpu"
+            case deleteRequestedAt = "deleteRequestedAt"
             case deregisteredAt = "deregisteredAt"
             case enableFaultInjection = "enableFaultInjection"
             case ephemeralStorage = "ephemeralStorage"
@@ -8076,6 +9741,24 @@ extension ECS {
         }
     }
 
+    public struct ThresholdConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Determines how Amazon ECS uses value to calculate the failure threshold. For the percentage types (BOUNDED_PERCENT and UNBOUNDED_PERCENT), Amazon ECS multiplies value by the latest service desired count. For COUNT, Amazon ECS uses value directly as the threshold. The default is BOUNDED_PERCENT.
+        public let type: ThresholdType
+        /// Specifies the integer that Amazon ECS uses to calculate the failure threshold. When type is COUNT, this value is the failure threshold itself. When type is a percentage type, Amazon ECS multiplies this value by the latest service desired count to produce the failure threshold. The default is 50.
+        public let value: Int
+
+        @inlinable
+        public init(type: ThresholdType, value: Int) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+            case value = "value"
+        }
+    }
+
     public struct TimeoutConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The amount of time in seconds a connection will stay active while idle. A value of 0 can be set to disable idleTimeout. The idleTimeout default for HTTP/HTTP2/GRPC is 5 minutes. The idleTimeout default for TCP is 1 hour.
         public let idleTimeoutSeconds: Int?
@@ -8382,6 +10065,78 @@ extension ECS {
         }
     }
 
+    public struct UpdateDaemonRequest: AWSEncodableShape {
+        /// The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
+        public let capacityProviderArns: [String]
+        /// The Amazon Resource Name (ARN) of the daemon to update.
+        public let daemonArn: String
+        /// The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
+        public let daemonTaskDefinitionArn: String
+        /// Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
+        public let deploymentConfiguration: DaemonDeploymentConfiguration?
+        /// Specifies whether to turn on Amazon ECS managed tags for the tasks in the daemon. For more information, see Tagging your Amazon ECS resources in the Amazon Elastic Container Service Developer Guide.
+        public let enableECSManagedTags: Bool?
+        /// If true, the execute command functionality is turned on for all tasks in the daemon. If false, the execute command functionality is turned off.
+        public let enableExecuteCommand: Bool?
+        /// Specifies whether to propagate the tags from the daemon to the daemon tasks. If you don't specify a value, the tags aren't propagated. You can only propagate tags to daemon tasks during task creation.
+        public let propagateTags: DaemonPropagateTags?
+
+        @inlinable
+        public init(capacityProviderArns: [String], daemonArn: String, daemonTaskDefinitionArn: String, deploymentConfiguration: DaemonDeploymentConfiguration? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, propagateTags: DaemonPropagateTags? = nil) {
+            self.capacityProviderArns = capacityProviderArns
+            self.daemonArn = daemonArn
+            self.daemonTaskDefinitionArn = daemonTaskDefinitionArn
+            self.deploymentConfiguration = deploymentConfiguration
+            self.enableECSManagedTags = enableECSManagedTags
+            self.enableExecuteCommand = enableExecuteCommand
+            self.propagateTags = propagateTags
+        }
+
+        public func validate(name: String) throws {
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityProviderArns = "capacityProviderArns"
+            case daemonArn = "daemonArn"
+            case daemonTaskDefinitionArn = "daemonTaskDefinitionArn"
+            case deploymentConfiguration = "deploymentConfiguration"
+            case enableECSManagedTags = "enableECSManagedTags"
+            case enableExecuteCommand = "enableExecuteCommand"
+            case propagateTags = "propagateTags"
+        }
+    }
+
+    public struct UpdateDaemonResponse: AWSDecodableShape {
+        /// The Unix timestamp for the time when the daemon was created.
+        public let createdAt: Date?
+        /// The Amazon Resource Name (ARN) of the daemon.
+        public let daemonArn: String?
+        /// The Amazon Resource Name (ARN) of the daemon deployment that was triggered by the update.
+        public let deploymentArn: String?
+        /// The status of the daemon.
+        public let status: DaemonStatus?
+        /// The Unix timestamp for the time when the daemon was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, daemonArn: String? = nil, deploymentArn: String? = nil, status: DaemonStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.daemonArn = daemonArn
+            self.deploymentArn = deploymentArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case daemonArn = "daemonArn"
+            case deploymentArn = "deploymentArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct UpdateExpressGatewayServiceRequest: AWSEncodableShape {
         /// The number of CPU units used by the task.
         public let cpu: String?
@@ -8399,11 +10154,13 @@ extension ECS {
         public let scalingTarget: ExpressGatewayScalingTarget?
         /// The Amazon Resource Name (ARN) of the Express service to update.
         public let serviceArn: String
+        /// The Amazon Resource Name (ARN) of a task definition to use to update the Express Gateway service. This allows you to manage your own task definition, giving you more control over the service configuration such as adding sidecar containers. The task definition must have a container named Main with a single TCP port mapping that includes a container port and port name. The task definition must also have FARGATE compatibility. If you provide a task definition ARN, you cannot also specify primaryContainer, executionRoleArn, taskRoleArn, cpu, or memory.
+        public let taskDefinitionArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role for containers in this task.
         public let taskRoleArn: String?
 
         @inlinable
-        public init(cpu: String? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceArn: String, taskRoleArn: String? = nil) {
+        public init(cpu: String? = nil, executionRoleArn: String? = nil, healthCheckPath: String? = nil, memory: String? = nil, networkConfiguration: ExpressGatewayServiceNetworkConfiguration? = nil, primaryContainer: ExpressGatewayContainer? = nil, scalingTarget: ExpressGatewayScalingTarget? = nil, serviceArn: String, taskDefinitionArn: String? = nil, taskRoleArn: String? = nil) {
             self.cpu = cpu
             self.executionRoleArn = executionRoleArn
             self.healthCheckPath = healthCheckPath
@@ -8412,6 +10169,7 @@ extension ECS {
             self.primaryContainer = primaryContainer
             self.scalingTarget = scalingTarget
             self.serviceArn = serviceArn
+            self.taskDefinitionArn = taskDefinitionArn
             self.taskRoleArn = taskRoleArn
         }
 
@@ -8424,6 +10182,7 @@ extension ECS {
             case primaryContainer = "primaryContainer"
             case scalingTarget = "scalingTarget"
             case serviceArn = "serviceArn"
+            case taskDefinitionArn = "taskDefinitionArn"
             case taskRoleArn = "taskRoleArn"
         }
     }
@@ -8443,6 +10202,8 @@ extension ECS {
     }
 
     public struct UpdateManagedInstancesProviderConfiguration: AWSEncodableShape {
+        /// The updated auto repair configuration for the Amazon ECS Managed Instances capacity provider.
+        public let autoRepairConfiguration: AutoRepairConfiguration?
         /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
         public let infrastructureOptimization: InfrastructureOptimization?
         /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see Amazon ECS infrastructure IAM role in the Amazon ECS Developer Guide.
@@ -8453,7 +10214,8 @@ extension ECS {
         public let propagateTags: PropagateMITags?
 
         @inlinable
-        public init(infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplateUpdate, propagateTags: PropagateMITags? = nil) {
+        public init(autoRepairConfiguration: AutoRepairConfiguration? = nil, infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String, instanceLaunchTemplate: InstanceLaunchTemplateUpdate, propagateTags: PropagateMITags? = nil) {
+            self.autoRepairConfiguration = autoRepairConfiguration
             self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
@@ -8465,6 +10227,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoRepairConfiguration = "autoRepairConfiguration"
             case infrastructureOptimization = "infrastructureOptimization"
             case infrastructureRoleArn = "infrastructureRoleArn"
             case instanceLaunchTemplate = "instanceLaunchTemplate"
@@ -8530,6 +10293,8 @@ extension ECS {
         public let healthCheckGracePeriodSeconds: Int?
         ///  You must have a service-linked role when you update this property  A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using  CreateDeployment  through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  For services that use the external deployment controller, you can add, update, or remove load balancers by using CreateTaskSet. Note that multiple target groups are not supported for external deployments. For more information see Register multiple target groups with a service in the Amazon Elastic Container Service Developer Guide.  You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
         public let loadBalancers: [LoadBalancer]?
+        /// The optional monitoring configuration for the service, which defines the resolution for the service-level CPUUtilization and MemoryUtilization Amazon CloudWatch metrics. When not specified, Amazon ECS uses the default resolution of 60 seconds.
+        public let monitoring: MonitoringConfiguration?
         /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
         public let networkConfiguration: NetworkConfiguration?
         /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
@@ -8554,7 +10319,7 @@ extension ECS {
         public let vpcLatticeConfigurations: [VpcLatticeConfiguration]?
 
         @inlinable
-        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
+        public init(availabilityZoneRebalancing: AvailabilityZoneRebalancing? = nil, capacityProviderStrategy: [CapacityProviderStrategyItem]? = nil, cluster: String? = nil, deploymentConfiguration: DeploymentConfiguration? = nil, deploymentController: DeploymentController? = nil, desiredCount: Int? = nil, enableECSManagedTags: Bool? = nil, enableExecuteCommand: Bool? = nil, forceNewDeployment: Bool? = nil, healthCheckGracePeriodSeconds: Int? = nil, loadBalancers: [LoadBalancer]? = nil, monitoring: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, placementConstraints: [PlacementConstraint]? = nil, placementStrategy: [PlacementStrategy]? = nil, platformVersion: String? = nil, propagateTags: PropagateTags? = nil, service: String, serviceConnectConfiguration: ServiceConnectConfiguration? = nil, serviceRegistries: [ServiceRegistry]? = nil, taskDefinition: String? = nil, volumeConfigurations: [ServiceVolumeConfiguration]? = nil, vpcLatticeConfigurations: [VpcLatticeConfiguration]? = nil) {
             self.availabilityZoneRebalancing = availabilityZoneRebalancing
             self.capacityProviderStrategy = capacityProviderStrategy
             self.cluster = cluster
@@ -8566,6 +10331,7 @@ extension ECS {
             self.forceNewDeployment = forceNewDeployment
             self.healthCheckGracePeriodSeconds = healthCheckGracePeriodSeconds
             self.loadBalancers = loadBalancers
+            self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
             self.placementConstraints = placementConstraints
             self.placementStrategy = placementStrategy
@@ -8583,6 +10349,8 @@ extension ECS {
             try self.capacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).capacityProviderStrategy[]")
             }
+            try self.deploymentConfiguration?.validate(name: "\(name).deploymentConfiguration")
+            try self.monitoring?.validate(name: "\(name).monitoring")
             try self.serviceConnectConfiguration?.validate(name: "\(name).serviceConnectConfiguration")
             try self.volumeConfigurations?.forEach {
                 try $0.validate(name: "\(name).volumeConfigurations[]")
@@ -8601,6 +10369,7 @@ extension ECS {
             case forceNewDeployment = "forceNewDeployment"
             case healthCheckGracePeriodSeconds = "healthCheckGracePeriodSeconds"
             case loadBalancers = "loadBalancers"
+            case monitoring = "monitoring"
             case networkConfiguration = "networkConfiguration"
             case placementConstraints = "placementConstraints"
             case placementStrategy = "placementStrategy"
@@ -8616,7 +10385,7 @@ extension ECS {
     }
 
     public struct UpdateServiceResponse: AWSDecodableShape {
-        /// The full description of your service following the update call.
+        /// The full description of your service following the update call. The response includes a lifecycleHookDetails field, which is an empty array when the service is created or updated. The values are populated when a lifecycle hook executes and are available as part of the service deployment details (DescribeServiceDeployments).
         public let service: Service?
 
         @inlinable
@@ -8802,17 +10571,20 @@ extension ECS {
         public let fsxWindowsFileServerVolumeConfiguration: FSxWindowsFileServerVolumeConfiguration?
         /// This parameter is specified when you use bind mount host volumes. The contents of the host parameter determine whether your bind mount host volume persists on the host container instance and where it's stored. If the host parameter is empty, then the Docker daemon assigns a host path for your data volume. However, the data isn't guaranteed to persist after the containers that are associated with it stop running. Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives. For example, you can mount C:\my\path:C:\my\path and D:\:D:\, but not D:\my\path:C:\my\path or D:\:C:\my\path.
         public let host: HostVolumeProperties?
-        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. When using a volume configured at launch, the name is required and must also be specified as the volume name in the ServiceVolumeConfiguration or TaskVolumeConfiguration parameter when creating your service or standalone task. For all other types of volumes, this name is referenced in the sourceVolume parameter of the mountPoints object in the container definition. When a volume is using the efsVolumeConfiguration, the name is required.
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed. When using a volume configured at launch, the name is required and must also be specified as the volume name in the ServiceVolumeConfiguration or TaskVolumeConfiguration parameter when creating your service or standalone task. For all other types of volumes, this name is referenced in the sourceVolume parameter of the mountPoints object in the container definition. When a volume is using the efsVolumeConfiguration, the name is required. When a volume is using the s3filesVolumeConfiguration, the name is required.
         public let name: String?
+        /// This parameter is specified when you use an Amazon S3 Files file system for task storage.
+        public let s3filesVolumeConfiguration: S3FilesVolumeConfiguration?
 
         @inlinable
-        public init(configuredAtLaunch: Bool? = nil, dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, efsVolumeConfiguration: EFSVolumeConfiguration? = nil, fsxWindowsFileServerVolumeConfiguration: FSxWindowsFileServerVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil) {
+        public init(configuredAtLaunch: Bool? = nil, dockerVolumeConfiguration: DockerVolumeConfiguration? = nil, efsVolumeConfiguration: EFSVolumeConfiguration? = nil, fsxWindowsFileServerVolumeConfiguration: FSxWindowsFileServerVolumeConfiguration? = nil, host: HostVolumeProperties? = nil, name: String? = nil, s3filesVolumeConfiguration: S3FilesVolumeConfiguration? = nil) {
             self.configuredAtLaunch = configuredAtLaunch
             self.dockerVolumeConfiguration = dockerVolumeConfiguration
             self.efsVolumeConfiguration = efsVolumeConfiguration
             self.fsxWindowsFileServerVolumeConfiguration = fsxWindowsFileServerVolumeConfiguration
             self.host = host
             self.name = name
+            self.s3filesVolumeConfiguration = s3filesVolumeConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8822,6 +10594,7 @@ extension ECS {
             case fsxWindowsFileServerVolumeConfiguration = "fsxWindowsFileServerVolumeConfiguration"
             case host = "host"
             case name = "name"
+            case s3filesVolumeConfiguration = "s3filesVolumeConfiguration"
         }
     }
 
@@ -8881,6 +10654,8 @@ public struct ECSErrorType: AWSErrorType {
         case clusterContainsTasksException = "ClusterContainsTasksException"
         case clusterNotFoundException = "ClusterNotFoundException"
         case conflictException = "ConflictException"
+        case daemonNotActiveException = "DaemonNotActiveException"
+        case daemonNotFoundException = "DaemonNotFoundException"
         case invalidParameterException = "InvalidParameterException"
         case limitExceededException = "LimitExceededException"
         case missingVersionException = "MissingVersionException"
@@ -8939,6 +10714,10 @@ public struct ECSErrorType: AWSErrorType {
     public static var clusterNotFoundException: Self { .init(.clusterNotFoundException) }
     /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The specified daemon isn't active. You can't update a daemon that's inactive. If you have previously deleted a daemon, you can re-create it with CreateDaemon.
+    public static var daemonNotActiveException: Self { .init(.daemonNotActiveException) }
+    /// The specified daemon wasn't found. You can view your available daemons with ListDaemons. Amazon ECS daemons are cluster specific and Region specific.
+    public static var daemonNotFoundException: Self { .init(.daemonNotFoundException) }
     /// The specified parameter isn't valid. Review the available parameters for the API request. For more information about service event errors, see Amazon ECS service event messages.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The limit for the resource was exceeded.
@@ -8959,7 +10738,7 @@ public struct ECSErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// These errors are usually caused by a server issue.
     public static var serverException: Self { .init(.serverException) }
-    /// The service deploy ARN that you specified in the StopServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
+    /// The service deploy ARN that you specified in the ContinueServiceDeployment doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs.
     public static var serviceDeploymentNotFoundException: Self { .init(.serviceDeploymentNotFoundException) }
     /// The specified service isn't active. You can't update a service that's inactive. If you have previously deleted a service, you can re-create it with CreateService.
     public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }

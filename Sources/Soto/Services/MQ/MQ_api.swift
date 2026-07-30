@@ -123,6 +123,7 @@ public struct MQ: AWSService {
     ///   - maintenanceWindowStartTime: The parameters that determine the WeeklyStartTime.
     ///   - publiclyAccessible: Enables connections from applications outside of the VPC that hosts the broker's subnets. Set to false by default, if no value is provided.
     ///   - securityGroups: The list of rules (1 minimum, 125 maximum) that authorize connections to brokers.
+    ///   - storageSize: The broker's storage size in GB.
     ///   - storageType: The broker's storage type.
     ///   - subnetIds: The list of groups that define which subnets and IP ranges the broker can use from different Availability Zones. If you specify more than one subnet, the subnets must be in different Availability Zones. Amazon MQ will not be able to create VPC endpoints for your broker with multiple subnets in the same Availability Zone. A SINGLE_INSTANCE deployment requires one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ Amazon MQ for ActiveMQ deployment requires two subnets. A CLUSTER_MULTI_AZ Amazon MQ for RabbitMQ deployment has no subnet requirements when deployed with public accessibility. Deployment without public accessibility requires at least one subnet. If you specify subnets in a shared VPC for a RabbitMQ broker, the associated VPC to which the specified subnets belong must be owned by your Amazon Web Services account. Amazon MQ will not be able to create VPC endpoints in VPCs that are not owned by your Amazon Web Services account.
     ///   - tags: Create tags when creating the broker.
@@ -147,6 +148,7 @@ public struct MQ: AWSService {
         maintenanceWindowStartTime: WeeklyStartTime? = nil,
         publiclyAccessible: Bool? = nil,
         securityGroups: [String]? = nil,
+        storageSize: Int? = nil,
         storageType: BrokerStorageType? = nil,
         subnetIds: [String]? = nil,
         tags: [String: String]? = nil,
@@ -171,6 +173,7 @@ public struct MQ: AWSService {
             maintenanceWindowStartTime: maintenanceWindowStartTime, 
             publiclyAccessible: publiclyAccessible, 
             securityGroups: securityGroups, 
+            storageSize: storageSize, 
             storageType: storageType, 
             subnetIds: subnetIds, 
             tags: tags, 
@@ -584,6 +587,41 @@ public struct MQ: AWSService {
         return try await self.describeConfigurationRevision(input, logger: logger)
     }
 
+    /// Returns the resources shared to a broker.
+    @Sendable
+    @inlinable
+    public func describeSharedResources(_ input: DescribeSharedResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSharedResourcesResponse {
+        try await self.client.execute(
+            operation: "DescribeSharedResources", 
+            path: "/v1/brokers/{BrokerId}/shared-resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the resources shared to a broker.
+    ///
+    /// Parameters:
+    ///   - brokerId: The unique ID that Amazon MQ generates for the broker.
+    ///   - maxResults: The maximum number of resources that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
+    ///   - nextToken: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSharedResources(
+        brokerId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSharedResourcesResponse {
+        let input = DescribeSharedResourcesRequest(
+            brokerId: brokerId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeSharedResources(input, logger: logger)
+    }
+
     /// Returns information about an ActiveMQ user.
     @Sendable
     @inlinable
@@ -866,7 +904,9 @@ public struct MQ: AWSService {
     ///   - ldapServerMetadata: Optional. The metadata of the LDAP server used to authenticate and authorize connections to the broker. Does not apply to RabbitMQ brokers.
     ///   - logs: Enables Amazon CloudWatch logging for brokers.
     ///   - maintenanceWindowStartTime: The parameters that determine the WeeklyStartTime.
+    ///   - resourceShareArns: The list of resource shares to update on the broker
     ///   - securityGroups: The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
+    ///   - storageSize: The broker's storage size in GB.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBroker(
@@ -880,7 +920,9 @@ public struct MQ: AWSService {
         ldapServerMetadata: LdapServerMetadataInput? = nil,
         logs: Logs? = nil,
         maintenanceWindowStartTime: WeeklyStartTime? = nil,
+        resourceShareArns: [String]? = nil,
         securityGroups: [String]? = nil,
+        storageSize: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateBrokerResponse {
         let input = UpdateBrokerRequest(
@@ -894,7 +936,9 @@ public struct MQ: AWSService {
             ldapServerMetadata: ldapServerMetadata, 
             logs: logs, 
             maintenanceWindowStartTime: maintenanceWindowStartTime, 
-            securityGroups: securityGroups
+            resourceShareArns: resourceShareArns, 
+            securityGroups: securityGroups, 
+            storageSize: storageSize
         )
         return try await self.updateBroker(input, logger: logger)
     }
@@ -992,6 +1036,43 @@ extension MQ {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MQ {
+    /// Return PaginatorSequence for operation ``describeSharedResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeSharedResourcesPaginator(
+        _ input: DescribeSharedResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeSharedResourcesRequest, DescribeSharedResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.describeSharedResources,
+            inputKey: \DescribeSharedResourcesRequest.nextToken,
+            outputKey: \DescribeSharedResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeSharedResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - brokerId: The unique ID that Amazon MQ generates for the broker.
+    ///   - maxResults: The maximum number of resources that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeSharedResourcesPaginator(
+        brokerId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeSharedResourcesRequest, DescribeSharedResourcesResponse> {
+        let input = DescribeSharedResourcesRequest(
+            brokerId: brokerId, 
+            maxResults: maxResults
+        )
+        return self.describeSharedResourcesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listBrokers(_:logger:)``.
     ///
     /// - Parameters:
@@ -1024,6 +1105,17 @@ extension MQ {
             maxResults: maxResults
         )
         return self.listBrokersPaginator(input, logger: logger)
+    }
+}
+
+extension MQ.DescribeSharedResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MQ.DescribeSharedResourcesRequest {
+        return .init(
+            brokerId: self.brokerId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

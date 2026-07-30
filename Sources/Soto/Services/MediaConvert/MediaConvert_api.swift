@@ -208,8 +208,8 @@ public struct MediaConvert: AWSService {
     ///   - settings: JobSettings contains all the transcode settings for a job.
     ///   - simulateReservedQueue: Optional. Enable this setting when you run a test job to estimate how many reserved transcoding slots (RTS) you need. When this is enabled, MediaConvert runs your job from an on-demand queue with similar performance to what you will see with one RTS in a reserved queue. This setting is disabled by default.
     ///   - statusUpdateInterval: Optional. Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
-    ///   - tags: Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.  Use standard AWS tags on your job for automatic integration with AWS services and for custom integrations and workflows.
-    ///   - userMetadata: Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs.  Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
+    ///   - tags: Optional. The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key. Use standard AWS tags on your job for automatic integration with AWS services and for custom integrations and workflows.
+    ///   - userMetadata: Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs. Use only for existing integrations or workflows that rely on job metadata tags. Otherwise, we recommend that you use standard AWS tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createJob(
@@ -363,6 +363,7 @@ public struct MediaConvert: AWSService {
     /// Parameters:
     ///   - concurrentJobs: Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, specify the number of jobs you can process concurrently in your reservation plan instead.
     ///   - description: Optional. A description of the queue that you are creating.
+    ///   - maximumConcurrentFeeds: Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
     ///   - name: The name of the queue that you are creating.
     ///   - pricingPlan: Specifies whether the pricing plan for the queue is on-demand or reserved. For on-demand, you pay per minute, billed in increments of .01 minute. For reserved, you pay for the transcoding capacity of the entire queue, regardless of how much or how little you use it. Reserved pricing requires a 12-month commitment. When you use the API to create a queue, the default is on-demand.
     ///   - reservationPlanSettings: Details about the pricing plan for your reserved queue. Required for reserved queues and not applicable to on-demand queues.
@@ -373,6 +374,7 @@ public struct MediaConvert: AWSService {
     public func createQueue(
         concurrentJobs: Int? = nil,
         description: String? = nil,
+        maximumConcurrentFeeds: Int? = nil,
         name: String? = nil,
         pricingPlan: PricingPlan? = nil,
         reservationPlanSettings: ReservationPlanSettings? = nil,
@@ -383,6 +385,7 @@ public struct MediaConvert: AWSService {
         let input = CreateQueueRequest(
             concurrentJobs: concurrentJobs, 
             description: description, 
+            maximumConcurrentFeeds: maximumConcurrentFeeds, 
             name: name, 
             pricingPlan: pricingPlan, 
             reservationPlanSettings: reservationPlanSettings, 
@@ -1136,7 +1139,7 @@ public struct MediaConvert: AWSService {
         return try await self.startJobsQuery(input, logger: logger)
     }
 
-    /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Add tags to a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1149,7 +1152,7 @@ public struct MediaConvert: AWSService {
             logger: logger
         )
     }
-    /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Add tags to a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
@@ -1168,7 +1171,7 @@ public struct MediaConvert: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Remove tags from a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1181,7 +1184,7 @@ public struct MediaConvert: AWSService {
             logger: logger
         )
     }
-    /// Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
+    /// Remove tags from a MediaConvert queue, preset, job, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-mediaconvert-resources.html.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the resource that you want to remove tags from. To get the ARN, send a GET request with the resource name.
@@ -1309,6 +1312,7 @@ public struct MediaConvert: AWSService {
     /// Parameters:
     ///   - concurrentJobs: Specify the maximum number of jobs your queue can process concurrently. For on-demand queues, the value you enter is constrained by your service quotas for Maximum concurrent jobs, per on-demand queue and Maximum concurrent jobs, per account. For reserved queues, update your reservation plan instead in order to increase your yearly commitment.
     ///   - description: The new description for the queue, if you are changing it.
+    ///   - maximumConcurrentFeeds: Specify the maximum number of Elemental Inference feeds MediaConvert can process concurrently.
     ///   - name: The name of the queue that you are modifying.
     ///   - reservationPlanSettings: The new details of your pricing plan for your reserved queue. When you set up a new pricing plan to replace an expired one, you enter into another 12-month commitment. When you add capacity to your queue by increasing the number of RTS, you extend the term of your commitment to 12 months from when you add capacity. After you make these commitments, you can't cancel them.
     ///   - status: Pause or activate a queue by changing its status between ACTIVE and PAUSED. If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause the queue continue to run until they finish or result in an error.
@@ -1317,6 +1321,7 @@ public struct MediaConvert: AWSService {
     public func updateQueue(
         concurrentJobs: Int? = nil,
         description: String? = nil,
+        maximumConcurrentFeeds: Int? = nil,
         name: String,
         reservationPlanSettings: ReservationPlanSettings? = nil,
         status: QueueStatus? = nil,
@@ -1325,6 +1330,7 @@ public struct MediaConvert: AWSService {
         let input = UpdateQueueRequest(
             concurrentJobs: concurrentJobs, 
             description: description, 
+            maximumConcurrentFeeds: maximumConcurrentFeeds, 
             name: name, 
             reservationPlanSettings: reservationPlanSettings, 
             status: status

@@ -5055,7 +5055,7 @@ public struct IoT: AWSService {
         return try await self.getStatistics(input, logger: logger)
     }
 
-    /// Retrieves the live connectivity status per device.
+    /// Retrieves the live connectivity status per device. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the response will have the connected field set to false with no additional session details.
     @Sendable
     @inlinable
     public func getThingConnectivityData(_ input: GetThingConnectivityDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetThingConnectivityDataResponse {
@@ -5068,17 +5068,20 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the live connectivity status per device.
+    /// Retrieves the live connectivity status per device. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the response will have the connected field set to false with no additional session details.
     ///
     /// Parameters:
+    ///   - includeSocketInformation: Specifies if socket information (sourcePort, targetPort, sourceIp, targetIp, vpcEndpointId) should be included in the GetThingConnectivityData response. Set to true to include socket information. Set to false to omit socket information. By default, this is set to false.
     ///   - thingName: The name of your IoT thing.
     ///   - logger: Logger use during operation
     @inlinable
     public func getThingConnectivityData(
+        includeSocketInformation: Bool? = nil,
         thingName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetThingConnectivityDataResponse {
         let input = GetThingConnectivityDataRequest(
+            includeSocketInformation: includeSocketInformation, 
             thingName: thingName
         )
         return try await self.getThingConnectivityData(input, logger: logger)
@@ -7975,7 +7978,7 @@ public struct IoT: AWSService {
         return try await self.replaceTopicRule(input, logger: logger)
     }
 
-    /// The query search index. Requires permission to access the SearchIndex action.
+    /// Searches the specified index. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the connectivity object for this device in the response will have the connected field set to false with no additional session details. Requires permission to access the SearchIndex action.
     @Sendable
     @inlinable
     public func searchIndex(_ input: SearchIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchIndexResponse {
@@ -7988,7 +7991,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// The query search index. Requires permission to access the SearchIndex action.
+    /// Searches the specified index. If a device has never connected to IoT Core or was disconnected for more than 1 hour before fleet indexing's thingConnectivityIndexingMode was enabled, the connectivity object for this device in the response will have the connected field set to false with no additional session details. Requires permission to access the SearchIndex action.
     ///
     /// Parameters:
     ///   - indexName: The search index name.

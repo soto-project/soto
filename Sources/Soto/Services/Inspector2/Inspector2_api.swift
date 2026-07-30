@@ -529,6 +529,50 @@ public struct Inspector2: AWSService {
         return try await self.createCodeSecurityScanConfiguration(input, logger: logger)
     }
 
+    /// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
+    @Sendable
+    @inlinable
+    public func createConnector(_ input: CreateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectorResponse {
+        try await self.client.execute(
+            operation: "CreateConnector", 
+            path: "/connector/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connector that links an external cloud provider to Amazon Inspector for vulnerability scanning.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    ///   - description: A description of the connector.
+    ///   - name: The name of the connector.
+    ///   - provider: The cloud provider for the connector.
+    ///   - providerDetail: The provider-specific configuration details for the connector.
+    ///   - tags: The tags to apply to the connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnector(
+        clientToken: String? = CreateConnectorRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        provider: ConnectorCloudProvider,
+        providerDetail: ProviderDetailCreate,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectorResponse {
+        let input = CreateConnectorRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            provider: provider, 
+            providerDetail: providerDetail, 
+            tags: tags
+        )
+        return try await self.createConnector(input, logger: logger)
+    }
+
     /// Creates a filter resource using specified filter criteria. When the filter action is set to SUPPRESS this action creates a suppression rule.
     @Sendable
     @inlinable
@@ -728,6 +772,35 @@ public struct Inspector2: AWSService {
             scanConfigurationArn: scanConfigurationArn
         )
         return try await self.deleteCodeSecurityScanConfiguration(input, logger: logger)
+    }
+
+    /// Deletes a connector from your account.
+    @Sendable
+    @inlinable
+    public func deleteConnector(_ input: DeleteConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectorResponse {
+        try await self.client.execute(
+            operation: "DeleteConnector", 
+            path: "/connector/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a connector from your account.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnector(
+        connectorArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConnectorResponse {
+        let input = DeleteConnectorRequest(
+            connectorArn: connectorArn
+        )
+        return try await self.deleteConnector(input, logger: logger)
     }
 
     /// Deletes a filter resource.
@@ -1155,7 +1228,7 @@ public struct Inspector2: AWSService {
         return try await self.getCodeSecurityScanConfiguration(input, logger: logger)
     }
 
-    /// Retrieves setting configurations for Inspector scans.
+    /// Retrieves setting configurations for Amazon Inspector scans. If you specify an accountId, this operation returns the scan configuration for that member account. You must be the delegated administrator for the specified member account. If you do not specify an accountId, this operation returns your own scan configuration.
     @Sendable
     @inlinable
     public func getConfiguration(_ input: GetConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationResponse {
@@ -1168,15 +1241,18 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves setting configurations for Inspector scans.
+    /// Retrieves setting configurations for Amazon Inspector scans. If you specify an accountId, this operation returns the scan configuration for that member account. You must be the delegated administrator for the specified member account. If you do not specify an accountId, this operation returns your own scan configuration.
     ///
     /// Parameters:
+    ///   - accountId: The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to retrieve. When specified, you must be the delegated administrator for this member account. If not specified, the operation returns your own configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func getConfiguration(
+        accountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetConfigurationResponse {
         let input = GetConfigurationRequest(
+            accountId: accountId
         )
         return try await self.getConfiguration(input, logger: logger)
     }
@@ -1657,6 +1733,76 @@ public struct Inspector2: AWSService {
             nextToken: nextToken
         )
         return try await self.listCodeSecurityScanConfigurations(input, logger: logger)
+    }
+
+    /// Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    @Sendable
+    @inlinable
+    public func listConnectorScanConfigurations(_ input: ListConnectorScanConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorScanConfigurationsResponse {
+        try await self.client.execute(
+            operation: "ListConnectorScanConfigurations", 
+            path: "/connectorscanconfigurations/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists scan configurations for Amazon Web Services Config connectors. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    ///
+    /// Parameters:
+    ///   - awsConfigConnectorArns: The list of Amazon Web Services Config connector ARNs to filter results.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 50. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - nextToken: A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectorScanConfigurations(
+        awsConfigConnectorArns: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorScanConfigurationsResponse {
+        let input = ListConnectorScanConfigurationsRequest(
+            awsConfigConnectorArns: awsConfigConnectorArns, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectorScanConfigurations(input, logger: logger)
+    }
+
+    /// Lists connectors in your account. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    @Sendable
+    @inlinable
+    public func listConnectors(_ input: ListConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListConnectors", 
+            path: "/connector/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists connectors in your account. Results are paginated. Use the nextToken parameter to retrieve the next page of results.
+    ///
+    /// Parameters:
+    ///   - filterCriteria: The filter criteria to apply to the list of connectors.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - nextToken: A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectors(
+        filterCriteria: ConnectorFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorsResponse {
+        let input = ListConnectorsRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectors(input, logger: logger)
     }
 
     /// Lists coverage details for your environment.
@@ -2376,7 +2522,7 @@ public struct Inspector2: AWSService {
         return try await self.updateCodeSecurityScanConfiguration(input, logger: logger)
     }
 
-    /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
+    /// Updates the scan configuration for your Amazon Inspector account. If you don't specify an accountId, this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an accountId, this operation updates that member account's configuration. Only the delegated administrator can specify an accountId; member accounts cannot call this operation.
     @Sendable
     @inlinable
     public func updateConfiguration(_ input: UpdateConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationResponse {
@@ -2389,23 +2535,96 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Updates setting configurations for your Amazon Inspector account. When you use this API as an Amazon Inspector delegated administrator this updates the setting for all accounts you manage. Member accounts in an organization cannot update this setting.
+    /// Updates the scan configuration for your Amazon Inspector account. If you don't specify an accountId, this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an accountId, this operation updates that member account's configuration. Only the delegated administrator can specify an accountId; member accounts cannot call this operation.
     ///
     /// Parameters:
+    ///   - accountId: The 12-digit Amazon Web Services account ID of the member account whose scan configuration you want to update. When specified, you must be the delegated administrator for this member account. If not specified, the operation updates your own configuration and propagates changes to any member accounts that have not been individually configured.
     ///   - ec2Configuration: Specifies how the Amazon EC2 automated scan will be updated for your environment.
     ///   - ecrConfiguration: Specifies how the ECR automated re-scan will be updated for your environment.
+    ///   - updateConfigurationInheritance: Specifies which scan-type configurations to reset to the delegated administrator's inherited values for the targeted member account. Each member of this structure is independently optional. When specified, ec2Configuration and ecrConfiguration must be absent, and accountId must also be present. Only INHERIT_FROM_ADMIN is valid for each member. If not specified, the operation uses the ec2Configuration and ecrConfiguration parameters instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConfiguration(
+        accountId: String? = nil,
         ec2Configuration: Ec2Configuration? = nil,
         ecrConfiguration: EcrConfiguration? = nil,
+        updateConfigurationInheritance: UpdateConfigurationInheritance? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConfigurationResponse {
         let input = UpdateConfigurationRequest(
+            accountId: accountId, 
             ec2Configuration: ec2Configuration, 
-            ecrConfiguration: ecrConfiguration
+            ecrConfiguration: ecrConfiguration, 
+            updateConfigurationInheritance: updateConfigurationInheritance
         )
         return try await self.updateConfiguration(input, logger: logger)
+    }
+
+    /// Updates the description or provider-specific configuration details of an existing connector.
+    @Sendable
+    @inlinable
+    public func updateConnector(_ input: UpdateConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorResponse {
+        try await self.client.execute(
+            operation: "UpdateConnector", 
+            path: "/connector/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the description or provider-specific configuration details of an existing connector.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector to update.
+    ///   - description: The updated description of the connector.
+    ///   - providerDetail: The updated provider-specific configuration details for the connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnector(
+        connectorArn: String,
+        description: String? = nil,
+        providerDetail: ProviderDetailUpdate? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectorResponse {
+        let input = UpdateConnectorRequest(
+            connectorArn: connectorArn, 
+            description: description, 
+            providerDetail: providerDetail
+        )
+        return try await self.updateConnector(input, logger: logger)
+    }
+
+    /// Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
+    @Sendable
+    @inlinable
+    public func updateConnectorScanConfiguration(_ input: UpdateConnectorScanConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectorScanConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateConnectorScanConfiguration", 
+            path: "/connectorscanconfiguration/update", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates scan configuration settings for resources associated with an Amazon Web Services Config connector.
+    ///
+    /// Parameters:
+    ///   - awsConfigConnectorArn: The ARN of the Amazon Web Services Config connector.
+    ///   - scanConfiguration: The scan configuration settings to apply.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectorScanConfiguration(
+        awsConfigConnectorArn: String,
+        scanConfiguration: ConnectorScanConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectorScanConfigurationResponse {
+        let input = UpdateConnectorScanConfigurationRequest(
+            awsConfigConnectorArn: awsConfigConnectorArn, 
+            scanConfiguration: scanConfiguration
+        )
+        return try await self.updateConnectorScanConfiguration(input, logger: logger)
     }
 
     /// Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
@@ -2898,6 +3117,80 @@ extension Inspector2 {
         return self.listCisScansPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnectorScanConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorScanConfigurationsPaginator(
+        _ input: ListConnectorScanConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorScanConfigurationsRequest, ListConnectorScanConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectorScanConfigurations,
+            inputKey: \ListConnectorScanConfigurationsRequest.nextToken,
+            outputKey: \ListConnectorScanConfigurationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectorScanConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - awsConfigConnectorArns: The list of Amazon Web Services Config connector ARNs to filter results.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 50. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorScanConfigurationsPaginator(
+        awsConfigConnectorArns: [String]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectorScanConfigurationsRequest, ListConnectorScanConfigurationsResponse> {
+        let input = ListConnectorScanConfigurationsRequest(
+            awsConfigConnectorArns: awsConfigConnectorArns, 
+            maxResults: maxResults
+        )
+        return self.listConnectorScanConfigurationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorsPaginator(
+        _ input: ListConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorsRequest, ListConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectors,
+            inputKey: \ListConnectorsRequest.nextToken,
+            outputKey: \ListConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterCriteria: The filter criteria to apply to the list of connectors.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorsPaginator(
+        filterCriteria: ConnectorFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectorsRequest, ListConnectorsResponse> {
+        let input = ListConnectorsRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults
+        )
+        return self.listConnectorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCoverage(_:logger:)``.
     ///
     /// - Parameters:
@@ -3331,6 +3624,28 @@ extension Inspector2.ListCisScansRequest: AWSPaginateToken {
     }
 }
 
+extension Inspector2.ListConnectorScanConfigurationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListConnectorScanConfigurationsRequest {
+        return .init(
+            awsConfigConnectorArns: self.awsConfigConnectorArns,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Inspector2.ListConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Inspector2.ListConnectorsRequest {
+        return .init(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Inspector2.ListCoverageRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Inspector2.ListCoverageRequest {
@@ -3429,5 +3744,144 @@ extension Inspector2.SearchVulnerabilitiesRequest: AWSPaginateToken {
             filterCriteria: self.filterCriteria,
             nextToken: token
         )
+    }
+}
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Inspector2 {
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorConnected(
+        _ input: ListConnectorsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("items[].health.connectorStatus", expected: "CONNECTED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("items[].health.connectorStatus", expected: "FAILED_TO_CONNECT")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("items[].enablementStatus", expected: "FAILED_TO_ENABLE")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(120),
+            command: self.listConnectors
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterCriteria: The filter criteria to apply to the list of connectors.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - nextToken: A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorConnected(
+        filterCriteria: ConnectorFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = ListConnectorsRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        try await self.waitUntilConnectorConnected(input, logger: logger)
+    }
+
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorDeleted(
+        _ input: ListConnectorsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(items) == `0`", expected: "true")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("items[].enablementStatus", expected: "FAILED_TO_DELETE")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(120),
+            command: self.listConnectors
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterCriteria: The filter criteria to apply to the list of connectors.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - nextToken: A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorDeleted(
+        filterCriteria: ConnectorFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = ListConnectorsRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        try await self.waitUntilConnectorDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorEnabled(
+        _ input: ListConnectorsRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<ListConnectorsRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("items[].enablementStatus", expected: "ENABLED")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("items[].enablementStatus", expected: "FAILED_TO_ENABLE")),
+                .init(state: .failure, matcher: try! JMESAnyPathMatcher("items[].enablementStatus", expected: "FAILED_TO_UPDATE")),
+            ],
+            minDelayTime: .seconds(30),
+            maxDelayTime: .seconds(120),
+            command: self.listConnectors
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterCriteria: The filter criteria to apply to the list of connectors.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another request with the nextToken value returned from this request.
+    ///   - nextToken: A token to use for paginating results. Set this value to null for the first request. For subsequent calls, use the nextToken value returned from the previous request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilConnectorEnabled(
+        filterCriteria: ConnectorFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = ListConnectorsRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        try await self.waitUntilConnectorEnabled(input, logger: logger)
     }
 }

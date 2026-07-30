@@ -29,12 +29,12 @@ extension Deadline {
         case a10g = "a10g"
         case l4 = "l4"
         case l40s = "l40s"
+        case rtxProServer6000 = "rtx-pro-server-6000"
         case t4 = "t4"
         public var description: String { return self.rawValue }
     }
 
     public enum AcceleratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        /// GPU accelerator type.
         case gpu = "gpu"
         public var description: String { return self.rawValue }
     }
@@ -49,6 +49,74 @@ extension Deadline {
         case growing = "GROWING"
         case shrinking = "SHRINKING"
         case steady = "STEADY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetSessionActionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetSessionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetStepErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetTaskErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetWorkerErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchUpdateJobErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchUpdateTaskErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
         public var description: String { return self.rawValue }
     }
 
@@ -134,6 +202,11 @@ extension Deadline {
 
     public enum DesiredWorkerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EbsVolumeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gp3 = "gp3"
         public var description: String { return self.rawValue }
     }
 
@@ -475,6 +548,15 @@ extension Deadline {
         public var description: String { return self.rawValue }
     }
 
+    public enum VolumeState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case inUse = "IN_USE"
+        case pendingAttachment = "PENDING_ATTACHMENT"
+        case pendingCreation = "PENDING_CREATION"
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case idle = "IDLE"
@@ -782,6 +864,66 @@ extension Deadline {
             case int = "int"
             case path = "path"
             case string = "string"
+        }
+    }
+
+    public enum SchedulingConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Workers are distributed evenly across all jobs at the highest priority level. When workers cannot be evenly divided, the extra workers are assigned to the jobs submitted earliest. If a job has fewer remaining tasks than its share of workers, the surplus workers are redistributed to other jobs at the same priority level.
+        case priorityBalanced(PriorityBalancedSchedulingConfiguration)
+        /// Workers are assigned to the highest-priority job first. When multiple jobs share the same priority, the job submitted earliest receives workers first. This is the default scheduling configuration for new queues.
+        case priorityFifo(PriorityFifoSchedulingConfiguration)
+        /// Workers are assigned to jobs based on a weighted formula that considers job priority, error count, submission time, and the number of tasks currently rendering. Each factor has a configurable weight that determines its influence on scheduling decisions.
+        case weightedBalanced(WeightedBalancedSchedulingConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .priorityBalanced:
+                let value = try container.decode(PriorityBalancedSchedulingConfiguration.self, forKey: .priorityBalanced)
+                self = .priorityBalanced(value)
+            case .priorityFifo:
+                let value = try container.decode(PriorityFifoSchedulingConfiguration.self, forKey: .priorityFifo)
+                self = .priorityFifo(value)
+            case .weightedBalanced:
+                let value = try container.decode(WeightedBalancedSchedulingConfiguration.self, forKey: .weightedBalanced)
+                self = .weightedBalanced(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .priorityBalanced(let value):
+                try container.encode(value, forKey: .priorityBalanced)
+            case .priorityFifo(let value):
+                try container.encode(value, forKey: .priorityFifo)
+            case .weightedBalanced(let value):
+                try container.encode(value, forKey: .weightedBalanced)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .priorityBalanced(let value):
+                try value.validate(name: "\(name).priorityBalanced")
+            case .weightedBalanced(let value):
+                try value.validate(name: "\(name).weightedBalanced")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priorityBalanced = "priorityBalanced"
+            case priorityFifo = "priorityFifo"
+            case weightedBalanced = "weightedBalanced"
         }
     }
 
@@ -1096,9 +1238,9 @@ extension Deadline {
     }
 
     public struct AcceleratorSelection: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the chip used by the GPU accelerator. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU (16 GiB memory)    a10g - NVIDIA A10G Tensor Core GPU (24 GiB memory)    l4 - NVIDIA L4 Tensor Core GPU (24 GiB memory)    l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)
+        /// The name of the chip used by the GPU accelerator. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU (16 GiB memory)    a10g - NVIDIA A10G Tensor Core GPU (24 GiB memory)    l4 - NVIDIA L4 Tensor Core GPU (24 GiB memory)    l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)    rtx-pro-server-6000 - NVIDIA RTX PRO Server 6000 GPU (96 GiB memory)
         public let name: AcceleratorName
-        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r570 - NVIDIA vGPU software 18     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception.  Not all runtimes are compatible with all accelerator types:    t4 and a10g: Support all runtimes (grid:r570, grid:r535)    l4 and l40s: Only support grid:r570 and newer   All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet.   When you specify latest, it resolves to grid:r570 for all currently supported accelerators.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r580 - NVIDIA vGPU software 19     grid:r570 - NVIDIA vGPU software 18     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception.  Not all runtimes are compatible with all accelerator types:    t4 and a10g: Support all runtimes (grid:r580, grid:r570, grid:r535)    l4 and l40s: Only support grid:r570 and newer    rtx-pro-server-6000: Only supports grid:r580    All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet.   When you specify latest, it resolves to grid:r580 for all currently supported accelerators.
         public let runtime: String?
 
         @inlinable
@@ -1289,6 +1431,8 @@ extension Deadline {
     public struct AssociateMemberToFarmRequest: AWSEncodableShape {
         /// The ID of the farm to associate with the member.
         public let farmId: String
+        /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+        public let identityCenterRegion: String?
         /// The identity store ID of the member to associate with the farm.
         public let identityStoreId: String
         /// The principal's membership level for the associated farm.
@@ -1299,8 +1443,9 @@ extension Deadline {
         public let principalType: DeadlinePrincipalType
 
         @inlinable
-        public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
+        public init(farmId: String, identityCenterRegion: String? = nil, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
+            self.identityCenterRegion = identityCenterRegion
             self.identityStoreId = identityStoreId
             self.membershipLevel = membershipLevel
             self.principalId = principalId
@@ -1311,6 +1456,7 @@ extension Deadline {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.farmId, key: "farmId")
+            try container.encodeIfPresent(self.identityCenterRegion, forKey: .identityCenterRegion)
             try container.encode(self.identityStoreId, forKey: .identityStoreId)
             try container.encode(self.membershipLevel, forKey: .membershipLevel)
             request.encodePath(self.principalId, key: "principalId")
@@ -1319,6 +1465,9 @@ extension Deadline {
 
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1328,6 +1477,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityCenterRegion = "identityCenterRegion"
             case identityStoreId = "identityStoreId"
             case membershipLevel = "membershipLevel"
             case principalType = "principalType"
@@ -1343,6 +1493,8 @@ extension Deadline {
         public let farmId: String
         /// The ID of the fleet to associate with a member.
         public let fleetId: String
+        /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+        public let identityCenterRegion: String?
         /// The member's identity store ID to associate with the fleet.
         public let identityStoreId: String
         /// The principal's membership level for the associated fleet.
@@ -1353,9 +1505,10 @@ extension Deadline {
         public let principalType: DeadlinePrincipalType
 
         @inlinable
-        public init(farmId: String, fleetId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
+        public init(farmId: String, fleetId: String, identityCenterRegion: String? = nil, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType) {
             self.farmId = farmId
             self.fleetId = fleetId
+            self.identityCenterRegion = identityCenterRegion
             self.identityStoreId = identityStoreId
             self.membershipLevel = membershipLevel
             self.principalId = principalId
@@ -1367,6 +1520,7 @@ extension Deadline {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.farmId, key: "farmId")
             request.encodePath(self.fleetId, key: "fleetId")
+            try container.encodeIfPresent(self.identityCenterRegion, forKey: .identityCenterRegion)
             try container.encode(self.identityStoreId, forKey: .identityStoreId)
             try container.encode(self.membershipLevel, forKey: .membershipLevel)
             request.encodePath(self.principalId, key: "principalId")
@@ -1376,6 +1530,9 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1385,6 +1542,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityCenterRegion = "identityCenterRegion"
             case identityStoreId = "identityStoreId"
             case membershipLevel = "membershipLevel"
             case principalType = "principalType"
@@ -1398,6 +1556,8 @@ extension Deadline {
     public struct AssociateMemberToJobRequest: AWSEncodableShape {
         /// The farm ID of the job to associate with the member.
         public let farmId: String
+        /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+        public let identityCenterRegion: String?
         /// The member's identity store ID to associate with the job.
         public let identityStoreId: String
         /// The job ID to associate with the member.
@@ -1412,8 +1572,9 @@ extension Deadline {
         public let queueId: String
 
         @inlinable
-        public init(farmId: String, identityStoreId: String, jobId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
+        public init(farmId: String, identityCenterRegion: String? = nil, identityStoreId: String, jobId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
+            self.identityCenterRegion = identityCenterRegion
             self.identityStoreId = identityStoreId
             self.jobId = jobId
             self.membershipLevel = membershipLevel
@@ -1426,6 +1587,7 @@ extension Deadline {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.farmId, key: "farmId")
+            try container.encodeIfPresent(self.identityCenterRegion, forKey: .identityCenterRegion)
             try container.encode(self.identityStoreId, forKey: .identityStoreId)
             request.encodePath(self.jobId, key: "jobId")
             try container.encode(self.membershipLevel, forKey: .membershipLevel)
@@ -1436,6 +1598,9 @@ extension Deadline {
 
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1447,6 +1612,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityCenterRegion = "identityCenterRegion"
             case identityStoreId = "identityStoreId"
             case membershipLevel = "membershipLevel"
             case principalType = "principalType"
@@ -1460,6 +1626,8 @@ extension Deadline {
     public struct AssociateMemberToQueueRequest: AWSEncodableShape {
         /// The farm ID of the queue to associate with the member.
         public let farmId: String
+        /// The Region of the IAM Identity Center instance. If not provided, the service defaults to the Region of the farm.
+        public let identityCenterRegion: String?
         /// The member's identity store ID to associate with the queue.
         public let identityStoreId: String
         /// The principal's membership level for the associated queue.
@@ -1472,8 +1640,9 @@ extension Deadline {
         public let queueId: String
 
         @inlinable
-        public init(farmId: String, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
+        public init(farmId: String, identityCenterRegion: String? = nil, identityStoreId: String, membershipLevel: MembershipLevel, principalId: String, principalType: DeadlinePrincipalType, queueId: String) {
             self.farmId = farmId
+            self.identityCenterRegion = identityCenterRegion
             self.identityStoreId = identityStoreId
             self.membershipLevel = membershipLevel
             self.principalId = principalId
@@ -1485,6 +1654,7 @@ extension Deadline {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.farmId, key: "farmId")
+            try container.encodeIfPresent(self.identityCenterRegion, forKey: .identityCenterRegion)
             try container.encode(self.identityStoreId, forKey: .identityStoreId)
             try container.encode(self.membershipLevel, forKey: .membershipLevel)
             request.encodePath(self.principalId, key: "principalId")
@@ -1494,6 +1664,9 @@ extension Deadline {
 
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, max: 36)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, min: 1)
             try self.validate(self.identityStoreId, name: "identityStoreId", parent: name, pattern: "^d-[0-9a-f]{10}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1504,6 +1677,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identityCenterRegion = "identityCenterRegion"
             case identityStoreId = "identityStoreId"
             case membershipLevel = "membershipLevel"
             case principalType = "principalType"
@@ -1848,6 +2022,1404 @@ extension Deadline {
         }
     }
 
+    public struct BatchGetJobError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetJobErrorCode
+        /// The farm ID of the job that could not be retrieved.
+        public let farmId: String
+        /// The job ID of the job that could not be retrieved.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the job that could not be retrieved.
+        public let queueId: String
+
+        @inlinable
+        public init(code: BatchGetJobErrorCode, farmId: String, jobId: String, message: String, queueId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+        }
+    }
+
+    public struct BatchGetJobIdentifier: AWSEncodableShape {
+        /// The farm ID of the job.
+        public let farmId: String
+        /// The job ID.
+        public let jobId: String
+        /// The queue ID of the job.
+        public let queueId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+        }
+    }
+
+    public struct BatchGetJobItem: AWSDecodableShape {
+        /// The attachments for the job.
+        public let attachments: Attachments?
+        /// The date and time the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user or system that created this resource.
+        public let createdBy: String
+        /// The description of the job.
+        public let description: String?
+        /// The date and time the resource ended running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The farm ID of the job.
+        public let farmId: String
+        /// The job ID.
+        public let jobId: String
+        /// The life cycle status of the job.
+        public let lifecycleStatus: JobLifecycleStatus
+        /// A message that communicates the status of the life cycle.
+        public let lifecycleStatusMessage: String
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public let maxFailedTasksCount: Int?
+        /// The maximum number of retries per failed tasks.
+        public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public let maxWorkerCount: Int?
+        /// The name of the job.
+        public let name: String
+        /// The parameters for the job.
+        public let parameters: [String: JobParameter]?
+        /// The job priority.
+        public let priority: Int
+        /// The queue ID of the job.
+        public let queueId: String
+        /// The job ID for the source job.
+        public let sourceJobId: String?
+        /// The date and time the resource started running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The storage profile ID associated with the job.
+        public let storageProfileId: String?
+        /// The task status to start with on the job.
+        public let targetTaskRunStatus: JobTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public let taskFailureRetryCount: Int?
+        /// The task run status for the job.
+        public let taskRunStatus: TaskRunStatus?
+        /// The number of tasks for each run status for the job.
+        public let taskRunStatusCounts: [TaskRunStatus: Int]?
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, farmId: String, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.attachments = attachments
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.parameters = parameters
+            self.priority = priority
+            self.queueId = queueId
+            self.sourceJobId = sourceJobId
+            self.startedAt = startedAt
+            self.storageProfileId = storageProfileId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "attachments"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case description = "description"
+            case endedAt = "endedAt"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case lifecycleStatus = "lifecycleStatus"
+            case lifecycleStatusMessage = "lifecycleStatusMessage"
+            case maxFailedTasksCount = "maxFailedTasksCount"
+            case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
+            case name = "name"
+            case parameters = "parameters"
+            case priority = "priority"
+            case queueId = "queueId"
+            case sourceJobId = "sourceJobId"
+            case startedAt = "startedAt"
+            case storageProfileId = "storageProfileId"
+            case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
+            case taskRunStatus = "taskRunStatus"
+            case taskRunStatusCounts = "taskRunStatusCounts"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct BatchGetJobRequest: AWSEncodableShape {
+        /// The list of job identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetJobIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetJobIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetJobResponse: AWSDecodableShape {
+        /// A list of errors for jobs that could not be retrieved.
+        public let errors: [BatchGetJobError]
+        /// A list of jobs that were successfully retrieved.
+        public let jobs: [BatchGetJobItem]
+
+        @inlinable
+        public init(errors: [BatchGetJobError], jobs: [BatchGetJobItem]) {
+            self.errors = errors
+            self.jobs = jobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case jobs = "jobs"
+        }
+    }
+
+    public struct BatchGetSessionActionError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetSessionActionErrorCode
+        /// The farm ID of the session action that could not be retrieved.
+        public let farmId: String
+        /// The job ID of the session action that could not be retrieved.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the session action that could not be retrieved.
+        public let queueId: String
+        /// The session action ID of the session action that could not be retrieved.
+        public let sessionActionId: String
+
+        @inlinable
+        public init(code: BatchGetSessionActionErrorCode, farmId: String, jobId: String, message: String, queueId: String, sessionActionId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+            case sessionActionId = "sessionActionId"
+        }
+    }
+
+    public struct BatchGetSessionActionIdentifier: AWSEncodableShape {
+        /// The farm ID of the session action.
+        public let farmId: String
+        /// The job ID of the session action.
+        public let jobId: String
+        /// The queue ID of the session action.
+        public let queueId: String
+        /// The session action ID.
+        public let sessionActionId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String, sessionActionId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.sessionActionId, name: "sessionActionId", parent: name, pattern: "^sessionaction-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+            case sessionActionId = "sessionActionId"
+        }
+    }
+
+    public struct BatchGetSessionActionItem: AWSDecodableShape {
+        /// The limits that were acquired for the session action.
+        public let acquiredLimits: [AcquiredLimit]?
+        /// The session action definition.
+        public let definition: SessionActionDefinition
+        /// The date and time the resource ended running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The farm ID of the session action.
+        public let farmId: String
+        /// The job ID of the session action.
+        public let jobId: String
+        /// The manifests for the session action.
+        public let manifests: [TaskRunManifestPropertiesResponse]?
+        /// The exit code to apply to the session action.
+        public let processExitCode: Int?
+        /// The message that communicates the progress of the session action.
+        public let progressMessage: String?
+        /// The completion percentage for the session action.
+        public let progressPercent: Float?
+        /// The queue ID of the session action.
+        public let queueId: String
+        /// The session action ID.
+        public let sessionActionId: String
+        /// The session ID for the session action.
+        public let sessionId: String
+        /// The date and time the resource started running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The status of the session action.
+        public let status: SessionActionStatus
+        /// The date and time the resource was updated by a worker.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var workerUpdatedAt: Date?
+
+        @inlinable
+        public init(acquiredLimits: [AcquiredLimit]? = nil, definition: SessionActionDefinition, endedAt: Date? = nil, farmId: String, jobId: String, manifests: [TaskRunManifestPropertiesResponse]? = nil, processExitCode: Int? = nil, progressMessage: String? = nil, progressPercent: Float? = nil, queueId: String, sessionActionId: String, sessionId: String, startedAt: Date? = nil, status: SessionActionStatus, workerUpdatedAt: Date? = nil) {
+            self.acquiredLimits = acquiredLimits
+            self.definition = definition
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.manifests = manifests
+            self.processExitCode = processExitCode
+            self.progressMessage = progressMessage
+            self.progressPercent = progressPercent
+            self.queueId = queueId
+            self.sessionActionId = sessionActionId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.status = status
+            self.workerUpdatedAt = workerUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acquiredLimits = "acquiredLimits"
+            case definition = "definition"
+            case endedAt = "endedAt"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case manifests = "manifests"
+            case processExitCode = "processExitCode"
+            case progressMessage = "progressMessage"
+            case progressPercent = "progressPercent"
+            case queueId = "queueId"
+            case sessionActionId = "sessionActionId"
+            case sessionId = "sessionId"
+            case startedAt = "startedAt"
+            case status = "status"
+            case workerUpdatedAt = "workerUpdatedAt"
+        }
+    }
+
+    public struct BatchGetSessionActionRequest: AWSEncodableShape {
+        /// The list of session action identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetSessionActionIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetSessionActionIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetSessionActionResponse: AWSDecodableShape {
+        /// A list of errors for session actions that could not be retrieved.
+        public let errors: [BatchGetSessionActionError]
+        /// A list of session actions that were successfully retrieved.
+        public let sessionActions: [BatchGetSessionActionItem]
+
+        @inlinable
+        public init(errors: [BatchGetSessionActionError], sessionActions: [BatchGetSessionActionItem]) {
+            self.errors = errors
+            self.sessionActions = sessionActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case sessionActions = "sessionActions"
+        }
+    }
+
+    public struct BatchGetSessionError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetSessionErrorCode
+        /// The farm ID of the session that could not be retrieved.
+        public let farmId: String
+        /// The job ID of the session that could not be retrieved.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the session that could not be retrieved.
+        public let queueId: String
+        /// The session ID of the session that could not be retrieved.
+        public let sessionId: String
+
+        @inlinable
+        public init(code: BatchGetSessionErrorCode, farmId: String, jobId: String, message: String, queueId: String, sessionId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct BatchGetSessionIdentifier: AWSEncodableShape {
+        /// The farm ID of the session.
+        public let farmId: String
+        /// The job ID of the session.
+        public let jobId: String
+        /// The queue ID of the session.
+        public let queueId: String
+        /// The session ID.
+        public let sessionId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String, sessionId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^session-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+            case sessionId = "sessionId"
+        }
+    }
+
+    public struct BatchGetSessionItem: AWSDecodableShape {
+        /// The date and time the resource ended running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The farm ID of the session.
+        public let farmId: String
+        /// The fleet ID of the session.
+        public let fleetId: String
+        /// The host properties for the session.
+        public let hostProperties: HostPropertiesResponse?
+        /// The job ID of the session.
+        public let jobId: String
+        /// The life cycle status of the session.
+        public let lifecycleStatus: SessionLifecycleStatus
+        /// The session log.
+        public let log: LogConfiguration
+        /// The queue ID of the session.
+        public let queueId: String
+        /// The session ID.
+        public let sessionId: String
+        /// The date and time the resource started running.
+        @CustomCoding<ISO8601DateCoder>
+        public var startedAt: Date
+        /// The target life cycle status for the session.
+        public let targetLifecycleStatus: SessionLifecycleTargetStatus?
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
+        /// The worker ID of the session.
+        public let workerId: String
+        /// The worker log for the session.
+        public let workerLog: LogConfiguration?
+
+        @inlinable
+        public init(endedAt: Date? = nil, farmId: String, fleetId: String, hostProperties: HostPropertiesResponse? = nil, jobId: String, lifecycleStatus: SessionLifecycleStatus, log: LogConfiguration, queueId: String, sessionId: String, startedAt: Date, targetLifecycleStatus: SessionLifecycleTargetStatus? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String, workerLog: LogConfiguration? = nil) {
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.log = log
+            self.queueId = queueId
+            self.sessionId = sessionId
+            self.startedAt = startedAt
+            self.targetLifecycleStatus = targetLifecycleStatus
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+            self.workerLog = workerLog
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endedAt = "endedAt"
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case hostProperties = "hostProperties"
+            case jobId = "jobId"
+            case lifecycleStatus = "lifecycleStatus"
+            case log = "log"
+            case queueId = "queueId"
+            case sessionId = "sessionId"
+            case startedAt = "startedAt"
+            case targetLifecycleStatus = "targetLifecycleStatus"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+            case workerId = "workerId"
+            case workerLog = "workerLog"
+        }
+    }
+
+    public struct BatchGetSessionRequest: AWSEncodableShape {
+        /// The list of session identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetSessionIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetSessionIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetSessionResponse: AWSDecodableShape {
+        /// A list of errors for sessions that could not be retrieved.
+        public let errors: [BatchGetSessionError]
+        /// A list of sessions that were successfully retrieved.
+        public let sessions: [BatchGetSessionItem]
+
+        @inlinable
+        public init(errors: [BatchGetSessionError], sessions: [BatchGetSessionItem]) {
+            self.errors = errors
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case sessions = "sessions"
+        }
+    }
+
+    public struct BatchGetStepError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetStepErrorCode
+        /// The farm ID of the step that could not be retrieved.
+        public let farmId: String
+        /// The job ID of the step that could not be retrieved.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the step that could not be retrieved.
+        public let queueId: String
+        /// The step ID of the step that could not be retrieved.
+        public let stepId: String
+
+        @inlinable
+        public init(code: BatchGetStepErrorCode, farmId: String, jobId: String, message: String, queueId: String, stepId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+            case stepId = "stepId"
+        }
+    }
+
+    public struct BatchGetStepIdentifier: AWSEncodableShape {
+        /// The farm ID of the step.
+        public let farmId: String
+        /// The job ID of the step.
+        public let jobId: String
+        /// The queue ID of the step.
+        public let queueId: String
+        /// The step ID.
+        public let stepId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String, stepId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+            case stepId = "stepId"
+        }
+    }
+
+    public struct BatchGetStepItem: AWSDecodableShape {
+        /// The date and time the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user or system that created this resource.
+        public let createdBy: String
+        /// The number of dependencies for the step.
+        public let dependencyCounts: DependencyCounts?
+        /// The description of the step.
+        public let description: String?
+        /// The date and time the resource ended running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The farm ID of the step.
+        public let farmId: String
+        /// The job ID of the step.
+        public let jobId: String
+        /// The life cycle status of the step.
+        public let lifecycleStatus: StepLifecycleStatus
+        /// A message that communicates the status of the life cycle.
+        public let lifecycleStatusMessage: String?
+        /// The name of the step.
+        public let name: String
+        /// The parameter space for the step.
+        public let parameterSpace: ParameterSpace?
+        /// The queue ID of the step.
+        public let queueId: String
+        /// The required capabilities for the step.
+        public let requiredCapabilities: StepRequiredCapabilities?
+        /// The date and time the resource started running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The step ID.
+        public let stepId: String
+        /// The task status to start with on the step.
+        public let targetTaskRunStatus: StepTargetTaskRunStatus?
+        /// The number of times that tasks failed and were retried.
+        public let taskFailureRetryCount: Int?
+        /// The task run status for the step.
+        public let taskRunStatus: TaskRunStatus
+        /// The number of tasks for each run status for the step.
+        public let taskRunStatusCounts: [TaskRunStatus: Int]
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, dependencyCounts: DependencyCounts? = nil, description: String? = nil, endedAt: Date? = nil, farmId: String, jobId: String, lifecycleStatus: StepLifecycleStatus, lifecycleStatusMessage: String? = nil, name: String, parameterSpace: ParameterSpace? = nil, queueId: String, requiredCapabilities: StepRequiredCapabilities? = nil, startedAt: Date? = nil, stepId: String, targetTaskRunStatus: StepTargetTaskRunStatus? = nil, taskFailureRetryCount: Int? = nil, taskRunStatus: TaskRunStatus, taskRunStatusCounts: [TaskRunStatus: Int], updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.dependencyCounts = dependencyCounts
+            self.description = description
+            self.endedAt = endedAt
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.lifecycleStatusMessage = lifecycleStatusMessage
+            self.name = name
+            self.parameterSpace = parameterSpace
+            self.queueId = queueId
+            self.requiredCapabilities = requiredCapabilities
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
+            self.taskRunStatus = taskRunStatus
+            self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case dependencyCounts = "dependencyCounts"
+            case description = "description"
+            case endedAt = "endedAt"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case lifecycleStatus = "lifecycleStatus"
+            case lifecycleStatusMessage = "lifecycleStatusMessage"
+            case name = "name"
+            case parameterSpace = "parameterSpace"
+            case queueId = "queueId"
+            case requiredCapabilities = "requiredCapabilities"
+            case startedAt = "startedAt"
+            case stepId = "stepId"
+            case targetTaskRunStatus = "targetTaskRunStatus"
+            case taskFailureRetryCount = "taskFailureRetryCount"
+            case taskRunStatus = "taskRunStatus"
+            case taskRunStatusCounts = "taskRunStatusCounts"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct BatchGetStepRequest: AWSEncodableShape {
+        /// The list of step identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetStepIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetStepIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetStepResponse: AWSDecodableShape {
+        /// A list of errors for steps that could not be retrieved.
+        public let errors: [BatchGetStepError]
+        /// A list of steps that were successfully retrieved.
+        public let steps: [BatchGetStepItem]
+
+        @inlinable
+        public init(errors: [BatchGetStepError], steps: [BatchGetStepItem]) {
+            self.errors = errors
+            self.steps = steps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case steps = "steps"
+        }
+    }
+
+    public struct BatchGetTaskError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetTaskErrorCode
+        /// The farm ID of the task that could not be retrieved.
+        public let farmId: String
+        /// The job ID of the task that could not be retrieved.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the task that could not be retrieved.
+        public let queueId: String
+        /// The step ID of the task that could not be retrieved.
+        public let stepId: String
+        /// The task ID of the task that could not be retrieved.
+        public let taskId: String
+
+        @inlinable
+        public init(code: BatchGetTaskErrorCode, farmId: String, jobId: String, message: String, queueId: String, stepId: String, taskId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+            case stepId = "stepId"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct BatchGetTaskIdentifier: AWSEncodableShape {
+        /// The farm ID of the task.
+        public let farmId: String
+        /// The job ID of the task.
+        public let jobId: String
+        /// The queue ID of the task.
+        public let queueId: String
+        /// The step ID of the task.
+        public let stepId: String
+        /// The task ID.
+        public let taskId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String, stepId: String, taskId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+            case stepId = "stepId"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct BatchGetTaskItem: AWSDecodableShape {
+        /// The date and time the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user or system that created this resource.
+        public let createdBy: String
+        /// The date and time the resource ended running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endedAt: Date?
+        /// The number of times the task failed and was retried.
+        public let failureRetryCount: Int?
+        /// The farm ID of the task.
+        public let farmId: String
+        /// The job ID of the task.
+        public let jobId: String
+        /// The latest session action for the task.
+        public let latestSessionActionId: String?
+        /// The parameters for the task.
+        public let parameters: [String: TaskParameterValue]?
+        /// The queue ID of the task.
+        public let queueId: String
+        /// The run status of the task.
+        public let runStatus: TaskRunStatus
+        /// The date and time the resource started running.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startedAt: Date?
+        /// The step ID of the task.
+        public let stepId: String
+        /// The run status with which to start the task.
+        public let targetRunStatus: TaskTargetRunStatus?
+        /// The task ID.
+        public let taskId: String
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, failureRetryCount: Int? = nil, farmId: String, jobId: String, latestSessionActionId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String, runStatus: TaskRunStatus, startedAt: Date? = nil, stepId: String, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.endedAt = endedAt
+            self.failureRetryCount = failureRetryCount
+            self.farmId = farmId
+            self.jobId = jobId
+            self.latestSessionActionId = latestSessionActionId
+            self.parameters = parameters
+            self.queueId = queueId
+            self.runStatus = runStatus
+            self.startedAt = startedAt
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case endedAt = "endedAt"
+            case failureRetryCount = "failureRetryCount"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case latestSessionActionId = "latestSessionActionId"
+            case parameters = "parameters"
+            case queueId = "queueId"
+            case runStatus = "runStatus"
+            case startedAt = "startedAt"
+            case stepId = "stepId"
+            case targetRunStatus = "targetRunStatus"
+            case taskId = "taskId"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct BatchGetTaskRequest: AWSEncodableShape {
+        /// The list of task identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetTaskIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetTaskIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetTaskResponse: AWSDecodableShape {
+        /// A list of errors for tasks that could not be retrieved.
+        public let errors: [BatchGetTaskError]
+        /// A list of tasks that were successfully retrieved.
+        public let tasks: [BatchGetTaskItem]
+
+        @inlinable
+        public init(errors: [BatchGetTaskError], tasks: [BatchGetTaskItem]) {
+            self.errors = errors
+            self.tasks = tasks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case tasks = "tasks"
+        }
+    }
+
+    public struct BatchGetWorkerError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchGetWorkerErrorCode
+        /// The farm ID of the worker that could not be retrieved.
+        public let farmId: String
+        /// The fleet ID of the worker that could not be retrieved.
+        public let fleetId: String
+        /// The error message.
+        public let message: String
+        /// The worker ID of the worker that could not be retrieved.
+        public let workerId: String
+
+        @inlinable
+        public init(code: BatchGetWorkerErrorCode, farmId: String, fleetId: String, message: String, workerId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.message = message
+            self.workerId = workerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case message = "message"
+            case workerId = "workerId"
+        }
+    }
+
+    public struct BatchGetWorkerIdentifier: AWSEncodableShape {
+        /// The farm ID of the worker.
+        public let farmId: String
+        /// The fleet ID of the worker.
+        public let fleetId: String
+        /// The worker ID.
+        public let workerId: String
+
+        @inlinable
+        public init(farmId: String, fleetId: String, workerId: String) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.workerId = workerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^worker-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case workerId = "workerId"
+        }
+    }
+
+    public struct BatchGetWorkerItem: AWSDecodableShape {
+        /// The date and time the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user or system that created this resource.
+        public let createdBy: String
+        /// The farm ID of the worker.
+        public let farmId: String
+        /// The fleet ID of the worker.
+        public let fleetId: String
+        /// The host properties for the worker.
+        public let hostProperties: HostPropertiesResponse?
+        /// The log configuration for the worker.
+        public let log: LogConfiguration?
+        /// The status of the worker.
+        public let status: WorkerStatus
+        /// The date and time the resource was updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user or system that updated this resource.
+        public let updatedBy: String?
+        /// The worker ID.
+        public let workerId: String
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, farmId: String, fleetId: String, hostProperties: HostPropertiesResponse? = nil, log: LogConfiguration? = nil, status: WorkerStatus, updatedAt: Date? = nil, updatedBy: String? = nil, workerId: String) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.hostProperties = hostProperties
+            self.log = log
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+            self.workerId = workerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case hostProperties = "hostProperties"
+            case log = "log"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+            case workerId = "workerId"
+        }
+    }
+
+    public struct BatchGetWorkerRequest: AWSEncodableShape {
+        /// The list of worker identifiers to retrieve. You can specify up to 100 identifiers per request.
+        public let identifiers: [BatchGetWorkerIdentifier]
+
+        @inlinable
+        public init(identifiers: [BatchGetWorkerIdentifier]) {
+            self.identifiers = identifiers
+        }
+
+        public func validate(name: String) throws {
+            try self.identifiers.forEach {
+                try $0.validate(name: "\(name).identifiers[]")
+            }
+            try self.validate(self.identifiers, name: "identifiers", parent: name, max: 100)
+            try self.validate(self.identifiers, name: "identifiers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifiers = "identifiers"
+        }
+    }
+
+    public struct BatchGetWorkerResponse: AWSDecodableShape {
+        /// A list of errors for workers that could not be retrieved.
+        public let errors: [BatchGetWorkerError]
+        /// A list of workers that were successfully retrieved.
+        public let workers: [BatchGetWorkerItem]
+
+        @inlinable
+        public init(errors: [BatchGetWorkerError], workers: [BatchGetWorkerItem]) {
+            self.errors = errors
+            self.workers = workers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+            case workers = "workers"
+        }
+    }
+
+    public struct BatchUpdateJobError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchUpdateJobErrorCode
+        /// The farm ID of the job that could not be updated.
+        public let farmId: String
+        /// The job ID of the job that could not be updated.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the job that could not be updated.
+        public let queueId: String
+
+        @inlinable
+        public init(code: BatchUpdateJobErrorCode, farmId: String, jobId: String, message: String, queueId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+        }
+    }
+
+    public struct BatchUpdateJobItem: AWSEncodableShape {
+        /// The description of the job to update.
+        public let description: String?
+        /// The farm ID of the job to update.
+        public let farmId: String
+        /// The job ID of the job to update.
+        public let jobId: String
+        /// The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived job and its steps and tasks are deleted after 120 days. The job can't be recovered.
+        public let lifecycleStatus: UpdateJobLifecycleStatus?
+        /// The number of task failures before the job stops running and is marked as FAILED.
+        public let maxFailedTasksCount: Int?
+        /// The maximum number of retries per failed tasks.
+        public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job.
+        public let maxWorkerCount: Int?
+        /// The name of the job to update.
+        public let name: String?
+        /// The job priority to update.
+        public let priority: Int?
+        /// The queue ID of the job to update.
+        public let queueId: String
+        /// The task status to update the job's tasks to.
+        public let targetTaskRunStatus: JobTargetTaskRunStatus?
+
+        @inlinable
+        public init(description: String? = nil, farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
+            self.description = description
+            self.farmId = farmId
+            self.jobId = jobId
+            self.lifecycleStatus = lifecycleStatus
+            self.maxFailedTasksCount = maxFailedTasksCount
+            self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
+            self.name = name
+            self.priority = priority
+            self.queueId = queueId
+            self.targetTaskRunStatus = targetTaskRunStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, max: 2147483647)
+            try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, min: 0)
+            try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, max: 2147483647)
+            try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.priority, name: "priority", parent: name, max: 100)
+            try self.validate(self.priority, name: "priority", parent: name, min: 0)
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case lifecycleStatus = "lifecycleStatus"
+            case maxFailedTasksCount = "maxFailedTasksCount"
+            case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
+            case name = "name"
+            case priority = "priority"
+            case queueId = "queueId"
+            case targetTaskRunStatus = "targetTaskRunStatus"
+        }
+    }
+
+    public struct BatchUpdateJobRequest: AWSEncodableShape {
+        /// The unique token which the server uses to recognize retries of the same request.
+        public let clientToken: String?
+        /// The list of jobs to update. You can specify up to 100 jobs per request.
+        public let jobs: [BatchUpdateJobItem]
+
+        @inlinable
+        public init(clientToken: String? = BatchUpdateJobRequest.idempotencyToken(), jobs: [BatchUpdateJobItem]) {
+            self.clientToken = clientToken
+            self.jobs = jobs
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encode(self.jobs, forKey: .jobs)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.jobs.forEach {
+                try $0.validate(name: "\(name).jobs[]")
+            }
+            try self.validate(self.jobs, name: "jobs", parent: name, max: 100)
+            try self.validate(self.jobs, name: "jobs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+        }
+    }
+
+    public struct BatchUpdateJobResponse: AWSDecodableShape {
+        /// A list of errors for jobs that could not be updated.
+        public let errors: [BatchUpdateJobError]
+
+        @inlinable
+        public init(errors: [BatchUpdateJobError]) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
+    public struct BatchUpdateTaskError: AWSDecodableShape {
+        /// The error code.
+        public let code: BatchUpdateTaskErrorCode
+        /// The farm ID of the task that could not be updated.
+        public let farmId: String
+        /// The job ID of the task that could not be updated.
+        public let jobId: String
+        /// The error message.
+        public let message: String
+        /// The queue ID of the task that could not be updated.
+        public let queueId: String
+        /// The step ID of the task that could not be updated.
+        public let stepId: String
+        /// The task ID of the task that could not be updated.
+        public let taskId: String
+
+        @inlinable
+        public init(code: BatchUpdateTaskErrorCode, farmId: String, jobId: String, message: String, queueId: String, stepId: String, taskId: String) {
+            self.code = code
+            self.farmId = farmId
+            self.jobId = jobId
+            self.message = message
+            self.queueId = queueId
+            self.stepId = stepId
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case message = "message"
+            case queueId = "queueId"
+            case stepId = "stepId"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct BatchUpdateTaskItem: AWSEncodableShape {
+        /// The farm ID of the task to update.
+        public let farmId: String
+        /// The job ID of the task to update.
+        public let jobId: String
+        /// The queue ID of the task to update.
+        public let queueId: String
+        /// The step ID of the task to update.
+        public let stepId: String
+        /// The run status with which to start the task.
+        public let targetRunStatus: TaskTargetRunStatus
+        /// The task ID of the task to update.
+        public let taskId: String
+
+        @inlinable
+        public init(farmId: String, jobId: String, queueId: String, stepId: String, targetRunStatus: TaskTargetRunStatus, taskId: String) {
+            self.farmId = farmId
+            self.jobId = jobId
+            self.queueId = queueId
+            self.stepId = stepId
+            self.targetRunStatus = targetRunStatus
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+            try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case farmId = "farmId"
+            case jobId = "jobId"
+            case queueId = "queueId"
+            case stepId = "stepId"
+            case targetRunStatus = "targetRunStatus"
+            case taskId = "taskId"
+        }
+    }
+
+    public struct BatchUpdateTaskRequest: AWSEncodableShape {
+        /// The unique token which the server uses to recognize retries of the same request.
+        public let clientToken: String?
+        /// The list of tasks to update. You can specify up to 100 tasks per request.
+        public let tasks: [BatchUpdateTaskItem]
+
+        @inlinable
+        public init(clientToken: String? = BatchUpdateTaskRequest.idempotencyToken(), tasks: [BatchUpdateTaskItem]) {
+            self.clientToken = clientToken
+            self.tasks = tasks
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encode(self.tasks, forKey: .tasks)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.tasks.forEach {
+                try $0.validate(name: "\(name).tasks[]")
+            }
+            try self.validate(self.tasks, name: "tasks", parent: name, max: 100)
+            try self.validate(self.tasks, name: "tasks", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tasks = "tasks"
+        }
+    }
+
+    public struct BatchUpdateTaskResponse: AWSDecodableShape {
+        /// A list of errors for tasks that could not be updated.
+        public let errors: [BatchUpdateTaskError]
+
+        @inlinable
+        public init(errors: [BatchUpdateTaskError]) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "errors"
+        }
+    }
+
     public struct BudgetActionToAdd: AWSEncodableShape {
         /// A description for the budget action to add.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
@@ -2157,7 +3729,7 @@ extension Deadline {
     public struct CreateFarmRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
-        /// The cost scale factor to apply on the farm.
+        /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment. The default value is 1.
         public let costScaleFactor: Float?
         /// The description of the farm.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
@@ -2602,6 +4174,8 @@ extension Deadline {
         public let displayName: String
         /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
         public let identityCenterInstanceArn: String
+        /// The Region where IAM Identity Center is enabled. Required when IAM Identity Center is in a different Region than the monitor.
+        public let identityCenterRegion: String?
         /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
         public let roleArn: String
         /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -2610,10 +4184,11 @@ extension Deadline {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateMonitorRequest.idempotencyToken(), displayName: String, identityCenterInstanceArn: String, roleArn: String, subdomain: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateMonitorRequest.idempotencyToken(), displayName: String, identityCenterInstanceArn: String, identityCenterRegion: String? = nil, roleArn: String, subdomain: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.displayName = displayName
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityCenterRegion = identityCenterRegion
             self.roleArn = roleArn
             self.subdomain = subdomain
             self.tags = tags
@@ -2625,6 +4200,7 @@ extension Deadline {
             request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
             try container.encode(self.displayName, forKey: .displayName)
             try container.encode(self.identityCenterInstanceArn, forKey: .identityCenterInstanceArn)
+            try container.encodeIfPresent(self.identityCenterRegion, forKey: .identityCenterRegion)
             try container.encode(self.roleArn, forKey: .roleArn)
             try container.encode(self.subdomain, forKey: .subdomain)
             try container.encodeIfPresent(self.tags, forKey: .tags)
@@ -2636,6 +4212,9 @@ extension Deadline {
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, max: 25)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, min: 1)
+            try self.validate(self.identityCenterRegion, name: "identityCenterRegion", parent: name, pattern: "^[a-z0-9-]+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):iam::\\d{12}:role(/[!-.0-~]+)*/[\\w+=,.@-]+$")
             try self.validate(self.subdomain, name: "subdomain", parent: name, pattern: "^[a-z0-9-]{1,100}$")
         }
@@ -2643,6 +4222,7 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case displayName = "displayName"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case identityCenterRegion = "identityCenterRegion"
             case roleArn = "roleArn"
             case subdomain = "subdomain"
             case tags = "tags"
@@ -2833,11 +4413,13 @@ extension Deadline {
         public let requiredFileSystemLocationNames: [String]?
         /// The IAM role ARN that workers will use while running jobs for this queue.
         public let roleArn: String?
+        /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. If not specified, the queue defaults to the priorityFifo scheduling configuration.
+        public let schedulingConfiguration: SchedulingConfiguration?
         /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
         public let tags: [String: String]?
 
         @inlinable
-        public init(allowedStorageProfileIds: [String]? = nil, clientToken: String? = CreateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil) {
+        public init(allowedStorageProfileIds: [String]? = nil, clientToken: String? = CreateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, schedulingConfiguration: SchedulingConfiguration? = nil, tags: [String: String]? = nil) {
             self.allowedStorageProfileIds = allowedStorageProfileIds
             self.clientToken = clientToken
             self.defaultBudgetAction = defaultBudgetAction
@@ -2848,6 +4430,7 @@ extension Deadline {
             self.jobRunAsUser = jobRunAsUser
             self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
             self.roleArn = roleArn
+            self.schedulingConfiguration = schedulingConfiguration
             self.tags = tags
         }
 
@@ -2864,6 +4447,7 @@ extension Deadline {
             try container.encodeIfPresent(self.jobRunAsUser, forKey: .jobRunAsUser)
             try container.encodeIfPresent(self.requiredFileSystemLocationNames, forKey: .requiredFileSystemLocationNames)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.schedulingConfiguration, forKey: .schedulingConfiguration)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -2886,6 +4470,7 @@ extension Deadline {
             }
             try self.validate(self.requiredFileSystemLocationNames, name: "requiredFileSystemLocationNames", parent: name, max: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):iam::\\d{12}:role(/[!-.0-~]+)*/[\\w+=,.@-]+$")
+            try self.schedulingConfiguration?.validate(name: "\(name).schedulingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2897,6 +4482,7 @@ extension Deadline {
             case jobRunAsUser = "jobRunAsUser"
             case requiredFileSystemLocationNames = "requiredFileSystemLocationNames"
             case roleArn = "roleArn"
+            case schedulingConfiguration = "schedulingConfiguration"
             case tags = "tags"
         }
     }
@@ -3038,7 +4624,40 @@ extension Deadline {
         }
     }
 
+    public struct CustomerManagedAutoScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of workers that can be added per minute to the fleet. The default is 10 workers per minute.
+        public let scaleOutWorkersPerMinute: Int?
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
+        public let standbyWorkerCount: Int?
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
+        public let workerIdleDurationSeconds: Int?
+
+        @inlinable
+        public init(scaleOutWorkersPerMinute: Int? = nil, standbyWorkerCount: Int? = nil, workerIdleDurationSeconds: Int? = nil) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scaleOutWorkersPerMinute, name: "scaleOutWorkersPerMinute", parent: name, max: 2147483647)
+            try self.validate(self.scaleOutWorkersPerMinute, name: "scaleOutWorkersPerMinute", parent: name, min: 1)
+            try self.validate(self.standbyWorkerCount, name: "standbyWorkerCount", parent: name, max: 2147483647)
+            try self.validate(self.standbyWorkerCount, name: "standbyWorkerCount", parent: name, min: 0)
+            try self.validate(self.workerIdleDurationSeconds, name: "workerIdleDurationSeconds", parent: name, max: 2147483647)
+            try self.validate(self.workerIdleDurationSeconds, name: "workerIdleDurationSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleOutWorkersPerMinute = "scaleOutWorkersPerMinute"
+            case standbyWorkerCount = "standbyWorkerCount"
+            case workerIdleDurationSeconds = "workerIdleDurationSeconds"
+        }
+    }
+
     public struct CustomerManagedFleetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The auto scaling configuration settings for the customer managed fleet.
+        public let autoScalingConfiguration: CustomerManagedAutoScalingConfiguration?
         /// The Auto Scaling mode for the customer managed fleet.
         public let mode: AutoScalingMode
         /// The storage profile ID for the customer managed fleet.
@@ -3049,7 +4668,8 @@ extension Deadline {
         public let workerCapabilities: CustomerManagedWorkerCapabilities
 
         @inlinable
-        public init(mode: AutoScalingMode, storageProfileId: String? = nil, tagPropagationMode: TagPropagationMode? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
+        public init(autoScalingConfiguration: CustomerManagedAutoScalingConfiguration? = nil, mode: AutoScalingMode, storageProfileId: String? = nil, tagPropagationMode: TagPropagationMode? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
+            self.autoScalingConfiguration = autoScalingConfiguration
             self.mode = mode
             self.storageProfileId = storageProfileId
             self.tagPropagationMode = tagPropagationMode
@@ -3057,11 +4677,13 @@ extension Deadline {
         }
 
         public func validate(name: String) throws {
+            try self.autoScalingConfiguration?.validate(name: "\(name).autoScalingConfiguration")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
             try self.workerCapabilities.validate(name: "\(name).workerCapabilities")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScalingConfiguration = "autoScalingConfiguration"
             case mode = "mode"
             case storageProfileId = "storageProfileId"
             case tagPropagationMode = "tagPropagationMode"
@@ -3530,6 +5152,42 @@ extension Deadline {
     }
 
     public struct DeleteStorageProfileResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteVolumeRequest: AWSEncodableShape {
+        /// The farm ID of the farm that contains the fleet.
+        public let farmId: String
+        /// The fleet ID of the fleet that contains the volume.
+        public let fleetId: String
+        /// The volume ID of the volume to delete.
+        public let volumeId: String
+
+        @inlinable
+        public init(farmId: String, fleetId: String, volumeId: String) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.volumeId = volumeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.fleetId, key: "fleetId")
+            request.encodePath(self.volumeId, key: "volumeId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^volume-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVolumeResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -4348,7 +6006,7 @@ extension Deadline {
     }
 
     public struct GetFarmResponse: AWSDecodableShape {
-        /// The cost scale factor applied on the farm.
+        /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
         public let costScaleFactor: Float
         /// The date and time the resource was created.
         @CustomCoding<ISO8601DateCoder>
@@ -4825,6 +6483,8 @@ extension Deadline {
         public let identityCenterApplicationArn: String
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         public let identityCenterInstanceArn: String
+        /// The Region where IAM Identity Center is enabled.
+        public let identityCenterRegion: String?
         /// The unique identifier for the monitor.
         public let monitorId: String
         /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
@@ -4840,12 +6500,13 @@ extension Deadline {
         public let url: String
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
+        public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, identityCenterRegion: String? = nil, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.displayName = displayName
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityCenterRegion = identityCenterRegion
             self.monitorId = monitorId
             self.roleArn = roleArn
             self.subdomain = subdomain
@@ -4860,12 +6521,49 @@ extension Deadline {
             case displayName = "displayName"
             case identityCenterApplicationArn = "identityCenterApplicationArn"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case identityCenterRegion = "identityCenterRegion"
             case monitorId = "monitorId"
             case roleArn = "roleArn"
             case subdomain = "subdomain"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
             case url = "url"
+        }
+    }
+
+    public struct GetMonitorSettingsRequest: AWSEncodableShape {
+        /// The unique identifier of the monitor. This ID is returned by the CreateMonitor operation, and is included in the response to the ListMonitors operation.
+        public let monitorId: String
+
+        @inlinable
+        public init(monitorId: String) {
+            self.monitorId = monitorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.monitorId, key: "monitorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorId, name: "monitorId", parent: name, pattern: "^monitor-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMonitorSettingsResponse: AWSDecodableShape {
+        /// The monitor settings as key-value pairs.
+        public let settings: [String: String]
+
+        @inlinable
+        public init(settings: [String: String]) {
+            self.settings = settings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
         }
     }
 
@@ -5148,6 +6846,8 @@ extension Deadline {
         public let requiredFileSystemLocationNames: [String]?
         /// The IAM role ARN.
         public let roleArn: String?
+        /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue.
+        public let schedulingConfiguration: SchedulingConfiguration?
         /// The status of the queue.    ACTIVE–The queue is active.    SCHEDULING–The queue is scheduling.    SCHEDULING_BLOCKED–The queue scheduling is blocked. See the provided reason.
         public let status: QueueStatus
         /// The date and time the resource was updated.
@@ -5157,7 +6857,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(allowedStorageProfileIds: [String]? = nil, blockedReason: QueueBlockedReason? = nil, createdAt: Date, createdBy: String, defaultBudgetAction: DefaultQueueBudgetAction, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, status: QueueStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(allowedStorageProfileIds: [String]? = nil, blockedReason: QueueBlockedReason? = nil, createdAt: Date, createdBy: String, defaultBudgetAction: DefaultQueueBudgetAction, description: String? = nil, displayName: String, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNames: [String]? = nil, roleArn: String? = nil, schedulingConfiguration: SchedulingConfiguration? = nil, status: QueueStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.allowedStorageProfileIds = allowedStorageProfileIds
             self.blockedReason = blockedReason
             self.createdAt = createdAt
@@ -5171,6 +6871,7 @@ extension Deadline {
             self.queueId = queueId
             self.requiredFileSystemLocationNames = requiredFileSystemLocationNames
             self.roleArn = roleArn
+            self.schedulingConfiguration = schedulingConfiguration
             self.status = status
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -5190,6 +6891,7 @@ extension Deadline {
             case queueId = "queueId"
             case requiredFileSystemLocationNames = "requiredFileSystemLocationNames"
             case roleArn = "roleArn"
+            case schedulingConfiguration = "schedulingConfiguration"
             case status = "status"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
@@ -5809,6 +7511,108 @@ extension Deadline {
             case taskId = "taskId"
             case updatedAt = "updatedAt"
             case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct GetVolumeRequest: AWSEncodableShape {
+        /// The farm ID of the farm that contains the fleet.
+        public let farmId: String
+        /// The fleet ID of the fleet that contains the volume.
+        public let fleetId: String
+        /// The volume ID of the volume to retrieve.
+        public let volumeId: String
+
+        @inlinable
+        public init(farmId: String, fleetId: String, volumeId: String) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.volumeId = volumeId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.fleetId, key: "fleetId")
+            request.encodePath(self.volumeId, key: "volumeId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^volume-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVolumeResponse: AWSDecodableShape {
+        /// The worker ID of the worker the volume is attached to.
+        public let attachedWorkerId: String?
+        /// The Availability Zone ID of the volume.
+        public let availabilityZoneId: String
+        /// The date and time the resource was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The date and time the volume expires and will be deleted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expiresAt: Date?
+        /// The farm ID of the farm that contains the fleet.
+        public let farmId: String
+        /// The fleet ID of the fleet that contains the volume.
+        public let fleetId: String
+        /// The IOPS of the volume.
+        public let iops: Int?
+        /// The date and time the volume was last assigned to a worker.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastAssignedAt: Date?
+        /// The date and time the volume was last released from a worker.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastReleasedAt: Date?
+        /// The volume size in GiB.
+        public let sizeGiB: Int
+        /// The state of the volume.
+        public let state: VolumeState
+        /// The throughput of the volume in MiB.
+        public let throughputMiB: Int?
+        /// The volume ID.
+        public let volumeId: String
+        /// The EBS volume type.
+        public let volumeType: EbsVolumeType
+
+        @inlinable
+        public init(attachedWorkerId: String? = nil, availabilityZoneId: String, createdAt: Date, expiresAt: Date? = nil, farmId: String, fleetId: String, iops: Int? = nil, lastAssignedAt: Date? = nil, lastReleasedAt: Date? = nil, sizeGiB: Int, state: VolumeState, throughputMiB: Int? = nil, volumeId: String, volumeType: EbsVolumeType) {
+            self.attachedWorkerId = attachedWorkerId
+            self.availabilityZoneId = availabilityZoneId
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.iops = iops
+            self.lastAssignedAt = lastAssignedAt
+            self.lastReleasedAt = lastReleasedAt
+            self.sizeGiB = sizeGiB
+            self.state = state
+            self.throughputMiB = throughputMiB
+            self.volumeId = volumeId
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedWorkerId = "attachedWorkerId"
+            case availabilityZoneId = "availabilityZoneId"
+            case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case iops = "iops"
+            case lastAssignedAt = "lastAssignedAt"
+            case lastReleasedAt = "lastReleasedAt"
+            case sizeGiB = "sizeGiB"
+            case state = "state"
+            case throughputMiB = "throughputMiB"
+            case volumeId = "volumeId"
+            case volumeType = "volumeType"
         }
     }
 
@@ -8102,6 +9906,62 @@ extension Deadline {
         }
     }
 
+    public struct ListVolumesRequest: AWSEncodableShape {
+        /// The farm ID of the farm that contains the fleet.
+        public let farmId: String
+        /// The fleet ID of the fleet that contains the volumes.
+        public let fleetId: String
+        /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null to start from the beginning.
+        public let nextToken: String?
+
+        @inlinable
+        public init(farmId: String, fleetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.fleetId, key: "fleetId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListVolumesResponse: AWSDecodableShape {
+        /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+        public let nextToken: String?
+        /// The volumes on the list.
+        public let volumes: [VolumeSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, volumes: [VolumeSummary]) {
+            self.nextToken = nextToken
+            self.volumes = volumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case volumes = "volumes"
+        }
+    }
+
     public struct ListWorkersRequest: AWSEncodableShape {
         /// The farm ID connected to the workers.
         public let farmId: String
@@ -8288,6 +10148,8 @@ extension Deadline {
         public let identityCenterApplicationArn: String
         /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         public let identityCenterInstanceArn: String
+        /// The Region where IAM Identity Center is enabled.
+        public let identityCenterRegion: String?
         /// The unique identifier for the monitor.
         public let monitorId: String
         /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
@@ -8303,12 +10165,13 @@ extension Deadline {
         public let url: String
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
+        public init(createdAt: Date, createdBy: String, displayName: String, identityCenterApplicationArn: String, identityCenterInstanceArn: String, identityCenterRegion: String? = nil, monitorId: String, roleArn: String, subdomain: String, updatedAt: Date? = nil, updatedBy: String? = nil, url: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.displayName = displayName
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.identityCenterRegion = identityCenterRegion
             self.monitorId = monitorId
             self.roleArn = roleArn
             self.subdomain = subdomain
@@ -8323,6 +10186,7 @@ extension Deadline {
             case displayName = "displayName"
             case identityCenterApplicationArn = "identityCenterApplicationArn"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case identityCenterRegion = "identityCenterRegion"
             case monitorId = "monitorId"
             case roleArn = "roleArn"
             case subdomain = "subdomain"
@@ -8417,6 +10281,49 @@ extension Deadline {
         }
     }
 
+    public struct PersistentVolumeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IOPS per persistent volume. The default is 3000.
+        public let iops: Int?
+        /// The number of hours a persistent volume can remain unused before it is deleted. The default is 168 (7 days).
+        public let lastUsedTtlHours: Int?
+        /// The file system path where the persistent volume is mounted on the worker instance.
+        public let mountPath: String
+        /// The persistent volume size in GiB. The default is 250.
+        public let sizeGiB: Int?
+        /// The throughput per persistent volume in MiB. The default is 125.
+        public let throughputMiB: Int?
+
+        @inlinable
+        public init(iops: Int? = nil, lastUsedTtlHours: Int? = nil, mountPath: String, sizeGiB: Int? = nil, throughputMiB: Int? = nil) {
+            self.iops = iops
+            self.lastUsedTtlHours = lastUsedTtlHours
+            self.mountPath = mountPath
+            self.sizeGiB = sizeGiB
+            self.throughputMiB = throughputMiB
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iops, name: "iops", parent: name, max: 80000)
+            try self.validate(self.iops, name: "iops", parent: name, min: 100)
+            try self.validate(self.lastUsedTtlHours, name: "lastUsedTtlHours", parent: name, max: 8760)
+            try self.validate(self.lastUsedTtlHours, name: "lastUsedTtlHours", parent: name, min: 1)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, max: 255)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, min: 1)
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, max: 65536)
+            try self.validate(self.sizeGiB, name: "sizeGiB", parent: name, min: 1)
+            try self.validate(self.throughputMiB, name: "throughputMiB", parent: name, max: 2000)
+            try self.validate(self.throughputMiB, name: "throughputMiB", parent: name, min: 125)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iops = "iops"
+            case lastUsedTtlHours = "lastUsedTtlHours"
+            case mountPath = "mountPath"
+            case sizeGiB = "sizeGiB"
+            case throughputMiB = "throughputMiB"
+        }
+    }
+
     public struct PosixUser: AWSEncodableShape & AWSDecodableShape {
         /// The name of the POSIX user's group.
         public let group: String
@@ -8433,6 +10340,29 @@ extension Deadline {
             case group = "group"
             case user = "user"
         }
+    }
+
+    public struct PriorityBalancedSchedulingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The rendering task buffer controls worker stickiness. A worker only switches from its current job to another job at the same priority if the other job has fewer rendering tasks by more than this buffer value. Higher values make workers stickier to their current jobs. The default value is 1.
+        public let renderingTaskBuffer: Int?
+
+        @inlinable
+        public init(renderingTaskBuffer: Int? = nil) {
+            self.renderingTaskBuffer = renderingTaskBuffer
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.renderingTaskBuffer, name: "renderingTaskBuffer", parent: name, max: 1000)
+            try self.validate(self.renderingTaskBuffer, name: "renderingTaskBuffer", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case renderingTaskBuffer = "renderingTaskBuffer"
+        }
+    }
+
+    public struct PriorityFifoSchedulingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutMeteredProductRequest: AWSEncodableShape {
@@ -8724,6 +10654,14 @@ extension Deadline {
             case bucketName = "bucketName"
             case key = "key"
         }
+    }
+
+    public struct SchedulingMaxPriorityOverrideAlwaysScheduleFirst: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct SchedulingMinPriorityOverrideAlwaysScheduleLast: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct SearchGroupedFilterExpressions: AWSEncodableShape {
@@ -9095,33 +11033,74 @@ extension Deadline {
         }
     }
 
+    public struct ServiceManagedEc2AutoScalingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of workers that can be added per minute to the fleet. The default is 10 workers per minute.
+        public let scaleOutWorkersPerMinute: Int?
+        /// The number of idle workers maintained and ready to process incoming tasks. The default is 0.
+        public let standbyWorkerCount: Int?
+        /// The number of seconds that a worker can remain idle before it is shut down. The default is 300 seconds (5 minutes).
+        public let workerIdleDurationSeconds: Int?
+
+        @inlinable
+        public init(scaleOutWorkersPerMinute: Int? = nil, standbyWorkerCount: Int? = nil, workerIdleDurationSeconds: Int? = nil) {
+            self.scaleOutWorkersPerMinute = scaleOutWorkersPerMinute
+            self.standbyWorkerCount = standbyWorkerCount
+            self.workerIdleDurationSeconds = workerIdleDurationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.scaleOutWorkersPerMinute, name: "scaleOutWorkersPerMinute", parent: name, max: 2147483647)
+            try self.validate(self.scaleOutWorkersPerMinute, name: "scaleOutWorkersPerMinute", parent: name, min: 1)
+            try self.validate(self.standbyWorkerCount, name: "standbyWorkerCount", parent: name, max: 2147483647)
+            try self.validate(self.standbyWorkerCount, name: "standbyWorkerCount", parent: name, min: 0)
+            try self.validate(self.workerIdleDurationSeconds, name: "workerIdleDurationSeconds", parent: name, max: 86400)
+            try self.validate(self.workerIdleDurationSeconds, name: "workerIdleDurationSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleOutWorkersPerMinute = "scaleOutWorkersPerMinute"
+            case standbyWorkerCount = "standbyWorkerCount"
+            case workerIdleDurationSeconds = "workerIdleDurationSeconds"
+        }
+    }
+
     public struct ServiceManagedEc2FleetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The auto scaling configuration settings for the service managed EC2 fleet.
+        public let autoScalingConfiguration: ServiceManagedEc2AutoScalingConfiguration?
         /// The instance capabilities for the service managed EC2 fleet.
         public let instanceCapabilities: ServiceManagedEc2InstanceCapabilities
         /// The instance market options for the service managed EC2 fleet.
         public let instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions
+        /// The persistent volume configuration for the service managed EC2 fleet.
+        public let persistentVolumeConfiguration: PersistentVolumeConfiguration?
         /// The storage profile ID for the service managed EC2 fleet.
         public let storageProfileId: String?
         /// The VPC configuration for the service managed EC2 fleet.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions, storageProfileId: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(autoScalingConfiguration: ServiceManagedEc2AutoScalingConfiguration? = nil, instanceCapabilities: ServiceManagedEc2InstanceCapabilities, instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions, persistentVolumeConfiguration: PersistentVolumeConfiguration? = nil, storageProfileId: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+            self.autoScalingConfiguration = autoScalingConfiguration
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
+            self.persistentVolumeConfiguration = persistentVolumeConfiguration
             self.storageProfileId = storageProfileId
             self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.autoScalingConfiguration?.validate(name: "\(name).autoScalingConfiguration")
             try self.instanceCapabilities.validate(name: "\(name).instanceCapabilities")
+            try self.persistentVolumeConfiguration?.validate(name: "\(name).persistentVolumeConfiguration")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
             try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoScalingConfiguration = "autoScalingConfiguration"
             case instanceCapabilities = "instanceCapabilities"
             case instanceMarketOptions = "instanceMarketOptions"
+            case persistentVolumeConfiguration = "persistentVolumeConfiguration"
             case storageProfileId = "storageProfileId"
             case vpcConfiguration = "vpcConfiguration"
         }
@@ -10397,7 +12376,7 @@ extension Deadline {
     }
 
     public struct UpdateFarmRequest: AWSEncodableShape {
-        /// The cost scale factor of the farm to update.
+        /// A multiplier applied to the farm's calculated costs for usage data and budget tracking. A value less than 1 represents a discount, a value greater than 1 represents a premium, and a value of 1 represents no adjustment.
         public let costScaleFactor: Float?
         /// The description of the farm to update.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let description: String?
@@ -10718,6 +12697,45 @@ extension Deadline {
         public init() {}
     }
 
+    public struct UpdateMonitorSettingsRequest: AWSEncodableShape {
+        /// The unique identifier of the monitor to update settings for.
+        public let monitorId: String
+        /// The monitor settings to update as key-value pairs. Keys present in the request are upserted; keys absent are left unchanged. Send an empty string value to delete a key.
+        public let settings: [String: String]
+
+        @inlinable
+        public init(monitorId: String, settings: [String: String]) {
+            self.monitorId = monitorId
+            self.settings = settings
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.monitorId, key: "monitorId")
+            try container.encode(self.settings, forKey: .settings)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.monitorId, name: "monitorId", parent: name, pattern: "^monitor-[0-9a-f]{32}$")
+            try self.settings.forEach {
+                try validate($0.key, name: "settings.key", parent: name, max: 128)
+                try validate($0.key, name: "settings.key", parent: name, min: 1)
+                try validate($0.key, name: "settings.key", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.:-]*$")
+                try validate($0.value, name: "settings[\"\($0.key)\"]", parent: name, max: 8192)
+            }
+            try self.validate(self.settings, name: "settings", parent: name, max: 64)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+        }
+    }
+
+    public struct UpdateMonitorSettingsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateQueueEnvironmentRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
@@ -10891,9 +12909,11 @@ extension Deadline {
         public let requiredFileSystemLocationNamesToRemove: [String]?
         /// The IAM role ARN that's used to run jobs from this queue.
         public let roleArn: String?
+        /// The scheduling configuration for the queue. This configuration determines how workers are assigned to jobs in the queue. When updating the scheduling configuration, the entire configuration is replaced. In-progress tasks run to completion before the new scheduling configuration takes effect.
+        public let schedulingConfiguration: SchedulingConfiguration?
 
         @inlinable
-        public init(allowedStorageProfileIdsToAdd: [String]? = nil, allowedStorageProfileIdsToRemove: [String]? = nil, clientToken: String? = UpdateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String? = nil, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNamesToAdd: [String]? = nil, requiredFileSystemLocationNamesToRemove: [String]? = nil, roleArn: String? = nil) {
+        public init(allowedStorageProfileIdsToAdd: [String]? = nil, allowedStorageProfileIdsToRemove: [String]? = nil, clientToken: String? = UpdateQueueRequest.idempotencyToken(), defaultBudgetAction: DefaultQueueBudgetAction? = nil, description: String? = nil, displayName: String? = nil, farmId: String, jobAttachmentSettings: JobAttachmentSettings? = nil, jobRunAsUser: JobRunAsUser? = nil, queueId: String, requiredFileSystemLocationNamesToAdd: [String]? = nil, requiredFileSystemLocationNamesToRemove: [String]? = nil, roleArn: String? = nil, schedulingConfiguration: SchedulingConfiguration? = nil) {
             self.allowedStorageProfileIdsToAdd = allowedStorageProfileIdsToAdd
             self.allowedStorageProfileIdsToRemove = allowedStorageProfileIdsToRemove
             self.clientToken = clientToken
@@ -10907,6 +12927,7 @@ extension Deadline {
             self.requiredFileSystemLocationNamesToAdd = requiredFileSystemLocationNamesToAdd
             self.requiredFileSystemLocationNamesToRemove = requiredFileSystemLocationNamesToRemove
             self.roleArn = roleArn
+            self.schedulingConfiguration = schedulingConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -10925,6 +12946,7 @@ extension Deadline {
             try container.encodeIfPresent(self.requiredFileSystemLocationNamesToAdd, forKey: .requiredFileSystemLocationNamesToAdd)
             try container.encodeIfPresent(self.requiredFileSystemLocationNamesToRemove, forKey: .requiredFileSystemLocationNamesToRemove)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.schedulingConfiguration, forKey: .schedulingConfiguration)
         }
 
         public func validate(name: String) throws {
@@ -10957,6 +12979,7 @@ extension Deadline {
             }
             try self.validate(self.requiredFileSystemLocationNamesToRemove, name: "requiredFileSystemLocationNamesToRemove", parent: name, max: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):iam::\\d{12}:role(/[!-.0-~]+)*/[\\w+=,.@-]+$")
+            try self.schedulingConfiguration?.validate(name: "\(name).schedulingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10970,6 +12993,7 @@ extension Deadline {
             case requiredFileSystemLocationNamesToAdd = "requiredFileSystemLocationNamesToAdd"
             case requiredFileSystemLocationNamesToRemove = "requiredFileSystemLocationNamesToRemove"
             case roleArn = "roleArn"
+            case schedulingConfiguration = "schedulingConfiguration"
         }
     }
 
@@ -11481,6 +13505,44 @@ extension Deadline {
         }
     }
 
+    public struct VolumeSummary: AWSDecodableShape {
+        /// The worker ID of the worker the volume is attached to.
+        public let attachedWorkerId: String?
+        /// The Availability Zone ID of the volume.
+        public let availabilityZoneId: String
+        /// The farm ID of the farm that contains the fleet.
+        public let farmId: String
+        /// The fleet ID of the fleet that contains the volume.
+        public let fleetId: String
+        /// The volume size in GiB.
+        public let sizeGiB: Int
+        /// The state of the volume.
+        public let state: VolumeState
+        /// The volume ID.
+        public let volumeId: String
+
+        @inlinable
+        public init(attachedWorkerId: String? = nil, availabilityZoneId: String, farmId: String, fleetId: String, sizeGiB: Int, state: VolumeState, volumeId: String) {
+            self.attachedWorkerId = attachedWorkerId
+            self.availabilityZoneId = availabilityZoneId
+            self.farmId = farmId
+            self.fleetId = fleetId
+            self.sizeGiB = sizeGiB
+            self.state = state
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedWorkerId = "attachedWorkerId"
+            case availabilityZoneId = "availabilityZoneId"
+            case farmId = "farmId"
+            case fleetId = "fleetId"
+            case sizeGiB = "sizeGiB"
+            case state = "state"
+            case volumeId = "volumeId"
+        }
+    }
+
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
         public let resourceConfigurationArns: [String]?
@@ -11500,6 +13562,57 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case resourceConfigurationArns = "resourceConfigurationArns"
+        }
+    }
+
+    public struct WeightedBalancedSchedulingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The weight applied to the number of errors on a job. A negative value means jobs without errors are scheduled first. A value of 0 means errors are ignored. The default value is -10.0.
+        public let errorWeight: Double?
+        /// Overrides the weighted scheduling formula for jobs at the maximum priority (100). When set, jobs with priority 100 are always scheduled first regardless of their calculated weight. When absent, maximum priority jobs use the standard weighted formula.
+        public let maxPriorityOverride: SchedulingMaxPriorityOverride?
+        /// Overrides the weighted scheduling formula for jobs at the minimum priority (0). When set, jobs with priority 0 are always scheduled last regardless of their calculated weight. When absent, minimum priority jobs use the standard weighted formula.
+        public let minPriorityOverride: SchedulingMinPriorityOverride?
+        /// The weight applied to job priority in the scheduling formula. Higher values give more influence to job priority. A value of 0 means priority is ignored. The default value is 100.0.
+        public let priorityWeight: Double?
+        /// The rendering task buffer is subtracted from the number of rendering tasks before applying the rendering task weight. This creates a stickiness effect where workers prefer to stay with their current job. Higher values make workers stickier. The default value is 1. The buffer is only applied in the weight calculation for a job if the worker is currently assigned to that job.
+        public let renderingTaskBuffer: Int?
+        /// The weight applied to the number of tasks currently rendering on a job. A negative value means jobs that are not already rendering are scheduled next. A value of 0 means the rendering state is ignored. The default value is -100.0.
+        public let renderingTaskWeight: Double?
+        /// The weight applied to job submission time. A positive value means earlier jobs are scheduled first. A value of 0 means submission time is ignored. The default value is 3.0.
+        public let submissionTimeWeight: Double?
+
+        @inlinable
+        public init(errorWeight: Double? = nil, maxPriorityOverride: SchedulingMaxPriorityOverride? = nil, minPriorityOverride: SchedulingMinPriorityOverride? = nil, priorityWeight: Double? = nil, renderingTaskBuffer: Int? = nil, renderingTaskWeight: Double? = nil, submissionTimeWeight: Double? = nil) {
+            self.errorWeight = errorWeight
+            self.maxPriorityOverride = maxPriorityOverride
+            self.minPriorityOverride = minPriorityOverride
+            self.priorityWeight = priorityWeight
+            self.renderingTaskBuffer = renderingTaskBuffer
+            self.renderingTaskWeight = renderingTaskWeight
+            self.submissionTimeWeight = submissionTimeWeight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.errorWeight, name: "errorWeight", parent: name, max: 10000.0)
+            try self.validate(self.errorWeight, name: "errorWeight", parent: name, min: -10000.0)
+            try self.validate(self.priorityWeight, name: "priorityWeight", parent: name, max: 10000.0)
+            try self.validate(self.priorityWeight, name: "priorityWeight", parent: name, min: 0.0)
+            try self.validate(self.renderingTaskBuffer, name: "renderingTaskBuffer", parent: name, max: 1000)
+            try self.validate(self.renderingTaskBuffer, name: "renderingTaskBuffer", parent: name, min: 0)
+            try self.validate(self.renderingTaskWeight, name: "renderingTaskWeight", parent: name, max: 10000.0)
+            try self.validate(self.renderingTaskWeight, name: "renderingTaskWeight", parent: name, min: -10000.0)
+            try self.validate(self.submissionTimeWeight, name: "submissionTimeWeight", parent: name, max: 10000.0)
+            try self.validate(self.submissionTimeWeight, name: "submissionTimeWeight", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorWeight = "errorWeight"
+            case maxPriorityOverride = "maxPriorityOverride"
+            case minPriorityOverride = "minPriorityOverride"
+            case priorityWeight = "priorityWeight"
+            case renderingTaskBuffer = "renderingTaskBuffer"
+            case renderingTaskWeight = "renderingTaskWeight"
+            case submissionTimeWeight = "submissionTimeWeight"
         }
     }
 
@@ -11754,6 +13867,34 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case fixed = "fixed"
+        }
+    }
+
+    public struct SchedulingMaxPriorityOverride: AWSEncodableShape & AWSDecodableShape {
+        /// Jobs at the maximum priority (100) are always scheduled before other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 100, ties are broken using the standard weighted formula.
+        public let alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst?
+
+        @inlinable
+        public init(alwaysScheduleFirst: SchedulingMaxPriorityOverrideAlwaysScheduleFirst? = nil) {
+            self.alwaysScheduleFirst = alwaysScheduleFirst
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alwaysScheduleFirst = "alwaysScheduleFirst"
+        }
+    }
+
+    public struct SchedulingMinPriorityOverride: AWSEncodableShape & AWSDecodableShape {
+        /// Jobs at the minimum priority (0) are always scheduled after all other jobs, regardless of the weighted scheduling formula. If multiple jobs have priority 0, ties are broken using the standard weighted formula.
+        public let alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast?
+
+        @inlinable
+        public init(alwaysScheduleLast: SchedulingMinPriorityOverrideAlwaysScheduleLast? = nil) {
+            self.alwaysScheduleLast = alwaysScheduleLast
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alwaysScheduleLast = "alwaysScheduleLast"
         }
     }
 

@@ -474,6 +474,8 @@ extension SSOAdmin {
         public let createdFrom: String?
         /// The description of the application.
         public let description: String?
+        /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+        public let identityStoreArn: String?
         /// The ARN of the instance of IAM Identity Center that is configured with this application.
         public let instanceArn: String?
         /// The name of the application.
@@ -484,13 +486,14 @@ extension SSOAdmin {
         public let status: ApplicationStatus?
 
         @inlinable
-        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, identityStoreArn: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
             self.createdDate = createdDate
             self.createdFrom = createdFrom
             self.description = description
+            self.identityStoreArn = identityStoreArn
             self.instanceArn = instanceArn
             self.name = name
             self.portalOptions = portalOptions
@@ -504,6 +507,7 @@ extension SSOAdmin {
             case createdDate = "CreatedDate"
             case createdFrom = "CreatedFrom"
             case description = "Description"
+            case identityStoreArn = "IdentityStoreArn"
             case instanceArn = "InstanceArn"
             case name = "Name"
             case portalOptions = "PortalOptions"
@@ -905,14 +909,22 @@ extension SSOAdmin {
     public struct CreateApplicationResponse: AWSDecodableShape {
         /// Specifies the ARN of the application.
         public let applicationArn: String?
+        /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+        public let identityStoreArn: String?
+        /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+        public let instanceArn: String?
 
         @inlinable
-        public init(applicationArn: String? = nil) {
+        public init(applicationArn: String? = nil, identityStoreArn: String? = nil, instanceArn: String? = nil) {
             self.applicationArn = applicationArn
+            self.identityStoreArn = identityStoreArn
+            self.instanceArn = instanceArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
+            case identityStoreArn = "IdentityStoreArn"
+            case instanceArn = "InstanceArn"
         }
     }
 
@@ -1729,6 +1741,8 @@ extension SSOAdmin {
         public let createdFrom: String?
         /// The description of the .
         public let description: String?
+        /// The ARN of the identity store that is connected to the instance of IAM Identity Center.
+        public let identityStoreArn: String?
         /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
         /// The application name.
@@ -1739,13 +1753,14 @@ extension SSOAdmin {
         public let status: ApplicationStatus?
 
         @inlinable
-        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
+        public init(applicationAccount: String? = nil, applicationArn: String? = nil, applicationProviderArn: String? = nil, createdDate: Date? = nil, createdFrom: String? = nil, description: String? = nil, identityStoreArn: String? = nil, instanceArn: String? = nil, name: String? = nil, portalOptions: PortalOptions? = nil, status: ApplicationStatus? = nil) {
             self.applicationAccount = applicationAccount
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
             self.createdDate = createdDate
             self.createdFrom = createdFrom
             self.description = description
+            self.identityStoreArn = identityStoreArn
             self.instanceArn = instanceArn
             self.name = name
             self.portalOptions = portalOptions
@@ -1759,6 +1774,7 @@ extension SSOAdmin {
             case createdDate = "CreatedDate"
             case createdFrom = "CreatedFrom"
             case description = "Description"
+            case identityStoreArn = "IdentityStoreArn"
             case instanceArn = "InstanceArn"
             case name = "Name"
             case portalOptions = "PortalOptions"
@@ -2530,18 +2546,24 @@ extension SSOAdmin {
         public let name: String?
         /// The Amazon Web Services account ID number of the owner of the Identity Center instance.
         public let ownerAccountId: String?
+        /// The primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public let primaryRegion: String?
+        /// The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.
+        public let regions: [RegionMetadata]?
         /// The current status of this Identity Center instance.
         public let status: InstanceStatus?
         /// Provides additional context about the current status of the IAM Identity Center instance. This field is particularly useful when an instance is in a non-ACTIVE state, such as CREATE_FAILED. When an instance creation fails, this field contains information about the cause, which may include issues with KMS key configuration or insufficient permissions.
         public let statusReason: String?
 
         @inlinable
-        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
+        public init(createdDate: Date? = nil, identityStoreId: String? = nil, instanceArn: String? = nil, name: String? = nil, ownerAccountId: String? = nil, primaryRegion: String? = nil, regions: [RegionMetadata]? = nil, status: InstanceStatus? = nil, statusReason: String? = nil) {
             self.createdDate = createdDate
             self.identityStoreId = identityStoreId
             self.instanceArn = instanceArn
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.primaryRegion = primaryRegion
+            self.regions = regions
             self.status = status
             self.statusReason = statusReason
         }
@@ -2552,6 +2574,8 @@ extension SSOAdmin {
             case instanceArn = "InstanceArn"
             case name = "Name"
             case ownerAccountId = "OwnerAccountId"
+            case primaryRegion = "PrimaryRegion"
+            case regions = "Regions"
             case status = "Status"
             case statusReason = "StatusReason"
         }

@@ -91,6 +91,29 @@ extension EMRContainers {
 
     // MARK: Shapes
 
+    public struct AuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IAM configuration to use for authentication.
+        public let iamConfiguration: IAMConfiguration?
+        /// The IAM Identity Center configuration to use for authentication.
+        public let identityCenterConfiguration: IdentityCenterConfiguration?
+
+        @inlinable
+        public init(iamConfiguration: IAMConfiguration? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil) {
+            self.iamConfiguration = iamConfiguration
+            self.identityCenterConfiguration = identityCenterConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.iamConfiguration?.validate(name: "\(name).iamConfiguration")
+            try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamConfiguration = "iamConfiguration"
+            case identityCenterConfiguration = "identityCenterConfiguration"
+        }
+    }
+
     public struct AuthorizationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Encryption-related configuration input for the security configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -421,6 +444,8 @@ extension EMRContainers {
         public let name: String
         /// The Amazon EMR release version.
         public let releaseLabel: String
+        /// The number of idle minutes before the managed endpoint session times out.
+        public let sessionIdleTimeoutInMinutes: Int?
         /// The tags of the managed endpoint.
         public let tags: [String: String]?
         /// The type of the managed endpoint.
@@ -429,13 +454,14 @@ extension EMRContainers {
         public let virtualClusterId: String
 
         @inlinable
-        public init(clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
+        public init(clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, sessionIdleTimeoutInMinutes: Int? = nil, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
             self.certificateArn = nil
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
             self.name = name
             self.releaseLabel = releaseLabel
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
             self.tags = tags
             self.type = type
             self.virtualClusterId = virtualClusterId
@@ -443,13 +469,14 @@ extension EMRContainers {
 
         @available(*, deprecated, message: "Members certificateArn have been deprecated")
         @inlinable
-        public init(certificateArn: String? = nil, clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
+        public init(certificateArn: String? = nil, clientToken: String = CreateManagedEndpointRequest.idempotencyToken(), configurationOverrides: ConfigurationOverrides? = nil, executionRoleArn: String, name: String, releaseLabel: String, sessionIdleTimeoutInMinutes: Int? = nil, tags: [String: String]? = nil, type: String, virtualClusterId: String) {
             self.certificateArn = certificateArn
             self.clientToken = clientToken
             self.configurationOverrides = configurationOverrides
             self.executionRoleArn = executionRoleArn
             self.name = name
             self.releaseLabel = releaseLabel
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
             self.tags = tags
             self.type = type
             self.virtualClusterId = virtualClusterId
@@ -464,6 +491,7 @@ extension EMRContainers {
             try container.encode(self.executionRoleArn, forKey: .executionRoleArn)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.releaseLabel, forKey: .releaseLabel)
+            try container.encodeIfPresent(self.sessionIdleTimeoutInMinutes, forKey: .sessionIdleTimeoutInMinutes)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.type, forKey: .type)
             request.encodePath(self.virtualClusterId, key: "virtualClusterId")
@@ -509,6 +537,7 @@ extension EMRContainers {
             case executionRoleArn = "executionRoleArn"
             case name = "name"
             case releaseLabel = "releaseLabel"
+            case sessionIdleTimeoutInMinutes = "sessionIdleTimeoutInMinutes"
             case tags = "tags"
             case type = "type"
         }
@@ -618,17 +647,23 @@ extension EMRContainers {
         public let containerProvider: ContainerProvider
         /// The specified name of the virtual cluster.
         public let name: String
+        /// The scheduler configuration (concurrency and queue limits) to apply to the virtual cluster at creation time. When omitted, no limits are applied.
+        public let schedulerConfiguration: SchedulerConfiguration?
         /// The ID of the security configuration.
         public let securityConfigurationId: String?
+        /// Indicates whether the virtual cluster has session support enabled.
+        public let sessionEnabled: Bool?
         /// The tags assigned to the virtual cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateVirtualClusterRequest.idempotencyToken(), containerProvider: ContainerProvider, name: String, securityConfigurationId: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateVirtualClusterRequest.idempotencyToken(), containerProvider: ContainerProvider, name: String, schedulerConfiguration: SchedulerConfiguration? = nil, securityConfigurationId: String? = nil, sessionEnabled: Bool? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.containerProvider = containerProvider
             self.name = name
+            self.schedulerConfiguration = schedulerConfiguration
             self.securityConfigurationId = securityConfigurationId
+            self.sessionEnabled = sessionEnabled
             self.tags = tags
         }
 
@@ -640,6 +675,7 @@ extension EMRContainers {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.schedulerConfiguration?.validate(name: "\(name).schedulerConfiguration")
             try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, max: 64)
             try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, min: 1)
             try self.validate(self.securityConfigurationId, name: "securityConfigurationId", parent: name, pattern: "^[0-9a-z]+$")
@@ -657,7 +693,9 @@ extension EMRContainers {
             case clientToken = "clientToken"
             case containerProvider = "containerProvider"
             case name = "name"
+            case schedulerConfiguration = "schedulerConfiguration"
             case securityConfigurationId = "securityConfigurationId"
+            case sessionEnabled = "sessionEnabled"
             case tags = "tags"
         }
     }
@@ -768,6 +806,44 @@ extension EMRContainers {
         private enum CodingKeys: String, CodingKey {
             case id = "id"
             case virtualClusterId = "virtualClusterId"
+        }
+    }
+
+    public struct DeleteSecurityConfigurationRequest: AWSEncodableShape {
+        /// The ID of the security configuration to delete.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-z]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSecurityConfigurationResponse: AWSDecodableShape {
+        /// The ID of the deleted security configuration.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
@@ -1031,7 +1107,7 @@ extension EMRContainers {
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
             try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, max: 64)
             try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, min: 1)
-            try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.nodeLabel, name: "nodeLabel", parent: name, pattern: "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1061,6 +1137,8 @@ extension EMRContainers {
     public struct Endpoint: AWSDecodableShape {
         /// The ARN of the endpoint.
         public let arn: String?
+        /// The authentication proxy URL of the endpoint.
+        public let authProxyUrl: String?
         /// The certificate ARN of the endpoint. This field is under deprecation and will be removed in future.
         public let certificateArn: String?
         /// The certificate generated by emr control plane on customer behalf to secure the managed endpoint.
@@ -1098,8 +1176,9 @@ extension EMRContainers {
         public let virtualClusterId: String?
 
         @inlinable
-        public init(arn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
+        public init(arn: String? = nil, authProxyUrl: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
+            self.authProxyUrl = authProxyUrl
             self.certificateArn = nil
             self.certificateAuthority = certificateAuthority
             self.configurationOverrides = configurationOverrides
@@ -1121,8 +1200,9 @@ extension EMRContainers {
 
         @available(*, deprecated, message: "Members certificateArn have been deprecated")
         @inlinable
-        public init(arn: String? = nil, certificateArn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
+        public init(arn: String? = nil, authProxyUrl: String? = nil, certificateArn: String? = nil, certificateAuthority: Certificate? = nil, configurationOverrides: ConfigurationOverrides? = nil, createdAt: Date? = nil, executionRoleArn: String? = nil, failureReason: FailureReason? = nil, id: String? = nil, name: String? = nil, releaseLabel: String? = nil, securityGroup: String? = nil, serverUrl: String? = nil, state: EndpointState? = nil, stateDetails: String? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, type: String? = nil, virtualClusterId: String? = nil) {
             self.arn = arn
+            self.authProxyUrl = authProxyUrl
             self.certificateArn = certificateArn
             self.certificateAuthority = certificateAuthority
             self.configurationOverrides = configurationOverrides
@@ -1144,6 +1224,7 @@ extension EMRContainers {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case authProxyUrl = "authProxyUrl"
             case certificateArn = "certificateArn"
             case certificateAuthority = "certificateAuthority"
             case configurationOverrides = "configurationOverrides"
@@ -1236,6 +1317,8 @@ extension EMRContainers {
     public struct GetManagedEndpointSessionCredentialsResponse: AWSDecodableShape {
         /// The structure containing the session credentials.
         public let credentials: Credentials?
+        /// The session credentials that the operation returns.
+        public let endpointCredentials: Credentials?
         /// The date and time when the session token will expire.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expiresAt: Date?
@@ -1243,16 +1326,71 @@ extension EMRContainers {
         public let id: String?
 
         @inlinable
-        public init(credentials: Credentials? = nil, expiresAt: Date? = nil, id: String? = nil) {
+        public init(credentials: Credentials? = nil, endpointCredentials: Credentials? = nil, expiresAt: Date? = nil, id: String? = nil) {
             self.credentials = credentials
+            self.endpointCredentials = endpointCredentials
             self.expiresAt = expiresAt
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "credentials"
+            case endpointCredentials = "endpointCredentials"
             case expiresAt = "expiresAt"
             case id = "id"
+        }
+    }
+
+    public struct IAMConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the system role used by the security configuration.
+        public let systemRole: String?
+
+        @inlinable
+        public init(systemRole: String? = nil) {
+            self.systemRole = systemRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.systemRole, name: "systemRole", parent: name, max: 2048)
+            try self.validate(self.systemRole, name: "systemRole", parent: name, min: 20)
+            try self.validate(self.systemRole, name: "systemRole", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):iam::(\\d{12})?:(role((\\u002F)|(\\u002F[\\u0021-\\u007F]+\\u002F))[\\w+=,.@-]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemRole = "systemRole"
+        }
+    }
+
+    public struct IdentityCenterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon EMR Identity Center application.
+        public let emrIdentityCenterApplicationARN: String?
+        /// Specifies whether Identity Center is enabled for the security configuration.
+        public let enableIdentityCenter: Bool?
+        /// Specifies whether user assignment is required for the Identity Center application.
+        public let identityCenterApplicationAssignmentRequired: Bool?
+        /// The Amazon Resource Name (ARN) of the Identity Center instance.
+        public let identityCenterInstanceARN: String?
+
+        @inlinable
+        public init(emrIdentityCenterApplicationARN: String? = nil, enableIdentityCenter: Bool? = nil, identityCenterApplicationAssignmentRequired: Bool? = nil, identityCenterInstanceARN: String? = nil) {
+            self.emrIdentityCenterApplicationARN = emrIdentityCenterApplicationARN
+            self.enableIdentityCenter = enableIdentityCenter
+            self.identityCenterApplicationAssignmentRequired = identityCenterApplicationAssignmentRequired
+            self.identityCenterInstanceARN = identityCenterInstanceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emrIdentityCenterApplicationARN, name: "emrIdentityCenterApplicationARN", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):sso:::application/ssoins-[0-9a-zA-Z/\\\\-_]+/apl-[0-9a-zA-Z/\\\\-_]+$")
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, max: 1224)
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, min: 10)
+            try self.validate(self.identityCenterInstanceARN, name: "identityCenterInstanceARN", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):sso:::instance/ssoins-[0-9a-zA-Z/\\\\-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emrIdentityCenterApplicationARN = "emrIdentityCenterApplicationARN"
+            case enableIdentityCenter = "enableIdentityCenter"
+            case identityCenterApplicationAssignmentRequired = "identityCenterApplicationAssignmentRequired"
+            case identityCenterInstanceARN = "identityCenterInstanceARN"
         }
     }
 
@@ -2091,22 +2229,72 @@ extension EMRContainers {
     }
 
     public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the encryption key for logs.
+        public let encryptionKeyArn: String?
         /// Amazon S3 destination URI for log publishing.
         public let logUri: String
 
         @inlinable
-        public init(logUri: String) {
+        public init(encryptionKeyArn: String? = nil, logUri: String) {
+            self.encryptionKeyArn = encryptionKeyArn
             self.logUri = logUri
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 3)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\\d{12})?:key\\/[(0-9a-zA-Z)-?]+|\\$\\{[a-zA-Z]\\w*\\})$")
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, min: 1)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encryptionKeyArn = "encryptionKeyArn"
             case logUri = "logUri"
+        }
+    }
+
+    public struct SchedulerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of job runs that can be in the RUNNING state at any time for the virtual cluster. As running slots free up, queued job runs start automatically. If you omit this field, the service applies no concurrency limit.
+        public let maxConcurrentJobRuns: Int?
+        /// The maximum number of job runs that can be in the PENDING or SUBMITTED state at any time for the virtual cluster. When the queue is full, the service rejects StartJobRun requests with a ValidationException. If you omit this field, the service applies no queue-depth limit.
+        public let maxInQueueJobRuns: Int?
+
+        @inlinable
+        public init(maxConcurrentJobRuns: Int? = nil, maxInQueueJobRuns: Int? = nil) {
+            self.maxConcurrentJobRuns = maxConcurrentJobRuns
+            self.maxInQueueJobRuns = maxInQueueJobRuns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxConcurrentJobRuns, name: "maxConcurrentJobRuns", parent: name, max: 10000)
+            try self.validate(self.maxConcurrentJobRuns, name: "maxConcurrentJobRuns", parent: name, min: 1)
+            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, max: 10000)
+            try self.validate(self.maxInQueueJobRuns, name: "maxInQueueJobRuns", parent: name, min: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxConcurrentJobRuns = "maxConcurrentJobRuns"
+            case maxInQueueJobRuns = "maxInQueueJobRuns"
+        }
+    }
+
+    public struct SchedulerStatus: AWSDecodableShape {
+        /// The number of job runs currently in the RUNNING state for the virtual cluster.
+        public let currentConcurrentJobRuns: Int?
+        /// The number of job runs currently waiting in the queue (PENDING or SUBMITTED) for the virtual cluster.
+        public let currentInQueueJobRuns: Int?
+
+        @inlinable
+        public init(currentConcurrentJobRuns: Int? = nil, currentInQueueJobRuns: Int? = nil) {
+            self.currentConcurrentJobRuns = currentConcurrentJobRuns
+            self.currentInQueueJobRuns = currentInQueueJobRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentConcurrentJobRuns = "currentConcurrentJobRuns"
+            case currentInQueueJobRuns = "currentInQueueJobRuns"
         }
     }
 
@@ -2177,19 +2365,24 @@ extension EMRContainers {
     }
 
     public struct SecurityConfigurationData: AWSEncodableShape & AWSDecodableShape {
+        /// Authentication-related configuration input for the security configuration.
+        public let authenticationConfiguration: AuthenticationConfiguration?
         /// Authorization-related configuration input for the security configuration.
         public let authorizationConfiguration: AuthorizationConfiguration?
 
         @inlinable
-        public init(authorizationConfiguration: AuthorizationConfiguration? = nil) {
+        public init(authenticationConfiguration: AuthenticationConfiguration? = nil, authorizationConfiguration: AuthorizationConfiguration? = nil) {
+            self.authenticationConfiguration = authenticationConfiguration
             self.authorizationConfiguration = authorizationConfiguration
         }
 
         public func validate(name: String) throws {
+            try self.authenticationConfiguration?.validate(name: "\(name).authenticationConfiguration")
             try self.authorizationConfiguration?.validate(name: "\(name).authorizationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationConfiguration = "authenticationConfiguration"
             case authorizationConfiguration = "authorizationConfiguration"
         }
     }
@@ -2527,6 +2720,59 @@ extension EMRContainers {
         public init() {}
     }
 
+    public struct UpdateVirtualClusterRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+        public let clientToken: String
+        /// The ID of the virtual cluster to update.
+        public let id: String
+        /// The scheduler configuration to apply to the virtual cluster. The new configuration fully replaces the existing one. If you omit a field, the corresponding limit is removed.
+        public let schedulerConfiguration: SchedulerConfiguration?
+
+        @inlinable
+        public init(clientToken: String = UpdateVirtualClusterRequest.idempotencyToken(), id: String, schedulerConfiguration: SchedulerConfiguration? = nil) {
+            self.clientToken = clientToken
+            self.id = id
+            self.schedulerConfiguration = schedulerConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.id, key: "id")
+            try container.encodeIfPresent(self.schedulerConfiguration, forKey: .schedulerConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.id, name: "id", parent: name, max: 64)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-z]+$")
+            try self.schedulerConfiguration?.validate(name: "\(name).schedulerConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case schedulerConfiguration = "schedulerConfiguration"
+        }
+    }
+
+    public struct UpdateVirtualClusterResponse: AWSDecodableShape {
+        /// The updated virtual cluster.
+        public let virtualCluster: VirtualCluster?
+
+        @inlinable
+        public init(virtualCluster: VirtualCluster? = nil) {
+            self.virtualCluster = virtualCluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case virtualCluster = "virtualCluster"
+        }
+    }
+
     public struct VirtualCluster: AWSDecodableShape {
         /// The ARN of the virtual cluster.
         public let arn: String?
@@ -2539,21 +2785,30 @@ extension EMRContainers {
         public let id: String?
         /// The name of the virtual cluster.
         public let name: String?
+        /// The scheduler configuration (concurrency and queue limits) applied to the virtual cluster. The service does not return this field when no scheduler limits are configured.
+        public let schedulerConfiguration: SchedulerConfiguration?
+        /// The current in-queue and concurrent job-run counts for the virtual cluster.
+        public let schedulerStatus: SchedulerStatus?
         /// The ID of the security configuration.
         public let securityConfigurationId: String?
+        /// Specifies whether the virtual cluster has session support enabled.
+        public let sessionEnabled: Bool?
         /// The state of the virtual cluster.
         public let state: VirtualClusterState?
         /// The assigned tags of the virtual cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String? = nil, containerProvider: ContainerProvider? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil, securityConfigurationId: String? = nil, state: VirtualClusterState? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, containerProvider: ContainerProvider? = nil, createdAt: Date? = nil, id: String? = nil, name: String? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, schedulerStatus: SchedulerStatus? = nil, securityConfigurationId: String? = nil, sessionEnabled: Bool? = nil, state: VirtualClusterState? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.containerProvider = containerProvider
             self.createdAt = createdAt
             self.id = id
             self.name = name
+            self.schedulerConfiguration = schedulerConfiguration
+            self.schedulerStatus = schedulerStatus
             self.securityConfigurationId = securityConfigurationId
+            self.sessionEnabled = sessionEnabled
             self.state = state
             self.tags = tags
         }
@@ -2564,7 +2819,10 @@ extension EMRContainers {
             case createdAt = "createdAt"
             case id = "id"
             case name = "name"
+            case schedulerConfiguration = "schedulerConfiguration"
+            case schedulerStatus = "schedulerStatus"
             case securityConfigurationId = "securityConfigurationId"
+            case sessionEnabled = "sessionEnabled"
             case state = "state"
             case tags = "tags"
         }

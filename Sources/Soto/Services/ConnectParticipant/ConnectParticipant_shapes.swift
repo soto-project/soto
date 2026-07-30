@@ -724,7 +724,7 @@ extension ConnectParticipant {
         public let message: String?
         /// The identifier of the resource.
         public let resourceId: String?
-        /// The type of Amazon Connect resource.
+        /// The type of Connect Customer resource.
         public let resourceType: ResourceType?
 
         @inlinable

@@ -192,6 +192,7 @@ extension Lambda {
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityProviderScalingLimitExceeded = "CapacityProviderScalingLimitExceeded"
         case creating = "Creating"
+        case dependencyError = "DependencyError"
         case disabledKMSKey = "DisabledKMSKey"
         case disallowedByVpcEncryptionControl = "DisallowedByVpcEncryptionControl"
         case ec2RequestLimitExceeded = "EC2RequestLimitExceeded"
@@ -223,6 +224,7 @@ extension Lambda {
         case invalidZipFileException = "InvalidZipFileException"
         case kmsKeyAccessDenied = "KMSKeyAccessDenied"
         case kmsKeyNotFound = "KMSKeyNotFound"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         case vcpuLimitExceeded = "VcpuLimitExceeded"
         public var description: String { return self.rawValue }
@@ -277,6 +279,14 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum PropagateTagsMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Tags specified in ExplicitTags are applied to managed resources at launch.
+        case explicit = "Explicit"
+        /// Tag propagation is disabled. No tags are applied to managed resources.
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
@@ -306,11 +316,14 @@ extension Lambda {
         case dotnetcore31 = "dotnetcore3.1"
         case go1x = "go1.x"
         case java11 = "java11"
+        case java11al2023 = "java11.al2023"
         case java17 = "java17"
+        case java17al2023 = "java17.al2023"
         case java21 = "java21"
         case java25 = "java25"
         case java8 = "java8"
         case java8al2 = "java8.al2"
+        case java8al2023 = "java8.al2023"
         case nodejs = "nodejs"
         case nodejs10x = "nodejs10.x"
         case nodejs12x = "nodejs12.x"
@@ -342,6 +355,15 @@ extension Lambda {
         case ruby32 = "ruby3.2"
         case ruby33 = "ruby3.3"
         case ruby34 = "ruby3.4"
+        case ruby40 = "ruby4.0"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ObjectStorageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        ///  COPY (default) uploads a copy of your deployment package to Lambda.
+        case copy = "COPY"
+        /// Lambda references the deployment package from the specified Amazon S3 bucket.
+        case reference = "REFERENCE"
         public var description: String { return self.rawValue }
     }
 
@@ -390,6 +412,7 @@ extension Lambda {
     public enum StateReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityProviderScalingLimitExceeded = "CapacityProviderScalingLimitExceeded"
         case creating = "Creating"
+        case dependencyError = "DependencyError"
         case disabledKMSKey = "DisabledKMSKey"
         case disallowedByVpcEncryptionControl = "DisallowedByVpcEncryptionControl"
         case drainingDurableExecutions = "DrainingDurableExecutions"
@@ -424,6 +447,7 @@ extension Lambda {
         case kmsKeyAccessDenied = "KMSKeyAccessDenied"
         case kmsKeyNotFound = "KMSKeyNotFound"
         case restoring = "Restoring"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case subnetOutOfIPAddresses = "SubnetOutOfIPAddresses"
         case vcpuLimitExceeded = "VcpuLimitExceeded"
         public var description: String { return self.rawValue }
@@ -589,9 +613,10 @@ extension Lambda {
             try self.validate(self.action, name: "action", parent: name, pattern: "^lambda:GetLayerVersion$")
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
             try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^o-[a-z0-9]{10,32}$")
+            try self.validate(self.principal, name: "principal", parent: name, max: 10000)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^\\d{12}|\\*|arn:(aws[a-zA-Z-]*):iam::\\d{12}:root$")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
@@ -684,12 +709,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, max: 10000)
             try self.validate(self.action, name: "action", parent: name, pattern: "^(lambda:[*]|lambda:[a-zA-Z]+|[*])$")
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, max: 256)
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.principal, name: "principal", parent: name, max: 2048)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^[^\\s]+$")
             try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, max: 34)
             try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, min: 12)
@@ -699,7 +726,8 @@ extension Lambda {
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
             try self.validate(self.sourceAccount, name: "sourceAccount", parent: name, max: 12)
             try self.validate(self.sourceAccount, name: "sourceAccount", parent: name, pattern: "^\\d{12}$")
-            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 10000)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([a-zA-Z0-9-_]+)$")
@@ -767,6 +795,24 @@ extension Lambda {
         }
     }
 
+    public struct AliasLimitExceededException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
+        }
+    }
+
     public struct AliasRoutingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The second version, and the percentage of traffic that's routed to it.
         public let additionalVersionWeights: [String: Double]?
@@ -802,7 +848,8 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.signingProfileVersionArns.forEach {
-                try validate($0, name: "signingProfileVersionArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+                try validate($0, name: "signingProfileVersionArns[]", parent: name, max: 10000)
+                try validate($0, name: "signingProfileVersionArns[]", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             }
             try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, max: 20)
             try self.validate(self.signingProfileVersionArns, name: "signingProfileVersionArns", parent: name, min: 1)
@@ -828,7 +875,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, max: 200)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, min: 1)
-            try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+            try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[ a-zA-Z0-9-\\/*:_+=.@-]*$")
             try self.schemaRegistryConfig?.validate(name: "\(name).schemaRegistryConfig")
         }
 
@@ -977,20 +1024,25 @@ extension Lambda {
         public let lastModified: String?
         /// The permissions configuration for the capacity provider.
         public let permissionsConfig: CapacityProviderPermissionsConfig
+        public let propagateTags: PropagateTags?
         /// The current state of the capacity provider.
         public let state: CapacityProviderState
+        /// The telemetry configuration for the capacity provider, including logging settings.
+        public let telemetryConfig: CapacityProviderTelemetryConfig?
         /// The VPC configuration for the capacity provider.
         public let vpcConfig: CapacityProviderVpcConfig
 
         @inlinable
-        public init(capacityProviderArn: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil, instanceRequirements: InstanceRequirements? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, permissionsConfig: CapacityProviderPermissionsConfig, state: CapacityProviderState, vpcConfig: CapacityProviderVpcConfig) {
+        public init(capacityProviderArn: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil, instanceRequirements: InstanceRequirements? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, permissionsConfig: CapacityProviderPermissionsConfig, propagateTags: PropagateTags? = nil, state: CapacityProviderState, telemetryConfig: CapacityProviderTelemetryConfig? = nil, vpcConfig: CapacityProviderVpcConfig) {
             self.capacityProviderArn = capacityProviderArn
             self.capacityProviderScalingConfig = capacityProviderScalingConfig
             self.instanceRequirements = instanceRequirements
             self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.permissionsConfig = permissionsConfig
+            self.propagateTags = propagateTags
             self.state = state
+            self.telemetryConfig = telemetryConfig
             self.vpcConfig = vpcConfig
         }
 
@@ -1001,7 +1053,9 @@ extension Lambda {
             case kmsKeyArn = "KmsKeyArn"
             case lastModified = "LastModified"
             case permissionsConfig = "PermissionsConfig"
+            case propagateTags = "PropagateTags"
             case state = "State"
+            case telemetryConfig = "TelemetryConfig"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -1041,6 +1095,30 @@ extension Lambda {
         }
     }
 
+    public struct CapacityProviderLoggingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon CloudWatch log group the capacity provider sends logs to. By default, Lambda capacity providers send logs to a default log group named /aws/lambda/capacity-provider/&lt;capacity provider name&gt;. To use a different log group, enter an existing log group or enter a new log group name.
+        public let logGroup: String?
+        /// Set this property to filter the system logs for your capacity provider that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
+        public let systemLogLevel: SystemLogLevel?
+
+        @inlinable
+        public init(logGroup: String? = nil, systemLogLevel: SystemLogLevel? = nil) {
+            self.logGroup = logGroup
+            self.systemLogLevel = systemLogLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroup, name: "logGroup", parent: name, max: 512)
+            try self.validate(self.logGroup, name: "logGroup", parent: name, min: 1)
+            try self.validate(self.logGroup, name: "logGroup", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroup = "LogGroup"
+            case systemLogLevel = "SystemLogLevel"
+        }
+    }
+
     public struct CapacityProviderPermissionsConfig: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role that the capacity provider uses to manage compute instances and other Amazon Web Services resources.
         public let capacityProviderOperatorRoleArn: String
@@ -1051,6 +1129,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.capacityProviderOperatorRoleArn, name: "capacityProviderOperatorRoleArn", parent: name, max: 10000)
             try self.validate(self.capacityProviderOperatorRoleArn, name: "capacityProviderOperatorRoleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
         }
 
@@ -1091,6 +1170,24 @@ extension Lambda {
         }
     }
 
+    public struct CapacityProviderTelemetryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The capacity provider's Amazon CloudWatch Logs configuration settings.
+        public let loggingConfig: CapacityProviderLoggingConfig?
+
+        @inlinable
+        public init(loggingConfig: CapacityProviderLoggingConfig? = nil) {
+            self.loggingConfig = loggingConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.loggingConfig?.validate(name: "\(name).loggingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingConfig = "LoggingConfig"
+        }
+    }
+
     public struct CapacityProviderVpcConfig: AWSEncodableShape & AWSDecodableShape {
         /// A list of security group IDs that control network access for compute instances managed by the capacity provider.
         public let securityGroupIds: [String]
@@ -1104,7 +1201,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*$")
+            }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 1024)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]*$")
+            }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
         }
@@ -1162,7 +1267,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.tenantId, name: "tenantId", parent: name, max: 256)
             try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
             try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[a-zA-Z0-9\\._:\\/=+\\-@ ]+$")
@@ -1328,6 +1433,60 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case nextMarker = "NextMarker"
             case operations = "Operations"
+        }
+    }
+
+    public struct CodeArtifactUserDeletedException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
+        }
+    }
+
+    public struct CodeArtifactUserFailedException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
+        }
+    }
+
+    public struct CodeArtifactUserPendingException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
         }
     }
 
@@ -1605,7 +1764,7 @@ extension Lambda {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "^(\\$LATEST(\\.PUBLISHED)?|[0-9]+)$")
@@ -1634,31 +1793,46 @@ extension Lambda {
         public let kmsKeyArn: String?
         /// The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources.
         public let permissionsConfig: CapacityProviderPermissionsConfig
+        /// The tag propagation configuration for the capacity provider. Specifies tags to apply to managed resources at launch.
+        public let propagateTags: PropagateTags?
         /// A list of tags to associate with the capacity provider.
         public let tags: [String: String]?
+        /// The telemetry configuration for the capacity provider. Specifies logging settings for managed resources.
+        public let telemetryConfig: CapacityProviderTelemetryConfig?
         /// The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
         public let vpcConfig: CapacityProviderVpcConfig
 
         @inlinable
-        public init(capacityProviderName: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil, instanceRequirements: InstanceRequirements? = nil, kmsKeyArn: String? = nil, permissionsConfig: CapacityProviderPermissionsConfig, tags: [String: String]? = nil, vpcConfig: CapacityProviderVpcConfig) {
+        public init(capacityProviderName: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil, instanceRequirements: InstanceRequirements? = nil, kmsKeyArn: String? = nil, permissionsConfig: CapacityProviderPermissionsConfig, propagateTags: PropagateTags? = nil, tags: [String: String]? = nil, telemetryConfig: CapacityProviderTelemetryConfig? = nil, vpcConfig: CapacityProviderVpcConfig) {
             self.capacityProviderName = capacityProviderName
             self.capacityProviderScalingConfig = capacityProviderScalingConfig
             self.instanceRequirements = instanceRequirements
             self.kmsKeyArn = kmsKeyArn
             self.permissionsConfig = permissionsConfig
+            self.propagateTags = propagateTags
             self.tags = tags
+            self.telemetryConfig = telemetryConfig
             self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, max: 140)
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, min: 1)
-            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.capacityProviderScalingConfig?.validate(name: "\(name).capacityProviderScalingConfig")
             try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*$")
             try self.permissionsConfig.validate(name: "\(name).permissionsConfig")
+            try self.propagateTags?.validate(name: "\(name).propagateTags")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.telemetryConfig?.validate(name: "\(name).telemetryConfig")
             try self.vpcConfig.validate(name: "\(name).vpcConfig")
         }
 
@@ -1668,7 +1842,9 @@ extension Lambda {
             case instanceRequirements = "InstanceRequirements"
             case kmsKeyArn = "KmsKeyArn"
             case permissionsConfig = "PermissionsConfig"
+            case propagateTags = "PropagateTags"
             case tags = "Tags"
+            case telemetryConfig = "TelemetryConfig"
             case vpcConfig = "VpcConfig"
         }
     }
@@ -1708,6 +1884,13 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.allowedPublishers.validate(name: "\(name).allowedPublishers")
             try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1828,12 +2011,14 @@ extension Lambda {
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.documentDBEventSourceConfig?.validate(name: "\(name).documentDBEventSourceConfig")
-            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 10000)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
@@ -1858,7 +2043,14 @@ extension Lambda {
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 23)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try self.topics?.forEach {
                 try validate($0, name: "topics[]", parent: name, max: 249)
                 try validate($0, name: "topics[]", parent: name, min: 1)
@@ -1921,7 +2113,7 @@ extension Lambda {
         public let environment: Environment?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
         public let ephemeralStorage: EphemeralStorage?
-        /// Connection settings for an Amazon EFS file system.
+        /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -1998,7 +2190,7 @@ extension Lambda {
             try self.capacityProviderConfig?.validate(name: "\(name).capacityProviderConfig")
             try self.code.validate(name: "\(name).code")
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.durableConfig?.validate(name: "\(name).durableConfig")
@@ -2010,20 +2202,30 @@ extension Lambda {
             try self.validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "^[^\\s]+$")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.layers?.forEach {
-                try validate($0, name: "layers[]", parent: name, max: 140)
+                try validate($0, name: "layers[]", parent: name, max: 2048)
                 try validate($0, name: "layers[]", parent: name, min: 1)
-                try validate($0, name: "layers[]", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+$")
+                try validate($0, name: "layers[]", parent: name, pattern: "^((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))$")
             }
             try self.loggingConfig?.validate(name: "\(name).loggingConfig")
             try self.validate(self.memorySize, name: "memorySize", parent: name, max: 32768)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
+            try self.validate(self.role, name: "role", parent: name, max: 10000)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.timeout, name: "timeout", parent: name, max: 5400)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -2095,7 +2297,7 @@ extension Lambda {
             try self.cors?.validate(name: "\(name).cors")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\\d+$)[0-9a-zA-Z-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^((?!^\\d+$)^[0-9a-zA-Z-_]+$)$")
@@ -2152,6 +2354,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 10000)
             try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
         }
 
@@ -2182,7 +2385,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9-_]+)$")
@@ -2209,7 +2412,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, max: 140)
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, min: 1)
-            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2246,7 +2449,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2271,6 +2474,11 @@ extension Lambda {
             request.encodePath(self.uuid, key: "UUID")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.uuid, name: "uuid", parent: name, max: 36)
+            try self.validate(self.uuid, name: "uuid", parent: name, min: 36)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2292,7 +2500,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2316,7 +2524,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2344,7 +2552,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -2375,7 +2583,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -2423,7 +2631,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\\d+$)[0-9a-zA-Z-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^((?!^\\d+$)^[0-9a-zA-Z-_]+$)$")
@@ -2454,7 +2662,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2482,7 +2690,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
@@ -2548,24 +2756,30 @@ extension Lambda {
     public struct DurableConfig: AWSEncodableShape & AWSDecodableShape {
         /// The maximum time (in seconds) that a durable execution can run before timing out. This timeout applies to the entire durable execution, not individual function invocations.
         public let executionTimeout: Int?
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public let kmsKeyArn: String?
         /// The number of days to retain execution history after a durable execution completes. After this period, execution history is no longer available through the GetDurableExecutionHistory API.
         public let retentionPeriodInDays: Int?
 
         @inlinable
-        public init(executionTimeout: Int? = nil, retentionPeriodInDays: Int? = nil) {
+        public init(executionTimeout: Int? = nil, kmsKeyArn: String? = nil, retentionPeriodInDays: Int? = nil) {
             self.executionTimeout = executionTimeout
+            self.kmsKeyArn = kmsKeyArn
             self.retentionPeriodInDays = retentionPeriodInDays
         }
 
         public func validate(name: String) throws {
             try self.validate(self.executionTimeout, name: "executionTimeout", parent: name, max: 31622400)
             try self.validate(self.executionTimeout, name: "executionTimeout", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.validate(self.retentionPeriodInDays, name: "retentionPeriodInDays", parent: name, max: 90)
             try self.validate(self.retentionPeriodInDays, name: "retentionPeriodInDays", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case executionTimeout = "ExecutionTimeout"
+            case kmsKeyArn = "KMSKeyArn"
             case retentionPeriodInDays = "RetentionPeriodInDays"
         }
     }
@@ -2704,6 +2918,24 @@ extension Lambda {
 
     public struct ENILimitReachedException: AWSErrorShape {
         public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct ENINotReadyException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
         public let type: String?
 
         @inlinable
@@ -3184,17 +3416,20 @@ extension Lambda {
         public let endTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the Lambda function.
         public let functionArn: String
+        /// The ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public let kmsKeyArn: String?
         /// The date and time when the durable execution started, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         public let startTimestamp: Date
         /// The current status of the durable execution.
         public let status: ExecutionStatus
 
         @inlinable
-        public init(durableExecutionArn: String, durableExecutionName: String, endTimestamp: Date? = nil, functionArn: String, startTimestamp: Date, status: ExecutionStatus) {
+        public init(durableExecutionArn: String, durableExecutionName: String, endTimestamp: Date? = nil, functionArn: String, kmsKeyArn: String? = nil, startTimestamp: Date, status: ExecutionStatus) {
             self.durableExecutionArn = durableExecutionArn
             self.durableExecutionName = durableExecutionName
             self.endTimestamp = endTimestamp
             self.functionArn = functionArn
+            self.kmsKeyArn = kmsKeyArn
             self.startTimestamp = startTimestamp
             self.status = status
         }
@@ -3204,6 +3439,7 @@ extension Lambda {
             case durableExecutionName = "DurableExecutionName"
             case endTimestamp = "EndTimestamp"
             case functionArn = "FunctionArn"
+            case kmsKeyArn = "KMSKeyArn"
             case startTimestamp = "StartTimestamp"
             case status = "Status"
         }
@@ -3298,7 +3534,7 @@ extension Lambda {
     }
 
     public struct FileSystemConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
+        /// The Amazon Resource Name (ARN) of the Amazon EFS or Amazon S3 Files access point that provides access to the file system.
         public let arn: String
         /// The path where the function can access the file system, starting with /mnt/.
         public let localMountPath: String
@@ -3310,8 +3546,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, max: 200)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:elasticfilesystem:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}$")
+            try self.validate(self.arn, name: "arn", parent: name, max: 256)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:elasticfilesystem:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:access-point/fsap-[a-f0-9]{17}$|^arn:aws[-a-z]*:s3files:[0-9a-z-:]+:file-system/fs-[0-9a-f]{17,40}/access-point/fsap-[0-9a-f]{17,40}$")
             try self.validate(self.localMountPath, name: "localMountPath", parent: name, max: 160)
             try self.validate(self.localMountPath, name: "localMountPath", parent: name, pattern: "^/mnt/[a-zA-Z0-9-_.]+$")
         }
@@ -3333,7 +3569,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.pattern, name: "pattern", parent: name, max: 4096)
-            try self.validate(self.pattern, name: "pattern", parent: name, pattern: ".*")
+            try self.validate(self.pattern, name: "pattern", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3386,6 +3622,8 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
         public let s3Key: String?
+        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
         /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
@@ -3394,10 +3632,11 @@ extension Lambda {
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(imageUri: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectStorageMode: S3ObjectStorageMode? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.imageUri = imageUri
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+            self.s3ObjectStorageMode = s3ObjectStorageMode
             self.s3ObjectVersion = s3ObjectVersion
             self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
@@ -3409,8 +3648,11 @@ extension Lambda {
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^.*$")
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
+            try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, pattern: "^.*$")
+            try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, max: 10000)
             try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
         }
 
@@ -3418,6 +3660,7 @@ extension Lambda {
             case imageUri = "ImageUri"
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
+            case s3ObjectStorageMode = "S3ObjectStorageMode"
             case s3ObjectVersion = "S3ObjectVersion"
             case sourceKMSKeyArn = "SourceKMSKeyArn"
             case zipFile = "ZipFile"
@@ -3425,6 +3668,8 @@ extension Lambda {
     }
 
     public struct FunctionCodeLocation: AWSDecodableShape {
+        /// An object that contains details about an error related to function deployment package retrieval.
+        public let error: FunctionCodeLocationError?
         /// URI of a container image in the Amazon ECR registry.
         public let imageUri: String?
         /// A presigned URL that you can use to download the deployment package.
@@ -3433,24 +3678,48 @@ extension Lambda {
         public let repositoryType: String?
         /// The resolved URI for the image.
         public let resolvedImageUri: String?
+        /// The resolved Amazon S3 object that contains the deployment package.
+        public let resolvedS3Object: ResolvedS3Object?
         /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services owned key.
         public let sourceKMSKeyArn: String?
 
         @inlinable
-        public init(imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil, sourceKMSKeyArn: String? = nil) {
+        public init(error: FunctionCodeLocationError? = nil, imageUri: String? = nil, location: String? = nil, repositoryType: String? = nil, resolvedImageUri: String? = nil, resolvedS3Object: ResolvedS3Object? = nil, sourceKMSKeyArn: String? = nil) {
+            self.error = error
             self.imageUri = imageUri
             self.location = location
             self.repositoryType = repositoryType
             self.resolvedImageUri = resolvedImageUri
+            self.resolvedS3Object = resolvedS3Object
             self.sourceKMSKeyArn = sourceKMSKeyArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case error = "Error"
             case imageUri = "ImageUri"
             case location = "Location"
             case repositoryType = "RepositoryType"
             case resolvedImageUri = "ResolvedImageUri"
+            case resolvedS3Object = "ResolvedS3Object"
             case sourceKMSKeyArn = "SourceKMSKeyArn"
+        }
+    }
+
+    public struct FunctionCodeLocationError: AWSDecodableShape {
+        /// The error code for the failed retrieval.
+        public let errorCode: String?
+        /// A description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
@@ -3475,7 +3744,7 @@ extension Lambda {
         public let environment: EnvironmentResponse?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
         public let ephemeralStorage: EphemeralStorage?
-        /// Connection settings for an Amazon EFS file system.
+        /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public let functionArn: String?
@@ -3796,7 +4065,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9-_]+)$")
@@ -3823,7 +4092,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, max: 140)
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, min: 1)
-            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3860,7 +4129,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3943,16 +4212,20 @@ extension Lambda {
     public struct GetDurableExecutionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the durable execution.
         public let durableExecutionArn: String
+        /// Specifies whether to include execution data such as input payload, result, and error information in the response. Set to false for a more compact response that includes only execution metadata. The default value is set to true.
+        public let includeExecutionData: Bool?
 
         @inlinable
-        public init(durableExecutionArn: String) {
+        public init(durableExecutionArn: String, includeExecutionData: Bool? = nil) {
             self.durableExecutionArn = durableExecutionArn
+            self.includeExecutionData = includeExecutionData
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.durableExecutionArn, key: "DurableExecutionArn")
+            request.encodeQuery(self.includeExecutionData, key: "IncludeExecutionData")
         }
 
         public func validate(name: String) throws {
@@ -3965,6 +4238,8 @@ extension Lambda {
     }
 
     public struct GetDurableExecutionResponse: AWSDecodableShape {
+        /// Configuration settings for the durable execution, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
+        public let durableConfig: DurableConfig?
         /// The Amazon Resource Name (ARN) of the durable execution.
         public let durableExecutionArn: String
         /// The name of the durable execution. This is either the name you provided when invoking the function, or a system-generated unique identifier if no name was provided.
@@ -3973,6 +4248,8 @@ extension Lambda {
         public let endTimestamp: Date?
         /// Error information if the durable execution failed. This field is only present when the execution status is FAILED, TIMED_OUT, or STOPPED. The combined size of all error fields is limited to 256 KB.
         public let error: ErrorObject?
+        /// Indicates whether execution data is included in this response. Returns false when IncludeExecutionData is set to false in the request.
+        public let executionDataIncluded: Bool?
         /// The Amazon Resource Name (ARN) of the Lambda function that was invoked to start this durable execution.
         public let functionArn: String
         /// The JSON input payload that was provided when the durable execution was started. For asynchronous invocations, this is limited to 256 KB. For synchronous invocations, this can be up to 6 MB.
@@ -3989,11 +4266,13 @@ extension Lambda {
         public let version: String?
 
         @inlinable
-        public init(durableExecutionArn: String, durableExecutionName: String, endTimestamp: Date? = nil, error: ErrorObject? = nil, functionArn: String, inputPayload: String? = nil, result: String? = nil, startTimestamp: Date, status: ExecutionStatus, traceHeader: TraceHeader? = nil, version: String? = nil) {
+        public init(durableConfig: DurableConfig? = nil, durableExecutionArn: String, durableExecutionName: String, endTimestamp: Date? = nil, error: ErrorObject? = nil, executionDataIncluded: Bool? = nil, functionArn: String, inputPayload: String? = nil, result: String? = nil, startTimestamp: Date, status: ExecutionStatus, traceHeader: TraceHeader? = nil, version: String? = nil) {
+            self.durableConfig = durableConfig
             self.durableExecutionArn = durableExecutionArn
             self.durableExecutionName = durableExecutionName
             self.endTimestamp = endTimestamp
             self.error = error
+            self.executionDataIncluded = executionDataIncluded
             self.functionArn = functionArn
             self.inputPayload = inputPayload
             self.result = result
@@ -4004,10 +4283,12 @@ extension Lambda {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case durableConfig = "DurableConfig"
             case durableExecutionArn = "DurableExecutionArn"
             case durableExecutionName = "DurableExecutionName"
             case endTimestamp = "EndTimestamp"
             case error = "Error"
+            case executionDataIncluded = "ExecutionDataIncluded"
             case functionArn = "FunctionArn"
             case inputPayload = "InputPayload"
             case result = "Result"
@@ -4092,6 +4373,11 @@ extension Lambda {
             request.encodePath(self.uuid, key: "UUID")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.uuid, name: "uuid", parent: name, max: 36)
+            try self.validate(self.uuid, name: "uuid", parent: name, min: 36)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -4113,7 +4399,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4155,7 +4441,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4197,7 +4483,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4228,7 +4514,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4255,7 +4541,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4297,7 +4583,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4358,7 +4644,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(\\$LATEST\\.PUBLISHED|[0-9]+)$")
@@ -4411,7 +4697,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\\d+$)[0-9a-zA-Z-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^((?!^\\d+$)^[0-9a-zA-Z-_]+$)$")
@@ -4474,9 +4760,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, max: 140)
+            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4504,7 +4790,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4550,7 +4836,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4624,7 +4910,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4673,7 +4959,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
@@ -4738,7 +5024,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4852,7 +5138,7 @@ extension Lambda {
             try self.allowedInstanceTypes?.forEach {
                 try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
-                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\-]+$")
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
             }
             try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 400)
             try self.validate(self.architectures, name: "architectures", parent: name, max: 1)
@@ -4860,7 +5146,7 @@ extension Lambda {
             try self.excludedInstanceTypes?.forEach {
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 30)
                 try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
-                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\-]+$")
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\.\\*\\-]+$")
             }
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 400)
         }
@@ -5017,7 +5303,7 @@ extension Lambda {
     public struct InvocationRequest: AWSEncodableShape {
         /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
         public let clientContext: String?
-        /// Optional unique name for the durable execution. When you start your special function, you can give it a unique name to identify this specific execution. It's like giving a nickname to a task.
+        /// A unique name for the durable execution. If you invoke a durable function using a name that already exists with the same payload, Lambda returns the existing execution instead of creating a duplicate. If the payload differs, Lambda returns a DurableExecutionAlreadyStartedException error. If not specified, Lambda generates a unique identifier automatically. For more information, see Execution names.
         public let durableExecutionName: String?
         /// The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -5063,7 +5349,7 @@ extension Lambda {
             try self.validate(self.durableExecutionName, name: "durableExecutionName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5137,7 +5423,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5241,7 +5527,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5361,7 +5647,8 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.uri, name: "uri", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 10000)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5437,7 +5724,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderArn, name: "capacityProviderArn", parent: name, max: 140)
             try self.validate(self.capacityProviderArn, name: "capacityProviderArn", parent: name, min: 1)
-            try self.validate(self.capacityProviderArn, name: "capacityProviderArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderArn, name: "capacityProviderArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+$")
             try self.validate(self.executionEnvironmentMemoryGiBPerVCpu, name: "executionEnvironmentMemoryGiBPerVCpu", parent: name, max: 8.0)
             try self.validate(self.executionEnvironmentMemoryGiBPerVCpu, name: "executionEnvironmentMemoryGiBPerVCpu", parent: name, min: 2.0)
             try self.validate(self.perExecutionEnvironmentMaxConcurrency, name: "perExecutionEnvironmentMaxConcurrency", parent: name, max: 1600)
@@ -5482,15 +5769,17 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the layer archive.
         public let s3Key: String?
+        public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the layer archive object to use.
         public let s3ObjectVersion: String?
         /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectStorageMode: S3ObjectStorageMode? = nil, s3ObjectVersion: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+            self.s3ObjectStorageMode = s3ObjectStorageMode
             self.s3ObjectVersion = s3ObjectVersion
             self.zipFile = zipFile
         }
@@ -5501,13 +5790,16 @@ extension Lambda {
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^.*$")
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
+            try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
+            case s3ObjectStorageMode = "S3ObjectStorageMode"
             case s3ObjectVersion = "S3ObjectVersion"
             case zipFile = "ZipFile"
         }
@@ -5520,16 +5812,18 @@ extension Lambda {
         public let codeSize: Int64?
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public let location: String?
+        public let resolvedS3Object: ResolvedS3Object?
         /// The Amazon Resource Name (ARN) of a signing job.
         public let signingJobArn: String?
         /// The Amazon Resource Name (ARN) for a signing profile version.
         public let signingProfileVersionArn: String?
 
         @inlinable
-        public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
+        public init(codeSha256: String? = nil, codeSize: Int64? = nil, location: String? = nil, resolvedS3Object: ResolvedS3Object? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil) {
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.location = location
+            self.resolvedS3Object = resolvedS3Object
             self.signingJobArn = signingJobArn
             self.signingProfileVersionArn = signingProfileVersionArn
         }
@@ -5538,6 +5832,7 @@ extension Lambda {
             case codeSha256 = "CodeSha256"
             case codeSize = "CodeSize"
             case location = "Location"
+            case resolvedS3Object = "ResolvedS3Object"
             case signingJobArn = "SigningJobArn"
             case signingProfileVersionArn = "SigningProfileVersionArn"
         }
@@ -5633,7 +5928,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "^(\\$LATEST(\\.PUBLISHED)?|[0-9]+)$")
@@ -5757,7 +6052,7 @@ extension Lambda {
     }
 
     public struct ListDurableExecutionsByFunctionRequest: AWSEncodableShape {
-        /// Filter executions by name. Only executions with names that contain this string are returned.
+        /// Filter executions by name. Only executions with names that matches this string are returned.
         public let durableExecutionName: String?
         /// The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
         public let functionName: String
@@ -5767,7 +6062,7 @@ extension Lambda {
         public let maxItems: Int?
         /// The function version or alias. If not specified, lists executions for the $LATEST version.
         public let qualifier: String?
-        /// Set to true to return results in reverse chronological order (newest first). Default is false.
+        /// Set to true to return results in chronological order (oldest first). Default is false.
         public let reverseOrder: Bool?
         /// Filter executions that started after this timestamp (ISO 8601 format).
         public let startedAfter: Date?
@@ -5809,7 +6104,7 @@ extension Lambda {
             try self.validate(self.durableExecutionName, name: "durableExecutionName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 0)
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
@@ -5868,10 +6163,11 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 10000)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -5923,7 +6219,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -5975,7 +6271,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\\d+$)[0-9a-zA-Z-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6027,7 +6323,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, max: 140)
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, min: 1)
-            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6082,7 +6378,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6195,7 +6491,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6300,7 +6596,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6342,9 +6638,9 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, max: 10000)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|capacity-provider:[a-zA-Z0-9-_]+)$")
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6390,7 +6686,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6448,6 +6744,24 @@ extension Lambda {
         }
     }
 
+    public struct ModeNotSupportedException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "Type"
+        }
+    }
+
     public struct NoPublishedVersionException: AWSErrorShape {
         public let message: String?
         /// The exception type.
@@ -6476,7 +6790,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.destination, name: "destination", parent: name, max: 350)
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|kafka://([^.]([a-zA-Z0-9\\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|kafka://([^.]([a-zA-Z0-9\\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6495,7 +6809,7 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.destination, name: "destination", parent: name, max: 350)
-            try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|kafka://([^.]([a-zA-Z0-9\\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
+            try self.validate(self.destination, name: "destination", parent: name, pattern: "^$|kafka://([^.]([a-zA-Z0-9\\-_.]{0,248}))|arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6582,7 +6896,7 @@ extension Lambda {
         public let name: String?
         /// The unique identifier of the parent operation, if this operation is running within a child context.
         public let parentId: String?
-        /// The payload for successful operations.
+        /// The payload for successful operations. The maximum payload size is 6 MB for synchronous EXECUTION operations (RequestResponse invocationType), 1 MB for asynchronous EXECUTION (Event invocationType) and CHAINED_INVOKE operations, and 256 KB for CONTEXT, STEP, WAIT, and CALLBACK operations.
         public let payload: String?
         /// Options for step operations.
         public let stepOptions: StepOptions?
@@ -6681,6 +6995,34 @@ extension Lambda {
         }
     }
 
+    public struct PropagateTags: AWSEncodableShape & AWSDecodableShape {
+        /// A list of tags to apply to managed resources when Mode is set to Explicit. You can specify up to 40 tags.
+        public let explicitTags: [String: String]?
+        /// The tag propagation mode. Set to Explicit to propagate the tags specified in ExplicitTags to managed resources. Set to None to disable tag propagation.
+        public let mode: PropagateTagsMode?
+
+        @inlinable
+        public init(explicitTags: [String: String]? = nil, mode: PropagateTagsMode? = nil) {
+            self.explicitTags = explicitTags
+            self.mode = mode
+        }
+
+        public func validate(name: String) throws {
+            try self.explicitTags?.forEach {
+                try validate($0.key, name: "explicitTags.key", parent: name, max: 128)
+                try validate($0.key, name: "explicitTags.key", parent: name, min: 1)
+                try validate($0.key, name: "explicitTags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "explicitTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "explicitTags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case explicitTags = "ExplicitTags"
+            case mode = "Mode"
+        }
+    }
+
     public struct ProvisionedConcurrencyConfigListItem: AWSDecodableShape {
         /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
         public let allocatedProvisionedConcurrentExecutions: Int?
@@ -6751,7 +7093,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maximumPollers, name: "maximumPollers", parent: name, max: 2000)
+            try self.validate(self.maximumPollers, name: "maximumPollers", parent: name, max: 10000)
             try self.validate(self.maximumPollers, name: "maximumPollers", parent: name, min: 1)
             try self.validate(self.minimumPollers, name: "minimumPollers", parent: name, max: 200)
             try self.validate(self.minimumPollers, name: "minimumPollers", parent: name, min: 1)
@@ -6763,6 +7105,24 @@ extension Lambda {
             case maximumPollers = "MaximumPollers"
             case minimumPollers = "MinimumPollers"
             case pollerGroupName = "PollerGroupName"
+        }
+    }
+
+    public struct PublicPolicyException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
         }
     }
 
@@ -6808,8 +7168,9 @@ extension Lambda {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, max: 512)
+            try self.validate(self.licenseInfo, name: "licenseInfo", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6902,7 +7263,7 @@ extension Lambda {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6934,10 +7295,10 @@ extension Lambda {
 
         public func validate(name: String) throws {
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6985,7 +7346,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.reservedConcurrentExecutions, name: "reservedConcurrentExecutions", parent: name, min: 0)
         }
 
@@ -7029,7 +7390,7 @@ extension Lambda {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
@@ -7068,7 +7429,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7116,7 +7477,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)$")
             try self.functionScalingConfig?.validate(name: "\(name).functionScalingConfig")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
@@ -7168,7 +7529,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.provisionedConcurrentExecutions, name: "provisionedConcurrentExecutions", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
@@ -7244,13 +7605,13 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
             try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, max: 2048)
             try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, min: 26)
-            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}::runtime:.+$")
+            try self.validate(self.runtimeVersionArn, name: "runtimeVersionArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}::runtime:.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7329,7 +7690,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.layerName, name: "layerName", parent: name, max: 140)
             try self.validate(self.layerName, name: "layerName", parent: name, min: 1)
-            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.layerName, name: "layerName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^([a-zA-Z0-9-_]+)$")
@@ -7368,7 +7729,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -7393,6 +7754,28 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case type = "Type"
+        }
+    }
+
+    public struct ResolvedS3Object: AWSDecodableShape {
+        /// The Amazon S3 bucket that contains the deployment package.
+        public let s3Bucket: String?
+        /// The Amazon S3 key of the deployment package.
+        public let s3Key: String?
+        /// The version of the deployment package object.
+        public let s3ObjectVersion: String?
+
+        @inlinable
+        public init(s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Bucket = "S3Bucket"
+            case s3Key = "S3Key"
+            case s3ObjectVersion = "S3ObjectVersion"
         }
     }
 
@@ -7518,6 +7901,60 @@ extension Lambda {
         }
     }
 
+    public struct S3FilesMountConnectivityException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct S3FilesMountFailureException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct S3FilesMountTimeoutException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct ScalingConfig: AWSEncodableShape & AWSDecodableShape {
         /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
         public let maximumConcurrency: Int?
@@ -7575,7 +8012,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, max: 200)
             try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, min: 1)
-            try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+            try self.validate(self.consumerGroupId, name: "consumerGroupId", parent: name, pattern: "^[ a-zA-Z0-9-\\/*:_+=.@-]*$")
             try self.schemaRegistryConfig?.validate(name: "\(name).schemaRegistryConfig")
         }
 
@@ -7711,6 +8148,24 @@ extension Lambda {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct SnapStart: AWSEncodableShape {
         /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
         public let applyOn: SnapStartApplyOn?
@@ -7743,6 +8198,24 @@ extension Lambda {
 
     public struct SnapStartNotReadyException: AWSErrorShape {
         public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct SnapStartRegenerationFailureException: AWSErrorShape {
+        /// The exception message.
+        public let message: String?
+        /// The exception type.
         public let type: String?
 
         @inlinable
@@ -7806,7 +8279,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.uri, name: "uri", parent: name, max: 200)
             try self.validate(self.uri, name: "uri", parent: name, min: 1)
-            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[a-zA-Z0-9-\\/*:_+=.@-]*$")
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[ a-zA-Z0-9-\\/*:_+=.@-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7977,9 +8450,16 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, max: 10000)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|capacity-provider:[a-zA-Z0-9-_]+)$")
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8151,9 +8631,14 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resource, name: "resource", parent: name, max: 256)
+            try self.validate(self.resource, name: "resource", parent: name, max: 10000)
             try self.validate(self.resource, name: "resource", parent: name, min: 1)
-            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|capacity-provider:[a-zA-Z0-9-_]+)$")
+            try self.validate(self.resource, name: "resource", parent: name, pattern: "^arn:(aws[a-zA-Z-]*):lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:(function:[a-zA-Z0-9-_]+(:(\\$LATEST|[a-zA-Z0-9-_]+))?|code-signing-config:csc-[a-z0-9]{17}|event-source-mapping:[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}|(capacity-provider|network-connector):[a-zA-Z0-9-_]{1,64})$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8198,7 +8683,7 @@ extension Lambda {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, max: 1024)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, min: 1)
             try self.validate(self.functionVersion, name: "functionVersion", parent: name, pattern: "^(\\$LATEST(\\.PUBLISHED)?|[0-9]+)$")
@@ -8221,11 +8706,16 @@ extension Lambda {
         public let capacityProviderName: String
         /// The updated scaling configuration for the capacity provider.
         public let capacityProviderScalingConfig: CapacityProviderScalingConfig?
+        public let propagateTags: PropagateTags?
+        /// The updated telemetry configuration for the capacity provider.
+        public let telemetryConfig: CapacityProviderTelemetryConfig?
 
         @inlinable
-        public init(capacityProviderName: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil) {
+        public init(capacityProviderName: String, capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil, propagateTags: PropagateTags? = nil, telemetryConfig: CapacityProviderTelemetryConfig? = nil) {
             self.capacityProviderName = capacityProviderName
             self.capacityProviderScalingConfig = capacityProviderScalingConfig
+            self.propagateTags = propagateTags
+            self.telemetryConfig = telemetryConfig
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -8233,17 +8723,23 @@ extension Lambda {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.capacityProviderName, key: "CapacityProviderName")
             try container.encodeIfPresent(self.capacityProviderScalingConfig, forKey: .capacityProviderScalingConfig)
+            try container.encodeIfPresent(self.propagateTags, forKey: .propagateTags)
+            try container.encodeIfPresent(self.telemetryConfig, forKey: .telemetryConfig)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, max: 140)
             try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, min: 1)
-            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
+            try self.validate(self.capacityProviderName, name: "capacityProviderName", parent: name, pattern: "^(arn:aws[a-zA-Z-]*:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:capacity-provider:[a-zA-Z0-9-_]+)|[a-zA-Z0-9-_]+$")
             try self.capacityProviderScalingConfig?.validate(name: "\(name).capacityProviderScalingConfig")
+            try self.propagateTags?.validate(name: "\(name).propagateTags")
+            try self.telemetryConfig?.validate(name: "\(name).telemetryConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacityProviderScalingConfig = "CapacityProviderScalingConfig"
+            case propagateTags = "PropagateTags"
+            case telemetryConfig = "TelemetryConfig"
         }
     }
 
@@ -8291,7 +8787,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.allowedPublishers?.validate(name: "\(name).allowedPublishers")
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, max: 200)
-            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
+            try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
         }
 
@@ -8421,8 +8917,9 @@ extension Lambda {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, max: 300)
             try self.validate(self.maximumBatchingWindowInSeconds, name: "maximumBatchingWindowInSeconds", parent: name, min: 0)
@@ -8439,9 +8936,11 @@ extension Lambda {
             try self.sourceAccessConfigurations?.forEach {
                 try $0.validate(name: "\(name).sourceAccessConfigurations[]")
             }
-            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 22)
+            try self.validate(self.sourceAccessConfigurations, name: "sourceAccessConfigurations", parent: name, max: 23)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, max: 900)
             try self.validate(self.tumblingWindowInSeconds, name: "tumblingWindowInSeconds", parent: name, min: 0)
+            try self.validate(self.uuid, name: "uuid", parent: name, max: 36)
+            try self.validate(self.uuid, name: "uuid", parent: name, min: 36)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8488,6 +8987,8 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
         public let s3Key: String?
+        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
         /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
@@ -8496,7 +8997,7 @@ extension Lambda {
         public let zipFile: AWSBase64Data?
 
         @inlinable
-        public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, publishTo: FunctionVersionLatestPublished? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
+        public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, publishTo: FunctionVersionLatestPublished? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectStorageMode: S3ObjectStorageMode? = nil, s3ObjectVersion: String? = nil, sourceKMSKeyArn: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.architectures = architectures
             self.dryRun = dryRun
             self.functionName = functionName
@@ -8506,6 +9007,7 @@ extension Lambda {
             self.revisionId = revisionId
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
+            self.s3ObjectStorageMode = s3ObjectStorageMode
             self.s3ObjectVersion = s3ObjectVersion
             self.sourceKMSKeyArn = sourceKMSKeyArn
             self.zipFile = zipFile
@@ -8523,6 +9025,7 @@ extension Lambda {
             try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
             try container.encodeIfPresent(self.s3Bucket, forKey: .s3Bucket)
             try container.encodeIfPresent(self.s3Key, forKey: .s3Key)
+            try container.encodeIfPresent(self.s3ObjectStorageMode, forKey: .s3ObjectStorageMode)
             try container.encodeIfPresent(self.s3ObjectVersion, forKey: .s3ObjectVersion)
             try container.encodeIfPresent(self.sourceKMSKeyArn, forKey: .sourceKMSKeyArn)
             try container.encodeIfPresent(self.zipFile, forKey: .zipFile)
@@ -8533,14 +9036,17 @@ extension Lambda {
             try self.validate(self.architectures, name: "architectures", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[0-9A-Za-z\\.\\-_]*(?<!\\.)$")
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
             try self.validate(self.s3Key, name: "s3Key", parent: name, min: 1)
+            try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^.*$")
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, max: 1024)
             try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, min: 1)
+            try self.validate(self.s3ObjectVersion, name: "s3ObjectVersion", parent: name, pattern: "^.*$")
+            try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, max: 10000)
             try self.validate(self.sourceKMSKeyArn, name: "sourceKMSKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
         }
 
@@ -8553,6 +9059,7 @@ extension Lambda {
             case revisionId = "RevisionId"
             case s3Bucket = "S3Bucket"
             case s3Key = "S3Key"
+            case s3ObjectStorageMode = "S3ObjectStorageMode"
             case s3ObjectVersion = "S3ObjectVersion"
             case sourceKMSKeyArn = "SourceKMSKeyArn"
             case zipFile = "ZipFile"
@@ -8566,13 +9073,13 @@ extension Lambda {
         public let deadLetterConfig: DeadLetterConfig?
         /// A description of the function.
         public let description: String?
-        /// Configuration settings for durable functions. Allows updating execution timeout and retention period for functions with durability enabled.
+        /// Configuration settings for durable functions, including execution timeout, retention period for execution history, and an optional ARN of the Key Management Service (KMS) customer managed key that is used to encrypt your durable execution's payload data, including input, output, and error payloads.
         public let durableConfig: DurableConfig?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
         public let ephemeralStorage: EphemeralStorage?
-        /// Connection settings for an Amazon EFS file system.
+        /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -8667,20 +9174,23 @@ extension Lambda {
             try self.validate(self.fileSystemConfigs, name: "fileSystemConfigs", parent: name, max: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, pattern: "^[^\\s]+$")
             try self.imageConfig?.validate(name: "\(name).imageConfig")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
             try self.layers?.forEach {
-                try validate($0, name: "layers[]", parent: name, max: 140)
+                try validate($0, name: "layers[]", parent: name, max: 2048)
                 try validate($0, name: "layers[]", parent: name, min: 1)
-                try validate($0, name: "layers[]", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:lambda:[a-zA-Z0-9-]+:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+$")
+                try validate($0, name: "layers[]", parent: name, pattern: "^((arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:layer:[a-zA-Z0-9-_]+:[0-9]+)|(arn:[a-zA-Z0-9-]+:lambda:::awslayer:[a-zA-Z0-9-_]+))$")
             }
             try self.loggingConfig?.validate(name: "\(name).loggingConfig")
             try self.validate(self.memorySize, name: "memorySize", parent: name, max: 32768)
             try self.validate(self.memorySize, name: "memorySize", parent: name, min: 128)
+            try self.validate(self.role, name: "role", parent: name, max: 10000)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.timeout, name: "timeout", parent: name, max: 5400)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -8744,7 +9254,7 @@ extension Lambda {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
@@ -8796,7 +9306,7 @@ extension Lambda {
             try self.cors?.validate(name: "\(name).cors")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]{1,64})(:((?!\\d+$)[0-9a-zA-Z-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^((?!^\\d+$)^[0-9a-zA-Z-_]+$)$")
@@ -8863,7 +9373,15 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 1024)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-zA-Z]*$")
+            }
             try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 1024)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]*$")
+            }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
         }
 
@@ -8984,8 +9502,12 @@ extension Lambda {
 /// Error enum for Lambda
 public struct LambdaErrorType: AWSErrorType {
     enum Code: String {
+        case aliasLimitExceededException = "AliasLimitExceededException"
         case callbackTimeoutException = "CallbackTimeoutException"
         case capacityProviderLimitExceededException = "CapacityProviderLimitExceededException"
+        case codeArtifactUserDeletedException = "CodeArtifactUserDeletedException"
+        case codeArtifactUserFailedException = "CodeArtifactUserFailedException"
+        case codeArtifactUserPendingException = "CodeArtifactUserPendingException"
         case codeSigningConfigNotFoundException = "CodeSigningConfigNotFoundException"
         case codeStorageExceededException = "CodeStorageExceededException"
         case codeVerificationFailedException = "CodeVerificationFailedException"
@@ -8998,6 +9520,7 @@ public struct LambdaErrorType: AWSErrorType {
         case efsMountTimeoutException = "EFSMountTimeoutException"
         case efsioException = "EFSIOException"
         case eniLimitReachedException = "ENILimitReachedException"
+        case eniNotReadyException = "ENINotReadyException"
         case functionVersionsPerCapacityProviderLimitExceededException = "FunctionVersionsPerCapacityProviderLimitExceededException"
         case invalidCodeSignatureException = "InvalidCodeSignatureException"
         case invalidParameterValueException = "InvalidParameterValueException"
@@ -9010,20 +9533,27 @@ public struct LambdaErrorType: AWSErrorType {
         case kmsDisabledException = "KMSDisabledException"
         case kmsInvalidStateException = "KMSInvalidStateException"
         case kmsNotFoundException = "KMSNotFoundException"
+        case modeNotSupportedException = "ModeNotSupportedException"
         case noPublishedVersionException = "NoPublishedVersionException"
         case policyLengthExceededException = "PolicyLengthExceededException"
         case preconditionFailedException = "PreconditionFailedException"
         case provisionedConcurrencyConfigNotFoundException = "ProvisionedConcurrencyConfigNotFoundException"
+        case publicPolicyException = "PublicPolicyException"
         case recursiveInvocationException = "RecursiveInvocationException"
         case requestTooLargeException = "RequestTooLargeException"
         case resourceConflictException = "ResourceConflictException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case resourceNotReadyException = "ResourceNotReadyException"
+        case s3FilesMountConnectivityException = "S3FilesMountConnectivityException"
+        case s3FilesMountFailureException = "S3FilesMountFailureException"
+        case s3FilesMountTimeoutException = "S3FilesMountTimeoutException"
         case serializedRequestEntityTooLargeException = "SerializedRequestEntityTooLargeException"
         case serviceException = "ServiceException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case snapStartException = "SnapStartException"
         case snapStartNotReadyException = "SnapStartNotReadyException"
+        case snapStartRegenerationFailureException = "SnapStartRegenerationFailureException"
         case snapStartTimeoutException = "SnapStartTimeoutException"
         case subnetIPAddressLimitReachedException = "SubnetIPAddressLimitReachedException"
         case tooManyRequestsException = "TooManyRequestsException"
@@ -9048,10 +9578,18 @@ public struct LambdaErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Lambda couldn't create the alias because your Amazon Web Services account has exceeded the maximum number of aliases allowed per Lambda function. For more information, see Lambda quotas.
+    public static var aliasLimitExceededException: Self { .init(.aliasLimitExceededException) }
     /// The callback ID token has either expired or the callback associated with the token has already been closed.
     public static var callbackTimeoutException: Self { .init(.callbackTimeoutException) }
     /// The maximum number of capacity providers for your account has been exceeded. For more information, see Lambda quotas
     public static var capacityProviderLimitExceededException: Self { .init(.capacityProviderLimitExceededException) }
+    /// The Lambda function couldn't be invoked because its code artifact user has been deleted. Wait for Lambda to provision a new code artifact user, or update the function's code package to recreate it.
+    public static var codeArtifactUserDeletedException: Self { .init(.codeArtifactUserDeletedException) }
+    /// The Lambda function couldn't be invoked because provisioning of its code artifact user failed. Update the function's code package or check the Lambda function's State and StateReasonCode for additional context.
+    public static var codeArtifactUserFailedException: Self { .init(.codeArtifactUserFailedException) }
+    /// The Lambda function couldn't be invoked because its code artifact user is still being provisioned. Wait for the function's State to become Active and try the request again.
+    public static var codeArtifactUserPendingException: Self { .init(.codeArtifactUserPendingException) }
     /// The specified code signing configuration does not exist.
     public static var codeSigningConfigNotFoundException: Self { .init(.codeSigningConfigNotFoundException) }
     /// Your Amazon Web Services account has exceeded its maximum total code size. For more information, see Lambda quotas.
@@ -9076,6 +9614,8 @@ public struct LambdaErrorType: AWSErrorType {
     public static var efsioException: Self { .init(.efsioException) }
     /// Lambda couldn't create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached. For more information, see Lambda quotas.
     public static var eniLimitReachedException: Self { .init(.eniLimitReachedException) }
+    /// Lambda couldn't invoke the Lambda function because the elastic network interface (ENI) configured for its VPC connection isn't ready yet. Wait a few moments and try the request again. For more information about VPC configuration, see Configuring a Lambda function to access resources in a VPC.
+    public static var eniNotReadyException: Self { .init(.eniNotReadyException) }
     /// The maximum number of function versions that can be associated with a single capacity provider has been exceeded. For more information, see Lambda quotas.
     public static var functionVersionsPerCapacityProviderLimitExceededException: Self { .init(.functionVersionsPerCapacityProviderLimitExceededException) }
     /// The code signature failed the integrity check. If the integrity check fails, then Lambda blocks deployment, even if the code signing policy is set to WARN.
@@ -9100,6 +9640,8 @@ public struct LambdaErrorType: AWSErrorType {
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// Lambda couldn't decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
+    /// The Lambda function doesn't support the invocation mode requested. For example, calling Invoke with InvocationType=RequestResponse on a function configured for asynchronous-only invocation, or vice versa. For more information about invocation types, see Invoking Lambda functions.
+    public static var modeNotSupportedException: Self { .init(.modeNotSupportedException) }
     /// The function has no published versions available.
     public static var noPublishedVersionException: Self { .init(.noPublishedVersionException) }
     /// The permissions policy for the resource is too large. For more information, see Lambda quotas.
@@ -9108,6 +9650,8 @@ public struct LambdaErrorType: AWSErrorType {
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
+    /// The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see Block public access to Lambda resources.
+    public static var publicPolicyException: Self { .init(.publicPolicyException) }
     /// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
     public static var recursiveInvocationException: Self { .init(.recursiveInvocationException) }
     /// The request payload exceeded the Invoke request body JSON input quota. For more information, see Lambda quotas.
@@ -9120,14 +9664,24 @@ public struct LambdaErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    /// The Lambda function couldn't make a network connection to the configured S3 Files access point.
+    public static var s3FilesMountConnectivityException: Self { .init(.s3FilesMountConnectivityException) }
+    /// The Lambda function couldn't mount the configured S3 Files access point due to a permission or configuration issue.
+    public static var s3FilesMountFailureException: Self { .init(.s3FilesMountFailureException) }
+    /// The Lambda function made a network connection to the configured S3 Files access point, but the mount operation timed out.
+    public static var s3FilesMountTimeoutException: Self { .init(.s3FilesMountTimeoutException) }
     /// The request payload exceeded the maximum allowed size for serialized request entities.
     public static var serializedRequestEntityTooLargeException: Self { .init(.serializedRequestEntityTooLargeException) }
     /// The Lambda service encountered an internal error.
     public static var serviceException: Self { .init(.serviceException) }
+    /// The request would exceed a service quota. For more information about Lambda service quotas, see Lambda quotas. To request a quota increase, see Requesting a quota increase in the Service Quotas User Guide.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The afterRestore() runtime hook encountered an error. For more information, check the Amazon CloudWatch logs.
     public static var snapStartException: Self { .init(.snapStartException) }
     /// Lambda is initializing your function. You can invoke the function when the function state becomes Active.
     public static var snapStartNotReadyException: Self { .init(.snapStartNotReadyException) }
+    /// Lambda couldn't regenerate the SnapStart snapshot for the function. SnapStart-enabled functions periodically regenerate snapshots when their underlying runtime or dependencies change; this regeneration failed. Wait for Lambda to retry, or update the function's configuration to trigger a new snapshot. For more information, see Lambda SnapStart.
+    public static var snapStartRegenerationFailureException: Self { .init(.snapStartRegenerationFailureException) }
     /// Lambda couldn't restore the snapshot within the timeout limit.
     public static var snapStartTimeoutException: Self { .init(.snapStartTimeoutException) }
     /// Lambda couldn't set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
@@ -9140,8 +9694,12 @@ public struct LambdaErrorType: AWSErrorType {
 
 extension LambdaErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AliasLimitExceededException": Lambda.AliasLimitExceededException.self,
         "CallbackTimeoutException": Lambda.CallbackTimeoutException.self,
         "CapacityProviderLimitExceededException": Lambda.CapacityProviderLimitExceededException.self,
+        "CodeArtifactUserDeletedException": Lambda.CodeArtifactUserDeletedException.self,
+        "CodeArtifactUserFailedException": Lambda.CodeArtifactUserFailedException.self,
+        "CodeArtifactUserPendingException": Lambda.CodeArtifactUserPendingException.self,
         "CodeSigningConfigNotFoundException": Lambda.CodeSigningConfigNotFoundException.self,
         "CodeStorageExceededException": Lambda.CodeStorageExceededException.self,
         "CodeVerificationFailedException": Lambda.CodeVerificationFailedException.self,
@@ -9154,6 +9712,7 @@ extension LambdaErrorType: AWSServiceErrorType {
         "EFSMountFailureException": Lambda.EFSMountFailureException.self,
         "EFSMountTimeoutException": Lambda.EFSMountTimeoutException.self,
         "ENILimitReachedException": Lambda.ENILimitReachedException.self,
+        "ENINotReadyException": Lambda.ENINotReadyException.self,
         "FunctionVersionsPerCapacityProviderLimitExceededException": Lambda.FunctionVersionsPerCapacityProviderLimitExceededException.self,
         "InvalidCodeSignatureException": Lambda.InvalidCodeSignatureException.self,
         "InvalidParameterValueException": Lambda.InvalidParameterValueException.self,
@@ -9166,20 +9725,27 @@ extension LambdaErrorType: AWSServiceErrorType {
         "KMSDisabledException": Lambda.KMSDisabledException.self,
         "KMSInvalidStateException": Lambda.KMSInvalidStateException.self,
         "KMSNotFoundException": Lambda.KMSNotFoundException.self,
+        "ModeNotSupportedException": Lambda.ModeNotSupportedException.self,
         "NoPublishedVersionException": Lambda.NoPublishedVersionException.self,
         "PolicyLengthExceededException": Lambda.PolicyLengthExceededException.self,
         "PreconditionFailedException": Lambda.PreconditionFailedException.self,
         "ProvisionedConcurrencyConfigNotFoundException": Lambda.ProvisionedConcurrencyConfigNotFoundException.self,
+        "PublicPolicyException": Lambda.PublicPolicyException.self,
         "RecursiveInvocationException": Lambda.RecursiveInvocationException.self,
         "RequestTooLargeException": Lambda.RequestTooLargeException.self,
         "ResourceConflictException": Lambda.ResourceConflictException.self,
         "ResourceInUseException": Lambda.ResourceInUseException.self,
         "ResourceNotFoundException": Lambda.ResourceNotFoundException.self,
         "ResourceNotReadyException": Lambda.ResourceNotReadyException.self,
+        "S3FilesMountConnectivityException": Lambda.S3FilesMountConnectivityException.self,
+        "S3FilesMountFailureException": Lambda.S3FilesMountFailureException.self,
+        "S3FilesMountTimeoutException": Lambda.S3FilesMountTimeoutException.self,
         "SerializedRequestEntityTooLargeException": Lambda.SerializedRequestEntityTooLargeException.self,
         "ServiceException": Lambda.ServiceException.self,
+        "ServiceQuotaExceededException": Lambda.ServiceQuotaExceededException.self,
         "SnapStartException": Lambda.SnapStartException.self,
         "SnapStartNotReadyException": Lambda.SnapStartNotReadyException.self,
+        "SnapStartRegenerationFailureException": Lambda.SnapStartRegenerationFailureException.self,
         "SnapStartTimeoutException": Lambda.SnapStartTimeoutException.self,
         "SubnetIPAddressLimitReachedException": Lambda.SubnetIPAddressLimitReachedException.self,
         "TooManyRequestsException": Lambda.TooManyRequestsException.self,

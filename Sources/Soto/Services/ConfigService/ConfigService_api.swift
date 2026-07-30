@@ -418,6 +418,35 @@ public struct ConfigService: AWSService {
         return try await self.deleteConformancePack(input, logger: logger)
     }
 
+    /// Deletes the specified connector.
+    @Sendable
+    @inlinable
+    public func deleteConnector(_ input: DeleteConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified connector.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the connector that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnector(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectorRequest(
+            arn: arn
+        )
+        return try await self.deleteConnector(input, logger: logger)
+    }
+
     /// Deletes the delivery channel. Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
     @Sendable
     @inlinable
@@ -757,14 +786,17 @@ public struct ConfigService: AWSService {
     /// 			you have created a new service-linked configuration recorder for the same service.   The recording scope determines if you receive configuration items  The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
     ///
     /// Parameters:
-    ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete.
+    ///   - arn: The Amazon Resource Name (ARN) of the service-linked configuration recorder that you want to delete. For third-party service-linked configuration recorders, you must use Arn. You must specify exactly one of Arn or ServicePrincipal.
+    ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to delete. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteServiceLinkedConfigurationRecorder(
-        servicePrincipal: String,
+        arn: String? = nil,
+        servicePrincipal: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteServiceLinkedConfigurationRecorderResponse {
         let input = DeleteServiceLinkedConfigurationRecorderRequest(
+            arn: arn, 
             servicePrincipal: servicePrincipal
         )
         return try await self.deleteServiceLinkedConfigurationRecorder(input, logger: logger)
@@ -1285,7 +1317,7 @@ public struct ConfigService: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
     ///   - configurationRecorderNames: The name of the configuration recorder. If the name is not
-    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConfigurationRecorderStatus(
@@ -1322,7 +1354,7 @@ public struct ConfigService: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
     ///   - configurationRecorderNames: A list of names of the configuration recorders that you want to specify.  When making a request to this operation, you can only specify one configuration recorder.
-    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
+    ///   - servicePrincipal: For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder. This field is only supported for Amazon Web Services service principals. For third-party service-linked configuration recorders, use Arn instead.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeConfigurationRecorders(
@@ -2359,6 +2391,35 @@ public struct ConfigService: AWSService {
         return try await self.getConformancePackComplianceSummary(input, logger: logger)
     }
 
+    /// Returns the details of the specified connector.
+    @Sendable
+    @inlinable
+    public func getConnector(_ input: GetConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectorResponse {
+        try await self.client.execute(
+            operation: "GetConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the details of the specified connector.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the connector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnector(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectorResponse {
+        let input = GetConnectorRequest(
+            arn: arn
+        )
+        return try await self.getConnector(input, logger: logger)
+    }
+
     /// Returns the policy definition containing the logic for your Config Custom Policy rule.
     @Sendable
     @inlinable
@@ -2832,6 +2893,41 @@ public struct ConfigService: AWSService {
         return try await self.listConformancePackComplianceScores(input, logger: logger)
     }
 
+    /// Returns a list of connectors depending on the filters you specify.
+    @Sendable
+    @inlinable
+    public func listConnectors(_ input: ListConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorsResponse {
+        try await self.client.execute(
+            operation: "ListConnectors", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of connectors depending on the filters you specify.
+    ///
+    /// Parameters:
+    ///   - filters: Filters the results based on a list of ConnectorFilter objects that you specify.
+    ///   - maxResults: The maximum number of results to include in the response.
+    ///   - nextToken: The NextToken string returned on a previous page that you use to get the next page of results in a paginated response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectors(
+        filters: [ConnectorFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorsResponse {
+        let input = ListConnectorsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectors(input, logger: logger)
+    }
+
     /// Returns a list of resource
     /// 			resource identifiers for the specified resource types for the resources of that type. A resource identifier
     /// 			includes the resource type, ID, and (if available) the custom
@@ -2983,7 +3079,7 @@ public struct ConfigService: AWSService {
     /// Parameters:
     ///   - limit: The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
     ///   - nextToken: The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -3294,6 +3390,38 @@ public struct ConfigService: AWSService {
         return try await self.putConformancePack(input, logger: logger)
     }
 
+    /// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThirdParty in your account. The service-linked role is created only when the role does not exist in your account.   Connectors cannot be updated  To update the connector configuration, you must delete all associated configuration recorders, delete the connector, and recreate it with the updated configuration.    Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    @Sendable
+    @inlinable
+    public func putConnector(_ input: PutConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConnectorResponse {
+        try await self.client.execute(
+            operation: "PutConnector", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connector that specifies the connection between a third-party cloud service provider and Config. A connector is required to create a service-linked configuration recorder for a third-party cloud service provider using the PutThirdPartyServiceLinkedConfigurationRecorder operation. This API creates a service-linked role AWSServiceRoleForConfigThirdParty in your account. The service-linked role is created only when the role does not exist in your account.   Connectors cannot be updated  To update the connector configuration, you must delete all associated configuration recorders, delete the connector, and recreate it with the updated configuration.    Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    ///
+    /// Parameters:
+    ///   - connectorConfiguration: The provider-specific configuration for connecting to the third-party cloud service provider.
+    ///   - tags: The tags for the connector. Each tag consists of a key and an optional value, both of which you define.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putConnector(
+        connectorConfiguration: ConnectorConfiguration,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutConnectorResponse {
+        let input = PutConnectorRequest(
+            connectorConfiguration: connectorConfiguration, 
+            tags: tags
+        )
+        return try await self.putConnector(input, logger: logger)
+    }
+
     /// Creates or updates a delivery channel to deliver configuration
     /// 			information and other compliance information. You can use this operation to create a new delivery channel or to update the Amazon S3 bucket and the
     /// 			Amazon SNS topic of an existing delivery channel. For more information, see  Working with the Delivery Channel in the Config Developer Guide.    One delivery channel per account per Region  You can have only one delivery channel for each account for each Amazon Web Services Region.
@@ -3463,6 +3591,7 @@ public struct ConfigService: AWSService {
     ///   - organizationCustomPolicyRuleMetadata: An OrganizationCustomPolicyRuleMetadata object. This object specifies metadata for your organization's Config Custom Policy rule. The metadata includes the runtime system in use, which accounts have debug
     ///   - organizationCustomRuleMetadata: An OrganizationCustomRuleMetadata object. This object specifies organization custom rule metadata such as resource type,
     ///   - organizationManagedRuleMetadata: An OrganizationManagedRuleMetadata object. This object specifies organization
+    ///   - tags: The tags for the organization Config rule. Each tag consists of a key and an optional value, both of which you define.
     ///   - logger: Logger use during operation
     @inlinable
     public func putOrganizationConfigRule(
@@ -3471,6 +3600,7 @@ public struct ConfigService: AWSService {
         organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil,
         organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil,
         organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutOrganizationConfigRuleResponse {
         let input = PutOrganizationConfigRuleRequest(
@@ -3478,7 +3608,8 @@ public struct ConfigService: AWSService {
             organizationConfigRuleName: organizationConfigRuleName, 
             organizationCustomPolicyRuleMetadata: organizationCustomPolicyRuleMetadata, 
             organizationCustomRuleMetadata: organizationCustomRuleMetadata, 
-            organizationManagedRuleMetadata: organizationManagedRuleMetadata
+            organizationManagedRuleMetadata: organizationManagedRuleMetadata, 
+            tags: tags
         )
         return try await self.putOrganizationConfigRule(input, logger: logger)
     }
@@ -3540,6 +3671,7 @@ public struct ConfigService: AWSService {
     ///   - deliveryS3KeyPrefix: The prefix for the Amazon S3 bucket.  This field is optional.
     ///   - excludedAccounts: A list of Amazon Web Services accounts to be excluded from an organization conformance pack while deploying a conformance pack.
     ///   - organizationConformancePackName: Name of the organization conformance pack you want to create.
+    ///   - tags: The tags for the organization conformance pack. Each tag consists of a key and an optional value, both of which you define.
     ///   - templateBody: A string that contains the full conformance pack template body. Structure containing the template body
     ///   - templateS3Uri: Location of file containing the template body. The uri must point to the conformance pack template
     ///   - logger: Logger use during operation
@@ -3550,6 +3682,7 @@ public struct ConfigService: AWSService {
         deliveryS3KeyPrefix: String? = nil,
         excludedAccounts: [String]? = nil,
         organizationConformancePackName: String,
+        tags: [Tag]? = nil,
         templateBody: String? = nil,
         templateS3Uri: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3560,6 +3693,7 @@ public struct ConfigService: AWSService {
             deliveryS3KeyPrefix: deliveryS3KeyPrefix, 
             excludedAccounts: excludedAccounts, 
             organizationConformancePackName: organizationConformancePackName, 
+            tags: tags, 
             templateBody: templateBody, 
             templateS3Uri: templateS3Uri
         )
@@ -3834,6 +3968,44 @@ public struct ConfigService: AWSService {
             tags: tags
         )
         return try await self.putStoredQuery(input, logger: logger)
+    }
+
+    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the ConnectorArn you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. If a service-linked configuration recorder already exists for the specified service principal and connector, calling this operation again updates the ScopeConfiguration.   This operation can only be called by the Amazon Web Services service linked to the configuration recorder  Customers cannot call this operation directly. Only the linked Amazon Web Services service can create or update the service-linked configuration recorder.    Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    @Sendable
+    @inlinable
+    public func putThirdPartyServiceLinkedConfigurationRecorder(_ input: PutThirdPartyServiceLinkedConfigurationRecorderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutThirdPartyServiceLinkedConfigurationRecorderResponse {
+        try await self.client.execute(
+            operation: "PutThirdPartyServiceLinkedConfigurationRecorder", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a service-linked configuration recorder that is linked to a third-party cloud service provider based on the ConnectorArn you specify. The configuration recorder's name, recordingGroup, recordingMode, and recordingScope is set by the service that is linked to the configuration recorder. If a service-linked configuration recorder already exists for the specified service principal and connector, calling this operation again updates the ScopeConfiguration.   This operation can only be called by the Amazon Web Services service linked to the configuration recorder  Customers cannot call this operation directly. Only the linked Amazon Web Services service can create or update the service-linked configuration recorder.    Tags are added at creation and cannot be updated with this operation  Use TagResource and UntagResource to update tags after creation.
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that specifies the connection between the third-party cloud service provider and Config. The specified connector must exist.
+    ///   - scopeConfiguration: Specifies the scope of resources to record from the third-party cloud service provider.
+    ///   - servicePrincipal: The service principal of the Amazon Web Services service for the service-linked configuration recorder that you want to create.
+    ///   - tags: The tags for a service-linked configuration recorder. Each tag consists of a key and an optional value, both of which you define.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putThirdPartyServiceLinkedConfigurationRecorder(
+        connectorArn: String,
+        scopeConfiguration: ScopeConfiguration,
+        servicePrincipal: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutThirdPartyServiceLinkedConfigurationRecorderResponse {
+        let input = PutThirdPartyServiceLinkedConfigurationRecorderRequest(
+            connectorArn: connectorArn, 
+            scopeConfiguration: scopeConfiguration, 
+            servicePrincipal: servicePrincipal, 
+            tags: tags
+        )
+        return try await self.putThirdPartyServiceLinkedConfigurationRecorder(input, logger: logger)
     }
 
     /// Accepts a structured query language (SQL) SELECT command and an aggregator to query configuration state of Amazon Web Services resources across multiple accounts and regions,
@@ -4156,7 +4328,7 @@ public struct ConfigService: AWSService {
     /// 			If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
     ///   - tags: An array of tag object.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4188,7 +4360,7 @@ public struct ConfigService: AWSService {
     /// Deletes specified tags from a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
     ///   - tagKeys: The keys of the tags to be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5600,6 +5772,43 @@ extension ConfigService {
         return self.listConformancePackComplianceScoresPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorsPaginator(
+        _ input: ListConnectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorsRequest, ListConnectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectors,
+            inputKey: \ListConnectorsRequest.nextToken,
+            outputKey: \ListConnectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters the results based on a list of ConnectorFilter objects that you specify.
+    ///   - maxResults: The maximum number of results to include in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorsPaginator(
+        filters: [ConnectorFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectorsRequest, ListConnectorsResponse> {
+        let input = ListConnectorsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listConnectorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDiscoveredResources(_:logger:)``.
     ///
     /// - Parameters:
@@ -5739,7 +5948,7 @@ extension ConfigService {
     ///
     /// - Parameters:
     ///   - limit: The maximum number of tags returned on each page. The limit maximum is 50. You cannot specify a number greater than 50. If you specify 0, Config uses the default.
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery
+    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. The following resources are supported:    ConfigurationRecorder     ConfigRule     OrganizationConfigRule     ConformancePack     OrganizationConformancePack     ConfigurationAggregator     AggregationAuthorization     StoredQuery     Connector
     ///   - logger: Logger used for logging
     @inlinable
     public func listTagsForResourcePaginator(
@@ -6245,6 +6454,17 @@ extension ConfigService.ListConformancePackComplianceScoresRequest: AWSPaginateT
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension ConfigService.ListConnectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ConfigService.ListConnectorsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

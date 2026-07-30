@@ -1112,6 +1112,8 @@ extension LicenseManager {
         public let licenseName: String
         /// Product name.
         public let productName: String
+        /// Specifies whether to reset the license usage for the new license version. If you don't specify a value, the license usage is not reset.
+        public let resetUsage: Bool?
         /// Current version of the license.
         public let sourceVersion: String?
         /// License status.
@@ -1120,7 +1122,7 @@ extension LicenseManager {
         public let validity: DatetimeRange
 
         @inlinable
-        public init(clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseArn: String, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, sourceVersion: String? = nil, status: LicenseStatus, validity: DatetimeRange) {
+        public init(clientToken: String, consumptionConfiguration: ConsumptionConfiguration, entitlements: [Entitlement], homeRegion: String, issuer: Issuer, licenseArn: String, licenseMetadata: [Metadata]? = nil, licenseName: String, productName: String, resetUsage: Bool? = nil, sourceVersion: String? = nil, status: LicenseStatus, validity: DatetimeRange) {
             self.clientToken = clientToken
             self.consumptionConfiguration = consumptionConfiguration
             self.entitlements = entitlements
@@ -1130,6 +1132,7 @@ extension LicenseManager {
             self.licenseMetadata = licenseMetadata
             self.licenseName = licenseName
             self.productName = productName
+            self.resetUsage = resetUsage
             self.sourceVersion = sourceVersion
             self.status = status
             self.validity = validity
@@ -1153,6 +1156,7 @@ extension LicenseManager {
             case licenseMetadata = "LicenseMetadata"
             case licenseName = "LicenseName"
             case productName = "ProductName"
+            case resetUsage = "ResetUsage"
             case sourceVersion = "SourceVersion"
             case status = "Status"
             case validity = "Validity"

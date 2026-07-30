@@ -304,7 +304,7 @@ public struct Amp: AWSService {
         return try await self.createRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
+    /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     @Sendable
     @inlinable
     public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
@@ -317,12 +317,12 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
+    /// Creates a scraper to collect metrics from Prometheus-compatible sources. The scraper sends the collected metrics to Amazon Managed Service for Prometheus workspaces or CloudWatch datasets. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible. You can configure a scraper to control which metrics to collect, the frequency of collection, which transformations to apply to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///
     /// Parameters:
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
-    ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
+    ///   - destination: The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
     ///   - source: The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
@@ -1493,7 +1493,7 @@ public struct Amp: AWSService {
     /// Parameters:
     ///   - alias: The new alias of the scraper.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
-    ///   - destination: The new Amazon Managed Service for Prometheus workspace to send metrics to.
+    ///   - destination: The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
     ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///   - scraperId: The ID of the scraper to update.
@@ -1607,21 +1607,27 @@ public struct Amp: AWSService {
     /// Parameters:
     ///   - clientToken: You can include a token in your operation to make it an idempotent opeartion.
     ///   - limitsPerLabelSet: This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
+    ///   - outOfOrderTimeWindowInSeconds: Specifies the time window in seconds for accepting out of order samples. Out of order samples older than this window are rejected.
     ///   - retentionPeriodInDays: Specifies how many days that metrics will be retained in the workspace.
+    ///   - ruleQueryOffsetInSeconds: Specifies the duration in seconds to offset rule evaluation queries into the past. This allows ingested samples to be available before rule evaluation.
     ///   - workspaceId: The ID of the workspace that you want to update. To find the IDs of your workspaces, use the ListWorkspaces operation.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWorkspaceConfiguration(
         clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(),
         limitsPerLabelSet: [LimitsPerLabelSet]? = nil,
+        outOfOrderTimeWindowInSeconds: Int? = nil,
         retentionPeriodInDays: Int? = nil,
+        ruleQueryOffsetInSeconds: Int? = nil,
         workspaceId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWorkspaceConfigurationResponse {
         let input = UpdateWorkspaceConfigurationRequest(
             clientToken: clientToken, 
             limitsPerLabelSet: limitsPerLabelSet, 
+            outOfOrderTimeWindowInSeconds: outOfOrderTimeWindowInSeconds, 
             retentionPeriodInDays: retentionPeriodInDays, 
+            ruleQueryOffsetInSeconds: ruleQueryOffsetInSeconds, 
             workspaceId: workspaceId
         )
         return try await self.updateWorkspaceConfiguration(input, logger: logger)

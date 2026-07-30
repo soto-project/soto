@@ -589,6 +589,7 @@ extension DatabaseMigrationService {
     }
 
     public struct CancelMetadataModelConversionResponse: AWSDecodableShape {
+        /// The metadata model conversion request.  DMS never populates the ExportSqlDetails field for this operation.
         public let request: SchemaConversionRequest?
 
         @inlinable
@@ -624,6 +625,7 @@ extension DatabaseMigrationService {
     }
 
     public struct CancelMetadataModelCreationResponse: AWSDecodableShape {
+        /// The metadata model creation request.  DMS never populates the ExportSqlDetails field for this operation.
         public let request: SchemaConversionRequest?
 
         @inlinable
@@ -971,7 +973,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings
@@ -1285,7 +1287,7 @@ extension DatabaseMigrationService {
     }
 
     public struct CreateInstanceProfileMessage: AWSEncodableShape {
-        /// The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your  data provider is created, for examplem us-east-1d.
+        /// The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your data provider is created, for examplem us-east-1d.
         public let availabilityZone: String?
         /// A user-friendly description of the instance profile.
         public let description: String?
@@ -1293,7 +1295,7 @@ extension DatabaseMigrationService {
         public let instanceProfileName: String?
         /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt  the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
         public let kmsKeyArn: String?
-        /// Specifies the network type for the instance profile. A value of IPV4  represents an instance profile with IPv4 network type and only supports IPv4 addressing.  A value of IPV6 represents an instance profile with IPv6 network type  and only supports IPv6 addressing. A value of DUAL represents an instance  profile with dual network type that supports IPv4 and IPv6 addressing.
+        /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
         public let networkType: String?
         /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
         public let publiclyAccessible: Bool?
@@ -1359,7 +1361,7 @@ extension DatabaseMigrationService {
         public let tags: [Tag]?
         /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
         public let targetDataProviderDescriptors: [DataProviderDescriptorDefinition]
-        /// The settings in JSON format for migration rules. Migration rules make it possible for you to change  the object names according to the rules that you specify. For example, you can change an object name  to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+        /// A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion.  Homogeneous data migrations do not support transformation rules.
         public let transformationRules: String?
 
         @inlinable
@@ -1837,7 +1839,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A description of the data provider. Descriptions can have up to 31 characters.  A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't  end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings?
@@ -2611,7 +2613,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeConversionConfigurationResponse: AWSDecodableShape {
-        /// The configuration parameters for the schema conversion project.
+        /// A JSON string that contains the schema conversion settings for the migration project. For the format and available settings, see Specifying schema conversion settings for migration projects.
         public let conversionConfiguration: String?
         /// The name or Amazon Resource Name (ARN) for the schema conversion project.
         public let migrationProjectIdentifier: String?
@@ -2681,7 +2683,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeDataProvidersMessage: AWSEncodableShape {
-        /// Filters applied to the data providers described in the form of key-value pairs. Valid filter names and values: data-provider-identifier, data provider arn or name
+        /// The filters to apply to the data providers. The following filter names are supported:    data-provider-identifier – The data provider name or ARN.
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -3017,13 +3019,13 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeExtensionPackAssociationsMessage: AWSEncodableShape {
-        /// Filters applied to the extension pack associations described in the form of key-value pairs.
+        /// The filters to apply to the extension pack installation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
-        /// The name or Amazon Resource Name (ARN) for the migration project.
+        /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
 
         @inlinable
@@ -3049,7 +3051,7 @@ extension DatabaseMigrationService {
     public struct DescribeExtensionPackAssociationsResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of extension pack associations for the specified migration project.
+        /// A paginated list of extension pack installation requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3263,9 +3265,9 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeInstanceProfilesMessage: AWSEncodableShape {
-        /// Filters applied to the instance profiles described in the form of key-value pairs. Valid filter names and values: instance-profile-identifier, instance profile arn or name
+        /// The filters to apply to the instance profiles. The following filter names are supported:    instance-profile-identifier – The instance profile name or ARN.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
@@ -3303,13 +3305,13 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelAssessmentsMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model assessments described in the form of key-value pairs.
+        /// The filters to apply to the metadata model assessment requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
-        /// The name or Amazon Resource Name (ARN) of the migration project.
+        /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
 
         @inlinable
@@ -3335,7 +3337,7 @@ extension DatabaseMigrationService {
     public struct DescribeMetadataModelAssessmentsResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model assessments for the specified migration project.
+        /// A paginated list of metadata model assessment requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3359,7 +3361,7 @@ extension DatabaseMigrationService {
         public let migrationProjectIdentifier: String
         /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
         public let origin: OriginTypeValue
-        /// The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+        /// A JSON string that identifies the metadata model whose children to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
         public let selectionRules: String
 
         @inlinable
@@ -3403,7 +3405,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelConversionsMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model conversions described in the form of key-value pairs.
+        /// The filters to apply to the metadata model conversion requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -3435,7 +3437,7 @@ extension DatabaseMigrationService {
     public struct DescribeMetadataModelConversionsResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model conversions.
+        /// A paginated list of metadata model conversion requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3451,11 +3453,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelCreationsMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+        /// The filters to apply to the metadata model creation requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED, CANCELING, CANCELED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -3481,9 +3483,9 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelCreationsResponse: AWSDecodableShape {
-        /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned, there are more metadata model creation requests available.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A list of metadata model creation requests. The ExportSqlDetails field will never be populated for the DescribeMetadataModelCreations operation.
+        /// A paginated list of metadata model creation requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3499,11 +3501,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelExportsAsScriptMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model exports described in the form of key-value pairs.
+        /// The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -3531,7 +3533,7 @@ extension DatabaseMigrationService {
     public struct DescribeMetadataModelExportsAsScriptResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model exports.
+        /// A paginated list of metadata model export requests.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3547,11 +3549,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelExportsToTargetMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model exports described in the form of key-value pairs.
+        /// The filters to apply to the metadata model export requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, DMS includes a pagination token   in the response so that you can retrieve the remaining results.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -3579,7 +3581,7 @@ extension DatabaseMigrationService {
     public struct DescribeMetadataModelExportsToTargetResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model exports.
+        /// A paginated list of metadata model export requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3595,11 +3597,11 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMetadataModelImportsMessage: AWSEncodableShape {
-        /// Filters applied to the metadata model imports described in the form of key-value pairs.
+        /// The filters to apply to the metadata model import requests. The following filter names are supported:    request-id – The request identifier.    status – The request status. Valid values: RECEIVED, IN_PROGRESS, SUCCESS, FAILED.
         public let filters: [Filter]?
-        /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
+        /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model imports.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
         public let maxRecords: Int?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -3627,7 +3629,7 @@ extension DatabaseMigrationService {
     public struct DescribeMetadataModelImportsResponse: AWSDecodableShape {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
-        /// A paginated list of metadata model imports.
+        /// A paginated list of metadata model import requests.  DMS never populates the ExportSqlDetails field for this operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3647,7 +3649,7 @@ extension DatabaseMigrationService {
         public let migrationProjectIdentifier: String
         /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
         public let origin: OriginTypeValue
-        /// The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+        /// A JSON string that identifies the metadata model to retrieve. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
         public let selectionRules: String
 
         @inlinable
@@ -3695,7 +3697,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeMigrationProjectsMessage: AWSEncodableShape {
-        /// Filters applied to the migration projects described in the form of key-value pairs. Valid filter names and values:   instance-profile-identifier, instance profile arn or name   data-provider-identifier, data provider arn or name   migration-project-identifier, migration project arn or name
+        /// The filters to apply to the migration projects. The following filter names are supported:    migration-project-identifier – The migration project name or ARN.    instance-profile-identifier – The instance profile name or ARN.    data-provider-identifier – The source or target data provider name or ARN.    source-data-provider-identifier – The source data provider name or ARN.    target-data-provider-identifier – The target data provider name or ARN.
         public let filters: [Filter]?
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
@@ -4482,7 +4484,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one".  Must be a positive value greater than 0. Default value is 1000.
         public let docsToInvestigate: Int?
-        ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false".
+        /// Specifies whether the document ID is added to the target table. Use this setting when NestingLevel is set to "none".  Set ExtractDocId to true when using multi-document transactions with CDC.  Default value is false.
         public let extractDocId: Bool?
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
@@ -4933,7 +4935,7 @@ extension DatabaseMigrationService {
         public let fileName: String?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// A value that specifies the database objects to assess.
+        /// A JSON string that identifies the metadata models to export a conversion assessment report for. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -4994,9 +4996,9 @@ extension DatabaseMigrationService {
     }
 
     public struct ExportSqlDetails: AWSDecodableShape {
-        /// The URL for the object containing the exported metadata model assessment.
+        /// The URL of the Amazon S3 object that contains the ZIP archive with exported DDL scripts.
         public let objectURL: String?
-        /// The Amazon S3 object key for the object containing the exported metadata model assessment.
+        /// The Amazon S3 URI of the object that contains the ZIP archive with exported DDL scripts.
         public let s3ObjectKey: String?
 
         @inlinable
@@ -5146,7 +5148,7 @@ extension DatabaseMigrationService {
     public struct GetTargetSelectionRulesMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+        /// A JSON string that contains the source selection rules to convert into their target counterparts. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.   Does not support category-name in the object locator.   Up to 10 rules are allowed.
         public let selectionRules: String
 
         @inlinable
@@ -5250,24 +5252,30 @@ extension DatabaseMigrationService {
         public let certificateArn: String?
         /// The database name on the DB2 LUW data provider.
         public let databaseName: String?
+        ///  The encryption algorithm used for securing the connection to the IBM DB2 LUW database server. You can provide an integer value corresponding to a specific encryption algorithm, or leave this parameter empty to use the default behavior.
+        public let encryptionAlgorithm: Int?
         /// The port value for the DB2 LUW data provider.
         public let port: Int?
         /// The ARN for the role the application uses to access its Amazon S3 bucket.
         public let s3AccessRoleArn: String?
         /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
         public let s3Path: String?
+        ///  The security mechanism used for authenticating the connection to the IBM DB2 LUW database server. You can provide an integer value corresponding to a specific security mechanism, or leave this parameter empty to use the default behavior.
+        public let securityMechanism: Int?
         /// The name of the DB2 LUW server.
         public let serverName: String?
         /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, encryptionAlgorithm: Int? = nil, port: Int? = nil, s3AccessRoleArn: String? = nil, s3Path: String? = nil, securityMechanism: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
+            self.encryptionAlgorithm = encryptionAlgorithm
             self.port = port
             self.s3AccessRoleArn = s3AccessRoleArn
             self.s3Path = s3Path
+            self.securityMechanism = securityMechanism
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -5275,9 +5283,11 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "CertificateArn"
             case databaseName = "DatabaseName"
+            case encryptionAlgorithm = "EncryptionAlgorithm"
             case port = "Port"
             case s3AccessRoleArn = "S3AccessRoleArn"
             case s3Path = "S3Path"
+            case securityMechanism = "SecurityMechanism"
             case serverName = "ServerName"
             case sslMode = "SslMode"
         }
@@ -5377,15 +5387,15 @@ extension DatabaseMigrationService {
         public var instanceProfileCreationTime: Date?
         /// The user-friendly name for the instance profile.
         public let instanceProfileName: String?
-        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt  the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
+        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
         public let kmsKeyArn: String?
-        /// Specifies the network type for the instance profile. A value of IPV4  represents an instance profile with IPv4 network type and only supports IPv4 addressing.  A value of IPV6 represents an instance profile with IPv6 network type  and only supports IPv6 addressing. A value of DUAL represents an instance  profile with dual network type that supports IPv4 and IPv6 addressing.
+        /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
         public let networkType: String?
         /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
         public let publiclyAccessible: Bool?
         /// The identifier of the subnet group that is associated with the instance profile.
         public let subnetGroupIdentifier: String?
-        /// The VPC security groups that are used with the instance profile.  The VPC security group must work with the VPC containing the instance profile.
+        /// The VPC security groups that are used with the instance profile. The VPC security group must work with the VPC containing the instance profile.
         public let vpcSecurityGroups: [String]?
 
         @inlinable
@@ -5721,7 +5731,7 @@ extension DatabaseMigrationService {
     public struct MetadataModelReference: AWSDecodableShape {
         /// The name of the metadata model.
         public let metadataModelName: String?
-        /// The JSON string representing metadata model location.
+        /// A JSON string that identifies this metadata model in the metadata tree. For the selection rule format, see Selection rules in DMS Schema Conversion. Usage:   You can pass this value as the SelectionRules parameter to any operation that accepts selection rules, such as DescribeMetadataModel, StartMetadataModelConversion, and others.
         public let selectionRules: String?
 
         @inlinable
@@ -5876,7 +5886,7 @@ extension DatabaseMigrationService {
         public let sourceDataProviderDescriptors: [DataProviderDescriptor]?
         /// Information about the target data provider, including the name or ARN, and Secrets Manager parameters.
         public let targetDataProviderDescriptors: [DataProviderDescriptor]?
-        /// The settings in JSON format for migration rules. Migration rules make it possible for you to change  the object names according to the rules that you specify. For example, you can change an object name  to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+        /// The transformation rules for the migration project in JSON format. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion.  Homogeneous data migrations do not support transformation rules.
         public let transformationRules: String?
 
         @inlinable
@@ -5908,7 +5918,7 @@ extension DatabaseMigrationService {
     }
 
     public struct ModifyConversionConfigurationMessage: AWSEncodableShape {
-        /// The new conversion configuration.
+        /// A JSON string that contains the schema conversion settings to update. For the format and available settings, see Specifying schema conversion settings for migration projects. Usage:   Include only the sections and keys to change. The operation merges supplied values with the existing configuration.
         public let conversionConfiguration: String
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
@@ -6010,7 +6020,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values: aurora, aurora-postgresql, db2, db2-zos, docdb, mariadb, mongodb, mysql, oracle, postgres, redshift, sqlserver, and sybase. A value of aurora represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
         public let exactSettings: Bool?
@@ -6269,7 +6279,7 @@ extension DatabaseMigrationService {
         public let instanceProfileName: String?
         /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt  the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses an Amazon Web Services owned encryption key to encrypt your resources.
         public let kmsKeyArn: String?
-        /// Specifies the network type for the instance profile. A value of IPV4  represents an instance profile with IPv4 network type and only supports IPv4 addressing.  A value of IPV6 represents an instance profile with IPv6 network type  and only supports IPv6 addressing. A value of DUAL represents an instance  profile with dual network type that supports IPv4 and IPv6 addressing.
+        /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
         public let networkType: String?
         /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
         public let publiclyAccessible: Bool?
@@ -6333,7 +6343,7 @@ extension DatabaseMigrationService {
         public let sourceDataProviderDescriptors: [DataProviderDescriptorDefinition]?
         /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
         public let targetDataProviderDescriptors: [DataProviderDescriptorDefinition]?
-        /// The settings in JSON format for migration rules. Migration rules make it possible for you to change  the object names according to the rules that you specify. For example, you can change an object name  to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+        /// A JSON string that specifies the transformation rules for the migration project. Transformation rules let you customize how DMS Schema Conversion converts your source database objects, including renaming, adding prefixes or suffixes, and changing data types. For the transformation rule format and examples, see Transformation rules in DMS Schema Conversion.  Homogeneous data migrations do not support transformation rules.
         public let transformationRules: String?
 
         @inlinable
@@ -6663,7 +6673,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         ///  Indicates the number of documents to preview to determine the document organization. Use this setting when NestingLevel is set to "one".  Must be a positive value greater than 0. Default value is 1000.
         public let docsToInvestigate: String?
-        ///  Specifies the document ID. Use this setting when NestingLevel is set to "none".  Default value is "false".
+        /// Specifies whether the document ID is added to the target table. Use this setting when NestingLevel is set to "none".  Set ExtractDocId to "true" when using multi-document transactions with CDC.  Default value is "false".
         public let extractDocId: String?
         /// The KMS key identifier that is used to encrypt the content on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
@@ -6909,7 +6919,7 @@ extension DatabaseMigrationService {
     }
 
     public struct OracleDataProviderSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The address of your Oracle Automatic Storage Management (ASM) server. You can set  this value from the asm_server value. You set asm_server as part  of the extra connection attribute string to access an Oracle server with Binary Reader that  uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
+        /// The address of your Oracle Automatic Storage Management (ASM) server. You can set this value from the asm_server value. You set asm_server as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
         public let asmServer: String?
         /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
         public let certificateArn: String?
@@ -6921,17 +6931,17 @@ extension DatabaseMigrationService {
         public let s3AccessRoleArn: String?
         /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
         public let s3Path: String?
-        /// The ARN of the IAM role that provides access to the secret in Secrets Manager  that contains the Oracle ASM connection details.
+        /// The ARN of the IAM role that provides access to the secret in Secrets Manager that contains the Oracle ASM connection details.
         public let secretsManagerOracleAsmAccessRoleArn: String?
         /// The identifier of the secret in Secrets Manager that contains the Oracle ASM connection details. Required only if your data provider uses the Oracle ASM server.
         public let secretsManagerOracleAsmSecretId: String?
-        /// The ARN of the IAM role that provides access to the secret in Secrets Manager  that contains the TDE password.
+        /// The ARN of the IAM role that provides access to the secret in Secrets Manager that contains the TDE password.
         public let secretsManagerSecurityDbEncryptionAccessRoleArn: String?
         /// The identifier of the secret in Secrets Manager that contains the transparent data encryption (TDE)  password. DMS requires this password to access Oracle redo logs encrypted by TDE  using Binary Reader.
         public let secretsManagerSecurityDbEncryptionSecretId: String?
         /// The name of the Oracle server.
         public let serverName: String?
-        /// The SSL mode used to connect to the Oracle data provider.  The default value is none.
+        /// The SSL mode used to connect to the Oracle data provider. The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
@@ -7031,7 +7041,7 @@ extension DatabaseMigrationService {
         public let secretsManagerOracleAsmSecretId: String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
         public let secretsManagerSecretId: String?
-        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for DMS  in the Database Migration Service User Guide.
+        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryption setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for DMS  in the Database Migration Service User Guide.
         public let securityDbEncryption: String?
         /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in  Supported encryption methods for using Oracle as a source for DMS  in the Database Migration Service User Guide.
         public let securityDbEncryptionName: String?
@@ -7441,7 +7451,7 @@ extension DatabaseMigrationService {
     }
 
     public struct ProcessedObject: AWSDecodableShape {
-        /// The type of the data provider. This parameter can store one of the following values:  "SOURCE" or "TARGET".
+        /// The type of the data provider. This parameter can store one of the following values: "SOURCE" or "TARGET".
         public let endpointType: String?
         /// The name of the database object.
         public let name: String?
@@ -7467,7 +7477,7 @@ extension DatabaseMigrationService {
         public let processedObject: ProcessedObject?
         /// The percent complete for the current step of the schema conversion operation.
         public let progressPercent: Double?
-        /// The step of the schema conversion operation. This parameter can store one of the following values:    IN_PROGRESS – The operation is running.    LOADING_METADATA – Loads metadata from the source database.    COUNTING_OBJECTS – Determines the number of objects involved  in the operation.    ANALYZING – Analyzes the source database objects.    CONVERTING – Converts the source database objects to a format compatible  with the target database.    APPLYING – Applies the converted code to the target database.    FINISHED – The operation completed successfully.
+        /// The step of the schema conversion operation. This parameter can store one of the following values:    IN_PROGRESS – The operation is running.    LOADING_METADATA – Loads metadata from the source database.    COUNTING_OBJECTS – Determines the number of objects involved in the operation.    ANALYZING – Analyzes the source database objects.    CONVERTING – Converts the source database objects to a format compatible with the target database.    APPLYING – Applies the converted code to the target database.    FINISHED – The operation completed successfully.
         public let progressStep: String?
         /// The number of objects in this schema conversion operation.
         public let totalObjects: Int64?
@@ -9101,13 +9111,14 @@ extension DatabaseMigrationService {
 
     public struct SchemaConversionRequest: AWSDecodableShape {
         public let error: ErrorDetails?
+        /// The Amazon S3 location of the ZIP archive that contains the exported data definition language (DDL) scripts.  DMS populates this field only for the DescribeMetadataModelExportsAsScript operation.
         public let exportSqlDetails: ExportSqlDetails?
         /// The migration project ARN.
         public let migrationProjectArn: String?
         public let progress: Progress?
         /// The identifier for the schema conversion action.
         public let requestIdentifier: String?
-        /// The schema conversion action status.
+        /// The schema conversion operation status. Possible values:    RECEIVED – The operation is received but not yet queued for processing.    IN_PROGRESS – The operation is queued or actively running.    SUCCESS – The operation completed successfully.    FAILED – The operation did not complete.    CANCELING – The operation is being canceled. The operation might still succeed or fail before cancellation takes effect.    CANCELED – The operation was canceled before completion.
         public let status: String?
 
         @inlinable
@@ -9306,7 +9317,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartExtensionPackAssociationResponse: AWSDecodableShape {
-        /// The identifier for the request operation.
+        /// The identifier for the installation request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9322,7 +9333,7 @@ extension DatabaseMigrationService {
     public struct StartMetadataModelAssessmentMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// A value that specifies the database objects to assess.
+        /// A JSON string that identifies the metadata models to assess. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports explicit, include, and exclude rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -9342,7 +9353,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelAssessmentResponse: AWSDecodableShape {
-        /// The identifier for the assessment operation.
+        /// The identifier for the assessment request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9358,7 +9369,7 @@ extension DatabaseMigrationService {
     public struct StartMetadataModelConversionMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// A value that specifies the database objects to convert.
+        /// A JSON string that identifies the metadata models to convert. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports explicit, include, and exclude rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -9378,7 +9389,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelConversionResponse: AWSDecodableShape {
-        /// The identifier for the conversion operation.
+        /// The identifier for the conversion request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9392,13 +9403,13 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelCreationMessage: AWSEncodableShape {
-        /// The name of the metadata model.
+        /// The name for the metadata model to use in subsequent operations.
         public let metadataModelName: String
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+        /// The properties of the metadata model.
         public let properties: MetadataModelProperties
-        /// The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+        /// A JSON string that identifies the source schema for the metadata model. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only source selection rules, where server-name in the object locator matches the source data provider.   Supports only explicit rule actions.   Exactly one rule is allowed.
         public let selectionRules: String
 
         @inlinable
@@ -9422,7 +9433,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelCreationResponse: AWSDecodableShape {
-        /// The identifier for the metadata model creation operation.
+        /// The identifier for the creation request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9436,13 +9447,13 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelExportAsScriptMessage: AWSEncodableShape {
-        /// The name of the model file to create in the Amazon S3 bucket.
+        /// The name for the exported file. When you omit this parameter, the service generates a name from the data provider engine name and an export timestamp.
         public let fileName: String?
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// Whether to export the metadata model from the source or the target.
+        /// Specifies the metadata tree to export from.
         public let origin: OriginTypeValue
-        /// A value that specifies the database objects to export.
+        /// A JSON string that identifies the metadata models to export as a SQL script. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports explicit, include, and exclude rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -9466,7 +9477,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelExportAsScriptResponse: AWSDecodableShape {
-        /// The identifier for the export operation.
+        /// The identifier for the export request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9482,9 +9493,9 @@ extension DatabaseMigrationService {
     public struct StartMetadataModelExportToTargetMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// Whether to overwrite the migration project extension pack. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+        /// Specifies whether to overwrite the extension pack if one already exists on the target database. The default value is true.
         public let overwriteExtensionPack: Bool?
-        /// A value that specifies the database objects to export.
+        /// A JSON string that identifies the metadata models to export to the target database. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts only target selection rules, where server-name in the object locator matches the target data provider.   Supports explicit, include, and exclude rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -9506,7 +9517,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelExportToTargetResponse: AWSDecodableShape {
-        /// The identifier for the export operation.
+        /// The identifier for the export request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9522,11 +9533,11 @@ extension DatabaseMigrationService {
     public struct StartMetadataModelImportMessage: AWSEncodableShape {
         /// The migration project name or Amazon Resource Name (ARN).
         public let migrationProjectIdentifier: String
-        /// Whether to load metadata to the source or target database.
+        /// Specifies the metadata tree to import into.  You cannot import from a virtual target data provider.
         public let origin: OriginTypeValue
-        /// If true, DMS loads metadata for the specified objects from the source database.
+        /// Specifies whether to refresh the selected metadata models from the data provider. When true, the import reloads the selected metadata models with current definitions and removes their existing subtree. When false (default), the import loads the full subtree that has not yet been loaded into the metadata tree.
         public let refresh: Bool?
-        /// A value that specifies the database objects to import.
+        /// A JSON string that identifies the metadata models to import from the data provider. For the selection rule format and examples, see Selection rules in DMS Schema Conversion. Usage:   Accepts source or target selection rules depending on the Origin parameter. The server-name in the object locator must match the corresponding data provider.   Supports explicit, include, and exclude rule actions.
         public let selectionRules: String
 
         @inlinable
@@ -9550,7 +9561,7 @@ extension DatabaseMigrationService {
     }
 
     public struct StartMetadataModelImportResponse: AWSDecodableShape {
-        /// The identifier for the import operation.
+        /// The identifier for the import request.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9944,7 +9955,7 @@ extension DatabaseMigrationService {
         public let port: Int?
         /// The name of the SAP ASE server.
         public let serverName: String?
-        /// The SSL mode used to connect to the SAP ASE data provider.  The default value is none.
+        /// The SSL mode used to connect to the SAP ASE data provider. The default value is none.
         public let sslMode: DmsSslModeValue?
 
         @inlinable
@@ -10304,7 +10315,7 @@ extension DatabaseMigrationService {
     }
 
     public struct MetadataModelProperties: AWSEncodableShape {
-        /// The properties of the statement.
+        /// The properties of the SQL statement.
         public let statementProperties: StatementProperties?
 
         @inlinable

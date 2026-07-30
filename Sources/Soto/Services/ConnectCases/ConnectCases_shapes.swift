@@ -29,6 +29,8 @@ extension ConnectCases {
         case caseCreated = "Case.Created"
         case caseUpdated = "Case.Updated"
         case relatedItemCreated = "RelatedItem.Created"
+        case relatedItemDeleted = "RelatedItem.Deleted"
+        case relatedItemUpdated = "RelatedItem.Updated"
         public var description: String { return self.rawValue }
     }
 
@@ -750,6 +752,35 @@ extension ConnectCases {
         }
     }
 
+    public enum RelatedItemUpdateContent: AWSEncodableShape, Sendable {
+        case comment(CommentUpdateContent)
+        case custom(CustomUpdateContent)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .comment(let value):
+                try container.encode(value, forKey: .comment)
+            case .custom(let value):
+                try container.encode(value, forKey: .custom)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .comment(let value):
+                try value.validate(name: "\(name).comment")
+            case .custom(let value):
+                try value.validate(name: "\(name).custom")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+            case custom = "custom"
+        }
+    }
+
     public enum UserUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Any provided entity.
         case customEntity(String)
@@ -817,7 +848,7 @@ extension ConnectCases {
         public var performedTime: Date
         /// The Type of the related item.
         public let relatedItemType: RelatedItemType?
-        /// The Type of an audit history event.
+        /// The type of audit history event. Valid Values: Case.Created | Case.Updated | RelatedItem.Created | RelatedItem.Updated | RelatedItem.Deleted
         public let type: AuditEventType
 
         @inlinable
@@ -1224,8 +1255,31 @@ extension ConnectCases {
         public init() {}
     }
 
+    public struct CommentUpdateContent: AWSEncodableShape {
+        /// Updated text in the body of a Comment on a case.
+        public let body: String
+        /// Type of the text in the box of a Comment on a case.
+        public let contentType: CommentBodyTextType
+
+        @inlinable
+        public init(body: String, contentType: CommentBodyTextType) {
+            self.body = body
+            self.contentType = contentType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 15000)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case contentType = "contentType"
+        }
+    }
+
     public struct CompoundCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The list of conditions to combine using the logical operator.
+        /// The list of conditions to combine using the logical operator.  For API users: A case rule can have a maximum of 5 conditions, spread across a maximum of 2 levels of nesting.
         public let conditions: [BooleanCondition]
 
         @inlinable
@@ -1865,6 +1919,26 @@ extension ConnectCases {
 
     public struct CustomInputContent: AWSEncodableShape {
         /// List of field values for the Custom related item.
+        public let fields: [FieldValue]
+
+        @inlinable
+        public init(fields: [FieldValue]) {
+            self.fields = fields
+        }
+
+        public func validate(name: String) throws {
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+        }
+    }
+
+    public struct CustomUpdateContent: AWSEncodableShape {
+        /// List of updated field values for the Custom related item. All existing and new fields, and their associated values should be included. Fields not included as part of this request will be removed.
         public let fields: [FieldValue]
 
         @inlinable
@@ -4061,7 +4135,7 @@ extension ConnectCases {
             try self.validate(self.name, name: "name", parent: name, pattern: "^.*[\\S]$")
             try self.validate(self.targetFieldValues, name: "targetFieldValues", parent: name, max: 1)
             try self.validate(self.targetFieldValues, name: "targetFieldValues", parent: name, min: 1)
-            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, max: 129600)
+            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, max: 1051200)
             try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, min: 1)
         }
 
@@ -4483,6 +4557,97 @@ extension ConnectCases {
 
     public struct UpdateLayoutResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateRelatedItemRequest: AWSEncodableShape {
+        /// A unique identifier of the case.
+        public let caseId: String
+        /// The content of a related item to be updated.
+        public let content: RelatedItemUpdateContent
+        /// The unique identifier of the Cases domain.
+        public let domainId: String
+        /// Represents the user who performed the update of the related item.
+        public let performedBy: UserUnion?
+        /// Unique identifier of a related item.
+        public let relatedItemId: String
+
+        @inlinable
+        public init(caseId: String, content: RelatedItemUpdateContent, domainId: String, performedBy: UserUnion? = nil, relatedItemId: String) {
+            self.caseId = caseId
+            self.content = content
+            self.domainId = domainId
+            self.performedBy = performedBy
+            self.relatedItemId = relatedItemId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            try container.encode(self.content, forKey: .content)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.performedBy, forKey: .performedBy)
+            request.encodePath(self.relatedItemId, key: "relatedItemId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 500)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 1)
+            try self.content.validate(name: "\(name).content")
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.performedBy?.validate(name: "\(name).performedBy")
+            try self.validate(self.relatedItemId, name: "relatedItemId", parent: name, max: 500)
+            try self.validate(self.relatedItemId, name: "relatedItemId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case performedBy = "performedBy"
+        }
+    }
+
+    public struct UpdateRelatedItemResponse: AWSDecodableShape {
+        /// Time at which the related item was associated with the case.
+        @CustomCoding<ISO8601DateCoder>
+        public var associationTime: Date
+        /// Represents the content of the updated related item.
+        public let content: RelatedItemContent
+        /// Represents the creator of the related item.
+        public let createdBy: UserUnion?
+        /// Represents the last user that updated the related item.
+        public let lastUpdatedUser: UserUnion?
+        /// The Amazon Resource Name (ARN) of the updated related item.
+        public let relatedItemArn: String
+        /// The unique identifier of the updated related item.
+        public let relatedItemId: String
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// Type of the updated related item.
+        public let type: RelatedItemType
+
+        @inlinable
+        public init(associationTime: Date, content: RelatedItemContent, createdBy: UserUnion? = nil, lastUpdatedUser: UserUnion? = nil, relatedItemArn: String, relatedItemId: String, tags: [String: String]? = nil, type: RelatedItemType) {
+            self.associationTime = associationTime
+            self.content = content
+            self.createdBy = createdBy
+            self.lastUpdatedUser = lastUpdatedUser
+            self.relatedItemArn = relatedItemArn
+            self.relatedItemId = relatedItemId
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationTime = "associationTime"
+            case content = "content"
+            case createdBy = "createdBy"
+            case lastUpdatedUser = "lastUpdatedUser"
+            case relatedItemArn = "relatedItemArn"
+            case relatedItemId = "relatedItemId"
+            case tags = "tags"
+            case type = "type"
+        }
     }
 
     public struct UpdateTemplateRequest: AWSEncodableShape {

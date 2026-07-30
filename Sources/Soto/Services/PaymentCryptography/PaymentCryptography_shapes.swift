@@ -33,6 +33,13 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deletePending = "DELETE_PENDING"
+        case updatePending = "UPDATE_PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeriveKeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
         case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
@@ -170,9 +177,22 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
+    public enum MpaOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case importRootPublicKeyCertificate = "IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MultiRegionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case primary = "PRIMARY"
         case replica = "REPLICA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -394,6 +414,49 @@ extension PaymentCryptography {
         }
     }
 
+    public struct AssociateMpaTeamInput: AWSEncodableShape {
+        /// The protected operation to associate with the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+        public let action: MpaOperation
+        /// The ARN of the MPA team to associate with the protected operation.
+        public let mpaTeamArn: String
+        /// The comment from the requester explaining the reason for the association.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        public let requesterComment: String?
+
+        @inlinable
+        public init(action: MpaOperation, mpaTeamArn: String, requesterComment: String? = nil) {
+            self.action = action
+            self.mpaTeamArn = mpaTeamArn
+            self.requesterComment = requesterComment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mpaTeamArn, name: "mpaTeamArn", parent: name, max: 2048)
+            try self.validate(self.mpaTeamArn, name: "mpaTeamArn", parent: name, min: 20)
+            try self.validate(self.mpaTeamArn, name: "mpaTeamArn", parent: name, pattern: "^arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+$")
+            try self.validate(self.requesterComment, name: "requesterComment", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case mpaTeamArn = "MpaTeamArn"
+            case requesterComment = "RequesterComment"
+        }
+    }
+
+    public struct AssociateMpaTeamOutput: AWSDecodableShape {
+        /// The details of the MPA team association.
+        public let mpaTeamAssociation: MpaTeamAssociation
+
+        @inlinable
+        public init(mpaTeamAssociation: MpaTeamAssociation) {
+            self.mpaTeamAssociation = mpaTeamAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mpaTeamAssociation = "MpaTeamAssociation"
+        }
+    }
+
     public struct CertificateSubjectType: AWSEncodableShape {
         /// The city you provide to create the certificate signing request.
         public let city: String?
@@ -482,7 +545,7 @@ extension PaymentCryptography {
         public let exportable: Bool
         /// The role of the key, the algorithm it supports, and the cryptographic operations allowed with the key. This data is immutable after the key is created.
         public let keyAttributes: KeyAttributes
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
         public let replicationRegions: [String]?
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key.   Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
@@ -596,6 +659,30 @@ extension PaymentCryptography {
         }
     }
 
+    public struct DeleteResourcePolicyInput: AWSEncodableShape {
+        /// The KeyARN of the key whose resource-based policy you want to delete.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisableDefaultKeyReplicationRegionsInput: AWSEncodableShape {
         /// The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected.
         public let replicationRegions: [String]
@@ -627,6 +714,42 @@ extension PaymentCryptography {
 
         private enum CodingKeys: String, CodingKey {
             case enabledReplicationRegions = "EnabledReplicationRegions"
+        }
+    }
+
+    public struct DisassociateMpaTeamInput: AWSEncodableShape {
+        /// The protected operation to disassociate from the MPA team. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+        public let action: MpaOperation
+        /// The comment from the requester explaining the reason for the disassociation.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        public let requesterComment: String?
+
+        @inlinable
+        public init(action: MpaOperation, requesterComment: String? = nil) {
+            self.action = action
+            self.requesterComment = requesterComment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requesterComment, name: "requesterComment", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case requesterComment = "RequesterComment"
+        }
+    }
+
+    public struct DisassociateMpaTeamOutput: AWSDecodableShape {
+        /// The details of the MPA team association.
+        public let mpaTeamAssociation: MpaTeamAssociation
+
+        @inlinable
+        public init(mpaTeamAssociation: MpaTeamAssociation) {
+            self.mpaTeamAssociation = mpaTeamAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mpaTeamAssociation = "MpaTeamAssociation"
         }
     }
 
@@ -690,7 +813,7 @@ extension PaymentCryptography {
     public struct ExportAttributes: AWSEncodableShape {
         /// Parameter information for IPEK export.
         public let exportDukptInitialKey: ExportDukptInitialKey?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. Specify KCV for IPEK export only. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. Specify KCV for IPEK export only. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
 
         @inlinable
@@ -1074,20 +1197,52 @@ extension PaymentCryptography {
         }
     }
 
+    public struct GetMpaTeamAssociationInput: AWSEncodableShape {
+        /// The protected operation whose MPA team association you want to retrieve. Currently, the only supported value is IMPORT_ROOT_PUBLIC_KEY_CERTIFICATE.
+        public let action: MpaOperation
+
+        @inlinable
+        public init(action: MpaOperation) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
+    public struct GetMpaTeamAssociationOutput: AWSDecodableShape {
+        /// The details of the MPA team association.
+        public let mpaTeamAssociation: MpaTeamAssociation
+
+        @inlinable
+        public init(mpaTeamAssociation: MpaTeamAssociation) {
+            self.mpaTeamAssociation = mpaTeamAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mpaTeamAssociation = "MpaTeamAssociation"
+        }
+    }
+
     public struct GetParametersForExportInput: AWSEncodableShape {
         /// The key block format type (for example, TR-34 or TR-31) to use during key material export. Export token is only required for a TR-34 key export, TR34_KEY_BLOCK. Export token is not required for TR-31 key export.
         public let keyMaterialType: KeyMaterialType
+        /// Specifies whether to reuse the existing export token and signing key certificate. If set to true and a valid export token exists for the same key material type and signing key algorithm with at least 7 days of remaining validity, the existing token and signing key certificate are returned. Otherwise, a new export token and signing key certificate are generated. The default value is false, which generates a new export token and signing key certificate on every call.
+        public let reuseLastGeneratedToken: Bool?
         /// The signing key algorithm to generate a signing key certificate. This certificate signs the wrapped key under export within the TR-34 key block. RSA_2048 is the only signing key algorithm allowed.
         public let signingKeyAlgorithm: KeyAlgorithm
 
         @inlinable
-        public init(keyMaterialType: KeyMaterialType, signingKeyAlgorithm: KeyAlgorithm) {
+        public init(keyMaterialType: KeyMaterialType, reuseLastGeneratedToken: Bool? = nil, signingKeyAlgorithm: KeyAlgorithm) {
             self.keyMaterialType = keyMaterialType
+            self.reuseLastGeneratedToken = reuseLastGeneratedToken
             self.signingKeyAlgorithm = signingKeyAlgorithm
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyMaterialType = "KeyMaterialType"
+            case reuseLastGeneratedToken = "ReuseLastGeneratedToken"
             case signingKeyAlgorithm = "SigningKeyAlgorithm"
         }
     }
@@ -1125,17 +1280,21 @@ extension PaymentCryptography {
     public struct GetParametersForImportInput: AWSEncodableShape {
         /// The method to use for key material import. Import token is only required for TR-34 WrappedKeyBlock (TR34_KEY_BLOCK) and RSA WrappedKeyCryptogram (KEY_CRYPTOGRAM). Import token is not required for TR-31, root public key cerificate or trusted public key certificate.
         public let keyMaterialType: KeyMaterialType
+        /// Specifies whether to reuse the existing import token and wrapping key certificate. If set to true and a valid import token exists for the same key material type and wrapping key algorithm with at least 7 days of remaining validity, the existing token and wrapping key certificate are returned. Otherwise, a new import token and wrapping key certificate are generated. The default value is false, which generates a new import token and wrapping key certificate on every call.
+        public let reuseLastGeneratedToken: Bool?
         /// The wrapping key algorithm to generate a wrapping key certificate. This certificate wraps the key under import. At this time, RSA_2048 is the allowed algorithm for TR-34 WrappedKeyBlock import. Additionally, RSA_2048, RSA_3072, RSA_4096 are the allowed algorithms for RSA WrappedKeyCryptogram import.
         public let wrappingKeyAlgorithm: KeyAlgorithm
 
         @inlinable
-        public init(keyMaterialType: KeyMaterialType, wrappingKeyAlgorithm: KeyAlgorithm) {
+        public init(keyMaterialType: KeyMaterialType, reuseLastGeneratedToken: Bool? = nil, wrappingKeyAlgorithm: KeyAlgorithm) {
             self.keyMaterialType = keyMaterialType
+            self.reuseLastGeneratedToken = reuseLastGeneratedToken
             self.wrappingKeyAlgorithm = wrappingKeyAlgorithm
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyMaterialType = "KeyMaterialType"
+            case reuseLastGeneratedToken = "ReuseLastGeneratedToken"
             case wrappingKeyAlgorithm = "WrappingKeyAlgorithm"
         }
     }
@@ -1191,7 +1350,7 @@ extension PaymentCryptography {
     }
 
     public struct GetPublicKeyCertificateOutput: AWSDecodableShape {
-        /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate expires in 90 days.
+        /// The public key component of the asymmetric key pair in a certificate PEM format (base64 encoded). It is signed by the root certificate authority (CA). The certificate is valid for 90 days from the time it is issued. The service returns a cached certificate if one exists with at least 30 days of remaining validity. Otherwise, a new 90-day certificate is issued.
         public let keyCertificate: String
         /// The root certificate authority (CA) that signed the public key certificate in PEM format (base64 encoded) of the asymmetric key pair.
         public let keyCertificateChain: String
@@ -1205,6 +1364,44 @@ extension PaymentCryptography {
         private enum CodingKeys: String, CodingKey {
             case keyCertificate = "KeyCertificate"
             case keyCertificateChain = "KeyCertificateChain"
+        }
+    }
+
+    public struct GetResourcePolicyInput: AWSEncodableShape {
+        /// The KeyARN of the key whose resource-based policy you want to retrieve.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyOutput: AWSDecodableShape {
+        /// The resource-based policy attached to the key, in JSON format.
+        public let policy: String
+        /// The KeyARN of the key.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -1346,20 +1543,23 @@ extension PaymentCryptography {
     public struct ImportKeyInput: AWSEncodableShape {
         /// Specifies whether import key is enabled.
         public let enabled: Bool?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
         /// The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
         public let keyMaterial: ImportKeyMaterial
         public let replicationRegions: [String]?
+        /// The comment from the requester explaining the reason for the import.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+        public let requesterComment: String?
         /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the TagResource operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one.  Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.   Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
         public let tags: [Tag]?
 
         @inlinable
-        public init(enabled: Bool? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: ImportKeyMaterial, replicationRegions: [String]? = nil, tags: [Tag]? = nil) {
+        public init(enabled: Bool? = nil, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, keyMaterial: ImportKeyMaterial, replicationRegions: [String]? = nil, requesterComment: String? = nil, tags: [Tag]? = nil) {
             self.enabled = enabled
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyMaterial = keyMaterial
             self.replicationRegions = replicationRegions
+            self.requesterComment = requesterComment
             self.tags = tags
         }
 
@@ -1368,6 +1568,7 @@ extension PaymentCryptography {
             try self.replicationRegions?.forEach {
                 try validate($0, name: "replicationRegions[]", parent: name, pattern: "^[a-z]{2}-[a-z]{1,16}-[0-9]+$")
             }
+            try self.validate(self.requesterComment, name: "requesterComment", parent: name, max: 200)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1379,6 +1580,7 @@ extension PaymentCryptography {
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case keyMaterial = "KeyMaterial"
             case replicationRegions = "ReplicationRegions"
+            case requesterComment = "RequesterComment"
             case tags = "Tags"
         }
     }
@@ -1507,12 +1709,14 @@ extension PaymentCryptography {
         public let keyAttributes: KeyAttributes
         /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
         public let keyCheckValue: String
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm
         /// The source of the key material. For keys created within Amazon Web Services Payment Cryptography, the value is AWS_PAYMENT_CRYPTOGRAPHY. For keys imported into Amazon Web Services Payment Cryptography, the value is EXTERNAL.
         public let keyOrigin: KeyOrigin
         /// The state of key that is being created or deleted.
         public let keyState: KeyState
+        /// The Multi-Party Approval (MPA) status for the key, if applicable.
+        public let mpaStatus: MpaStatus?
         /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see Multi-Region key replication.
         public let multiRegionKeyType: MultiRegionKeyType?
         public let primaryRegion: String?
@@ -1526,7 +1730,7 @@ extension PaymentCryptography {
         public let usingDefaultReplicationRegions: Bool?
 
         @inlinable
-        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, multiRegionKeyType: MultiRegionKeyType? = nil, primaryRegion: String? = nil, replicationStatus: [String: ReplicationStatusType]? = nil, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil, usingDefaultReplicationRegions: Bool? = nil) {
+        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, mpaStatus: MpaStatus? = nil, multiRegionKeyType: MultiRegionKeyType? = nil, primaryRegion: String? = nil, replicationStatus: [String: ReplicationStatusType]? = nil, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil, usingDefaultReplicationRegions: Bool? = nil) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
             self.deleteTimestamp = deleteTimestamp
@@ -1539,6 +1743,7 @@ extension PaymentCryptography {
             self.keyCheckValueAlgorithm = keyCheckValueAlgorithm
             self.keyOrigin = keyOrigin
             self.keyState = keyState
+            self.mpaStatus = mpaStatus
             self.multiRegionKeyType = multiRegionKeyType
             self.primaryRegion = primaryRegion
             self.replicationStatus = replicationStatus
@@ -1560,6 +1765,7 @@ extension PaymentCryptography {
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
             case keyOrigin = "KeyOrigin"
             case keyState = "KeyState"
+            case mpaStatus = "MpaStatus"
             case multiRegionKeyType = "MultiRegionKeyType"
             case primaryRegion = "PrimaryRegion"
             case replicationStatus = "ReplicationStatus"
@@ -1865,6 +2071,103 @@ extension PaymentCryptography {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct MpaStatus: AWSDecodableShape {
+        /// The date and time when the MPA session was initiated.
+        public let initiationDate: Date
+        /// The ARN of the MPA session.
+        public let mpaSessionArn: String
+        /// The current status of the MPA session.
+        public let status: SessionStatus
+        /// The message providing additional information about the MPA session status.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(initiationDate: Date, mpaSessionArn: String, status: SessionStatus, statusMessage: String? = nil) {
+            self.initiationDate = initiationDate
+            self.mpaSessionArn = mpaSessionArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case initiationDate = "InitiationDate"
+            case mpaSessionArn = "MpaSessionArn"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct MpaTeamAssociation: AWSDecodableShape {
+        /// The protected operation associated with the MPA team.
+        public let action: MpaOperation
+        /// The state of the MPA team association.
+        public let associationState: AssociationState
+        /// The MPA session status for the association, if applicable.
+        public let mpaStatus: MpaStatus?
+        /// The ARN of the MPA team.
+        public let mpaTeamArn: String
+
+        @inlinable
+        public init(action: MpaOperation, associationState: AssociationState, mpaStatus: MpaStatus? = nil, mpaTeamArn: String) {
+            self.action = action
+            self.associationState = associationState
+            self.mpaStatus = mpaStatus
+            self.mpaTeamArn = mpaTeamArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case associationState = "AssociationState"
+            case mpaStatus = "MpaStatus"
+            case mpaTeamArn = "MpaTeamArn"
+        }
+    }
+
+    public struct PutResourcePolicyInput: AWSEncodableShape {
+        /// The resource-based policy to attach to the key, in JSON format.
+        public let policy: String
+        /// The KeyARN of the key to attach the resource-based policy to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 150)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 70)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:key/[0-9a-zA-Z]{16,64}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct PutResourcePolicyOutput: AWSDecodableShape {
+        /// The resource-based policy that was attached to the key.
+        public let policy: String
+        /// The KeyARN of the key that the resource-based policy was attached to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -2232,7 +2535,7 @@ extension PaymentCryptography {
     public struct WrappedKey: AWSDecodableShape {
         /// The key check value (KCV) is used to check if all parties holding a given key have the same key or to detect that a key has changed.
         public let keyCheckValue: String?
-        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
+        /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result. For HMAC keys, the KCV is computed using the hash selected at key creation on a zero-length message, taking the leftmost 3 bytes.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
         /// Parameter information for generating a wrapped key using TR-31 or TR-34 skey exchange method.
         public let keyMaterial: String
@@ -2288,6 +2591,7 @@ public struct PaymentCryptographyErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case publicPolicyException = "PublicPolicyException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
@@ -2319,6 +2623,8 @@ public struct PaymentCryptographyErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The request processing has failed because of an unknown error, exception, or failure. This indicates a server-side error within the Amazon Web Services Payment Cryptography service. If this error persists, contact support for assistance.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource-based policy would grant public access to the key. Modify the policy to restrict access to specific principals and resubmit the request.
+    public static var publicPolicyException: Self { .init(.publicPolicyException) }
     /// The request was denied due to resource not found. The specified key, alias, or other resource does not exist in your account or region. Verify that the resource identifier is correct and that the resource exists in the expected region.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// This request would cause a service quota to be exceeded. You have reached the maximum number of keys, aliases, or other resources allowed in your account. Review your current usage and consider deleting unused resources or requesting a quota increase.

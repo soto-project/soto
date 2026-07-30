@@ -32,6 +32,12 @@ extension ControlCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ControlParameterRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ControlRelationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alternative = "ALTERNATIVE"
         case complementary = "COMPLEMENTARY"
@@ -57,6 +63,13 @@ extension ControlCatalog {
         case commonControl = "COMMON_CONTROL"
         case framework = "FRAMEWORK"
         case relatedControl = "RELATED_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ParameterRequirementSummary: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case optional = "OPTIONAL"
+        case required = "REQUIRED"
         public var description: String { return self.rawValue }
     }
 
@@ -208,19 +221,30 @@ extension ControlCatalog {
     }
 
     public struct ControlFilter: AWSEncodableShape {
+        /// A filter that narrows the results to controls that govern a specific provider's resources.
+        public let governedProviders: [String]?
         /// A filter that narrows the results to controls with specific implementation types or identifiers. This field allows you to find controls that are implemented by specific Amazon Web Services services or with specific service identifiers.
         public let implementations: ImplementationFilter?
 
         @inlinable
-        public init(implementations: ImplementationFilter? = nil) {
+        public init(governedProviders: [String]? = nil, implementations: ImplementationFilter? = nil) {
+            self.governedProviders = governedProviders
             self.implementations = implementations
         }
 
         public func validate(name: String) throws {
+            try self.governedProviders?.forEach {
+                try validate($0, name: "governedProviders[]", parent: name, max: 64)
+                try validate($0, name: "governedProviders[]", parent: name, min: 2)
+                try validate($0, name: "governedProviders[]", parent: name, pattern: "^[A-Z]{2,64}$")
+            }
+            try self.validate(self.governedProviders, name: "governedProviders", parent: name, max: 1)
+            try self.validate(self.governedProviders, name: "governedProviders", parent: name, min: 1)
             try self.implementations?.validate(name: "\(name).implementations")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case governedProviders = "GovernedProviders"
             case implementations = "Implementations"
         }
     }
@@ -291,14 +315,18 @@ extension ControlCatalog {
     public struct ControlParameter: AWSDecodableShape {
         /// The parameter name. This name is the parameter key when you call  EnableControl  or  UpdateEnabledControl .
         public let name: String
+        /// Indicates whether the parameter is required or optional when you enable the control.
+        public let requirement: ControlParameterRequirement?
 
         @inlinable
-        public init(name: String) {
+        public init(name: String, requirement: ControlParameterRequirement? = nil) {
             self.name = name
+            self.requirement = requirement
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case requirement = "Requirement"
         }
     }
 
@@ -313,25 +341,31 @@ extension ControlCatalog {
         public let createTime: Date?
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         public let description: String
-        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        /// A list of providers whose resources are governed by this control. For example, a value of AWS indicates that the control governs Amazon Web Services resources.
+        public let governedProviders: [String]?
+        /// A list of resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. For Amazon Web Services controls, the resources are represented as CloudFormation resource types. For non-Amazon Web Services controls, the resources are represented in a provider-specific format. If GovernedResources cannot be represented by available resource types, it’s returned as an empty list.
         public let governedResources: [String]?
         /// An object of type ImplementationSummary that describes how the control is implemented.
         public let implementation: ImplementationSummary?
         /// The display name of the control.
         public let name: String
+        /// A summary that indicates whether the control requires parameters, accepts optional parameters, or does not support parameters. Use this field to determine whether you need to supply parameter values when you enable the control.
+        public let parameterRequirementSummary: ParameterRequirementSummary?
         /// An enumerated type, with the following possible values:
         public let severity: ControlSeverity?
 
         @inlinable
-        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior? = nil, createTime: Date? = nil, description: String, governedResources: [String]? = nil, implementation: ImplementationSummary? = nil, name: String, severity: ControlSeverity? = nil) {
+        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior? = nil, createTime: Date? = nil, description: String, governedProviders: [String]? = nil, governedResources: [String]? = nil, implementation: ImplementationSummary? = nil, name: String, parameterRequirementSummary: ParameterRequirementSummary? = nil, severity: ControlSeverity? = nil) {
             self.aliases = aliases
             self.arn = arn
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedProviders = governedProviders
             self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
+            self.parameterRequirementSummary = parameterRequirementSummary
             self.severity = severity
         }
 
@@ -341,9 +375,11 @@ extension ControlCatalog {
             case behavior = "Behavior"
             case createTime = "CreateTime"
             case description = "Description"
+            case governedProviders = "GovernedProviders"
             case governedResources = "GovernedResources"
             case implementation = "Implementation"
             case name = "Name"
+            case parameterRequirementSummary = "ParameterRequirementSummary"
             case severity = "Severity"
         }
     }
@@ -447,12 +483,16 @@ extension ControlCatalog {
         public let createTime: Date?
         /// A description of what the control does.
         public let description: String
-        /// A list of Amazon Web Services resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. The resources are represented as Amazon Web Services CloudFormation resource types. If GovernedResources cannot be represented by available CloudFormation resource types, it’s returned as an empty list.
+        /// A list of providers whose resources are governed by this control. For example, a value of AWS indicates that the control governs Amazon Web Services resources.
+        public let governedProviders: [String]?
+        /// A list of resource types that are governed by this control. This information helps you understand which controls can govern certain types of resources, and conversely, which resources are affected when the control is implemented. For Amazon Web Services controls, the resources are represented as CloudFormation resource types. For non-Amazon Web Services controls, the resources are represented in a provider-specific format. If GovernedResources cannot be represented by available resource types, it’s returned as an empty list.
         public let governedResources: [String]?
         /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
         public let implementation: ImplementationDetails?
         /// The display name of the control.
         public let name: String
+        /// A summary that indicates whether the control requires parameters, accepts optional parameters, or does not support parameters. Use this field to determine whether you need to supply parameter values when you enable the control.
+        public let parameterRequirementSummary: ParameterRequirementSummary?
         /// Returns an array of ControlParameter objects that specify the parameters a control supports. An empty list is returned for controls that don’t support parameters.
         public let parameters: [ControlParameter]?
         public let regionConfiguration: RegionConfiguration
@@ -460,15 +500,17 @@ extension ControlCatalog {
         public let severity: ControlSeverity?
 
         @inlinable
-        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior, createTime: Date? = nil, description: String, governedResources: [String]? = nil, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration, severity: ControlSeverity? = nil) {
+        public init(aliases: [String]? = nil, arn: String, behavior: ControlBehavior, createTime: Date? = nil, description: String, governedProviders: [String]? = nil, governedResources: [String]? = nil, implementation: ImplementationDetails? = nil, name: String, parameterRequirementSummary: ParameterRequirementSummary? = nil, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration, severity: ControlSeverity? = nil) {
             self.aliases = aliases
             self.arn = arn
             self.behavior = behavior
             self.createTime = createTime
             self.description = description
+            self.governedProviders = governedProviders
             self.governedResources = governedResources
             self.implementation = implementation
             self.name = name
+            self.parameterRequirementSummary = parameterRequirementSummary
             self.parameters = parameters
             self.regionConfiguration = regionConfiguration
             self.severity = severity
@@ -480,9 +522,11 @@ extension ControlCatalog {
             case behavior = "Behavior"
             case createTime = "CreateTime"
             case description = "Description"
+            case governedProviders = "GovernedProviders"
             case governedResources = "GovernedResources"
             case implementation = "Implementation"
             case name = "Name"
+            case parameterRequirementSummary = "ParameterRequirementSummary"
             case parameters = "Parameters"
             case regionConfiguration = "RegionConfiguration"
             case severity = "Severity"

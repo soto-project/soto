@@ -263,6 +263,7 @@ public struct MediaTailor: AWSService {
     ///   - retrieval: The configuration settings for retrieval of prefetched ads from the ad decision server. Only one set of prefetched ads will be retrieved and subsequently consumed for each ad break.
     ///   - scheduleType: The frequency that MediaTailor creates prefetch schedules. SINGLE indicates that this schedule applies to one ad break. RECURRING indicates that MediaTailor automatically creates a schedule for each ad avail in a live event. For more information about the prefetch types and when you might use each, see Prefetching ads in Elemental MediaTailor.
     ///   - streamId: An optional stream identifier that MediaTailor uses to prefetch ads for multiple streams that use the same playback configuration. If StreamId is specified, MediaTailor returns all of the prefetch schedules with an exact match on StreamId. If not specified, MediaTailor returns all of the prefetch schedules for the playback configuration, regardless of StreamId.
+    ///   - tags: The tags to assign to the prefetch schedule. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPrefetchSchedule(
@@ -273,6 +274,7 @@ public struct MediaTailor: AWSService {
         retrieval: PrefetchRetrieval? = nil,
         scheduleType: PrefetchScheduleType? = nil,
         streamId: String? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePrefetchScheduleResponse {
         let input = CreatePrefetchScheduleRequest(
@@ -282,7 +284,8 @@ public struct MediaTailor: AWSService {
             recurringPrefetchConfiguration: recurringPrefetchConfiguration, 
             retrieval: retrieval, 
             scheduleType: scheduleType, 
-            streamId: streamId
+            streamId: streamId, 
+            tags: tags
         )
         return try await self.createPrefetchSchedule(input, logger: logger)
     }
@@ -310,6 +313,7 @@ public struct MediaTailor: AWSService {
     ///   - programName: The name of the Program.
     ///   - scheduleConfiguration: The schedule configuration settings.
     ///   - sourceLocationName: The name of the source location.
+    ///   - tags: The tags to assign to the program. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
     ///   - vodSourceName: The name that's used to refer to a VOD source.
     ///   - logger: Logger use during operation
     @inlinable
@@ -321,6 +325,7 @@ public struct MediaTailor: AWSService {
         programName: String,
         scheduleConfiguration: ScheduleConfiguration,
         sourceLocationName: String,
+        tags: [String: String]? = nil,
         vodSourceName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProgramResponse {
@@ -332,6 +337,7 @@ public struct MediaTailor: AWSService {
             programName: programName, 
             scheduleConfiguration: scheduleConfiguration, 
             sourceLocationName: sourceLocationName, 
+            tags: tags, 
             vodSourceName: vodSourceName
         )
         return try await self.createProgram(input, logger: logger)
@@ -475,6 +481,35 @@ public struct MediaTailor: AWSService {
             channelName: channelName
         )
         return try await self.deleteChannelPolicy(input, logger: logger)
+    }
+
+    /// Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    @Sendable
+    @inlinable
+    public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFunctionResponse {
+        try await self.client.execute(
+            operation: "DeleteFunction", 
+            path: "/function/{FunctionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a function. MediaTailor prevents deletion of a function that is still referenced by a playback configuration or by another function. Remove all references before deleting. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    ///
+    /// Parameters:
+    ///   - functionId: The identifier of the function to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteFunction(
+        functionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteFunctionResponse {
+        let input = DeleteFunctionRequest(
+            functionId: functionId
+        )
+        return try await self.deleteFunction(input, logger: logger)
     }
 
     /// The live source to delete.
@@ -887,6 +922,35 @@ public struct MediaTailor: AWSService {
         return try await self.getChannelSchedule(input, logger: logger)
     }
 
+    /// Retrieves the configuration and metadata for a function. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    @Sendable
+    @inlinable
+    public func getFunction(_ input: GetFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFunctionResponse {
+        try await self.client.execute(
+            operation: "GetFunction", 
+            path: "/function/{FunctionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the configuration and metadata for a function. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    ///
+    /// Parameters:
+    ///   - functionId: The identifier of the function.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFunction(
+        functionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFunctionResponse {
+        let input = GetFunctionRequest(
+            functionId: functionId
+        )
+        return try await self.getFunction(input, logger: logger)
+    }
+
     /// Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
     @Sendable
     @inlinable
@@ -1013,6 +1077,38 @@ public struct MediaTailor: AWSService {
             nextToken: nextToken
         )
         return try await self.listChannels(input, logger: logger)
+    }
+
+    /// Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    @Sendable
+    @inlinable
+    public func listFunctions(_ input: ListFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFunctionsResponse {
+        try await self.client.execute(
+            operation: "ListFunctions", 
+            path: "/functions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all functions associated with your AWS account in the current Region. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of functions that you want MediaTailor to return in response to the current request. If there are more than MaxResults functions, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses token-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - nextToken: Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results. For the first ListFunctions request, omit this value. For subsequent requests, get the value of NextToken from the previous response and specify that value for NextToken in the request. Continue making requests until the response no longer includes a NextToken value, which indicates that all results have been retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFunctions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFunctionsResponse {
+        let input = ListFunctionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFunctions(input, logger: logger)
     }
 
     /// Lists the live sources contained in a source location. A source represents a piece of content.
@@ -1251,6 +1347,53 @@ public struct MediaTailor: AWSService {
         return try await self.putChannelPolicy(input, logger: logger)
     }
 
+    /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    @Sendable
+    @inlinable
+    public func putFunction(_ input: PutFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFunctionResponse {
+        try await self.client.execute(
+            operation: "PutFunction", 
+            path: "/function/{FunctionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the MediaTailor User Guide.
+    ///
+    /// Parameters:
+    ///   - customOutputConfiguration: The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
+    ///   - description: A description of the function.
+    ///   - functionId: The identifier of the function. The identifier must be unique within your account.
+    ///   - functionType: The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see Function types and composition in the MediaTailor User Guide.
+    ///   - httpRequestConfiguration: The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
+    ///   - sequentialExecutorConfiguration: The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
+    ///   - tags: The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putFunction(
+        customOutputConfiguration: CustomOutputConfiguration? = nil,
+        description: String? = nil,
+        functionId: String,
+        functionType: FunctionType,
+        httpRequestConfiguration: HttpRequestConfiguration? = nil,
+        sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutFunctionResponse {
+        let input = PutFunctionRequest(
+            customOutputConfiguration: customOutputConfiguration, 
+            description: description, 
+            functionId: functionId, 
+            functionType: functionType, 
+            httpRequestConfiguration: httpRequestConfiguration, 
+            sequentialExecutorConfiguration: sequentialExecutorConfiguration, 
+            tags: tags
+        )
+        return try await self.putFunction(input, logger: logger)
+    }
+
     /// Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
     @Sendable
     @inlinable
@@ -1270,11 +1413,14 @@ public struct MediaTailor: AWSService {
     ///   - adConditioningConfiguration: The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
     ///   - adDecisionServerConfiguration: The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
     ///   - adDecisionServerUrl: The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
+    ///   - adsPersonalizationConcurrency: The concurrency settings for ad decision server interactions. These settings control how many simultaneous ADS requests MediaTailor makes per manifest request.
+    ///   - adsPersonalizationTimeouts: The timeout settings for ad decision server interactions. These settings control how long MediaTailor waits for ADS responses and the total time budget for ad personalization across live, VOD, and prefetch workflows.
     ///   - availSuppression: The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
     ///   - bumper: The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
     ///   - cdnConfiguration: The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     ///   - configurationAliases: The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
     ///   - dashConfiguration: The configuration for DASH content.
+    ///   - functionMapping: A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
     ///   - insertionMode: The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     ///   - livePreRollConfiguration: The configuration for pre-roll ad insertion.
     ///   - manifestProcessingRules: The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -1290,11 +1436,14 @@ public struct MediaTailor: AWSService {
         adConditioningConfiguration: AdConditioningConfiguration? = nil,
         adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: String? = nil,
+        adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil,
+        adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil,
         availSuppression: AvailSuppression? = nil,
         bumper: Bumper? = nil,
         cdnConfiguration: CdnConfiguration? = nil,
         configurationAliases: [String: [String: String]]? = nil,
         dashConfiguration: DashConfigurationForPut? = nil,
+        functionMapping: [EventName: String]? = nil,
         insertionMode: InsertionMode? = nil,
         livePreRollConfiguration: LivePreRollConfiguration? = nil,
         manifestProcessingRules: ManifestProcessingRules? = nil,
@@ -1310,11 +1459,14 @@ public struct MediaTailor: AWSService {
             adConditioningConfiguration: adConditioningConfiguration, 
             adDecisionServerConfiguration: adDecisionServerConfiguration, 
             adDecisionServerUrl: adDecisionServerUrl, 
+            adsPersonalizationConcurrency: adsPersonalizationConcurrency, 
+            adsPersonalizationTimeouts: adsPersonalizationTimeouts, 
             availSuppression: availSuppression, 
             bumper: bumper, 
             cdnConfiguration: cdnConfiguration, 
             configurationAliases: configurationAliases, 
             dashConfiguration: dashConfiguration, 
+            functionMapping: functionMapping, 
             insertionMode: insertionMode, 
             livePreRollConfiguration: livePreRollConfiguration, 
             manifestProcessingRules: manifestProcessingRules, 
@@ -1771,6 +1923,40 @@ extension MediaTailor {
         return self.listChannelsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFunctions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFunctionsPaginator(
+        _ input: ListFunctionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFunctionsRequest, ListFunctionsResponse> {
+        return .init(
+            input: input,
+            command: self.listFunctions,
+            inputKey: \ListFunctionsRequest.nextToken,
+            outputKey: \ListFunctionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFunctions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of functions that you want MediaTailor to return in response to the current request. If there are more than MaxResults functions, use the value of NextToken in the response to get the next page of results. The default value is 100. MediaTailor uses token-based pagination, which means that a response might contain fewer than MaxResults items, including 0 items, even when more results are available. To retrieve all results, you must continue making requests using the NextToken value from each response until the response no longer includes a NextToken value.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFunctionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFunctionsRequest, ListFunctionsResponse> {
+        let input = ListFunctionsRequest(
+            maxResults: maxResults
+        )
+        return self.listFunctionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listLiveSources(_:logger:)``.
     ///
     /// - Parameters:
@@ -1984,6 +2170,16 @@ extension MediaTailor.ListAlertsRequest: AWSPaginateToken {
 extension MediaTailor.ListChannelsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MediaTailor.ListChannelsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaTailor.ListFunctionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaTailor.ListFunctionsRequest {
         return .init(
             maxResults: self.maxResults,
             nextToken: token

@@ -172,7 +172,7 @@ extension PI {
 
     public struct CreatePerformanceAnalysisReportRequest: AWSEncodableShape {
         /// The end time defined for the analysis report.
-        public let endTime: Date
+        public let endTime: Date?
         /// An immutable, Amazon Web Services Region-unique identifier for a data source. Performance Insights gathers metrics from this data source. To use an Amazon RDS instance as a data source, you specify its DbiResourceId value.  For example, specify db-ADECBTYHKTSAUMUZQYPDS2GW4A.
         public let identifier: String
         /// The Amazon Web Services service for which Performance Insights will return metrics. Valid value is RDS.
@@ -183,7 +183,7 @@ extension PI {
         public let tags: [Tag]?
 
         @inlinable
-        public init(endTime: Date, identifier: String, serviceType: ServiceType, startTime: Date, tags: [Tag]? = nil) {
+        public init(endTime: Date? = nil, identifier: String, serviceType: ServiceType, startTime: Date, tags: [Tag]? = nil) {
             self.endTime = endTime
             self.identifier = identifier
             self.serviceType = serviceType
@@ -960,6 +960,75 @@ extension PI {
         }
     }
 
+    public struct ListPerformanceAnalysisReportRecommendationsRequest: AWSEncodableShape {
+        /// A unique identifier of the created analysis report. For example, report-12345678901234567
+        public let analysisReportId: String
+        /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+        public let identifier: String
+        /// The maximum number of items to return in the response. If more items exist than the specified MaxResults value, a pagination token is included in the response so that the remaining results can be retrieved.
+        public let maxResults: Int?
+        /// An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// A list of recommendation identifiers to filter the results.
+        public let recommendationIds: [String]?
+        /// The Amazon Web Services service for which Performance Insights returns metrics. Valid value is RDS.
+        public let serviceType: ServiceType
+
+        @inlinable
+        public init(analysisReportId: String, identifier: String, maxResults: Int? = nil, nextToken: String? = nil, recommendationIds: [String]? = nil, serviceType: ServiceType) {
+            self.analysisReportId = analysisReportId
+            self.identifier = identifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.recommendationIds = recommendationIds
+            self.serviceType = serviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, max: 100)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, min: 1)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, pattern: "^report-[0-9a-f]{17}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 256)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9_=-]+$")
+            try self.recommendationIds?.forEach {
+                try validate($0, name: "recommendationIds[]", parent: name, max: 256)
+                try validate($0, name: "recommendationIds[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case identifier = "Identifier"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case recommendationIds = "RecommendationIds"
+            case serviceType = "ServiceType"
+        }
+    }
+
+    public struct ListPerformanceAnalysisReportRecommendationsResponse: AWSDecodableShape {
+        /// An optional pagination token provided by a previous request.  If this parameter is specified, the response includes only records beyond the token,  up to the value specified by MaxResults.
+        public let nextToken: String?
+        /// The list of recommendations for the analysis report.
+        public let recommendations: [Recommendation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
+            self.nextToken = nextToken
+            self.recommendations = recommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommendations = "Recommendations"
+        }
+    }
+
     public struct ListPerformanceAnalysisReportsRequest: AWSEncodableShape {
         /// An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
         public let identifier: String
@@ -1159,17 +1228,21 @@ extension PI {
     public struct Recommendation: AWSDecodableShape {
         /// The recommendation details to help resolve the performance issue. For example,  Investigate the following SQLs that contributed to 100% of the total DBLoad during that time period: sql-id
         public let recommendationDescription: String?
+        /// Detailed information about the recommendation, including steps to resolve the performance issue.
+        public let recommendationDetails: String?
         /// The unique identifier for the recommendation.
         public let recommendationId: String?
 
         @inlinable
-        public init(recommendationDescription: String? = nil, recommendationId: String? = nil) {
+        public init(recommendationDescription: String? = nil, recommendationDetails: String? = nil, recommendationId: String? = nil) {
             self.recommendationDescription = recommendationDescription
+            self.recommendationDetails = recommendationDetails
             self.recommendationId = recommendationId
         }
 
         private enum CodingKeys: String, CodingKey {
             case recommendationDescription = "RecommendationDescription"
+            case recommendationDetails = "RecommendationDetails"
             case recommendationId = "RecommendationId"
         }
     }

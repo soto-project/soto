@@ -1827,7 +1827,7 @@ extension Redshift {
         public let allowVersionUpgrade: Bool?
         /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
         public let availabilityZone: String?
@@ -1887,11 +1887,11 @@ extension Redshift {
         public let masterUserPassword: String?
         /// If true, Amazon Redshift will deploy the cluster in two Availability Zones (AZ).
         public let multiAZ: Bool?
-        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values:  dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge |  ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node.  For information about determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1  Constraints: Value must be at least 1 and no more than 100.
         public let numberOfNodes: Int?
-        /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
+        /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439  Valid Values:    For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with RG or RA3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
         public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -2600,6 +2600,61 @@ extension Redshift {
             case sourceArn = "SourceArn"
             case tagList = "TagList"
             case targetArn = "TargetArn"
+        }
+    }
+
+    public struct CreateQev2IdcApplicationMessage: AWSEncodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+        public let idcDisplayName: String?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance used to create the Amazon Redshift Query Editor (QEV2) managed application.
+        public let idcInstanceArn: String?
+        /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center.
+        public let qev2IdcApplicationName: String?
+        /// A list of tags to associate with the application. Tags are key-value pairs that you can use to organize and identify your resources.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(idcDisplayName: String? = nil, idcInstanceArn: String? = nil, qev2IdcApplicationName: String? = nil, tags: [Tag]? = nil) {
+            self.idcDisplayName = idcDisplayName
+            self.idcInstanceArn = idcInstanceArn
+            self.qev2IdcApplicationName = qev2IdcApplicationName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, max: 127)
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, min: 1)
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.idcInstanceArn, name: "idcInstanceArn", parent: name, max: 2147483647)
+            try self.validate(self.qev2IdcApplicationName, name: "qev2IdcApplicationName", parent: name, max: 63)
+            try self.validate(self.qev2IdcApplicationName, name: "qev2IdcApplicationName", parent: name, min: 1)
+            try self.validate(self.qev2IdcApplicationName, name: "qev2IdcApplicationName", parent: name, pattern: "^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcDisplayName = "IdcDisplayName"
+            case idcInstanceArn = "IdcInstanceArn"
+            case qev2IdcApplicationName = "Qev2IdcApplicationName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateQev2IdcApplicationResult: AWSDecodableShape {
+        public let qev2IdcApplication: Qev2IdcApplication?
+
+        @inlinable
+        public init(qev2IdcApplication: Qev2IdcApplication? = nil) {
+            self.qev2IdcApplication = qev2IdcApplication
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qev2IdcApplication = "Qev2IdcApplication"
         }
     }
 
@@ -3413,6 +3468,24 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case integrationArn = "IntegrationArn"
+        }
+    }
+
+    public struct DeleteQev2IdcApplicationMessage: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application to delete.
+        public let qev2IdcApplicationArn: String?
+
+        @inlinable
+        public init(qev2IdcApplicationArn: String? = nil) {
+            self.qev2IdcApplicationArn = qev2IdcApplicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.qev2IdcApplicationArn, name: "qev2IdcApplicationArn", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qev2IdcApplicationArn = "Qev2IdcApplicationArn"
         }
     }
 
@@ -4795,6 +4868,52 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case partnerIntegrationInfoList = "PartnerIntegrationInfoList"
+        }
+    }
+
+    public struct DescribeQev2IdcApplicationsMessage: AWSEncodableShape {
+        /// A value that indicates the starting point for the next set of response records in a subsequent request. If a  value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records  exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve  the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+        public let qev2IdcApplicationArn: String?
+
+        @inlinable
+        public init(marker: String? = nil, maxRecords: Int? = nil, qev2IdcApplicationArn: String? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.qev2IdcApplicationArn = qev2IdcApplicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 2147483647)
+            try self.validate(self.qev2IdcApplicationArn, name: "qev2IdcApplicationArn", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case qev2IdcApplicationArn = "Qev2IdcApplicationArn"
+        }
+    }
+
+    public struct DescribeQev2IdcApplicationsResult: AWSDecodableShape {
+        /// A value that indicates the starting point for the next set of response records in a subsequent  request. If a value is returned in a response, you can retrieve the next set of records by providing this returned marker value in the Marker parameter and retrying the command. If the Marker field is empty, all response records have been retrieved for the request.
+        public let marker: String?
+        /// The list of Amazon Redshift Query Editor (QEV2) IAM Identity Center applications.
+        @OptionalCustomCoding<StandardArrayCoder<Qev2IdcApplication>>
+        public var qev2IdcApplications: [Qev2IdcApplication]?
+
+        @inlinable
+        public init(marker: String? = nil, qev2IdcApplications: [Qev2IdcApplication]? = nil) {
+            self.marker = marker
+            self.qev2IdcApplications = qev2IdcApplications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case qev2IdcApplications = "Qev2IdcApplications"
         }
     }
 
@@ -6855,7 +6974,7 @@ extension Redshift {
 
         /// If true, major version upgrades will be applied automatically to the cluster during the maintenance window.  Default: false
         public let allowVersionUpgrade: Bool?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  If you decrease the automated snapshot retention period from its current value, existing automated snapshots that fall outside of the new retention period will be immediately deleted. You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: Uses existing setting. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The option to initiate relocation for an Amazon Redshift cluster to the target Availability Zone.
         public let availabilityZone: String?
@@ -6908,14 +7027,14 @@ extension Redshift {
         /// The new node type of the cluster. If you specify a new node type, you must also specify the number of nodes parameter.
         /// For more information about resizing clusters, go to
         /// Resizing Clusters in Amazon Redshift
-        /// in the Amazon Redshift Cluster Management Guide. Valid Values:  dc2.large | dc2.8xlarge |  ra3.large |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
+        /// in the Amazon Redshift Cluster Management Guide. Valid Values:  dc2.large | dc2.8xlarge | rg.large | rg.xlarge | rg.4xlarge | rg.12xlarge |  ra3.large | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
         public let nodeType: String?
         /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter.
         /// For more information about resizing clusters, go to
         /// Resizing Clusters in Amazon Redshift
         /// in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
         public let numberOfNodes: Int?
-        /// The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with ra3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
+        /// The option to change the port of an Amazon Redshift cluster. Valid Values:    For clusters with RG or RA3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster  with RG or RA3 nodes, it isn't required that you change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
         public let port: Int?
         /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
@@ -7397,6 +7516,44 @@ extension Redshift {
             case lakehouseIdcApplicationArn = "LakehouseIdcApplicationArn"
             case lakehouseIdcRegistration = "LakehouseIdcRegistration"
             case lakehouseRegistration = "LakehouseRegistration"
+        }
+    }
+
+    public struct ModifyQev2IdcApplicationMessage: AWSEncodableShape {
+        /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+        public let idcDisplayName: String?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+        public let qev2IdcApplicationArn: String?
+
+        @inlinable
+        public init(idcDisplayName: String? = nil, qev2IdcApplicationArn: String? = nil) {
+            self.idcDisplayName = idcDisplayName
+            self.qev2IdcApplicationArn = qev2IdcApplicationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, max: 127)
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, min: 1)
+            try self.validate(self.idcDisplayName, name: "idcDisplayName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.qev2IdcApplicationArn, name: "qev2IdcApplicationArn", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcDisplayName = "IdcDisplayName"
+            case qev2IdcApplicationArn = "Qev2IdcApplicationArn"
+        }
+    }
+
+    public struct ModifyQev2IdcApplicationResult: AWSDecodableShape {
+        public let qev2IdcApplication: Qev2IdcApplication?
+
+        @inlinable
+        public init(qev2IdcApplication: Qev2IdcApplication? = nil) {
+            self.qev2IdcApplication = qev2IdcApplication
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qev2IdcApplication = "Qev2IdcApplication"
         }
     }
 
@@ -8085,6 +8242,47 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct Qev2IdcApplication: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+
+        /// The display name for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application. It appears in the console.
+        public let idcDisplayName: String?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center instance that the Amazon Redshift Query Editor (QEV2) application integrates with.
+        public let idcInstanceArn: String?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) IAM Identity Center managed application.
+        public let idcManagedApplicationArn: String?
+        /// The onboarding status for the Amazon Redshift Query Editor (QEV2) IAM Identity Center application.
+        public let idcOnboardStatus: String?
+        /// The Amazon Resource Name (ARN) for the Amazon Redshift Query Editor (QEV2) application that integrates with IAM Identity Center.
+        public let qev2IdcApplicationArn: String?
+        /// The name of the Amazon Redshift Query Editor (QEV2) application in IAM Identity Center.
+        public let qev2IdcApplicationName: String?
+        /// A list of tags associated with the application. Tags are key-value pairs that you can use to organize and identify your resources.
+        @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, qev2IdcApplicationArn: String? = nil, qev2IdcApplicationName: String? = nil, tags: [Tag]? = nil) {
+            self.idcDisplayName = idcDisplayName
+            self.idcInstanceArn = idcInstanceArn
+            self.idcManagedApplicationArn = idcManagedApplicationArn
+            self.idcOnboardStatus = idcOnboardStatus
+            self.qev2IdcApplicationArn = qev2IdcApplicationArn
+            self.qev2IdcApplicationName = qev2IdcApplicationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcDisplayName = "IdcDisplayName"
+            case idcInstanceArn = "IdcInstanceArn"
+            case idcManagedApplicationArn = "IdcManagedApplicationArn"
+            case idcOnboardStatus = "IdcOnboardStatus"
+            case qev2IdcApplicationArn = "Qev2IdcApplicationArn"
+            case qev2IdcApplicationName = "Qev2IdcApplicationName"
+            case tags = "Tags"
         }
     }
 
@@ -8822,7 +9020,7 @@ extension Redshift {
         public let allowVersionUpgrade: Bool?
         /// This parameter is retired. It does not set the AQUA configuration status. Amazon Redshift automatically determines whether to use AQUA (Advanced Query Accelerator).
         public let aquaConfigurationStatus: AquaConfigurationStatus?
-        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
+        /// The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RG or RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
         public let automatedSnapshotRetentionPeriod: Int?
         /// The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a
         public let availabilityZone: String?
@@ -8874,7 +9072,7 @@ extension Redshift {
         public let numberOfNodes: Int?
         /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
         public let ownerAccount: String?
-        /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
+        /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with RG or RA3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
         public let port: Int?
         /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -10390,6 +10588,8 @@ public struct RedshiftErrorType: AWSErrorType {
         case numberOfNodesPerClusterLimitExceededFault = "NumberOfNodesPerClusterLimitExceeded"
         case numberOfNodesQuotaExceededFault = "NumberOfNodesQuotaExceeded"
         case partnerNotFoundFault = "PartnerNotFound"
+        case qev2IdcApplicationAlreadyExistsFault = "Qev2IdcApplicationAlreadyExists"
+        case qev2IdcApplicationNotExistsFault = "Qev2IdcApplicationNotExists"
         case redshiftIdcApplicationAlreadyExistsFault = "RedshiftIdcApplicationAlreadyExists"
         case redshiftIdcApplicationNotExistsFault = "RedshiftIdcApplicationNotExists"
         case redshiftIdcApplicationQuotaExceededFault = "RedshiftIdcApplicationQuotaExceeded"
@@ -10667,6 +10867,10 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var numberOfNodesQuotaExceededFault: Self { .init(.numberOfNodesQuotaExceededFault) }
     /// The name of the partner was not found.
     public static var partnerNotFoundFault: Self { .init(.partnerNotFoundFault) }
+    /// The Amazon Redshift Query Editor (QEV2) IAM Identity Center application already exists. Use a different application name or describe existing applications to find the ARN.
+    public static var qev2IdcApplicationAlreadyExistsFault: Self { .init(.qev2IdcApplicationAlreadyExistsFault) }
+    /// The specified Amazon Redshift Query Editor (QEV2) IAM Identity Center application doesn't exist. Verify that the application ARN is correct and that the application exists in this Region.
+    public static var qev2IdcApplicationNotExistsFault: Self { .init(.qev2IdcApplicationNotExistsFault) }
     /// The application you attempted to add already exists.
     public static var redshiftIdcApplicationAlreadyExistsFault: Self { .init(.redshiftIdcApplicationAlreadyExistsFault) }
     /// The application you attempted to find doesn't exist.

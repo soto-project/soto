@@ -3219,7 +3219,6 @@ extension WorkSpacesWeb {
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.+$")
-            try self.validate(self.ipRange, name: "ipRange", parent: name, pattern: "^\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}(?:/([0-9]|[12][0-9]|3[0-2])|)$")
         }
 
         private enum CodingKeys: String, CodingKey {

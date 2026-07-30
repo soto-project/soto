@@ -321,6 +321,7 @@ public struct Kafka: AWSService {
     /// Parameters:
     ///   - description: A summary description of the replicator.
     ///   - kafkaClusters: Kafka Clusters to use in setting up sources / targets for replication.
+    ///   - logDelivery: Configuration for delivering replicator logs to customer destinations.
     ///   - replicationInfoList: A list of replication configurations, where each configuration targets a given source cluster to target cluster replication flow.
     ///   - replicatorName: The name of the replicator. Alpha-numeric characters with '-' are allowed.
     ///   - serviceExecutionRoleArn: The ARN of the IAM role used by the replicator to access resources in the customer's account (e.g source and target clusters)
@@ -330,6 +331,7 @@ public struct Kafka: AWSService {
     public func createReplicator(
         description: String? = nil,
         kafkaClusters: [KafkaCluster]? = nil,
+        logDelivery: LogDelivery? = nil,
         replicationInfoList: [ReplicationInfo]? = nil,
         replicatorName: String? = nil,
         serviceExecutionRoleArn: String? = nil,
@@ -339,6 +341,7 @@ public struct Kafka: AWSService {
         let input = CreateReplicatorRequest(
             description: description, 
             kafkaClusters: kafkaClusters, 
+            logDelivery: logDelivery, 
             replicationInfoList: replicationInfoList, 
             replicatorName: replicatorName, 
             serviceExecutionRoleArn: serviceExecutionRoleArn, 
@@ -1883,18 +1886,21 @@ public struct Kafka: AWSService {
     ///   - clusterArn: The Amazon Resource Name (ARN) of the configuration.
     ///   - connectivityInfo: Information about the broker access configuration.
     ///   - currentVersion: The version of the MSK cluster to update. Cluster versions aren't simple numbers. You can describe an MSK cluster to find its version. When this update operation is successful, it generates a new cluster version.
+    ///   - zookeeperAccess: Access control settings for zookeeper
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConnectivity(
         clusterArn: String,
         connectivityInfo: ConnectivityInfo? = nil,
         currentVersion: String? = nil,
+        zookeeperAccess: ZookeeperAccess? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConnectivityResponse {
         let input = UpdateConnectivityRequest(
             clusterArn: clusterArn, 
             connectivityInfo: connectivityInfo, 
-            currentVersion: currentVersion
+            currentVersion: currentVersion, 
+            zookeeperAccess: zookeeperAccess
         )
         return try await self.updateConnectivity(input, logger: logger)
     }
@@ -1993,27 +1999,36 @@ public struct Kafka: AWSService {
     /// Parameters:
     ///   - consumerGroupReplication: Updated consumer group replication information.
     ///   - currentVersion: Current replicator version.
+    ///   - logDelivery: Configuration for delivering replicator logs to customer destinations.
     ///   - replicatorArn: The Amazon Resource Name (ARN) of the replicator to be updated.
     ///   - sourceKafkaClusterArn: The ARN of the source Kafka cluster.
+    ///   - sourceKafkaClusterId: The ID of the source Kafka cluster.
     ///   - targetKafkaClusterArn: The ARN of the target Kafka cluster.
+    ///   - targetKafkaClusterId: The ID of the target Kafka cluster.
     ///   - topicReplication: Updated topic replication information.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateReplicationInfo(
         consumerGroupReplication: ConsumerGroupReplicationUpdate? = nil,
         currentVersion: String? = nil,
+        logDelivery: LogDelivery? = nil,
         replicatorArn: String,
         sourceKafkaClusterArn: String? = nil,
+        sourceKafkaClusterId: String? = nil,
         targetKafkaClusterArn: String? = nil,
+        targetKafkaClusterId: String? = nil,
         topicReplication: TopicReplicationUpdate? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateReplicationInfoResponse {
         let input = UpdateReplicationInfoRequest(
             consumerGroupReplication: consumerGroupReplication, 
             currentVersion: currentVersion, 
+            logDelivery: logDelivery, 
             replicatorArn: replicatorArn, 
             sourceKafkaClusterArn: sourceKafkaClusterArn, 
+            sourceKafkaClusterId: sourceKafkaClusterId, 
             targetKafkaClusterArn: targetKafkaClusterArn, 
+            targetKafkaClusterId: targetKafkaClusterId, 
             topicReplication: topicReplication
         )
         return try await self.updateReplicationInfo(input, logger: logger)

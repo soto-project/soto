@@ -78,6 +78,82 @@ public struct Artifact: AWSService {
 
     // MARK: API Calls
 
+    /// Create a new compliance inquiry.
+    @Sendable
+    @inlinable
+    public func createComplianceInquiry(_ input: CreateComplianceInquiryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateComplianceInquiryResponse {
+        try await self.client.execute(
+            operation: "CreateComplianceInquiry", 
+            path: "/v1/compliance-inquiry/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a new compliance inquiry.
+    ///
+    /// Parameters:
+    ///   - clientToken: Idempotency token for the request.
+    ///   - inquiryContent: Content for creating a compliance inquiry - either a single query or file content.
+    ///   - name: Title of the inquiry.
+    ///   - supportMode: Support mode for inquiry processing. Only supported for file upload mode. Defaults to AI_ONLY if not specified.
+    ///   - tags: Tags to associate with the compliance inquiry resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createComplianceInquiry(
+        clientToken: String? = CreateComplianceInquiryRequest.idempotencyToken(),
+        inquiryContent: InquiryContent,
+        name: String,
+        supportMode: InquirySupportMode? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateComplianceInquiryResponse {
+        let input = CreateComplianceInquiryRequest(
+            clientToken: clientToken, 
+            inquiryContent: inquiryContent, 
+            name: name, 
+            supportMode: supportMode, 
+            tags: tags
+        )
+        return try await self.createComplianceInquiry(input, logger: logger)
+    }
+
+    /// Export a compliance inquiry report.
+    @Sendable
+    @inlinable
+    public func exportComplianceInquiry(_ input: ExportComplianceInquiryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportComplianceInquiryResponse {
+        try await self.client.execute(
+            operation: "ExportComplianceInquiry", 
+            path: "/v1/compliance-inquiry/export", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Export a compliance inquiry report.
+    ///
+    /// Parameters:
+    ///   - complianceInquiryId: Unique resource ID for the compliance inquiry.
+    ///   - includeCitations: When true, include citations in the exported document.
+    ///   - queryIdentifiers: List of query identifiers to include in the export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func exportComplianceInquiry(
+        complianceInquiryId: String,
+        includeCitations: Bool? = nil,
+        queryIdentifiers: [Int]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ExportComplianceInquiryResponse {
+        let input = ExportComplianceInquiryRequest(
+            complianceInquiryId: complianceInquiryId, 
+            includeCitations: includeCitations, 
+            queryIdentifiers: queryIdentifiers
+        )
+        return try await self.exportComplianceInquiry(input, logger: logger)
+    }
+
     /// Get the account settings for Artifact.
     @Sendable
     @inlinable
@@ -102,6 +178,35 @@ public struct Artifact: AWSService {
         let input = GetAccountSettingsRequest(
         )
         return try await self.getAccountSettings(input, logger: logger)
+    }
+
+    /// Get the metadata for a single compliance inquiry.
+    @Sendable
+    @inlinable
+    public func getComplianceInquiryMetadata(_ input: GetComplianceInquiryMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetComplianceInquiryMetadataResponse {
+        try await self.client.execute(
+            operation: "GetComplianceInquiryMetadata", 
+            path: "/v1/compliance-inquiry/getMetadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the metadata for a single compliance inquiry.
+    ///
+    /// Parameters:
+    ///   - complianceInquiryId: Unique resource ID for the compliance inquiry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getComplianceInquiryMetadata(
+        complianceInquiryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetComplianceInquiryMetadataResponse {
+        let input = GetComplianceInquiryMetadataRequest(
+            complianceInquiryId: complianceInquiryId
+        )
+        return try await self.getComplianceInquiryMetadata(input, logger: logger)
     }
 
     /// Get the content for a single report.
@@ -203,6 +308,73 @@ public struct Artifact: AWSService {
         return try await self.getTermForReport(input, logger: logger)
     }
 
+    /// List available compliance inquiries.
+    @Sendable
+    @inlinable
+    public func listComplianceInquiries(_ input: ListComplianceInquiriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComplianceInquiriesResponse {
+        try await self.client.execute(
+            operation: "ListComplianceInquiries", 
+            path: "/v1/compliance-inquiry/list", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List available compliance inquiries.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - nextToken: Pagination token to request the next page of resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComplianceInquiries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComplianceInquiriesResponse {
+        let input = ListComplianceInquiriesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listComplianceInquiries(input, logger: logger)
+    }
+
+    /// List queries within a compliance inquiry.
+    @Sendable
+    @inlinable
+    public func listComplianceInquiryQueries(_ input: ListComplianceInquiryQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListComplianceInquiryQueriesResponse {
+        try await self.client.execute(
+            operation: "ListComplianceInquiryQueries", 
+            path: "/v1/compliance-inquiry/listQueries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List queries within a compliance inquiry.
+    ///
+    /// Parameters:
+    ///   - complianceInquiryId: Unique resource ID for the compliance inquiry.
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - nextToken: Pagination token to request the next page of resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listComplianceInquiryQueries(
+        complianceInquiryId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListComplianceInquiryQueriesResponse {
+        let input = ListComplianceInquiryQueriesRequest(
+            complianceInquiryId: complianceInquiryId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listComplianceInquiryQueries(input, logger: logger)
+    }
+
     /// List active customer-agreements applicable to calling identity.
     @Sendable
     @inlinable
@@ -302,6 +474,35 @@ public struct Artifact: AWSService {
         return try await self.listReports(input, logger: logger)
     }
 
+    /// List tags for a resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List tags for a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
     /// Put the account settings for Artifact.
     @Sendable
     @inlinable
@@ -330,6 +531,117 @@ public struct Artifact: AWSService {
         )
         return try await self.putAccountSettings(input, logger: logger)
     }
+
+    /// Submits feedback on a compliance inquiry response.
+    @Sendable
+    @inlinable
+    public func putComplianceInquiryFeedback(_ input: PutComplianceInquiryFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutComplianceInquiryFeedbackResponse {
+        try await self.client.execute(
+            operation: "PutComplianceInquiryFeedback", 
+            path: "/v1/compliance-inquiry/putFeedback", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Submits feedback on a compliance inquiry response.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - comment: An optional comment for the feedback.
+    ///   - complianceInquiryId: The unique identifier for the compliance inquiry.
+    ///   - queryIdentifier: The sequential identifier of the query to provide feedback on.
+    ///   - rating: The rating for the feedback. Valid values are THUMBS_UP and THUMBS_DOWN.
+    ///   - reasonCodes: The reason codes that describe why you rated the response. Valid values are OTHER, PARTIAL_RESPONSE, and IRRELEVANT_RESPONSE.
+    ///   - responseRevisionId: The response revision ID. Use this value to prevent submitting feedback on a stale response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putComplianceInquiryFeedback(
+        clientToken: String? = PutComplianceInquiryFeedbackRequest.idempotencyToken(),
+        comment: String? = nil,
+        complianceInquiryId: String,
+        queryIdentifier: Int? = nil,
+        rating: FeedbackRating,
+        reasonCodes: [FeedbackReasonCode]? = nil,
+        responseRevisionId: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutComplianceInquiryFeedbackResponse {
+        let input = PutComplianceInquiryFeedbackRequest(
+            clientToken: clientToken, 
+            comment: comment, 
+            complianceInquiryId: complianceInquiryId, 
+            queryIdentifier: queryIdentifier, 
+            rating: rating, 
+            reasonCodes: reasonCodes, 
+            responseRevisionId: responseRevisionId
+        )
+        return try await self.putComplianceInquiryFeedback(input, logger: logger)
+    }
+
+    /// Add tags to a resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add tags to a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
+    ///   - tags: Tags to add to the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Remove tags from a resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove tags from a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
+    ///   - tagKeys: Tag keys to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
 }
 
 extension Artifact {
@@ -345,6 +657,77 @@ extension Artifact {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Artifact {
+    /// Return PaginatorSequence for operation ``listComplianceInquiries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComplianceInquiriesPaginator(
+        _ input: ListComplianceInquiriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComplianceInquiriesRequest, ListComplianceInquiriesResponse> {
+        return .init(
+            input: input,
+            command: self.listComplianceInquiries,
+            inputKey: \ListComplianceInquiriesRequest.nextToken,
+            outputKey: \ListComplianceInquiriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComplianceInquiries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComplianceInquiriesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComplianceInquiriesRequest, ListComplianceInquiriesResponse> {
+        let input = ListComplianceInquiriesRequest(
+            maxResults: maxResults
+        )
+        return self.listComplianceInquiriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listComplianceInquiryQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComplianceInquiryQueriesPaginator(
+        _ input: ListComplianceInquiryQueriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListComplianceInquiryQueriesRequest, ListComplianceInquiryQueriesResponse> {
+        return .init(
+            input: input,
+            command: self.listComplianceInquiryQueries,
+            inputKey: \ListComplianceInquiryQueriesRequest.nextToken,
+            outputKey: \ListComplianceInquiryQueriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listComplianceInquiryQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - complianceInquiryId: Unique resource ID for the compliance inquiry.
+    ///   - maxResults: Maximum number of resources to return in the paginated response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listComplianceInquiryQueriesPaginator(
+        complianceInquiryId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListComplianceInquiryQueriesRequest, ListComplianceInquiryQueriesResponse> {
+        let input = ListComplianceInquiryQueriesRequest(
+            complianceInquiryId: complianceInquiryId, 
+            maxResults: maxResults
+        )
+        return self.listComplianceInquiryQueriesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCustomerAgreements(_:logger:)``.
     ///
     /// - Parameters:
@@ -448,6 +831,27 @@ extension Artifact {
             maxResults: maxResults
         )
         return self.listReportsPaginator(input, logger: logger)
+    }
+}
+
+extension Artifact.ListComplianceInquiriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Artifact.ListComplianceInquiriesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Artifact.ListComplianceInquiryQueriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Artifact.ListComplianceInquiryQueriesRequest {
+        return .init(
+            complianceInquiryId: self.complianceInquiryId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

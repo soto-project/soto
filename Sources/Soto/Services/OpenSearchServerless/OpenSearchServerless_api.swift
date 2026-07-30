@@ -289,6 +289,7 @@ public struct OpenSearchServerless: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - collectionGroupName: The name of the collection group to associate with the collection.
+    ///   - deletionProtection: Indicates whether to enable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
     ///   - description: Description of the collection.
     ///   - encryptionConfig: Encryption settings for the collection.
     ///   - name: Name of the collection.
@@ -301,6 +302,7 @@ public struct OpenSearchServerless: AWSService {
     public func createCollection(
         clientToken: String? = CreateCollectionRequest.idempotencyToken(),
         collectionGroupName: String? = nil,
+        deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
         encryptionConfig: EncryptionConfig? = nil,
         name: String,
@@ -313,6 +315,7 @@ public struct OpenSearchServerless: AWSService {
         let input = CreateCollectionRequest(
             clientToken: clientToken, 
             collectionGroupName: collectionGroupName, 
+            deletionProtection: deletionProtection, 
             description: description, 
             encryptionConfig: encryptionConfig, 
             name: name, 
@@ -343,6 +346,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - capacityLimits: The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group.
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - description: A description of the collection group.
+    ///   - generation: The generation of Amazon OpenSearch Serverless for the collection group. Valid values are CLASSIC and NEXTGEN.
     ///   - name: The name of the collection group.
     ///   - standbyReplicas: Indicates whether standby replicas should be used for a collection group.
     ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection group.
@@ -352,6 +356,7 @@ public struct OpenSearchServerless: AWSService {
         capacityLimits: CollectionGroupCapacityLimits? = nil,
         clientToken: String? = CreateCollectionGroupRequest.idempotencyToken(),
         description: String? = nil,
+        generation: ServerlessGeneration? = nil,
         name: String,
         standbyReplicas: StandbyReplicas,
         tags: [Tag]? = nil,
@@ -361,6 +366,7 @@ public struct OpenSearchServerless: AWSService {
             capacityLimits: capacityLimits, 
             clientToken: clientToken, 
             description: description, 
+            generation: generation, 
             name: name, 
             standbyReplicas: standbyReplicas, 
             tags: tags
@@ -1449,20 +1455,26 @@ public struct OpenSearchServerless: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - deletionProtection: Indicates whether to enable or disable deletion protection for the collection. When set to ENABLED, the collection cannot be deleted.
     ///   - description: A description of the collection.
     ///   - id: The unique identifier of the collection.
+    ///   - vectorOptions: Configuration options for vector search capabilities in the collection.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCollection(
         clientToken: String? = UpdateCollectionRequest.idempotencyToken(),
+        deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
         id: String,
+        vectorOptions: VectorOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCollectionResponse {
         let input = UpdateCollectionRequest(
             clientToken: clientToken, 
+            deletionProtection: deletionProtection, 
             description: description, 
-            id: id
+            id: id, 
+            vectorOptions: vectorOptions
         )
         return try await self.updateCollection(input, logger: logger)
     }

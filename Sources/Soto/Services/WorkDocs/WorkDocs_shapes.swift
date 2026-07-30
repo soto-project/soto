@@ -3154,7 +3154,7 @@ extension WorkDocs {
     public struct SearchResourcesRequest: AWSEncodableShape {
         /// A list of attributes to include in the response. Used to request fields that are not normally returned in a standard response.
         public let additionalResponseFields: [AdditionalResponseFieldType]?
-        /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
+        /// WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
         /// Filters results based on entity metadata.
         public let filters: Filters?

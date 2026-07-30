@@ -196,6 +196,47 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.createBlueprintVersion(input, logger: logger)
     }
 
+    /// Creates an Amazon Bedrock Data Automation Library
+    @Sendable
+    @inlinable
+    public func createDataAutomationLibrary(_ input: CreateDataAutomationLibraryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataAutomationLibraryResponse {
+        try await self.client.execute(
+            operation: "CreateDataAutomationLibrary", 
+            path: "/data-automation-libraries/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Amazon Bedrock Data Automation Library
+    ///
+    /// Parameters:
+    ///   - clientToken: 
+    ///   - encryptionConfiguration: 
+    ///   - libraryDescription: 
+    ///   - libraryName: 
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataAutomationLibrary(
+        clientToken: String? = CreateDataAutomationLibraryRequest.idempotencyToken(),
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        libraryDescription: String? = nil,
+        libraryName: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataAutomationLibraryResponse {
+        let input = CreateDataAutomationLibraryRequest(
+            clientToken: clientToken, 
+            encryptionConfiguration: encryptionConfiguration, 
+            libraryDescription: libraryDescription, 
+            libraryName: libraryName, 
+            tags: tags
+        )
+        return try await self.createDataAutomationLibrary(input, logger: logger)
+    }
+
     /// Creates an Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
@@ -214,6 +255,7 @@ public struct BedrockDataAutomation: AWSService {
     /// Parameters:
     ///   - clientToken: 
     ///   - customOutputConfiguration: 
+    ///   - dataAutomationLibraryConfiguration: 
     ///   - encryptionConfiguration: 
     ///   - overrideConfiguration: 
     ///   - projectDescription: 
@@ -227,6 +269,7 @@ public struct BedrockDataAutomation: AWSService {
     public func createDataAutomationProject(
         clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(),
         customOutputConfiguration: CustomOutputConfiguration? = nil,
+        dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         overrideConfiguration: OverrideConfiguration? = nil,
         projectDescription: String? = nil,
@@ -240,6 +283,7 @@ public struct BedrockDataAutomation: AWSService {
         let input = CreateDataAutomationProjectRequest(
             clientToken: clientToken, 
             customOutputConfiguration: customOutputConfiguration, 
+            dataAutomationLibraryConfiguration: dataAutomationLibraryConfiguration, 
             encryptionConfiguration: encryptionConfiguration, 
             overrideConfiguration: overrideConfiguration, 
             projectDescription: projectDescription, 
@@ -282,6 +326,35 @@ public struct BedrockDataAutomation: AWSService {
             blueprintVersion: blueprintVersion
         )
         return try await self.deleteBlueprint(input, logger: logger)
+    }
+
+    /// Deletes an existing Amazon Bedrock Data Automation Library
+    @Sendable
+    @inlinable
+    public func deleteDataAutomationLibrary(_ input: DeleteDataAutomationLibraryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataAutomationLibraryResponse {
+        try await self.client.execute(
+            operation: "DeleteDataAutomationLibrary", 
+            path: "/data-automation-libraries/{libraryArn}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing Amazon Bedrock Data Automation Library
+    ///
+    /// Parameters:
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDataAutomationLibrary(
+        libraryArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDataAutomationLibraryResponse {
+        let input = DeleteDataAutomationLibraryRequest(
+            libraryArn: libraryArn
+        )
+        return try await self.deleteDataAutomationLibrary(input, logger: logger)
     }
 
     /// Deletes an existing Amazon Bedrock Data Automation Project
@@ -377,6 +450,102 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.getBlueprintOptimizationStatus(input, logger: logger)
     }
 
+    /// Gets an existing Amazon Bedrock Data Automation Library
+    @Sendable
+    @inlinable
+    public func getDataAutomationLibrary(_ input: GetDataAutomationLibraryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAutomationLibraryResponse {
+        try await self.client.execute(
+            operation: "GetDataAutomationLibrary", 
+            path: "/data-automation-libraries/{libraryArn}/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets an existing Amazon Bedrock Data Automation Library
+    ///
+    /// Parameters:
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataAutomationLibrary(
+        libraryArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataAutomationLibraryResponse {
+        let input = GetDataAutomationLibraryRequest(
+            libraryArn: libraryArn
+        )
+        return try await self.getDataAutomationLibrary(input, logger: logger)
+    }
+
+    /// Gets an existing entity based on entity type from the library
+    @Sendable
+    @inlinable
+    public func getDataAutomationLibraryEntity(_ input: GetDataAutomationLibraryEntityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAutomationLibraryEntityResponse {
+        try await self.client.execute(
+            operation: "GetDataAutomationLibraryEntity", 
+            path: "/data-automation-libraries/{libraryArn}/entityType/{entityType}/entities/{entityId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets an existing entity based on entity type from the library
+    ///
+    /// Parameters:
+    ///   - entityId: Unique identifier for the entity
+    ///   - entityType: The entity type for which the entity is requested
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataAutomationLibraryEntity(
+        entityId: String,
+        entityType: EntityType,
+        libraryArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataAutomationLibraryEntityResponse {
+        let input = GetDataAutomationLibraryEntityRequest(
+            entityId: entityId, 
+            entityType: entityType, 
+            libraryArn: libraryArn
+        )
+        return try await self.getDataAutomationLibraryEntity(input, logger: logger)
+    }
+
+    /// API used to get status of data automation library ingestion job
+    @Sendable
+    @inlinable
+    public func getDataAutomationLibraryIngestionJob(_ input: GetDataAutomationLibraryIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAutomationLibraryIngestionJobResponse {
+        try await self.client.execute(
+            operation: "GetDataAutomationLibraryIngestionJob", 
+            path: "/data-automation-libraries/{libraryArn}/library-ingestion-jobs/{jobArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// API used to get status of data automation library ingestion job
+    ///
+    /// Parameters:
+    ///   - jobArn: ARN of the DataAutomationLibraryIngestionJob
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataAutomationLibraryIngestionJob(
+        jobArn: String,
+        libraryArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataAutomationLibraryIngestionJobResponse {
+        let input = GetDataAutomationLibraryIngestionJobRequest(
+            jobArn: jobArn, 
+            libraryArn: libraryArn
+        )
+        return try await self.getDataAutomationLibraryIngestionJob(input, logger: logger)
+    }
+
     /// Gets an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
@@ -453,6 +622,56 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.invokeBlueprintOptimizationAsync(input, logger: logger)
     }
 
+    /// Async API: Invoke data automation library ingestion job
+    @Sendable
+    @inlinable
+    public func invokeDataAutomationLibraryIngestionJob(_ input: InvokeDataAutomationLibraryIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeDataAutomationLibraryIngestionJobResponse {
+        try await self.client.execute(
+            operation: "InvokeDataAutomationLibraryIngestionJob", 
+            path: "/data-automation-libraries/{libraryArn}/library-ingestion-jobs/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Async API: Invoke data automation library ingestion job
+    ///
+    /// Parameters:
+    ///   - clientToken: Idempotency token
+    ///   - entityType: The entity type for which DataAutomationLibraryIngestionJob is being run
+    ///   - inputConfiguration: Input configuration of DataAutomationLibraryIngestionJob request
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - notificationConfiguration: Notification configuration.
+    ///   - operationType: The operation to be performed by DataAutomationLibraryIngestionJob
+    ///   - outputConfiguration: Output configuration of DataAutomationLibraryIngestionJob
+    ///   - tags: List of tags
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeDataAutomationLibraryIngestionJob(
+        clientToken: String? = InvokeDataAutomationLibraryIngestionJobRequest.idempotencyToken(),
+        entityType: EntityType,
+        inputConfiguration: InputConfiguration,
+        libraryArn: String,
+        notificationConfiguration: NotificationConfiguration? = nil,
+        operationType: LibraryIngestionJobOperationType,
+        outputConfiguration: OutputConfiguration,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeDataAutomationLibraryIngestionJobResponse {
+        let input = InvokeDataAutomationLibraryIngestionJobRequest(
+            clientToken: clientToken, 
+            entityType: entityType, 
+            inputConfiguration: inputConfiguration, 
+            libraryArn: libraryArn, 
+            notificationConfiguration: notificationConfiguration, 
+            operationType: operationType, 
+            outputConfiguration: outputConfiguration, 
+            tags: tags
+        )
+        return try await self.invokeDataAutomationLibraryIngestionJob(input, logger: logger)
+    }
+
     /// Lists all existing Amazon Bedrock Data Automation Blueprints
     @Sendable
     @inlinable
@@ -497,6 +716,114 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.listBlueprints(input, logger: logger)
     }
 
+    /// Lists all existing Amazon Bedrock Data Automation Libraries
+    @Sendable
+    @inlinable
+    public func listDataAutomationLibraries(_ input: ListDataAutomationLibrariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataAutomationLibrariesResponse {
+        try await self.client.execute(
+            operation: "ListDataAutomationLibraries", 
+            path: "/data-automation-libraries/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all existing Amazon Bedrock Data Automation Libraries
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - projectFilter: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataAutomationLibraries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        projectFilter: DataAutomationProjectFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataAutomationLibrariesResponse {
+        let input = ListDataAutomationLibrariesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            projectFilter: projectFilter
+        )
+        return try await self.listDataAutomationLibraries(input, logger: logger)
+    }
+
+    /// Lists all stored entities in the library
+    @Sendable
+    @inlinable
+    public func listDataAutomationLibraryEntities(_ input: ListDataAutomationLibraryEntitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataAutomationLibraryEntitiesResponse {
+        try await self.client.execute(
+            operation: "ListDataAutomationLibraryEntities", 
+            path: "/data-automation-libraries/{libraryArn}/entityType/{entityType}/entities/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all stored entities in the library
+    ///
+    /// Parameters:
+    ///   - entityType: The entity type for which the entity list is requested
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - maxResults: 
+    ///   - nextToken: Pagination token for retrieving the next set of results
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataAutomationLibraryEntities(
+        entityType: EntityType,
+        libraryArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataAutomationLibraryEntitiesResponse {
+        let input = ListDataAutomationLibraryEntitiesRequest(
+            entityType: entityType, 
+            libraryArn: libraryArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataAutomationLibraryEntities(input, logger: logger)
+    }
+
+    /// Lists all data automation library ingestion jobs
+    @Sendable
+    @inlinable
+    public func listDataAutomationLibraryIngestionJobs(_ input: ListDataAutomationLibraryIngestionJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataAutomationLibraryIngestionJobsResponse {
+        try await self.client.execute(
+            operation: "ListDataAutomationLibraryIngestionJobs", 
+            path: "/data-automation-libraries/{libraryArn}/library-ingestion-jobs/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all data automation library ingestion jobs
+    ///
+    /// Parameters:
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - maxResults: 
+    ///   - nextToken: Pagination token for retrieving the next set of results
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataAutomationLibraryIngestionJobs(
+        libraryArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataAutomationLibraryIngestionJobsResponse {
+        let input = ListDataAutomationLibraryIngestionJobsRequest(
+            libraryArn: libraryArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataAutomationLibraryIngestionJobs(input, logger: logger)
+    }
+
     /// Lists all existing Amazon Bedrock Data Automation Projects
     @Sendable
     @inlinable
@@ -514,6 +841,7 @@ public struct BedrockDataAutomation: AWSService {
     ///
     /// Parameters:
     ///   - blueprintFilter: 
+    ///   - libraryFilter: 
     ///   - maxResults: 
     ///   - nextToken: 
     ///   - projectStageFilter: 
@@ -522,6 +850,7 @@ public struct BedrockDataAutomation: AWSService {
     @inlinable
     public func listDataAutomationProjects(
         blueprintFilter: BlueprintFilter? = nil,
+        libraryFilter: DataAutomationLibraryFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         projectStageFilter: DataAutomationProjectStageFilter? = nil,
@@ -530,6 +859,7 @@ public struct BedrockDataAutomation: AWSService {
     ) async throws -> ListDataAutomationProjectsResponse {
         let input = ListDataAutomationProjectsRequest(
             blueprintFilter: blueprintFilter, 
+            libraryFilter: libraryFilter, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             projectStageFilter: projectStageFilter, 
@@ -669,6 +999,41 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.updateBlueprint(input, logger: logger)
     }
 
+    /// Updates an existing Amazon Bedrock Data Automation Library
+    @Sendable
+    @inlinable
+    public func updateDataAutomationLibrary(_ input: UpdateDataAutomationLibraryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataAutomationLibraryResponse {
+        try await self.client.execute(
+            operation: "UpdateDataAutomationLibrary", 
+            path: "/data-automation-libraries/{libraryArn}/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing Amazon Bedrock Data Automation Library
+    ///
+    /// Parameters:
+    ///   - clientToken: 
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - libraryDescription: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDataAutomationLibrary(
+        clientToken: String? = UpdateDataAutomationLibraryRequest.idempotencyToken(),
+        libraryArn: String,
+        libraryDescription: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDataAutomationLibraryResponse {
+        let input = UpdateDataAutomationLibraryRequest(
+            clientToken: clientToken, 
+            libraryArn: libraryArn, 
+            libraryDescription: libraryDescription
+        )
+        return try await self.updateDataAutomationLibrary(input, logger: logger)
+    }
+
     /// Updates an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
@@ -686,6 +1051,7 @@ public struct BedrockDataAutomation: AWSService {
     ///
     /// Parameters:
     ///   - customOutputConfiguration: 
+    ///   - dataAutomationLibraryConfiguration: 
     ///   - encryptionConfiguration: 
     ///   - overrideConfiguration: 
     ///   - projectArn: ARN generated at the server side when a DataAutomationProject is created
@@ -696,6 +1062,7 @@ public struct BedrockDataAutomation: AWSService {
     @inlinable
     public func updateDataAutomationProject(
         customOutputConfiguration: CustomOutputConfiguration? = nil,
+        dataAutomationLibraryConfiguration: DataAutomationLibraryConfiguration? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         overrideConfiguration: OverrideConfiguration? = nil,
         projectArn: String,
@@ -706,6 +1073,7 @@ public struct BedrockDataAutomation: AWSService {
     ) async throws -> UpdateDataAutomationProjectResponse {
         let input = UpdateDataAutomationProjectRequest(
             customOutputConfiguration: customOutputConfiguration, 
+            dataAutomationLibraryConfiguration: dataAutomationLibraryConfiguration, 
             encryptionConfiguration: encryptionConfiguration, 
             overrideConfiguration: overrideConfiguration, 
             projectArn: projectArn, 
@@ -776,6 +1144,120 @@ extension BedrockDataAutomation {
         return self.listBlueprintsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibrariesPaginator(
+        _ input: ListDataAutomationLibrariesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibrariesRequest, ListDataAutomationLibrariesResponse> {
+        return .init(
+            input: input,
+            command: self.listDataAutomationLibraries,
+            inputKey: \ListDataAutomationLibrariesRequest.nextToken,
+            outputKey: \ListDataAutomationLibrariesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - projectFilter: 
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibrariesPaginator(
+        maxResults: Int? = nil,
+        projectFilter: DataAutomationProjectFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibrariesRequest, ListDataAutomationLibrariesResponse> {
+        let input = ListDataAutomationLibrariesRequest(
+            maxResults: maxResults, 
+            projectFilter: projectFilter
+        )
+        return self.listDataAutomationLibrariesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraryEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibraryEntitiesPaginator(
+        _ input: ListDataAutomationLibraryEntitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibraryEntitiesRequest, ListDataAutomationLibraryEntitiesResponse> {
+        return .init(
+            input: input,
+            command: self.listDataAutomationLibraryEntities,
+            inputKey: \ListDataAutomationLibraryEntitiesRequest.nextToken,
+            outputKey: \ListDataAutomationLibraryEntitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraryEntities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - entityType: The entity type for which the entity list is requested
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - maxResults: 
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibraryEntitiesPaginator(
+        entityType: EntityType,
+        libraryArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibraryEntitiesRequest, ListDataAutomationLibraryEntitiesResponse> {
+        let input = ListDataAutomationLibraryEntitiesRequest(
+            entityType: entityType, 
+            libraryArn: libraryArn, 
+            maxResults: maxResults
+        )
+        return self.listDataAutomationLibraryEntitiesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraryIngestionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibraryIngestionJobsPaginator(
+        _ input: ListDataAutomationLibraryIngestionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibraryIngestionJobsRequest, ListDataAutomationLibraryIngestionJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listDataAutomationLibraryIngestionJobs,
+            inputKey: \ListDataAutomationLibraryIngestionJobsRequest.nextToken,
+            outputKey: \ListDataAutomationLibraryIngestionJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataAutomationLibraryIngestionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - libraryArn: ARN generated at the server side when a DataAutomationLibrary is created
+    ///   - maxResults: 
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataAutomationLibraryIngestionJobsPaginator(
+        libraryArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataAutomationLibraryIngestionJobsRequest, ListDataAutomationLibraryIngestionJobsResponse> {
+        let input = ListDataAutomationLibraryIngestionJobsRequest(
+            libraryArn: libraryArn, 
+            maxResults: maxResults
+        )
+        return self.listDataAutomationLibraryIngestionJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataAutomationProjects(_:logger:)``.
     ///
     /// - Parameters:
@@ -798,6 +1280,7 @@ extension BedrockDataAutomation {
     ///
     /// - Parameters:
     ///   - blueprintFilter: 
+    ///   - libraryFilter: 
     ///   - maxResults: 
     ///   - projectStageFilter: 
     ///   - resourceOwner: 
@@ -805,6 +1288,7 @@ extension BedrockDataAutomation {
     @inlinable
     public func listDataAutomationProjectsPaginator(
         blueprintFilter: BlueprintFilter? = nil,
+        libraryFilter: DataAutomationLibraryFilter? = nil,
         maxResults: Int? = nil,
         projectStageFilter: DataAutomationProjectStageFilter? = nil,
         resourceOwner: ResourceOwner? = nil,
@@ -812,6 +1296,7 @@ extension BedrockDataAutomation {
     ) -> AWSClient.PaginatorSequence<ListDataAutomationProjectsRequest, ListDataAutomationProjectsResponse> {
         let input = ListDataAutomationProjectsRequest(
             blueprintFilter: blueprintFilter, 
+            libraryFilter: libraryFilter, 
             maxResults: maxResults, 
             projectStageFilter: projectStageFilter, 
             resourceOwner: resourceOwner
@@ -834,11 +1319,46 @@ extension BedrockDataAutomation.ListBlueprintsRequest: AWSPaginateToken {
     }
 }
 
+extension BedrockDataAutomation.ListDataAutomationLibrariesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockDataAutomation.ListDataAutomationLibrariesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectFilter: self.projectFilter
+        )
+    }
+}
+
+extension BedrockDataAutomation.ListDataAutomationLibraryEntitiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockDataAutomation.ListDataAutomationLibraryEntitiesRequest {
+        return .init(
+            entityType: self.entityType,
+            libraryArn: self.libraryArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockDataAutomation.ListDataAutomationLibraryIngestionJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockDataAutomation.ListDataAutomationLibraryIngestionJobsRequest {
+        return .init(
+            libraryArn: self.libraryArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockDataAutomation.ListDataAutomationProjectsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockDataAutomation.ListDataAutomationProjectsRequest {
         return .init(
             blueprintFilter: self.blueprintFilter,
+            libraryFilter: self.libraryFilter,
             maxResults: self.maxResults,
             nextToken: token,
             projectStageFilter: self.projectStageFilter,

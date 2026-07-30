@@ -677,7 +677,7 @@ public struct S3Vectors: AWSService {
         return try await self.putVectors(input, logger: logger)
     }
 
-    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering or metadata without the s3vectors:GetVectors permission.
     @Sendable
     @inlinable
     public func queryVectors(_ input: QueryVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryVectorsOutput {
@@ -690,12 +690,13 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response) and metadata of each vector in the response. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering or metadata without the s3vectors:GetVectors permission.
     ///
     /// Parameters:
     ///   - filter: Metadata filter to apply during the query. For more information about metadata keys, see Metadata filtering in the Amazon S3 User Guide.
     ///   - indexArn: The ARN of the vector index that you want to query.
     ///   - indexName: The name of the vector index that you want to query.
+    ///   - nextToken: Pagination token from a previous request. The value of this field is empty for an initial request.
     ///   - queryVector: The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
     ///   - returnDistance: Indicates whether to include the computed distance in the response. The default value is false.
     ///   - returnMetadata: Indicates whether to include metadata in the response. The default value is false.
@@ -707,6 +708,7 @@ public struct S3Vectors: AWSService {
         filter: AWSDocument? = nil,
         indexArn: String? = nil,
         indexName: String? = nil,
+        nextToken: String? = nil,
         queryVector: VectorData,
         returnDistance: Bool? = nil,
         returnMetadata: Bool? = nil,
@@ -718,6 +720,7 @@ public struct S3Vectors: AWSService {
             filter: filter, 
             indexArn: indexArn, 
             indexName: indexName, 
+            nextToken: nextToken, 
             queryVector: queryVector, 
             returnDistance: returnDistance, 
             returnMetadata: returnMetadata, 
@@ -939,6 +942,61 @@ extension S3Vectors {
         )
         return self.listVectorsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``queryVectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func queryVectorsPaginator(
+        _ input: QueryVectorsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<QueryVectorsInput, QueryVectorsOutput> {
+        return .init(
+            input: input,
+            command: self.queryVectors,
+            inputKey: \QueryVectorsInput.nextToken,
+            outputKey: \QueryVectorsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``queryVectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Metadata filter to apply during the query. For more information about metadata keys, see Metadata filtering in the Amazon S3 User Guide.
+    ///   - indexArn: The ARN of the vector index that you want to query.
+    ///   - indexName: The name of the vector index that you want to query.
+    ///   - queryVector: The query vector. Ensure that the query vector has the same dimension as the dimension of the vector index that's being queried. For example, if your vector index contains vectors with 384 dimensions, your query vector must also have 384 dimensions.
+    ///   - returnDistance: Indicates whether to include the computed distance in the response. The default value is false.
+    ///   - returnMetadata: Indicates whether to include metadata in the response. The default value is false.
+    ///   - topK: The number of results to return for each query.
+    ///   - vectorBucketName: The name of the vector bucket that contains the vector index.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func queryVectorsPaginator(
+        filter: AWSDocument? = nil,
+        indexArn: String? = nil,
+        indexName: String? = nil,
+        queryVector: VectorData,
+        returnDistance: Bool? = nil,
+        returnMetadata: Bool? = nil,
+        topK: Int,
+        vectorBucketName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<QueryVectorsInput, QueryVectorsOutput> {
+        let input = QueryVectorsInput(
+            filter: filter, 
+            indexArn: indexArn, 
+            indexName: indexName, 
+            queryVector: queryVector, 
+            returnDistance: returnDistance, 
+            returnMetadata: returnMetadata, 
+            topK: topK, 
+            vectorBucketName: vectorBucketName
+        )
+        return self.queryVectorsPaginator(input, logger: logger)
+    }
 }
 
 extension S3Vectors.ListIndexesInput: AWSPaginateToken {
@@ -977,6 +1035,23 @@ extension S3Vectors.ListVectorsInput: AWSPaginateToken {
             returnMetadata: self.returnMetadata,
             segmentCount: self.segmentCount,
             segmentIndex: self.segmentIndex,
+            vectorBucketName: self.vectorBucketName
+        )
+    }
+}
+
+extension S3Vectors.QueryVectorsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> S3Vectors.QueryVectorsInput {
+        return .init(
+            filter: self.filter,
+            indexArn: self.indexArn,
+            indexName: self.indexName,
+            nextToken: token,
+            queryVector: self.queryVector,
+            returnDistance: self.returnDistance,
+            returnMetadata: self.returnMetadata,
+            topK: self.topK,
             vectorBucketName: self.vectorBucketName
         )
     }

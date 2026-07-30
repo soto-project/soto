@@ -58,6 +58,21 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomAdType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alternateContentOpportunity = "ALTERNATE_CONTENT_OPPORTUNITY"
+        case chapter = "CHAPTER"
+        case network = "NETWORK"
+        case program = "PROGRAM"
+        case unscheduledEvent = "UNSCHEDULED_EVENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DashAudioTimelinePattern: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case patterned = "PATTERNED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DashCompactness: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case standard = "STANDARD"
@@ -146,6 +161,18 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum OutputLockingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case epochLocked = "EPOCH_LOCKED"
+        case nonEpochLocked = "NON_EPOCH_LOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputTimestampMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case passthrough = "PASSTHROUGH"
+        case rebasedToChannelStart = "REBASED_TO_CHANNEL_START"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PresetSpeke20Audio: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case presetAudio1 = "PRESET_AUDIO_1"
         case presetAudio2 = "PRESET_AUDIO_2"
@@ -179,19 +206,36 @@ extension MediaPackageV2 {
 
     public enum ScteFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `break` = "BREAK"
+        case alternateContentOpportunity = "ALTERNATE_CONTENT_OPPORTUNITY"
+        case callAdServer = "CALL_AD_SERVER"
+        case chapter = "CHAPTER"
+        case contentIdentification = "CONTENT_IDENTIFICATION"
+        case distributorAdBlock = "DISTRIBUTOR_AD_BLOCK"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
         case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
         case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+        case distributorPromo = "DISTRIBUTOR_PROMO"
+        case network = "NETWORK"
         case program = "PROGRAM"
+        case providerAdBlock = "PROVIDER_AD_BLOCK"
         case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
         case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
         case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
+        case providerPromo = "PROVIDER_PROMO"
         case spliceInsert = "SPLICE_INSERT"
+        case unscheduledEvent = "UNSCHEDULED_EVENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScteInManifests: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case matchesFilter = "MATCHES_FILTER"
         public var description: String { return self.rawValue }
     }
 
     public enum ScteInSegments: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
+        case matchesFilter = "MATCHES_FILTER"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -199,6 +243,18 @@ extension MediaPackageV2 {
     public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UriPathType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case leaf = "LEAF"
+        case root = "ROOT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UriSeparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hyphen = "HYPHEN"
+        case underscore = "UNDERSCORE"
         public var description: String { return self.rawValue }
     }
 
@@ -211,6 +267,7 @@ extension MediaPackageV2 {
         case cmafContainerTypeWithMssManifest = "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType = "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
         case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
+        case customAdTypesInvalidConfiguration = "CUSTOM_AD_TYPES_INVALID_CONFIGURATION"
         case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
         case decryptSecretFailed = "DECRYPT_SECRET_FAILED"
         case describeCertificateFailed = "DESCRIBE_CERTIFICATE_FAILED"
@@ -268,18 +325,23 @@ extension MediaPackageV2 {
         case memberMinValue = "MEMBER_MIN_VALUE"
         case memberMissing = "MEMBER_MISSING"
         case missingCertificateDomainName = "MISSING_CERTIFICATE_DOMAIN_NAME"
+        case nonEpochLockedWithForceEndpointErrorConfiguration = "NON_EPOCH_LOCKED_WITH_FORCE_ENDPOINT_ERROR_CONFIGURATION"
         case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
         case numManifestsHigh = "NUM_MANIFESTS_HIGH"
         case numManifestsLow = "NUM_MANIFESTS_LOW"
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
         case onlyCmafInputTypeAllowMqcsInputSwitching = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
         case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
+        case onlyCmafInputTypeAllowOutputLockingMode = "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
         case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+        case onlyNonEpochLockedAllowOutputTimestampMode = "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
+        case outputTimestampModeImmutable = "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
         case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
         case resourceNotInSameRegion = "RESOURCE_NOT_IN_SAME_REGION"
         case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
         case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
         case roleArnNotAssumable = "ROLE_ARN_NOT_ASSUMABLE"
+        case scteInManifestsInvalidConfiguration = "SCTE_IN_MANIFESTS_INVALID_CONFIGURATION"
         case secretArnResourceNotFound = "SECRET_ARN_RESOURCE_NOT_FOUND"
         case secretFromDifferentAccount = "SECRET_FROM_DIFFERENT_ACCOUNT"
         case secretFromDifferentRegion = "SECRET_FROM_DIFFERENT_REGION"
@@ -434,9 +496,11 @@ extension MediaPackageV2 {
         public let inputType: InputType?
         /// The date and time the channel was modified.
         public let modifiedAt: Date
+        /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+        public let outputLockingMode: OutputLockingMode?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, inputType: InputType? = nil, modifiedAt: Date, outputLockingMode: OutputLockingMode? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -444,6 +508,7 @@ extension MediaPackageV2 {
             self.description = description
             self.inputType = inputType
             self.modifiedAt = modifiedAt
+            self.outputLockingMode = outputLockingMode
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -454,6 +519,7 @@ extension MediaPackageV2 {
             case description = "Description"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+            case outputLockingMode = "OutputLockingMode"
         }
     }
 
@@ -575,11 +641,13 @@ extension MediaPackageV2 {
         public let inputType: InputType?
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
+        /// The output locking mode for the channel. This setting is only valid when InputType is CMAF. This value is immutable after channel creation. If you don't specify a value, the default is EPOCH_LOCKED. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time. This mode supports cross-region synchronization and failover.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0. This mode does not support cross-region synchronization or failover.
+        public let outputLockingMode: OutputLockingMode?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateChannelRequest.idempotencyToken(), description: String? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
@@ -587,6 +655,7 @@ extension MediaPackageV2 {
             self.inputSwitchConfiguration = inputSwitchConfiguration
             self.inputType = inputType
             self.outputHeaderConfiguration = outputHeaderConfiguration
+            self.outputLockingMode = outputLockingMode
             self.tags = tags
         }
 
@@ -600,6 +669,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.inputSwitchConfiguration, forKey: .inputSwitchConfiguration)
             try container.encodeIfPresent(self.inputType, forKey: .inputType)
             try container.encodeIfPresent(self.outputHeaderConfiguration, forKey: .outputHeaderConfiguration)
+            try container.encodeIfPresent(self.outputLockingMode, forKey: .outputLockingMode)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -622,6 +692,7 @@ extension MediaPackageV2 {
             case inputSwitchConfiguration = "InputSwitchConfiguration"
             case inputType = "InputType"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
+            case outputLockingMode = "OutputLockingMode"
             case tags = "tags"
         }
     }
@@ -648,11 +719,13 @@ extension MediaPackageV2 {
         public let modifiedAt: Date
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
+        /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+        public let outputLockingMode: OutputLockingMode?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -664,6 +737,7 @@ extension MediaPackageV2 {
             self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.outputHeaderConfiguration = outputHeaderConfiguration
+            self.outputLockingMode = outputLockingMode
             self.tags = tags
         }
 
@@ -679,11 +753,16 @@ extension MediaPackageV2 {
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
+            case outputLockingMode = "OutputLockingMode"
             case tags = "Tags"
         }
     }
 
     public struct CreateDashManifestConfiguration: AWSEncodableShape {
+        /// How MediaPackage represents the audio timeline in the DASH manifest. This setting applies DASH Segment Duration Patternization, as defined in the MPEG-DASH specification, to audio adaptation sets. When set to PATTERNED, MediaPackage uses a pattern-based segment template for audio, which reduces manifest size by expressing repeating segment durations as a pattern instead of listing each segment individually. When set to NONE, the manifest contains an explicit timeline that lists each audio segment. Valid values: NONE | PATTERNED  For information about audio timeline patterns, see DASH audio timeline pattern in the Elemental MediaPackage v2 User Guide.
+        public let audioTimelinePattern: DashAudioTimelinePattern?
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD). If you don't specify a value, MediaPackage uses the default availability start time of 2024-01-01T00:00:00Z.
+        public let availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration?
         /// The base URLs to use for retrieving segments.
         public let baseUrls: [DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest. For information about compactness, see DASH manifest compactness in the Elemental MediaPackage v2 User Guide.
@@ -715,11 +794,15 @@ extension MediaPackageV2 {
         public let subtitleConfiguration: DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public let suggestedPresentationDelaySeconds: Int?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.mpd). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.mpd). If you don't specify a value, the default is LEAF.
+        public let uriPathType: UriPathType?
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: DashUtcTiming? = nil) {
+        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, utcTiming: DashUtcTiming? = nil) {
+            self.audioTimelinePattern = audioTimelinePattern
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -736,6 +819,7 @@ extension MediaPackageV2 {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.utcTiming = utcTiming
         }
 
@@ -750,6 +834,8 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioTimelinePattern = "AudioTimelinePattern"
+            case availabilityStartTimeConfiguration = "AvailabilityStartTimeConfiguration"
             case baseUrls = "BaseUrls"
             case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
@@ -766,6 +852,7 @@ extension MediaPackageV2 {
             case segmentTemplateFormat = "SegmentTemplateFormat"
             case subtitleConfiguration = "SubtitleConfiguration"
             case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+            case uriPathType = "UriPathType"
             case utcTiming = "UtcTiming"
         }
     }
@@ -934,11 +1021,13 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public let uriPathType: UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
         public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, urlEncodeChildManifest: Bool? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, uriPathType: UriPathType? = nil, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -946,6 +1035,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
@@ -966,6 +1056,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case uriPathType = "UriPathType"
             case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
@@ -982,11 +1073,13 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// The type of path to use in manifest URIs. LEAF uses leaf-relative paths (for example, index_1.m3u8). ROOT uses root-relative paths that include the full path from root (for example, /out/v1/channel-group/channel/endpoint/index_1.m3u8). If you don't specify a value, the default is LEAF.
+        public let uriPathType: UriPathType?
         /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
         public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, urlEncodeChildManifest: Bool? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, uriPathType: UriPathType? = nil, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -994,6 +1087,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
@@ -1014,6 +1108,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case uriPathType = "UriPathType"
             case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
@@ -1078,9 +1173,11 @@ extension MediaPackageV2 {
         public let startoverWindowSeconds: Int?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
+        /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
@@ -1095,6 +1192,7 @@ extension MediaPackageV2 {
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
+            self.uriSeparator = uriSeparator
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1114,6 +1212,7 @@ extension MediaPackageV2 {
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
 
         public func validate(name: String) throws {
@@ -1157,6 +1256,7 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -1195,9 +1295,11 @@ extension MediaPackageV2 {
         public let startoverWindowSeconds: Int?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
+        /// The separator character used in generated URIs for this origin endpoint.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1215,6 +1317,7 @@ extension MediaPackageV2 {
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
+            self.uriSeparator = uriSeparator
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1235,6 +1338,7 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -1892,13 +1996,15 @@ extension MediaPackageV2 {
         public let modifiedAt: Date
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
+        /// The output locking mode configured for the channel. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+        public let outputLockingMode: OutputLockingMode?
         /// The time that the channel was last reset.
         public let resetAt: Date?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, resetAt: Date? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, resetAt: Date? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1910,6 +2016,7 @@ extension MediaPackageV2 {
             self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.outputHeaderConfiguration = outputHeaderConfiguration
+            self.outputLockingMode = outputLockingMode
             self.resetAt = resetAt
             self.tags = tags
         }
@@ -1926,12 +2033,17 @@ extension MediaPackageV2 {
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
+            case outputLockingMode = "OutputLockingMode"
             case resetAt = "ResetAt"
             case tags = "Tags"
         }
     }
 
     public struct GetDashManifestConfiguration: AWSDecodableShape {
+        /// How MediaPackage represents the audio timeline in the DASH manifest, using DASH Segment Duration Patternization for audio adaptation sets. PATTERNED indicates that MediaPackage uses a pattern-based segment template for audio, reducing manifest size. NONE indicates that the manifest contains an explicit timeline for each audio segment.
+        public let audioTimelinePattern: DashAudioTimelinePattern?
+        /// The configuration for the DASH availabilityStartTime attribute of the Media Presentation Description (MPD).
+        public let availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration?
         /// The base URL to use for retrieving segments.
         public let baseUrls: [DashBaseUrl]?
         /// The layout of the DASH manifest that MediaPackage produces. STANDARD indicates a default manifest, which is compacted. NONE indicates a full manifest.
@@ -1963,13 +2075,17 @@ extension MediaPackageV2 {
         public let subtitleConfiguration: DashSubtitleConfiguration?
         /// The amount of time (in seconds) that the player should be from the end of the manifest.
         public let suggestedPresentationDelaySeconds: Int?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public let uriPathType: UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
         /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
         public let utcTiming: DashUtcTiming?
 
         @inlinable
-        public init(baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+        public init(audioTimelinePattern: DashAudioTimelinePattern? = nil, availabilityStartTimeConfiguration: DashAvailabilityStartTimeConfiguration? = nil, baseUrls: [DashBaseUrl]? = nil, compactness: DashCompactness? = nil, drmSignaling: DashDrmSignaling? = nil, dvbSettings: DashDvbSettings? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [DashPeriodTrigger]? = nil, profiles: [DashProfile]? = nil, programInformation: DashProgramInformation? = nil, scteDash: ScteDash? = nil, segmentTemplateFormat: DashSegmentTemplateFormat? = nil, subtitleConfiguration: DashSubtitleConfiguration? = nil, suggestedPresentationDelaySeconds: Int? = nil, uriPathType: UriPathType? = nil, url: String, utcTiming: DashUtcTiming? = nil) {
+            self.audioTimelinePattern = audioTimelinePattern
+            self.availabilityStartTimeConfiguration = availabilityStartTimeConfiguration
             self.baseUrls = baseUrls
             self.compactness = compactness
             self.drmSignaling = drmSignaling
@@ -1986,11 +2102,14 @@ extension MediaPackageV2 {
             self.segmentTemplateFormat = segmentTemplateFormat
             self.subtitleConfiguration = subtitleConfiguration
             self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.uriPathType = uriPathType
             self.url = url
             self.utcTiming = utcTiming
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioTimelinePattern = "AudioTimelinePattern"
+            case availabilityStartTimeConfiguration = "AvailabilityStartTimeConfiguration"
             case baseUrls = "BaseUrls"
             case compactness = "Compactness"
             case drmSignaling = "DrmSignaling"
@@ -2007,6 +2126,7 @@ extension MediaPackageV2 {
             case segmentTemplateFormat = "SegmentTemplateFormat"
             case subtitleConfiguration = "SubtitleConfiguration"
             case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+            case uriPathType = "UriPathType"
             case url = "Url"
             case utcTiming = "UtcTiming"
         }
@@ -2139,13 +2259,15 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public let uriPathType: UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
         /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
         public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, uriPathType: UriPathType? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2153,6 +2275,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2165,6 +2288,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case uriPathType = "UriPathType"
             case url = "Url"
             case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
@@ -2182,13 +2306,15 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// The type of path used in manifest URIs. LEAF indicates leaf-relative paths. ROOT indicates root-relative paths that include the full path from root.
+        public let uriPathType: UriPathType?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
         /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
         public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, uriPathType: UriPathType? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -2196,6 +2322,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.uriPathType = uriPathType
             self.url = url
             self.urlEncodeChildManifest = urlEncodeChildManifest
         }
@@ -2208,6 +2335,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case uriPathType = "UriPathType"
             case url = "Url"
             case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
@@ -2384,9 +2512,11 @@ extension MediaPackageV2 {
         public let startoverWindowSeconds: Int?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
+        /// The separator character used in generated URIs for this origin endpoint.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2405,6 +2535,7 @@ extension MediaPackageV2 {
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
+            self.uriSeparator = uriSeparator
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2426,6 +2557,7 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -3008,9 +3140,11 @@ extension MediaPackageV2 {
         public let mssManifests: [ListMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
+        /// The separator character used in generated URIs for this origin endpoint.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3024,6 +3158,7 @@ extension MediaPackageV2 {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.uriSeparator = uriSeparator
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3040,6 +3175,7 @@ extension MediaPackageV2 {
             case modifiedAt = "ModifiedAt"
             case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -3323,22 +3459,27 @@ extension MediaPackageV2 {
     }
 
     public struct Scte: AWSEncodableShape & AWSDecodableShape {
+        /// A list of additional non-Ad SCTE-35 event types to treat as advertisements. When configured, events matching these types produce ad markers (such as SCTE35-OUT and SCTE35-IN in HLS DATERANGE tags) in manifests. Valid values: PROGRAM | CHAPTER | UNSCHEDULED_EVENT | ALTERNATE_CONTENT_OPPORTUNITY | NETWORK  If you don't specify any values, the default is empty (only default ad types are used).
+        public let customAdTypes: [CustomAdType]?
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public let scteFilter: [ScteFilter]?
-        /// Controls whether SCTE-35 messages are included in segment files.   None – SCTE-35 messages are not included in segments (default)   All – SCTE-35 messages are embedded in segment data    For DASH manifests, when set to All, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
+        /// Controls whether SCTE-35 messages are included in segment files.   None – SCTE-35 messages are not included in segments (default)   All – SCTE-35 messages are embedded in segment data   MatchesFilter – SCTE-35 messages which match the ScteFilter are embedded in segment data    For DASH manifests, when set to All or MatchesFilter, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
         public let scteInSegments: ScteInSegments?
 
         @inlinable
-        public init(scteFilter: [ScteFilter]? = nil, scteInSegments: ScteInSegments? = nil) {
+        public init(customAdTypes: [CustomAdType]? = nil, scteFilter: [ScteFilter]? = nil, scteInSegments: ScteInSegments? = nil) {
+            self.customAdTypes = customAdTypes
             self.scteFilter = scteFilter
             self.scteInSegments = scteInSegments
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.customAdTypes, name: "customAdTypes", parent: name, max: 25)
             try self.validate(self.scteFilter, name: "scteFilter", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customAdTypes = "CustomAdTypes"
             case scteFilter = "ScteFilter"
             case scteInSegments = "ScteInSegments"
         }
@@ -3347,28 +3488,36 @@ extension MediaPackageV2 {
     public struct ScteDash: AWSEncodableShape & AWSDecodableShape {
         /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:    Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.    XML - The SCTE marker is expressed fully in XML.
         public let adMarkerDash: AdMarkerDash?
+        /// Controls which SCTE-35 events appear in DASH manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public let scteInManifests: ScteInManifests?
 
         @inlinable
-        public init(adMarkerDash: AdMarkerDash? = nil) {
+        public init(adMarkerDash: AdMarkerDash? = nil, scteInManifests: ScteInManifests? = nil) {
             self.adMarkerDash = adMarkerDash
+            self.scteInManifests = scteInManifests
         }
 
         private enum CodingKeys: String, CodingKey {
             case adMarkerDash = "AdMarkerDash"
+            case scteInManifests = "ScteInManifests"
         }
     }
 
     public struct ScteHls: AWSEncodableShape & AWSDecodableShape {
         /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:    SCTE35_ENHANCED - Generate industry-standard CUE tag ad markers in HLS manifests based on SCTE-35 input messages from the input stream.   DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see SCTE-35 Ad Marker EXT-X-DATERANGE.
         public let adMarkerHls: AdMarkerHls?
+        /// Controls which SCTE-35 events appear in HLS manifests. ALL includes all non-implicit SCTE-35 events. MATCHES_FILTER includes only events whose type matches the configured ScteFilter. If you don't specify a value, the default is ALL.
+        public let scteInManifests: ScteInManifests?
 
         @inlinable
-        public init(adMarkerHls: AdMarkerHls? = nil) {
+        public init(adMarkerHls: AdMarkerHls? = nil, scteInManifests: ScteInManifests? = nil) {
             self.adMarkerHls = adMarkerHls
+            self.scteInManifests = scteInManifests
         }
 
         private enum CodingKeys: String, CodingKey {
             case adMarkerHls = "AdMarkerHls"
+            case scteInManifests = "ScteInManifests"
         }
     }
 
@@ -3376,6 +3525,8 @@ extension MediaPackageV2 {
         public let encryption: Encryption?
         /// When selected, the stream set includes an additional I-frame only stream, along with the other tracks. If false, this extra stream is not included. MediaPackage generates an I-frame only stream from the first rendition in the manifest. The service inserts EXT-I-FRAMES-ONLY tags in the output manifest, and then generates and includes an I-frames only playlist in the stream. This playlist permits player functionality like fast forward and rewind.
         public let includeIframeOnlyStreams: Bool?
+        /// The output timestamp mode for the origin endpoint's segments. This setting is only configurable on channels with OutputLockingMode set to NON_EPOCH_LOCKED. This value is immutable after endpoint creation. If you don't specify a value, the default is PASSTHROUGH. The allowed values are:    PASSTHROUGH - Output PTS (Presentation Timestamp) values pass through unchanged from the input.    REBASED_TO_CHANNEL_START - Output PTS is rebased relative to the channel start time.
+        public let outputTimestampMode: OutputTimestampMode?
         /// The SCTE configuration options in the segment settings.
         public let scte: Scte?
         /// The duration (in seconds) of each segment. Enter a value equal to, or a multiple of, the input segment duration. If the value that you enter is different from the input segment duration, MediaPackage rounds segments to the nearest multiple of the input segment duration.
@@ -3388,9 +3539,10 @@ extension MediaPackageV2 {
         public let tsUseAudioRenditionGroup: Bool?
 
         @inlinable
-        public init(encryption: Encryption? = nil, includeIframeOnlyStreams: Bool? = nil, scte: Scte? = nil, segmentDurationSeconds: Int? = nil, segmentName: String? = nil, tsIncludeDvbSubtitles: Bool? = nil, tsUseAudioRenditionGroup: Bool? = nil) {
+        public init(encryption: Encryption? = nil, includeIframeOnlyStreams: Bool? = nil, outputTimestampMode: OutputTimestampMode? = nil, scte: Scte? = nil, segmentDurationSeconds: Int? = nil, segmentName: String? = nil, tsIncludeDvbSubtitles: Bool? = nil, tsUseAudioRenditionGroup: Bool? = nil) {
             self.encryption = encryption
             self.includeIframeOnlyStreams = includeIframeOnlyStreams
+            self.outputTimestampMode = outputTimestampMode
             self.scte = scte
             self.segmentDurationSeconds = segmentDurationSeconds
             self.segmentName = segmentName
@@ -3405,6 +3557,7 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case encryption = "Encryption"
             case includeIframeOnlyStreams = "IncludeIframeOnlyStreams"
+            case outputTimestampMode = "OutputTimestampMode"
             case scte = "Scte"
             case segmentDurationSeconds = "SegmentDurationSeconds"
             case segmentName = "SegmentName"
@@ -3414,7 +3567,7 @@ extension MediaPackageV2 {
     }
 
     public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN for the certificate that you imported to AWS Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
+        /// The ARN for the certificate that you imported to Amazon Web Services Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
         public let certificateArn: String?
         /// The DRM solution provider you're using to protect your content during distribution.
         public let drmSystems: [DrmSystem]
@@ -3668,11 +3821,13 @@ extension MediaPackageV2 {
         public let modifiedAt: Date
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
+        /// The output locking mode configured for the channel. This value is immutable after channel creation. The allowed values are:    EPOCH_LOCKED - The channel uses epoch-locked behavior with deterministic sequence numbering and fixed segment boundaries aligned to epoch time.    NON_EPOCH_LOCKED - The channel uses non-epoch-locked behavior with duration-based segment combining and monotonically increasing sequence numbers starting from 0.
+        public let outputLockingMode: OutputLockingMode?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, outputLockingMode: OutputLockingMode? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3684,6 +3839,7 @@ extension MediaPackageV2 {
             self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.outputHeaderConfiguration = outputHeaderConfiguration
+            self.outputLockingMode = outputLockingMode
             self.tags = tags
         }
 
@@ -3699,6 +3855,7 @@ extension MediaPackageV2 {
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
+            case outputLockingMode = "OutputLockingMode"
             case tags = "tags"
         }
     }
@@ -3730,9 +3887,11 @@ extension MediaPackageV2 {
         public let segment: Segment?
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
+        /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
@@ -3746,6 +3905,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.uriSeparator = uriSeparator
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3764,6 +3924,7 @@ extension MediaPackageV2 {
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
 
         public func validate(name: String) throws {
@@ -3805,6 +3966,7 @@ extension MediaPackageV2 {
             case mssManifests = "MssManifests"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -3843,9 +4005,11 @@ extension MediaPackageV2 {
         public let startoverWindowSeconds: Int?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
+        /// The separator character used in generated URIs for this origin endpoint.
+        public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3863,6 +4027,7 @@ extension MediaPackageV2 {
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
+            self.uriSeparator = uriSeparator
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3883,6 +4048,7 @@ extension MediaPackageV2 {
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "tags"
+            case uriSeparator = "UriSeparator"
         }
     }
 
@@ -3900,6 +4066,20 @@ extension MediaPackageV2 {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case validationExceptionType = "ValidationExceptionType"
+        }
+    }
+
+    public struct DashAvailabilityStartTimeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The fixed availability start time for the DASH manifest, in ISO 8601 date-time format. The value must have hourly granularity, meaning that the minutes, seconds, and fractional seconds must be zero. The value must be on or after 2024-01-01T00:00:00Z and must be at least 14 days before the current time.
+        public let fixedAvailabilityStartTime: Date?
+
+        @inlinable
+        public init(fixedAvailabilityStartTime: Date? = nil) {
+            self.fixedAvailabilityStartTime = fixedAvailabilityStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedAvailabilityStartTime = "FixedAvailabilityStartTime"
         }
     }
 }

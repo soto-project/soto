@@ -209,6 +209,62 @@ public struct BedrockAgentCore: AWSService {
         return try await self.completeResourceTokenAuth(input, logger: logger)
     }
 
+    /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configurations to determine which variant performs better.
+    @Sendable
+    @inlinable
+    public func createABTest(_ input: CreateABTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateABTestResponse {
+        try await self.client.execute(
+            operation: "CreateABTest", 
+            path: "/ab-tests", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an A/B test for comparing agent configurations. A/B tests split traffic between a control variant and a treatment variant through a gateway, then evaluate performance using online evaluation configurations to determine which variant performs better.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - description: The description of the A/B test.
+    ///   - enableOnCreate: Whether to enable the A/B test immediately upon creation. If true, traffic splitting begins automatically.
+    ///   - evaluationConfig: The evaluation configuration specifying which online evaluation configurations to use for measuring variant performance.
+    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway to use for traffic splitting.
+    ///   - gatewayFilter: Optional filter to restrict which gateway target paths are included in the A/B test.
+    ///   - name: The name of the A/B test. Must be unique within your account.
+    ///   - roleArn: The IAM role ARN that grants permissions for the A/B test to access gateway and evaluation resources.
+    ///   - tags: A map of tag keys and values to associate with the A/B test.
+    ///   - variants: The list of variants for the A/B test. Must contain exactly two variants: a control (C) and a treatment (T1), each with a configuration bundle or target reference and a traffic weight.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createABTest(
+        clientToken: String? = CreateABTestRequest.idempotencyToken(),
+        description: String? = nil,
+        enableOnCreate: Bool? = nil,
+        evaluationConfig: ABTestEvaluationConfig,
+        gatewayArn: String,
+        gatewayFilter: GatewayFilter? = nil,
+        name: String,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        variants: [Variant],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateABTestResponse {
+        let input = CreateABTestRequest(
+            clientToken: clientToken, 
+            description: description, 
+            enableOnCreate: enableOnCreate, 
+            evaluationConfig: evaluationConfig, 
+            gatewayArn: gatewayArn, 
+            gatewayFilter: gatewayFilter, 
+            name: name, 
+            roleArn: roleArn, 
+            tags: tags, 
+            variants: variants
+        )
+        return try await self.createABTest(input, logger: logger)
+    }
+
     /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     @Sendable
     @inlinable
@@ -229,6 +285,7 @@ public struct BedrockAgentCore: AWSService {
     ///   - branch: The branch information for this event. Branches allow for organizing events into different conversation threads or paths.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, AgentCore ignores the request, but does not return an error.
     ///   - eventTimestamp: The timestamp when the event occurred. If not specified, the current time is used.
+    ///   - extractionMode: Controls long-term memory extraction for this event. When set to SKIP, the event is stored in short-term memory but is excluded from long-term memory extraction. If not specified, the event is processed for extraction as usual.
     ///   - memoryId: The identifier of the AgentCore Memory resource in which to create the event.
     ///   - metadata: The key-value metadata to attach to the event.
     ///   - payload: The content payload of the event. This can include conversational data or binary content.
@@ -240,6 +297,7 @@ public struct BedrockAgentCore: AWSService {
         branch: Branch? = nil,
         clientToken: String? = CreateEventInput.idempotencyToken(),
         eventTimestamp: Date,
+        extractionMode: ExtractionMode? = nil,
         memoryId: String,
         metadata: [String: MetadataValue]? = nil,
         payload: [PayloadType],
@@ -251,12 +309,162 @@ public struct BedrockAgentCore: AWSService {
             branch: branch, 
             clientToken: clientToken, 
             eventTimestamp: eventTimestamp, 
+            extractionMode: extractionMode, 
             memoryId: memoryId, 
             metadata: metadata, 
             payload: payload, 
             sessionId: sessionId
         )
         return try await self.createEvent(input, logger: logger)
+    }
+
+    /// Create a new payment instrument for a connector.
+    @Sendable
+    @inlinable
+    public func createPaymentInstrument(_ input: CreatePaymentInstrumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePaymentInstrumentResponse {
+        try await self.client.execute(
+            operation: "CreatePaymentInstrument", 
+            path: "/payments/createPaymentInstrument", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a new payment instrument for a connector.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - paymentConnectorId: The ID of the payment connector to use for this instrument.
+    ///   - paymentInstrumentDetails: The details of the payment instrument.
+    ///   - paymentInstrumentType: The type of payment instrument being created.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns this payment instrument.
+    ///   - userId: The user ID associated with this payment instrument.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPaymentInstrument(
+        agentName: String? = nil,
+        clientToken: String? = CreatePaymentInstrumentRequest.idempotencyToken(),
+        paymentConnectorId: String,
+        paymentInstrumentDetails: PaymentInstrumentDetails,
+        paymentInstrumentType: PaymentInstrumentType,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePaymentInstrumentResponse {
+        let input = CreatePaymentInstrumentRequest(
+            agentName: agentName, 
+            clientToken: clientToken, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentInstrumentDetails: paymentInstrumentDetails, 
+            paymentInstrumentType: paymentInstrumentType, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.createPaymentInstrument(input, logger: logger)
+    }
+
+    /// Create a new payment session.
+    @Sendable
+    @inlinable
+    public func createPaymentSession(_ input: CreatePaymentSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePaymentSessionResponse {
+        try await self.client.execute(
+            operation: "CreatePaymentSession", 
+            path: "/payments/createPaymentSession", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create a new payment session.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - expiryTimeInMinutes: The session expiry time in minutes. Must be between 15 and 480 minutes.
+    ///   - limits: The spending limits for this payment session.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns this session.
+    ///   - userId: The user ID associated with this payment session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPaymentSession(
+        agentName: String? = nil,
+        clientToken: String? = CreatePaymentSessionRequest.idempotencyToken(),
+        expiryTimeInMinutes: Int,
+        limits: SessionLimits? = nil,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePaymentSessionResponse {
+        let input = CreatePaymentSessionRequest(
+            agentName: agentName, 
+            clientToken: clientToken, 
+            expiryTimeInMinutes: expiryTimeInMinutes, 
+            limits: limits, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.createPaymentSession(input, logger: logger)
+    }
+
+    /// Deletes an A/B test and its associated gateway rules.
+    @Sendable
+    @inlinable
+    public func deleteABTest(_ input: DeleteABTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteABTestResponse {
+        try await self.client.execute(
+            operation: "DeleteABTest", 
+            path: "/ab-tests/{abTestId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an A/B test and its associated gateway rules.
+    ///
+    /// Parameters:
+    ///   - abTestId: The unique identifier of the A/B test to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteABTest(
+        abTestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteABTestResponse {
+        let input = DeleteABTestRequest(
+            abTestId: abTestId
+        )
+        return try await self.deleteABTest(input, logger: logger)
+    }
+
+    /// Deletes a batch evaluation and its associated results.
+    @Sendable
+    @inlinable
+    public func deleteBatchEvaluation(_ input: DeleteBatchEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBatchEvaluationResponse {
+        try await self.client.execute(
+            operation: "DeleteBatchEvaluation", 
+            path: "/evaluations/batch-evaluate/{batchEvaluationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a batch evaluation and its associated results.
+    ///
+    /// Parameters:
+    ///   - batchEvaluationId: The unique identifier of the batch evaluation to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBatchEvaluation(
+        batchEvaluationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBatchEvaluationResponse {
+        let input = DeleteBatchEvaluationRequest(
+            batchEvaluationId: batchEvaluationId
+        )
+        return try await self.deleteBatchEvaluation(input, logger: logger)
     }
 
     /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
@@ -329,6 +537,108 @@ public struct BedrockAgentCore: AWSService {
         return try await self.deleteMemoryRecord(input, logger: logger)
     }
 
+    /// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes.
+    @Sendable
+    @inlinable
+    public func deletePaymentInstrument(_ input: DeletePaymentInstrumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePaymentInstrumentResponse {
+        try await self.client.execute(
+            operation: "DeletePaymentInstrument", 
+            path: "/payments/deletePaymentInstrument", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a payment instrument. This is a soft delete operation that preserves the record for audit and compliance purposes.
+    ///
+    /// Parameters:
+    ///   - paymentConnectorId: The payment connector ID. Must match the instrument's paymentConnectorId.
+    ///   - paymentInstrumentId: The payment instrument ID to delete.
+    ///   - paymentManagerArn: The payment manager ARN. Must match the instrument's paymentManagerArn.
+    ///   - userId: The user ID making the delete request. Must match the instrument's userId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePaymentInstrument(
+        paymentConnectorId: String,
+        paymentInstrumentId: String,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePaymentInstrumentResponse {
+        let input = DeletePaymentInstrumentRequest(
+            paymentConnectorId: paymentConnectorId, 
+            paymentInstrumentId: paymentInstrumentId, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.deletePaymentInstrument(input, logger: logger)
+    }
+
+    /// Deletes a payment session. This permanently removes the payment session record.
+    @Sendable
+    @inlinable
+    public func deletePaymentSession(_ input: DeletePaymentSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePaymentSessionResponse {
+        try await self.client.execute(
+            operation: "DeletePaymentSession", 
+            path: "/payments/deletePaymentSession", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a payment session. This permanently removes the payment session record.
+    ///
+    /// Parameters:
+    ///   - paymentManagerArn: The payment manager ARN. Must match the session's paymentManagerArn.
+    ///   - paymentSessionId: The payment session ID to delete.
+    ///   - userId: The user ID making the delete request. Must match the session's userId.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePaymentSession(
+        paymentManagerArn: String,
+        paymentSessionId: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePaymentSessionResponse {
+        let input = DeletePaymentSessionRequest(
+            paymentManagerArn: paymentManagerArn, 
+            paymentSessionId: paymentSessionId, 
+            userId: userId
+        )
+        return try await self.deletePaymentSession(input, logger: logger)
+    }
+
+    /// Deletes a recommendation and its associated results.
+    @Sendable
+    @inlinable
+    public func deleteRecommendation(_ input: DeleteRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecommendationResponse {
+        try await self.client.execute(
+            operation: "DeleteRecommendation", 
+            path: "/recommendations/{recommendationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a recommendation and its associated results.
+    ///
+    /// Parameters:
+    ///   - recommendationId: The unique identifier of the recommendation to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecommendation(
+        recommendationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecommendationResponse {
+        let input = DeleteRecommendationRequest(
+            recommendationId: recommendationId
+        )
+        return try await self.deleteRecommendation(input, logger: logger)
+    }
+
     ///  Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
     @Sendable
     @inlinable
@@ -346,22 +656,54 @@ public struct BedrockAgentCore: AWSService {
     ///
     /// Parameters:
     ///   - evaluationInput:  The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
+    ///   - evaluationReferenceInputs:  Ground truth data to compare against agent responses during evaluation. Allows to provide expected responses, assertions, and expected tool trajectories at different evaluation levels. Session-level reference inputs apply to the entire conversation, while trace-level reference inputs target specific request-response interactions identified by trace ID.
     ///   - evaluationTarget:  The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
-    ///   - evaluatorId:  The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
+    ///   - evaluatorId:  The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator Id created through the control plane API.
     ///   - logger: Logger use during operation
     @inlinable
     public func evaluate(
         evaluationInput: EvaluationInput,
+        evaluationReferenceInputs: [EvaluationReferenceInput]? = nil,
         evaluationTarget: EvaluationTarget? = nil,
         evaluatorId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> EvaluateResponse {
         let input = EvaluateRequest(
             evaluationInput: evaluationInput, 
+            evaluationReferenceInputs: evaluationReferenceInputs, 
             evaluationTarget: evaluationTarget, 
             evaluatorId: evaluatorId
         )
         return try await self.evaluate(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about an A/B test, including its configuration, status, and statistical results.
+    @Sendable
+    @inlinable
+    public func getABTest(_ input: GetABTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetABTestResponse {
+        try await self.client.execute(
+            operation: "GetABTest", 
+            path: "/ab-tests/{abTestId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about an A/B test, including its configuration, status, and statistical results.
+    ///
+    /// Parameters:
+    ///   - abTestId: The unique identifier of the A/B test to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getABTest(
+        abTestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetABTestResponse {
+        let input = GetABTestRequest(
+            abTestId: abTestId
+        )
+        return try await self.getABTest(input, logger: logger)
     }
 
     /// Retrieves the A2A agent card associated with an AgentCore Runtime agent.
@@ -397,6 +739,35 @@ public struct BedrockAgentCore: AWSService {
             runtimeSessionId: runtimeSessionId
         )
         return try await self.getAgentCard(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a batch evaluation, including its status, configuration, results, and any error details.
+    @Sendable
+    @inlinable
+    public func getBatchEvaluation(_ input: GetBatchEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBatchEvaluationResponse {
+        try await self.client.execute(
+            operation: "GetBatchEvaluation", 
+            path: "/evaluations/batch-evaluate/{batchEvaluationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a batch evaluation, including its status, configuration, results, and any error details.
+    ///
+    /// Parameters:
+    ///   - batchEvaluationId: The unique identifier of the batch evaluation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBatchEvaluation(
+        batchEvaluationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBatchEvaluationResponse {
+        let input = GetBatchEvaluationRequest(
+            batchEvaluationId: batchEvaluationId
+        )
+        return try await self.getBatchEvaluation(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
@@ -533,6 +904,161 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getMemoryRecord(input, logger: logger)
     }
 
+    /// Get a payment instrument by ID.
+    @Sendable
+    @inlinable
+    public func getPaymentInstrument(_ input: GetPaymentInstrumentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentInstrumentResponse {
+        try await self.client.execute(
+            operation: "GetPaymentInstrument", 
+            path: "/payments/getPaymentInstrument", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a payment instrument by ID.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - paymentConnectorId: The ID of the payment connector.
+    ///   - paymentInstrumentId: The ID of the payment instrument to retrieve.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns this payment instrument.
+    ///   - userId: The user ID associated with this payment instrument.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentInstrument(
+        agentName: String? = nil,
+        paymentConnectorId: String? = nil,
+        paymentInstrumentId: String,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentInstrumentResponse {
+        let input = GetPaymentInstrumentRequest(
+            agentName: agentName, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentInstrumentId: paymentInstrumentId, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.getPaymentInstrument(input, logger: logger)
+    }
+
+    /// Get the balance of a payment instrument.
+    @Sendable
+    @inlinable
+    public func getPaymentInstrumentBalance(_ input: GetPaymentInstrumentBalanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentInstrumentBalanceResponse {
+        try await self.client.execute(
+            operation: "GetPaymentInstrumentBalance", 
+            path: "/payments/getPaymentInstrumentBalance", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the balance of a payment instrument.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - chain: The specific blockchain chain to query balance on. Required because balances are chain-specific.
+    ///   - paymentConnectorId: The ID of the payment connector associated with this instrument.
+    ///   - paymentInstrumentId: The ID of the payment instrument to query balance for.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns this payment instrument.
+    ///   - token: The token to query balance for. Only tokens supported for X402 payments are returned.
+    ///   - userId: The user ID associated with this payment instrument.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentInstrumentBalance(
+        agentName: String? = nil,
+        chain: BlockchainChainId,
+        paymentConnectorId: String,
+        paymentInstrumentId: String,
+        paymentManagerArn: String,
+        token: InstrumentBalanceToken,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentInstrumentBalanceResponse {
+        let input = GetPaymentInstrumentBalanceRequest(
+            agentName: agentName, 
+            chain: chain, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentInstrumentId: paymentInstrumentId, 
+            paymentManagerArn: paymentManagerArn, 
+            token: token, 
+            userId: userId
+        )
+        return try await self.getPaymentInstrumentBalance(input, logger: logger)
+    }
+
+    /// Get a payment session.
+    @Sendable
+    @inlinable
+    public func getPaymentSession(_ input: GetPaymentSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPaymentSessionResponse {
+        try await self.client.execute(
+            operation: "GetPaymentSession", 
+            path: "/payments/getPaymentSession", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get a payment session.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns this session.
+    ///   - paymentSessionId: The ID of the payment session to retrieve.
+    ///   - userId: The user ID associated with this payment session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPaymentSession(
+        agentName: String? = nil,
+        paymentManagerArn: String,
+        paymentSessionId: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPaymentSessionResponse {
+        let input = GetPaymentSessionRequest(
+            agentName: agentName, 
+            paymentManagerArn: paymentManagerArn, 
+            paymentSessionId: paymentSessionId, 
+            userId: userId
+        )
+        return try await self.getPaymentSession(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a recommendation, including its configuration, status, and results.
+    @Sendable
+    @inlinable
+    public func getRecommendation(_ input: GetRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationResponse {
+        try await self.client.execute(
+            operation: "GetRecommendation", 
+            path: "/recommendations/{recommendationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a recommendation, including its configuration, status, and results.
+    ///
+    /// Parameters:
+    ///   - recommendationId: The unique identifier of the recommendation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecommendation(
+        recommendationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecommendationResponse {
+        let input = GetRecommendationRequest(
+            recommendationId: recommendationId
+        )
+        return try await self.getRecommendation(input, logger: logger)
+    }
+
     /// Retrieves the API key associated with an API key credential provider.
     @Sendable
     @inlinable
@@ -581,41 +1107,82 @@ public struct BedrockAgentCore: AWSService {
     /// Returns the OAuth 2.0 token of the provided resource.
     ///
     /// Parameters:
+    ///   - audiences: The audiences to include in the token request. These are used to specify the intended recipients of the OAuth2 token.
     ///   - customParameters: A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them.
     ///   - customState: An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request.
     ///   - forceAuthentication: Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
     ///   - oauth2Flow: The type of flow to be performed.
     ///   - resourceCredentialProviderName: The name of the resource's credential provider.
     ///   - resourceOauth2ReturnUrl: The callback URL to redirect to after the OAuth 2.0 token retrieval is complete. This URL must be one of the provided URLs configured for the workload identity.
+    ///   - resources: The resources to include in the token request. These are used to specify the target resources for which the OAuth2 token is being requested.
     ///   - scopes: The OAuth scopes being requested.
     ///   - sessionUri: Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
     ///   - workloadIdentityToken: The identity token of the workload from which you want to retrieve the OAuth2 token.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceOauth2Token(
+        audiences: [String]? = nil,
         customParameters: [String: String]? = nil,
         customState: String? = nil,
         forceAuthentication: Bool? = nil,
         oauth2Flow: Oauth2FlowType,
         resourceCredentialProviderName: String,
         resourceOauth2ReturnUrl: String? = nil,
+        resources: [String]? = nil,
         scopes: [String],
         sessionUri: String? = nil,
         workloadIdentityToken: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetResourceOauth2TokenResponse {
         let input = GetResourceOauth2TokenRequest(
+            audiences: audiences, 
             customParameters: customParameters, 
             customState: customState, 
             forceAuthentication: forceAuthentication, 
             oauth2Flow: oauth2Flow, 
             resourceCredentialProviderName: resourceCredentialProviderName, 
             resourceOauth2ReturnUrl: resourceOauth2ReturnUrl, 
+            resources: resources, 
             scopes: scopes, 
             sessionUri: sessionUri, 
             workloadIdentityToken: workloadIdentityToken
         )
         return try await self.getResourceOauth2Token(input, logger: logger)
+    }
+
+    /// Generates authentication tokens for payment providers that use vendor-specific authentication mechanisms.
+    @Sendable
+    @inlinable
+    public func getResourcePaymentToken(_ input: GetResourcePaymentTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePaymentTokenResponse {
+        try await self.client.execute(
+            operation: "GetResourcePaymentToken", 
+            path: "/identities/payment/token", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates authentication tokens for payment providers that use vendor-specific authentication mechanisms.
+    ///
+    /// Parameters:
+    ///   - paymentTokenRequest: Vendor-specific token request input. Contains all request parameters in a type-safe, vendor-specific structure.
+    ///   - resourceCredentialProviderName: Name of the payment credential provider to use.
+    ///   - workloadIdentityToken: Workload access token for authorization.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePaymentToken(
+        paymentTokenRequest: PaymentTokenRequestInput,
+        resourceCredentialProviderName: String,
+        workloadIdentityToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePaymentTokenResponse {
+        let input = GetResourcePaymentTokenRequest(
+            paymentTokenRequest: paymentTokenRequest, 
+            resourceCredentialProviderName: resourceCredentialProviderName, 
+            workloadIdentityToken: workloadIdentityToken
+        )
+        return try await self.getResourcePaymentToken(input, logger: logger)
     }
 
     /// Obtains a workload access token for agentic workloads not acting on behalf of a user.
@@ -711,7 +1278,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getWorkloadAccessTokenForUserId(input, logger: logger)
     }
 
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     @Sendable
     @inlinable
     public func invokeAgentRuntime(_ input: InvokeAgentRuntimeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentRuntimeResponse {
@@ -724,18 +1291,20 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time.  To invoke an agent, you can specify either the AgentCore Runtime ARN or the agent ID with an account ID, and provide a payload containing your request. When you use the agent ID instead of the full ARN, you don't need to URL-encode the identifier. You can optionally specify a qualifier to target a specific endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see Invoke an AgentCore Runtime agent.  If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see Authenticate and authorize with Inbound Auth and Outbound Auth. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     ///
     /// Parameters:
     ///   - accept: The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
-    ///   - accountId: The identifier of the Amazon Web Services account for the agent runtime resource.
-    ///   - agentRuntimeArn: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock AgentCore.
+    ///   - accountId: The identifier of the Amazon Web Services account for the agent runtime resource. This parameter is required when you specify an agent ID instead of the full ARN for agentRuntimeArn.
+    ///   - agentRuntimeArn: The identifier of the agent runtime to invoke. You can specify either the full Amazon Web Services Resource Name (ARN) or the agent ID. If you use the agent ID, you must also provide the accountId query parameter.
     ///   - baggage: Additional context information for distributed tracing.
     ///   - contentType: The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
+    ///   - mcpMethod: The MCP method being invoked. For example, tools/call, resources/read, or prompts/get.
+    ///   - mcpName: The name of the MCP resource, tool, or prompt being accessed. The value depends on the method:    tools/call – The tool name.    resources/read – The resource URI.    prompts/get – The prompt name.
     ///   - mcpProtocolVersion: The version of the MCP protocol being used.
     ///   - mcpSessionId: The identifier of the MCP session.
     ///   - payload: The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
-    ///   - qualifier: The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default version of the agent runtime.
+    ///   - qualifier: The qualifier to use for the agent runtime. This is an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default endpoint of the agent runtime.
     ///   - runtimeSessionId: The identifier of the runtime session.
     ///   - runtimeUserId: The identifier of the runtime user.
     ///   - traceId: The trace identifier for request tracking.
@@ -749,6 +1318,8 @@ public struct BedrockAgentCore: AWSService {
         agentRuntimeArn: String,
         baggage: String? = nil,
         contentType: String? = nil,
+        mcpMethod: String? = nil,
+        mcpName: String? = nil,
         mcpProtocolVersion: String? = nil,
         mcpSessionId: String? = nil,
         payload: AWSHTTPBody,
@@ -766,6 +1337,8 @@ public struct BedrockAgentCore: AWSService {
             agentRuntimeArn: agentRuntimeArn, 
             baggage: baggage, 
             contentType: contentType, 
+            mcpMethod: mcpMethod, 
+            mcpName: mcpName, 
             mcpProtocolVersion: mcpProtocolVersion, 
             mcpSessionId: mcpSessionId, 
             payload: payload, 
@@ -777,6 +1350,100 @@ public struct BedrockAgentCore: AWSService {
             traceState: traceState
         )
         return try await self.invokeAgentRuntime(input, logger: logger)
+    }
+
+    /// Executes a command in a runtime session container and streams the output back to the caller. This operation allows you to run shell commands within the agent runtime environment and receive real-time streaming responses including standard output and standard error. To invoke a command, you must specify the agent runtime ARN and a runtime session ID. The command execution supports streaming responses, allowing you to receive output as it becomes available through contentStart, contentDelta, and contentStop events. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntimeCommand permission.
+    @Sendable
+    @inlinable
+    public func invokeAgentRuntimeCommand(_ input: InvokeAgentRuntimeCommandRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentRuntimeCommandResponse {
+        try await self.client.execute(
+            operation: "InvokeAgentRuntimeCommand", 
+            path: "/runtimes/{agentRuntimeArn}/commands", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Executes a command in a runtime session container and streams the output back to the caller. This operation allows you to run shell commands within the agent runtime environment and receive real-time streaming responses including standard output and standard error. To invoke a command, you must specify the agent runtime ARN and a runtime session ID. The command execution supports streaming responses, allowing you to receive output as it becomes available through contentStart, contentDelta, and contentStop events. To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntimeCommand permission.
+    ///
+    /// Parameters:
+    ///   - accept: The desired MIME type for the response from the agent runtime command. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
+    ///   - accountId: The identifier of the Amazon Web Services account for the agent runtime resource. This parameter is required when you specify an agent ID instead of the full ARN for agentRuntimeArn.
+    ///   - agentRuntimeArn: The Amazon Resource Name (ARN) of the agent runtime on which to execute the command. This identifies the specific agent runtime environment where the command will run.
+    ///   - baggage: Additional context information for distributed tracing.
+    ///   - body: The request body containing the command to execute and optional configuration parameters such as timeout settings.
+    ///   - contentType: The MIME type of the input data in the request payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
+    ///   - qualifier: The qualifier to use for the agent runtime. This is an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default endpoint of the agent runtime.
+    ///   - runtimeSessionId: The unique identifier of the runtime session in which to execute the command. This session ID is used to maintain state and context across multiple command invocations.
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
+    ///   - traceState: The trace state information for distributed tracing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeAgentRuntimeCommand(
+        accept: String? = nil,
+        accountId: String? = nil,
+        agentRuntimeArn: String,
+        baggage: String? = nil,
+        body: InvokeAgentRuntimeCommandRequestBody,
+        contentType: String? = nil,
+        qualifier: String? = nil,
+        runtimeSessionId: String? = InvokeAgentRuntimeCommandRequest.idempotencyToken(),
+        traceId: String? = nil,
+        traceParent: String? = nil,
+        traceState: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeAgentRuntimeCommandResponse {
+        let input = InvokeAgentRuntimeCommandRequest(
+            accept: accept, 
+            accountId: accountId, 
+            agentRuntimeArn: agentRuntimeArn, 
+            baggage: baggage, 
+            body: body, 
+            contentType: contentType, 
+            qualifier: qualifier, 
+            runtimeSessionId: runtimeSessionId, 
+            traceId: traceId, 
+            traceParent: traceParent, 
+            traceState: traceState
+        )
+        return try await self.invokeAgentRuntimeCommand(input, logger: logger)
+    }
+
+    /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screenshots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle — such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult union. The following operations are related to InvokeBrowser:    StartBrowserSession     GetBrowserSession     StopBrowserSession
+    @Sendable
+    @inlinable
+    public func invokeBrowser(_ input: InvokeBrowserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeBrowserResponse {
+        try await self.client.execute(
+            operation: "InvokeBrowser", 
+            path: "/browsers/{browserIdentifier}/sessions/invoke", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Invokes an operating system-level action on a browser session in Amazon Bedrock AgentCore. This operation provides direct OS-level control over browser sessions, enabling mouse actions, keyboard input, and screenshots that the WebSocket-based Chrome DevTools Protocol (CDP) cannot handle — such as interacting with print dialogs, context menus, and JavaScript alerts. You send a request with exactly one action in the BrowserAction union, and receive a corresponding result in the BrowserActionResult union. The following operations are related to InvokeBrowser:    StartBrowserSession     GetBrowserSession     StopBrowserSession
+    ///
+    /// Parameters:
+    ///   - action: The browser action to perform. Exactly one member of the BrowserAction union must be set per request.
+    ///   - browserIdentifier: The unique identifier of the browser associated with the session. This must match the identifier used when creating the session with StartBrowserSession.
+    ///   - sessionId: The unique identifier of the browser session on which to perform the action. This must be an active session created with StartBrowserSession.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeBrowser(
+        action: BrowserAction,
+        browserIdentifier: String,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeBrowserResponse {
+        let input = InvokeBrowserRequest(
+            action: action, 
+            browserIdentifier: browserIdentifier, 
+            sessionId: sessionId
+        )
+        return try await self.invokeBrowser(input, logger: logger)
     }
 
     /// Executes code within an active code interpreter session in Amazon Bedrock AgentCore. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:    StartCodeInterpreterSession     GetCodeInterpreterSession
@@ -823,6 +1490,118 @@ public struct BedrockAgentCore: AWSService {
         return try await self.invokeCodeInterpreter(input, logger: logger)
     }
 
+    /// Operation to invoke a Harness.
+    @Sendable
+    @inlinable
+    public func invokeHarness(_ input: InvokeHarnessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeHarnessResponse {
+        try await self.client.execute(
+            operation: "InvokeHarness", 
+            path: "/harnesses/invoke", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Operation to invoke a Harness.
+    ///
+    /// Parameters:
+    ///   - actorId: The actor ID for memory operations. Overrides the actor ID configured on the harness.
+    ///   - allowedTools: The tools that the agent is allowed to use for this invocation. If specified, overrides the harness default.
+    ///   - baggage: W3C Baggage header for user-defined context propagation. Format: key1=value1,key2=value2
+    ///   - harnessArn: The ARN of the harness to invoke.
+    ///   - maxIterations: The maximum number of iterations the agent loop can execute. If specified, overrides the harness default.
+    ///   - maxTokens: The maximum number of tokens the agent can generate per iteration. If specified, overrides the harness default.
+    ///   - messages: The messages to send to the agent.
+    ///   - model: The model configuration to use for this invocation. If specified, overrides the harness default.
+    ///   - qualifier: The endpoint name to invoke. If omitted, the DEFAULT endpoint is used.
+    ///   - runtimeSessionId: The session ID for the invocation. Use the same session ID across requests to continue a conversation.
+    ///   - runtimeUserId: An identifier for the end user making the request. This value is passed through to the runtime container.
+    ///   - skills: The skills available to the agent for this invocation. If specified, overrides the harness default.
+    ///   - systemPrompt: The system prompt to use for this invocation. If specified, overrides the harness default.
+    ///   - timeoutSeconds: The maximum duration in seconds for the agent loop execution. If specified, overrides the harness default.
+    ///   - tools: The tools available to the agent for this invocation. If specified, overrides the harness default.
+    ///   - traceId: Trace ID for maintaining observability through the operation.
+    ///   - traceParent: W3C trace context parent header containing version, trace ID, parent span ID, and trace flags.
+    ///   - traceState: W3C trace context state header for vendor-specific trace information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeHarness(
+        actorId: String? = nil,
+        allowedTools: [String]? = nil,
+        baggage: String? = nil,
+        harnessArn: String,
+        maxIterations: Int? = nil,
+        maxTokens: Int? = nil,
+        messages: [HarnessMessage],
+        model: HarnessModelConfiguration? = nil,
+        qualifier: String? = nil,
+        runtimeSessionId: String,
+        runtimeUserId: String? = nil,
+        skills: [HarnessSkill]? = nil,
+        systemPrompt: [HarnessSystemContentBlock]? = nil,
+        timeoutSeconds: Int? = nil,
+        tools: [HarnessTool]? = nil,
+        traceId: String? = nil,
+        traceParent: String? = nil,
+        traceState: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeHarnessResponse {
+        let input = InvokeHarnessRequest(
+            actorId: actorId, 
+            allowedTools: allowedTools, 
+            baggage: baggage, 
+            harnessArn: harnessArn, 
+            maxIterations: maxIterations, 
+            maxTokens: maxTokens, 
+            messages: messages, 
+            model: model, 
+            qualifier: qualifier, 
+            runtimeSessionId: runtimeSessionId, 
+            runtimeUserId: runtimeUserId, 
+            skills: skills, 
+            systemPrompt: systemPrompt, 
+            timeoutSeconds: timeoutSeconds, 
+            tools: tools, 
+            traceId: traceId, 
+            traceParent: traceParent, 
+            traceState: traceState
+        )
+        return try await self.invokeHarness(input, logger: logger)
+    }
+
+    /// Lists all A/B tests in the account.
+    @Sendable
+    @inlinable
+    public func listABTests(_ input: ListABTestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListABTestsResponse {
+        try await self.client.execute(
+            operation: "ListABTests", 
+            path: "/ab-tests", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all A/B tests in the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listABTests(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListABTestsResponse {
+        let input = ListABTestsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listABTests(input, logger: logger)
+    }
+
     /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     @Sendable
     @inlinable
@@ -856,6 +1635,38 @@ public struct BedrockAgentCore: AWSService {
             nextToken: nextToken
         )
         return try await self.listActors(input, logger: logger)
+    }
+
+    /// Lists all batch evaluations in the account, providing summary information about each evaluation's status and configuration.
+    @Sendable
+    @inlinable
+    public func listBatchEvaluations(_ input: ListBatchEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBatchEvaluationsResponse {
+        try await self.client.execute(
+            operation: "ListBatchEvaluations", 
+            path: "/evaluations/batch-evaluate", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all batch evaluations in the account, providing summary information about each evaluation's status and configuration.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBatchEvaluations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBatchEvaluationsResponse {
+        let input = ListBatchEvaluationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBatchEvaluations(input, logger: logger)
     }
 
     /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:    StartBrowserSession     GetBrowserSession
@@ -1038,7 +1849,9 @@ public struct BedrockAgentCore: AWSService {
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
-    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
+    ///   - metadataFilters: A list of metadata filter expressions to scope the returned memory records.
+    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1046,7 +1859,9 @@ public struct BedrockAgentCore: AWSService {
         maxResults: Int? = nil,
         memoryId: String,
         memoryStrategyId: String? = nil,
-        namespace: String,
+        metadataFilters: [MemoryMetadataFilterExpression]? = nil,
+        namespace: String? = nil,
+        namespacePath: String? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListMemoryRecordsOutput {
@@ -1054,13 +1869,135 @@ public struct BedrockAgentCore: AWSService {
             maxResults: maxResults, 
             memoryId: memoryId, 
             memoryStrategyId: memoryStrategyId, 
+            metadataFilters: metadataFilters, 
             namespace: namespace, 
+            namespacePath: namespacePath, 
             nextToken: nextToken
         )
         return try await self.listMemoryRecords(input, logger: logger)
     }
 
-    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
+    /// List payment instruments for a manager.
+    @Sendable
+    @inlinable
+    public func listPaymentInstruments(_ input: ListPaymentInstrumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPaymentInstrumentsResponse {
+        try await self.client.execute(
+            operation: "ListPaymentInstruments", 
+            path: "/payments/listPaymentInstruments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List payment instruments for a manager.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - maxResults: Maximum number of results to return in a single response.
+    ///   - nextToken: Token for pagination to retrieve the next set of results.
+    ///   - paymentConnectorId: The ID of the payment connector to filter by.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns the payment instruments.
+    ///   - userId: The user ID associated with the payment instruments.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPaymentInstruments(
+        agentName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        paymentConnectorId: String? = nil,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPaymentInstrumentsResponse {
+        let input = ListPaymentInstrumentsRequest(
+            agentName: agentName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.listPaymentInstruments(input, logger: logger)
+    }
+
+    /// List payment sessions.
+    @Sendable
+    @inlinable
+    public func listPaymentSessions(_ input: ListPaymentSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPaymentSessionsResponse {
+        try await self.client.execute(
+            operation: "ListPaymentSessions", 
+            path: "/payments/listPaymentSessions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List payment sessions.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - maxResults: Maximum number of results to return in a single response.
+    ///   - nextToken: Token for pagination to retrieve the next set of results.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns the sessions.
+    ///   - userId: The user ID associated with the payment sessions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPaymentSessions(
+        agentName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPaymentSessionsResponse {
+        let input = ListPaymentSessionsRequest(
+            agentName: agentName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return try await self.listPaymentSessions(input, logger: logger)
+    }
+
+    /// Lists all recommendations in the account, with optional filtering by status.
+    @Sendable
+    @inlinable
+    public func listRecommendations(_ input: ListRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendationsResponse {
+        try await self.client.execute(
+            operation: "ListRecommendations", 
+            path: "/recommendations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all recommendations in the account, with optional filtering by status.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - statusFilter: Optional filter to return only recommendations with the specified status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommendations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        statusFilter: RecommendationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommendationsResponse {
+        let input = ListRecommendationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            statusFilter: statusFilter
+        )
+        return try await self.listRecommendations(input, logger: logger)
+    }
+
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     @Sendable
     @inlinable
     public func listSessions(_ input: ListSessionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsOutput {
@@ -1073,10 +2010,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. Empty sessions are automatically deleted after one day. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
     /// Parameters:
     ///   - actorId: The identifier of the actor for which to list sessions.
+    ///   - filter: Filter criteria to apply when listing sessions.
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -1084,6 +2022,7 @@ public struct BedrockAgentCore: AWSService {
     @inlinable
     public func listSessions(
         actorId: String,
+        filter: SessionFilter? = nil,
         maxResults: Int? = nil,
         memoryId: String,
         nextToken: String? = nil,
@@ -1091,11 +2030,62 @@ public struct BedrockAgentCore: AWSService {
     ) async throws -> ListSessionsOutput {
         let input = ListSessionsInput(
             actorId: actorId, 
+            filter: filter, 
             maxResults: maxResults, 
             memoryId: memoryId, 
             nextToken: nextToken
         )
         return try await self.listSessions(input, logger: logger)
+    }
+
+    /// Processes a payment using a payment instrument within a payment session.
+    @Sendable
+    @inlinable
+    public func processPayment(_ input: ProcessPaymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProcessPaymentResponse {
+        try await self.client.execute(
+            operation: "ProcessPayment", 
+            path: "/payments/processPayment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Processes a payment using a payment instrument within a payment session.
+    ///
+    /// Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - paymentInput: The payment input details specific to the payment type.
+    ///   - paymentInstrumentId: The ID of the payment instrument to use.
+    ///   - paymentManagerArn: The ARN of the payment manager.
+    ///   - paymentSessionId: The ID of the payment session.
+    ///   - paymentType: The type of payment to process.
+    ///   - userId: The user ID associated with this payment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func processPayment(
+        agentName: String? = nil,
+        clientToken: String? = ProcessPaymentRequest.idempotencyToken(),
+        paymentInput: PaymentInput,
+        paymentInstrumentId: String,
+        paymentManagerArn: String,
+        paymentSessionId: String,
+        paymentType: PaymentType,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ProcessPaymentResponse {
+        let input = ProcessPaymentRequest(
+            agentName: agentName, 
+            clientToken: clientToken, 
+            paymentInput: paymentInput, 
+            paymentInstrumentId: paymentInstrumentId, 
+            paymentManagerArn: paymentManagerArn, 
+            paymentSessionId: paymentSessionId, 
+            paymentType: paymentType, 
+            userId: userId
+        )
+        return try await self.processPayment(input, logger: logger)
     }
 
     /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
@@ -1116,7 +2106,8 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
+    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger use during operation
@@ -1124,7 +2115,8 @@ public struct BedrockAgentCore: AWSService {
     public func retrieveMemoryRecords(
         maxResults: Int? = nil,
         memoryId: String,
-        namespace: String,
+        namespace: String? = nil,
+        namespacePath: String? = nil,
         nextToken: String? = nil,
         searchCriteria: SearchCriteria,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1133,6 +2125,7 @@ public struct BedrockAgentCore: AWSService {
             maxResults: maxResults, 
             memoryId: memoryId, 
             namespace: namespace, 
+            namespacePath: namespacePath, 
             nextToken: nextToken, 
             searchCriteria: searchCriteria
         )
@@ -1183,7 +2176,98 @@ public struct BedrockAgentCore: AWSService {
         return try await self.saveBrowserSessionProfile(input, logger: logger)
     }
 
-    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession
+    ///  Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry.
+    @Sendable
+    @inlinable
+    public func searchRegistryRecords(_ input: SearchRegistryRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRegistryRecordsResponse {
+        try await self.client.execute(
+            operation: "SearchRegistryRecords", 
+            path: "/registry-records/search", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Searches for registry records using semantic, lexical, or hybrid queries. Returns metadata for matching records ordered by relevance within the specified registry.
+    ///
+    /// Parameters:
+    ///   - filters:  A metadata filter expression to narrow search results. Uses structured JSON operators including field-level operators ($eq, $ne, $in) and logical operators ($and, $or) on filterable fields (name, descriptorType, version). For example, to filter by descriptor type: {"descriptorType": {"$eq": "MCP"}}. To combine filters: {"$and": [{"descriptorType": {"$eq": "MCP"}}, {"name": {"$eq": "my-tool"}}]}.
+    ///   - maxResults:  The maximum number of records to return in a single call. Valid values are 1 through 20. The default value is 10.
+    ///   - registryIds:  The list of registry identifiers to search within. Currently, you can specify exactly one registry identifier. You can provide either the full Amazon Web Services Resource Name (ARN) or the 12-character alphanumeric registry ID.
+    ///   - searchQuery:  The search query to find matching registry records.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchRegistryRecords(
+        filters: AWSDocument? = nil,
+        maxResults: Int? = nil,
+        registryIds: [String],
+        searchQuery: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchRegistryRecordsResponse {
+        let input = SearchRegistryRecordsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            registryIds: registryIds, 
+            searchQuery: searchQuery
+        )
+        return try await self.searchRegistryRecords(input, logger: logger)
+    }
+
+    /// Starts a batch evaluation job that evaluates agent performance across multiple sessions. Batch evaluations pull agent traces from CloudWatch Logs or an existing online evaluation configuration and run specified evaluators and insights against them.
+    @Sendable
+    @inlinable
+    public func startBatchEvaluation(_ input: StartBatchEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBatchEvaluationResponse {
+        try await self.client.execute(
+            operation: "StartBatchEvaluation", 
+            path: "/evaluations/batch-evaluate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a batch evaluation job that evaluates agent performance across multiple sessions. Batch evaluations pull agent traces from CloudWatch Logs or an existing online evaluation configuration and run specified evaluators and insights against them.
+    ///
+    /// Parameters:
+    ///   - batchEvaluationName: The name of the batch evaluation. Must be unique within your account.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - dataSourceConfig: The data source configuration that specifies where to pull agent session traces from for evaluation.
+    ///   - description: The description of the batch evaluation.
+    ///   - evaluationMetadata: Optional metadata for the evaluation, including session-specific ground truth data and test scenario identifiers.
+    ///   - evaluators: The list of evaluators to apply during the batch evaluation. Can include both built-in evaluators and custom evaluators. Maximum of 10 evaluators.
+    ///   - insights: The list of insight analyses to run against sessions during the batch evaluation. Maximum of 10 insights.
+    ///   - kmsKeyArn: The ARN of the KMS key used to encrypt evaluation data. If provided, customer data is encrypted at rest with the specified key.
+    ///   - tags: A map of tag keys and values to associate with the batch evaluation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startBatchEvaluation(
+        batchEvaluationName: String,
+        clientToken: String? = StartBatchEvaluationRequest.idempotencyToken(),
+        dataSourceConfig: DataSourceConfig,
+        description: String? = nil,
+        evaluationMetadata: EvaluationMetadata? = nil,
+        evaluators: [Evaluator]? = nil,
+        insights: [Insight]? = nil,
+        kmsKeyArn: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartBatchEvaluationResponse {
+        let input = StartBatchEvaluationRequest(
+            batchEvaluationName: batchEvaluationName, 
+            clientToken: clientToken, 
+            dataSourceConfig: dataSourceConfig, 
+            description: description, 
+            evaluationMetadata: evaluationMetadata, 
+            evaluators: evaluators, 
+            insights: insights, 
+            kmsKeyArn: kmsKeyArn, 
+            tags: tags
+        )
+        return try await self.startBatchEvaluation(input, logger: logger)
+    }
+
+    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession     InvokeBrowser
     @Sendable
     @inlinable
     public func startBrowserSession(_ input: StartBrowserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBrowserSessionResponse {
@@ -1196,16 +2280,19 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession
+    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession     InvokeBrowser
     ///
     /// Parameters:
     ///   - browserIdentifier: The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
+    ///   - certificates: A list of certificates to install in the browser session.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    ///   - enterprisePolicies: A list of files containing enterprise policies for the browser.
     ///   - extensions: A list of browser extensions to load into the browser session.
+    ///   - filesystemConfigurations: The file system configurations to mount into the browser session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.
     ///   - name: The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     ///   - profileConfiguration: The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
     ///   - proxyConfiguration: Optional proxy configuration for routing browser traffic through customer-specified proxy servers. When provided, enables HTTP Basic authentication via Amazon Web Services Secrets Manager and domain-based routing rules. Requires secretsmanager:GetSecretValue IAM permission for the specified secret ARNs.
-    ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+    ///   - sessionTimeoutSeconds: The duration in seconds (time-to-live) after which the session automatically terminates, regardless of ongoing activity. Defaults to 3600 seconds (1 hour). Recommended minimum: 60 seconds. Maximum allowed: 28,800 seconds (8 hours).
     ///   - traceId: The trace identifier for request tracking.
     ///   - traceParent: The parent trace information for distributed tracing.
     ///   - viewPort: The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock AgentCore uses a default viewport size.
@@ -1213,8 +2300,11 @@ public struct BedrockAgentCore: AWSService {
     @inlinable
     public func startBrowserSession(
         browserIdentifier: String,
+        certificates: [Certificate]? = nil,
         clientToken: String? = StartBrowserSessionRequest.idempotencyToken(),
+        enterprisePolicies: [BrowserEnterprisePolicy]? = nil,
         extensions: [BrowserExtension]? = nil,
+        filesystemConfigurations: [ToolsFileSystemConfiguration]? = nil,
         name: String? = nil,
         profileConfiguration: BrowserProfileConfiguration? = nil,
         proxyConfiguration: ProxyConfiguration? = nil,
@@ -1226,8 +2316,11 @@ public struct BedrockAgentCore: AWSService {
     ) async throws -> StartBrowserSessionResponse {
         let input = StartBrowserSessionRequest(
             browserIdentifier: browserIdentifier, 
+            certificates: certificates, 
             clientToken: clientToken, 
+            enterprisePolicies: enterprisePolicies, 
             extensions: extensions, 
+            filesystemConfigurations: filesystemConfigurations, 
             name: name, 
             profileConfiguration: profileConfiguration, 
             proxyConfiguration: proxyConfiguration, 
@@ -1255,17 +2348,21 @@ public struct BedrockAgentCore: AWSService {
     /// Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:    InvokeCodeInterpreter     GetCodeInterpreterSession     StopCodeInterpreterSession
     ///
     /// Parameters:
+    ///   - certificates: A list of certificates to install in the code interpreter session.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
+    ///   - filesystemConfigurations: The file system configurations to mount into the code interpreter session. Use these configurations to mount your own Amazon Simple Storage Service (Amazon S3) Files or Amazon Elastic File System (Amazon EFS) access points. Your session can then read and write your data. If you don't specify this field, no additional file systems are mounted.
     ///   - name: The name of the code interpreter session. This name helps you identify and manage the session. The name does not need to be unique.
-    ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 900 seconds (15 minutes). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
+    ///   - sessionTimeoutSeconds: The duration in seconds (time-to-live) after which the session automatically terminates, regardless of ongoing activity. Defaults to 900 seconds (15 minutes). Recommended minimum: 60 seconds. Maximum allowed: 28,800 seconds (8 hours).
     ///   - traceId: The trace identifier for request tracking.
     ///   - traceParent: The parent trace information for distributed tracing.
     ///   - logger: Logger use during operation
     @inlinable
     public func startCodeInterpreterSession(
+        certificates: [Certificate]? = nil,
         clientToken: String? = StartCodeInterpreterSessionRequest.idempotencyToken(),
         codeInterpreterIdentifier: String,
+        filesystemConfigurations: [ToolsFileSystemConfiguration]? = nil,
         name: String? = nil,
         sessionTimeoutSeconds: Int? = nil,
         traceId: String? = nil,
@@ -1273,8 +2370,10 @@ public struct BedrockAgentCore: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCodeInterpreterSessionResponse {
         let input = StartCodeInterpreterSessionRequest(
+            certificates: certificates, 
             clientToken: clientToken, 
             codeInterpreterIdentifier: codeInterpreterIdentifier, 
+            filesystemConfigurations: filesystemConfigurations, 
             name: name, 
             sessionTimeoutSeconds: sessionTimeoutSeconds, 
             traceId: traceId, 
@@ -1316,6 +2415,82 @@ public struct BedrockAgentCore: AWSService {
             memoryId: memoryId
         )
         return try await self.startMemoryExtractionJob(input, logger: logger)
+    }
+
+    /// Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to improve agent performance.
+    @Sendable
+    @inlinable
+    public func startRecommendation(_ input: StartRecommendationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecommendationResponse {
+        try await self.client.execute(
+            operation: "StartRecommendation", 
+            path: "/recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a recommendation job that analyzes agent traces and generates optimization suggestions for system prompts or tool descriptions to improve agent performance.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - description: The description of the recommendation.
+    ///   - kmsKeyArn: The ARN of the KMS key used to encrypt recommendation data. If provided, customer data is encrypted at rest with the specified key.
+    ///   - name: The name of the recommendation. Must be unique within your account.
+    ///   - recommendationConfig: The configuration for the recommendation, including the input to optimize, agent traces to analyze, and evaluation settings.
+    ///   - tags: A map of tag keys and values to associate with the recommendation.
+    ///   - type: The type of recommendation to generate. Valid values are SYSTEM_PROMPT_RECOMMENDATION for system prompt optimization or TOOL_DESCRIPTION_RECOMMENDATION for tool description optimization.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRecommendation(
+        clientToken: String? = StartRecommendationRequest.idempotencyToken(),
+        description: String? = nil,
+        kmsKeyArn: String? = nil,
+        name: String,
+        recommendationConfig: RecommendationConfig,
+        tags: [String: String]? = nil,
+        type: RecommendationType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRecommendationResponse {
+        let input = StartRecommendationRequest(
+            clientToken: clientToken, 
+            description: description, 
+            kmsKeyArn: kmsKeyArn, 
+            name: name, 
+            recommendationConfig: recommendationConfig, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.startRecommendation(input, logger: logger)
+    }
+
+    /// Stops a running batch evaluation. Sessions that have already been evaluated retain their results.
+    @Sendable
+    @inlinable
+    public func stopBatchEvaluation(_ input: StopBatchEvaluationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopBatchEvaluationResponse {
+        try await self.client.execute(
+            operation: "StopBatchEvaluation", 
+            path: "/evaluations/batch-evaluate/{batchEvaluationId}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running batch evaluation. Sessions that have already been evaluated retain their results.
+    ///
+    /// Parameters:
+    ///   - batchEvaluationId: The unique identifier of the batch evaluation to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopBatchEvaluation(
+        batchEvaluationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopBatchEvaluationResponse {
+        let input = StopBatchEvaluationRequest(
+            batchEvaluationId: batchEvaluationId
+        )
+        return try await self.stopBatchEvaluation(input, logger: logger)
     }
 
     /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
@@ -1438,6 +2613,59 @@ public struct BedrockAgentCore: AWSService {
         return try await self.stopRuntimeSession(input, logger: logger)
     }
 
+    /// Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status.
+    @Sendable
+    @inlinable
+    public func updateABTest(_ input: UpdateABTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateABTestResponse {
+        try await self.client.execute(
+            operation: "UpdateABTest", 
+            path: "/ab-tests/{abTestId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an A/B test's configuration, including variants, traffic allocation, evaluation settings, or execution status.
+    ///
+    /// Parameters:
+    ///   - abTestId: The unique identifier of the A/B test to update.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error.
+    ///   - description: The updated description of the A/B test.
+    ///   - evaluationConfig: The updated evaluation configuration.
+    ///   - executionStatus: The updated execution status to enable or disable the A/B test.
+    ///   - gatewayFilter: The updated gateway filter.
+    ///   - name: The updated name of the A/B test.
+    ///   - roleArn: The updated IAM role ARN.
+    ///   - variants: The updated list of variants.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateABTest(
+        abTestId: String,
+        clientToken: String? = UpdateABTestRequest.idempotencyToken(),
+        description: String? = nil,
+        evaluationConfig: ABTestEvaluationConfig? = nil,
+        executionStatus: ABTestExecutionStatus? = nil,
+        gatewayFilter: GatewayFilter? = nil,
+        name: String? = nil,
+        roleArn: String? = nil,
+        variants: [Variant]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateABTestResponse {
+        let input = UpdateABTestRequest(
+            abTestId: abTestId, 
+            clientToken: clientToken, 
+            description: description, 
+            evaluationConfig: evaluationConfig, 
+            executionStatus: executionStatus, 
+            gatewayFilter: gatewayFilter, 
+            name: name, 
+            roleArn: roleArn, 
+            variants: variants
+        )
+        return try await self.updateABTest(input, logger: logger)
+    }
+
     /// Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
     @Sendable
     @inlinable
@@ -1490,6 +2718,40 @@ extension BedrockAgentCore {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension BedrockAgentCore {
+    /// Return PaginatorSequence for operation ``listABTests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listABTestsPaginator(
+        _ input: ListABTestsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListABTestsRequest, ListABTestsResponse> {
+        return .init(
+            input: input,
+            command: self.listABTests,
+            inputKey: \ListABTestsRequest.nextToken,
+            outputKey: \ListABTestsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listABTests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listABTestsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListABTestsRequest, ListABTestsResponse> {
+        let input = ListABTestsRequest(
+            maxResults: maxResults
+        )
+        return self.listABTestsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listActors(_:logger:)``.
     ///
     /// - Parameters:
@@ -1525,6 +2787,40 @@ extension BedrockAgentCore {
             memoryId: memoryId
         )
         return self.listActorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBatchEvaluations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBatchEvaluationsPaginator(
+        _ input: ListBatchEvaluationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBatchEvaluationsRequest, ListBatchEvaluationsResponse> {
+        return .init(
+            input: input,
+            command: self.listBatchEvaluations,
+            inputKey: \ListBatchEvaluationsRequest.nextToken,
+            outputKey: \ListBatchEvaluationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBatchEvaluations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBatchEvaluationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBatchEvaluationsRequest, ListBatchEvaluationsResponse> {
+        let input = ListBatchEvaluationsRequest(
+            maxResults: maxResults
+        )
+        return self.listBatchEvaluationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listEvents(_:logger:)``.
@@ -1640,23 +2936,155 @@ extension BedrockAgentCore {
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
-    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
+    ///   - metadataFilters: A list of metadata filter expressions to scope the returned memory records.
+    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - logger: Logger used for logging
     @inlinable
     public func listMemoryRecordsPaginator(
         maxResults: Int? = nil,
         memoryId: String,
         memoryStrategyId: String? = nil,
-        namespace: String,
+        metadataFilters: [MemoryMetadataFilterExpression]? = nil,
+        namespace: String? = nil,
+        namespacePath: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListMemoryRecordsInput, ListMemoryRecordsOutput> {
         let input = ListMemoryRecordsInput(
             maxResults: maxResults, 
             memoryId: memoryId, 
             memoryStrategyId: memoryStrategyId, 
-            namespace: namespace
+            metadataFilters: metadataFilters, 
+            namespace: namespace, 
+            namespacePath: namespacePath
         )
         return self.listMemoryRecordsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPaymentInstruments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentInstrumentsPaginator(
+        _ input: ListPaymentInstrumentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPaymentInstrumentsRequest, ListPaymentInstrumentsResponse> {
+        return .init(
+            input: input,
+            command: self.listPaymentInstruments,
+            inputKey: \ListPaymentInstrumentsRequest.nextToken,
+            outputKey: \ListPaymentInstrumentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPaymentInstruments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - maxResults: Maximum number of results to return in a single response.
+    ///   - paymentConnectorId: The ID of the payment connector to filter by.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns the payment instruments.
+    ///   - userId: The user ID associated with the payment instruments.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentInstrumentsPaginator(
+        agentName: String? = nil,
+        maxResults: Int? = nil,
+        paymentConnectorId: String? = nil,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPaymentInstrumentsRequest, ListPaymentInstrumentsResponse> {
+        let input = ListPaymentInstrumentsRequest(
+            agentName: agentName, 
+            maxResults: maxResults, 
+            paymentConnectorId: paymentConnectorId, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return self.listPaymentInstrumentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPaymentSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentSessionsPaginator(
+        _ input: ListPaymentSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPaymentSessionsRequest, ListPaymentSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listPaymentSessions,
+            inputKey: \ListPaymentSessionsRequest.nextToken,
+            outputKey: \ListPaymentSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPaymentSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - agentName: The agent name associated with this request, used for observability.
+    ///   - maxResults: Maximum number of results to return in a single response.
+    ///   - paymentManagerArn: The ARN of the payment manager that owns the sessions.
+    ///   - userId: The user ID associated with the payment sessions.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPaymentSessionsPaginator(
+        agentName: String? = nil,
+        maxResults: Int? = nil,
+        paymentManagerArn: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPaymentSessionsRequest, ListPaymentSessionsResponse> {
+        let input = ListPaymentSessionsRequest(
+            agentName: agentName, 
+            maxResults: maxResults, 
+            paymentManagerArn: paymentManagerArn, 
+            userId: userId
+        )
+        return self.listPaymentSessionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendationsPaginator(
+        _ input: ListRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsRequest, ListRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommendations,
+            inputKey: \ListRecommendationsRequest.nextToken,
+            outputKey: \ListRecommendationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommendations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - statusFilter: Optional filter to return only recommendations with the specified status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendationsPaginator(
+        maxResults: Int? = nil,
+        statusFilter: RecommendationStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommendationsRequest, ListRecommendationsResponse> {
+        let input = ListRecommendationsRequest(
+            maxResults: maxResults, 
+            statusFilter: statusFilter
+        )
+        return self.listRecommendationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
@@ -1681,18 +3109,21 @@ extension BedrockAgentCore {
     ///
     /// - Parameters:
     ///   - actorId: The identifier of the actor for which to list sessions.
+    ///   - filter: Filter criteria to apply when listing sessions.
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - logger: Logger used for logging
     @inlinable
     public func listSessionsPaginator(
         actorId: String,
+        filter: SessionFilter? = nil,
         maxResults: Int? = nil,
         memoryId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListSessionsInput, ListSessionsOutput> {
         let input = ListSessionsInput(
             actorId: actorId, 
+            filter: filter, 
             maxResults: maxResults, 
             memoryId: memoryId
         )
@@ -1722,14 +3153,16 @@ extension BedrockAgentCore {
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
+    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix. Either namespace or namespacePath is required.
+    ///   - namespacePath: Use namespacePath for hierarchical retrievals. Return all memory records where namespace falls under the same parent hierarchy. Either namespace or namespacePath is required.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger used for logging
     @inlinable
     public func retrieveMemoryRecordsPaginator(
         maxResults: Int? = nil,
         memoryId: String,
-        namespace: String,
+        namespace: String? = nil,
+        namespacePath: String? = nil,
         searchCriteria: SearchCriteria,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<RetrieveMemoryRecordsInput, RetrieveMemoryRecordsOutput> {
@@ -1737,9 +3170,20 @@ extension BedrockAgentCore {
             maxResults: maxResults, 
             memoryId: memoryId, 
             namespace: namespace, 
+            namespacePath: namespacePath, 
             searchCriteria: searchCriteria
         )
         return self.retrieveMemoryRecordsPaginator(input, logger: logger)
+    }
+}
+
+extension BedrockAgentCore.ListABTestsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListABTestsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 
@@ -1749,6 +3193,16 @@ extension BedrockAgentCore.ListActorsInput: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             memoryId: self.memoryId,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCore.ListBatchEvaluationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListBatchEvaluationsRequest {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }
@@ -1788,8 +3242,48 @@ extension BedrockAgentCore.ListMemoryRecordsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             memoryId: self.memoryId,
             memoryStrategyId: self.memoryStrategyId,
+            metadataFilters: self.metadataFilters,
             namespace: self.namespace,
+            namespacePath: self.namespacePath,
             nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCore.ListPaymentInstrumentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListPaymentInstrumentsRequest {
+        return .init(
+            agentName: self.agentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            paymentConnectorId: self.paymentConnectorId,
+            paymentManagerArn: self.paymentManagerArn,
+            userId: self.userId
+        )
+    }
+}
+
+extension BedrockAgentCore.ListPaymentSessionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListPaymentSessionsRequest {
+        return .init(
+            agentName: self.agentName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            paymentManagerArn: self.paymentManagerArn,
+            userId: self.userId
+        )
+    }
+}
+
+extension BedrockAgentCore.ListRecommendationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListRecommendationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            statusFilter: self.statusFilter
         )
     }
 }
@@ -1799,6 +3293,7 @@ extension BedrockAgentCore.ListSessionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListSessionsInput {
         return .init(
             actorId: self.actorId,
+            filter: self.filter,
             maxResults: self.maxResults,
             memoryId: self.memoryId,
             nextToken: token
@@ -1813,6 +3308,7 @@ extension BedrockAgentCore.RetrieveMemoryRecordsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             memoryId: self.memoryId,
             namespace: self.namespace,
+            namespacePath: self.namespacePath,
             nextToken: token,
             searchCriteria: self.searchCriteria
         )

@@ -3716,11 +3716,11 @@ extension Route53GlobalResolver {
         public let maxResults: Int?
         /// A pagination token used for large sets of results that can't be returned in a single response.
         public let nextToken: String?
-        /// Amazon Resource Name (ARN) of the DNS view.
-        public let resourceArn: String
+        /// The Amazon Resource Name (ARN) of the DNS view to list hosted zone associations for. This parameter is optional; if you omit it, all hosted zone associations in your Amazon Web Services account are returned.
+        public let resourceArn: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceArn: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceArn = resourceArn
@@ -3731,7 +3731,7 @@ extension Route53GlobalResolver {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "max_results")
             request.encodeQuery(self.nextToken, key: "next_token")
-            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.resourceArn, key: "resourceArn")
         }
 
         public func validate(name: String) throws {
@@ -3801,6 +3801,46 @@ extension Route53GlobalResolver {
 
         private enum CodingKeys: String, CodingKey {
             case managedFirewallDomainLists = "managedFirewallDomainLists"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSharedDNSViewsInput: AWSEncodableShape {
+        /// The maximum number of results to retrieve in a single call.
+        public let maxResults: Int?
+        /// A pagination token used for large sets of results that can't be returned in a single response.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max_results")
+            request.encodeQuery(self.nextToken, key: "next_token")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSharedDNSViewsOutput: AWSDecodableShape {
+        /// An array of information about the DNS views shared with your Amazon Web Services account, including the Amazon Web Services account that owns each DNS view.
+        public let dnsViews: [SharedDNSViewSummary]
+        /// A pagination token used for large sets of results that can't be returned in a single response. Provide this token in the next call to get the results not returned in this call.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dnsViews: [SharedDNSViewSummary], nextToken: String? = nil) {
+            self.dnsViews = dnsViews
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsViews = "dnsViews"
             case nextToken = "nextToken"
         }
     }
@@ -3912,6 +3952,70 @@ extension Route53GlobalResolver {
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct SharedDNSViewSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the DNS view.
+        public let arn: String
+        /// The unique string that identifies the request and ensures idempotency.
+        public let clientToken: String
+        /// The date and time when the DNS view was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// A description of the DNS view.
+        public let description: String?
+        /// Whether DNSSEC validation is enabled for the DNS view.
+        public let dnssecValidation: DnsSecValidationType
+        /// Whether EDNS Client Subnet injection is enabled for the DNS view.
+        public let ednsClientSubnet: EdnsClientSubnetType
+        /// Whether firewall rules fail open when they cannot be evaluated.
+        public let firewallRulesFailOpen: FirewallRulesFailOpenType
+        /// The ID of the global resolver that the DNS view is associated with.
+        public let globalResolverId: String
+        /// The unique identifier of the DNS view.
+        public let id: String
+        /// The name of the DNS view.
+        public let name: String
+        /// The ID of the Amazon Web Services account that owns the DNS view and shared it with your Amazon Web Services account.
+        public let ownerAccountId: String
+        /// The current status of the DNS view.
+        public let status: ProfileResourceStatus
+        /// The date and time when the DNS view was last updated.
+        @CustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date
+
+        @inlinable
+        public init(arn: String, clientToken: String, createdAt: Date, description: String? = nil, dnssecValidation: DnsSecValidationType, ednsClientSubnet: EdnsClientSubnetType, firewallRulesFailOpen: FirewallRulesFailOpenType, globalResolverId: String, id: String, name: String, ownerAccountId: String, status: ProfileResourceStatus, updatedAt: Date) {
+            self.arn = arn
+            self.clientToken = clientToken
+            self.createdAt = createdAt
+            self.description = description
+            self.dnssecValidation = dnssecValidation
+            self.ednsClientSubnet = ednsClientSubnet
+            self.firewallRulesFailOpen = firewallRulesFailOpen
+            self.globalResolverId = globalResolverId
+            self.id = id
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case clientToken = "clientToken"
+            case createdAt = "createdAt"
+            case description = "description"
+            case dnssecValidation = "dnssecValidation"
+            case ednsClientSubnet = "ednsClientSubnet"
+            case firewallRulesFailOpen = "firewallRulesFailOpen"
+            case globalResolverId = "globalResolverId"
+            case id = "id"
+            case name = "name"
+            case ownerAccountId = "ownerAccountId"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -4532,14 +4636,17 @@ extension Route53GlobalResolver {
         public let name: String?
         /// The Amazon Web Services Regions in which the users' Global Resolver query resolution logs will be propagated.
         public let observabilityRegion: String?
+        /// The list of Amazon Web Services Regions where the Global Resolver will operate. The resolver will be distributed across these Regions to provide global availability and low-latency DNS resolution.
+        public let regions: [String]?
 
         @inlinable
-        public init(description: String? = nil, globalResolverId: String, ipAddressType: GlobalResolverIpAddressType? = nil, name: String? = nil, observabilityRegion: String? = nil) {
+        public init(description: String? = nil, globalResolverId: String, ipAddressType: GlobalResolverIpAddressType? = nil, name: String? = nil, observabilityRegion: String? = nil, regions: [String]? = nil) {
             self.description = description
             self.globalResolverId = globalResolverId
             self.ipAddressType = ipAddressType
             self.name = name
             self.observabilityRegion = observabilityRegion
+            self.regions = regions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -4550,6 +4657,7 @@ extension Route53GlobalResolver {
             try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.observabilityRegion, forKey: .observabilityRegion)
+            try container.encodeIfPresent(self.regions, forKey: .regions)
         }
 
         public func validate(name: String) throws {
@@ -4562,6 +4670,9 @@ extension Route53GlobalResolver {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9-_/' ']+)$")
             try self.validate(self.observabilityRegion, name: "observabilityRegion", parent: name, max: 32)
+            try self.regions?.forEach {
+                try validate($0, name: "regions[]", parent: name, max: 32)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4569,6 +4680,7 @@ extension Route53GlobalResolver {
             case ipAddressType = "ipAddressType"
             case name = "name"
             case observabilityRegion = "observabilityRegion"
+            case regions = "regions"
         }
     }
 

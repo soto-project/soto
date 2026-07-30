@@ -55,6 +55,7 @@ extension MedicalImaging {
         case updateFailed = "UPDATE_FAILED"
         case updated = "UPDATED"
         case updating = "UPDATING"
+        case updatingForStudyConsistency = "UPDATING_FOR_STUDY_CONSISTENCY"
         public var description: String { return self.rawValue }
     }
 
@@ -177,19 +178,19 @@ extension MedicalImaging {
         public func validate(name: String) throws {
             switch self {
             case .dicomAccessionNumber(let value):
-                try self.validate(value, name: "dicomAccessionNumber", parent: name, max: 256)
+                try self.validate(value, name: "dicomAccessionNumber", parent: name, max: 512)
             case .dicomPatientId(let value):
-                try self.validate(value, name: "dicomPatientId", parent: name, max: 256)
+                try self.validate(value, name: "dicomPatientId", parent: name, max: 512)
             case .dicomSeriesInstanceUID(let value):
-                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, max: 256)
-                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[0-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, max: 512)
+                try self.validate(value, name: "dicomSeriesInstanceUID", parent: name, pattern: "^[0-9.]+$")
             case .dicomStudyDateAndTime(let value):
                 try value.validate(name: "\(name).dicomStudyDateAndTime")
             case .dicomStudyId(let value):
-                try self.validate(value, name: "dicomStudyId", parent: name, max: 256)
+                try self.validate(value, name: "dicomStudyId", parent: name, max: 512)
             case .dicomStudyInstanceUID(let value):
-                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, max: 256)
-                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^(?:[0-9][0-9]*|0)(\\.(?:[0-9][0-9]*|0))*$")
+                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, max: 512)
+                try self.validate(value, name: "dicomStudyInstanceUID", parent: name, pattern: "^[0-9.]+$")
             default:
                 break
             }
@@ -495,6 +496,8 @@ extension MedicalImaging {
         public let datastoreId: String
         /// The timestamp for when the import job was ended.
         public let endedAt: Date?
+        /// The object containing DicomJsonMetadataImportConfiguration.
+        public let importConfiguration: ImportConfiguration?
         /// The input prefix path for the S3 bucket that contains the DICOM P10 files to be imported.
         public let inputS3Uri: String
         /// The import job identifier.
@@ -511,10 +514,11 @@ extension MedicalImaging {
         public let submittedAt: Date?
 
         @inlinable
-        public init(dataAccessRoleArn: String, datastoreId: String, endedAt: Date? = nil, inputS3Uri: String, jobId: String, jobName: String, jobStatus: JobStatus, message: String? = nil, outputS3Uri: String, submittedAt: Date? = nil) {
+        public init(dataAccessRoleArn: String, datastoreId: String, endedAt: Date? = nil, importConfiguration: ImportConfiguration? = nil, inputS3Uri: String, jobId: String, jobName: String, jobStatus: JobStatus, message: String? = nil, outputS3Uri: String, submittedAt: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
             self.endedAt = endedAt
+            self.importConfiguration = importConfiguration
             self.inputS3Uri = inputS3Uri
             self.jobId = jobId
             self.jobName = jobName
@@ -528,6 +532,7 @@ extension MedicalImaging {
             case dataAccessRoleArn = "dataAccessRoleArn"
             case datastoreId = "datastoreId"
             case endedAt = "endedAt"
+            case importConfiguration = "importConfiguration"
             case inputS3Uri = "inputS3Uri"
             case jobId = "jobId"
             case jobName = "jobName"
@@ -593,8 +598,8 @@ extension MedicalImaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dicomStudyDate, name: "dicomStudyDate", parent: name, max: 18)
-            try self.validate(self.dicomStudyTime, name: "dicomStudyTime", parent: name, max: 28)
+            try self.validate(self.dicomStudyDate, name: "dicomStudyDate", parent: name, max: 36)
+            try self.validate(self.dicomStudyTime, name: "dicomStudyTime", parent: name, max: 56)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -690,9 +695,9 @@ extension MedicalImaging {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.removableAttributes, name: "removableAttributes", parent: name, max: 10000)
+            try self.validate(self.removableAttributes, name: "removableAttributes", parent: name, max: 30000)
             try self.validate(self.removableAttributes, name: "removableAttributes", parent: name, min: 1)
-            try self.validate(self.updatableAttributes, name: "updatableAttributes", parent: name, max: 10000)
+            try self.validate(self.updatableAttributes, name: "updatableAttributes", parent: name, max: 30000)
             try self.validate(self.updatableAttributes, name: "updatableAttributes", parent: name, min: 1)
         }
 
@@ -875,6 +880,60 @@ extension MedicalImaging {
         }
     }
 
+    public struct DicomJsonMetadataImportConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Maps DCM files to their metadata.
+        public let dicomMetadataMappings: [DicomMetadataMapping]
+
+        @inlinable
+        public init(dicomMetadataMappings: [DicomMetadataMapping]) {
+            self.dicomMetadataMappings = dicomMetadataMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.dicomMetadataMappings.forEach {
+                try $0.validate(name: "\(name).dicomMetadataMappings[]")
+            }
+            try self.validate(self.dicomMetadataMappings, name: "dicomMetadataMappings", parent: name, max: 1000)
+            try self.validate(self.dicomMetadataMappings, name: "dicomMetadataMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dicomMetadataMappings = "dicomMetadataMappings"
+        }
+    }
+
+    public struct DicomMetadataMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The path to the JSON metadata file relative to inputS3Uri.
+        public let metadataFilePath: String
+        /// The Series Instance UID that identifies the series. This parameter is optional because the mapping might be at the study level.
+        public let seriesInstanceUID: String?
+        /// The Study Instance UID that identifies the study.
+        public let studyInstanceUID: String
+
+        @inlinable
+        public init(metadataFilePath: String, seriesInstanceUID: String? = nil, studyInstanceUID: String) {
+            self.metadataFilePath = metadataFilePath
+            self.seriesInstanceUID = seriesInstanceUID
+            self.studyInstanceUID = studyInstanceUID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataFilePath, name: "metadataFilePath", parent: name, max: 1024)
+            try self.validate(self.metadataFilePath, name: "metadataFilePath", parent: name, min: 1)
+            try self.validate(self.metadataFilePath, name: "metadataFilePath", parent: name, pattern: "^[a-zA-Z0-9!-~]+([a-zA-Z0-9!-~ ]*[a-zA-Z0-9!-~]+)*$")
+            try self.validate(self.seriesInstanceUID, name: "seriesInstanceUID", parent: name, max: 512)
+            try self.validate(self.seriesInstanceUID, name: "seriesInstanceUID", parent: name, pattern: "^[0-9.]+$")
+            try self.validate(self.studyInstanceUID, name: "studyInstanceUID", parent: name, max: 512)
+            try self.validate(self.studyInstanceUID, name: "studyInstanceUID", parent: name, pattern: "^[0-9.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataFilePath = "metadataFilePath"
+            case seriesInstanceUID = "seriesInstanceUID"
+            case studyInstanceUID = "studyInstanceUID"
+        }
+    }
+
     public struct GetDICOMImportJobRequest: AWSEncodableShape {
         /// The data store identifier.
         public let datastoreId: String
@@ -988,7 +1047,7 @@ extension MedicalImaging {
 
     public struct GetImageFrameResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// The format in which the image frame information is returned to the customer. Default is application/octet-stream.    If the stored transfer syntax is 1.2.840.10008.1.2.1, the returned contentType is application/octet-stream.     If the stored transfer syntax is 1.2.840.10008.1.2.4.50, the returned contentType is image/jpeg.     If the stored transfer syntax is 1.2.840.10008.1.2.4.91, the returned contentType is image/j2c.     If the stored transfer syntax is MPEG2, 1.2.840.10008.1.2.4.100, 1.2.840.10008.1.2.4.100.1, 1.2.840.10008.1.2.4.101, or 1.2.840.10008.1.2.4.101.1, the returned contentType is video/mpeg.     If the stored transfer syntax is MPEG-4 AVC/H.264, UID 1.2.840.10008.1.2.4.102, 1.2.840.10008.1.2.4.102.1, 1.2.840.10008.1.2.4.103, 1.2.840.10008.1.2.4.103.1, 1.2.840.10008.1.2.4.104, 1.2.840.10008.1.2.4.104.1, 1.2.840.10008.1.2.4.105, 1.2.840.10008.1.2.4.105.1, 1.2.840.10008.1.2.4.106, or 1.2.840.10008.1.2.4.106.1, the returned contentType is video/mp4.     If the stored transfer syntax is HEVC/H.265, UID 1.2.840.10008.1.2.4.107 or 1.2.840.10008.1.2.4.108, the returned contentType is video/H256.     If the stored transfer syntax is 1.2.840.10008.1.2.4.202 or if the stored transfer syntax is missing, the returned contentType is image/jph.     If the stored transfer syntax is 1.2.840.10008.1.2.4.203, the returned contentType is image/jphc.
+        /// The format in which the image frame information is returned to the customer. Default is application/octet-stream.    If the stored transfer syntax is 1.2.840.10008.1.2.1, the returned contentType is application/octet-stream.     If the stored transfer syntax is 1.2.840.10008.1.2.4.50, the returned contentType is image/jpeg.     If the stored transfer syntax is 1.2.840.10008.1.2.4.91, the returned contentType is image/j2c.     If the stored transfer syntax is MPEG2, 1.2.840.10008.1.2.4.100, 1.2.840.10008.1.2.4.100.1, 1.2.840.10008.1.2.4.101, or 1.2.840.10008.1.2.4.101.1, the returned contentType is video/mpeg.     If the stored transfer syntax is MPEG-4 AVC/H.264, UID 1.2.840.10008.1.2.4.102, 1.2.840.10008.1.2.4.102.1, 1.2.840.10008.1.2.4.103, 1.2.840.10008.1.2.4.103.1, 1.2.840.10008.1.2.4.104, 1.2.840.10008.1.2.4.104.1, 1.2.840.10008.1.2.4.105, 1.2.840.10008.1.2.4.105.1, 1.2.840.10008.1.2.4.106, or 1.2.840.10008.1.2.4.106.1, the returned contentType is video/mp4.     If the stored transfer syntax is HEVC/H.265, UID 1.2.840.10008.1.2.4.107 or 1.2.840.10008.1.2.4.108, the returned contentType is video/H256.     If the stored transfer syntax is 1.2.840.10008.1.2.4.202 or if the stored transfer syntax is missing, the returned contentType is image/jph.     If the stored transfer syntax is 1.2.840.10008.1.2.4.203, the returned contentType is image/jphc.   If the stored transfer syntax is 1.2.840.10008.1.2.4.112 the returned contentType is image/jxl.
         public let contentType: String?
         /// The blob containing the aggregated image frame information.
         public let imageFrameBlob: AWSHTTPBody
@@ -1639,6 +1698,8 @@ extension MedicalImaging {
         public let dataAccessRoleArn: String
         /// The data store identifier.
         public let datastoreId: String
+        /// The import configuration for the import job.
+        public let importConfiguration: ImportConfiguration?
         /// The account ID of the source S3 bucket owner.
         public let inputOwnerAccountId: String?
         /// The input prefix path for the S3 bucket that contains the DICOM files to be imported.
@@ -1649,10 +1710,11 @@ extension MedicalImaging {
         public let outputS3Uri: String
 
         @inlinable
-        public init(clientToken: String = StartDICOMImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputOwnerAccountId: String? = nil, inputS3Uri: String, jobName: String? = nil, outputS3Uri: String) {
+        public init(clientToken: String = StartDICOMImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, importConfiguration: ImportConfiguration? = nil, inputOwnerAccountId: String? = nil, inputS3Uri: String, jobName: String? = nil, outputS3Uri: String) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
+            self.importConfiguration = importConfiguration
             self.inputOwnerAccountId = inputOwnerAccountId
             self.inputS3Uri = inputS3Uri
             self.jobName = jobName
@@ -1665,6 +1727,7 @@ extension MedicalImaging {
             try container.encode(self.clientToken, forKey: .clientToken)
             try container.encode(self.dataAccessRoleArn, forKey: .dataAccessRoleArn)
             request.encodePath(self.datastoreId, key: "datastoreId")
+            try container.encodeIfPresent(self.importConfiguration, forKey: .importConfiguration)
             try container.encodeIfPresent(self.inputOwnerAccountId, forKey: .inputOwnerAccountId)
             try container.encode(self.inputS3Uri, forKey: .inputS3Uri)
             try container.encodeIfPresent(self.jobName, forKey: .jobName)
@@ -1679,6 +1742,7 @@ extension MedicalImaging {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.validate(self.datastoreId, name: "datastoreId", parent: name, pattern: "^[0-9a-z]{32}$")
+            try self.importConfiguration?.validate(name: "\(name).importConfiguration")
             try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, max: 12)
             try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, min: 12)
             try self.validate(self.inputOwnerAccountId, name: "inputOwnerAccountId", parent: name, pattern: "^\\d+$")
@@ -1696,6 +1760,7 @@ extension MedicalImaging {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case dataAccessRoleArn = "dataAccessRoleArn"
+            case importConfiguration = "importConfiguration"
             case inputOwnerAccountId = "inputOwnerAccountId"
             case inputS3Uri = "inputS3Uri"
             case jobName = "jobName"
@@ -1810,16 +1875,19 @@ extension MedicalImaging {
         public let force: Bool?
         /// The image set identifier.
         public let imageSetId: String
+        /// Flag to apply the metadata updates to all image sets in the same Study as the requested image set ID.
+        public let includeStudyImageSets: Bool?
         /// The latest image set version identifier.
         public let latestVersionId: String
         /// Update image set metadata updates.
         public let updateImageSetMetadataUpdates: MetadataUpdates
 
         @inlinable
-        public init(datastoreId: String, force: Bool? = nil, imageSetId: String, latestVersionId: String, updateImageSetMetadataUpdates: MetadataUpdates) {
+        public init(datastoreId: String, force: Bool? = nil, imageSetId: String, includeStudyImageSets: Bool? = nil, latestVersionId: String, updateImageSetMetadataUpdates: MetadataUpdates) {
             self.datastoreId = datastoreId
             self.force = force
             self.imageSetId = imageSetId
+            self.includeStudyImageSets = includeStudyImageSets
             self.latestVersionId = latestVersionId
             self.updateImageSetMetadataUpdates = updateImageSetMetadataUpdates
         }
@@ -1830,6 +1898,7 @@ extension MedicalImaging {
             request.encodePath(self.datastoreId, key: "datastoreId")
             request.encodeQuery(self.force, key: "force")
             request.encodePath(self.imageSetId, key: "imageSetId")
+            request.encodeQuery(self.includeStudyImageSets, key: "includeStudyImageSets")
             request.encodeQuery(self.latestVersionId, key: "latestVersion")
             try container.encode(self.updateImageSetMetadataUpdates)
         }
@@ -1885,6 +1954,23 @@ extension MedicalImaging {
             case updatedAt = "updatedAt"
         }
     }
+
+    public struct ImportConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let dicomJsonMetadataImportConfiguration: DicomJsonMetadataImportConfiguration?
+
+        @inlinable
+        public init(dicomJsonMetadataImportConfiguration: DicomJsonMetadataImportConfiguration? = nil) {
+            self.dicomJsonMetadataImportConfiguration = dicomJsonMetadataImportConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dicomJsonMetadataImportConfiguration?.validate(name: "\(name).dicomJsonMetadataImportConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dicomJsonMetadataImportConfiguration = "dicomJsonMetadataImportConfiguration"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1893,8 +1979,10 @@ extension MedicalImaging {
 public struct MedicalImagingErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case badRequestException = "BadRequestException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case notAcceptableException = "NotAcceptableException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -1921,10 +2009,14 @@ public struct MedicalImagingErrorType: AWSErrorType {
 
     /// The user does not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request is invalid or malformed.
+    public static var badRequestException: Self { .init(.badRequestException) }
     /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
     /// An unexpected error occurred during processing of the request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request content type or accept header is not supported.
+    public static var notAcceptableException: Self { .init(.notAcceptableException) }
     /// The request references a resource which does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request caused a service quota to be exceeded.
