@@ -4556,20 +4556,29 @@ extension Transfer {
     public struct SftpConnectorConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5.  If you are using the Amazon Web Services Management Console, the default value is 5.  This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public let maxConcurrentConnections: Int?
+        /// An ordered list of Amazon Web Services Secrets Manager version stages (staging labels, such as AWSCURRENT and AWSPREVIOUS) for the secret identified by UserSecretId. When establishing a connection, the connector attempts to retrieve the SFTP user's credentials from each version stage in the order listed, and uses the first version it can successfully retrieve. This lets you rotate the user secret without interrupting connector operations.
+        public let orderedUserSecretVersionStages: [String]?
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key.   TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key.  When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  The three standard SSH public key format elements are &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between each element. Specify only the &lt;key type&gt; and &lt;body base64&gt;: do not enter the &lt;comment&gt; portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.   For RSA keys, the &lt;key type&gt; string is ssh-rsa.   For ECDSA keys, the &lt;key type&gt; string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.   Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com.  ssh-keyscan ftp.host.com  This prints the public host key to standard output.  ftp.host.com ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;  Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the hostname from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...&lt;long-string-for-public-key&gt;
         public let trustedHostKeys: [String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.    Required when creating an SFTP connector   Optional when updating an existing SFTP connector
         public let userSecretId: String?
 
         @inlinable
-        public init(maxConcurrentConnections: Int? = nil, trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
+        public init(maxConcurrentConnections: Int? = nil, orderedUserSecretVersionStages: [String]? = nil, trustedHostKeys: [String]? = nil, userSecretId: String? = nil) {
             self.maxConcurrentConnections = maxConcurrentConnections
+            self.orderedUserSecretVersionStages = orderedUserSecretVersionStages
             self.trustedHostKeys = trustedHostKeys
             self.userSecretId = userSecretId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxConcurrentConnections, name: "maxConcurrentConnections", parent: name, min: 1)
+            try self.orderedUserSecretVersionStages?.forEach {
+                try validate($0, name: "orderedUserSecretVersionStages[]", parent: name, max: 256)
+                try validate($0, name: "orderedUserSecretVersionStages[]", parent: name, min: 1)
+            }
+            try self.validate(self.orderedUserSecretVersionStages, name: "orderedUserSecretVersionStages", parent: name, max: 2)
+            try self.validate(self.orderedUserSecretVersionStages, name: "orderedUserSecretVersionStages", parent: name, min: 1)
             try self.trustedHostKeys?.forEach {
                 try validate($0, name: "trustedHostKeys[]", parent: name, max: 2048)
                 try validate($0, name: "trustedHostKeys[]", parent: name, min: 1)
@@ -4581,6 +4590,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case maxConcurrentConnections = "MaxConcurrentConnections"
+            case orderedUserSecretVersionStages = "OrderedUserSecretVersionStages"
             case trustedHostKeys = "TrustedHostKeys"
             case userSecretId = "UserSecretId"
         }

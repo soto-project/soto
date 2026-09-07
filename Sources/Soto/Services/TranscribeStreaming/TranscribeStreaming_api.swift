@@ -369,6 +369,7 @@ public struct TranscribeStreaming: AWSService {
     ///   - sessionId: Specify a name for your transcription session. If you don't include this parameter in your request,  Amazon Transcribe generates an ID and returns it in the response.
     ///   - sessionResumeWindow: Specify the time window, in minutes, during which your transcription session can be resumed, measured from the stream start time. This optional parameter accepts integer values from 1 to 300 (5 hours). For example, if your stream starts at 1 PM and you specify a SessionResumeWindow of 30 minutes, you can reconnect to the session as many times as you want until 1:30 PM.
     ///   - showSpeakerLabel: Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization).
+    ///   - transcriptFormat: Specify how numbers, dates, and other alphanumeric entities are rendered in your transcription results.    WRITTEN renders these entities in their standard written form (for example, $50, 10:30 AM, and 101).    SPOKEN renders these entities as words, exactly as they were spoken (for example, fifty dollars, ten thirty a m, and one oh one).   If you don't specify a value, Amazon Transcribe uses WRITTEN by default.
     ///   - vocabularyFilterMethod: Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     ///   - vocabularyFilterName: Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
     ///   - vocabularyFilterNames: Specify the names of the custom vocabulary filters that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If none of the languages of the specified custom vocabulary filters match the language identified in your media, your job fails.  This parameter is only intended for use with  the IdentifyLanguage parameter. If you're not  including IdentifyLanguage in your request and want to use a custom vocabulary filter  with your transcription, use the VocabularyFilterName parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
@@ -396,6 +397,7 @@ public struct TranscribeStreaming: AWSService {
         sessionId: String? = nil,
         sessionResumeWindow: Int? = nil,
         showSpeakerLabel: Bool? = nil,
+        transcriptFormat: TranscriptFormat? = nil,
         vocabularyFilterMethod: VocabularyFilterMethod? = nil,
         vocabularyFilterName: String? = nil,
         vocabularyFilterNames: String? = nil,
@@ -423,6 +425,7 @@ public struct TranscribeStreaming: AWSService {
             sessionId: sessionId, 
             sessionResumeWindow: sessionResumeWindow, 
             showSpeakerLabel: showSpeakerLabel, 
+            transcriptFormat: transcriptFormat, 
             vocabularyFilterMethod: vocabularyFilterMethod, 
             vocabularyFilterName: vocabularyFilterName, 
             vocabularyFilterNames: vocabularyFilterNames, 

@@ -164,6 +164,11 @@ extension DeviceFarm {
         public var description: String { return self.rawValue }
     }
 
+    public enum InsightsType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case testReport = "TEST_REPORT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case inUse = "IN_USE"
@@ -199,6 +204,15 @@ extension DeviceFarm {
 
     public enum RecurringChargeFrequency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case monthly = "MONTHLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case errored = "ERRORED"
+        case pending = "PENDING"
+        case running = "RUNNING"
+        case skipped = "SKIPPED"
         public var description: String { return self.rawValue }
     }
 
@@ -706,14 +720,17 @@ extension DeviceFarm {
         public let billingMethod: BillingMethod?
         /// The device proxy to be configured on the device for the remote access session.
         public let deviceProxy: DeviceProxy?
+        /// The name-value string pairs that specify additional settings for the remote access session.    appium:version: The major version of the Appium server to use for the session (for example, 2 or 3). The service may reject the selected version if it is not available for the selected device.
+        public let parameters: [String: String]?
         /// An array of ARNs included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, deviceProxy: DeviceProxy? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, deviceProxy: DeviceProxy? = nil, parameters: [String: String]? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.deviceProxy = deviceProxy
+            self.parameters = parameters
             self.vpceConfigurationArns = vpceConfigurationArns
         }
 
@@ -725,6 +742,16 @@ extension DeviceFarm {
             }
             try self.validate(self.auxiliaryApps, name: "auxiliaryApps", parent: name, max: 3)
             try self.deviceProxy?.validate(name: "\(name).deviceProxy")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 128)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[a-zA-Z0-9:_]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 64)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 3)
+            try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
             try self.vpceConfigurationArns?.forEach {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
@@ -736,6 +763,7 @@ extension DeviceFarm {
             case auxiliaryApps = "auxiliaryApps"
             case billingMethod = "billingMethod"
             case deviceProxy = "deviceProxy"
+            case parameters = "parameters"
             case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
@@ -899,9 +927,9 @@ extension DeviceFarm {
     }
 
     public struct CreateTestGridUrlResult: AWSDecodableShape {
-        /// The number of seconds the URL from CreateTestGridUrlResult$url stays active.
+        /// The number of seconds the URL stays active from creation.
         public let expires: Date?
-        /// A signed URL, expiring in CreateTestGridUrlRequest$expiresInSeconds seconds, to be passed to a RemoteWebDriver.
+        /// A signed URL, expiring in the time specified by the CreateTestGridUrlRequest, to be passed to a RemoteWebDriver.
         public let url: String?
 
         @inlinable
@@ -2378,6 +2406,8 @@ extension DeviceFarm {
         public let device: Device?
         /// Represents the total (metered or unmetered) minutes used by the job.
         public let deviceMinutes: DeviceMinutes?
+        /// The insights for the job, including the report status and test-level metrics. This field contains data only if you specified insightsTypes when you scheduled the run.
+        public let insights: JobInsights?
         /// The ARN of the instance.
         public let instanceArn: String?
         /// A message about the job's result.
@@ -2400,12 +2430,13 @@ extension DeviceFarm {
         public let videoEndpoint: String?
 
         @inlinable
-        public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
+        public init(arn: String? = nil, counters: Counters? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, insights: JobInsights? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, type: TestType? = nil, videoCapture: Bool? = nil, videoEndpoint: String? = nil) {
             self.arn = arn
             self.counters = counters
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
+            self.insights = insights
             self.instanceArn = instanceArn
             self.message = message
             self.name = name
@@ -2424,6 +2455,7 @@ extension DeviceFarm {
             case created = "created"
             case device = "device"
             case deviceMinutes = "deviceMinutes"
+            case insights = "insights"
             case instanceArn = "instanceArn"
             case message = "message"
             case name = "name"
@@ -2434,6 +2466,96 @@ extension DeviceFarm {
             case type = "type"
             case videoCapture = "videoCapture"
             case videoEndpoint = "videoEndpoint"
+        }
+    }
+
+    public struct JobInsights: AWSDecodableShape {
+        /// The status of the insights report for the job.
+        public let status: ReportStatus?
+        /// The test-level aggregated report for the job.
+        public let testReport: TestReport?
+
+        @inlinable
+        public init(status: ReportStatus? = nil, testReport: TestReport? = nil) {
+            self.status = status
+            self.testReport = testReport
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case testReport = "testReport"
+        }
+    }
+
+    public struct JobReport: AWSDecodableShape {
+        /// A URL to the detailed job results.
+        public let jobDetailsUrl: String?
+        /// A message associated with the job report.
+        public let message: String?
+        /// The aggregated job-level metrics for the run.
+        public let metrics: JobReportMetrics?
+
+        @inlinable
+        public init(jobDetailsUrl: String? = nil, message: String? = nil, metrics: JobReportMetrics? = nil) {
+            self.jobDetailsUrl = jobDetailsUrl
+            self.message = message
+            self.metrics = metrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobDetailsUrl = "jobDetailsUrl"
+            case message = "message"
+            case metrics = "metrics"
+        }
+    }
+
+    public struct JobReportMetrics: AWSDecodableShape {
+        /// The average execution duration of jobs in the run, in seconds.
+        public let averageJobExecutionDurationSeconds: Double?
+        /// The number of jobs that errored.
+        public let jobsErrored: Int?
+        /// The number of jobs that failed.
+        public let jobsFailed: Int?
+        /// The number of jobs that passed.
+        public let jobsPassed: Int?
+        /// The percentage of jobs that passed.
+        public let jobsPassedPercentage: Double?
+        /// The number of jobs that were skipped.
+        public let jobsSkipped: Int?
+        /// The number of jobs that were stopped.
+        public let jobsStopped: Int?
+        /// The total number of jobs in the run.
+        public let jobsTotal: Int?
+        /// The median execution duration of jobs in the run, in seconds.
+        public let medianJobExecutionDurationSeconds: Double?
+        /// The total execution duration of all jobs in the run, in seconds.
+        public let totalJobExecutionDurationSeconds: Double?
+
+        @inlinable
+        public init(averageJobExecutionDurationSeconds: Double? = nil, jobsErrored: Int? = nil, jobsFailed: Int? = nil, jobsPassed: Int? = nil, jobsPassedPercentage: Double? = nil, jobsSkipped: Int? = nil, jobsStopped: Int? = nil, jobsTotal: Int? = nil, medianJobExecutionDurationSeconds: Double? = nil, totalJobExecutionDurationSeconds: Double? = nil) {
+            self.averageJobExecutionDurationSeconds = averageJobExecutionDurationSeconds
+            self.jobsErrored = jobsErrored
+            self.jobsFailed = jobsFailed
+            self.jobsPassed = jobsPassed
+            self.jobsPassedPercentage = jobsPassedPercentage
+            self.jobsSkipped = jobsSkipped
+            self.jobsStopped = jobsStopped
+            self.jobsTotal = jobsTotal
+            self.medianJobExecutionDurationSeconds = medianJobExecutionDurationSeconds
+            self.totalJobExecutionDurationSeconds = totalJobExecutionDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageJobExecutionDurationSeconds = "averageJobExecutionDurationSeconds"
+            case jobsErrored = "jobsErrored"
+            case jobsFailed = "jobsFailed"
+            case jobsPassed = "jobsPassed"
+            case jobsPassedPercentage = "jobsPassedPercentage"
+            case jobsSkipped = "jobsSkipped"
+            case jobsStopped = "jobsStopped"
+            case jobsTotal = "jobsTotal"
+            case medianJobExecutionDurationSeconds = "medianJobExecutionDurationSeconds"
+            case totalJobExecutionDurationSeconds = "totalJobExecutionDurationSeconds"
         }
     }
 
@@ -4128,6 +4250,10 @@ extension DeviceFarm {
         public let eventCount: Int?
         /// The IAM role associated with the run.
         public let executionRoleArn: String?
+        /// The insights for the run, including the report status and job-level metrics. This field contains data only if you specified insightsTypes when you scheduled the run.
+        public let insights: RunInsights?
+        /// The types of insights requested for the run.
+        public let insightsTypes: [InsightsType]?
         /// The number of minutes the job executes before it times out.
         public let jobTimeoutMinutes: Int?
         /// Information about the locale that is used for the run.
@@ -4172,7 +4298,7 @@ extension DeviceFarm {
         public let webUrl: String?
 
         @inlinable
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceProxy: DeviceProxy? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, environmentVariables: [EnvironmentVariable]? = nil, eventCount: Int? = nil, executionRoleArn: String? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceProxy: DeviceProxy? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, environmentVariables: [EnvironmentVariable]? = nil, eventCount: Int? = nil, executionRoleArn: String? = nil, insights: RunInsights? = nil, insightsTypes: [InsightsType]? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4187,6 +4313,8 @@ extension DeviceFarm {
             self.environmentVariables = environmentVariables
             self.eventCount = eventCount
             self.executionRoleArn = executionRoleArn
+            self.insights = insights
+            self.insightsTypes = insightsTypes
             self.jobTimeoutMinutes = jobTimeoutMinutes
             self.locale = locale
             self.location = location
@@ -4225,6 +4353,8 @@ extension DeviceFarm {
             case environmentVariables = "environmentVariables"
             case eventCount = "eventCount"
             case executionRoleArn = "executionRoleArn"
+            case insights = "insights"
+            case insightsTypes = "insightsTypes"
             case jobTimeoutMinutes = "jobTimeoutMinutes"
             case locale = "locale"
             case location = "location"
@@ -4246,6 +4376,24 @@ extension DeviceFarm {
             case type = "type"
             case vpcConfig = "vpcConfig"
             case webUrl = "webUrl"
+        }
+    }
+
+    public struct RunInsights: AWSDecodableShape {
+        /// The job-level aggregated report for the run.
+        public let jobReport: JobReport?
+        /// The status of the insights report for the run.
+        public let status: ReportStatus?
+
+        @inlinable
+        public init(jobReport: JobReport? = nil, status: ReportStatus? = nil) {
+            self.jobReport = jobReport
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobReport = "jobReport"
+            case status = "status"
         }
     }
 
@@ -4286,6 +4434,8 @@ extension DeviceFarm {
         public let executionRoleArn: String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public let extraDataPackageArn: String?
+        /// The types of insights to generate for a run. Specify one or more values to opt in to insights generation when scheduling a run. Insights are currently supported for custom mode runs with Instrumentation, Appium Java TestNG, and XCTest UI test types.
+        public let insightsTypes: [InsightsType]?
         /// Information about the locale that is used for the run.
         public let locale: String?
         /// Information about the location that is used for the run.
@@ -4298,7 +4448,7 @@ extension DeviceFarm {
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceProxy: DeviceProxy? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceProxy: DeviceProxy? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, extraDataPackageArn: String? = nil, insightsTypes: [InsightsType]? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
@@ -4306,6 +4456,7 @@ extension DeviceFarm {
             self.environmentVariables = environmentVariables
             self.executionRoleArn = executionRoleArn
             self.extraDataPackageArn = extraDataPackageArn
+            self.insightsTypes = insightsTypes
             self.locale = locale
             self.location = location
             self.networkProfileArn = networkProfileArn
@@ -4331,6 +4482,8 @@ extension DeviceFarm {
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, max: 1011)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, min: 32)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
+            try self.validate(self.insightsTypes, name: "insightsTypes", parent: name, max: 5)
+            try self.validate(self.insightsTypes, name: "insightsTypes", parent: name, min: 1)
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, max: 1011)
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, min: 32)
             try self.validate(self.networkProfileArn, name: "networkProfileArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
@@ -4349,6 +4502,7 @@ extension DeviceFarm {
             case environmentVariables = "environmentVariables"
             case executionRoleArn = "executionRoleArn"
             case extraDataPackageArn = "extraDataPackageArn"
+            case insightsTypes = "insightsTypes"
             case locale = "locale"
             case location = "location"
             case networkProfileArn = "networkProfileArn"
@@ -4431,7 +4585,7 @@ extension DeviceFarm {
     public struct ScheduleRunTest: AWSEncodableShape {
         /// The test's filter.
         public let filter: String?
-        /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:    app_performance_monitoring: Performance monitoring is enabled by default. Set this parameter to false to disable it.   For Appium tests (all types):   appium_version: The Appium version. Currently supported values are 1.6.5 (and later), latest, and default.   latest runs the latest Appium version supported by Device Farm (1.9.1).   For default, Device Farm selects a compatible version of Appium for the device. The current behavior is to run 1.7.2 on Android devices and iOS 9 and earlier and 1.7.2 for iOS 10 and later.   This behavior is subject to change.     For fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2      For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: LoginTests    Running a multiple test classes: LoginTests,SmokeTests    Running a single test: LoginTests/testValid    Running multiple tests: LoginTests/testValid,LoginTests/testInvalid
+        /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2      For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: LoginTests    Running a multiple test classes: LoginTests,SmokeTests    Running a single test: LoginTests/testValid    Running multiple tests: LoginTests/testValid,LoginTests/testInvalid
         public let parameters: [String: String]?
         /// The ARN of the uploaded test to be run.
         public let testPackageArn: String?
@@ -4921,6 +5075,74 @@ extension DeviceFarm {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct TestReport: AWSDecodableShape {
+        /// A message associated with the test report.
+        public let message: String?
+        /// The aggregated test-level metrics for the job.
+        public let metrics: TestReportMetrics?
+        /// A URL to the detailed test results.
+        public let testDetailsUrl: String?
+
+        @inlinable
+        public init(message: String? = nil, metrics: TestReportMetrics? = nil, testDetailsUrl: String? = nil) {
+            self.message = message
+            self.metrics = metrics
+            self.testDetailsUrl = testDetailsUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case metrics = "metrics"
+            case testDetailsUrl = "testDetailsUrl"
+        }
+    }
+
+    public struct TestReportMetrics: AWSDecodableShape {
+        /// The median execution duration of tests in the job, in seconds.
+        public let medianTestExecutionDurationSeconds: Double?
+        /// The number of tests that errored.
+        public let testsErrored: Int?
+        /// The number of tests that failed.
+        public let testsFailed: Int?
+        /// The number of tests with other result types.
+        public let testsOther: Int?
+        /// The number of tests that passed.
+        public let testsPassed: Int?
+        /// The percentage of tests that passed.
+        public let testsPassedPercentage: Double?
+        /// The number of tests that were skipped.
+        public let testsSkipped: Int?
+        /// The total number of tests in the job.
+        public let testsTotal: Int?
+        /// The total execution duration of all tests in the job, in seconds.
+        public let totalTestExecutionDurationSeconds: Double?
+
+        @inlinable
+        public init(medianTestExecutionDurationSeconds: Double? = nil, testsErrored: Int? = nil, testsFailed: Int? = nil, testsOther: Int? = nil, testsPassed: Int? = nil, testsPassedPercentage: Double? = nil, testsSkipped: Int? = nil, testsTotal: Int? = nil, totalTestExecutionDurationSeconds: Double? = nil) {
+            self.medianTestExecutionDurationSeconds = medianTestExecutionDurationSeconds
+            self.testsErrored = testsErrored
+            self.testsFailed = testsFailed
+            self.testsOther = testsOther
+            self.testsPassed = testsPassed
+            self.testsPassedPercentage = testsPassedPercentage
+            self.testsSkipped = testsSkipped
+            self.testsTotal = testsTotal
+            self.totalTestExecutionDurationSeconds = totalTestExecutionDurationSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medianTestExecutionDurationSeconds = "medianTestExecutionDurationSeconds"
+            case testsErrored = "testsErrored"
+            case testsFailed = "testsFailed"
+            case testsOther = "testsOther"
+            case testsPassed = "testsPassed"
+            case testsPassedPercentage = "testsPassedPercentage"
+            case testsSkipped = "testsSkipped"
+            case testsTotal = "testsTotal"
+            case totalTestExecutionDurationSeconds = "totalTestExecutionDurationSeconds"
         }
     }
 

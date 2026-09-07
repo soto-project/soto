@@ -119,6 +119,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AggregationStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case excluded = "excluded"
+        case included = "included"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AllocationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case configuring = "configuring"
@@ -188,6 +194,25 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationStatusCheckEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "failed"
+        case initializing = "initializing"
+        case insufficientData = "insufficient-data"
+        case notApplicable = "not-applicable"
+        case passed = "passed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationStatusEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case impaired = "impaired"
+        case initializing = "initializing"
+        case insufficientData = "insufficient-data"
+        case notApplicable = "not-applicable"
+        case ok = "ok"
+        case suppressed = "suppressed"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplyCancellationCharges: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commitmentWindDown = "commitment-wind-down"
         public var description: String { return self.rawValue }
@@ -247,6 +272,12 @@ extension EC2 {
         case associationFailed = "association-failed"
         case disassociated = "disassociated"
         case disassociating = "disassociating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instanceId = "instance-id"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -575,6 +606,12 @@ extension EC2 {
         case deleted = "deleted"
         case deleting = "deleting"
         case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChronologicalOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forward = "forward"
+        case reverse = "reverse"
         public var description: String { return self.rawValue }
     }
 
@@ -1060,7 +1097,9 @@ extension EC2 {
     }
 
     public enum FleetReservationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "capacity-block"
         case interruptibleCapacityReservation = "interruptible-capacity-reservation"
+        case onDemandCapacityReservation = "on-demand-capacity-reservation"
         public var description: String { return self.rawValue }
     }
 
@@ -1361,6 +1400,7 @@ extension EC2 {
     }
 
     public enum InstanceLifecycle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityBlock = "capacity-block"
         case interruptibleCapacityReservation = "interruptible-capacity-reservation"
         case onDemand = "on-demand"
         case spot = "spot"
@@ -2894,10 +2934,21 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpScopeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `private` = "private"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazon = "amazon"
         case byoip = "byoip"
         case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpVersionEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "ipv4"
+        case ipv6 = "ipv6"
         public var description: String { return self.rawValue }
     }
 
@@ -2913,6 +2964,26 @@ extension EC2 {
     public enum IpamAssociatedResourceDiscoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case notFound = "not-found"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamByoipAdvertisementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case global = "global"
+        case regional = "regional"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamByoipCidrState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case advertised = "advertised"
+        case deprovisioned = "deprovisioned"
+        case failedDeprovision = "failed-deprovision"
+        case failedProvision = "failed-provision"
+        case pendingAdvertising = "pending-advertising"
+        case pendingDeprovision = "pending-deprovision"
+        case pendingProvision = "pending-provision"
+        case pendingWithdrawal = "pending-withdrawal"
+        case provisioned = "provisioned"
+        case provisionedNotPubliclyAdvertisable = "provisioned-not-publicly-advertisable"
         public var description: String { return self.rawValue }
     }
 
@@ -2938,6 +3009,19 @@ extension EC2 {
         case deleteComplete = "delete-complete"
         case deleteFailed = "delete-failed"
         case deleteInProgress = "delete-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamInternetRegistryAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "create-failed"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        case enableComplete = "enable-complete"
+        case enableFailed = "enable-failed"
+        case enableInProgress = "enable-in-progress"
+        case pendingEnable = "pending-enable"
         public var description: String { return self.rawValue }
     }
 
@@ -3193,6 +3277,38 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpamRoutingPolicyRegistrationDeltaState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "failed"
+        case pending = "pending"
+        case published = "published"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamRoutingPolicyRegistrationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activateFailed = "activate-failed"
+        case createComplete = "create-complete"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteInProgress = "delete-in-progress"
+        case pendingActivate = "pending-activate"
+        case updateComplete = "update-complete"
+        case updateInProgress = "update-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamRpkiStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "invalid"
+        case unknown = "unknown"
+        case valid = "valid"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamRpkiStrength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case permissive = "permissive"
+        case strict = "strict"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamScopeExternalAuthorityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case infoblox = "infoblox"
         public var description: String { return self.rawValue }
@@ -3443,6 +3559,7 @@ extension EC2 {
     public enum MarketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityBlock = "capacity-block"
         case interruptibleCapacityReservation = "interruptible-capacity-reservation"
+        case onDemand = "on-demand"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
@@ -3644,6 +3761,12 @@ extension EC2 {
         case transitGateway = "transit_gateway"
         case trunk = "trunk"
         case vpcEndpoint = "vpc_endpoint"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NetworkProtocolEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case http = "http"
+        case https = "https"
         public var description: String { return self.rawValue }
     }
 
@@ -3906,6 +4029,16 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReservedCapacityAllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case prioritized = "prioritized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedCapacityFallbackMarketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "on-demand"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservedInstanceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "active"
         case paymentFailed = "payment-failed"
@@ -3927,6 +4060,7 @@ extension EC2 {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationStatusCheck = "application-status-check"
         case capacityBlock = "capacity-block"
         case capacityManagerDataExport = "capacity-manager-data-export"
         case capacityReservation = "capacity-reservation"
@@ -3957,6 +4091,7 @@ extension EC2 {
         case internetGateway = "internet-gateway"
         case ipam = "ipam"
         case ipamExternalResourceVerificationToken = "ipam-external-resource-verification-token"
+        case ipamInternetRegistryAssociation = "ipam-internet-registry-association"
         case ipamPolicy = "ipam-policy"
         case ipamPool = "ipam-pool"
         case ipamPoolAllocation = "ipam-pool-allocation"
@@ -4036,6 +4171,14 @@ extension EC2 {
         case vpnConnection = "vpn-connection"
         case vpnConnectionDeviceType = "vpn-connection-device-type"
         case vpnGateway = "vpn-gateway"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Rir: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apnic = "apnic"
+        case arin = "arin"
+        case lacnic = "lacnic"
+        case ripe = "ripe"
         public var description: String { return self.rawValue }
     }
 
@@ -5021,6 +5164,7 @@ extension EC2 {
 
     public enum VpcState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
+        case deleting = "deleting"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
@@ -5080,6 +5224,12 @@ extension EC2 {
         case thursday = "thursday"
         case tuesday = "tuesday"
         case wednesday = "wednesday"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ZeroSizePreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case retain = "retain"
         public var description: String { return self.rawValue }
     }
 
@@ -6582,6 +6732,261 @@ extension EC2 {
         }
     }
 
+    public struct ApplicationStatus: AWSDecodableShape {
+        public struct _DetailsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Details about the application status checks for the instance.
+        @OptionalCustomCoding<EC2ArrayCoder<_DetailsEncoding, ApplicationStatusDetail>>
+        public var details: [ApplicationStatusDetail]?
+        /// The date and time when application status reporting resumes after suppression.
+        public let resumeAt: Date?
+        /// The current instance-level application status. This status is derived from application status checks with Aggregation set to included. Possible values:    ok – All included checks passed.    impaired – At least one included check failed.    initializing – At least one included check is initializing, and no included check is impaired.    insufficient-data – At least one included check has insufficient data, and no included check is impaired or initializing.    not-applicable – No checks with Aggregation set to included apply to the instance.    suppressed – Application status reporting is suppressed for the instance.   Checks with Aggregation set to excluded do not affect this value.
+        public let status: ApplicationStatusEnum?
+        /// The date and time when the current status started.
+        public let statusSince: Date?
+        /// The date and time of the last status update.
+        public let statusTimeStamp: Date?
+
+        @inlinable
+        public init(details: [ApplicationStatusDetail]? = nil, resumeAt: Date? = nil, status: ApplicationStatusEnum? = nil, statusSince: Date? = nil, statusTimeStamp: Date? = nil) {
+            self.details = details
+            self.resumeAt = resumeAt
+            self.status = status
+            self.statusSince = statusSince
+            self.statusTimeStamp = statusTimeStamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "detailSet"
+            case resumeAt = "resumeAt"
+            case status = "status"
+            case statusSince = "statusSince"
+            case statusTimeStamp = "statusTimeStamp"
+        }
+    }
+
+    public struct ApplicationStatusCheckAssociationObject: AWSDecodableShape {
+        /// The ID of the application status check.
+        public let applicationStatusCheckId: String?
+        /// The type of target that the application status check is associated with. Possible values:    tag – The check applies to current and future instances with a matching tag key-value pair.    instance-id – The check applies to a specific instance.
+        public let associationType: AssociationTypeEnum?
+        /// The key for the association. This value is present only for tag-based associations, where it contains the tag key. For instance-based associations, this value is absent.
+        public let key: String?
+        /// The value for the association target. For tag-based associations, this is the tag value. For instance-based associations, this is the instance ID (for example, i-0123456789abcdef0).
+        public let value: String?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, associationType: AssociationTypeEnum? = nil, key: String? = nil, value: String? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "applicationStatusCheckId"
+            case associationType = "associationType"
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct ApplicationStatusCheckResponseObject: AWSDecodableShape {
+        public struct _HealthCheckPathsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TargetTagAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status. When set to excluded, the check runs independently and does not affect the instance-level status.
+        public let aggregation: AggregationStatusEnum?
+        /// The ID of the application status check.
+        public let applicationStatusCheckId: String?
+        /// The date and time when the application status check was created.
+        public let creationTime: Date?
+        /// The date and time when the application status check was deleted.
+        public let deletionTime: Date?
+        /// The index of the network device used for the health check. The value is greater than or equal to 0.
+        public let deviceIndex: Int?
+        /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+        public let failureThreshold: Int?
+        /// The health check paths for the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_HealthCheckPathsEncoding, HealthCheckPathResponseObject>>
+        public var healthCheckPaths: [HealthCheckPathResponseObject]?
+        /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+        public let initializationGracePeriodSeconds: Int?
+        /// The interval, in seconds, between health checks. Valid value: 60.
+        public let interval: Int?
+        /// The IP scope used for the health check.
+        public let ipScope: IpScopeEnum?
+        /// The IP version used for the health check.
+        public let ipVersion: IpVersionEnum?
+        /// The date and time when the application status check was last updated.
+        public let lastUpdatedAt: Date?
+        /// The date and time when the application status check was last modified.
+        public let modifyTime: Date?
+        /// The URL path used for the health check HTTP request.
+        public let path: String?
+        /// The port used for the health check.
+        public let port: Int?
+        /// The protocol used for the health check.
+        public let `protocol`: NetworkProtocolEnum?
+        /// The comma-separated list of individual HTTP status codes or ranges that indicate a successful health check response.
+        public let statusCodeMatcher: String?
+        /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+        public let successThreshold: Int?
+        /// The tags assigned to the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The tags associated with the application status check. Instances with these tags are automatically monitored by this check.
+        @OptionalCustomCoding<EC2ArrayCoder<_TargetTagAssociationsEncoding, CustomTagKeyValueResponsePair>>
+        public var targetTagAssociations: [CustomTagKeyValueResponsePair]?
+        /// The amount of time, in seconds, to wait for a health check response. Valid values: 1 to 30.
+        public let timeout: Int?
+
+        @inlinable
+        public init(aggregation: AggregationStatusEnum? = nil, applicationStatusCheckId: String? = nil, creationTime: Date? = nil, deletionTime: Date? = nil, deviceIndex: Int? = nil, failureThreshold: Int? = nil, healthCheckPaths: [HealthCheckPathResponseObject]? = nil, initializationGracePeriodSeconds: Int? = nil, interval: Int? = nil, ipScope: IpScopeEnum? = nil, ipVersion: IpVersionEnum? = nil, lastUpdatedAt: Date? = nil, modifyTime: Date? = nil, path: String? = nil, port: Int? = nil, protocol: NetworkProtocolEnum? = nil, statusCodeMatcher: String? = nil, successThreshold: Int? = nil, tags: [Tag]? = nil, targetTagAssociations: [CustomTagKeyValueResponsePair]? = nil, timeout: Int? = nil) {
+            self.aggregation = aggregation
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.creationTime = creationTime
+            self.deletionTime = deletionTime
+            self.deviceIndex = deviceIndex
+            self.failureThreshold = failureThreshold
+            self.healthCheckPaths = healthCheckPaths
+            self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+            self.interval = interval
+            self.ipScope = ipScope
+            self.ipVersion = ipVersion
+            self.lastUpdatedAt = lastUpdatedAt
+            self.modifyTime = modifyTime
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.successThreshold = successThreshold
+            self.tags = tags
+            self.targetTagAssociations = targetTagAssociations
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "aggregation"
+            case applicationStatusCheckId = "applicationStatusCheckId"
+            case creationTime = "creationTime"
+            case deletionTime = "deletionTime"
+            case deviceIndex = "deviceIndex"
+            case failureThreshold = "failureThreshold"
+            case healthCheckPaths = "healthCheckPathSet"
+            case initializationGracePeriodSeconds = "initializationGracePeriodSeconds"
+            case interval = "interval"
+            case ipScope = "ipScope"
+            case ipVersion = "ipVersion"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case modifyTime = "modifyTime"
+            case path = "path"
+            case port = "port"
+            case `protocol` = "protocol"
+            case statusCodeMatcher = "statusCodeMatcher"
+            case successThreshold = "successThreshold"
+            case tags = "tagSet"
+            case targetTagAssociations = "targetTagAssociationSet"
+            case timeout = "timeout"
+        }
+    }
+
+    public struct ApplicationStatusDetail: AWSDecodableShape {
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status. When set to excluded, the check runs independently and does not affect the instance-level status.
+        public let aggregation: AggregationStatusEnum?
+        /// The ID of the application status check.
+        public let applicationStatusCheckId: String?
+        /// The date and time when the check was last updated.
+        public let checkUpdateTime: Date?
+        /// The reason for the current status.
+        public let reason: ApplicationStatusReason?
+        /// The status of the individual application status check. Possible values:    passed – The check reached its success threshold.    failed – The check reached its failure threshold.    initializing – The check is initializing or has not reached a success or failure threshold.    insufficient-data – The check does not have enough data to determine a result.    not-applicable – The check does not apply to the instance.   This value reflects the check result and is not affected by aggregation or suppression.
+        public let status: ApplicationStatusCheckEnum?
+        /// The date and time when the current status started for this check.
+        public let statusSince: Date?
+        /// The date and time of the last status update for this check.
+        public let statusTimeStamp: Date?
+
+        @inlinable
+        public init(aggregation: AggregationStatusEnum? = nil, applicationStatusCheckId: String? = nil, checkUpdateTime: Date? = nil, reason: ApplicationStatusReason? = nil, status: ApplicationStatusCheckEnum? = nil, statusSince: Date? = nil, statusTimeStamp: Date? = nil) {
+            self.aggregation = aggregation
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.checkUpdateTime = checkUpdateTime
+            self.reason = reason
+            self.status = status
+            self.statusSince = statusSince
+            self.statusTimeStamp = statusTimeStamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "aggregation"
+            case applicationStatusCheckId = "applicationStatusCheckId"
+            case checkUpdateTime = "checkUpdateTime"
+            case reason = "reason"
+            case status = "status"
+            case statusSince = "statusSince"
+            case statusTimeStamp = "statusTimeStamp"
+        }
+    }
+
+    public struct ApplicationStatusReason: AWSDecodableShape {
+        /// The reason code for the application status check result. Possible values:    ResponseCodeMatched – The HTTP status code returned by the health check matched the configured StatusCodeMatcher.    ResponseCodeMismatch – The HTTP status code returned by the health check did not match the configured StatusCodeMatcher.    ConnectionTimeout – The connection to the target timed out.    ResponseTimeout – The health check timed out while waiting for a response from the target.    ConnectionRefused – The target refused the health check connection.    ConnectionReset – The target reset the health check connection before returning a response.   Current health check results use the values in the preceding list. Legacy results that do not contain structured reason metadata can instead contain a producer error type, such as Http Status Code or HttpConnectTimeoutException. For ResponseCodeMatched and ResponseCodeMismatch, the statusCode field contains the returned HTTP status code. The protocol field contains the protocol used for the health check.
+        public let code: String?
+        /// The protocol used for the health check. Possible values: HTTP and HTTPS.
+        public let `protocol`: String?
+        /// The HTTP status code returned by the health check.
+        public let statusCode: Int?
+
+        @inlinable
+        public init(code: String? = nil, protocol: String? = nil, statusCode: Int? = nil) {
+            self.code = code
+            self.`protocol` = `protocol`
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case `protocol` = "protocol"
+            case statusCode = "statusCode"
+        }
+    }
+
+    public struct ApplicationStatusSummary: AWSDecodableShape {
+        /// The date and time when the application status became impaired.
+        public let impairedSince: Date?
+        /// The current status.
+        public let status: SummaryStatus?
+
+        @inlinable
+        public init(impairedSince: Date? = nil, status: SummaryStatus? = nil) {
+            self.impairedSince = impairedSince
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case impairedSince = "impairedSince"
+            case status = "status"
+        }
+    }
+
+    public struct ApplicationStatusesResponseType: AWSDecodableShape {
+        public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The application status information for the instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, InstanceApplicationStatus>>
+        public var instances: [InstanceApplicationStatus]?
+
+        @inlinable
+        public init(instances: [InstanceApplicationStatus]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instanceSet"
+        }
+    }
+
     public struct ApplySecurityGroupsToClientVpnTargetNetworkRequest: AWSEncodableShape {
         public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -6919,6 +7324,64 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case associationId = "associationId"
+        }
+    }
+
+    public struct AssociateApplicationStatusCheckRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TargetTagAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ID of the application status check to associate.
+        public let applicationStatusCheckId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the instances to associate with the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The tags to associate the application status check with. Each tag is a key-value pair. When you associate tags, the application status check automatically monitors all instances that have the specified tags.
+        @OptionalCustomCoding<EC2ArrayCoder<_TargetTagAssociationsEncoding, CustomTagKeyValueRequestPair>>
+        public var targetTagAssociations: [CustomTagKeyValueRequestPair]?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, clientToken: String? = AssociateApplicationStatusCheckRequest.idempotencyToken(), dryRun: Bool? = nil, instanceIds: [String]? = nil, targetTagAssociations: [CustomTagKeyValueRequestPair]? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.instanceIds = instanceIds
+            self.targetTagAssociations = targetTagAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "ApplicationStatusCheckId"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case instanceIds = "InstanceId"
+            case targetTagAssociations = "TargetTagAssociation"
+        }
+    }
+
+    public struct AssociateApplicationStatusCheckResult: AWSDecodableShape {
+        public struct _SuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _UnsuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The associations that were successfully created.
+        @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulResultsEncoding, SuccessfulAssociationResponseObject>>
+        public var successfulResults: [SuccessfulAssociationResponseObject]?
+        /// The associations that failed to be created.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulResultsEncoding, UnsuccessfulAssociationResponseObject>>
+        public var unsuccessfulResults: [UnsuccessfulAssociationResponseObject]?
+
+        @inlinable
+        public init(successfulResults: [SuccessfulAssociationResponseObject]? = nil, unsuccessfulResults: [UnsuccessfulAssociationResponseObject]? = nil) {
+            self.successfulResults = successfulResults
+            self.unsuccessfulResults = unsuccessfulResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfulResults = "successfulResultSet"
+            case unsuccessfulResults = "unsuccessfulResultSet"
         }
     }
 
@@ -8626,16 +9089,47 @@ extension EC2 {
         }
     }
 
-    public struct BlobAttributeValue: AWSEncodableShape {
-        public let value: AWSBase64Data?
+    public struct BatchModifyIpamRoutingPolicyRegistrationsRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// The batch modifications to apply, in JSON format.
+        public let deltaJson: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Forces the batch modification even if individual changes conflict with announced routes. Default: false.
+        public let force: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
 
         @inlinable
-        public init(value: AWSBase64Data? = nil) {
-            self.value = value
+        public init(clientToken: String? = BatchModifyIpamRoutingPolicyRegistrationsRequest.idempotencyToken(), deltaJson: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil) {
+            self.clientToken = clientToken
+            self.deltaJson = deltaJson
+            self.dryRun = dryRun
+            self.force = force
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case value = "value"
+            case clientToken = "ClientToken"
+            case deltaJson = "DeltaJson"
+            case dryRun = "DryRun"
+            case force = "Force"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+        }
+    }
+
+    public struct BatchModifyIpamRoutingPolicyRegistrationsResult: AWSDecodableShape {
+        /// Information about the routing policy registration delta created by this batch operation.
+        public let ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta? = nil) {
+            self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrationDelta = "ipamRoutingPolicyRegistrationDelta"
         }
     }
 
@@ -8841,20 +9335,26 @@ extension EC2 {
         public let cidr: String?
         /// The description of the address range.
         public let description: String?
+        /// The ID of the IPAM pool associated with the CIDR.
+        public let ipamPoolId: String?
         /// If you have Local Zones enabled, you can choose a network border group for Local Zones when you provision and advertise a BYOIPv4 CIDR. Choose the network border group carefully as the EIP and the Amazon Web Services resource it is associated with must reside in the same network border group. You can provision BYOIP address ranges to and advertise them in the following Local Zone network border groups:   us-east-1-dfw-2   us-west-2-lax-1   us-west-2-phx-2    You cannot provision or advertise BYOIPv6 address ranges in Local Zones at this time.
         public let networkBorderGroup: String?
+        /// The ID of the address pool associated with the CIDR.
+        public let poolId: String?
         /// The state of the address range.    advertised: The address range is being advertised to the internet by Amazon Web Services.    deprovisioned: The address range is deprovisioned.    failed-deprovision: The request to deprovision the address range was unsuccessful. Ensure that all EIPs from the range have been deallocated and try again.    failed-provision: The request to provision the address range was unsuccessful.    pending-deprovision: You’ve submitted a request to deprovision an address range and it's pending.    pending-provision: You’ve submitted a request to provision an address range and it's pending.    provisioned: The address range is provisioned and can be advertised. The range is not currently advertised.    provisioned-not-publicly-advertisable: The address range is provisioned and cannot be advertised.
         public let state: ByoipCidrState?
         /// Upon success, contains the ID of the address pool. Otherwise, contains an error message.
         public let statusMessage: String?
 
         @inlinable
-        public init(advertisementType: String? = nil, asnAssociations: [AsnAssociation]? = nil, cidr: String? = nil, description: String? = nil, networkBorderGroup: String? = nil, state: ByoipCidrState? = nil, statusMessage: String? = nil) {
+        public init(advertisementType: String? = nil, asnAssociations: [AsnAssociation]? = nil, cidr: String? = nil, description: String? = nil, ipamPoolId: String? = nil, networkBorderGroup: String? = nil, poolId: String? = nil, state: ByoipCidrState? = nil, statusMessage: String? = nil) {
             self.advertisementType = advertisementType
             self.asnAssociations = asnAssociations
             self.cidr = cidr
             self.description = description
+            self.ipamPoolId = ipamPoolId
             self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
             self.state = state
             self.statusMessage = statusMessage
         }
@@ -8864,7 +9364,9 @@ extension EC2 {
             case asnAssociations = "asnAssociationSet"
             case cidr = "cidr"
             case description = "description"
+            case ipamPoolId = "ipamPoolId"
             case networkBorderGroup = "networkBorderGroup"
+            case poolId = "poolId"
             case state = "state"
             case statusMessage = "statusMessage"
         }
@@ -10070,9 +10572,12 @@ extension EC2 {
         /// The ID of the Amazon Web Services account to which billing of the unused capacity of
         /// 			the Capacity Reservation is assigned.
         public let unusedReservationBillingOwnerId: String?
+        /// 			The zero-size preference configured for the interruptible Capacity Reservation. A value of retain keeps the interruptible Capacity Reservation active at zero capacity when you reduce its allocation to zero. A value of default cancels the interruptible Capacity Reservation when you reduce its allocation to zero.
+        ///
+        public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
@@ -10104,6 +10609,7 @@ extension EC2 {
             self.tenancy = tenancy
             self.totalInstanceCount = totalInstanceCount
             self.unusedReservationBillingOwnerId = unusedReservationBillingOwnerId
+            self.zeroSizePreference = zeroSizePreference
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10138,6 +10644,7 @@ extension EC2 {
             case tenancy = "tenancy"
             case totalInstanceCount = "totalInstanceCount"
             case unusedReservationBillingOwnerId = "unusedReservationBillingOwnerId"
+            case zeroSizePreference = "zeroSizePreference"
         }
     }
 
@@ -12201,6 +12708,110 @@ extension EC2 {
         }
     }
 
+    public struct CreateApplicationStatusCheckRequest: AWSEncodableShape {
+        public struct _HealthCheckPathsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+        public let aggregation: AggregationStatusEnum?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
+        public let deviceIndex: Int?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+        public let failureThreshold: Int?
+        /// The health check paths to use for the application status check. Health check paths define the network path from a source subnet to one or more destination subnets for cross-Availability Zone or Availability Zone to Local Zone health checking. If omitted, health checks are performed in the same subnet as the instance.
+        @OptionalCustomCoding<EC2ArrayCoder<_HealthCheckPathsEncoding, HealthCheckPathRequestObject>>
+        public var healthCheckPaths: [HealthCheckPathRequestObject]?
+        /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+        public let initializationGracePeriodSeconds: Int?
+        /// The interval, in seconds, between health checks. Valid value: 60.
+        public let interval: Int?
+        /// The IP scope to use for the health check. Valid value: private.
+        public let ipScope: IpScopeEnum?
+        /// The IP version to use for the health check. Valid values: ipv4 and ipv6.
+        public let ipVersion: IpVersionEnum?
+        /// The URL path to use for the health check HTTP request (for example, /health or /status).
+        public let path: String?
+        /// The port to use for the health check. Valid values: 1 to 65535.
+        public let port: Int?
+        /// The protocol to use for the health check. Valid values: http | https.
+        public let `protocol`: NetworkProtocolEnum?
+        /// The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters. Default: 200.
+        public let statusCodeMatcher: String?
+        /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+        public let successThreshold: Int?
+        /// The tags to apply to the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+        public let timeout: Int?
+
+        @inlinable
+        public init(aggregation: AggregationStatusEnum? = nil, clientToken: String? = CreateApplicationStatusCheckRequest.idempotencyToken(), deviceIndex: Int? = nil, dryRun: Bool? = nil, failureThreshold: Int? = nil, healthCheckPaths: [HealthCheckPathRequestObject]? = nil, initializationGracePeriodSeconds: Int? = nil, interval: Int? = nil, ipScope: IpScopeEnum? = nil, ipVersion: IpVersionEnum? = nil, path: String? = nil, port: Int? = nil, protocol: NetworkProtocolEnum? = nil, statusCodeMatcher: String? = nil, successThreshold: Int? = nil, tagSpecifications: [TagSpecification]? = nil, timeout: Int? = nil) {
+            self.aggregation = aggregation
+            self.clientToken = clientToken
+            self.deviceIndex = deviceIndex
+            self.dryRun = dryRun
+            self.failureThreshold = failureThreshold
+            self.healthCheckPaths = healthCheckPaths
+            self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+            self.interval = interval
+            self.ipScope = ipScope
+            self.ipVersion = ipVersion
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.successThreshold = successThreshold
+            self.tagSpecifications = tagSpecifications
+            self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initializationGracePeriodSeconds, name: "initializationGracePeriodSeconds", parent: name, max: 600)
+            try self.validate(self.initializationGracePeriodSeconds, name: "initializationGracePeriodSeconds", parent: name, min: -1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case clientToken = "ClientToken"
+            case deviceIndex = "DeviceIndex"
+            case dryRun = "DryRun"
+            case failureThreshold = "FailureThreshold"
+            case healthCheckPaths = "HealthCheckPath"
+            case initializationGracePeriodSeconds = "InitializationGracePeriodSeconds"
+            case interval = "Interval"
+            case ipScope = "IpScope"
+            case ipVersion = "IpVersion"
+            case path = "Path"
+            case port = "Port"
+            case `protocol` = "Protocol"
+            case statusCodeMatcher = "StatusCodeMatcher"
+            case successThreshold = "SuccessThreshold"
+            case tagSpecifications = "TagSpecification"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct CreateApplicationStatusCheckResult: AWSDecodableShape {
+        /// Information about the application status check.
+        public let applicationStatusCheck: ApplicationStatusCheckResponseObject?
+
+        @inlinable
+        public init(applicationStatusCheck: ApplicationStatusCheckResponseObject? = nil) {
+            self.applicationStatusCheck = applicationStatusCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheck = "applicationStatusCheck"
+        }
+    }
+
     public struct CreateCapacityManagerDataExportRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -13242,7 +13853,7 @@ extension EC2 {
         public let errorMessage: String?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance. If you are using ReservedCapacityOptions with on-demand-capacity-reservation in the ReservationTypes list, the value can also be on-demand-capacity-reservation.
         public let lifecycle: InstanceLifecycle?
 
         @inlinable
@@ -13275,7 +13886,7 @@ extension EC2 {
         public let instanceType: InstanceType?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance.
         public let lifecycle: InstanceLifecycle?
         /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public let platform: PlatformValues?
@@ -13440,7 +14051,7 @@ extension EC2 {
         public let logGroupName: String?
         /// The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.  The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
         public let maxAggregationInterval: Int?
-        /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
+        /// The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
         @OptionalCustomCoding<EC2ArrayCoder<_ResourceIdsEncoding, String>>
         public var resourceIds: [String]?
         /// The type of resource to monitor.
@@ -13605,7 +14216,7 @@ extension EC2 {
         public let name: String?
         /// Indicates whether or not the instance should be automatically rebooted before creating the image. Specify one of the following values:    true - The instance is not rebooted before creating the image. This creates crash-consistent snapshots that include only the data that has been written to the volumes at the time the snapshots are created. Buffered data and data in memory that has not yet been written to the volumes is not included in the snapshots.    false - The instance is rebooted before creating the image. This ensures that all buffered data and data in memory is written to the volumes before the snapshots are created.   Default: false
         public let noReboot: Bool?
-        ///  Only supported for instances in Local Zones. If the source instance is not in a Local Zone, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter.   Default: regional
+        ///  Only supported for instances in Local Zones and for instances on Outposts that support local snapshots. If the source instance is not in one of these locations, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone or on the same Outpost as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone or Outpost, specify regional.   If the source instance is in a Local Zone and you omit this parameter, regional snapshots are created in the parent Region of the Local Zone. If the source instance is on an Outpost that supports local snapshots, this parameter is required. If you omit it, the request fails with an InvalidParameterValue error. Default: regional (for instances in Local Zones only)
         public let snapshotLocation: SnapshotLocationEnum?
         /// The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other Amazon EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -13936,14 +14547,18 @@ extension EC2 {
         ///
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
+        /// 			Specifies the behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation. The default value is default.
+        ///
+        public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(capacityReservationId: String? = nil, clientToken: String? = CreateInterruptibleCapacityReservationAllocationRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(capacityReservationId: String? = nil, clientToken: String? = CreateInterruptibleCapacityReservationAllocationRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, tagSpecifications: [TagSpecification]? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.capacityReservationId = capacityReservationId
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.instanceCount = instanceCount
             self.tagSpecifications = tagSpecifications
+            self.zeroSizePreference = zeroSizePreference
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13952,6 +14567,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case instanceCount = "InstanceCount"
             case tagSpecifications = "TagSpecification"
+            case zeroSizePreference = "ZeroSizePreference"
         }
     }
 
@@ -14025,6 +14641,61 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamExternalResourceVerificationToken = "ipamExternalResourceVerificationToken"
+        }
+    }
+
+    public struct CreateIpamInternetRegistryAssociationRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// A description for the internet registry association.
+        public let description: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM to associate with the internet registry.
+        public let ipamId: String?
+        /// The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
+        public let organizationHandle: String?
+        /// The Regional Internet Registry to associate with. Possible values:    ripe - RIPE NCC (Europe, the Middle East, and Central Asia).    apnic - APNIC (Asia Pacific).    arin - ARIN (North America).    lacnic - LACNIC (Latin America and the Caribbean).
+        public let rir: Rir?
+        /// The tags to assign to the internet registry association.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(clientToken: String? = CreateIpamInternetRegistryAssociationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, organizationHandle: String? = nil, rir: Rir? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.ipamId = ipamId
+            self.organizationHandle = organizationHandle
+            self.rir = rir
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case ipamId = "IpamId"
+            case organizationHandle = "OrganizationHandle"
+            case rir = "Rir"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateIpamInternetRegistryAssociationResult: AWSDecodableShape {
+        /// Information about the internet registry association.
+        public let ipamInternetRegistryAssociation: IpamInternetRegistryAssociation?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociation: IpamInternetRegistryAssociation? = nil) {
+            self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociation = "ipamInternetRegistryAssociation"
         }
     }
 
@@ -14406,6 +15077,74 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipam = "ipam"
+        }
+    }
+
+    public struct CreateIpamRoutingPolicyRegistrationRequest: AWSEncodableShape {
+        public struct _AsnsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Autonomous System Numbers (ASNs) authorized to originate the prefix.
+        @OptionalCustomCoding<EC2ArrayCoder<_AsnsEncoding, String>>
+        public var asns: [String]?
+        /// The IP address prefix in CIDR notation to authorize in the ROA.
+        public let cidr: String?
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// A description for the routing policy registration.
+        public let description: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Forces the creation of the routing policy registration even if it conflicts with an announced route. Default: false.
+        public let force: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. If not specified, defaults to the prefix length of the CIDR (exact match only).
+        public let maxLength: Int?
+        /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
+        public let permitMoreSpecificAnnouncements: Bool?
+
+        @inlinable
+        public init(asns: [String]? = nil, cidr: String? = nil, clientToken: String? = CreateIpamRoutingPolicyRegistrationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil, maxLength: Int? = nil, permitMoreSpecificAnnouncements: Bool? = nil) {
+            self.asns = asns
+            self.cidr = cidr
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.force = force
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxLength = maxLength
+            self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxLength, name: "maxLength", parent: name, max: 48)
+            try self.validate(self.maxLength, name: "maxLength", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asns = "Asn"
+            case cidr = "Cidr"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case force = "Force"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxLength = "MaxLength"
+            case permitMoreSpecificAnnouncements = "PermitMoreSpecificAnnouncements"
+        }
+    }
+
+    public struct CreateIpamRoutingPolicyRegistrationResult: AWSDecodableShape {
+        /// Information about the routing policy registration delta created by this operation.
+        public let ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta? = nil) {
+            self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrationDelta = "ipamRoutingPolicyRegistrationDelta"
         }
     }
 
@@ -17238,6 +17977,7 @@ extension EC2 {
     }
 
     public struct CreateTransitGatewayPolicyTableEntryResult: AWSDecodableShape {
+        /// Describes a transit gateway policy table entry
         public let transitGatewayPolicyTableEntry: TransitGatewayPolicyTableEntry?
 
         @inlinable
@@ -18965,6 +19705,42 @@ extension EC2 {
         }
     }
 
+    public struct CustomTagKeyValueRequestPair: AWSEncodableShape {
+        /// The key of the tag.
+        public let key: String?
+        /// The value of the tag.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct CustomTagKeyValueResponsePair: AWSDecodableShape {
+        /// The key of the tag.
+        public let key: String?
+        /// The value of the tag.
+        public let value: String?
+
+        @inlinable
+        public init(key: String? = nil, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
     public struct CustomerGateway: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -19153,6 +19929,42 @@ extension EC2 {
             case defaultTcpEstablishedTimeout = "defaultTcpEstablishedTimeout"
             case defaultUdpStreamTimeout = "defaultUdpStreamTimeout"
             case defaultUdpTimeout = "defaultUdpTimeout"
+        }
+    }
+
+    public struct DeleteApplicationStatusCheckRequest: AWSEncodableShape {
+        /// The ID of the application status check to delete.
+        public let applicationStatusCheckId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, clientToken: String? = DeleteApplicationStatusCheckRequest.idempotencyToken(), dryRun: Bool? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "ApplicationStatusCheckId"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct DeleteApplicationStatusCheckResult: AWSDecodableShape {
+        /// Information about the deleted application status check.
+        public let applicationStatusCheck: ApplicationStatusCheckResponseObject?
+
+        @inlinable
+        public init(applicationStatusCheck: ApplicationStatusCheckResponseObject? = nil) {
+            self.applicationStatusCheck = applicationStatusCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheck = "applicationStatusCheck"
         }
     }
 
@@ -19755,6 +20567,38 @@ extension EC2 {
         }
     }
 
+    public struct DeleteIpamInternetRegistryAssociationRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM internet registry association to delete.
+        public let ipamInternetRegistryAssociationId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+        }
+    }
+
+    public struct DeleteIpamInternetRegistryAssociationResult: AWSDecodableShape {
+        /// Information about the deleted internet registry association.
+        public let ipamInternetRegistryAssociation: IpamInternetRegistryAssociation?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociation: IpamInternetRegistryAssociation? = nil) {
+            self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociation = "ipamInternetRegistryAssociation"
+        }
+    }
+
     public struct DeleteIpamPolicyRequest: AWSEncodableShape {
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19952,6 +20796,50 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipam = "ipam"
+        }
+    }
+
+    public struct DeleteIpamRoutingPolicyRegistrationRequest: AWSEncodableShape {
+        /// The IP address prefix in CIDR notation identifying the routing policy registration to delete.
+        public let cidr: String?
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Forces the deletion even if it conflicts with an announced route. Default: false.
+        public let force: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+
+        @inlinable
+        public init(cidr: String? = nil, clientToken: String? = DeleteIpamRoutingPolicyRegistrationRequest.idempotencyToken(), dryRun: Bool? = nil, force: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil) {
+            self.cidr = cidr
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.force = force
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case force = "Force"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+        }
+    }
+
+    public struct DeleteIpamRoutingPolicyRegistrationResult: AWSDecodableShape {
+        /// Information about the routing policy registration delta created by this deletion.
+        public let ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta? = nil) {
+            self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrationDelta = "ipamRoutingPolicyRegistrationDelta"
         }
     }
 
@@ -21555,6 +22443,7 @@ extension EC2 {
     }
 
     public struct DeleteTransitGatewayPolicyTableEntryResult: AWSDecodableShape {
+        /// Describes a transit gateway policy table entry
         public let transitGatewayPolicyTableEntry: TransitGatewayPolicyTableEntry?
 
         @inlinable
@@ -22904,6 +23793,199 @@ extension EC2 {
         }
     }
 
+    public struct DescribeApplicationStatusCheckAssociationsRequest: AWSEncodableShape {
+        public struct _ApplicationStatusCheckIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The IDs of the application status checks for which to describe associations.
+        @OptionalCustomCoding<EC2ArrayCoder<_ApplicationStatusCheckIdsEncoding, String>>
+        public var applicationStatusCheckIds: [String]?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters to use to limit the results.    association-type – The type of association. Valid values: tag and instance-id.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationStatusCheckIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationStatusCheckIds = applicationStatusCheckIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckIds = "ApplicationStatusCheckId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationStatusCheckAssociationsResult: AWSDecodableShape {
+        public struct _AssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The associations for the specified application status checks.
+        @OptionalCustomCoding<EC2ArrayCoder<_AssociationsEncoding, ApplicationStatusCheckAssociationObject>>
+        public var associations: [ApplicationStatusCheckAssociationObject]?
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        /// The tags associated with the application status checks.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(associations: [ApplicationStatusCheckAssociationObject]? = nil, nextToken: String? = nil, tags: [Tag]? = nil) {
+            self.associations = associations
+            self.nextToken = nextToken
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associations = "associationSet"
+            case nextToken = "nextToken"
+            case tags = "tagSet"
+        }
+    }
+
+    public struct DescribeApplicationStatusChecksRequest: AWSEncodableShape {
+        public struct _ApplicationStatusCheckIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The IDs of the application status checks to describe.
+        @OptionalCustomCoding<EC2ArrayCoder<_ApplicationStatusCheckIdsEncoding, String>>
+        public var applicationStatusCheckIds: [String]?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters.    aggregation – The aggregation setting. Valid values: included and excluded.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// Specifies whether to include recently deleted application status checks that remain available during the deletion grace period. If you omit this parameter or set it to false, the response includes only active checks.
+        public let includeAll: Bool?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationStatusCheckIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, includeAll: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationStatusCheckIds = applicationStatusCheckIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.includeAll = includeAll
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckIds = "ApplicationStatusCheckId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case includeAll = "IncludeAll"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationStatusChecksResult: AWSDecodableShape {
+        public struct _ApplicationStatusChecksEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the application status checks.
+        @OptionalCustomCoding<EC2ArrayCoder<_ApplicationStatusChecksEncoding, ApplicationStatusCheckResponseObject>>
+        public var applicationStatusChecks: [ApplicationStatusCheckResponseObject]?
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationStatusChecks: [ApplicationStatusCheckResponseObject]? = nil, nextToken: String? = nil) {
+            self.applicationStatusChecks = applicationStatusChecks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusChecks = "applicationStatusCheckSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeApplicationStatusRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters.    availability-zone-id – The ID of the Availability Zone.    status – The instance-level application status. For valid values and their meanings, see ApplicationStatus.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the instances for which to describe application status.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.instanceIds = instanceIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case instanceIds = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeApplicationStatusResult: AWSDecodableShape {
+        /// The application statuses for the specified instances.
+        public let applicationStatuses: ApplicationStatusesResponseType?
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationStatuses: ApplicationStatusesResponseType? = nil, nextToken: String? = nil) {
+            self.applicationStatuses = applicationStatuses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatuses = "applicationStatusesResponseType"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeAvailabilityZonesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _ZoneIdsEncoding: ArrayCoderProperties { public static let member = "ZoneId" }
@@ -23719,7 +24801,7 @@ extension EC2 {
         public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 100 explicitly specified Capacity Reservation IDs.
+        /// The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 10 explicitly specified Capacity Reservation IDs.
         @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationIdsEncoding, String>>
         public var capacityReservationIds: [String]?
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -25025,7 +26107,7 @@ extension EC2 {
         public let errorMessage: String?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that could not be launched was a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance. If you are using ReservedCapacityOptions with on-demand-capacity-reservation in the ReservationTypes list, the value can also be on-demand-capacity-reservation.
         public let lifecycle: InstanceLifecycle?
 
         @inlinable
@@ -25181,7 +26263,7 @@ extension EC2 {
         public let instanceType: InstanceType?
         /// The launch templates and overrides that were used for launching the instances. The values that you specify in the Overrides replace the values in the launch template.
         public let launchTemplateAndOverrides: LaunchTemplateAndOverridesResponse?
-        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block, or Interruptible Capacity Reservation instance.
+        /// Indicates if the instance that was launched is a Spot, On-Demand, Capacity Block for ML, or interruptible Capacity Reservation instance.
         public let lifecycle: InstanceLifecycle?
         /// The value is windows for Windows instances in an EC2 Fleet. Otherwise, the value is blank.
         public let platform: PlatformValues?
@@ -25954,7 +27036,7 @@ extension EC2 {
         /// Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
         @OptionalCustomCoding<EC2ArrayCoder<_ExecutableUsersEncoding, String>>
         public var executableUsers: [String]?
-        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+        /// The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The image IDs. Default: Describes all images available to you.
@@ -26567,7 +27649,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
+        /// The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).    application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
@@ -27048,6 +28130,67 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamExternalResourceVerificationTokens = "ipamExternalResourceVerificationTokenSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeIpamInternetRegistryAssociationsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamInternetRegistryAssociationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the internet registry associations to describe.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamInternetRegistryAssociationIdsEncoding, String>>
+        public var ipamInternetRegistryAssociationIds: [String]?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamInternetRegistryAssociationIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamInternetRegistryAssociationIds = ipamInternetRegistryAssociationIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamInternetRegistryAssociationIds = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeIpamInternetRegistryAssociationsResult: AWSDecodableShape {
+        public struct _IpamInternetRegistryAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The internet registry associations.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamInternetRegistryAssociationsEncoding, IpamInternetRegistryAssociation>>
+        public var ipamInternetRegistryAssociations: [IpamInternetRegistryAssociation]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociations: [IpamInternetRegistryAssociation]? = nil, nextToken: String? = nil) {
+            self.ipamInternetRegistryAssociations = ipamInternetRegistryAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociations = "ipamInternetRegistryAssociationSet"
             case nextToken = "nextToken"
         }
     }
@@ -34347,6 +35490,54 @@ extension EC2 {
         }
     }
 
+    public struct DisableApplicationStatusCheckSuppressionRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the instances for which to disable application status check suppression.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+
+        @inlinable
+        public init(clientToken: String? = DisableApplicationStatusCheckSuppressionRequest.idempotencyToken(), dryRun: Bool? = nil, instanceIds: [String]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case instanceIds = "InstanceId"
+        }
+    }
+
+    public struct DisableApplicationStatusCheckSuppressionResult: AWSDecodableShape {
+        public struct _SuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _UnsuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The instances for which suppression was successfully disabled.
+        @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulResultsEncoding, SuccessfulSuppressionResponseObject>>
+        public var successfulResults: [SuccessfulSuppressionResponseObject]?
+        /// The instances for which suppression failed to be disabled.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulResultsEncoding, UnsuccessfulSuppressionResponseObject>>
+        public var unsuccessfulResults: [UnsuccessfulSuppressionResponseObject]?
+
+        @inlinable
+        public init(successfulResults: [SuccessfulSuppressionResponseObject]? = nil, unsuccessfulResults: [UnsuccessfulSuppressionResponseObject]? = nil) {
+            self.successfulResults = successfulResults
+            self.unsuccessfulResults = unsuccessfulResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfulResults = "successfulResultSet"
+            case unsuccessfulResults = "unsuccessfulResultSet"
+        }
+    }
+
     public struct DisableAwsNetworkPerformanceMetricSubscriptionRequest: AWSEncodableShape {
         /// The target Region or Availability Zone that the metric subscription is disabled for. For example, eu-north-1.
         public let destination: String?
@@ -35179,6 +36370,64 @@ extension EC2 {
             case associationId = "AssociationId"
             case dryRun = "dryRun"
             case publicIp = "PublicIp"
+        }
+    }
+
+    public struct DisassociateApplicationStatusCheckRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TargetTagAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ID of the application status check to disassociate.
+        public let applicationStatusCheckId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the instances to disassociate from the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The tags to disassociate from the application status check. Specify the same key-value pairs that were used during association.
+        @OptionalCustomCoding<EC2ArrayCoder<_TargetTagAssociationsEncoding, CustomTagKeyValueRequestPair>>
+        public var targetTagAssociations: [CustomTagKeyValueRequestPair]?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, clientToken: String? = DisassociateApplicationStatusCheckRequest.idempotencyToken(), dryRun: Bool? = nil, instanceIds: [String]? = nil, targetTagAssociations: [CustomTagKeyValueRequestPair]? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.instanceIds = instanceIds
+            self.targetTagAssociations = targetTagAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "ApplicationStatusCheckId"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case instanceIds = "InstanceId"
+            case targetTagAssociations = "TargetTagAssociation"
+        }
+    }
+
+    public struct DisassociateApplicationStatusCheckResult: AWSDecodableShape {
+        public struct _SuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _UnsuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The associations that were successfully removed.
+        @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulResultsEncoding, SuccessfulAssociationResponseObject>>
+        public var successfulResults: [SuccessfulAssociationResponseObject]?
+        /// The associations that failed to be removed.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulResultsEncoding, UnsuccessfulAssociationResponseObject>>
+        public var unsuccessfulResults: [UnsuccessfulAssociationResponseObject]?
+
+        @inlinable
+        public init(successfulResults: [SuccessfulAssociationResponseObject]? = nil, unsuccessfulResults: [UnsuccessfulAssociationResponseObject]? = nil) {
+            self.successfulResults = successfulResults
+            self.unsuccessfulResults = unsuccessfulResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfulResults = "successfulResultSet"
+            case unsuccessfulResults = "unsuccessfulResultSet"
         }
     }
 
@@ -36764,6 +38013,58 @@ extension EC2 {
         }
     }
 
+    public struct EnableApplicationStatusCheckSuppressionRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The duration, in seconds, for which to suppress application status checks. If omitted, the application status check is suppressed indefinitely until you call DisableApplicationStatusCheckSuppression.
+        public let durationSeconds: Int?
+        /// The IDs of the instances for which to suppress application status checks.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+
+        @inlinable
+        public init(clientToken: String? = EnableApplicationStatusCheckSuppressionRequest.idempotencyToken(), dryRun: Bool? = nil, durationSeconds: Int? = nil, instanceIds: [String]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.durationSeconds = durationSeconds
+            self.instanceIds = instanceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case durationSeconds = "DurationSeconds"
+            case instanceIds = "InstanceId"
+        }
+    }
+
+    public struct EnableApplicationStatusCheckSuppressionResult: AWSDecodableShape {
+        public struct _SuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _UnsuccessfulResultsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The instances for which suppression was successfully enabled.
+        @OptionalCustomCoding<EC2ArrayCoder<_SuccessfulResultsEncoding, SuccessfulSuppressionResponseObject>>
+        public var successfulResults: [SuccessfulSuppressionResponseObject]?
+        /// The instances for which suppression failed to be enabled.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsuccessfulResultsEncoding, UnsuccessfulSuppressionResponseObject>>
+        public var unsuccessfulResults: [UnsuccessfulSuppressionResponseObject]?
+
+        @inlinable
+        public init(successfulResults: [SuccessfulSuppressionResponseObject]? = nil, unsuccessfulResults: [UnsuccessfulSuppressionResponseObject]? = nil) {
+            self.successfulResults = successfulResults
+            self.unsuccessfulResults = unsuccessfulResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case successfulResults = "successfulResultSet"
+            case unsuccessfulResults = "unsuccessfulResultSet"
+        }
+    }
+
     public struct EnableAwsNetworkPerformanceMetricSubscriptionRequest: AWSEncodableShape {
         /// The target Region (like us-east-2) or Availability Zone ID (like use2-az2) that the metric subscription is enabled for. If you use Availability Zone IDs, the Source and Destination Availability Zones must be in the same Region.
         public let destination: String?
@@ -37323,6 +38624,62 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case instances = "instanceSet"
+        }
+    }
+
+    public struct EnableIpamInternetRegistryAssociationRequest: AWSEncodableShape {
+        /// The child handle for the BPKI certificate hierarchy from the Parent Response XML.
+        public let childHandle: String?
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM internet registry association to enable.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The parent BPKI Trust Anchor certificate in PEM format from the Parent Response XML.
+        public let parentBpkiTa: String?
+        /// The parent handle for the BPKI certificate hierarchy from the Parent Response XML.
+        public let parentHandle: String?
+        /// The RPKI version to use from the Parent Response XML.
+        public let rpkiVersion: String?
+        /// The RPKI service URI for the publication point from the Parent Response XML.
+        public let serviceUri: String?
+
+        @inlinable
+        public init(childHandle: String? = nil, clientToken: String? = EnableIpamInternetRegistryAssociationRequest.idempotencyToken(), dryRun: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil, parentBpkiTa: String? = nil, parentHandle: String? = nil, rpkiVersion: String? = nil, serviceUri: String? = nil) {
+            self.childHandle = childHandle
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.parentBpkiTa = parentBpkiTa
+            self.parentHandle = parentHandle
+            self.rpkiVersion = rpkiVersion
+            self.serviceUri = serviceUri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case childHandle = "ChildHandle"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case parentBpkiTa = "ParentBpkiTa"
+            case parentHandle = "ParentHandle"
+            case rpkiVersion = "RpkiVersion"
+            case serviceUri = "ServiceUri"
+        }
+    }
+
+    public struct EnableIpamInternetRegistryAssociationResult: AWSDecodableShape {
+        /// Information about the enabled internet registry association.
+        public let ipamInternetRegistryAssociation: IpamInternetRegistryAssociation?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociation: IpamInternetRegistryAssociation? = nil) {
+            self.ipamInternetRegistryAssociation = ipamInternetRegistryAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociation = "ipamInternetRegistryAssociation"
         }
     }
 
@@ -38803,6 +40160,29 @@ extension EC2 {
             case priority = "priority"
             case totalInstanceCount = "totalInstanceCount"
             case weight = "weight"
+        }
+    }
+
+    public struct FleetCapacityReservationTargetRequest: AWSEncodableShape {
+        public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _CapacityReservationResourceGroupArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IDs of the Capacity Reservations in which to launch the instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationIdsEncoding, String>>
+        public var capacityReservationIds: [String]?
+        /// The ARNs of the Capacity Reservation Resource Groups in which to launch the instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationResourceGroupArnsEncoding, String>>
+        public var capacityReservationResourceGroupArns: [String]?
+
+        @inlinable
+        public init(capacityReservationIds: [String]? = nil, capacityReservationResourceGroupArns: [String]? = nil) {
+            self.capacityReservationIds = capacityReservationIds
+            self.capacityReservationResourceGroupArns = capacityReservationResourceGroupArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationIds = "CapacityReservationId"
+            case capacityReservationResourceGroupArns = "CapacityReservationResourceGroupArn"
         }
     }
 
@@ -41190,6 +42570,187 @@ extension EC2 {
         }
     }
 
+    public struct GetIpamDiscoveredRoutesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM resource discovery.
+        public let ipamResourceDiscoveryId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The Amazon Web Services Region to retrieve discovered routes for.
+        public let resourceRegion: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamResourceDiscoveryId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceRegion: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceRegion = resourceRegion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamResourceDiscoveryId = "IpamResourceDiscoveryId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceRegion = "ResourceRegion"
+        }
+    }
+
+    public struct GetIpamDiscoveredRoutesResult: AWSDecodableShape {
+        public struct _IpamDiscoveredRoutesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The discovered BGP routes.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamDiscoveredRoutesEncoding, IpamDiscoveredRoute>>
+        public var ipamDiscoveredRoutes: [IpamDiscoveredRoute]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamDiscoveredRoutes: [IpamDiscoveredRoute]? = nil, nextToken: String? = nil) {
+            self.ipamDiscoveredRoutes = ipamDiscoveredRoutes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamDiscoveredRoutes = "ipamDiscoveredRouteSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamInternetRegistryAssociationAsnsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamInternetRegistryAssociationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamInternetRegistryAssociationAsnsResult: AWSDecodableShape {
+        public struct _IpamInternetRegistryAssociationAsnsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ASNs registered with the internet registry.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamInternetRegistryAssociationAsnsEncoding, IpamInternetRegistryAssociationAsn>>
+        public var ipamInternetRegistryAssociationAsns: [IpamInternetRegistryAssociationAsn]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociationAsns: [IpamInternetRegistryAssociationAsn]? = nil, nextToken: String? = nil) {
+            self.ipamInternetRegistryAssociationAsns = ipamInternetRegistryAssociationAsns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociationAsns = "ipamInternetRegistryAssociationAsnSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamInternetRegistryAssociationCidrsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamInternetRegistryAssociationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamInternetRegistryAssociationCidrsResult: AWSDecodableShape {
+        public struct _IpamInternetRegistryAssociationCidrsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The CIDRs registered with the internet registry.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamInternetRegistryAssociationCidrsEncoding, IpamInternetRegistryAssociationCidr>>
+        public var ipamInternetRegistryAssociationCidrs: [IpamInternetRegistryAssociationCidr]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamInternetRegistryAssociationCidrs: [IpamInternetRegistryAssociationCidr]? = nil, nextToken: String? = nil) {
+            self.ipamInternetRegistryAssociationCidrs = ipamInternetRegistryAssociationCidrs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamInternetRegistryAssociationCidrs = "ipamInternetRegistryAssociationCidrSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct GetIpamPolicyAllocationRulesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -41693,6 +43254,249 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamResourceCidrs = "ipamResourceCidrSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamRouteOriginAuthorizationsRequest: AWSEncodableShape {
+        /// Filter results to a specific CIDR prefix.
+        public let cidr: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.cidr = cidr
+            self.dryRun = dryRun
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case dryRun = "DryRun"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamRouteOriginAuthorizationsResult: AWSDecodableShape {
+        public struct _IpamRouteOriginAuthorizationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Route Origin Authorizations published to the RPKI.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamRouteOriginAuthorizationsEncoding, IpamRouteOriginAuthorizationInfo>>
+        public var ipamRouteOriginAuthorizations: [IpamRouteOriginAuthorizationInfo]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamRouteOriginAuthorizations: [IpamRouteOriginAuthorizationInfo]? = nil, nextToken: String? = nil) {
+            self.ipamRouteOriginAuthorizations = ipamRouteOriginAuthorizations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRouteOriginAuthorizations = "ipamRouteOriginAuthorizationSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamRouteProtectionFindingsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM to retrieve route protection findings for.
+        public let ipamId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamId = ipamId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamId = "IpamId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamRouteProtectionFindingsResult: AWSDecodableShape {
+        public struct _RouteProtectionFindingsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ID of the IPAM.
+        public let ipamId: String?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The route protection findings.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteProtectionFindingsEncoding, IpamRouteProtectionFinding>>
+        public var routeProtectionFindings: [IpamRouteProtectionFinding]?
+
+        @inlinable
+        public init(ipamId: String? = nil, nextToken: String? = nil, routeProtectionFindings: [IpamRouteProtectionFinding]? = nil) {
+            self.ipamId = ipamId
+            self.nextToken = nextToken
+            self.routeProtectionFindings = routeProtectionFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamId = "ipamId"
+            case nextToken = "nextToken"
+            case routeProtectionFindings = "routeProtectionFindingSet"
+        }
+    }
+
+    public struct GetIpamRoutingPolicyRegistrationDeltasRequest: AWSEncodableShape {
+        /// The chronological order to return results in. Valid values: forward | reverse.
+        public let chronologicalOrder: ChronologicalOrder?
+        /// Filter results to a specific delta ID.
+        public let deltaId: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The end of the time range to filter deltas by.
+        public let endTime: Date?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The start of the time range to filter deltas by.
+        public let startTime: Date?
+
+        @inlinable
+        public init(chronologicalOrder: ChronologicalOrder? = nil, deltaId: String? = nil, dryRun: Bool? = nil, endTime: Date? = nil, ipamInternetRegistryAssociationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+            self.chronologicalOrder = chronologicalOrder
+            self.deltaId = deltaId
+            self.dryRun = dryRun
+            self.endTime = endTime
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chronologicalOrder = "ChronologicalOrder"
+            case deltaId = "DeltaId"
+            case dryRun = "DryRun"
+            case endTime = "EndTime"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct GetIpamRoutingPolicyRegistrationDeltasResult: AWSDecodableShape {
+        public struct _IpamRoutingPolicyRegistrationDeltasEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The routing policy registration deltas.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamRoutingPolicyRegistrationDeltasEncoding, IpamRoutingPolicyRegistrationDelta>>
+        public var ipamRoutingPolicyRegistrationDeltas: [IpamRoutingPolicyRegistrationDelta]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrationDeltas: [IpamRoutingPolicyRegistrationDelta]? = nil, nextToken: String? = nil) {
+            self.ipamRoutingPolicyRegistrationDeltas = ipamRoutingPolicyRegistrationDeltas
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrationDeltas = "ipamRoutingPolicyRegistrationDeltaSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamRoutingPolicyRegistrationsRequest: AWSEncodableShape {
+        /// Filter results to a specific CIDR prefix.
+        public let cidr: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(cidr: String? = nil, dryRun: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.cidr = cidr
+            self.dryRun = dryRun
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case dryRun = "DryRun"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamRoutingPolicyRegistrationsResult: AWSDecodableShape {
+        public struct _IpamRoutingPolicyRegistrationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The routing policy registrations.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamRoutingPolicyRegistrationsEncoding, IpamRoutingPolicyRegistration>>
+        public var ipamRoutingPolicyRegistrations: [IpamRoutingPolicyRegistration]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrations: [IpamRoutingPolicyRegistration]? = nil, nextToken: String? = nil) {
+            self.ipamRoutingPolicyRegistrations = ipamRoutingPolicyRegistrations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrations = "ipamRoutingPolicyRegistrationSet"
             case nextToken = "nextToken"
         }
     }
@@ -42344,6 +44148,8 @@ extension EC2 {
     public struct GetSpotPlacementScoresRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
+        public let includeLocalZones: Bool?
         /// The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
         public let instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest?
         /// The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
@@ -42365,8 +44171,9 @@ extension EC2 {
         public let targetCapacityUnitType: TargetCapacityUnitType?
 
         @inlinable
-        public init(dryRun: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
+        public init(dryRun: Bool? = nil, includeLocalZones: Bool? = nil, instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil, instanceTypes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, regionNames: [String]? = nil, singleAvailabilityZone: Bool? = nil, targetCapacity: Int? = nil, targetCapacityUnitType: TargetCapacityUnitType? = nil) {
             self.dryRun = dryRun
+            self.includeLocalZones = includeLocalZones
             self.instanceRequirementsWithMetadata = instanceRequirementsWithMetadata
             self.instanceTypes = instanceTypes
             self.maxResults = maxResults
@@ -42389,6 +44196,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case dryRun = "DryRun"
+            case includeLocalZones = "IncludeLocalZones"
             case instanceRequirementsWithMetadata = "InstanceRequirementsWithMetadata"
             case instanceTypes = "InstanceType"
             case maxResults = "MaxResults"
@@ -43388,6 +45196,120 @@ extension EC2 {
         }
     }
 
+    public struct HealthCheckPathDestinationRequestObject: AWSEncodableShape {
+        /// The ID of the security group for the destination.
+        public let securityGroupId: String?
+        /// The ID of the subnet for the destination.
+        public let subnetId: String?
+
+        @inlinable
+        public init(securityGroupId: String? = nil, subnetId: String? = nil) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "SecurityGroupId"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct HealthCheckPathDestinationResponseObject: AWSDecodableShape {
+        /// The ID of the security group for the destination.
+        public let securityGroupId: String?
+        /// The ID of the subnet for the destination.
+        public let subnetId: String?
+
+        @inlinable
+        public init(securityGroupId: String? = nil, subnetId: String? = nil) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "securityGroupId"
+            case subnetId = "subnetId"
+        }
+    }
+
+    public struct HealthCheckPathRequestObject: AWSEncodableShape {
+        public struct _DestinationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The destinations for the health check path.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationsEncoding, HealthCheckPathDestinationRequestObject>>
+        public var destinations: [HealthCheckPathDestinationRequestObject]?
+        /// The source for the health check path.
+        public let source: HealthCheckPathSourceRequestObject?
+
+        @inlinable
+        public init(destinations: [HealthCheckPathDestinationRequestObject]? = nil, source: HealthCheckPathSourceRequestObject? = nil) {
+            self.destinations = destinations
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destination"
+            case source = "Source"
+        }
+    }
+
+    public struct HealthCheckPathResponseObject: AWSDecodableShape {
+        public struct _DestinationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The destinations for the health check path.
+        @OptionalCustomCoding<EC2ArrayCoder<_DestinationsEncoding, HealthCheckPathDestinationResponseObject>>
+        public var destinations: [HealthCheckPathDestinationResponseObject]?
+        /// The source for the health check path.
+        public let source: HealthCheckPathSourceResponseObject?
+
+        @inlinable
+        public init(destinations: [HealthCheckPathDestinationResponseObject]? = nil, source: HealthCheckPathSourceResponseObject? = nil) {
+            self.destinations = destinations
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinationSet"
+            case source = "source"
+        }
+    }
+
+    public struct HealthCheckPathSourceRequestObject: AWSEncodableShape {
+        /// The ID of the security group for the source.
+        public let securityGroupId: String?
+        /// The ID of the subnet for the source.
+        public let subnetId: String?
+
+        @inlinable
+        public init(securityGroupId: String? = nil, subnetId: String? = nil) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "SecurityGroupId"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct HealthCheckPathSourceResponseObject: AWSDecodableShape {
+        /// The ID of the security group for the source.
+        public let securityGroupId: String?
+        /// The ID of the subnet for the source.
+        public let subnetId: String?
+
+        @inlinable
+        public init(securityGroupId: String? = nil, subnetId: String? = nil) {
+            self.securityGroupId = securityGroupId
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupId = "securityGroupId"
+            case subnetId = "subnetId"
+        }
+    }
+
     public struct HibernationOptions: AWSDecodableShape {
         /// If true, your instance is enabled for hibernation; otherwise, it is not enabled for hibernation.
         public let configured: Bool?
@@ -43924,6 +45846,8 @@ extension EC2 {
         public var imageWatermarks: [ImageWatermark]?
         /// If v2.0, it indicates that IMDSv2 is specified in the AMI. Instances launched from this AMI will have HttpTokens automatically set to required so that, by default, the instance requires that IMDSv2 is used when requesting instance metadata. In addition, HttpPutResponseHopLimit is set to 2. For more information, see Configure the AMI in the Amazon EC2 User Guide.
         public let imdsSupport: ImdsSupportValues?
+        /// The instance type specification for the AMI, which defines which instance types are compatible with this image.
+        public let instanceTypeSpecification: InstanceTypeSpecification?
         /// The kernel associated with the image, if any. Only applicable for machine images.
         public let kernelId: String?
         /// The date and time, in ISO 8601 date-time format, when the AMI was last used to launch an EC2 instance. When the AMI is used to launch an instance, there is a 24-hour delay before that usage is reported.   lastLaunchedTime data is available starting April 2017.
@@ -43972,7 +45896,7 @@ extension EC2 {
         public let virtualizationType: VirtualizationType?
 
         @inlinable
-        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, deregistrationProtection: String? = nil, description: String? = nil, enaSupport: Bool? = nil, freeTierEligible: Bool? = nil, hypervisor: HypervisorType? = nil, imageAllowed: Bool? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imageWatermarks: [ImageWatermark]? = nil, imdsSupport: ImdsSupportValues? = nil, kernelId: String? = nil, lastLaunchedTime: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, publicSsmParameterName: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sourceImageId: String? = nil, sourceImageRegion: String? = nil, sourceInstanceId: String? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
+        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, deregistrationProtection: String? = nil, description: String? = nil, enaSupport: Bool? = nil, freeTierEligible: Bool? = nil, hypervisor: HypervisorType? = nil, imageAllowed: Bool? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, imageWatermarks: [ImageWatermark]? = nil, imdsSupport: ImdsSupportValues? = nil, instanceTypeSpecification: InstanceTypeSpecification? = nil, kernelId: String? = nil, lastLaunchedTime: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, publicSsmParameterName: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sourceImageId: String? = nil, sourceImageRegion: String? = nil, sourceInstanceId: String? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
@@ -43990,6 +45914,7 @@ extension EC2 {
             self.imageType = imageType
             self.imageWatermarks = imageWatermarks
             self.imdsSupport = imdsSupport
+            self.instanceTypeSpecification = instanceTypeSpecification
             self.kernelId = kernelId
             self.lastLaunchedTime = lastLaunchedTime
             self.name = name
@@ -44032,6 +45957,7 @@ extension EC2 {
             case imageType = "imageType"
             case imageWatermarks = "imageWatermarkSet"
             case imdsSupport = "imdsSupport"
+            case instanceTypeSpecification = "instanceTypeSpecification"
             case kernelId = "kernelId"
             case lastLaunchedTime = "lastLaunchedTime"
             case name = "name"
@@ -45732,6 +47658,39 @@ extension EC2 {
         }
     }
 
+    public struct InstanceApplicationStatus: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The application status for the instance.
+        public let applicationStatus: ApplicationStatus?
+        /// The Availability Zone of the instance.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone of the instance.
+        public let availabilityZoneId: String?
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The tags assigned to the instance.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(applicationStatus: ApplicationStatus? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, instanceId: String? = nil, tags: [Tag]? = nil) {
+            self.applicationStatus = applicationStatus
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceId = instanceId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatus = "applicationStatus"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case instanceId = "instanceId"
+            case tags = "tagSet"
+        }
+    }
+
     public struct InstanceAttachmentEnaSrdSpecification: AWSDecodableShape {
         /// Indicates whether ENA Express is enabled for the network interface.
         public let enaSrdEnabled: Bool?
@@ -47422,6 +49381,8 @@ extension EC2 {
     public struct InstanceStatus: AWSDecodableShape {
         public struct _EventsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// Reports the application-level health status for the instance.
+        public let applicationStatus: ApplicationStatusSummary?
         /// Reports impaired functionality that stems from an attached Amazon EBS volume that is  unreachable and unable to complete I/O operations.
         public let attachedEbsStatus: EbsStatusSummary?
         /// The Availability Zone of the instance.
@@ -47445,7 +49406,8 @@ extension EC2 {
         public let systemStatus: InstanceStatusSummary?
 
         @inlinable
-        public init(attachedEbsStatus: EbsStatusSummary? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [InstanceStatusEvent]? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil, instanceStatus: InstanceStatusSummary? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, systemStatus: InstanceStatusSummary? = nil) {
+        public init(applicationStatus: ApplicationStatusSummary? = nil, attachedEbsStatus: EbsStatusSummary? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, events: [InstanceStatusEvent]? = nil, instanceId: String? = nil, instanceState: InstanceState? = nil, instanceStatus: InstanceStatusSummary? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, systemStatus: InstanceStatusSummary? = nil) {
+            self.applicationStatus = applicationStatus
             self.attachedEbsStatus = attachedEbsStatus
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
@@ -47459,6 +49421,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationStatus = "applicationStatus"
             case attachedEbsStatus = "attachedEbsStatus"
             case availabilityZone = "availabilityZone"
             case availabilityZoneId = "availabilityZoneId"
@@ -47801,6 +49764,20 @@ extension EC2 {
         }
     }
 
+    public struct InstanceTypeItem: AWSDecodableShape {
+        /// The instance type or wildcard pattern (for example, t3.* or m5.large).
+        public let instanceType: String?
+
+        @inlinable
+        public init(instanceType: String? = nil) {
+            self.instanceType = instanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "instanceType"
+        }
+    }
+
     public struct InstanceTypeOffering: AWSDecodableShape {
         /// The instance type. For more information, see Instance types in the Amazon EC2 User Guide.
         public let instanceType: InstanceType?
@@ -47820,6 +49797,63 @@ extension EC2 {
             case instanceType = "instanceType"
             case location = "location"
             case locationType = "locationType"
+        }
+    }
+
+    public struct InstanceTypeSpecification: AWSDecodableShape {
+        public struct _SupportedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _UnsupportedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The instance types that the AMI supports.
+        @OptionalCustomCoding<EC2ArrayCoder<_SupportedInstanceTypesEncoding, InstanceTypeItem>>
+        public var supportedInstanceTypes: [InstanceTypeItem]?
+        /// The instance types that the AMI does not support.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsupportedInstanceTypesEncoding, InstanceTypeItem>>
+        public var unsupportedInstanceTypes: [InstanceTypeItem]?
+
+        @inlinable
+        public init(supportedInstanceTypes: [InstanceTypeItem]? = nil, unsupportedInstanceTypes: [InstanceTypeItem]? = nil) {
+            self.supportedInstanceTypes = supportedInstanceTypes
+            self.unsupportedInstanceTypes = unsupportedInstanceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedInstanceTypes = "supportedInstanceTypeSet"
+            case unsupportedInstanceTypes = "unsupportedInstanceTypeSet"
+        }
+    }
+
+    public struct InstanceTypeSpecificationRequest: AWSEncodableShape {
+        public struct _SupportedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "Item" }
+        public struct _UnsupportedInstanceTypesEncoding: ArrayCoderProperties { public static let member = "Item" }
+
+        /// The instance types that the AMI supports. You can specify instance type names or use wildcard patterns (for example, t3.*). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$. Consecutive wildcard characters (**) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail.
+        @OptionalCustomCoding<EC2ArrayCoder<_SupportedInstanceTypesEncoding, String>>
+        public var supportedInstanceTypes: [String]?
+        /// The instance types that the AMI does not support. You can specify instance type names or use wildcard patterns (for example, t3.*). Constraints: Maximum 100 entries. Each entry must be 1-24 characters and match the pattern ^[A-Za-z0-9_.*-]+$. Consecutive wildcard characters (**) are not allowed. Entries must be unique within each list and across both lists; duplicate entries cause the request to fail.
+        @OptionalCustomCoding<EC2ArrayCoder<_UnsupportedInstanceTypesEncoding, String>>
+        public var unsupportedInstanceTypes: [String]?
+
+        @inlinable
+        public init(supportedInstanceTypes: [String]? = nil, unsupportedInstanceTypes: [String]? = nil) {
+            self.supportedInstanceTypes = supportedInstanceTypes
+            self.unsupportedInstanceTypes = unsupportedInstanceTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.supportedInstanceTypes?.forEach {
+                try validate($0, name: "supportedInstanceTypes[]", parent: name, max: 24)
+            }
+            try self.validate(self.supportedInstanceTypes, name: "supportedInstanceTypes", parent: name, max: 100)
+            try self.unsupportedInstanceTypes?.forEach {
+                try validate($0, name: "unsupportedInstanceTypes[]", parent: name, max: 24)
+            }
+            try self.validate(self.unsupportedInstanceTypes, name: "unsupportedInstanceTypes", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case supportedInstanceTypes = "SupportedInstanceType"
+            case unsupportedInstanceTypes = "UnsupportedInstanceType"
         }
     }
 
@@ -47932,14 +49966,18 @@ extension EC2 {
         /// 			After your modify request, the requested number of instances allocated to interruptible reservation.
         ///
         public let targetInstanceCount: Int?
+        /// 			Specifies how Amazon EC2 handles the interruptible Capacity Reservation when you reduce its allocation to zero instances. A value of retain keeps the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. A value of default cancels the interruptible Capacity Reservation and returns the capacity to your source Capacity Reservation.
+        ///
+        public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(instanceCount: Int? = nil, interruptibleCapacityReservationId: String? = nil, interruptionType: InterruptionType? = nil, status: InterruptibleCapacityReservationAllocationStatus? = nil, targetInstanceCount: Int? = nil) {
+        public init(instanceCount: Int? = nil, interruptibleCapacityReservationId: String? = nil, interruptionType: InterruptionType? = nil, status: InterruptibleCapacityReservationAllocationStatus? = nil, targetInstanceCount: Int? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.instanceCount = instanceCount
             self.interruptibleCapacityReservationId = interruptibleCapacityReservationId
             self.interruptionType = interruptionType
             self.status = status
             self.targetInstanceCount = targetInstanceCount
+            self.zeroSizePreference = zeroSizePreference
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -47948,6 +49986,7 @@ extension EC2 {
             case interruptionType = "interruptionType"
             case status = "status"
             case targetInstanceCount = "targetInstanceCount"
+            case zeroSizePreference = "zeroSizePreference"
         }
     }
 
@@ -48387,6 +50426,60 @@ extension EC2 {
         }
     }
 
+    public struct IpamDiscoveredRoute: AWSDecodableShape {
+        /// The advertisement type of the route. Possible values:    regional - The IP address is advertised from a single location (regional services such as Amazon EC2).    global - The IP address is advertised from multiple global locations simultaneously (global services such as Amazon CloudFront).
+        public let advertisementType: IpamByoipAdvertisementType?
+        /// The Autonomous System Number (ASN) that originates the route.
+        public let asn: String?
+        /// The IP address prefix of the discovered route in CIDR notation.
+        public let cidr: String?
+        /// The ID of the IPAM pool associated with the route.
+        public let ipamPoolId: String?
+        /// The ID of the IPAM resource discovery that discovered the route.
+        public let ipamResourceDiscoveryId: String?
+        /// The network border group for the route.
+        public let networkBorderGroup: String?
+        /// The ID of the BYOIP pool associated with the route.
+        public let poolId: String?
+        /// The ID of the resource owner.
+        public let resourceOwnerId: String?
+        /// The Amazon Web Services Region where the route was discovered.
+        public let resourceRegion: String?
+        /// The time when the route was last sampled.
+        public let sampleTime: Date?
+        /// The state of the BYOIP CIDR. Possible values:    advertised - The CIDR is being advertised.    deprovisioned - The CIDR has been deprovisioned.    failed-deprovision - Deprovisioning failed.    failed-provision - Provisioning failed.    pending-deprovision - Deprovisioning is in progress.    pending-provision - Provisioning is in progress.    provisioned - The CIDR is provisioned.    provisioned-not-publicly-advertisable - The CIDR is provisioned but not publicly advertisable.
+        public let state: IpamByoipCidrState?
+
+        @inlinable
+        public init(advertisementType: IpamByoipAdvertisementType? = nil, asn: String? = nil, cidr: String? = nil, ipamPoolId: String? = nil, ipamResourceDiscoveryId: String? = nil, networkBorderGroup: String? = nil, poolId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, sampleTime: Date? = nil, state: IpamByoipCidrState? = nil) {
+            self.advertisementType = advertisementType
+            self.asn = asn
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.ipamResourceDiscoveryId = ipamResourceDiscoveryId
+            self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceRegion = resourceRegion
+            self.sampleTime = sampleTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advertisementType = "advertisementType"
+            case asn = "asn"
+            case cidr = "cidr"
+            case ipamPoolId = "ipamPoolId"
+            case ipamResourceDiscoveryId = "ipamResourceDiscoveryId"
+            case networkBorderGroup = "networkBorderGroup"
+            case poolId = "poolId"
+            case resourceOwnerId = "resourceOwnerId"
+            case resourceRegion = "resourceRegion"
+            case sampleTime = "sampleTime"
+            case state = "state"
+        }
+    }
+
     public struct IpamDiscoveryFailureReason: AWSDecodableShape {
         /// The discovery failure code.    assume-role-failure - IPAM could not assume the Amazon Web Services IAM service-linked role. This could be because of any of the following:   SLR has not been created yet and IPAM is still creating it.   You have opted-out of the IPAM home Region.   Account you are using as your IPAM account has been suspended.      throttling-failure - IPAM account is already using the allotted transactions per second and IPAM is receiving a throttling error when assuming the Amazon Web Services IAM SLR.    unauthorized-failure - Amazon Web Services account making the request is not authorized. For more information, see AuthFailure in the Amazon Elastic Compute Cloud API Reference.
         public let code: IpamDiscoveryFailureCode?
@@ -48459,6 +50552,103 @@ extension EC2 {
             case tags = "tagSet"
             case tokenName = "tokenName"
             case tokenValue = "tokenValue"
+        }
+    }
+
+    public struct IpamInternetRegistryAssociation: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The XML content for the child request to be submitted to the internet registry to complete the BPKI setup.
+        public let childRequestXml: String?
+        /// The description of the internet registry association.
+        public let description: String?
+        /// The ID of the associated IPAM.
+        public let ipamId: String?
+        /// The Amazon Resource Name (ARN) of the internet registry association.
+        public let ipamInternetRegistryAssociationArn: String?
+        /// The ID of the internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The Amazon Web Services Region of the IPAM.
+        public let ipamRegion: String?
+        /// The organization handle at the internet registry.
+        public let organizationHandle: String?
+        /// The ID of the Amazon Web Services account that owns the internet registry association.
+        public let ownerId: String?
+        /// The Regional Internet Registry. Possible values:    ripe - RIPE NCC (Europe, the Middle East, and Central Asia).    apnic - APNIC (Asia Pacific).    arin - ARIN (North America).    lacnic - LACNIC (Latin America and the Caribbean).
+        public let rir: Rir?
+        /// The state of the internet registry association. Valid values: pending-activation | pending-enable | create-in-progress | create-failed | enable-in-progress | enable-complete | enable-failed | delete-in-progress | delete-complete | delete-failed.
+        public let state: IpamInternetRegistryAssociationState?
+        /// A message describing the current state of the internet registry association, including additional details such as the reason for a failure.
+        public let stateMessage: String?
+        /// The tags assigned to the internet registry association.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(childRequestXml: String? = nil, description: String? = nil, ipamId: String? = nil, ipamInternetRegistryAssociationArn: String? = nil, ipamInternetRegistryAssociationId: String? = nil, ipamRegion: String? = nil, organizationHandle: String? = nil, ownerId: String? = nil, rir: Rir? = nil, state: IpamInternetRegistryAssociationState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil) {
+            self.childRequestXml = childRequestXml
+            self.description = description
+            self.ipamId = ipamId
+            self.ipamInternetRegistryAssociationArn = ipamInternetRegistryAssociationArn
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.ipamRegion = ipamRegion
+            self.organizationHandle = organizationHandle
+            self.ownerId = ownerId
+            self.rir = rir
+            self.state = state
+            self.stateMessage = stateMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case childRequestXml = "childRequestXml"
+            case description = "description"
+            case ipamId = "ipamId"
+            case ipamInternetRegistryAssociationArn = "ipamInternetRegistryAssociationArn"
+            case ipamInternetRegistryAssociationId = "ipamInternetRegistryAssociationId"
+            case ipamRegion = "ipamRegion"
+            case organizationHandle = "organizationHandle"
+            case ownerId = "ownerId"
+            case rir = "rir"
+            case state = "state"
+            case stateMessage = "stateMessage"
+            case tags = "tagSet"
+        }
+    }
+
+    public struct IpamInternetRegistryAssociationAsn: AWSDecodableShape {
+        /// The Autonomous System Number.
+        public let asn: String?
+        /// The time when the ASN was last observed at the internet registry.
+        public let lastObservedAt: Date?
+
+        @inlinable
+        public init(asn: String? = nil, lastObservedAt: Date? = nil) {
+            self.asn = asn
+            self.lastObservedAt = lastObservedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case lastObservedAt = "lastObservedAt"
+        }
+    }
+
+    public struct IpamInternetRegistryAssociationCidr: AWSDecodableShape {
+        /// The IP address prefix in CIDR notation.
+        public let cidr: String?
+        /// The time when the CIDR was last observed at the internet registry.
+        public let lastObservedAt: Date?
+
+        @inlinable
+        public init(cidr: String? = nil, lastObservedAt: Date? = nil) {
+            self.cidr = cidr
+            self.lastObservedAt = lastObservedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case lastObservedAt = "lastObservedAt"
         }
     }
 
@@ -49412,6 +51602,222 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct IpamRouteOriginAuthorization: AWSDecodableShape {
+        /// The Autonomous System Number (ASN) authorized by the ROA.
+        public let asn: String?
+        /// The expiration date of the ROA.
+        public let expiration: Date?
+        /// Specifies whether the ROA matches the route announcement.
+        public let match: Bool?
+        /// The maximum prefix length that the ASN is authorized to announce.
+        public let maxLength: Int?
+        /// The IP address prefix authorized by the ROA in CIDR notation.
+        public let prefix: String?
+
+        @inlinable
+        public init(asn: String? = nil, expiration: Date? = nil, match: Bool? = nil, maxLength: Int? = nil, prefix: String? = nil) {
+            self.asn = asn
+            self.expiration = expiration
+            self.match = match
+            self.maxLength = maxLength
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case expiration = "expiration"
+            case match = "match"
+            case maxLength = "maxLength"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct IpamRouteOriginAuthorizationInfo: AWSDecodableShape {
+        /// The Autonomous System Number (ASN) authorized to originate the prefix.
+        public let asn: String?
+        /// The IP address prefix in CIDR notation authorized by the ROA.
+        public let cidr: String?
+        /// The maximum prefix length that the ASN is authorized to announce.
+        public let maxLength: Int?
+
+        @inlinable
+        public init(asn: String? = nil, cidr: String? = nil, maxLength: Int? = nil) {
+            self.asn = asn
+            self.cidr = cidr
+            self.maxLength = maxLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case cidr = "cidr"
+            case maxLength = "maxLength"
+        }
+    }
+
+    public struct IpamRouteOverlap: AWSDecodableShape {
+        /// The ASN originating the overlapping route.
+        public let asn: String?
+        /// The time when the overlap was detected.
+        public let detectedAt: Date?
+        /// The overlapping IP address prefix in CIDR notation.
+        public let prefix: String?
+
+        @inlinable
+        public init(asn: String? = nil, detectedAt: Date? = nil, prefix: String? = nil) {
+            self.asn = asn
+            self.detectedAt = detectedAt
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "asn"
+            case detectedAt = "detectedAt"
+            case prefix = "prefix"
+        }
+    }
+
+    public struct IpamRouteProtectionFinding: AWSDecodableShape {
+        public struct _RoasEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RouteOverlapsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The advertisement type. Possible values:    regional - The IP address is advertised from a single location (regional services such as Amazon EC2).    global - The IP address is advertised from multiple global locations simultaneously (global services such as Amazon CloudFront).
+        public let advertisementType: IpamByoipAdvertisementType?
+        /// The Autonomous System Number (ASN) that originates the route.
+        public let asn: String?
+        /// The IP address prefix in CIDR notation.
+        public let cidr: String?
+        /// The ID of the IPAM pool associated with the finding.
+        public let ipamPoolId: String?
+        /// The network border group.
+        public let networkBorderGroup: String?
+        /// The ID of the BYOIP pool.
+        public let poolId: String?
+        /// The ID of the resource owner.
+        public let resourceOwnerId: String?
+        /// The Amazon Web Services Region of the resource.
+        public let resourceRegion: String?
+        /// The Route Origin Authorizations (ROAs) that cover the prefix.
+        @OptionalCustomCoding<EC2ArrayCoder<_RoasEncoding, IpamRouteOriginAuthorization>>
+        public var roas: [IpamRouteOriginAuthorization]?
+        /// The time when the ROA data was last sampled.
+        public let roaSampleTime: Date?
+        /// The overlapping routes detected for this prefix.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteOverlapsEncoding, IpamRouteOverlap>>
+        public var routeOverlaps: [IpamRouteOverlap]?
+        /// The RPKI validation status of the route. Possible values:    valid - The route has a matching ROA that covers the prefix and origin ASN.    invalid - The route has a ROA for the prefix, but the origin ASN or prefix length does not match.    unknown - No ROA exists for the prefix, so RPKI validation cannot be performed.
+        public let rpkiStatus: IpamRpkiStatus?
+        /// The RPKI enforcement strength for the route. Possible values:    strict - Invalid routes are rejected.    permissive - Invalid routes are accepted but flagged.
+        public let rpkiStrength: IpamRpkiStrength?
+        /// The time when the route was last sampled.
+        public let sampleTime: Date?
+        /// The state of the BYOIP CIDR. Possible values:    advertised - The CIDR is being advertised.    deprovisioned - The CIDR has been deprovisioned.    failed-deprovision - Deprovisioning failed.    failed-provision - Provisioning failed.    pending-deprovision - Deprovisioning is in progress.    pending-provision - Provisioning is in progress.    provisioned - The CIDR is provisioned.    provisioned-not-publicly-advertisable - The CIDR is provisioned but not publicly advertisable.
+        public let state: IpamByoipCidrState?
+
+        @inlinable
+        public init(advertisementType: IpamByoipAdvertisementType? = nil, asn: String? = nil, cidr: String? = nil, ipamPoolId: String? = nil, networkBorderGroup: String? = nil, poolId: String? = nil, resourceOwnerId: String? = nil, resourceRegion: String? = nil, roas: [IpamRouteOriginAuthorization]? = nil, roaSampleTime: Date? = nil, routeOverlaps: [IpamRouteOverlap]? = nil, rpkiStatus: IpamRpkiStatus? = nil, rpkiStrength: IpamRpkiStrength? = nil, sampleTime: Date? = nil, state: IpamByoipCidrState? = nil) {
+            self.advertisementType = advertisementType
+            self.asn = asn
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.networkBorderGroup = networkBorderGroup
+            self.poolId = poolId
+            self.resourceOwnerId = resourceOwnerId
+            self.resourceRegion = resourceRegion
+            self.roas = roas
+            self.roaSampleTime = roaSampleTime
+            self.routeOverlaps = routeOverlaps
+            self.rpkiStatus = rpkiStatus
+            self.rpkiStrength = rpkiStrength
+            self.sampleTime = sampleTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advertisementType = "advertisementType"
+            case asn = "asn"
+            case cidr = "cidr"
+            case ipamPoolId = "ipamPoolId"
+            case networkBorderGroup = "networkBorderGroup"
+            case poolId = "poolId"
+            case resourceOwnerId = "resourceOwnerId"
+            case resourceRegion = "resourceRegion"
+            case roas = "roaSet"
+            case roaSampleTime = "roaSampleTime"
+            case routeOverlaps = "routeOverlapSet"
+            case rpkiStatus = "rpkiStatus"
+            case rpkiStrength = "rpkiStrength"
+            case sampleTime = "sampleTime"
+            case state = "state"
+        }
+    }
+
+    public struct IpamRoutingPolicyRegistration: AWSDecodableShape {
+        public struct _AsnsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Autonomous System Numbers (ASNs) authorized to originate the prefix.
+        @OptionalCustomCoding<EC2ArrayCoder<_AsnsEncoding, String>>
+        public var asns: [String]?
+        /// The IP address prefix in CIDR notation authorized by the ROA.
+        public let cidr: String?
+        /// The description of the routing policy registration.
+        public let description: String?
+        /// The ID of the most recent delta that modified this registration.
+        public let latestDeltaId: String?
+        /// The maximum prefix length that the ASNs are authorized to announce.
+        public let maxLength: Int?
+        /// Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
+        public let permitMoreSpecificAnnouncements: Bool?
+        /// The state of the routing policy registration. Valid values: pending-activate | activate-failed | create-in-progress | create-complete | update-in-progress | update-complete | delete-in-progress | delete-complete.
+        public let state: IpamRoutingPolicyRegistrationState?
+
+        @inlinable
+        public init(asns: [String]? = nil, cidr: String? = nil, description: String? = nil, latestDeltaId: String? = nil, maxLength: Int? = nil, permitMoreSpecificAnnouncements: Bool? = nil, state: IpamRoutingPolicyRegistrationState? = nil) {
+            self.asns = asns
+            self.cidr = cidr
+            self.description = description
+            self.latestDeltaId = latestDeltaId
+            self.maxLength = maxLength
+            self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asns = "asnSet"
+            case cidr = "cidr"
+            case description = "description"
+            case latestDeltaId = "latestDeltaId"
+            case maxLength = "maxLength"
+            case permitMoreSpecificAnnouncements = "permitMoreSpecificAnnouncements"
+            case state = "state"
+        }
+    }
+
+    public struct IpamRoutingPolicyRegistrationDelta: AWSDecodableShape {
+        /// The unique identifier of the delta.
+        public let deltaId: String?
+        /// The JSON specification describing the changes applied in this delta.
+        public let deltaJson: String?
+        /// The state of the delta. Valid values: pending | published | failed.
+        public let state: IpamRoutingPolicyRegistrationDeltaState?
+        /// A message describing the current state, including error information if the delta failed.
+        public let stateMessage: String?
+
+        @inlinable
+        public init(deltaId: String? = nil, deltaJson: String? = nil, state: IpamRoutingPolicyRegistrationDeltaState? = nil, stateMessage: String? = nil) {
+            self.deltaId = deltaId
+            self.deltaJson = deltaJson
+            self.state = state
+            self.stateMessage = stateMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deltaId = "deltaId"
+            case deltaJson = "deltaJson"
+            case state = "state"
+            case stateMessage = "stateMessage"
         }
     }
 
@@ -52562,6 +54968,108 @@ extension EC2 {
         }
     }
 
+    public struct ModifyApplicationStatusCheckRequest: AWSEncodableShape {
+        public struct _HealthCheckPathsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+        public let aggregation: AggregationStatusEnum?
+        /// The ID of the application status check to modify.
+        public let applicationStatusCheckId: String?
+        /// A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The index of the network device to use for the health check. The value must be greater than or equal to 0.
+        public let deviceIndex: Int?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+        public let failureThreshold: Int?
+        /// The health check paths to use for the application status check.
+        @OptionalCustomCoding<EC2ArrayCoder<_HealthCheckPathsEncoding, HealthCheckPathRequestObject>>
+        public var healthCheckPaths: [HealthCheckPathRequestObject]?
+        /// The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+        public let initializationGracePeriodSeconds: Int?
+        /// The interval, in seconds, between health checks. Valid value: 60.
+        public let interval: Int?
+        /// The IP scope to use for the health check. Valid value: private.
+        public let ipScope: IpScopeEnum?
+        /// The IP version to use for the health check. Valid values: ipv4 and ipv6.
+        public let ipVersion: IpVersionEnum?
+        /// The URL path to use for the health check HTTP request (for example, /health or /status).
+        public let path: String?
+        /// The port to use for the health check. Valid values: 1 to 65535.
+        public let port: Int?
+        /// The protocol to use for the health check. Valid values: http | https.
+        public let `protocol`: NetworkProtocolEnum?
+        /// The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters.
+        public let statusCodeMatcher: String?
+        /// The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+        public let successThreshold: Int?
+        /// The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+        public let timeout: Int?
+
+        @inlinable
+        public init(aggregation: AggregationStatusEnum? = nil, applicationStatusCheckId: String? = nil, clientToken: String? = ModifyApplicationStatusCheckRequest.idempotencyToken(), deviceIndex: Int? = nil, dryRun: Bool? = nil, failureThreshold: Int? = nil, healthCheckPaths: [HealthCheckPathRequestObject]? = nil, initializationGracePeriodSeconds: Int? = nil, interval: Int? = nil, ipScope: IpScopeEnum? = nil, ipVersion: IpVersionEnum? = nil, path: String? = nil, port: Int? = nil, protocol: NetworkProtocolEnum? = nil, statusCodeMatcher: String? = nil, successThreshold: Int? = nil, timeout: Int? = nil) {
+            self.aggregation = aggregation
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.clientToken = clientToken
+            self.deviceIndex = deviceIndex
+            self.dryRun = dryRun
+            self.failureThreshold = failureThreshold
+            self.healthCheckPaths = healthCheckPaths
+            self.initializationGracePeriodSeconds = initializationGracePeriodSeconds
+            self.interval = interval
+            self.ipScope = ipScope
+            self.ipVersion = ipVersion
+            self.path = path
+            self.port = port
+            self.`protocol` = `protocol`
+            self.statusCodeMatcher = statusCodeMatcher
+            self.successThreshold = successThreshold
+            self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.initializationGracePeriodSeconds, name: "initializationGracePeriodSeconds", parent: name, max: 600)
+            try self.validate(self.initializationGracePeriodSeconds, name: "initializationGracePeriodSeconds", parent: name, min: -1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "Aggregation"
+            case applicationStatusCheckId = "ApplicationStatusCheckId"
+            case clientToken = "ClientToken"
+            case deviceIndex = "DeviceIndex"
+            case dryRun = "DryRun"
+            case failureThreshold = "FailureThreshold"
+            case healthCheckPaths = "HealthCheckPath"
+            case initializationGracePeriodSeconds = "InitializationGracePeriodSeconds"
+            case interval = "Interval"
+            case ipScope = "IpScope"
+            case ipVersion = "IpVersion"
+            case path = "Path"
+            case port = "Port"
+            case `protocol` = "Protocol"
+            case statusCodeMatcher = "StatusCodeMatcher"
+            case successThreshold = "SuccessThreshold"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct ModifyApplicationStatusCheckResult: AWSDecodableShape {
+        /// Information about the modified application status check.
+        public let applicationStatusCheck: ApplicationStatusCheckResponseObject?
+
+        @inlinable
+        public init(applicationStatusCheck: ApplicationStatusCheckResponseObject? = nil) {
+            self.applicationStatusCheck = applicationStatusCheck
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheck = "applicationStatusCheck"
+        }
+    }
+
     public struct ModifyAvailabilityZoneGroupRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -53244,12 +55752,12 @@ extension EC2 {
         /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the instance. There is no way to disable enhanced networking with the Intel 82599 Virtual Function interface at this time. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
         public let sriovNetSupport: AttributeValue?
         /// Changes the instance's user data to the specified value. User data must be base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might be performed for you. For more information, see Work with instance user data.
-        public let userData: BlobAttributeValue?
+        public let userData: SecureBlobAttributeValue?
         /// A new value for the attribute. Use only with the kernel, ramdisk, userData, disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
         public let value: String?
 
         @inlinable
-        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, groups: [String]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: BlobAttributeValue? = nil, value: String? = nil) {
+        public init(attribute: InstanceAttributeName? = nil, blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]? = nil, disableApiStop: AttributeBooleanValue? = nil, disableApiTermination: AttributeBooleanValue? = nil, dryRun: Bool? = nil, ebsOptimized: AttributeBooleanValue? = nil, enaSupport: AttributeBooleanValue? = nil, enclaveOptions: EnclaveOptionsRequest? = nil, groups: [String]? = nil, instanceId: String? = nil, instanceInitiatedShutdownBehavior: AttributeValue? = nil, instanceType: AttributeValue? = nil, kernel: AttributeValue? = nil, ramdisk: AttributeValue? = nil, sourceDestCheck: AttributeBooleanValue? = nil, sriovNetSupport: AttributeValue? = nil, userData: SecureBlobAttributeValue? = nil, value: String? = nil) {
             self.attribute = attribute
             self.blockDeviceMappings = blockDeviceMappings
             self.disableApiStop = disableApiStop
@@ -54247,6 +56755,74 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipam = "ipam"
+        }
+    }
+
+    public struct ModifyIpamRoutingPolicyRegistrationRequest: AWSEncodableShape {
+        public struct _AsnsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The updated list of Autonomous System Numbers (ASNs) authorized to originate the prefix.
+        @OptionalCustomCoding<EC2ArrayCoder<_AsnsEncoding, String>>
+        public var asns: [String]?
+        /// The IP address prefix in CIDR notation identifying the routing policy registration to modify.
+        public let cidr: String?
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+        public let clientToken: String?
+        /// A new description for the routing policy registration.
+        public let description: String?
+        /// Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Forces the modification even if it conflicts with an announced route. Default: false.
+        public let force: Bool?
+        /// The ID of the IPAM internet registry association.
+        public let ipamInternetRegistryAssociationId: String?
+        /// The new maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR.
+        public let maxLength: Int?
+        /// Specifies whether to permit more specific route announcements than the CIDR prefix. Default: false.
+        public let permitMoreSpecificAnnouncements: Bool?
+
+        @inlinable
+        public init(asns: [String]? = nil, cidr: String? = nil, clientToken: String? = ModifyIpamRoutingPolicyRegistrationRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, force: Bool? = nil, ipamInternetRegistryAssociationId: String? = nil, maxLength: Int? = nil, permitMoreSpecificAnnouncements: Bool? = nil) {
+            self.asns = asns
+            self.cidr = cidr
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.force = force
+            self.ipamInternetRegistryAssociationId = ipamInternetRegistryAssociationId
+            self.maxLength = maxLength
+            self.permitMoreSpecificAnnouncements = permitMoreSpecificAnnouncements
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxLength, name: "maxLength", parent: name, max: 48)
+            try self.validate(self.maxLength, name: "maxLength", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asns = "Asn"
+            case cidr = "Cidr"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case force = "Force"
+            case ipamInternetRegistryAssociationId = "IpamInternetRegistryAssociationId"
+            case maxLength = "MaxLength"
+            case permitMoreSpecificAnnouncements = "PermitMoreSpecificAnnouncements"
+        }
+    }
+
+    public struct ModifyIpamRoutingPolicyRegistrationResult: AWSDecodableShape {
+        /// Information about the routing policy registration delta created by this modification.
+        public let ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta?
+
+        @inlinable
+        public init(ipamRoutingPolicyRegistrationDelta: IpamRoutingPolicyRegistrationDelta? = nil) {
+            self.ipamRoutingPolicyRegistrationDelta = ipamRoutingPolicyRegistrationDelta
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamRoutingPolicyRegistrationDelta = "ipamRoutingPolicyRegistrationDelta"
         }
     }
 
@@ -55261,6 +57837,7 @@ extension EC2 {
     }
 
     public struct ModifyTransitGatewayPolicyTableEntryResult: AWSDecodableShape {
+        /// Describes a transit gateway policy table entry
         public let transitGatewayPolicyTableEntry: TransitGatewayPolicyTableEntry?
 
         @inlinable
@@ -61419,6 +63996,48 @@ extension EC2 {
         }
     }
 
+    public struct ReplaceImageInstanceTypeSpecificationRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,
+        /// 			and provides an error response. If you have the required permissions, the error response is
+        /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the AMI.
+        public let imageId: String?
+        /// The instance type specification to set on the AMI. Omit this parameter to remove the existing instance type specification.
+        public let instanceTypeSpecification: InstanceTypeSpecificationRequest?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, imageId: String? = nil, instanceTypeSpecification: InstanceTypeSpecificationRequest? = nil) {
+            self.dryRun = dryRun
+            self.imageId = imageId
+            self.instanceTypeSpecification = instanceTypeSpecification
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceTypeSpecification?.validate(name: "\(name).instanceTypeSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case imageId = "ImageId"
+            case instanceTypeSpecification = "InstanceTypeSpecification"
+        }
+    }
+
+    public struct ReplaceImageInstanceTypeSpecificationResult: AWSDecodableShape {
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let returnValue: Bool?
+
+        @inlinable
+        public init(returnValue: Bool? = nil) {
+            self.returnValue = returnValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case returnValue = "returnValue"
+        }
+    }
+
     public struct ReplaceNetworkAclAssociationRequest: AWSEncodableShape {
         /// The ID of the current association between the original network ACL and the subnet.
         public let associationId: String?
@@ -62393,37 +65012,91 @@ extension EC2 {
         }
     }
 
-    public struct ReservedCapacityOptions: AWSDecodableShape {
-        public struct _ReservationTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+    public struct ReservedCapacityFallbackOptions: AWSDecodableShape {
+        public struct _MarketTypesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The types of Capacity Reservations used for fulfilling the EC2 Fleet request.
-        @OptionalCustomCoding<EC2ArrayCoder<_ReservationTypesEncoding, FleetReservationType>>
-        public var reservationTypes: [FleetReservationType]?
+        /// The instance purchasing options to fall back to when the reserved capacity is not enough to meet the target capacity. The only supported value is on-demand, which launches On-Demand Instances to fulfill the remaining target capacity.
+        @OptionalCustomCoding<EC2ArrayCoder<_MarketTypesEncoding, ReservedCapacityFallbackMarketType>>
+        public var marketTypes: [ReservedCapacityFallbackMarketType]?
 
         @inlinable
-        public init(reservationTypes: [FleetReservationType]? = nil) {
-            self.reservationTypes = reservationTypes
+        public init(marketTypes: [ReservedCapacityFallbackMarketType]? = nil) {
+            self.marketTypes = marketTypes
         }
 
         private enum CodingKeys: String, CodingKey {
+            case marketTypes = "marketTypeSet"
+        }
+    }
+
+    public struct ReservedCapacityFallbackOptionsRequest: AWSEncodableShape {
+        public struct _MarketTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The instance purchasing options to fall back to when the reserved capacity is not enough to meet the target capacity. The only supported value is on-demand, which launches On-Demand Instances to fulfill the remaining target capacity.
+        @OptionalCustomCoding<EC2ArrayCoder<_MarketTypesEncoding, ReservedCapacityFallbackMarketType>>
+        public var marketTypes: [ReservedCapacityFallbackMarketType]?
+
+        @inlinable
+        public init(marketTypes: [ReservedCapacityFallbackMarketType]? = nil) {
+            self.marketTypes = marketTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marketTypes = "MarketType"
+        }
+    }
+
+    public struct ReservedCapacityOptions: AWSDecodableShape {
+        public struct _ReservationTypesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The strategy that determines the order in which EC2 Fleet launches instances across the reservation types that you specify. The only supported value is prioritized, which launches instances in the priority order that you specify in your launch template overrides. If you don't specify an allocation strategy, instances are launched in a random order.
+        public let allocationStrategy: ReservedCapacityAllocationStrategy?
+        /// The types of Capacity Reservations used for fulfilling the EC2 Fleet request.
+        @OptionalCustomCoding<EC2ArrayCoder<_ReservationTypesEncoding, FleetReservationType>>
+        public var reservationTypes: [FleetReservationType]?
+        /// The fallback behavior for the EC2 Fleet when there is not enough reserved capacity available to meet the target capacity.
+        public let reservedCapacityFallbackOptions: ReservedCapacityFallbackOptions?
+
+        @inlinable
+        public init(allocationStrategy: ReservedCapacityAllocationStrategy? = nil, reservationTypes: [FleetReservationType]? = nil, reservedCapacityFallbackOptions: ReservedCapacityFallbackOptions? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.reservationTypes = reservationTypes
+            self.reservedCapacityFallbackOptions = reservedCapacityFallbackOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "allocationStrategy"
             case reservationTypes = "reservationTypeSet"
+            case reservedCapacityFallbackOptions = "reservedCapacityFallbackOptions"
         }
     }
 
     public struct ReservedCapacityOptionsRequest: AWSEncodableShape {
         public struct _ReservationTypesEncoding: ArrayCoderProperties { public static let member = "ReservationType" }
 
-        /// The types of Capacity Reservations to use for fulfilling the EC2 Fleet request.
+        /// The strategy that determines the order in which EC2 Fleet launches instances across the reservation types that you specify. The only supported value is prioritized, which launches instances in the priority order that you specify in your launch template overrides. If you don't specify an allocation strategy, instances are launched in a random order.
+        public let allocationStrategy: ReservedCapacityAllocationStrategy?
+        /// The Capacity Reservations or Capacity Reservation Resource Groups to use for fulfilling the EC2 Fleet request. You can specify Capacity Reservation IDs or a Capacity Reservation Resource Group ARN, but not both.
+        public let capacityReservationTarget: FleetCapacityReservationTargetRequest?
+        /// The types of Capacity Reservations to use for fulfilling the EC2 Fleet request. This is an ordered list: EC2 Fleet attempts to launch instances into each Capacity Reservation type in the order that you specify them before moving on to the next type.
         @OptionalCustomCoding<EC2ArrayCoder<_ReservationTypesEncoding, FleetReservationType>>
         public var reservationTypes: [FleetReservationType]?
+        /// The fallback behavior for the EC2 Fleet when there is not enough reserved capacity available to meet the target capacity. This member takes a ReservedCapacityFallbackOptionsRequest structure, in which you set MarketTypes to the instance purchasing options to fall back to.
+        public let reservedCapacityFallbackOptions: ReservedCapacityFallbackOptionsRequest?
 
         @inlinable
-        public init(reservationTypes: [FleetReservationType]? = nil) {
+        public init(allocationStrategy: ReservedCapacityAllocationStrategy? = nil, capacityReservationTarget: FleetCapacityReservationTargetRequest? = nil, reservationTypes: [FleetReservationType]? = nil, reservedCapacityFallbackOptions: ReservedCapacityFallbackOptionsRequest? = nil) {
+            self.allocationStrategy = allocationStrategy
+            self.capacityReservationTarget = capacityReservationTarget
             self.reservationTypes = reservationTypes
+            self.reservedCapacityFallbackOptions = reservedCapacityFallbackOptions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "AllocationStrategy"
+            case capacityReservationTarget = "CapacityReservationTarget"
             case reservationTypes = "ReservationType"
+            case reservedCapacityFallbackOptions = "ReservedCapacityFallbackOptions"
         }
     }
 
@@ -65729,6 +68402,20 @@ extension EC2 {
         }
     }
 
+    public struct SecureBlobAttributeValue: AWSEncodableShape {
+        /// The attribute value.
+        public let value: AWSBase64Data?
+
+        @inlinable
+        public init(value: AWSBase64Data? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
     public struct SecurityGroup: AWSDecodableShape {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _IpPermissionsEgressEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -68194,6 +70881,28 @@ extension EC2 {
         }
     }
 
+    public struct SuccessfulAssociationResponseObject: AWSDecodableShape {
+        /// The ID of the application status check.
+        public let applicationStatusCheckId: String?
+        /// The type of association. Valid values: EC2TAG and INSTANCE_ID.
+        public let associationType: String?
+        /// The association value. For EC2TAG, the value is formatted as key=value. For INSTANCE_ID, the value is the instance ID.
+        public let associationValue: String?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, associationType: String? = nil, associationValue: String? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.associationValue = associationValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "applicationStatusCheckId"
+            case associationType = "associationType"
+            case associationValue = "associationValue"
+        }
+    }
+
     public struct SuccessfulInstanceCreditSpecificationItem: AWSDecodableShape {
         /// The ID of the instance.
         public let instanceId: String?
@@ -68219,6 +70928,28 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case reservedInstancesId = "reservedInstancesId"
+        }
+    }
+
+    public struct SuccessfulSuppressionResponseObject: AWSDecodableShape {
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The date and time when suppression ends and health checks resume.
+        public let resumeAt: Date?
+        /// The date and time when suppression started.
+        public let suppressAt: Date?
+
+        @inlinable
+        public init(instanceId: String? = nil, resumeAt: Date? = nil, suppressAt: Date? = nil) {
+            self.instanceId = instanceId
+            self.resumeAt = resumeAt
+            self.suppressAt = suppressAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case resumeAt = "resumeAt"
+            case suppressAt = "suppressAt"
         }
     }
 
@@ -70957,6 +73688,32 @@ extension EC2 {
         }
     }
 
+    public struct UnsuccessfulAssociationResponseObject: AWSDecodableShape {
+        /// The ID of the application status check.
+        public let applicationStatusCheckId: String?
+        /// The type of association. Valid values: EC2TAG and INSTANCE_ID.
+        public let associationType: String?
+        /// The association value. For EC2TAG, the value is formatted as key=value. For INSTANCE_ID, the value is the instance ID.
+        public let associationValue: String?
+        /// The reason the association failed.
+        public let reason: String?
+
+        @inlinable
+        public init(applicationStatusCheckId: String? = nil, associationType: String? = nil, associationValue: String? = nil, reason: String? = nil) {
+            self.applicationStatusCheckId = applicationStatusCheckId
+            self.associationType = associationType
+            self.associationValue = associationValue
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationStatusCheckId = "applicationStatusCheckId"
+            case associationType = "associationType"
+            case associationValue = "associationValue"
+            case reason = "reason"
+        }
+    }
+
     public struct UnsuccessfulInstanceCreditSpecificationItem: AWSDecodableShape {
         /// The applicable error for the burstable performance instance whose credit option for CPU usage was not modified.
         public let error: UnsuccessfulInstanceCreditSpecificationItemError?
@@ -71026,6 +73783,32 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case code = "code"
             case message = "message"
+        }
+    }
+
+    public struct UnsuccessfulSuppressionResponseObject: AWSDecodableShape {
+        /// The ID of the instance.
+        public let instanceId: String?
+        /// The reason the suppression failed.
+        public let reason: String?
+        /// The date and time when health checks would have resumed.
+        public let resumeAt: Date?
+        /// The date and time when suppression was attempted.
+        public let suppressAt: Date?
+
+        @inlinable
+        public init(instanceId: String? = nil, reason: String? = nil, resumeAt: Date? = nil, suppressAt: Date? = nil) {
+            self.instanceId = instanceId
+            self.reason = reason
+            self.resumeAt = resumeAt
+            self.suppressAt = suppressAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "instanceId"
+            case reason = "reason"
+            case resumeAt = "resumeAt"
+            case suppressAt = "suppressAt"
         }
     }
 
@@ -71129,18 +73912,23 @@ extension EC2 {
         /// 			The new number of instances to allocate. Enter a higher number to add more capacity to share, or a lower number to reclaim capacity to your source Capacity Reservation.
         ///
         public let targetInstanceCount: Int?
+        /// 			Specifies the updated behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation.
+        ///
+        public let zeroSizePreference: ZeroSizePreference?
 
         @inlinable
-        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, targetInstanceCount: Int? = nil) {
+        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, targetInstanceCount: Int? = nil, zeroSizePreference: ZeroSizePreference? = nil) {
             self.capacityReservationId = capacityReservationId
             self.dryRun = dryRun
             self.targetInstanceCount = targetInstanceCount
+            self.zeroSizePreference = zeroSizePreference
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacityReservationId = "CapacityReservationId"
             case dryRun = "DryRun"
             case targetInstanceCount = "TargetInstanceCount"
+            case zeroSizePreference = "ZeroSizePreference"
         }
     }
 
@@ -71446,6 +74234,41 @@ extension EC2 {
             case defaultVCpus = "defaultVCpus"
             case validCores = "validCores"
             case validThreadsPerCore = "validThreadsPerCore"
+        }
+    }
+
+    public struct ValidateSecurityGroupQuotasForInterfaceRequest: AWSEncodableShape {
+        public struct _SecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum number of security groups allowed per network interface.
+        @OptionalCustomCoding<EC2ArrayCoder<_SecurityGroupIdsEncoding, String>>
+        public var securityGroupIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, securityGroupIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.securityGroupIds = securityGroupIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case securityGroupIds = "SecurityGroupId"
+        }
+    }
+
+    public struct ValidateSecurityGroupQuotasForInterfaceResult: AWSDecodableShape {
+        /// The operation returns true if the specified security groups can be associated with a single network interface without exceeding the quotas. It returns an error if associating the security groups would exceed a quota.
+        public let valid: Bool?
+
+        @inlinable
+        public init(valid: Bool? = nil) {
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valid = "valid"
         }
     }
 

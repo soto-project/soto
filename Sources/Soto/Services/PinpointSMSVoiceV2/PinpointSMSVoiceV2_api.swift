@@ -588,7 +588,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createRegistrationAssociation(input, logger: logger)
     }
 
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     @Sendable
     @inlinable
     public func createRegistrationAttachment(_ input: CreateRegistrationAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRegistrationAttachmentResult {
@@ -601,10 +601,10 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
+    /// Create a new registration attachment to use for uploading a file or a URL to a file. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG. For example, many sender ID registrations require a signed “letter of authorization” (LOA) to be submitted. Use either AttachmentUrl or AttachmentBody to upload your attachment. If both are specified then an exception is returned.
     ///
     /// Parameters:
-    ///   - attachmentBody: The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+    ///   - attachmentBody: The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.
     ///   - attachmentUrl: Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - tags: An array of tags (key and value pairs) to associate with the registration attachment.

@@ -70,6 +70,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -241,6 +247,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -951,6 +963,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -2462,8 +2480,10 @@ extension SageMaker {
     public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "Deleting"
         case failed = "Failed"
+        case inMaintenance = "InMaintenance"
         case inService = "InService"
         case pending = "Pending"
+        case pendingMaintenance = "PendingMaintenance"
         case stopped = "Stopped"
         case stopping = "Stopping"
         case updating = "Updating"
@@ -2535,6 +2555,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -2589,6 +2615,7 @@ extension SageMaker {
 
     public enum PartnerAppAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case iam = "IAM"
+        case idc = "IDC"
         public var description: String { return self.rawValue }
     }
 
@@ -2701,6 +2728,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -3319,6 +3352,7 @@ extension SageMaker {
 
     public enum RoutingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case leastOutstandingRequests = "LEAST_OUTSTANDING_REQUESTS"
+        case prefixAware = "PREFIX_AWARE"
         case random = "RANDOM"
         public var description: String { return self.rawValue }
     }
@@ -3628,6 +3662,7 @@ extension SageMaker {
     public enum StorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inMemory = "InMemory"
         case standard = "Standard"
+        case standardV2 = "Standard_V2"
         public var description: String { return self.rawValue }
     }
 
@@ -3852,6 +3887,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG712Xlarge = "ml.g7.12xlarge"
+        case mlG724Xlarge = "ml.g7.24xlarge"
+        case mlG72Xlarge = "ml.g7.2xlarge"
+        case mlG748Xlarge = "ml.g7.48xlarge"
+        case mlG74Xlarge = "ml.g7.4xlarge"
+        case mlG78Xlarge = "ml.g7.8xlarge"
         case mlG7E12Xlarge = "ml.g7e.12xlarge"
         case mlG7E24Xlarge = "ml.g7e.24xlarge"
         case mlG7E2Xlarge = "ml.g7e.2xlarge"
@@ -4045,6 +4086,14 @@ extension SageMaker {
         case mlG648Xlarge = "ml.g6.48xlarge"
         case mlG64Xlarge = "ml.g6.4xlarge"
         case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
         case mlInf224Xlarge = "ml.inf2.24xlarge"
         case mlInf248Xlarge = "ml.inf2.48xlarge"
@@ -5163,7 +5212,7 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The recommended instance type for the deployment.
         public let instanceType: AIRecommendationInstanceType?
-        /// The minimum host (CPU) memory, in MiB, to reserve per model copy when deploying the recommendation as an Inference Component. This value maps to the base Inference Component's ComputeResourceRequirements$MinMemoryRequiredInMb and is sized so that CopyCountPerInstance copies co-place within the instance's allocatable host memory.
+        /// The minimum host (CPU) memory, in MiB, to reserve for each model copy when deploying the recommendation as an Inference Component. This value maps to the Inference Component's ComputeResourceRequirements$MinMemoryRequiredInMb field.
         public let minCpuMemoryRequiredInMb: Int?
         /// The Amazon S3 data channels for the deployment.
         public let s3: [AIRecommendationDeploymentS3Channel]?
@@ -9555,7 +9604,7 @@ extension SageMaker {
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
             try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, max: 6758)
             try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, min: 0)
-            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
+            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 3)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
             try self.scheduledUpdateConfig?.validate(name: "\(name).scheduledUpdateConfig")
@@ -10249,7 +10298,7 @@ extension SageMaker {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
             try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 4)
-            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
+            try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 3)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
             try self.scheduledUpdateConfig?.validate(name: "\(name).scheduledUpdateConfig")
@@ -14024,6 +14073,8 @@ extension SageMaker {
         public let artifactStoreUri: String?
         /// List of SageMaker domain IDs for which this MLflow App is used as the default.
         public let defaultDomainIdList: [String]?
+        /// The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. If you don't specify a value, the MLflow App is not encrypted with a customer-managed key.
+        public let kmsKeyId: String?
         /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationDisabled.
         public let modelRegistrationMode: ModelRegistrationMode?
         /// A string identifying the MLflow app name. This string is not part of the tracking server ARN.
@@ -14036,10 +14087,11 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(accountDefaultStatus: AccountDefaultStatus? = nil, artifactStoreUri: String? = nil, defaultDomainIdList: [String]? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, artifactStoreUri: String? = nil, defaultDomainIdList: [String]? = nil, kmsKeyId: String? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.accountDefaultStatus = accountDefaultStatus
             self.artifactStoreUri = artifactStoreUri
             self.defaultDomainIdList = defaultDomainIdList
+            self.kmsKeyId = kmsKeyId
             self.modelRegistrationMode = modelRegistrationMode
             self.name = name
             self.roleArn = roleArn
@@ -14054,6 +14106,8 @@ extension SageMaker {
                 try validate($0, name: "defaultDomainIdList[]", parent: name, max: 63)
                 try validate($0, name: "defaultDomainIdList[]", parent: name, pattern: "^d-(-*[a-z0-9]){1,61}$")
             }
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
@@ -14072,6 +14126,7 @@ extension SageMaker {
             case accountDefaultStatus = "AccountDefaultStatus"
             case artifactStoreUri = "ArtifactStoreUri"
             case defaultDomainIdList = "DefaultDomainIdList"
+            case kmsKeyId = "KmsKeyId"
             case modelRegistrationMode = "ModelRegistrationMode"
             case name = "Name"
             case roleArn = "RoleArn"
@@ -15078,7 +15133,7 @@ extension SageMaker {
         public let stoppingCondition: StoppingCondition?
         /// A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
-        /// The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. Currently, you can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see Reserve capacity with training plans.
+        /// The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. You can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see Reserve capacity with training plans.
         public let trainingPlanArns: [String]?
         /// A VPC in Amazon VPC that your optimized model has access to.
         public let vpcConfig: OptimizationVpcConfig?
@@ -15212,7 +15267,7 @@ extension SageMaker {
     public struct CreatePartnerAppRequest: AWSEncodableShape {
         /// Configuration settings for the SageMaker Partner AI App.
         public let applicationConfig: PartnerAppConfig?
-        /// The authorization type that users use to access the SageMaker Partner AI App.
+        /// The authorization type that users use to access the SageMaker Partner AI App. Valid values:    IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.    IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
         public let authType: PartnerAppAuthType?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
@@ -15222,6 +15277,8 @@ extension SageMaker {
         public let enableIamSessionBasedIdentity: Bool?
         /// The ARN of the IAM role that the partner application uses.
         public let executionRoleArn: String?
+        /// Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
+        public let idcConfig: IdcConfigInput?
         /// SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
         public let kmsKeyId: String?
         /// Maintenance configuration settings for the SageMaker Partner AI App.
@@ -15236,13 +15293,14 @@ extension SageMaker {
         public let type: PartnerAppType?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, idcConfig: IdcConfigInput? = nil, kmsKeyId: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
             self.applicationConfig = applicationConfig
             self.authType = authType
             self.clientToken = clientToken
             self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.executionRoleArn = executionRoleArn
+            self.idcConfig = idcConfig
             self.kmsKeyId = kmsKeyId
             self.maintenanceConfig = maintenanceConfig
             self.name = name
@@ -15259,6 +15317,7 @@ extension SageMaker {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.idcConfig?.validate(name: "\(name).idcConfig")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
             try self.maintenanceConfig?.validate(name: "\(name).maintenanceConfig")
@@ -15280,6 +15339,7 @@ extension SageMaker {
             case enableAutoMinorVersionUpgrade = "EnableAutoMinorVersionUpgrade"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case executionRoleArn = "ExecutionRoleArn"
+            case idcConfig = "IdcConfig"
             case kmsKeyId = "KmsKeyId"
             case maintenanceConfig = "MaintenanceConfig"
             case name = "Name"
@@ -19138,7 +19198,7 @@ extension SageMaker {
     }
 
     public struct DescribeAIRecommendationJobResponse: AWSDecodableShape {
-        /// The LoRA adapter source that was specified when the recommendation job was created. This field is absent when the job was created without LoRA adapters.
+        /// The LoRA adapter source that you specified when you created the recommendation job. This field is absent when you created the job without LoRA adapters.
         public let adapterSource: AIAdapterSource?
         /// The Amazon Resource Name (ARN) of the AI recommendation job.
         public let aiRecommendationJobArn: String?
@@ -22607,6 +22667,8 @@ extension SageMaker {
         public let creationTime: Date?
         /// List of SageMaker Domain IDs for which this MLflow App is the default.
         public let defaultDomainIdList: [String]?
+        /// The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. This field is absent if the MLflow App is not encrypted with a customer-managed key.
+        public let kmsKeyId: String?
         public let lastModifiedBy: UserContext?
         /// The timestamp when the MLflow App was last modified.
         public let lastModifiedTime: Date?
@@ -22626,13 +22688,14 @@ extension SageMaker {
         public let weeklyMaintenanceWindowStart: String?
 
         @inlinable
-        public init(accountDefaultStatus: AccountDefaultStatus? = nil, arn: String? = nil, artifactStoreUri: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, defaultDomainIdList: [String]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, maintenanceStatus: MaintenanceStatus? = nil, mlflowVersion: String? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, status: MlflowAppStatus? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, arn: String? = nil, artifactStoreUri: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, defaultDomainIdList: [String]? = nil, kmsKeyId: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, maintenanceStatus: MaintenanceStatus? = nil, mlflowVersion: String? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, status: MlflowAppStatus? = nil, weeklyMaintenanceWindowStart: String? = nil) {
             self.accountDefaultStatus = accountDefaultStatus
             self.arn = arn
             self.artifactStoreUri = artifactStoreUri
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.defaultDomainIdList = defaultDomainIdList
+            self.kmsKeyId = kmsKeyId
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.maintenanceStatus = maintenanceStatus
@@ -22651,6 +22714,7 @@ extension SageMaker {
             case createdBy = "CreatedBy"
             case creationTime = "CreationTime"
             case defaultDomainIdList = "DefaultDomainIdList"
+            case kmsKeyId = "KmsKeyId"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case maintenanceStatus = "MaintenanceStatus"
@@ -23788,7 +23852,7 @@ extension SageMaker {
         public let applicationConfig: PartnerAppConfig?
         /// The ARN of the SageMaker Partner AI App that was described.
         public let arn: String?
-        /// The authorization type that users use to access the SageMaker Partner AI App.
+        /// The authorization type that users use to access the SageMaker Partner AI App. Valid values:    IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.    IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity.
         public let authType: PartnerAppAuthType?
         /// A map of available minor version upgrades for the SageMaker Partner AI App. The key is the semantic version number, and the value is a list of release notes for that version. A null value indicates no upgrades are available.
         public let availableUpgrade: AvailableUpgrade?
@@ -23806,6 +23870,8 @@ extension SageMaker {
         public let error: ErrorInfo?
         /// The ARN of the IAM role associated with the SageMaker Partner AI App.
         public let executionRoleArn: String?
+        /// Contains the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App, including the Identity Center instance and the Identity Center application that SageMaker creates for the app. The service returns this field for apps that use IDC authorization.
+        public let idcConfig: IdcConfigOutput?
         /// The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.
         public let kmsKeyId: String?
         /// The time that the SageMaker Partner AI App was last modified.
@@ -23824,7 +23890,7 @@ extension SageMaker {
         public let version: String?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, availableUpgrade: AvailableUpgrade? = nil, baseUrl: String? = nil, creationTime: Date? = nil, currentVersionEolDate: Date? = nil, enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, availableUpgrade: AvailableUpgrade? = nil, baseUrl: String? = nil, creationTime: Date? = nil, currentVersionEolDate: Date? = nil, enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, idcConfig: IdcConfigOutput? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
             self.applicationConfig = applicationConfig
             self.arn = arn
             self.authType = authType
@@ -23836,6 +23902,7 @@ extension SageMaker {
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.error = error
             self.executionRoleArn = executionRoleArn
+            self.idcConfig = idcConfig
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
             self.maintenanceConfig = maintenanceConfig
@@ -23858,6 +23925,7 @@ extension SageMaker {
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case error = "Error"
             case executionRoleArn = "ExecutionRoleArn"
+            case idcConfig = "IdcConfig"
             case kmsKeyId = "KmsKeyId"
             case lastModifiedTime = "LastModifiedTime"
             case maintenanceConfig = "MaintenanceConfig"
@@ -29189,6 +29257,44 @@ extension SageMaker {
         }
     }
 
+    public struct IdcConfigInput: AWSEncodableShape {
+        /// The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.
+        public let instanceArn: String
+
+        @inlinable
+        public init(instanceArn: String) {
+            self.instanceArn = instanceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, max: 128)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, min: 1)
+            try self.validate(self.instanceArn, name: "instanceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sso:::instance/(sso)?ins-[a-zA-Z0-9.-]{16}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceArn = "InstanceArn"
+        }
+    }
+
+    public struct IdcConfigOutput: AWSDecodableShape {
+        /// The ARN of the Amazon Web Services IAM Identity Center application that SageMaker creates for the SageMaker Partner AI App.
+        public let applicationArn: String?
+        /// The ARN of the Amazon Web Services IAM Identity Center instance that the SageMaker Partner AI App uses to authenticate users.
+        public let instanceArn: String
+
+        @inlinable
+        public init(applicationArn: String? = nil, instanceArn: String) {
+            self.applicationArn = applicationArn
+            self.instanceArn = instanceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "ApplicationArn"
+            case instanceArn = "InstanceArn"
+        }
+    }
+
     public struct IdentityProviderOAuthSetting: AWSEncodableShape & AWSDecodableShape {
         /// The name of the data source that you're connecting to. Canvas currently supports OAuth for Snowflake and Salesforce Data Cloud.
         public let dataSourceName: DataSourceName?
@@ -30374,7 +30480,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.deepHealthChecks, name: "deepHealthChecks", parent: name, max: 2)
+            try self.validate(self.deepHealthChecks, name: "deepHealthChecks", parent: name, max: 3)
             try self.validate(self.deepHealthChecks, name: "deepHealthChecks", parent: name, min: 1)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
@@ -41235,7 +41341,7 @@ extension SageMaker {
         public let enableOnlineStore: Bool?
         /// Use to specify KMS Key ID (KMSKeyId) for at-rest encryption of your OnlineStore.
         public let securityConfig: OnlineStoreSecurityConfig?
-        /// Option for different tiers of low latency storage for real-time data retrieval.    Standard: A managed low latency data store for feature groups.    InMemory: A managed data store for feature groups that supports very low latency retrieval.
+        /// Option for different tiers of low latency storage for real-time data retrieval.    Standard: A managed low latency data store for feature groups.    Standard_V2: A managed low latency data store for feature groups that supports partial updates to individual features using the UpdateRecord operation. Choose this storage type at feature group creation time if your use case requires updating specific feature values without rewriting the entire record.    InMemory: A managed data store for feature groups that supports very low latency retrieval.
         public let storageType: StorageType?
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
         public let ttlDuration: TtlDuration?
@@ -41262,11 +41368,14 @@ extension SageMaker {
     }
 
     public struct OnlineStoreConfigUpdate: AWSEncodableShape {
+        /// The online store storage type to migrate the feature group to. Use this parameter to migrate an existing feature group from Standard to Standard_V2 storage format, enabling support for the UpdateRecord operation. Migration is a one-way operation and cannot be reversed.
+        public let storageType: StorageType?
         /// Time to live duration, where the record is hard deleted after the expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
         public let ttlDuration: TtlDuration?
 
         @inlinable
-        public init(ttlDuration: TtlDuration? = nil) {
+        public init(storageType: StorageType? = nil, ttlDuration: TtlDuration? = nil) {
+            self.storageType = storageType
             self.ttlDuration = ttlDuration
         }
 
@@ -41275,6 +41384,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case storageType = "StorageType"
             case ttlDuration = "TtlDuration"
         }
     }
@@ -42540,6 +42650,31 @@ extension SageMaker {
         }
     }
 
+    public struct PrefixAwareRoutingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of in-flight requests on the target instance before the endpoint routes to another instance. Required when RoutingStrategy is PREFIX_AWARE. When in-flight requests on the prefix-selected instance reach this threshold, the endpoint routes the request to an instance with more available capacity.
+        public let concurrencyThreshold: Int?
+        /// The maximum length of the prefix used for routing decisions. Required when RoutingStrategy is PREFIX_AWARE.   For the SageMaker Runtime InvokeEndpoint and InvokeEndpointWithResponseStream APIs, this value specifies the number of bytes from the beginning of the request body.   For OpenAI-compatible API, this value specifies the number of characters from the text content of the messages array.   The endpoint routes requests that share the same prefix to the same instance. Set this value to cover shared content (such as system prompts) plus enough unique content to distribute workloads across instances.
+        public let prefixLength: Int?
+
+        @inlinable
+        public init(concurrencyThreshold: Int? = nil, prefixLength: Int? = nil) {
+            self.concurrencyThreshold = concurrencyThreshold
+            self.prefixLength = prefixLength
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.concurrencyThreshold, name: "concurrencyThreshold", parent: name, max: 1024)
+            try self.validate(self.concurrencyThreshold, name: "concurrencyThreshold", parent: name, min: 1)
+            try self.validate(self.prefixLength, name: "prefixLength", parent: name, max: 65536)
+            try self.validate(self.prefixLength, name: "prefixLength", parent: name, min: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case concurrencyThreshold = "ConcurrencyThreshold"
+            case prefixLength = "PrefixLength"
+        }
+    }
+
     public struct PresignedUrlAccessConfig: AWSEncodableShape {
         /// Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content.
         public let acceptEula: Bool?
@@ -43063,6 +43198,7 @@ extension SageMaker {
             try self.validate(self.modelDataDownloadTimeoutInSeconds, name: "modelDataDownloadTimeoutInSeconds", parent: name, min: 60)
             try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+            try self.routingConfig?.validate(name: "\(name).routingConfig")
             try self.serverlessConfig?.validate(name: "\(name).serverlessConfig")
             try self.validate(self.variantInstanceProvisionTimeoutInSeconds, name: "variantInstanceProvisionTimeoutInSeconds", parent: name, max: 3600)
             try self.validate(self.variantInstanceProvisionTimeoutInSeconds, name: "variantInstanceProvisionTimeoutInSeconds", parent: name, min: 300)
@@ -43239,15 +43375,23 @@ extension SageMaker {
     }
 
     public struct ProductionVariantRoutingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Sets how the endpoint routes incoming traffic:    LEAST_OUTSTANDING_REQUESTS: The endpoint routes requests to the specific instances that have more capacity to process them.    RANDOM: The endpoint routes each request to a randomly chosen instance.
+        /// The configuration for prefix-aware routing. Specify this parameter only when you set RoutingStrategy to PREFIX_AWARE.
+        public let prefixAwareRoutingConfig: PrefixAwareRoutingConfig?
+        /// Sets how the endpoint routes incoming traffic:    LEAST_OUTSTANDING_REQUESTS: The endpoint routes requests to the specific instances that have more capacity to process them.    RANDOM: The endpoint routes each request to a randomly chosen instance.    PREFIX_AWARE: The endpoint routes requests that share the same prompt prefix to the same instance. When the number of in-flight requests on the selected instance reaches the configured threshold, the endpoint routes the request to an instance with more available capacity.
         public let routingStrategy: RoutingStrategy?
 
         @inlinable
-        public init(routingStrategy: RoutingStrategy? = nil) {
+        public init(prefixAwareRoutingConfig: PrefixAwareRoutingConfig? = nil, routingStrategy: RoutingStrategy? = nil) {
+            self.prefixAwareRoutingConfig = prefixAwareRoutingConfig
             self.routingStrategy = routingStrategy
         }
 
+        public func validate(name: String) throws {
+            try self.prefixAwareRoutingConfig?.validate(name: "\(name).prefixAwareRoutingConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case prefixAwareRoutingConfig = "PrefixAwareRoutingConfig"
             case routingStrategy = "RoutingStrategy"
         }
     }
@@ -46002,9 +46146,11 @@ extension SageMaker {
         public let jobType: ServerlessJobType
         ///  The parameter-efficient fine-tuning configuration.
         public let peft: Peft?
+        ///  The maximum sequence length, in tokens, that the customization job supports. SageMaker uses this value to select a training configuration for the base model that you specify. The parameter supports the following values:     1K     2K     4K     8K     16K     32K     64K     128K     If you don't specify a value, SageMaker selects a training configuration based on the other values that you specify. The selection is not restricted to a particular sequence length.
+        public let sequenceLength: String?
 
         @inlinable
-        public init(acceptEula: Bool? = nil, baseModelArn: String, customizationTechnique: CustomizationTechnique? = nil, evaluationType: EvaluationType? = nil, evaluatorArn: String? = nil, jobType: ServerlessJobType, peft: Peft? = nil) {
+        public init(acceptEula: Bool? = nil, baseModelArn: String, customizationTechnique: CustomizationTechnique? = nil, evaluationType: EvaluationType? = nil, evaluatorArn: String? = nil, jobType: ServerlessJobType, peft: Peft? = nil, sequenceLength: String? = nil) {
             self.acceptEula = acceptEula
             self.baseModelArn = baseModelArn
             self.customizationTechnique = customizationTechnique
@@ -46012,6 +46158,7 @@ extension SageMaker {
             self.evaluatorArn = evaluatorArn
             self.jobType = jobType
             self.peft = peft
+            self.sequenceLength = sequenceLength
         }
 
         public func validate(name: String) throws {
@@ -46019,6 +46166,9 @@ extension SageMaker {
             try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, min: 1)
             try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, pattern: "^(arn:[a-z0-9-\\.]{1,63}:sagemaker:\\w+(?:-\\w+)+:(\\d{12}|aws):hub-content\\/)[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}\\/Model\\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}(\\/\\d{1,4}.\\d{1,4}.\\d{1,4})?$")
             try self.validate(self.evaluatorArn, name: "evaluatorArn", parent: name, pattern: ".*")
+            try self.validate(self.sequenceLength, name: "sequenceLength", parent: name, max: 50)
+            try self.validate(self.sequenceLength, name: "sequenceLength", parent: name, min: 1)
+            try self.validate(self.sequenceLength, name: "sequenceLength", parent: name, pattern: "^\\d+K$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -46029,6 +46179,7 @@ extension SageMaker {
             case evaluatorArn = "EvaluatorArn"
             case jobType = "JobType"
             case peft = "Peft"
+            case sequenceLength = "SequenceLength"
         }
     }
 
@@ -51936,12 +52087,16 @@ extension SageMaker {
         public let appVersion: String?
         /// The ARN of the SageMaker Partner AI App to update.
         public let arn: String?
+        /// The authorization type that users use to access the SageMaker Partner AI App. Use this parameter to migrate an existing SageMaker Partner AI App from IAM authorization to IDC authorization. Valid values:    IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.    IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
+        public let authType: PartnerAppAuthType?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
         /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
         public let enableAutoMinorVersionUpgrade: Bool?
         /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
         public let enableIamSessionBasedIdentity: Bool?
+        /// Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
+        public let idcConfig: IdcConfigInput?
         /// Maintenance configuration settings for the SageMaker Partner AI App.
         public let maintenanceConfig: PartnerAppMaintenanceConfig?
         /// Each tag consists of a key and an optional value. Tag keys must be unique per resource.
@@ -51950,13 +52105,15 @@ extension SageMaker {
         public let tier: String?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, appVersion: String? = nil, arn: String? = nil, clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, tags: [Tag]? = nil, tier: String? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, appVersion: String? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, idcConfig: IdcConfigInput? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, tags: [Tag]? = nil, tier: String? = nil) {
             self.applicationConfig = applicationConfig
             self.appVersion = appVersion
             self.arn = arn
+            self.authType = authType
             self.clientToken = clientToken
             self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
+            self.idcConfig = idcConfig
             self.maintenanceConfig = maintenanceConfig
             self.tags = tags
             self.tier = tier
@@ -51972,6 +52129,7 @@ extension SageMaker {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.idcConfig?.validate(name: "\(name).idcConfig")
             try self.maintenanceConfig?.validate(name: "\(name).maintenanceConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -51985,9 +52143,11 @@ extension SageMaker {
             case applicationConfig = "ApplicationConfig"
             case appVersion = "AppVersion"
             case arn = "Arn"
+            case authType = "AuthType"
             case clientToken = "ClientToken"
             case enableAutoMinorVersionUpgrade = "EnableAutoMinorVersionUpgrade"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
+            case idcConfig = "IdcConfig"
             case maintenanceConfig = "MaintenanceConfig"
             case tags = "Tags"
             case tier = "Tier"

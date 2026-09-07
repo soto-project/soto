@@ -318,6 +318,7 @@ extension WorkSpaces {
     public enum ModificationResourceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `protocol` = "PROTOCOL"
         case computeType = "COMPUTE_TYPE"
+        case nestedVirtualization = "NESTED_VIRTUALIZATION"
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
         public var description: String { return self.rawValue }
@@ -1234,18 +1235,27 @@ extension WorkSpaces {
     }
 
     public struct ClientProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The client experience policy that determines which client experience the user sees. Administrators can set this policy to control the client experience for users in a directory. Valid values include FORCE_CLASSIC, FORCE_UI_2026, and USER_CHOICE.
+        public let clientExperiencePolicy: String?
         /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to  WorkSpaces to troubleshoot issues when using the WorkSpaces client.  When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all  users in the specified directory.
         public let logUploadEnabled: LogUploadEnum?
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
         public let reconnectEnabled: ReconnectEnum?
 
         @inlinable
-        public init(logUploadEnabled: LogUploadEnum? = nil, reconnectEnabled: ReconnectEnum? = nil) {
+        public init(clientExperiencePolicy: String? = nil, logUploadEnabled: LogUploadEnum? = nil, reconnectEnabled: ReconnectEnum? = nil) {
+            self.clientExperiencePolicy = clientExperiencePolicy
             self.logUploadEnabled = logUploadEnabled
             self.reconnectEnabled = reconnectEnabled
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.clientExperiencePolicy, name: "clientExperiencePolicy", parent: name, max: 64)
+            try self.validate(self.clientExperiencePolicy, name: "clientExperiencePolicy", parent: name, pattern: "^[A-Z_0-9]+$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case clientExperiencePolicy = "ClientExperiencePolicy"
             case logUploadEnabled = "LogUploadEnabled"
             case reconnectEnabled = "ReconnectEnabled"
         }
@@ -4519,7 +4529,7 @@ extension WorkSpaces {
     }
 
     public struct ModificationState: AWSDecodableShape {
-        /// The resource.
+        /// The WorkSpace property being modified.
         public let resource: ModificationResourceEnum?
         /// The modification state.
         public let state: ModificationStateEnum?
@@ -4618,6 +4628,7 @@ extension WorkSpaces {
         }
 
         public func validate(name: String) throws {
+            try self.clientProperties.validate(name: "\(name).clientProperties")
             try self.validate(self.resourceId, name: "resourceId", parent: name, min: 1)
         }
 
@@ -6627,6 +6638,8 @@ extension WorkSpaces {
         public let computeTypeName: Compute?
         /// Indicates the Global Accelerator properties.
         public let globalAccelerator: GlobalAcceleratorForWorkSpace?
+        /// Specifies whether nested virtualization is enabled for the WorkSpace. For more information, see Nested virtualization for Amazon WorkSpaces.
+        public let nestedVirtualizationEnabled: Bool?
         /// The name of the operating system.
         public let operatingSystemName: OperatingSystemName?
         /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, GraphicsPro.g4dn, and Graphics.g6).
@@ -6641,9 +6654,10 @@ extension WorkSpaces {
         public let userVolumeSizeGib: Int?
 
         @inlinable
-        public init(computeTypeName: Compute? = nil, globalAccelerator: GlobalAcceleratorForWorkSpace? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
+        public init(computeTypeName: Compute? = nil, globalAccelerator: GlobalAcceleratorForWorkSpace? = nil, nestedVirtualizationEnabled: Bool? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
             self.globalAccelerator = globalAccelerator
+            self.nestedVirtualizationEnabled = nestedVirtualizationEnabled
             self.operatingSystemName = operatingSystemName
             self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
@@ -6655,6 +6669,7 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case computeTypeName = "ComputeTypeName"
             case globalAccelerator = "GlobalAccelerator"
+            case nestedVirtualizationEnabled = "NestedVirtualizationEnabled"
             case operatingSystemName = "OperatingSystemName"
             case protocols = "Protocols"
             case rootVolumeSizeGib = "RootVolumeSizeGib"

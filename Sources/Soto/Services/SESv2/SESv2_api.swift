@@ -92,6 +92,41 @@ public struct SESv2: AWSService {
 
     // MARK: API Calls
 
+    /// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN).   If the email identity is a domain, you must specify a FromAddress that belongs to that domain or one of its subdomains. The certificate applies to messages sent from that address.   If the email identity is an email address, FromAddress is optional. If you specify it, it must exactly match the email identity.   When the association is created, the certificate begins provisioning and its status is PROVISIONING. The status changes to ACTIVE when the certificate is ready to use for signing. Each email address can have only one certificate association. If an association already exists for the address, this operation returns an error, unless the existing association is in the DEPROVISIONING state.
+    @Sendable
+    @inlinable
+    public func associateEmailIdentityCertificate(_ input: AssociateEmailIdentityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateEmailIdentityCertificateResponse {
+        try await self.client.execute(
+            operation: "AssociateEmailIdentityCertificate", 
+            path: "/v2/email/identity/certificates", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an S/MIME certificate with an email identity. After the certificate is active, Amazon SES API v2 can add an S/MIME signature to messages that you send from the associated address when signing is enabled on the configuration set used to send the message. The certificate is an X.509 certificate that you manage in Certificate Manager (ACM). You identify it by its Amazon Resource Name (ARN).   If the email identity is a domain, you must specify a FromAddress that belongs to that domain or one of its subdomains. The certificate applies to messages sent from that address.   If the email identity is an email address, FromAddress is optional. If you specify it, it must exactly match the email identity.   When the association is created, the certificate begins provisioning and its status is PROVISIONING. The status changes to ACTIVE when the certificate is ready to use for signing. Each email address can have only one certificate association. If an association already exists for the address, this operation returns an error, unless the existing association is in the DEPROVISIONING state.
+    ///
+    /// Parameters:
+    ///   - certificateArn: The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate to associate with the email identity.
+    ///   - emailIdentity: The email identity, either an email address or a domain, to associate the certificate with.
+    ///   - fromAddress: The email address that the certificate applies to. This value is required when the email identity is a domain, and the address must belong to that domain or one of its subdomains. When the email identity is an email address, this value is optional. If you specify it, it must exactly match the email identity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateEmailIdentityCertificate(
+        certificateArn: String,
+        emailIdentity: String,
+        fromAddress: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateEmailIdentityCertificateResponse {
+        let input = AssociateEmailIdentityCertificateRequest(
+            certificateArn: certificateArn, 
+            emailIdentity: emailIdentity, 
+            fromAddress: fromAddress
+        )
+        return try await self.associateEmailIdentityCertificate(input, logger: logger)
+    }
+
     /// Retrieves batches of metric data collected based on your sending activity. You can execute this operation no more than 16 times per second, and with at most 160 queries from the batches per second (cumulative).
     @Sendable
     @inlinable
@@ -169,6 +204,7 @@ public struct SESv2: AWSService {
     ///   - archivingOptions: An object that defines the MailManager archiving options for emails that you send using the configuration set.
     ///   - configurationSetName: The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
     ///   - deliveryOptions: An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
+    ///   - messageSecurityOptions: The message security options to apply to the configuration set, such as the signing scheme used for messages that you send with the configuration set.
     ///   - reputationOptions: An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
     ///   - sendingOptions: An object that defines whether or not Amazon SES can send email that you send using the configuration set.
     ///   - suppressionOptions: An object that contains information about the suppression list preferences for the configuration set. You can optionally include a SuppressionScope to override the tenant or account suppression scope for emails sent using this configuration set.
@@ -181,6 +217,7 @@ public struct SESv2: AWSService {
         archivingOptions: ArchivingOptions? = nil,
         configurationSetName: String,
         deliveryOptions: DeliveryOptions? = nil,
+        messageSecurityOptions: MessageSecurityOptions? = nil,
         reputationOptions: ReputationOptions? = nil,
         sendingOptions: SendingOptions? = nil,
         suppressionOptions: SuppressionOptions? = nil,
@@ -193,6 +230,7 @@ public struct SESv2: AWSService {
             archivingOptions: archivingOptions, 
             configurationSetName: configurationSetName, 
             deliveryOptions: deliveryOptions, 
+            messageSecurityOptions: messageSecurityOptions, 
             reputationOptions: reputationOptions, 
             sendingOptions: sendingOptions, 
             suppressionOptions: suppressionOptions, 
@@ -1101,6 +1139,38 @@ public struct SESv2: AWSService {
             tenantName: tenantName
         )
         return try await self.deleteTenantResourceAssociation(input, logger: logger)
+    }
+
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 returns a NotFoundException only when the specified email identity doesn't exist.
+    @Sendable
+    @inlinable
+    public func disassociateEmailIdentityCertificate(_ input: DisassociateEmailIdentityCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateEmailIdentityCertificateResponse {
+        try await self.client.execute(
+            operation: "DisassociateEmailIdentityCertificate", 
+            path: "/v2/email/identity/certificates/delete", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association between an S/MIME certificate and an email identity. After the association is removed, Amazon SES API v2 stops adding an S/MIME signature to messages sent from that address. If the email identity is a domain, specify the FromAddress whose certificate association you want to remove. This operation is idempotent. If the specified email identity exists but there's no matching certificate association, the operation succeeds without making any changes. Amazon SES API v2 returns a NotFoundException only when the specified email identity doesn't exist.
+    ///
+    /// Parameters:
+    ///   - emailIdentity: The email identity whose certificate association you want to remove.
+    ///   - fromAddress: The email address whose certificate association you want to remove. This value is required when the email identity is a domain. When the email identity is an email address, this value is optional.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateEmailIdentityCertificate(
+        emailIdentity: String,
+        fromAddress: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateEmailIdentityCertificateResponse {
+        let input = DisassociateEmailIdentityCertificateRequest(
+            emailIdentity: emailIdentity, 
+            fromAddress: fromAddress
+        )
+        return try await self.disassociateEmailIdentityCertificate(input, logger: logger)
     }
 
     /// Obtain information about the email-sending status and capabilities of your Amazon SES account in the current Amazon Web Services Region.
@@ -2114,6 +2184,41 @@ public struct SESv2: AWSService {
         return try await self.listEmailIdentities(input, logger: logger)
     }
 
+    /// Lists the S/MIME certificates that are associated with the specified email identity. The results include certificates in all states, such as PROVISIONING, ACTIVE, INACTIVE, DEPROVISIONING, and FAILED. If a certificate has passed its expiration time, it's returned with a status of FAILED. We recommend using pagination to ensure that the operation returns quickly and successfully. When there are more results than fit in a single response, the response includes a NextToken value that you use in a subsequent call to retrieve the next set of results.
+    @Sendable
+    @inlinable
+    public func listEmailIdentityCertificates(_ input: ListEmailIdentityCertificatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEmailIdentityCertificatesResponse {
+        try await self.client.execute(
+            operation: "ListEmailIdentityCertificates", 
+            path: "/v2/email/identity/certificates/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the S/MIME certificates that are associated with the specified email identity. The results include certificates in all states, such as PROVISIONING, ACTIVE, INACTIVE, DEPROVISIONING, and FAILED. If a certificate has passed its expiration time, it's returned with a status of FAILED. We recommend using pagination to ensure that the operation returns quickly and successfully. When there are more results than fit in a single response, the response includes a NextToken value that you use in a subsequent call to retrieve the next set of results.
+    ///
+    /// Parameters:
+    ///   - emailIdentity: The email identity whose certificate associations you want to list.
+    ///   - nextToken: A token returned from a previous call to ListEmailIdentityCertificates to indicate the position in the list of certificates.
+    ///   - pageSize: The number of results to show in a single call to ListEmailIdentityCertificates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEmailIdentityCertificates(
+        emailIdentity: String,
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEmailIdentityCertificatesResponse {
+        let input = ListEmailIdentityCertificatesRequest(
+            emailIdentity: emailIdentity, 
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listEmailIdentityCertificates(input, logger: logger)
+    }
+
     /// Lists the email templates present in your Amazon SES account in the current Amazon Web Services Region. You can execute this operation no more than once per second.
     @Sendable
     @inlinable
@@ -2572,7 +2677,7 @@ public struct SESv2: AWSService {
         return try await self.putAccountDetails(input, logger: logger)
     }
 
-    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    /// Set the pricing plan for your Amazon SES account.
     @Sendable
     @inlinable
     public func putAccountPricingAttributes(_ input: PutAccountPricingAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountPricingAttributesResponse {
@@ -2585,10 +2690,10 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Set the pricing plan for your Amazon SES account. Use this operation to choose a billing plan that packages multiple Amazon SES features at a single rate.
+    /// Set the pricing plan for your Amazon SES account.
     ///
     /// Parameters:
-    ///   - plan: The pricing plan to apply to your Amazon SES account. Can be one of the following:    NONE – No pricing plan is applied; billing follows per-feature pricing.    ESSENTIALS – Baseline Amazon SES capabilities and select premium features.    PRO – Includes everything in ESSENTIALS, plus additional premium features for growing senders.    ENTERPRISE – Includes everything in PRO, plus features intended for large-scale senders.
+    ///   - plan: The pricing plan to apply to your Amazon SES account. For details about each plan, see Amazon SES Pricing. Can be one of the following:    NONE     ESSENTIALS     PRO     ENTERPRISE
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccountPricingAttributes(
@@ -3309,6 +3414,7 @@ public struct SESv2: AWSService {
     ///
     /// Parameters:
     ///   - bulkEmailEntries: The list of bulk email entry objects.
+    ///   - configurationOverrides: An object that overrides, for the messages in this request only, settings that would otherwise apply to them. The overrides apply to every message in the request. Each setting that you don't override keeps the value that already applies.
     ///   - configurationSetName: The name of the configuration set to use when sending the email.
     ///   - defaultContent: An object that contains the body of the message. You can specify a template message.
     ///   - defaultEmailTags: A list of tags, in the form of name/value pairs, to apply to an email that you send using the SendEmail operation. Tags correspond to characteristics of the email that you define, so that you can publish email sending events.
@@ -3323,6 +3429,7 @@ public struct SESv2: AWSService {
     @inlinable
     public func sendBulkEmail(
         bulkEmailEntries: [BulkEmailEntry],
+        configurationOverrides: ConfigurationOverrides? = nil,
         configurationSetName: String? = nil,
         defaultContent: BulkEmailContent,
         defaultEmailTags: [MessageTag]? = nil,
@@ -3337,6 +3444,7 @@ public struct SESv2: AWSService {
     ) async throws -> SendBulkEmailResponse {
         let input = SendBulkEmailRequest(
             bulkEmailEntries: bulkEmailEntries, 
+            configurationOverrides: configurationOverrides, 
             configurationSetName: configurationSetName, 
             defaultContent: defaultContent, 
             defaultEmailTags: defaultEmailTags, 
@@ -3402,6 +3510,7 @@ public struct SESv2: AWSService {
     /// Sends an email message. You can use the Amazon SES API v2 to send the following types of messages:    Simple – A standard email message. When you create this type of message, you specify the sender, the recipient, and the message body, and Amazon SES assembles the message for you.    Raw – A raw, MIME-formatted email message. When you send this type of email, you have to specify all of the message headers, as well as the message body. You can use this message type to send messages that contain attachments. The message that you specify has to be a valid MIME message.    Templated – A message that contains personalization tags. When you send this type of email, Amazon SES API v2 automatically replaces the tags with values that you specify.
     ///
     /// Parameters:
+    ///   - configurationOverrides: An object that overrides, for this message only, settings that would otherwise apply to it. Each setting that you don't override keeps the value that already applies.
     ///   - configurationSetName: The name of the configuration set to use when sending the email.
     ///   - content: An object that contains the body of the message. You can send either a Simple message, Raw message, or a Templated message.
     ///   - destination: An object that contains the recipients of the email message.
@@ -3417,6 +3526,7 @@ public struct SESv2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func sendEmail(
+        configurationOverrides: ConfigurationOverrides? = nil,
         configurationSetName: String? = nil,
         content: EmailContent,
         destination: Destination? = nil,
@@ -3432,6 +3542,7 @@ public struct SESv2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendEmailResponse {
         let input = SendEmailRequest(
+            configurationOverrides: configurationOverrides, 
             configurationSetName: configurationSetName, 
             content: content, 
             destination: destination, 
@@ -3542,6 +3653,38 @@ public struct SESv2: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged.
+    @Sendable
+    @inlinable
+    public func updateConfigurationSet(_ input: UpdateConfigurationSetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationSetResponse {
+        try await self.client.execute(
+            operation: "UpdateConfigurationSet", 
+            path: "/v2/email/update-configuration-sets", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing configuration set. This operation performs a partial update. Only the attributes that you include in the request are updated; any omitted attribute is left unchanged.
+    ///
+    /// Parameters:
+    ///   - configurationSetName: The name of the configuration set to update.
+    ///   - messageSecurityOptions: The security options that apply to the MIME message itself for messages sent with the configuration set.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConfigurationSet(
+        configurationSetName: String,
+        messageSecurityOptions: MessageSecurityOptions? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConfigurationSetResponse {
+        let input = UpdateConfigurationSetRequest(
+            configurationSetName: configurationSetName, 
+            messageSecurityOptions: messageSecurityOptions
+        )
+        return try await self.updateConfigurationSet(input, logger: logger)
     }
 
     /// Update the configuration of an event destination for a configuration set.  Events include message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon EventBridge and associate a rule to send the event to the specified target.
@@ -4174,6 +4317,43 @@ extension SESv2 {
         return self.listEmailIdentitiesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listEmailIdentityCertificates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEmailIdentityCertificatesPaginator(
+        _ input: ListEmailIdentityCertificatesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEmailIdentityCertificatesRequest, ListEmailIdentityCertificatesResponse> {
+        return .init(
+            input: input,
+            command: self.listEmailIdentityCertificates,
+            inputKey: \ListEmailIdentityCertificatesRequest.nextToken,
+            outputKey: \ListEmailIdentityCertificatesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEmailIdentityCertificates(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - emailIdentity: The email identity whose certificate associations you want to list.
+    ///   - pageSize: The number of results to show in a single call to ListEmailIdentityCertificates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEmailIdentityCertificatesPaginator(
+        emailIdentity: String,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEmailIdentityCertificatesRequest, ListEmailIdentityCertificatesResponse> {
+        let input = ListEmailIdentityCertificatesRequest(
+            emailIdentity: emailIdentity, 
+            pageSize: pageSize
+        )
+        return self.listEmailIdentityCertificatesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEmailTemplates(_:logger:)``.
     ///
     /// - Parameters:
@@ -4641,6 +4821,17 @@ extension SESv2.ListEmailIdentitiesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SESv2.ListEmailIdentitiesRequest {
         return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension SESv2.ListEmailIdentityCertificatesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SESv2.ListEmailIdentityCertificatesRequest {
+        return .init(
+            emailIdentity: self.emailIdentity,
             nextToken: token,
             pageSize: self.pageSize
         )

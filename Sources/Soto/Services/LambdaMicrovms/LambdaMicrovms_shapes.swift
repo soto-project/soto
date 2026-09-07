@@ -55,6 +55,14 @@ extension LambdaMicrovms {
         public var description: String { return self.rawValue }
     }
 
+    public enum ManagedMicrovmImageVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The version is available for use.
+        case available = "AVAILABLE"
+        /// The version is deprecated. Do not use this version for new MicroVM images. Existing MicroVM images that use this version will continue to function.
+        case deprecated = "DEPRECATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MicrovmImageState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case created = "CREATED"
@@ -1443,14 +1451,17 @@ extension LambdaMicrovms {
         public let imageArn: String
         /// The version of the managed MicroVM image.
         public let imageVersion: String
+        /// The lifecycle status of the managed MicroVM image version. Valid values: AVAILABLE (the version is available for use) or DEPRECATED (the version is deprecated; do not use it for new MicroVM images).
+        public let status: ManagedMicrovmImageVersionStatus?
         /// The timestamp when the version was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date, imageArn: String, imageVersion: String, updatedAt: Date? = nil) {
+        public init(createdAt: Date, imageArn: String, imageVersion: String, status: ManagedMicrovmImageVersionStatus? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.imageArn = imageArn
             self.imageVersion = imageVersion
+            self.status = status
             self.updatedAt = updatedAt
         }
 
@@ -1458,6 +1469,7 @@ extension LambdaMicrovms {
             case createdAt = "createdAt"
             case imageArn = "imageArn"
             case imageVersion = "imageVersion"
+            case status = "status"
             case updatedAt = "updatedAt"
         }
     }
@@ -1888,6 +1900,7 @@ extension LambdaMicrovms {
                 try validate($0, name: "ingressNetworkConnectors[]", parent: name, min: 1)
             }
             try self.validate(self.ingressNetworkConnectors, name: "ingressNetworkConnectors", parent: name, max: 10)
+            try self.validate(self.runHookPayload, name: "runHookPayload", parent: name, max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2534,7 +2547,7 @@ extension LambdaMicrovms {
     }
 
     public struct CodeArtifact: AWSEncodableShape & AWSDecodableShape {
-        /// The URI of the code artifact, such as an Amazon S3 path or Amazon ECR image URI.
+        /// The URI of the code artifact in Amazon S3.
         public let uri: String?
 
         @inlinable
@@ -2561,6 +2574,7 @@ public struct LambdaMicrovmsErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case insufficientCapacityException = "InsufficientCapacityException"
         case internalServerException = "InternalServerException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case resourceConflictException = "ResourceConflictException"
@@ -2594,6 +2608,8 @@ public struct LambdaMicrovmsErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request could not be completed due to a conflict with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// There is insufficient capacity to fulfill the request. Retry the request later.
+    public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
     /// An internal server error occurred. Retry the request later.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// One of the parameters in the request is not valid.

@@ -38,6 +38,14 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdSequencingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case followAdSequence = "FOLLOW_AD_SEQUENCE"
+        case followAdSequenceOnlyLive = "FOLLOW_AD_SEQUENCE_ONLY_LIVE"
+        case followAdSequenceOnlyVod = "FOLLOW_AD_SEQUENCE_ONLY_VOD"
+        case ignoreAdSequence = "IGNORE_AD_SEQUENCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdsInteractionExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case adMarkerFound = "AD_MARKER_FOUND"
         case beaconFired = "BEACON_FIRED"
@@ -71,8 +79,12 @@ extension MediaTailor {
         case makingAdsRequest = "MAKING_ADS_REQUEST"
         case modifiedTargetUrl = "MODIFIED_TARGET_URL"
         case nonAdMarkerFound = "NON_AD_MARKER_FOUND"
+        case postAdsResponseFunctionError = "POST_ADS_RESPONSE_FUNCTION_ERROR"
+        case postAdsResponseHookError = "POST_ADS_RESPONSE_HOOK_ERROR"
         case preAdsRequestFunctionError = "PRE_ADS_REQUEST_FUNCTION_ERROR"
         case preAdsRequestHookError = "PRE_ADS_REQUEST_HOOK_ERROR"
+        case preManifestInsertionFunctionError = "PRE_MANIFEST_INSERTION_FUNCTION_ERROR"
+        case preManifestInsertionHookError = "PRE_MANIFEST_INSERTION_HOOK_ERROR"
         case redirectedVastResponse = "REDIRECTED_VAST_RESPONSE"
         case vastRedirect = "VAST_REDIRECT"
         case vastResponse = "VAST_RESPONSE"
@@ -86,10 +98,16 @@ extension MediaTailor {
     }
 
     public enum AdsInteractionPublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case postAdsResponseFunctionCompleted = "POST_ADS_RESPONSE_FUNCTION_COMPLETED"
+        case postAdsResponseHookSummary = "POST_ADS_RESPONSE_HOOK_SUMMARY"
         case preAdsRequestFunctionCompleted = "PRE_ADS_REQUEST_FUNCTION_COMPLETED"
         case preAdsRequestHookSummary = "PRE_ADS_REQUEST_HOOK_SUMMARY"
+        case preManifestInsertionFunctionCompleted = "PRE_MANIFEST_INSERTION_FUNCTION_COMPLETED"
+        case preManifestInsertionHookSummary = "PRE_MANIFEST_INSERTION_HOOK_SUMMARY"
         case rawAdsRequest = "RAW_ADS_REQUEST"
         case rawAdsResponse = "RAW_ADS_RESPONSE"
+        case rawBidRequest = "RAW_BID_REQUEST"
+        case rawBidResponse = "RAW_BID_RESPONSE"
         public var description: String { return self.rawValue }
     }
 
@@ -97,6 +115,13 @@ extension MediaTailor {
         case info = "INFO"
         case playbackWarning = "PLAYBACK_WARNING"
         case schedulingError = "SCHEDULING_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApsRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case americas = "AMERICAS"
+        case asiaPacific = "ASIA_PACIFIC"
+        case europe = "EUROPE"
         public var description: String { return self.rawValue }
     }
 
@@ -113,7 +138,9 @@ extension MediaTailor {
     }
 
     public enum EventName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case postAdsResponse = "POST_ADS_RESPONSE"
         case preAdsRequest = "PRE_ADS_REQUEST"
+        case preManifestInsertion = "PRE_MANIFEST_INSERTION"
         case preSessionInitialization = "PRE_SESSION_INITIALIZATION"
         public var description: String { return self.rawValue }
     }
@@ -125,9 +152,11 @@ extension MediaTailor {
     }
 
     public enum FunctionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case concurrentExecutor = "CONCURRENT_EXECUTOR"
         case customOutput = "CUSTOM_OUTPUT"
         case httpRequest = "HTTP_REQUEST"
         case sequentialExecutor = "SEQUENTIAL_EXECUTOR"
+        case vastRequest = "VAST_REQUEST"
         public var description: String { return self.rawValue }
     }
 
@@ -238,6 +267,12 @@ extension MediaTailor {
     public enum PlaybackMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linear = "LINEAR"
         case loop = "LOOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreRollAdSequencingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case followAdSequence = "FOLLOW_AD_SEQUENCE"
+        case ignoreAdSequence = "IGNORE_AD_SEQUENCE"
         public var description: String { return self.rawValue }
     }
 
@@ -374,14 +409,18 @@ extension MediaTailor {
     public struct AdDecisionServerConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The HTTP request configuration parameters for the ad decision server.
         public let httpRequest: HttpRequest?
+        /// The settings that control how MediaTailor processes VAST responses from the ad decision server.
+        public let vastResponse: VastResponse?
 
         @inlinable
-        public init(httpRequest: HttpRequest? = nil) {
+        public init(httpRequest: HttpRequest? = nil, vastResponse: VastResponse? = nil) {
             self.httpRequest = httpRequest
+            self.vastResponse = vastResponse
         }
 
         private enum CodingKeys: String, CodingKey {
             case httpRequest = "HttpRequest"
+            case vastResponse = "VastResponse"
         }
     }
 
@@ -402,7 +441,7 @@ extension MediaTailor {
     public struct AdsInteractionLog: AWSEncodableShape & AWSDecodableShape {
         /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
         public let excludeEventTypes: [AdsInteractionExcludeEventType]?
-        /// Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for playback sessions that are initialized with this configuration.
+        /// Indicates that MediaTailor will emit the selected events in the logs for playback sessions that are initialized with this configuration. These events are not emitted by default and must be explicitly opted in. For descriptions of each event type, see MediaTailor ADS logs description and event types in Elemental MediaTailor User Guide.
         public let publishOptInEventTypes: [AdsInteractionPublishOptInEventType]?
 
         @inlinable
@@ -706,6 +745,36 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case endOffsetMillis = "EndOffsetMillis"
             case startOffsetMillis = "StartOffsetMillis"
+        }
+    }
+
+    public struct ConcurrentExecutorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of child functions that MediaTailor runs in parallel. Each entry specifies a child function to execute and an optional run condition expression that controls whether the function runs.
+        public let functionList: [FunctionRef]
+        /// The maximum number of child functions that MediaTailor runs simultaneously. When the list contains more functions than MaxConcurrency, MediaTailor starts additional functions as running ones complete, so that no more than MaxConcurrency functions run at the same time.
+        public let maxConcurrency: Int
+        /// A map of output bindings that controls which bindings the executor commits to the session state after all child functions complete. Each key is a namespaced output path, and each value is an expression that MediaTailor evaluates against the combined results of the child functions.
+        public let output: [String: String]
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        public let runtime: RuntimeType
+        /// The maximum time, in milliseconds, for all child functions to complete. This timeout covers every function in the list, including any HTTP calls the child functions make. If the executor exceeds this timeout, MediaTailor discards all output from the executor and proceeds with default behavior.
+        public let timeoutMilliseconds: Int
+
+        @inlinable
+        public init(functionList: [FunctionRef], maxConcurrency: Int, output: [String: String], runtime: RuntimeType, timeoutMilliseconds: Int) {
+            self.functionList = functionList
+            self.maxConcurrency = maxConcurrency
+            self.output = output
+            self.runtime = runtime
+            self.timeoutMilliseconds = timeoutMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionList = "FunctionList"
+            case maxConcurrency = "MaxConcurrency"
+            case output = "Output"
+            case runtime = "Runtime"
+            case timeoutMilliseconds = "TimeoutMilliseconds"
         }
     }
 
@@ -2059,6 +2128,8 @@ extension MediaTailor {
     public struct Function: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the function.
         public let arn: String?
+        /// The configuration for a CONCURRENT_EXECUTOR function.
+        public let concurrentExecutorConfiguration: ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function.
         public let customOutputConfiguration: CustomOutputConfiguration?
         /// A description of the function.
@@ -2073,10 +2144,13 @@ extension MediaTailor {
         public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
         /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
+        /// The configuration for a VAST_REQUEST function.
+        public let vastRequestConfiguration: VastRequestConfiguration?
 
         @inlinable
-        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, concurrentExecutorConfiguration: ConcurrentExecutorConfiguration? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil, vastRequestConfiguration: VastRequestConfiguration? = nil) {
             self.arn = arn
+            self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
             self.functionId = functionId
@@ -2084,10 +2158,12 @@ extension MediaTailor {
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
+            self.vastRequestConfiguration = vastRequestConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case concurrentExecutorConfiguration = "ConcurrentExecutorConfiguration"
             case customOutputConfiguration = "CustomOutputConfiguration"
             case description = "Description"
             case functionId = "FunctionId"
@@ -2095,22 +2171,27 @@ extension MediaTailor {
             case httpRequestConfiguration = "HttpRequestConfiguration"
             case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
             case tags = "tags"
+            case vastRequestConfiguration = "VastRequestConfiguration"
         }
     }
 
     public struct FunctionRef: AWSEncodableShape & AWSDecodableShape {
+        /// An optional alternate name for the function within the executor. If omitted, MediaTailor uses the function identifier.
+        public let alias: String?
         /// The identifier of the child function to execute in this step.
         public let functionId: String?
         /// An optional expression that evaluates to a boolean. MediaTailor evaluates this expression immediately before running the step, using the accumulated state at that point in the sequence. If the expression evaluates to false, MediaTailor skips the step and moves to the next one. If omitted, the step always runs.
         public let runCondition: String?
 
         @inlinable
-        public init(functionId: String? = nil, runCondition: String? = nil) {
+        public init(alias: String? = nil, functionId: String? = nil, runCondition: String? = nil) {
+            self.alias = alias
             self.functionId = functionId
             self.runCondition = runCondition
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
             case functionId = "FunctionId"
             case runCondition = "RunCondition"
         }
@@ -2226,6 +2307,8 @@ extension MediaTailor {
     public struct GetFunctionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the function.
         public let arn: String?
+        /// The configuration for a CONCURRENT_EXECUTOR function.
+        public let concurrentExecutorConfiguration: ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function.
         public let customOutputConfiguration: CustomOutputConfiguration?
         /// A description of the function.
@@ -2240,10 +2323,13 @@ extension MediaTailor {
         public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
         /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
+        /// The configuration for a VAST_REQUEST function.
+        public let vastRequestConfiguration: VastRequestConfiguration?
 
         @inlinable
-        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, concurrentExecutorConfiguration: ConcurrentExecutorConfiguration? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil, vastRequestConfiguration: VastRequestConfiguration? = nil) {
             self.arn = arn
+            self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
             self.functionId = functionId
@@ -2251,10 +2337,12 @@ extension MediaTailor {
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
+            self.vastRequestConfiguration = vastRequestConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case concurrentExecutorConfiguration = "ConcurrentExecutorConfiguration"
             case customOutputConfiguration = "CustomOutputConfiguration"
             case description = "Description"
             case functionId = "FunctionId"
@@ -2262,6 +2350,7 @@ extension MediaTailor {
             case httpRequestConfiguration = "HttpRequestConfiguration"
             case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
             case tags = "tags"
+            case vastRequestConfiguration = "VastRequestConfiguration"
         }
     }
 
@@ -2308,7 +2397,7 @@ extension MediaTailor {
         public let dualStackPlaybackEndpointPrefix: String?
         /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
         public let dualStackSessionInitializationEndpointPrefix: String?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
         public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
@@ -2338,9 +2427,11 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
+        /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+        public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
@@ -2368,6 +2459,7 @@ extension MediaTailor {
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+            self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,6 +2490,7 @@ extension MediaTailor {
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+            case yieldOptimizationConfiguration = "YieldOptimizationConfiguration"
         }
     }
 
@@ -3045,18 +3138,22 @@ extension MediaTailor {
     }
 
     public struct LivePreRollConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the ad decision server (ADS) for live pre-roll ads. The configuration contains settings that control how MediaTailor processes VAST responses for pre-roll ad breaks.
+        public let adDecisionServerConfiguration: PreRollAdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS) for pre-roll ads. This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The maximum allowed duration for the pre-roll ad avail. AWS Elemental MediaTailor won't play pre-roll ads to exceed this duration, regardless of the total duration of ads that the ADS returns.
         public let maxDurationSeconds: Int?
 
         @inlinable
-        public init(adDecisionServerUrl: String? = nil, maxDurationSeconds: Int? = nil) {
+        public init(adDecisionServerConfiguration: PreRollAdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, maxDurationSeconds: Int? = nil) {
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.maxDurationSeconds = maxDurationSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case maxDurationSeconds = "MaxDurationSeconds"
         }
@@ -3198,7 +3295,7 @@ extension MediaTailor {
         public let dualStackPlaybackEndpointPrefix: String?
         /// The dual-stack (IPv4 and IPv6) URL that your player uses to initialize a session that uses client-side reporting.
         public let dualStackSessionInitializationEndpointPrefix: String?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
         public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
@@ -3228,9 +3325,11 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
+        /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+        public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
@@ -3258,6 +3357,7 @@ extension MediaTailor {
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+            self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3288,6 +3388,35 @@ extension MediaTailor {
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+            case yieldOptimizationConfiguration = "YieldOptimizationConfiguration"
+        }
+    }
+
+    public struct PreRollAdDecisionServerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The settings that control how MediaTailor processes VAST responses for live pre-roll ad breaks.
+        public let vastResponse: PreRollVastResponse?
+
+        @inlinable
+        public init(vastResponse: PreRollVastResponse? = nil) {
+            self.vastResponse = vastResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vastResponse = "VastResponse"
+        }
+    }
+
+    public struct PreRollVastResponse: AWSEncodableShape & AWSDecodableShape {
+        /// The ad sequencing mode for live pre-roll ads. FOLLOW_AD_SEQUENCE inserts sequenced ads in increasing order and uses standalone ads only as replacements when a sequenced ad fails. IGNORE_AD_SEQUENCE inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is IGNORE_AD_SEQUENCE.
+        public let adSequencingMode: PreRollAdSequencingMode?
+
+        @inlinable
+        public init(adSequencingMode: PreRollAdSequencingMode? = nil) {
+            self.adSequencingMode = adSequencingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adSequencingMode = "AdSequencingMode"
         }
     }
 
@@ -3426,13 +3555,15 @@ extension MediaTailor {
     }
 
     public struct PutFunctionRequest: AWSEncodableShape {
+        /// The configuration for a CONCURRENT_EXECUTOR function. Specifies the list of child functions to run in parallel, the maximum concurrency, an optional output block, and a timeout. Required when FunctionType is CONCURRENT_EXECUTOR.
+        public let concurrentExecutorConfiguration: ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
         public let customOutputConfiguration: CustomOutputConfiguration?
         /// A description of the function.
         public let description: String?
         /// The identifier of the function. The identifier must be unique within your account.
         public let functionId: String
-        /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see Function types and composition in the MediaTailor User Guide.
+        /// The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. VAST_REQUEST calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. CONCURRENT_EXECUTOR runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information, see Function types and composition in the MediaTailor User Guide.
         public let functionType: FunctionType
         /// The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
         public let httpRequestConfiguration: HttpRequestConfiguration?
@@ -3440,9 +3571,12 @@ extension MediaTailor {
         public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
         /// The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
+        /// The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is VAST_REQUEST.
+        public let vastRequestConfiguration: VastRequestConfiguration?
 
         @inlinable
-        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(concurrentExecutorConfiguration: ConcurrentExecutorConfiguration? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil, vastRequestConfiguration: VastRequestConfiguration? = nil) {
+            self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
             self.functionId = functionId
@@ -3450,11 +3584,13 @@ extension MediaTailor {
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
+            self.vastRequestConfiguration = vastRequestConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.concurrentExecutorConfiguration, forKey: .concurrentExecutorConfiguration)
             try container.encodeIfPresent(self.customOutputConfiguration, forKey: .customOutputConfiguration)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.functionId, key: "FunctionId")
@@ -3462,21 +3598,26 @@ extension MediaTailor {
             try container.encodeIfPresent(self.httpRequestConfiguration, forKey: .httpRequestConfiguration)
             try container.encodeIfPresent(self.sequentialExecutorConfiguration, forKey: .sequentialExecutorConfiguration)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.vastRequestConfiguration, forKey: .vastRequestConfiguration)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case concurrentExecutorConfiguration = "ConcurrentExecutorConfiguration"
             case customOutputConfiguration = "CustomOutputConfiguration"
             case description = "Description"
             case functionType = "FunctionType"
             case httpRequestConfiguration = "HttpRequestConfiguration"
             case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
             case tags = "tags"
+            case vastRequestConfiguration = "VastRequestConfiguration"
         }
     }
 
     public struct PutFunctionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the function.
         public let arn: String?
+        /// The configuration for a CONCURRENT_EXECUTOR function.
+        public let concurrentExecutorConfiguration: ConcurrentExecutorConfiguration?
         /// The configuration for a CUSTOM_OUTPUT function.
         public let customOutputConfiguration: CustomOutputConfiguration?
         /// A description of the function.
@@ -3491,10 +3632,13 @@ extension MediaTailor {
         public let sequentialExecutorConfiguration: SequentialExecutorConfiguration?
         /// The tags assigned to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
         public let tags: [String: String]?
+        /// The configuration for a VAST_REQUEST function.
+        public let vastRequestConfiguration: VastRequestConfiguration?
 
         @inlinable
-        public init(arn: String? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, concurrentExecutorConfiguration: ConcurrentExecutorConfiguration? = nil, customOutputConfiguration: CustomOutputConfiguration? = nil, description: String? = nil, functionId: String, functionType: FunctionType, httpRequestConfiguration: HttpRequestConfiguration? = nil, sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil, tags: [String: String]? = nil, vastRequestConfiguration: VastRequestConfiguration? = nil) {
             self.arn = arn
+            self.concurrentExecutorConfiguration = concurrentExecutorConfiguration
             self.customOutputConfiguration = customOutputConfiguration
             self.description = description
             self.functionId = functionId
@@ -3502,10 +3646,12 @@ extension MediaTailor {
             self.httpRequestConfiguration = httpRequestConfiguration
             self.sequentialExecutorConfiguration = sequentialExecutorConfiguration
             self.tags = tags
+            self.vastRequestConfiguration = vastRequestConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case concurrentExecutorConfiguration = "ConcurrentExecutorConfiguration"
             case customOutputConfiguration = "CustomOutputConfiguration"
             case description = "Description"
             case functionId = "FunctionId"
@@ -3513,6 +3659,7 @@ extension MediaTailor {
             case httpRequestConfiguration = "HttpRequestConfiguration"
             case sequentialExecutorConfiguration = "SequentialExecutorConfiguration"
             case tags = "tags"
+            case vastRequestConfiguration = "VastRequestConfiguration"
         }
     }
 
@@ -3537,7 +3684,7 @@ extension MediaTailor {
         public let configurationAliases: [String: [String: String]]?
         /// The configuration for DASH content.
         public let dashConfiguration: DashConfigurationForPut?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
         public let functionMapping: [EventName: String]?
         /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
         public let insertionMode: InsertionMode?
@@ -3557,9 +3704,11 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
+        /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+        public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, functionMapping: [EventName: String]? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, functionMapping: [EventName: String]? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
@@ -3580,10 +3729,12 @@ extension MediaTailor {
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+            self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
         }
 
         public func validate(name: String) throws {
             try self.validate(self.personalizationThresholdSeconds, name: "personalizationThresholdSeconds", parent: name, min: 1)
+            try self.yieldOptimizationConfiguration?.validate(name: "\(name).yieldOptimizationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3607,6 +3758,7 @@ extension MediaTailor {
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+            case yieldOptimizationConfiguration = "YieldOptimizationConfiguration"
         }
     }
 
@@ -3635,7 +3787,7 @@ extension MediaTailor {
         public let dualStackPlaybackEndpointPrefix: String?
         /// The dual-stack (IPv4 and IPv6) session initialization endpoint prefix associated with the playback configuration.
         public let dualStackSessionInitializationEndpointPrefix: String?
-        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+        /// A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
         public let functionMapping: [EventName: String]?
         /// The configuration for HLS content.
         public let hlsConfiguration: HlsConfiguration?
@@ -3665,9 +3817,11 @@ extension MediaTailor {
         public let transcodeProfileName: String?
         /// The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
         public let videoContentSourceUrl: String?
+        /// Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
+        public let yieldOptimizationConfiguration: YieldOptimizationConfiguration?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, adsPersonalizationConcurrency: AdsPersonalizationConcurrency? = nil, adsPersonalizationTimeouts: AdsPersonalizationTimeouts? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, dualStackPlaybackEndpointPrefix: String? = nil, dualStackSessionInitializationEndpointPrefix: String? = nil, functionMapping: [EventName: String]? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil, yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
@@ -3695,6 +3849,7 @@ extension MediaTailor {
             self.tags = tags
             self.transcodeProfileName = transcodeProfileName
             self.videoContentSourceUrl = videoContentSourceUrl
+            self.yieldOptimizationConfiguration = yieldOptimizationConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3725,6 +3880,7 @@ extension MediaTailor {
             case tags = "tags"
             case transcodeProfileName = "TranscodeProfileName"
             case videoContentSourceUrl = "VideoContentSourceUrl"
+            case yieldOptimizationConfiguration = "YieldOptimizationConfiguration"
         }
     }
 
@@ -4804,6 +4960,58 @@ extension MediaTailor {
         }
     }
 
+    public struct VastRequestConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An expression that evaluates to the request body. Used with POST requests, for example to send an OpenRTB bid request. The maximum length is 100,000 characters.
+        public let body: String?
+        /// A map of HTTP header names to expression values. MediaTailor evaluates each header value expression at runtime and includes the result in the outbound request. Headers beginning with X-Amz- are reserved by the service, and method override headers are not allowed.
+        public let headers: [String: String]?
+        /// The HTTP method for the request to the VAST endpoint. Valid values: GET and POST. Use POST to send a bid request body, such as an OpenRTB payload.
+        public let methodType: MethodType
+        /// A map of output bindings. Each key is a namespaced output path (such as temp.wrappedAds), and each value is an expression that MediaTailor evaluates at runtime. Output expressions in a VAST_REQUEST function can reference the response object, which exposes response.parsedAds — the ads parsed from the VAST response after schema validation and wrapper resolution — and response.statusCode. For more information about expression syntax, see JSONata expression reference in the MediaTailor User Guide.
+        public let output: [String: String]?
+        /// The maximum time, in milliseconds, that MediaTailor waits for a response from the VAST endpoint. The timeout covers the entire response, including any wrapper redirects that MediaTailor follows. If the call exceeds this timeout, MediaTailor proceeds with an empty ad list and continues output expression evaluation. Valid values: 100 to 2000.
+        public let requestTimeoutMilliseconds: Int
+        /// The expression language used to evaluate expressions in the function configuration. Set this to JSONata.
+        public let runtime: RuntimeType
+        /// An expression that evaluates to the VAST endpoint URL. Use {%...%} delimiters for dynamic expressions. A literal value must be an https:// URL. The maximum length is 25,000 characters.
+        public let url: String
+
+        @inlinable
+        public init(body: String? = nil, headers: [String: String]? = nil, methodType: MethodType, output: [String: String]? = nil, requestTimeoutMilliseconds: Int, runtime: RuntimeType, url: String) {
+            self.body = body
+            self.headers = headers
+            self.methodType = methodType
+            self.output = output
+            self.requestTimeoutMilliseconds = requestTimeoutMilliseconds
+            self.runtime = runtime
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case headers = "Headers"
+            case methodType = "MethodType"
+            case output = "Output"
+            case requestTimeoutMilliseconds = "RequestTimeoutMilliseconds"
+            case runtime = "Runtime"
+            case url = "Url"
+        }
+    }
+
+    public struct VastResponse: AWSEncodableShape & AWSDecodableShape {
+        /// The ad sequencing mode that controls how MediaTailor handles sequenced and standalone ads in VAST responses. FOLLOW_AD_SEQUENCE inserts sequenced ads in increasing order for both live and VOD workflows, using standalone ads only as replacements when a sequenced ad fails. FOLLOW_AD_SEQUENCE_ONLY_LIVE enables ad sequencing for live workflows only. FOLLOW_AD_SEQUENCE_ONLY_VOD enables ad sequencing for VOD workflows only. IGNORE_AD_SEQUENCE inserts ads in the order they appear in the VAST response, regardless of sequence attributes. The default behavior is IGNORE_AD_SEQUENCE.
+        public let adSequencingMode: AdSequencingMode?
+
+        @inlinable
+        public init(adSequencingMode: AdSequencingMode? = nil) {
+            self.adSequencingMode = adSequencingMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adSequencingMode = "AdSequencingMode"
+        }
+    }
+
     public struct VodSource: AWSDecodableShape {
         /// The ARN for the VOD source.
         public let arn: String
@@ -4841,6 +5049,42 @@ extension MediaTailor {
             case sourceLocationName = "SourceLocationName"
             case tags = "tags"
             case vodSourceName = "VodSourceName"
+        }
+    }
+
+    public struct YieldOptimizationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum unfilled duration, in seconds, that must remain in an ad break before MediaTailor requests additional ads from Amazon Publisher Services (APS). For example, if set to 6 seconds, yield optimization triggers only when at least 6 seconds of unfilled time remains after the primary ad server response.
+        public let minimumUnfilledDuration: Int
+        /// The OpenRTB bid request template, in JSON, that MediaTailor sends to Amazon Publisher Services (APS). The template must include an imp array with one impression specifying bidfloor, an app object specifying bundle and storeurl, and a device object specifying ua and ip. Use double curly braces (for example, {{player_params.user_agent}}) to insert session variables and player parameters.
+        public let openRtbTemplate: String
+        /// Publisher ID for an existing Amazon Publisher Services configuration. This ID must be obtained by registering with APS prior to using the Yield Optimization feature. The Publisher ID identifies your account in the APS system and is required for all bid requests.
+        public let publisherId: String
+        /// The Amazon Publisher Services (APS) region that MediaTailor sends bid requests to. Choose the region closest to your primary audience, because the selection affects both latency and the ad inventory available to you. This setting applies to the entire playback configuration, not to individual viewers. If you serve traffic across multiple regions, create a separate playback configuration for each APS region.
+        public let region: ApsRegion
+
+        @inlinable
+        public init(minimumUnfilledDuration: Int, openRtbTemplate: String, publisherId: String, region: ApsRegion) {
+            self.minimumUnfilledDuration = minimumUnfilledDuration
+            self.openRtbTemplate = openRtbTemplate
+            self.publisherId = publisherId
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minimumUnfilledDuration, name: "minimumUnfilledDuration", parent: name, max: 3600)
+            try self.validate(self.minimumUnfilledDuration, name: "minimumUnfilledDuration", parent: name, min: 6)
+            try self.validate(self.openRtbTemplate, name: "openRtbTemplate", parent: name, max: 102400)
+            try self.validate(self.openRtbTemplate, name: "openRtbTemplate", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, max: 36)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, min: 1)
+            try self.validate(self.publisherId, name: "publisherId", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumUnfilledDuration = "MinimumUnfilledDuration"
+            case openRtbTemplate = "OpenRtbTemplate"
+            case publisherId = "PublisherId"
+            case region = "Region"
         }
     }
 }

@@ -240,6 +240,12 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum StreamNameOutputMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case index = "INDEX"
+        case passthroughName = "PASSTHROUGH_NAME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
@@ -334,6 +340,7 @@ extension MediaPackageV2 {
         case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
         case onlyCmafInputTypeAllowOutputLockingMode = "ONLY_CMAF_INPUT_TYPE_ALLOW_OUTPUT_LOCKING_MODE"
         case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
+        case onlyHlsInputTypeAllowStreamNameOutputMode = "ONLY_HLS_INPUT_TYPE_ALLOW_STREAM_NAME_OUTPUT_MODE"
         case onlyNonEpochLockedAllowOutputTimestampMode = "ONLY_NON_EPOCH_LOCKED_ALLOW_OUTPUT_TIMESTAMP_MODE"
         case outputTimestampModeImmutable = "OUTPUT_TIMESTAMP_MODE_IMMUTABLE"
         case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
@@ -348,6 +355,7 @@ extension MediaPackageV2 {
         case secretIsNotOneKeyValuePair = "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
         case sourceDisruptionsEnabledIncorrectly = "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
         case startTagTimeOffsetInvalid = "START_TAG_TIME_OFFSET_INVALID"
+        case streamNameOutputModeImmutable = "STREAM_NAME_OUTPUT_MODE_IMMUTABLE"
         case timingSourceMissing = "TIMING_SOURCE_MISSING"
         case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
         case tooManySecrets = "TOO_MANY_SECRETS"
@@ -1171,13 +1179,15 @@ extension MediaPackageV2 {
         public let segment: Segment?
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests. This setting is valid only when the associated channel's InputType is HLS. You can't change the stream name output mode after you create the endpoint.  INDEX uses numeric indices for stream names (for example, 1, 2, 3). PASSTHROUGH_NAME uses the stream names from the input manifest. If you don't specify a value, the default is INDEX.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// A comma-separated list of tag key:value pairs that you define. For example:  "Key1": "Value1",   "Key2": "Value2"
         public let tags: [String: String]?
         /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value, the default is UNDERSCORE.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(channelGroupName: String, channelName: String, clientToken: String? = CreateOriginEndpointRequest.idempotencyToken(), containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.clientToken = clientToken
@@ -1191,6 +1201,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -1211,6 +1222,7 @@ extension MediaPackageV2 {
             try container.encode(self.originEndpointName, forKey: .originEndpointName)
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.streamNameOutputMode, forKey: .streamNameOutputMode)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
@@ -1255,6 +1267,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -1293,13 +1306,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1316,6 +1331,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -1337,6 +1353,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -2510,13 +2527,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -2534,6 +2553,7 @@ extension MediaPackageV2 {
             self.resetAt = resetAt
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -2556,6 +2576,7 @@ extension MediaPackageV2 {
             case resetAt = "ResetAt"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "Tags"
             case uriSeparator = "UriSeparator"
         }
@@ -3140,11 +3161,13 @@ extension MediaPackageV2 {
         public let mssManifests: [ListMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date? = nil, dashManifests: [ListDashManifestConfiguration]? = nil, description: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [ListHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [ListLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date? = nil, mssManifests: [ListMssManifestConfiguration]? = nil, originEndpointName: String, streamNameOutputMode: StreamNameOutputMode? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -3158,6 +3181,7 @@ extension MediaPackageV2 {
             self.modifiedAt = modifiedAt
             self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
+            self.streamNameOutputMode = streamNameOutputMode
             self.uriSeparator = uriSeparator
         }
 
@@ -3175,6 +3199,7 @@ extension MediaPackageV2 {
             case modifiedAt = "ModifiedAt"
             case mssManifests = "MssManifests"
             case originEndpointName = "OriginEndpointName"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case uriSeparator = "UriSeparator"
         }
     }
@@ -3887,11 +3912,13 @@ extension MediaPackageV2 {
         public let segment: Segment?
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window. The maximum startover window is 1,209,600 seconds (14 days).
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests. If you provide a value, it must match the current value. You can't change the stream name output mode after you create the endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The separator character to use in generated URIs for this origin endpoint. This setting applies to all manifest types on the endpoint. If you don't specify a value in the update request, the current value is preserved.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(channelGroupName: String, channelName: String, containerType: ContainerType, dashManifests: [CreateDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [CreateHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [CreateLowLatencyHlsManifestConfiguration]? = nil, mssManifests: [CreateMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment? = nil, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, uriSeparator: UriSeparator? = nil) {
             self.channelGroupName = channelGroupName
             self.channelName = channelName
             self.containerType = containerType
@@ -3905,6 +3932,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.uriSeparator = uriSeparator
         }
 
@@ -3924,6 +3952,7 @@ extension MediaPackageV2 {
             request.encodePath(self.originEndpointName, key: "OriginEndpointName")
             try container.encodeIfPresent(self.segment, forKey: .segment)
             try container.encodeIfPresent(self.startoverWindowSeconds, forKey: .startoverWindowSeconds)
+            try container.encodeIfPresent(self.streamNameOutputMode, forKey: .streamNameOutputMode)
             try container.encodeIfPresent(self.uriSeparator, forKey: .uriSeparator)
         }
 
@@ -3966,6 +3995,7 @@ extension MediaPackageV2 {
             case mssManifests = "MssManifests"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case uriSeparator = "UriSeparator"
         }
     }
@@ -4003,13 +4033,15 @@ extension MediaPackageV2 {
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
+        /// The output mode for stream names in egress manifests for this origin endpoint.
+        public let streamNameOutputMode: StreamNameOutputMode?
         /// The comma-separated list of tag key:value pairs assigned to the origin endpoint.
         public let tags: [String: String]?
         /// The separator character used in generated URIs for this origin endpoint.
         public let uriSeparator: UriSeparator?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, mssManifests: [GetMssManifestConfiguration]? = nil, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, streamNameOutputMode: StreamNameOutputMode? = nil, tags: [String: String]? = nil, uriSeparator: UriSeparator? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -4026,6 +4058,7 @@ extension MediaPackageV2 {
             self.originEndpointName = originEndpointName
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
+            self.streamNameOutputMode = streamNameOutputMode
             self.tags = tags
             self.uriSeparator = uriSeparator
         }
@@ -4047,6 +4080,7 @@ extension MediaPackageV2 {
             case originEndpointName = "OriginEndpointName"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
+            case streamNameOutputMode = "StreamNameOutputMode"
             case tags = "tags"
             case uriSeparator = "UriSeparator"
         }

@@ -25,6 +25,14 @@ import Foundation
 extension Resiliencehubv2 {
     // MARK: Enums
 
+    public enum AccountTargeting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Test run targets resources across multiple accounts.
+        case multiAccount = "MULTI_ACCOUNT"
+        /// Test run targets resources in the same account only.
+        case singleAccount = "SINGLE_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AchievabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case achievable = "ACHIEVABLE"
         case notAchievable = "NOT_ACHIEVABLE"
@@ -155,6 +163,13 @@ extension Resiliencehubv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case integer = "INTEGER"
+        case string = "STRING"
+        case stringList = "STRING_LIST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PolicyComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilitySlo = "AVAILABILITY_SLO"
         case dataRecovery = "DATA_RECOVERY"
@@ -191,6 +206,7 @@ extension Resiliencehubv2 {
 
     public enum ReportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failureMode = "FAILURE_MODE"
+        case testing = "TESTING"
         public var description: String { return self.rawValue }
     }
 
@@ -255,6 +271,12 @@ extension Resiliencehubv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum StopConditionSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsCloudwatchAlarm = "aws:cloudwatch:alarm"
+        case none = "none"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SystemEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case systemCreated = "SYSTEM_CREATED"
         case systemDeleted = "SYSTEM_DELETED"
@@ -265,6 +287,36 @@ extension Resiliencehubv2 {
         case systemUserJourneyCreated = "SYSTEM_USER_JOURNEY_CREATED"
         case systemUserJourneyDeleted = "SYSTEM_USER_JOURNEY_DELETED"
         case systemUserJourneyUpdated = "SYSTEM_USER_JOURNEY_UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestRunSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case observability = "OBSERVABILITY"
+        case successCriteria = "SUCCESS_CRITERIA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case failed = "FAILED"
+        case initializing = "INITIALIZING"
+        case passed = "PASSED"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSourceOutcome: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case error = "ERROR"
+        case failed = "FAILED"
+        case passed = "PASSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TestSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case observability = "OBSERVABILITY"
+        case successCriteria = "SUCCESS_CRITERIA"
         public var description: String { return self.rawValue }
     }
 
@@ -576,6 +628,99 @@ extension Resiliencehubv2 {
             case systemUserJourneyCreated = "systemUserJourneyCreated"
             case systemUserJourneyDeleted = "systemUserJourneyDeleted"
             case systemUserJourneyUpdated = "systemUserJourneyUpdated"
+        }
+    }
+
+    public enum TestRunSourceSummary: AWSDecodableShape, Sendable {
+        /// An observability alarm snapshot captured for the test run.
+        case observabilityAlarm(TestRunObservabilityAlarmSummary)
+        /// A success criteria alarm snapshot captured for the test run.
+        case successCriteriaAlarm(TestRunSuccessCriteriaAlarmSummary)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .observabilityAlarm:
+                let value = try container.decode(TestRunObservabilityAlarmSummary.self, forKey: .observabilityAlarm)
+                self = .observabilityAlarm(value)
+            case .successCriteriaAlarm:
+                let value = try container.decode(TestRunSuccessCriteriaAlarmSummary.self, forKey: .successCriteriaAlarm)
+                self = .successCriteriaAlarm(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case observabilityAlarm = "observabilityAlarm"
+            case successCriteriaAlarm = "successCriteriaAlarm"
+        }
+    }
+
+    public enum TestSourceInput: AWSEncodableShape, Sendable {
+        /// An observability alarm included for visibility only.
+        case observabilityAlarm(ObservabilityAlarmInput)
+        /// A success criteria alarm that determines whether the test passes or fails.
+        case successCriteriaAlarm(SuccessCriteriaAlarmInput)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .observabilityAlarm(let value):
+                try container.encode(value, forKey: .observabilityAlarm)
+            case .successCriteriaAlarm(let value):
+                try container.encode(value, forKey: .successCriteriaAlarm)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .observabilityAlarm(let value):
+                try value.validate(name: "\(name).observabilityAlarm")
+            case .successCriteriaAlarm(let value):
+                try value.validate(name: "\(name).successCriteriaAlarm")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case observabilityAlarm = "observabilityAlarm"
+            case successCriteriaAlarm = "successCriteriaAlarm"
+        }
+    }
+
+    public enum TestSourceSummary: AWSDecodableShape, Sendable {
+        /// A configured observability alarm.
+        case observabilityAlarm(ObservabilityAlarmSummary)
+        /// A configured success criteria alarm.
+        case successCriteriaAlarm(SuccessCriteriaAlarmSummary)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .observabilityAlarm:
+                let value = try container.decode(ObservabilityAlarmSummary.self, forKey: .observabilityAlarm)
+                self = .observabilityAlarm(value)
+            case .successCriteriaAlarm:
+                let value = try container.decode(SuccessCriteriaAlarmSummary.self, forKey: .successCriteriaAlarm)
+                self = .successCriteriaAlarm(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case observabilityAlarm = "observabilityAlarm"
+            case successCriteriaAlarm = "successCriteriaAlarm"
         }
     }
 
@@ -1139,7 +1284,7 @@ extension Resiliencehubv2 {
         /// The permission model for the service.
         public let permissionModel: PermissionModel
         public let policyArn: String?
-        /// The AWS Regions where the service operates.
+        /// The Regions where the service operates.
         public let regions: [String]
         public let reportConfiguration: ServiceReportConfiguration?
         public let tags: [String: String]?
@@ -1284,6 +1429,72 @@ extension Resiliencehubv2 {
 
         private enum CodingKeys: String, CodingKey {
             case system = "system"
+        }
+    }
+
+    public struct CreateTestRequest: AWSEncodableShape {
+        /// The logging configuration for the test.
+        public let loggingConfiguration: LoggingConfiguration?
+        /// The parameter values for the test.
+        public let parameters: [String: [String]]?
+        /// The name of the IAM execution role to use when running the test.
+        public let roleName: String?
+        /// The ARN of the service to create the test for.
+        public let serviceArn: String
+        /// The stop conditions for the test.
+        public let stopConditions: [StopCondition]?
+        /// The ARN of the test template to configure.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(loggingConfiguration: LoggingConfiguration? = nil, parameters: [String: [String]]? = nil, roleName: String? = nil, serviceArn: String, stopConditions: [StopCondition]? = nil, testTemplateArn: String) {
+            self.loggingConfiguration = loggingConfiguration
+            self.parameters = parameters
+            self.roleName = roleName
+            self.serviceArn = serviceArn
+            self.stopConditions = stopConditions
+            self.testTemplateArn = testTemplateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 256)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\w.-]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.roleName, name: "roleName", parent: name, max: 60)
+            try self.validate(self.roleName, name: "roleName", parent: name, min: 2)
+            try self.validate(self.roleName, name: "roleName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.validate(self.testTemplateArn, name: "testTemplateArn", parent: name, min: 31)
+            try self.validate(self.testTemplateArn, name: "testTemplateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):([0-9]{12}|aws):[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingConfiguration = "loggingConfiguration"
+            case parameters = "parameters"
+            case roleName = "roleName"
+            case serviceArn = "serviceArn"
+            case stopConditions = "stopConditions"
+            case testTemplateArn = "testTemplateArn"
+        }
+    }
+
+    public struct CreateTestResponse: AWSDecodableShape {
+        /// The created test.
+        public let test: Test
+
+        @inlinable
+        public init(test: Test) {
+            self.test = test
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case test = "test"
         }
     }
 
@@ -1641,6 +1852,79 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct DeleteTestRequest: AWSEncodableShape {
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to delete.
+        public let testId: String
+
+        @inlinable
+        public init(serviceArn: String, testId: String) {
+            self.serviceArn = serviceArn
+            self.testId = testId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "serviceArn"
+            case testId = "testId"
+        }
+    }
+
+    public struct DeleteTestResponse: AWSDecodableShape {
+        /// The identifier of the deleted test.
+        public let testId: String
+
+        @inlinable
+        public init(testId: String) {
+            self.testId = testId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testId = "testId"
+        }
+    }
+
+    public struct DeleteTestSourcesRequest: AWSEncodableShape {
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to remove sources from.
+        public let testId: String
+        /// The monitoring sources to remove.
+        public let testSources: [TestSourceInput]
+
+        @inlinable
+        public init(serviceArn: String, testId: String, testSources: [TestSourceInput]) {
+            self.serviceArn = serviceArn
+            self.testId = testId
+            self.testSources = testSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.testSources.forEach {
+                try $0.validate(name: "\(name).testSources[]")
+            }
+            try self.validate(self.testSources, name: "testSources", parent: name, max: 5)
+            try self.validate(self.testSources, name: "testSources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "serviceArn"
+            case testId = "testId"
+            case testSources = "testSources"
+        }
+    }
+
+    public struct DeleteTestSourcesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteUserJourneyRequest: AWSEncodableShape {
         public let systemArn: String
         /// The identifier of the user journey to delete.
@@ -1890,6 +2174,24 @@ extension Resiliencehubv2 {
             case principalId = "principalId"
             case type = "type"
             case userName = "userName"
+        }
+    }
+
+    public struct ExperimentDetails: AWSDecodableShape {
+        /// Additional details about the experiment.
+        public let details: String?
+        /// The ARN of the AWS FIS experiment.
+        public let experimentArn: String
+
+        @inlinable
+        public init(details: String? = nil, experimentArn: String) {
+            self.details = details
+            self.experimentArn = experimentArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case experimentArn = "experimentArn"
         }
     }
 
@@ -2168,6 +2470,125 @@ extension Resiliencehubv2 {
 
         private enum CodingKeys: String, CodingKey {
             case system = "system"
+        }
+    }
+
+    public struct GetTestRequest: AWSEncodableShape {
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to retrieve.
+        public let testId: String
+
+        @inlinable
+        public init(serviceArn: String, testId: String) {
+            self.serviceArn = serviceArn
+            self.testId = testId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodeQuery(self.testId, key: "testId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTestResponse: AWSDecodableShape {
+        /// The requested test.
+        public let test: Test
+
+        @inlinable
+        public init(test: Test) {
+            self.test = test
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case test = "test"
+        }
+    }
+
+    public struct GetTestRunRequest: AWSEncodableShape {
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String
+        /// The identifier of the test run to retrieve.
+        public let testRunId: String
+
+        @inlinable
+        public init(serviceArn: String, testRunId: String) {
+            self.serviceArn = serviceArn
+            self.testRunId = testRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodeQuery(self.testRunId, key: "testRunId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTestRunResponse: AWSDecodableShape {
+        /// The requested test run.
+        public let testRun: TestRun
+
+        @inlinable
+        public init(testRun: TestRun) {
+            self.testRun = testRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testRun = "testRun"
+        }
+    }
+
+    public struct GetTestTemplateRequest: AWSEncodableShape {
+        /// The ARN of the test template to retrieve.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(testTemplateArn: String) {
+            self.testTemplateArn = testTemplateArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.testTemplateArn, key: "testTemplateArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.testTemplateArn, name: "testTemplateArn", parent: name, min: 31)
+            try self.validate(self.testTemplateArn, name: "testTemplateArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):([0-9]{12}|aws):[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTestTemplateResponse: AWSDecodableShape {
+        /// The requested test template.
+        public let testTemplate: TestTemplate
+
+        @inlinable
+        public init(testTemplate: TestTemplate) {
+            self.testTemplate = testTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testTemplate = "testTemplate"
         }
     }
 
@@ -2779,13 +3200,15 @@ extension Resiliencehubv2 {
         public let reportType: ReportType?
         /// Optional. If not provided, lists all reports owned by the account.
         public let serviceArn: String?
+        public let testRunId: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, reportType: ReportType? = nil, serviceArn: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reportType: ReportType? = nil, serviceArn: String? = nil, testRunId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.reportType = reportType
             self.serviceArn = serviceArn
+            self.testRunId = testRunId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2795,6 +3218,7 @@ extension Resiliencehubv2 {
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.reportType, key: "reportType")
             request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodeQuery(self.testRunId, key: "testRunId")
         }
 
         public func validate(name: String) throws {
@@ -2824,6 +3248,61 @@ extension Resiliencehubv2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case reportGenerationResults = "reportGenerationResults"
+        }
+    }
+
+    public struct ListResolvedTestRunTargetResourcesRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String
+        /// The identifier of the test run to list resolved target resources for.
+        public let testRunId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String, testRunId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+            self.testRunId = testRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodePath(self.testRunId, key: "testRunId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListResolvedTestRunTargetResourcesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The list of resolved target resources.
+        public let resolvedTargetResources: [ResolvedTargetResource]
+
+        @inlinable
+        public init(nextToken: String? = nil, resolvedTargetResources: [ResolvedTargetResource]) {
+            self.nextToken = nextToken
+            self.resolvedTargetResources = resolvedTargetResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case resolvedTargetResources = "resolvedTargetResources"
         }
     }
 
@@ -3299,6 +3778,311 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct ListTestRunEventsRequest: AWSEncodableShape {
+        /// Return events at or before this timestamp.
+        public let endedAt: Date?
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String
+        /// Return events at or after this timestamp.
+        public let startedAt: Date?
+        /// The identifier of the test run to list events for.
+        public let testRunId: String
+
+        @inlinable
+        public init(endedAt: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String, startedAt: Date? = nil, testRunId: String) {
+            self.endedAt = endedAt
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+            self.startedAt = startedAt
+            self.testRunId = testRunId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.endedAt, key: "endedAt")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodeQuery(self.startedAt, key: "startedAt")
+            request.encodePath(self.testRunId, key: "testRunId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTestRunEventsResponse: AWSDecodableShape {
+        /// The list of test run events.
+        public let events: [TestRunEvent]
+        public let nextToken: String?
+
+        @inlinable
+        public init(events: [TestRunEvent], nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTestRunSourcesRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String
+        /// The identifier of the test run to list sources for.
+        public let testRunId: String
+        /// Filter sources by type.
+        public let type: TestRunSourceType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String, testRunId: String, type: TestRunSourceType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+            self.testRunId = testRunId
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodePath(self.testRunId, key: "testRunId")
+            request.encodeQuery(self.type, key: "type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTestRunSourcesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The list of monitoring source snapshots.
+        public let testRunSources: [TestRunSourceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, testRunSources: [TestRunSourceSummary]) {
+            self.nextToken = nextToken
+            self.testRunSources = testRunSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testRunSources = "testRunSources"
+        }
+    }
+
+    public struct ListTestRunsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service to list test runs for.
+        public let serviceArn: String
+        /// Filter test runs by test identifier.
+        public let testId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String, testId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+            self.testId = testId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodeQuery(self.testId, key: "testId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTestRunsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The list of test run summaries.
+        public let testRuns: [TestRunSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, testRuns: [TestRunSummary]) {
+            self.nextToken = nextToken
+            self.testRuns = testRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testRuns = "testRuns"
+        }
+    }
+
+    public struct ListTestSourcesRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to list sources for.
+        public let testId: String
+        /// Filter sources by type.
+        public let type: TestSourceType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String, testId: String, type: TestSourceType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+            self.testId = testId
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+            request.encodePath(self.testId, key: "testId")
+            request.encodeQuery(self.type, key: "type")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTestSourcesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The list of configured monitoring sources.
+        public let testSources: [TestSourceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, testSources: [TestSourceSummary]) {
+            self.nextToken = nextToken
+            self.testSources = testSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case testSources = "testSources"
+        }
+    }
+
+    public struct ListTestTemplatesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct ListTestTemplatesResponse: AWSDecodableShape {
+        /// The list of test template summaries.
+        public let testTemplates: [TestTemplateSummary]
+
+        @inlinable
+        public init(testTemplates: [TestTemplateSummary]) {
+            self.testTemplates = testTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case testTemplates = "testTemplates"
+        }
+    }
+
+    public struct ListTestsRequest: AWSEncodableShape {
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The ARN of the service to list tests for.
+        public let serviceArn: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, serviceArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceArn = serviceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.serviceArn, key: "serviceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTestsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// The list of test summaries.
+        public let tests: [TestSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, tests: [TestSummary]) {
+            self.nextToken = nextToken
+            self.tests = tests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tests = "tests"
+        }
+    }
+
     public struct ListUserJourneysRequest: AWSEncodableShape {
         public let maxResults: Int?
         public let nextToken: String?
@@ -3349,6 +4133,33 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the CloudWatch Logs log group for log delivery.
+        public let cloudWatchLogGroupArn: String?
+        /// The version of the log schema.
+        public let logSchemaVersion: String?
+        /// The name of the S3 bucket for log delivery.
+        public let s3BucketName: String?
+
+        @inlinable
+        public init(cloudWatchLogGroupArn: String? = nil, logSchemaVersion: String? = nil, s3BucketName: String? = nil) {
+            self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
+            self.logSchemaVersion = logSchemaVersion
+            self.s3BucketName = s3BucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, min: 31)
+            try self.validate(self.cloudWatchLogGroupArn, name: "cloudWatchLogGroupArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogGroupArn = "cloudWatchLogGroupArn"
+            case logSchemaVersion = "logSchemaVersion"
+            case s3BucketName = "s3BucketName"
+        }
+    }
+
     public struct MultiAzTargets: AWSEncodableShape & AWSDecodableShape {
         /// The disaster recovery approach for multi-AZ.
         public let disasterRecoveryApproach: MultiAzDisasterRecoveryApproach?
@@ -3393,6 +4204,56 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct ObservabilityAlarmInput: AWSEncodableShape {
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+
+        @inlinable
+        public init(alarmArn: String) {
+            self.alarmArn = alarmArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, max: 1024)
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 31)
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:cloudwatch:[a-z]{2}(-[a-z]+)+-\\d{1}:\\d{12}:alarm:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmArn = "alarmArn"
+        }
+    }
+
+    public struct ObservabilityAlarmSummary: AWSDecodableShape {
+        /// The account ID that owns the CloudWatch alarm.
+        public let accountId: String
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+        /// The name of the CloudWatch alarm.
+        public let alarmName: String
+        /// The timestamp when the source was configured.
+        public let createdAt: Date?
+        /// The Region of the CloudWatch alarm.
+        public let region: String
+
+        @inlinable
+        public init(accountId: String, alarmArn: String, alarmName: String, createdAt: Date? = nil, region: String) {
+            self.accountId = accountId
+            self.alarmArn = alarmArn
+            self.alarmName = alarmName
+            self.createdAt = createdAt
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case alarmArn = "alarmArn"
+            case alarmName = "alarmName"
+            case createdAt = "createdAt"
+            case region = "region"
+        }
+    }
+
     public struct ObservabilityRecommendation: AWSDecodableShape {
         /// The list of suggested observability changes.
         public let suggestedChanges: [String]?
@@ -3423,9 +4284,9 @@ extension Resiliencehubv2 {
                 try $0.validate(name: "\(name).crossAccountRoles[]")
             }
             try self.validate(self.crossAccountRoles, name: "crossAccountRoles", parent: name, max: 5)
-            try self.validate(self.invokerRoleName, name: "invokerRoleName", parent: name, max: 64)
+            try self.validate(self.invokerRoleName, name: "invokerRoleName", parent: name, max: 576)
             try self.validate(self.invokerRoleName, name: "invokerRoleName", parent: name, min: 1)
-            try self.validate(self.invokerRoleName, name: "invokerRoleName", parent: name, pattern: "^[A-Za-z0-9_+=,.@\\-]{1,64}$")
+            try self.validate(self.invokerRoleName, name: "invokerRoleName", parent: name, pattern: "^([A-Za-z0-9_+=,.@\\-]+/)*[A-Za-z0-9_+=,.@\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3531,6 +4392,42 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct PutTestSourcesRequest: AWSEncodableShape {
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to add sources to.
+        public let testId: String
+        /// The monitoring sources to add or update.
+        public let testSources: [TestSourceInput]
+
+        @inlinable
+        public init(serviceArn: String, testId: String, testSources: [TestSourceInput]) {
+            self.serviceArn = serviceArn
+            self.testId = testId
+            self.testSources = testSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+            try self.testSources.forEach {
+                try $0.validate(name: "\(name).testSources[]")
+            }
+            try self.validate(self.testSources, name: "testSources", parent: name, max: 5)
+            try self.validate(self.testSources, name: "testSources", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "serviceArn"
+            case testId = "testId"
+            case testSources = "testSources"
+        }
+    }
+
+    public struct PutTestSourcesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct QueryDataPoint: AWSDecodableShape {
         /// The number of queries at this data point.
         public let queryCount: Int64
@@ -3588,15 +4485,19 @@ extension Resiliencehubv2 {
         public let serviceArn: String?
         /// The status of the report generation.
         public let status: ReportGenerationStatus
+        public let testRunId: String?
+        public let testTemplateArn: String?
 
         @inlinable
-        public init(assessmentId: String? = nil, createdAt: Date? = nil, reportOutput: ReportOutput? = nil, reportType: ReportType, serviceArn: String? = nil, status: ReportGenerationStatus) {
+        public init(assessmentId: String? = nil, createdAt: Date? = nil, reportOutput: ReportOutput? = nil, reportType: ReportType, serviceArn: String? = nil, status: ReportGenerationStatus, testRunId: String? = nil, testTemplateArn: String? = nil) {
             self.assessmentId = assessmentId
             self.createdAt = createdAt
             self.reportOutput = reportOutput
             self.reportType = reportType
             self.serviceArn = serviceArn
             self.status = status
+            self.testRunId = testRunId
+            self.testTemplateArn = testTemplateArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3606,6 +4507,30 @@ extension Resiliencehubv2 {
             case reportType = "reportType"
             case serviceArn = "serviceArn"
             case status = "status"
+            case testRunId = "testRunId"
+            case testTemplateArn = "testTemplateArn"
+        }
+    }
+
+    public struct ResolvedTargetResource: AWSDecodableShape {
+        /// The AWS FIS resource type the target belongs to, such as aws:ec2:instance, aws:ecs:task, or aws:eks:pod.
+        public let resourceType: String
+        /// The raw target information map as returned by AWS FIS.
+        public let targetInformation: [String: String]
+        /// The name of the target in the AWS FIS experiment template.
+        public let targetName: String
+
+        @inlinable
+        public init(resourceType: String, targetInformation: [String: String], targetName: String) {
+            self.resourceType = resourceType
+            self.targetInformation = targetInformation
+            self.targetName = targetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceType = "resourceType"
+            case targetInformation = "targetInformation"
+            case targetName = "targetName"
         }
     }
 
@@ -3779,7 +4704,7 @@ extension Resiliencehubv2 {
         /// The permission model for the service.
         public let permissionModel: PermissionModel?
         public let policyArn: String?
-        /// The AWS Regions where the service operates.
+        /// The Regions where the service operates.
         public let regions: [String]?
         public let reportConfiguration: ServiceReportConfiguration?
         /// Indicates whether the assessment should be rerun.
@@ -4261,7 +5186,7 @@ extension Resiliencehubv2 {
         /// Displayed only if caller has access.
         public let ouId: String?
         public let policyArn: String?
-        /// The AWS Regions where the service operates.
+        /// The Regions where the service operates.
         public let regions: [String]?
         /// The number of resolved findings.
         public let resolvedFindingsCount: Int?
@@ -4471,6 +5396,110 @@ extension Resiliencehubv2 {
         }
     }
 
+    public struct StartTestRunRequest: AWSEncodableShape {
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The identifier of the test to run.
+        public let testId: String
+
+        @inlinable
+        public init(serviceArn: String, testId: String) {
+            self.serviceArn = serviceArn
+            self.testId = testId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "serviceArn"
+            case testId = "testId"
+        }
+    }
+
+    public struct StartTestRunResponse: AWSDecodableShape {
+        /// The ARNs of the AWS Fault Injection Service (AWS FIS) experiments started for the run.
+        public let experimentArns: [String]
+        /// The status of the started test run.
+        public let status: TestRunStatus
+        /// The identifier of the started test run.
+        public let testRunId: String
+
+        @inlinable
+        public init(experimentArns: [String], status: TestRunStatus, testRunId: String) {
+            self.experimentArns = experimentArns
+            self.status = status
+            self.testRunId = testRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentArns = "experimentArns"
+            case status = "status"
+            case testRunId = "testRunId"
+        }
+    }
+
+    public struct StopCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the stop condition.
+        public let source: StopConditionSource
+        /// The value of the stop condition, such as the ARN of the CloudWatch alarm.
+        public let value: String
+
+        @inlinable
+        public init(source: StopConditionSource, value: String) {
+            self.source = source
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "source"
+            case value = "value"
+        }
+    }
+
+    public struct StopTestRunRequest: AWSEncodableShape {
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String
+        /// The identifier of the test run to stop.
+        public let testRunId: String
+
+        @inlinable
+        public init(serviceArn: String, testRunId: String) {
+            self.serviceArn = serviceArn
+            self.testRunId = testRunId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceArn = "serviceArn"
+            case testRunId = "testRunId"
+        }
+    }
+
+    public struct StopTestRunResponse: AWSDecodableShape {
+        /// The status of the test run.
+        public let status: TestRunStatus
+        /// The identifier of the stopped test run.
+        public let testRunId: String
+
+        @inlinable
+        public init(status: TestRunStatus, testRunId: String) {
+            self.status = status
+            self.testRunId = testRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case testRunId = "testRunId"
+        }
+    }
+
     public struct StringChange: AWSDecodableShape {
         /// The new value.
         public let newValue: String?
@@ -4486,6 +5515,56 @@ extension Resiliencehubv2 {
         private enum CodingKeys: String, CodingKey {
             case newValue = "newValue"
             case oldValue = "oldValue"
+        }
+    }
+
+    public struct SuccessCriteriaAlarmInput: AWSEncodableShape {
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+
+        @inlinable
+        public init(alarmArn: String) {
+            self.alarmArn = alarmArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, max: 1024)
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, min: 31)
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:cloudwatch:[a-z]{2}(-[a-z]+)+-\\d{1}:\\d{12}:alarm:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmArn = "alarmArn"
+        }
+    }
+
+    public struct SuccessCriteriaAlarmSummary: AWSDecodableShape {
+        /// The account ID that owns the CloudWatch alarm.
+        public let accountId: String
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+        /// The name of the CloudWatch alarm.
+        public let alarmName: String
+        /// The timestamp when the source was configured.
+        public let createdAt: Date?
+        /// The Region of the CloudWatch alarm.
+        public let region: String
+
+        @inlinable
+        public init(accountId: String, alarmArn: String, alarmName: String, createdAt: Date? = nil, region: String) {
+            self.accountId = accountId
+            self.alarmArn = alarmArn
+            self.alarmName = alarmName
+            self.createdAt = createdAt
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case alarmArn = "alarmArn"
+            case alarmName = "alarmName"
+            case createdAt = "createdAt"
+            case region = "region"
         }
     }
 
@@ -4834,6 +5913,484 @@ extension Resiliencehubv2 {
             case policyName = "policyName"
             case source = "source"
             case value = "value"
+        }
+    }
+
+    public struct Test: AWSDecodableShape {
+        /// The fault actions the test runs.
+        public let actions: [TestAction]?
+        /// The timestamp when the test was created.
+        public let creationTime: Date
+        /// The logging configuration for the test.
+        public let loggingConfiguration: LoggingConfiguration?
+        /// The name of the test.
+        public let name: String
+        /// The parameter values configured for the test.
+        public let parameters: [String: [String]]?
+        /// The name of the IAM execution role used to run the test.
+        public let roleName: String?
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The stop conditions for the test.
+        public let stopConditions: [StopCondition]?
+        /// The number of successful runs of the test.
+        public let successfulTestRuns: Int
+        /// The unique identifier of the test.
+        public let testId: String
+        /// The ARN of the test template the test was created from.
+        public let testTemplateArn: String
+        /// The total number of runs of the test.
+        public let totalTestRuns: Int
+
+        @inlinable
+        public init(actions: [TestAction]? = nil, creationTime: Date, loggingConfiguration: LoggingConfiguration? = nil, name: String, parameters: [String: [String]]? = nil, roleName: String? = nil, serviceArn: String, stopConditions: [StopCondition]? = nil, successfulTestRuns: Int, testId: String, testTemplateArn: String, totalTestRuns: Int) {
+            self.actions = actions
+            self.creationTime = creationTime
+            self.loggingConfiguration = loggingConfiguration
+            self.name = name
+            self.parameters = parameters
+            self.roleName = roleName
+            self.serviceArn = serviceArn
+            self.stopConditions = stopConditions
+            self.successfulTestRuns = successfulTestRuns
+            self.testId = testId
+            self.testTemplateArn = testTemplateArn
+            self.totalTestRuns = totalTestRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case creationTime = "creationTime"
+            case loggingConfiguration = "loggingConfiguration"
+            case name = "name"
+            case parameters = "parameters"
+            case roleName = "roleName"
+            case serviceArn = "serviceArn"
+            case stopConditions = "stopConditions"
+            case successfulTestRuns = "successfulTestRuns"
+            case testId = "testId"
+            case testTemplateArn = "testTemplateArn"
+            case totalTestRuns = "totalTestRuns"
+        }
+    }
+
+    public struct TestAction: AWSDecodableShape {
+        /// The identifier of the fault action.
+        public let actionId: String
+        /// A description of the fault action.
+        public let description: String?
+        /// The resource type that the action targets.
+        public let resourceType: String
+
+        @inlinable
+        public init(actionId: String, description: String? = nil, resourceType: String) {
+            self.actionId = actionId
+            self.description = description
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "actionId"
+            case description = "description"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct TestRun: AWSDecodableShape {
+        /// Indicates whether this test run targets a single account or multiple accounts.
+        public let accountTargeting: AccountTargeting?
+        /// The timestamp when the test run ended.
+        public let endedAt: Date?
+        /// A human-readable reason for test run failure. Only present when the status is FAILED or ERROR.
+        public let errorMessage: String?
+        /// The number of events recorded for the test run. Use ListTestRunEvents to retrieve the details.
+        public let eventCount: Int?
+        /// The AWS Fault Injection Service (AWS FIS) experiments run as part of the test run.
+        public let experiments: [ExperimentDetails]?
+        /// The logging configuration snapshotted from the test when the run was started.
+        public let loggingConfiguration: LoggingConfiguration?
+        /// The parameter values used for the test run.
+        public let parameters: [String: [String]]?
+        /// The permission model snapshotted from the service when the run was started.
+        public let permissionModel: PermissionModel?
+        /// The resilience policy snapshotted from the service when the run was started.
+        public let policy: TestRunPolicySnapshot?
+        /// The Regions snapshotted from the service when the run was started.
+        public let regions: [String]?
+        /// The identifier of the ARC Region switch execution detected during the test run.
+        public let regionSwitchExecutionId: String?
+        /// The ARN of the ARC Region switch plan associated with the test run.
+        public let regionSwitchPlanArn: String?
+        /// The report configuration snapshotted from the service when the run was started.
+        public let reportConfiguration: TestRunReportConfiguration?
+        /// The report generation result for the test run. Present after report generation completes or fails.
+        public let reportOutput: ReportGenerationResult?
+        /// The IAM execution role name snapshotted from the test when the run was started.
+        public let roleName: String?
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String?
+        /// The timestamp when the test run started.
+        public let startedAt: Date
+        /// The current status of the test run.
+        public let status: TestRunStatus
+        /// The stop conditions snapshotted from the test when the run was started.
+        public let stopConditions: [StopCondition]?
+        /// The identifier of the test that was run.
+        public let testId: String
+        /// The unique identifier of the test run.
+        public let testRunId: String
+        /// The ARN of the test template snapshotted from the test when the run was started.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(accountTargeting: AccountTargeting? = nil, endedAt: Date? = nil, errorMessage: String? = nil, eventCount: Int? = nil, experiments: [ExperimentDetails]? = nil, loggingConfiguration: LoggingConfiguration? = nil, parameters: [String: [String]]? = nil, permissionModel: PermissionModel? = nil, policy: TestRunPolicySnapshot? = nil, regions: [String]? = nil, regionSwitchExecutionId: String? = nil, regionSwitchPlanArn: String? = nil, reportConfiguration: TestRunReportConfiguration? = nil, reportOutput: ReportGenerationResult? = nil, roleName: String? = nil, serviceArn: String? = nil, startedAt: Date, status: TestRunStatus, stopConditions: [StopCondition]? = nil, testId: String, testRunId: String, testTemplateArn: String) {
+            self.accountTargeting = accountTargeting
+            self.endedAt = endedAt
+            self.errorMessage = errorMessage
+            self.eventCount = eventCount
+            self.experiments = experiments
+            self.loggingConfiguration = loggingConfiguration
+            self.parameters = parameters
+            self.permissionModel = permissionModel
+            self.policy = policy
+            self.regions = regions
+            self.regionSwitchExecutionId = regionSwitchExecutionId
+            self.regionSwitchPlanArn = regionSwitchPlanArn
+            self.reportConfiguration = reportConfiguration
+            self.reportOutput = reportOutput
+            self.roleName = roleName
+            self.serviceArn = serviceArn
+            self.startedAt = startedAt
+            self.status = status
+            self.stopConditions = stopConditions
+            self.testId = testId
+            self.testRunId = testRunId
+            self.testTemplateArn = testTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountTargeting = "accountTargeting"
+            case endedAt = "endedAt"
+            case errorMessage = "errorMessage"
+            case eventCount = "eventCount"
+            case experiments = "experiments"
+            case loggingConfiguration = "loggingConfiguration"
+            case parameters = "parameters"
+            case permissionModel = "permissionModel"
+            case policy = "policy"
+            case regions = "regions"
+            case regionSwitchExecutionId = "regionSwitchExecutionId"
+            case regionSwitchPlanArn = "regionSwitchPlanArn"
+            case reportConfiguration = "reportConfiguration"
+            case reportOutput = "reportOutput"
+            case roleName = "roleName"
+            case serviceArn = "serviceArn"
+            case startedAt = "startedAt"
+            case status = "status"
+            case stopConditions = "stopConditions"
+            case testId = "testId"
+            case testRunId = "testRunId"
+            case testTemplateArn = "testTemplateArn"
+        }
+    }
+
+    public struct TestRunEvent: AWSDecodableShape {
+        /// Machine-parseable key-value attributes for the event.
+        public let attributes: [String: String]?
+        /// The unique identifier of the event.
+        public let eventId: String
+        /// The type of the event, such as action_started, action_completed, or rto_recovery_detected.
+        public let eventType: String
+        /// A human-readable description of what happened.
+        public let message: String
+        /// The timestamp when the event occurred.
+        public let timestamp: Date
+
+        @inlinable
+        public init(attributes: [String: String]? = nil, eventId: String, eventType: String, message: String, timestamp: Date) {
+            self.attributes = attributes
+            self.eventId = eventId
+            self.eventType = eventType
+            self.message = message
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case eventId = "eventId"
+            case eventType = "eventType"
+            case message = "message"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct TestRunObservabilityAlarmSummary: AWSDecodableShape {
+        /// The account ID that owns the CloudWatch alarm.
+        public let accountId: String
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+        /// The name of the CloudWatch alarm.
+        public let alarmName: String
+        /// The Region of the CloudWatch alarm.
+        public let region: String
+
+        @inlinable
+        public init(accountId: String, alarmArn: String, alarmName: String, region: String) {
+            self.accountId = accountId
+            self.alarmArn = alarmArn
+            self.alarmName = alarmName
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case alarmArn = "alarmArn"
+            case alarmName = "alarmName"
+            case region = "region"
+        }
+    }
+
+    public struct TestRunPolicySnapshot: AWSDecodableShape {
+        /// The availability SLO targets.
+        public let availabilitySlo: AvailabilitySlo?
+        /// The data recovery targets.
+        public let dataRecovery: DataRecoveryTargets?
+        /// The multi-AZ resilience targets.
+        public let multiAz: MultiAzTargets?
+        /// The multi-Region resilience targets.
+        public let multiRegion: MultiRegionTargets?
+        /// The name of the policy.
+        public let name: String?
+        /// The ARN of the policy.
+        public let policyArn: String?
+
+        @inlinable
+        public init(availabilitySlo: AvailabilitySlo? = nil, dataRecovery: DataRecoveryTargets? = nil, multiAz: MultiAzTargets? = nil, multiRegion: MultiRegionTargets? = nil, name: String? = nil, policyArn: String? = nil) {
+            self.availabilitySlo = availabilitySlo
+            self.dataRecovery = dataRecovery
+            self.multiAz = multiAz
+            self.multiRegion = multiRegion
+            self.name = name
+            self.policyArn = policyArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilitySlo = "availabilitySlo"
+            case dataRecovery = "dataRecovery"
+            case multiAz = "multiAz"
+            case multiRegion = "multiRegion"
+            case name = "name"
+            case policyArn = "policyArn"
+        }
+    }
+
+    public struct TestRunReportConfiguration: AWSDecodableShape {
+        /// The output destinations for generated reports.
+        public let reportOutput: [ReportOutputConfiguration]
+
+        @inlinable
+        public init(reportOutput: [ReportOutputConfiguration]) {
+            self.reportOutput = reportOutput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reportOutput = "reportOutput"
+        }
+    }
+
+    public struct TestRunSuccessCriteriaAlarmSummary: AWSDecodableShape {
+        /// The account ID that owns the CloudWatch alarm.
+        public let accountId: String
+        /// The ARN of the CloudWatch alarm.
+        public let alarmArn: String
+        /// The name of the CloudWatch alarm.
+        public let alarmName: String
+        /// The evaluation outcome of the source. Absent while the source has not yet been evaluated; set to the terminal outcome afterwards.
+        public let outcome: TestSourceOutcome?
+        /// A human-readable reason for the outcome.
+        public let outcomeReason: String?
+        /// The Region of the CloudWatch alarm.
+        public let region: String
+
+        @inlinable
+        public init(accountId: String, alarmArn: String, alarmName: String, outcome: TestSourceOutcome? = nil, outcomeReason: String? = nil, region: String) {
+            self.accountId = accountId
+            self.alarmArn = alarmArn
+            self.alarmName = alarmName
+            self.outcome = outcome
+            self.outcomeReason = outcomeReason
+            self.region = region
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case alarmArn = "alarmArn"
+            case alarmName = "alarmName"
+            case outcome = "outcome"
+            case outcomeReason = "outcomeReason"
+            case region = "region"
+        }
+    }
+
+    public struct TestRunSummary: AWSDecodableShape {
+        /// Indicates whether this test run targets a single account or multiple accounts.
+        public let accountTargeting: AccountTargeting?
+        /// The timestamp when the test run ended.
+        public let endedAt: Date?
+        /// A human-readable reason for test run failure. Only present when the status is FAILED or ERROR.
+        public let errorMessage: String?
+        /// The ARN of the service the test run belongs to.
+        public let serviceArn: String?
+        /// The timestamp when the test run started.
+        public let startedAt: Date
+        /// The current status of the test run.
+        public let status: TestRunStatus
+        /// The unique identifier of the test run.
+        public let testRunId: String
+        /// The ARN of the test template the test run was based on.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(accountTargeting: AccountTargeting? = nil, endedAt: Date? = nil, errorMessage: String? = nil, serviceArn: String? = nil, startedAt: Date, status: TestRunStatus, testRunId: String, testTemplateArn: String) {
+            self.accountTargeting = accountTargeting
+            self.endedAt = endedAt
+            self.errorMessage = errorMessage
+            self.serviceArn = serviceArn
+            self.startedAt = startedAt
+            self.status = status
+            self.testRunId = testRunId
+            self.testTemplateArn = testTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountTargeting = "accountTargeting"
+            case endedAt = "endedAt"
+            case errorMessage = "errorMessage"
+            case serviceArn = "serviceArn"
+            case startedAt = "startedAt"
+            case status = "status"
+            case testRunId = "testRunId"
+            case testTemplateArn = "testTemplateArn"
+        }
+    }
+
+    public struct TestSummary: AWSDecodableShape {
+        /// The timestamp when the test was created.
+        public let creationTime: Date
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The number of successful runs of the test.
+        public let successfulTestRuns: Int
+        /// The unique identifier of the test.
+        public let testId: String
+        /// The ARN of the test template the test was created from.
+        public let testTemplateArn: String
+        /// The total number of runs of the test.
+        public let totalTestRuns: Int
+
+        @inlinable
+        public init(creationTime: Date, serviceArn: String, successfulTestRuns: Int, testId: String, testTemplateArn: String, totalTestRuns: Int) {
+            self.creationTime = creationTime
+            self.serviceArn = serviceArn
+            self.successfulTestRuns = successfulTestRuns
+            self.testId = testId
+            self.testTemplateArn = testTemplateArn
+            self.totalTestRuns = totalTestRuns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case serviceArn = "serviceArn"
+            case successfulTestRuns = "successfulTestRuns"
+            case testId = "testId"
+            case testTemplateArn = "testTemplateArn"
+            case totalTestRuns = "totalTestRuns"
+        }
+    }
+
+    public struct TestTemplate: AWSDecodableShape {
+        /// The fault actions the test template runs.
+        public let actions: [TestAction]?
+        /// A description of the test template.
+        public let description: String?
+        /// The name of the test template.
+        public let name: String
+        /// The parameters the test template accepts.
+        public let parameters: [TestTemplateParameter]?
+        /// The ARN of the test template.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(actions: [TestAction]? = nil, description: String? = nil, name: String, parameters: [TestTemplateParameter]? = nil, testTemplateArn: String) {
+            self.actions = actions
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+            self.testTemplateArn = testTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "actions"
+            case description = "description"
+            case name = "name"
+            case parameters = "parameters"
+            case testTemplateArn = "testTemplateArn"
+        }
+    }
+
+    public struct TestTemplateParameter: AWSDecodableShape {
+        /// The default value of the parameter.
+        public let defaultValue: String?
+        /// A description of the parameter.
+        public let description: String?
+        /// The maximum number of values the parameter accepts.
+        public let maxValues: Int?
+        /// The name of the parameter.
+        public let name: String
+        /// Indicates whether the parameter is required.
+        public let required: Bool
+        /// The data type of the parameter.
+        public let type: ParameterType
+
+        @inlinable
+        public init(defaultValue: String? = nil, description: String? = nil, maxValues: Int? = nil, name: String, required: Bool, type: ParameterType) {
+            self.defaultValue = defaultValue
+            self.description = description
+            self.maxValues = maxValues
+            self.name = name
+            self.required = required
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case description = "description"
+            case maxValues = "maxValues"
+            case name = "name"
+            case required = "required"
+            case type = "type"
+        }
+    }
+
+    public struct TestTemplateSummary: AWSDecodableShape {
+        /// A description of the test template.
+        public let description: String
+        /// The name of the test template.
+        public let name: String
+        /// The ARN of the test template.
+        public let testTemplateArn: String
+
+        @inlinable
+        public init(description: String, name: String, testTemplateArn: String) {
+            self.description = description
+            self.name = name
+            self.testTemplateArn = testTemplateArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case testTemplateArn = "testTemplateArn"
         }
     }
 
@@ -5281,6 +6838,70 @@ extension Resiliencehubv2 {
 
         private enum CodingKeys: String, CodingKey {
             case system = "system"
+        }
+    }
+
+    public struct UpdateTestRequest: AWSEncodableShape {
+        /// The updated logging configuration for the test.
+        public let loggingConfiguration: LoggingConfiguration?
+        /// The updated parameter values for the test.
+        public let parameters: [String: [String]]?
+        /// The updated IAM execution role name.
+        public let roleName: String?
+        /// The ARN of the service the test belongs to.
+        public let serviceArn: String
+        /// The updated stop conditions for the test.
+        public let stopConditions: [StopCondition]?
+        /// The identifier of the test to update.
+        public let testId: String
+
+        @inlinable
+        public init(loggingConfiguration: LoggingConfiguration? = nil, parameters: [String: [String]]? = nil, roleName: String? = nil, serviceArn: String, stopConditions: [StopCondition]? = nil, testId: String) {
+            self.loggingConfiguration = loggingConfiguration
+            self.parameters = parameters
+            self.roleName = roleName
+            self.serviceArn = serviceArn
+            self.stopConditions = stopConditions
+            self.testId = testId
+        }
+
+        public func validate(name: String) throws {
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 256)
+                try validate($0.key, name: "parameters.key", parent: name, min: 1)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\w.-]+$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 10)
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 20)
+            try self.validate(self.roleName, name: "roleName", parent: name, max: 60)
+            try self.validate(self.roleName, name: "roleName", parent: name, min: 2)
+            try self.validate(self.roleName, name: "roleName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 31)
+            try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingConfiguration = "loggingConfiguration"
+            case parameters = "parameters"
+            case roleName = "roleName"
+            case serviceArn = "serviceArn"
+            case stopConditions = "stopConditions"
+            case testId = "testId"
+        }
+    }
+
+    public struct UpdateTestResponse: AWSDecodableShape {
+        /// The updated test.
+        public let test: Test
+
+        @inlinable
+        public init(test: Test) {
+            self.test = test
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case test = "test"
         }
     }
 

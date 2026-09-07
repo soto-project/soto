@@ -187,6 +187,7 @@ extension Bedrock {
 
     public enum DataRetentionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
+        case awsReview = "aws_review"
         case inherit = "inherit"
         case none = "none"
         case providerDataShare = "provider_data_share"
@@ -11587,7 +11588,7 @@ extension Bedrock {
         public let additionalModelRequestFields: [String: AWSDocument]?
         /// The inference configuration for the model, including parameters such as maximum tokens, temperature, and top-p.
         public let inferenceConfig: InferenceConfiguration?
-        /// The ID of the model to use for optimization.
+        /// The model to use for optimization. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs, see Models at a glance in the Amazon Bedrock User Guide.   If you use a cross-Region (system-defined) inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for inference profiles in the Amazon Bedrock User Guide.   If you use an application inference profile, specify its full ARN, including the account ID and Region.
         public let modelId: String
 
         @inlinable
@@ -11602,8 +11603,8 @@ extension Bedrock {
                 try validate($0.key, name: "additionalModelRequestFields.key", parent: name, max: 100)
                 try validate($0.key, name: "additionalModelRequestFields.key", parent: name, min: 1)
             }
-            try self.validate(self.modelId, name: "modelId", parent: name, max: 140)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|))|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:[0-9]{12}:application-inference-profile/[a-zA-Z0-9-:.]+)|(arn:aws(|-us-gov|-cn|-iso|-iso-b|-iso-f):bedrock:[a-z0-9-]{1,20}:([0-9]{12})?:inference-profile/[a-zA-Z0-9-:.]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))$")
         }
 
         private enum CodingKeys: String, CodingKey {

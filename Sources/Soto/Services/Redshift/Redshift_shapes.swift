@@ -118,6 +118,7 @@ extension Redshift {
     public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatch = "cloudwatch"
         case s3 = "s3"
+        case s3table = "s3table"
         public var description: String { return self.rawValue }
     }
 
@@ -1005,6 +1006,8 @@ extension Redshift {
         public let kmsKeyId: String?
         /// The status of the lakehouse registration for the cluster. Indicates whether the cluster is successfully registered with Amazon Redshift federated permissions.
         public let lakehouseRegistrationStatus: String?
+        /// The status of system table publishing for the cluster. This field is present only when system table publishing is configured.
+        public let loggingPublishStatus: LoggingPublishStatus?
         /// The name of the maintenance track for the cluster.
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
@@ -1058,7 +1061,7 @@ extension Redshift {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, catalogArn: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, extraComputeForAutomaticOptimization: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, catalogArn: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, extraComputeForAutomaticOptimization: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, loggingPublishStatus: LoggingPublishStatus? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -1098,6 +1101,7 @@ extension Redshift {
             self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
             self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+            self.loggingPublishStatus = loggingPublishStatus
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.masterPasswordSecretArn = masterPasswordSecretArn
@@ -1164,6 +1168,7 @@ extension Redshift {
             case ipAddressType = "IpAddressType"
             case kmsKeyId = "KmsKeyId"
             case lakehouseRegistrationStatus = "LakehouseRegistrationStatus"
+            case loggingPublishStatus = "LoggingPublishStatus"
             case maintenanceTrackName = "MaintenanceTrackName"
             case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
             case masterPasswordSecretArn = "MasterPasswordSecretArn"
@@ -5400,18 +5405,30 @@ extension Redshift {
     public struct DisableLoggingMessage: AWSEncodableShape {
         /// The identifier of the cluster on which logging is to be stopped. Example: examplecluster
         public let clusterIdentifier: String?
+        /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table. When set to s3table, stops system table publishing. When omitted, the operation disables audit logging.
+        public let logDestinationType: LogDestinationType?
+        /// The collection of log types to stop exporting. When LogDestinationType is s3table, the values are the names of the system tables to stop publishing. Omitting this parameter or passing all stops publishing all system tables.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var logExports: [String]?
 
         @inlinable
-        public init(clusterIdentifier: String? = nil) {
+        public init(clusterIdentifier: String? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil) {
             self.clusterIdentifier = clusterIdentifier
+            self.logDestinationType = logDestinationType
+            self.logExports = logExports
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.logExports?.forEach {
+                try validate($0, name: "logExports[]", parent: name, max: 2147483647)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterIdentifier = "ClusterIdentifier"
+            case logDestinationType = "LogDestinationType"
+            case logExports = "LogExports"
         }
     }
 
@@ -5530,21 +5547,27 @@ extension Redshift {
         public let bucketName: String?
         /// The identifier of the cluster on which logging is to be started. Example: examplecluster
         public let clusterIdentifier: String?
-        /// The log destination type. An enum with possible values of s3 and cloudwatch.
+        /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
         public let logDestinationType: LogDestinationType?
-        /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and userlog.
+        /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and userlog. When LogDestinationType is s3table, the values are the names of the system tables to publish. Omitting this parameter, passing an empty list, or including the value all publishes all current and future system tables.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logExports: [String]?
         /// The prefix applied to the log file names. Valid characters are any letter from any language, any whitespace character, any numeric character, and the following characters:  underscore (_), period (.), colon (:), slash (/), equal (=), plus (+), backslash (\), hyphen (-), at symbol (@).
         public let s3KeyPrefix: String?
+        /// The scope of system table publishing. Valid values are cluster and account. A value of cluster scopes publishing to the individual cluster. A value of account scopes publishing to the Amazon Web Services account. This parameter is valid only when LogDestinationType is s3table.
+        public let s3TableGranularity: String?
+        /// The identifier of a customer managed KMS key used to encrypt the S3 tables. This parameter is valid only when LogDestinationType is s3table.
+        public let s3TableKmsKeyId: String?
 
         @inlinable
-        public init(bucketName: String? = nil, clusterIdentifier: String? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, s3KeyPrefix: String? = nil) {
+        public init(bucketName: String? = nil, clusterIdentifier: String? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, s3KeyPrefix: String? = nil, s3TableGranularity: String? = nil, s3TableKmsKeyId: String? = nil) {
             self.bucketName = bucketName
             self.clusterIdentifier = clusterIdentifier
             self.logDestinationType = logDestinationType
             self.logExports = logExports
             self.s3KeyPrefix = s3KeyPrefix
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableKmsKeyId = s3TableKmsKeyId
         }
 
         public func validate(name: String) throws {
@@ -5555,6 +5578,8 @@ extension Redshift {
             }
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, max: 256)
             try self.validate(self.s3KeyPrefix, name: "s3KeyPrefix", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            try self.validate(self.s3TableGranularity, name: "s3TableGranularity", parent: name, max: 2147483647)
+            try self.validate(self.s3TableKmsKeyId, name: "s3TableKmsKeyId", parent: name, max: 2147483647)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5563,6 +5588,8 @@ extension Redshift {
             case logDestinationType = "LogDestinationType"
             case logExports = "LogExports"
             case s3KeyPrefix = "S3KeyPrefix"
+            case s3TableGranularity = "S3TableGranularity"
+            case s3TableKmsKeyId = "S3TableKmsKeyId"
         }
     }
 
@@ -6679,6 +6706,20 @@ extension Redshift {
         }
     }
 
+    public struct LoggingPublishStatus: AWSDecodableShape {
+        /// The status of system table publishing to S3 Tables.
+        public let s3Tables: S3TablePublishStatus?
+
+        @inlinable
+        public init(s3Tables: S3TablePublishStatus? = nil) {
+            self.s3Tables = s3Tables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Tables = "S3Tables"
+        }
+    }
+
     public struct LoggingStatus: AWSDecodableShape {
         /// The name of the S3 bucket where the log files are stored.
         public let bucketName: String?
@@ -6688,18 +6729,20 @@ extension Redshift {
         public let lastFailureTime: Date?
         /// The last time that logs were delivered.
         public let lastSuccessfulDeliveryTime: Date?
-        /// The log destination type. An enum with possible values of s3 and cloudwatch.
+        /// The log destination type. An enum with possible values of s3, cloudwatch, and s3table.
         public let logDestinationType: LogDestinationType?
-        /// The collection of exported log types. Possible values are connectionlog, useractivitylog, and  userlog.
+        /// The collection of exported log types. When LogDestinationType is s3 or cloudwatch, possible values are connectionlog, useractivitylog, and  userlog. When LogDestinationType is s3table, the values are the names of the system tables being published.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var logExports: [String]?
         ///  true if logging is on, false if logging is off.
         public let loggingEnabled: Bool?
         /// The prefix applied to the log file names.
         public let s3KeyPrefix: String?
+        /// The status of system table publishing to S3 Tables. This field is populated only when system table publishing is active.
+        public let s3Tables: S3TablePublishStatus?
 
         @inlinable
-        public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: Date? = nil, lastSuccessfulDeliveryTime: Date? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil) {
+        public init(bucketName: String? = nil, lastFailureMessage: String? = nil, lastFailureTime: Date? = nil, lastSuccessfulDeliveryTime: Date? = nil, logDestinationType: LogDestinationType? = nil, logExports: [String]? = nil, loggingEnabled: Bool? = nil, s3KeyPrefix: String? = nil, s3Tables: S3TablePublishStatus? = nil) {
             self.bucketName = bucketName
             self.lastFailureMessage = lastFailureMessage
             self.lastFailureTime = lastFailureTime
@@ -6708,6 +6751,7 @@ extension Redshift {
             self.logExports = logExports
             self.loggingEnabled = loggingEnabled
             self.s3KeyPrefix = s3KeyPrefix
+            self.s3Tables = s3Tables
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6719,6 +6763,7 @@ extension Redshift {
             case logExports = "LogExports"
             case loggingEnabled = "LoggingEnabled"
             case s3KeyPrefix = "S3KeyPrefix"
+            case s3Tables = "S3Tables"
         }
     }
 
@@ -9547,6 +9592,38 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case cluster = "Cluster"
+        }
+    }
+
+    public struct S3TablePublishStatus: AWSDecodableShape {
+        ///  true if the cluster is enrolled in all current and future system tables rather than an explicit subset.
+        public let enabledAll: Bool?
+        /// A map whose keys are the names of the published system tables and whose values are the time each table last received data. Use this to judge data freshness.
+        @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
+        public var lastIngestionTimes: [String: String]?
+        /// The scope of system table publishing in effect. Possible values are cluster and account.
+        public let s3TableGranularity: String?
+        /// The namespace in the S3 table bucket that holds the published tables.
+        public let s3TableNamespace: String?
+        /// The system tables currently being published.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var s3Tables: [String]?
+
+        @inlinable
+        public init(enabledAll: Bool? = nil, lastIngestionTimes: [String: String]? = nil, s3TableGranularity: String? = nil, s3TableNamespace: String? = nil, s3Tables: [String]? = nil) {
+            self.enabledAll = enabledAll
+            self.lastIngestionTimes = lastIngestionTimes
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableNamespace = s3TableNamespace
+            self.s3Tables = s3Tables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAll = "EnabledAll"
+            case lastIngestionTimes = "LastIngestionTimes"
+            case s3TableGranularity = "S3TableGranularity"
+            case s3TableNamespace = "S3TableNamespace"
+            case s3Tables = "S3Tables"
         }
     }
 

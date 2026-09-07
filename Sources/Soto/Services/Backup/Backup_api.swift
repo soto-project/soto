@@ -148,6 +148,47 @@ public struct Backup: AWSService {
         return try await self.cancelLegalHold(input, logger: logger)
     }
 
+    /// Creates a backup access point for an Amazon S3 recovery point. A backup access point provides on-demand, read-only access to the backup data in a recovery point through an Amazon S3 access point, without initiating a restore. While a backup access point is active for a recovery point, Backup pauses lifecycle transitions and blocks deletion of that recovery point.
+    @Sendable
+    @inlinable
+    public func createBackupAccessPoint(_ input: CreateBackupAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBackupAccessPointResponse {
+        try await self.client.execute(
+            operation: "CreateBackupAccessPoint", 
+            path: "/backup-access-point/create", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a backup access point for an Amazon S3 recovery point. A backup access point provides on-demand, read-only access to the backup data in a recovery point through an Amazon S3 access point, without initiating a restore. While a backup access point is active for a recovery point, Backup pauses lifecycle transitions and blocks deletion of that recovery point.
+    ///
+    /// Parameters:
+    ///   - accessPointMetadata: Metadata for the backup access point. For continuous (point-in-time) recovery points, you must include an AccessPointInTime timestamp (in format 2021-11-27T03:30:27Z). The access point provides access to the content present in the backup at that specific time. You can specify any time within the continuous backup's retention period, up to the latest restorable time. For snapshot recovery points, do not include AccessPointInTime.
+    ///   - accessPointPolicy: An optional resource-based policy, in JSON format, to apply to the underlying Amazon S3 access point. The policy controls how backup data can be accessed through the access point. If you do not specify a policy, access is governed by the caller's IAM permissions. For more information, see Configuring IAM policies for using access points in the Amazon S3 User Guide.
+    ///   - name: The name of the backup access point. This name is shared with the Amazon S3 access point namespace. It must be unique within your account and Region and cannot conflict with an existing Amazon S3 access point. For more information about access point naming, see Access points naming rules, restrictions, and limitations in the Amazon S3 User Guide.
+    ///   - recoveryPointArn: The Amazon Resource Name (ARN) of the recovery point for which to create the backup access point. The recovery point must be an Amazon S3 recovery point in the AVAILABLE, STOPPED, or COMPLETED state.
+    ///   - tags: The tags to assign to the backup access point.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createBackupAccessPoint(
+        accessPointMetadata: [String: String]? = nil,
+        accessPointPolicy: String? = nil,
+        name: String,
+        recoveryPointArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateBackupAccessPointResponse {
+        let input = CreateBackupAccessPointRequest(
+            accessPointMetadata: accessPointMetadata, 
+            accessPointPolicy: accessPointPolicy, 
+            name: name, 
+            recoveryPointArn: recoveryPointArn, 
+            tags: tags
+        )
+        return try await self.createBackupAccessPoint(input, logger: logger)
+    }
+
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
     @Sendable
     @inlinable
@@ -572,6 +613,35 @@ public struct Backup: AWSService {
         return try await self.createTieringConfiguration(input, logger: logger)
     }
 
+    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly.
+    @Sendable
+    @inlinable
+    public func deleteBackupAccessPoint(_ input: DeleteBackupAccessPointInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteBackupAccessPoint", 
+            path: "/backup-access-point/delete/{AccessPointArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a backup access point. This deletes the underlying Amazon S3 access point and, if no other backup access points remain for the recovery point, resumes lifecycle transitions for that recovery point. Always delete backup access points using this operation rather than deleting the underlying Amazon S3 access point directly.
+    ///
+    /// Parameters:
+    ///   - accessPointArn: The Amazon Resource Name (ARN) of the backup access point to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBackupAccessPoint(
+        accessPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteBackupAccessPointInput(
+            accessPointArn: accessPointArn
+        )
+        return try await self.deleteBackupAccessPoint(input, logger: logger)
+    }
+
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
     @Sendable
     @inlinable
@@ -927,6 +997,35 @@ public struct Backup: AWSService {
             tieringConfigurationName: tieringConfigurationName
         )
         return try await self.deleteTieringConfiguration(input, logger: logger)
+    }
+
+    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this operation to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data.
+    @Sendable
+    @inlinable
+    public func describeBackupAccessPoint(_ input: DescribeBackupAccessPointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBackupAccessPointResponse {
+        try await self.client.execute(
+            operation: "DescribeBackupAccessPoint", 
+            path: "/backup-access-point/{AccessPointArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns metadata about a backup access point, including its status and the details of the underlying Amazon S3 access point. After a backup access point reaches the AVAILABLE status, use this operation to retrieve the Amazon S3 access point ARN and alias that you need to read the backup data.
+    ///
+    /// Parameters:
+    ///   - accessPointArn: The Amazon Resource Name (ARN) of the backup access point to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeBackupAccessPoint(
+        accessPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeBackupAccessPointResponse {
+        let input = DescribeBackupAccessPointInput(
+            accessPointArn: accessPointArn
+        )
+        return try await self.describeBackupAccessPoint(input, logger: logger)
     }
 
     /// Returns backup job details for the specified BackupJobId.
@@ -1889,7 +1988,109 @@ public struct Backup: AWSService {
         return try await self.getTieringConfiguration(input, logger: logger)
     }
 
-    /// This is a request for a summary of backup jobs created  or running within the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// Returns a list of the backup access points in your account and Region.
+    @Sendable
+    @inlinable
+    public func listBackupAccessPoints(_ input: ListBackupAccessPointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupAccessPointsResponse {
+        try await self.client.execute(
+            operation: "ListBackupAccessPoints", 
+            path: "/backup-access-point", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the backup access points in your account and Region.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBackupAccessPoints(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBackupAccessPointsResponse {
+        let input = ListBackupAccessPointsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBackupAccessPoints(input, logger: logger)
+    }
+
+    /// Returns the backup access points associated with the specified recovery point. If you own the recovery point and have shared it with other accounts, the response includes backup access points created by those accounts.
+    @Sendable
+    @inlinable
+    public func listBackupAccessPointsByRecoveryPoint(_ input: ListBackupAccessPointsByRecoveryPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupAccessPointsByRecoveryPointResponse {
+        try await self.client.execute(
+            operation: "ListBackupAccessPointsByRecoveryPoint", 
+            path: "/backup-access-point/recovery-point/{RecoveryPointArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the backup access points associated with the specified recovery point. If you own the recovery point and have shared it with other accounts, the response includes backup access points created by those accounts.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - recoveryPointArn: The Amazon Resource Name (ARN) of the recovery point whose backup access points you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBackupAccessPointsByRecoveryPoint(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recoveryPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBackupAccessPointsByRecoveryPointResponse {
+        let input = ListBackupAccessPointsByRecoveryPointRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recoveryPointArn: recoveryPointArn
+        )
+        return try await self.listBackupAccessPointsByRecoveryPoint(input, logger: logger)
+    }
+
+    /// Returns the backup access points associated with the specified resource, such as an Amazon S3 bucket.
+    @Sendable
+    @inlinable
+    public func listBackupAccessPointsByResource(_ input: ListBackupAccessPointsByResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupAccessPointsByResourceResponse {
+        try await self.client.execute(
+            operation: "ListBackupAccessPointsByResource", 
+            path: "/backup-access-point/resource/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the backup access points associated with the specified resource, such as an Amazon S3 bucket.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource whose backup access points you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBackupAccessPointsByResource(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBackupAccessPointsByResourceResponse {
+        let input = ListBackupAccessPointsByResourceRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceArn: resourceArn
+        )
+        return try await self.listBackupAccessPointsByResource(input, logger: logger)
+    }
+
+    /// This is a request for a summary of backup jobs created  or running within the most recent 14 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     @Sendable
     @inlinable
     public func listBackupJobSummaries(_ input: ListBackupJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBackupJobSummariesOutput {
@@ -1902,7 +2103,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// This is a request for a summary of backup jobs created  or running within the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// This is a request for a summary of backup jobs created  or running within the most recent 14 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     ///
     /// Parameters:
     ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account  not part of Amazon Web Services Organizations, jobs within requestor's account  will be returned. Root, admin, and delegated administrator accounts can use  the value ANY to return job counts from every account in the  organization.  AGGREGATE_ALL aggregates job counts  from all accounts within the authenticated organization,  then returns the sum.
@@ -2176,7 +2377,7 @@ public struct Backup: AWSService {
         return try await self.listBackupVaults(input, logger: logger)
     }
 
-    /// This request obtains a list of copy jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a list of copy jobs created  or running within the the most recent 14 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     @Sendable
     @inlinable
     public func listCopyJobSummaries(_ input: ListCopyJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCopyJobSummariesOutput {
@@ -2189,7 +2390,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// This request obtains a list of copy jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a list of copy jobs created  or running within the the most recent 14 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     ///
     /// Parameters:
     ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account  not part of Amazon Web Services Organizations, jobs within requestor's account  will be returned. Root, admin, and delegated administrator accounts can use  the value ANY to return job counts from every account in the  organization.  AGGREGATE_ALL aggregates job counts  from all accounts within the authenticated organization,  then returns the sum.
@@ -2402,7 +2603,7 @@ public struct Backup: AWSService {
         return try await self.listLegalHolds(input, logger: logger)
     }
 
-    /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    /// Returns an array of resources with recovery points created by Backup (regardless of the recovery point's status), including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     @Sendable
     @inlinable
     public func listProtectedResources(_ input: ListProtectedResourcesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectedResourcesOutput {
@@ -2415,7 +2616,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    /// Returns an array of resources with recovery points created by Backup (regardless of the recovery point's status), including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to be returned.
@@ -2579,7 +2780,7 @@ public struct Backup: AWSService {
     /// The information about the recovery points of the type specified by a resource Amazon Resource Name (ARN).  For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
     ///
     /// Parameters:
-    ///   - managedByAWSBackupOnly: This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource. Type: Boolean
+    ///   - managedByAWSBackupOnly: This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource, except for EBS snapshots copied within the same Region and account. Type: Boolean
     ///   - maxResults: The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
     ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
     ///   - resourceArn: An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -2712,7 +2913,7 @@ public struct Backup: AWSService {
         return try await self.listRestoreAccessBackupVaults(input, logger: logger)
     }
 
-    /// This request obtains a summary of restore jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a summary of restore jobs created  or running within the the most recent 14 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     @Sendable
     @inlinable
     public func listRestoreJobSummaries(_ input: ListRestoreJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRestoreJobSummariesOutput {
@@ -2725,7 +2926,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// This request obtains a summary of restore jobs created  or running within the the most recent 30 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
+    /// This request obtains a summary of restore jobs created  or running within the the most recent 14 days. You can  include parameters AccountID, State, ResourceType,   AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, RestourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     ///
     /// Parameters:
     ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account  not part of Amazon Web Services Organizations, jobs within requestor's account  will be returned. Root, admin, and delegated administrator accounts can use  the value ANY to return job counts from every account in the  organization.  AGGREGATE_ALL aggregates job counts  from all accounts within the authenticated organization,  then returns the sum.
@@ -2926,7 +3127,7 @@ public struct Backup: AWSService {
         return try await self.listRestoreTestingSelections(input, logger: logger)
     }
 
-    /// This is a request for a summary of scan jobs created or running within the most recent 30 days.
+    /// This is a request for a summary of scan jobs created or running within the most recent 14 days.
     @Sendable
     @inlinable
     public func listScanJobSummaries(_ input: ListScanJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScanJobSummariesOutput {
@@ -2939,7 +3140,7 @@ public struct Backup: AWSService {
             logger: logger
         )
     }
-    /// This is a request for a summary of scan jobs created or running within the most recent 30 days.
+    /// This is a request for a summary of scan jobs created or running within the most recent 14 days.
     ///
     /// Parameters:
     ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization.  AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
@@ -3963,6 +4164,114 @@ extension Backup {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Backup {
+    /// Return PaginatorSequence for operation ``listBackupAccessPoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsPaginator(
+        _ input: ListBackupAccessPointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsRequest, ListBackupAccessPointsResponse> {
+        return .init(
+            input: input,
+            command: self.listBackupAccessPoints,
+            inputKey: \ListBackupAccessPointsRequest.nextToken,
+            outputKey: \ListBackupAccessPointsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBackupAccessPoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsRequest, ListBackupAccessPointsResponse> {
+        let input = ListBackupAccessPointsRequest(
+            maxResults: maxResults
+        )
+        return self.listBackupAccessPointsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBackupAccessPointsByRecoveryPoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsByRecoveryPointPaginator(
+        _ input: ListBackupAccessPointsByRecoveryPointRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsByRecoveryPointRequest, ListBackupAccessPointsByRecoveryPointResponse> {
+        return .init(
+            input: input,
+            command: self.listBackupAccessPointsByRecoveryPoint,
+            inputKey: \ListBackupAccessPointsByRecoveryPointRequest.nextToken,
+            outputKey: \ListBackupAccessPointsByRecoveryPointResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBackupAccessPointsByRecoveryPoint(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - recoveryPointArn: The Amazon Resource Name (ARN) of the recovery point whose backup access points you want to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsByRecoveryPointPaginator(
+        maxResults: Int? = nil,
+        recoveryPointArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsByRecoveryPointRequest, ListBackupAccessPointsByRecoveryPointResponse> {
+        let input = ListBackupAccessPointsByRecoveryPointRequest(
+            maxResults: maxResults, 
+            recoveryPointArn: recoveryPointArn
+        )
+        return self.listBackupAccessPointsByRecoveryPointPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBackupAccessPointsByResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsByResourcePaginator(
+        _ input: ListBackupAccessPointsByResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsByResourceRequest, ListBackupAccessPointsByResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listBackupAccessPointsByResource,
+            inputKey: \ListBackupAccessPointsByResourceRequest.nextToken,
+            outputKey: \ListBackupAccessPointsByResourceResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBackupAccessPointsByResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource whose backup access points you want to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBackupAccessPointsByResourcePaginator(
+        maxResults: Int? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBackupAccessPointsByResourceRequest, ListBackupAccessPointsByResourceResponse> {
+        let input = ListBackupAccessPointsByResourceRequest(
+            maxResults: maxResults, 
+            resourceArn: resourceArn
+        )
+        return self.listBackupAccessPointsByResourcePaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listBackupJobSummaries(_:logger:)``.
     ///
     /// - Parameters:
@@ -4690,7 +4999,7 @@ extension Backup {
     /// Return PaginatorSequence for operation ``listRecoveryPointsByResource(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - managedByAWSBackupOnly: This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource. Type: Boolean
+    ///   - managedByAWSBackupOnly: This attribute filters recovery points based on ownership. If this is  set to TRUE, the response will contain recovery points associated  with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all  recovery points associated with the selected resource, except for EBS snapshots copied within the same Region and account. Type: Boolean
     ///   - maxResults: The maximum number of items to be returned.  Amazon RDS requires a value of at least 20.
     ///   - resourceArn: An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
     ///   - logger: Logger used for logging
@@ -5235,6 +5544,38 @@ extension Backup {
             maxResults: maxResults
         )
         return self.listTieringConfigurationsPaginator(input, logger: logger)
+    }
+}
+
+extension Backup.ListBackupAccessPointsByRecoveryPointRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListBackupAccessPointsByRecoveryPointRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPointArn: self.recoveryPointArn
+        )
+    }
+}
+
+extension Backup.ListBackupAccessPointsByResourceRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListBackupAccessPointsByResourceRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Backup.ListBackupAccessPointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListBackupAccessPointsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

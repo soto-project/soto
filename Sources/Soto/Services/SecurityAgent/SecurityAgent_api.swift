@@ -887,6 +887,7 @@ public struct SecurityAgent: AWSService {
     ///   - assets: The assets to include in the code review, such as documents and source code.
     ///   - codeRemediationStrategy: The code remediation strategy for the code review. Valid values are AUTOMATIC and DISABLED.
     ///   - logConfig: The CloudWatch Logs configuration for the code review.
+    ///   - maxTaskHours: The maximum number of billable task hours allowed for jobs started from this code review. Must be a positive number. If not set, jobs run to completion with no budget cap.
     ///   - serviceRole: The IAM service role to use for the code review.
     ///   - title: The title of the code review.
     ///   - validationMode: The validation mode for the code review. Valid values are SIMULATED and DISABLED.
@@ -897,6 +898,7 @@ public struct SecurityAgent: AWSService {
         assets: Assets,
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         serviceRole: String? = nil,
         title: String,
         validationMode: ValidationMode? = nil,
@@ -907,6 +909,7 @@ public struct SecurityAgent: AWSService {
             assets: assets, 
             codeRemediationStrategy: codeRemediationStrategy, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             serviceRole: serviceRole, 
             title: title, 
             validationMode: validationMode
@@ -1021,6 +1024,7 @@ public struct SecurityAgent: AWSService {
     ///   - disableManagedSkills: A list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
     ///   - excludeRiskTypes: The list of risk types to exclude from the pentest.
     ///   - logConfig: The CloudWatch Logs configuration for the pentest.
+    ///   - maxTaskHours: The maximum number of billable task hours allowed for jobs started from this pentest. Must be a positive number. If not set, jobs run to completion with no budget cap.
     ///   - networkTrafficConfig: The network traffic configuration for the pentest, including custom headers and traffic rules.
     ///   - serviceRole: The IAM service role to use for the pentest.
     ///   - title: The title of the pentest.
@@ -1034,6 +1038,7 @@ public struct SecurityAgent: AWSService {
         disableManagedSkills: [SkillType]? = nil,
         excludeRiskTypes: [RiskType]? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         networkTrafficConfig: NetworkTrafficConfig? = nil,
         serviceRole: String? = nil,
         title: String,
@@ -1047,6 +1052,7 @@ public struct SecurityAgent: AWSService {
             disableManagedSkills: disableManagedSkills, 
             excludeRiskTypes: excludeRiskTypes, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             networkTrafficConfig: networkTrafficConfig, 
             serviceRole: serviceRole, 
             title: title, 
@@ -2692,17 +2698,23 @@ public struct SecurityAgent: AWSService {
     ///
     /// Parameters:
     ///   - agentSpaceId: The unique identifier of the agent space.
+    ///   - jobType: The type of pentest job to start. Valid values are FULL and REVALIDATION. When set to REVALIDATION, the selectedFindingIds parameter is required.
     ///   - pentestId: The unique identifier of the pentest to start a job for.
+    ///   - selectedFindingIds: The list of finding identifiers to revalidate. Required when jobType is REVALIDATION. Each finding must belong to the same agent space and pentest.
     ///   - logger: Logger use during operation
     @inlinable
     public func startPentestJob(
         agentSpaceId: String,
+        jobType: JobType? = nil,
         pentestId: String,
+        selectedFindingIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartPentestJobOutput {
         let input = StartPentestJobInput(
             agentSpaceId: agentSpaceId, 
-            pentestId: pentestId
+            jobType: jobType, 
+            pentestId: pentestId, 
+            selectedFindingIds: selectedFindingIds
         )
         return try await self.startPentestJob(input, logger: logger)
     }
@@ -2999,6 +3011,7 @@ public struct SecurityAgent: AWSService {
     ///   - codeRemediationStrategy: The updated code remediation strategy for the code review.
     ///   - codeReviewId: The unique identifier of the code review to update.
     ///   - logConfig: The updated CloudWatch Logs configuration for the code review.
+    ///   - maxTaskHours: The updated maximum number of billable task hours allowed for jobs started from this code review.
     ///   - serviceRole: The updated IAM service role for the code review.
     ///   - title: The updated title of the code review.
     ///   - validationMode: The updated validation mode for the code review. Valid values are SIMULATED and DISABLED.
@@ -3010,6 +3023,7 @@ public struct SecurityAgent: AWSService {
         codeRemediationStrategy: CodeRemediationStrategy? = nil,
         codeReviewId: String,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         serviceRole: String? = nil,
         title: String? = nil,
         validationMode: ValidationMode? = nil,
@@ -3021,6 +3035,7 @@ public struct SecurityAgent: AWSService {
             codeRemediationStrategy: codeRemediationStrategy, 
             codeReviewId: codeReviewId, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             serviceRole: serviceRole, 
             title: title, 
             validationMode: validationMode
@@ -3144,6 +3159,7 @@ public struct SecurityAgent: AWSService {
     ///   - disableManagedSkills: The updated list of managed skills to disable for this pentest. Valid values include FINDING_PERSONALIZATION and LOGIN_OPTIMIZATION.
     ///   - excludeRiskTypes: The updated list of risk types to exclude from the pentest.
     ///   - logConfig: The updated CloudWatch Logs configuration for the pentest.
+    ///   - maxTaskHours: The updated maximum number of billable task hours allowed for jobs started from this pentest.
     ///   - networkTrafficConfig: The updated network traffic configuration for the pentest.
     ///   - pentestId: The unique identifier of the pentest to update.
     ///   - serviceRole: The updated IAM service role for the pentest.
@@ -3158,6 +3174,7 @@ public struct SecurityAgent: AWSService {
         disableManagedSkills: [SkillType]? = nil,
         excludeRiskTypes: [RiskType]? = nil,
         logConfig: CloudWatchLog? = nil,
+        maxTaskHours: Double? = nil,
         networkTrafficConfig: NetworkTrafficConfig? = nil,
         pentestId: String,
         serviceRole: String? = nil,
@@ -3172,6 +3189,7 @@ public struct SecurityAgent: AWSService {
             disableManagedSkills: disableManagedSkills, 
             excludeRiskTypes: excludeRiskTypes, 
             logConfig: logConfig, 
+            maxTaskHours: maxTaskHours, 
             networkTrafficConfig: networkTrafficConfig, 
             pentestId: pentestId, 
             serviceRole: serviceRole, 

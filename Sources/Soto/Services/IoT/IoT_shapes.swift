@@ -460,6 +460,26 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum InfluxDBSecretType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case secretBinary = "SecretBinary"
+        case secretString = "SecretString"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InfluxDBTimestampUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case microseconds = "us"
+        case milliseconds = "ms"
+        case nanoseconds = "ns"
+        case seconds = "s"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InfluxDBVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case v2 = "V2"
+        case v3 = "V3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobEndBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancel = "CANCEL"
         case forceCancel = "FORCE_CANCEL"
@@ -889,6 +909,8 @@ extension IoT {
         public let firehose: FirehoseAction?
         /// Send data to an HTTPS endpoint.
         public let http: HttpAction?
+        /// Write data to an InfluxDB database.
+        public let influxDB: InfluxDBAction?
         /// Sends message data to an IoT Analytics channel.
         public let iotAnalytics: IotAnalyticsAction?
         /// Sends an input to an IoT Events detector.
@@ -921,7 +943,7 @@ extension IoT {
         public let timestream: TimestreamAction?
 
         @inlinable
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, location: LocationAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, influxDB: InfluxDBAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kafka: KafkaAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, location: LocationAction? = nil, openSearch: OpenSearchAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -930,6 +952,7 @@ extension IoT {
             self.elasticsearch = elasticsearch
             self.firehose = firehose
             self.http = http
+            self.influxDB = influxDB
             self.iotAnalytics = iotAnalytics
             self.iotEvents = iotEvents
             self.iotSiteWise = iotSiteWise
@@ -951,6 +974,7 @@ extension IoT {
             try self.elasticsearch?.validate(name: "\(name).elasticsearch")
             try self.firehose?.validate(name: "\(name).firehose")
             try self.http?.validate(name: "\(name).http")
+            try self.influxDB?.validate(name: "\(name).influxDB")
             try self.iotEvents?.validate(name: "\(name).iotEvents")
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
             try self.kafka?.validate(name: "\(name).kafka")
@@ -969,6 +993,7 @@ extension IoT {
             case elasticsearch = "elasticsearch"
             case firehose = "firehose"
             case http = "http"
+            case influxDB = "influxDB"
             case iotAnalytics = "iotAnalytics"
             case iotEvents = "iotEvents"
             case iotSiteWise = "iotSiteWise"
@@ -11095,6 +11120,201 @@ extension IoT {
         }
     }
 
+    public struct InfluxDBAction: AWSEncodableShape & AWSDecodableShape {
+        /// The batching configuration for the action. When present, IoT collects data points from multiple messages and writes them to InfluxDB in a single request. If omitted, each message is written to InfluxDB in its own request.
+        public let batchConfig: InfluxDBBatchConfig?
+        /// The name of the InfluxDB database to write to. In InfluxDB 2, this is the name of the bucket.
+        public let databaseName: String
+        /// The ARN of the InfluxDB topic rule destination that identifies the InfluxDB instance to write to.
+        public let destinationArn: String
+        /// The name of the InfluxDB organization that owns the database. A write to an InfluxDB 2 instance fails if this value isn't set. This value isn't used when the destination is an InfluxDB 3 instance.
+        public let organization: String?
+        /// The ARN of the role that grants permission to retrieve the InfluxDB API token from Amazon Web Services Secrets Manager.
+        public let roleArn: String
+        /// The name of the table to write the data point to. This is the measurement name of the InfluxDB line protocol record. Accepts substitution templates.
+        public let tableName: String
+        /// The set of tags to write with each data point. Tags are the indexed metadata of an InfluxDB data point. Tag names and tag values accept substitution templates. A tag name can't use the @{...} per-element form. A tag name must resolve to the same value for every element of an array payload.
+        public let tags: [String: String]?
+        /// The precision of the timestamp written with each data point. Valid values are s (seconds), ms (milliseconds), us (microseconds), and ns (nanoseconds). If omitted, the topic rule action uses ms.
+        public let timestampUnit: InfluxDBTimestampUnit?
+
+        @inlinable
+        public init(batchConfig: InfluxDBBatchConfig? = nil, databaseName: String, destinationArn: String, organization: String? = nil, roleArn: String, tableName: String, tags: [String: String]? = nil, timestampUnit: InfluxDBTimestampUnit? = nil) {
+            self.batchConfig = batchConfig
+            self.databaseName = databaseName
+            self.destinationArn = destinationArn
+            self.organization = organization
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.tags = tags
+            self.timestampUnit = timestampUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.batchConfig?.validate(name: "\(name).batchConfig")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 2)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[^_\\\"][^\\\"]+$")
+            try self.validate(self.organization, name: "organization", parent: name, max: 64)
+            try self.validate(self.organization, name: "organization", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 1024)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[^_].*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^_].*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 498)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchConfig = "batchConfig"
+            case databaseName = "databaseName"
+            case destinationArn = "destinationArn"
+            case organization = "organization"
+            case roleArn = "roleArn"
+            case tableName = "tableName"
+            case tags = "tags"
+            case timestampUnit = "timestampUnit"
+        }
+    }
+
+    public struct InfluxDBBatchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to collect data points from different topics into the same batch. If omitted or false, IoT batches data points for each topic separately.
+        public let batchAcrossTopics: Bool?
+        /// The maximum length of time, in milliseconds, to keep a batch open before writing it to InfluxDB. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public let maxBatchOpenMs: Int?
+        /// The maximum number of data points to collect in a batch. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public let maxBatchSize: Int?
+        /// The maximum size of a batch, in bytes, before IoT writes it to InfluxDB. If you don't specify a value, this limit doesn't apply. IoT then closes each batch when another configured limit is reached.
+        public let maxBatchSizeBytes: Int?
+
+        @inlinable
+        public init(batchAcrossTopics: Bool? = nil, maxBatchOpenMs: Int? = nil, maxBatchSize: Int? = nil, maxBatchSizeBytes: Int? = nil) {
+            self.batchAcrossTopics = batchAcrossTopics
+            self.maxBatchOpenMs = maxBatchOpenMs
+            self.maxBatchSize = maxBatchSize
+            self.maxBatchSizeBytes = maxBatchSizeBytes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBatchOpenMs, name: "maxBatchOpenMs", parent: name, max: 1000)
+            try self.validate(self.maxBatchOpenMs, name: "maxBatchOpenMs", parent: name, min: 5)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 500)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 1)
+            try self.validate(self.maxBatchSizeBytes, name: "maxBatchSizeBytes", parent: name, max: 131072)
+            try self.validate(self.maxBatchSizeBytes, name: "maxBatchSizeBytes", parent: name, min: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchAcrossTopics = "batchAcrossTopics"
+            case maxBatchOpenMs = "maxBatchOpenMs"
+            case maxBatchSize = "maxBatchSize"
+            case maxBatchSizeBytes = "maxBatchSizeBytes"
+        }
+    }
+
+    public struct InfluxDBDestinationConfiguration: AWSEncodableShape {
+        /// The URL of the InfluxDB instance to write to.
+        public let endpoint: String
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        public let influxDBVersion: InfluxDBVersion
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        public let secretId: String
+        /// The key to read from the secret value when the secret contains a JSON object. If omitted, IoT uses the entire secret value as the InfluxDB API token.
+        public let secretKey: String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary. If omitted, IoT reads the secret as a string.
+        public let secretType: InfluxDBSecretType?
+
+        @inlinable
+        public init(endpoint: String, influxDBVersion: InfluxDBVersion, secretId: String, secretKey: String? = nil, secretType: InfluxDBSecretType? = nil) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endpoint, name: "endpoint", parent: name, max: 2000)
+            try self.validate(self.secretId, name: "secretId", parent: name, max: 512)
+            try self.validate(self.secretId, name: "secretId", parent: name, min: 1)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, max: 128)
+            try self.validate(self.secretKey, name: "secretKey", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "endpoint"
+            case influxDBVersion = "influxDBVersion"
+            case secretId = "secretId"
+            case secretKey = "secretKey"
+            case secretType = "secretType"
+        }
+    }
+
+    public struct InfluxDBDestinationProperties: AWSDecodableShape {
+        /// The URL of the InfluxDB instance that the destination writes to.
+        public let endpoint: String?
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        public let influxDBVersion: InfluxDBVersion?
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        public let secretId: String?
+        /// The key that is read from the secret value when the secret contains a JSON object.
+        public let secretKey: String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary.
+        public let secretType: InfluxDBSecretType?
+
+        @inlinable
+        public init(endpoint: String? = nil, influxDBVersion: InfluxDBVersion? = nil, secretId: String? = nil, secretKey: String? = nil, secretType: InfluxDBSecretType? = nil) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "endpoint"
+            case influxDBVersion = "influxDBVersion"
+            case secretId = "secretId"
+            case secretKey = "secretKey"
+            case secretType = "secretType"
+        }
+    }
+
+    public struct InfluxDBDestinationSummary: AWSDecodableShape {
+        /// The URL of the InfluxDB instance that the destination writes to.
+        public let endpoint: String?
+        /// The major version of the InfluxDB instance. Valid values are V2 and V3.
+        public let influxDBVersion: InfluxDBVersion?
+        /// The ARN or name of the Amazon Web Services Secrets Manager secret that contains the InfluxDB API token.
+        public let secretId: String?
+        /// The key that is read from the secret value when the secret contains a JSON object.
+        public let secretKey: String?
+        /// The type of the secret that contains the InfluxDB API token. Valid values are SecretString and SecretBinary.
+        public let secretType: InfluxDBSecretType?
+
+        @inlinable
+        public init(endpoint: String? = nil, influxDBVersion: InfluxDBVersion? = nil, secretId: String? = nil, secretKey: String? = nil, secretType: InfluxDBSecretType? = nil) {
+            self.endpoint = endpoint
+            self.influxDBVersion = influxDBVersion
+            self.secretId = secretId
+            self.secretKey = secretKey
+            self.secretType = secretType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "endpoint"
+            case influxDBVersion = "influxDBVersion"
+            case secretId = "secretId"
+            case secretKey = "secretKey"
+            case secretType = "secretType"
+        }
+    }
+
     public struct IotAnalyticsAction: AWSEncodableShape & AWSDecodableShape {
         /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by  BatchPutMessage to the IoT Analytics channel. The resulting array can't have more than 100 messages.
         public let batchMode: Bool?
@@ -19160,6 +19380,8 @@ extension IoT {
         public let createdAt: Date?
         /// Properties of the HTTP URL.
         public let httpUrlProperties: HttpUrlDestinationProperties?
+        /// The properties of an InfluxDB topic rule destination, as returned by CreateTopicRuleDestination and GetTopicRuleDestination.
+        public let influxDBProperties: InfluxDBDestinationProperties?
         /// The date and time when the topic rule destination was last updated.
         public let lastUpdatedAt: Date?
         /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
@@ -19170,10 +19392,11 @@ extension IoT {
         public let vpcProperties: VpcDestinationProperties?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcProperties: VpcDestinationProperties? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlProperties: HttpUrlDestinationProperties? = nil, influxDBProperties: InfluxDBDestinationProperties? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcProperties: VpcDestinationProperties? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlProperties = httpUrlProperties
+            self.influxDBProperties = influxDBProperties
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
@@ -19184,6 +19407,7 @@ extension IoT {
             case arn = "arn"
             case createdAt = "createdAt"
             case httpUrlProperties = "httpUrlProperties"
+            case influxDBProperties = "influxDBProperties"
             case lastUpdatedAt = "lastUpdatedAt"
             case status = "status"
             case statusReason = "statusReason"
@@ -19194,21 +19418,26 @@ extension IoT {
     public struct TopicRuleDestinationConfiguration: AWSEncodableShape {
         /// Configuration of the HTTP URL.
         public let httpUrlConfiguration: HttpUrlDestinationConfiguration?
+        /// The configuration of an InfluxDB topic rule destination, which you specify when you call CreateTopicRuleDestination.
+        public let influxDBConfiguration: InfluxDBDestinationConfiguration?
         /// Configuration of the virtual private cloud (VPC) connection.
         public let vpcConfiguration: VpcDestinationConfiguration?
 
         @inlinable
-        public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil, vpcConfiguration: VpcDestinationConfiguration? = nil) {
+        public init(httpUrlConfiguration: HttpUrlDestinationConfiguration? = nil, influxDBConfiguration: InfluxDBDestinationConfiguration? = nil, vpcConfiguration: VpcDestinationConfiguration? = nil) {
             self.httpUrlConfiguration = httpUrlConfiguration
+            self.influxDBConfiguration = influxDBConfiguration
             self.vpcConfiguration = vpcConfiguration
         }
 
         public func validate(name: String) throws {
             try self.httpUrlConfiguration?.validate(name: "\(name).httpUrlConfiguration")
+            try self.influxDBConfiguration?.validate(name: "\(name).influxDBConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case httpUrlConfiguration = "httpUrlConfiguration"
+            case influxDBConfiguration = "influxDBConfiguration"
             case vpcConfiguration = "vpcConfiguration"
         }
     }
@@ -19220,6 +19449,8 @@ extension IoT {
         public let createdAt: Date?
         /// Information about the HTTP URL.
         public let httpUrlSummary: HttpUrlDestinationSummary?
+        /// A summary of an InfluxDB topic rule destination, as returned by ListTopicRuleDestinations.
+        public let influxDBSummary: InfluxDBDestinationSummary?
         /// The date and time when the topic rule destination was last updated.
         public let lastUpdatedAt: Date?
         /// The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.
@@ -19230,10 +19461,11 @@ extension IoT {
         public let vpcDestinationSummary: VpcDestinationSummary?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcDestinationSummary: VpcDestinationSummary? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, httpUrlSummary: HttpUrlDestinationSummary? = nil, influxDBSummary: InfluxDBDestinationSummary? = nil, lastUpdatedAt: Date? = nil, status: TopicRuleDestinationStatus? = nil, statusReason: String? = nil, vpcDestinationSummary: VpcDestinationSummary? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.httpUrlSummary = httpUrlSummary
+            self.influxDBSummary = influxDBSummary
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
             self.statusReason = statusReason
@@ -19244,6 +19476,7 @@ extension IoT {
             case arn = "arn"
             case createdAt = "createdAt"
             case httpUrlSummary = "httpUrlSummary"
+            case influxDBSummary = "influxDBSummary"
             case lastUpdatedAt = "lastUpdatedAt"
             case status = "status"
             case statusReason = "statusReason"

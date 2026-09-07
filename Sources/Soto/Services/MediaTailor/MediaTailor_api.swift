@@ -1363,16 +1363,19 @@ public struct MediaTailor: AWSService {
     /// Creates or updates a function. A function defines reusable logic that MediaTailor executes at lifecycle hooks during ad insertion. For more information about functions, see Working with functions in the MediaTailor User Guide.
     ///
     /// Parameters:
+    ///   - concurrentExecutorConfiguration: The configuration for a CONCURRENT_EXECUTOR function. Specifies the list of child functions to run in parallel, the maximum concurrency, an optional output block, and a timeout. Required when FunctionType is CONCURRENT_EXECUTOR.
     ///   - customOutputConfiguration: The configuration for a CUSTOM_OUTPUT function. Specifies the runtime and output expressions. Required when FunctionType is CUSTOM_OUTPUT.
     ///   - description: A description of the function.
     ///   - functionId: The identifier of the function. The identifier must be unique within your account.
-    ///   - functionType: The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. For more information, see Function types and composition in the MediaTailor User Guide.
+    ///   - functionType: The type of the function. The function type determines what the function can do at runtime. Valid values: CUSTOM_OUTPUT evaluates expressions and produces output bindings with no external calls. HTTP_REQUEST makes an HTTP call to an external service and evaluates output expressions that can reference the response. VAST_REQUEST calls a VAST endpoint, parses the response as VAST, and makes the parsed ads available to output expressions. SEQUENTIAL_EXECUTOR runs a sequence of child functions in order, passing data between steps through temporary data. CONCURRENT_EXECUTOR runs a set of child functions in parallel, up to a maximum concurrency, and combines their output when all functions complete. For more information, see Function types and composition in the MediaTailor User Guide.
     ///   - httpRequestConfiguration: The configuration for an HTTP_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is HTTP_REQUEST.
     ///   - sequentialExecutorConfiguration: The configuration for a SEQUENTIAL_EXECUTOR function. Specifies the ordered list of child functions to execute, an optional output block, and a timeout. Required when FunctionType is SEQUENTIAL_EXECUTOR.
     ///   - tags: The tags to assign to the function. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
+    ///   - vastRequestConfiguration: The configuration for a VAST_REQUEST function. Specifies the HTTP method, URL, headers, body, timeout, and output expressions. Required when FunctionType is VAST_REQUEST.
     ///   - logger: Logger use during operation
     @inlinable
     public func putFunction(
+        concurrentExecutorConfiguration: ConcurrentExecutorConfiguration? = nil,
         customOutputConfiguration: CustomOutputConfiguration? = nil,
         description: String? = nil,
         functionId: String,
@@ -1380,16 +1383,19 @@ public struct MediaTailor: AWSService {
         httpRequestConfiguration: HttpRequestConfiguration? = nil,
         sequentialExecutorConfiguration: SequentialExecutorConfiguration? = nil,
         tags: [String: String]? = nil,
+        vastRequestConfiguration: VastRequestConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutFunctionResponse {
         let input = PutFunctionRequest(
+            concurrentExecutorConfiguration: concurrentExecutorConfiguration, 
             customOutputConfiguration: customOutputConfiguration, 
             description: description, 
             functionId: functionId, 
             functionType: functionType, 
             httpRequestConfiguration: httpRequestConfiguration, 
             sequentialExecutorConfiguration: sequentialExecutorConfiguration, 
-            tags: tags
+            tags: tags, 
+            vastRequestConfiguration: vastRequestConfiguration
         )
         return try await self.putFunction(input, logger: logger)
     }
@@ -1420,7 +1426,7 @@ public struct MediaTailor: AWSService {
     ///   - cdnConfiguration: The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management.
     ///   - configurationAliases: The player parameters and aliases used as dynamic variables during session initialization. For more information, see Domain Variables.
     ///   - dashConfiguration: The configuration for DASH content.
-    ///   - functionMapping: A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION and PRE_ADS_REQUEST. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
+    ///   - functionMapping: A map of lifecycle hook event names to function identifiers. The function mapping specifies which function MediaTailor executes at each lifecycle hook during ad insertion. Valid keys are PRE_SESSION_INITIALIZATION, PRE_ADS_REQUEST, POST_ADS_RESPONSE, and PRE_MANIFEST_INSERTION. For more information, see Functions lifecycle hooks in the MediaTailor User Guide.
     ///   - insertionMode: The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
     ///   - livePreRollConfiguration: The configuration for pre-roll ad insertion.
     ///   - manifestProcessingRules: The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -1430,6 +1436,7 @@ public struct MediaTailor: AWSService {
     ///   - tags: The tags to assign to the playback configuration. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
     ///   - transcodeProfileName: The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.
     ///   - videoContentSourceUrl: The URL prefix for the parent manifest for the stream, minus the asset ID. The maximum length is 512 characters.
+    ///   - yieldOptimizationConfiguration: Configuration for Yield Optimization, which fills unsold ad inventory in ad breaks with programmatic ads from Amazon Publisher Services (APS).
     ///   - logger: Logger use during operation
     @inlinable
     public func putPlaybackConfiguration(
@@ -1453,6 +1460,7 @@ public struct MediaTailor: AWSService {
         tags: [String: String]? = nil,
         transcodeProfileName: String? = nil,
         videoContentSourceUrl: String? = nil,
+        yieldOptimizationConfiguration: YieldOptimizationConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutPlaybackConfigurationResponse {
         let input = PutPlaybackConfigurationRequest(
@@ -1475,7 +1483,8 @@ public struct MediaTailor: AWSService {
             slateAdUrl: slateAdUrl, 
             tags: tags, 
             transcodeProfileName: transcodeProfileName, 
-            videoContentSourceUrl: videoContentSourceUrl
+            videoContentSourceUrl: videoContentSourceUrl, 
+            yieldOptimizationConfiguration: yieldOptimizationConfiguration
         )
         return try await self.putPlaybackConfiguration(input, logger: logger)
     }

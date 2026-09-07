@@ -37,6 +37,12 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatch = "cloudwatch"
+        case s3table = "s3table"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionlog = "connectionlog"
         case useractivitylog = "useractivitylog"
@@ -69,6 +75,18 @@ extension RedshiftServerless {
     public enum PerformanceTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3TableAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "Disable"
+        case enable = "Enable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3TableGranularity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "account"
+        case namespace = "namespace"
         public var description: String { return self.rawValue }
     }
 
@@ -2572,11 +2590,13 @@ extension RedshiftServerless {
         public let namespaceId: String?
         /// The name of the namespace. Must be between 3-64 alphanumeric characters in lowercase, and it cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let namespaceName: String?
+        /// The current Amazon S3 Tables log-publishing status for the namespace. Not returned when S3 Tables publishing has never been configured for the namespace.
+        public let s3TablePublishStatus: S3TablePublishStatus?
         /// The status of the namespace.
         public let status: NamespaceStatus?
 
         @inlinable
-        public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, catalogArn: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
+        public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, catalogArn: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, s3TablePublishStatus: S3TablePublishStatus? = nil, status: NamespaceStatus? = nil) {
             self.adminPasswordSecretArn = adminPasswordSecretArn
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
@@ -2591,6 +2611,7 @@ extension RedshiftServerless {
             self.namespaceArn = namespaceArn
             self.namespaceId = namespaceId
             self.namespaceName = namespaceName
+            self.s3TablePublishStatus = s3TablePublishStatus
             self.status = status
         }
 
@@ -2609,6 +2630,7 @@ extension RedshiftServerless {
             case namespaceArn = "namespaceArn"
             case namespaceId = "namespaceId"
             case namespaceName = "namespaceName"
+            case s3TablePublishStatus = "s3TablePublishStatus"
             case status = "status"
         }
     }
@@ -3083,6 +3105,36 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case tableRestoreStatus = "tableRestoreStatus"
+        }
+    }
+
+    public struct S3TablePublishStatus: AWSDecodableShape {
+        ///  true when the namespace is enrolled in every current and future system table rather than an explicit list of tables.
+        public let enabledAll: Bool?
+        /// A map of system table name to the time that table last received data, as an ISO-8601 timestamp. A table that has not yet been ingested is absent from the map. Use it to judge data freshness.
+        public let lastIngestionTimes: [String: String]?
+        /// The scope currently in effect. Values are namespace or account.
+        public let s3TableGranularity: S3TableGranularity?
+        /// The identifier of the namespace in the S3 table bucket that holds the published tables.
+        public let s3TableNamespace: String?
+        /// The system tables currently being published.
+        public let s3Tables: [String]?
+
+        @inlinable
+        public init(enabledAll: Bool? = nil, lastIngestionTimes: [String: String]? = nil, s3TableGranularity: S3TableGranularity? = nil, s3TableNamespace: String? = nil, s3Tables: [String]? = nil) {
+            self.enabledAll = enabledAll
+            self.lastIngestionTimes = lastIngestionTimes
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableNamespace = s3TableNamespace
+            self.s3Tables = s3Tables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAll = "enabledAll"
+            case lastIngestionTimes = "lastIngestionTimes"
+            case s3TableGranularity = "s3TableGranularity"
+            case s3TableNamespace = "s3TableNamespace"
+            case s3Tables = "s3Tables"
         }
     }
 
@@ -3671,7 +3723,7 @@ extension RedshiftServerless {
         public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
         public let adminUsername: String?
-        /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
+        /// The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.  If your admin user account is locked, this operation also unlocks your account and resets the failed-login counter. This option is available only when account lockout security is enabled for the namespace.
         public let adminUserPassword: String?
         /// The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace. This parameter must be updated together with iamRoles.
         public let defaultIamRoleArn: String?
@@ -3679,24 +3731,39 @@ extension RedshiftServerless {
         public let iamRoles: [String]?
         /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
         public let kmsKeyId: String?
+        /// The destination for the log data. Valid values are s3table and cloudwatch. Set this to s3table to manage Amazon S3 Tables system-table publishing for the namespace.
+        public let logDestinationType: LogDestinationType?
         /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
         /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
         public let manageAdminPassword: Bool?
         /// The name of the namespace to update. You can't update the name of a namespace once it is created.
         public let namespaceName: String
+        /// Whether to enable or disable Amazon S3 Tables publishing. Valid values are Enable and Disable, matched case-insensitively. When omitted, defaults to Enable. Valid only when logDestinationType is s3table.
+        public let s3TableAction: S3TableAction?
+        /// The scope of the Amazon S3 Tables destination. Valid values are namespace and account, matched case-insensitively. namespace scopes the published tables to this namespace; account scopes them to the Amazon Web Services account. Required when enabling. Omitting this parameter or passing a blank value fails with ValidationException. Valid only when logDestinationType is s3table.
+        public let s3TableGranularity: S3TableGranularity?
+        /// The identifier of the Key Management Service key used to encrypt the published Amazon S3 Tables data. When omitted, the data is encrypted with SSE-S3 (Amazon S3 managed keys). Valid only when logDestinationType is s3table.
+        public let s3TableKmsKeyId: String?
+        /// The system tables to publish (on enable) or to stop publishing (on disable). Each value is either a system table view name that begins with sys_ or the keyword all. Omitting this parameter, passing an empty list, or including all each select every current and future system table. Each name must be 1-128 characters, and the list can contain up to 256 names. Valid only when logDestinationType is s3table.
+        public let s3TableNames: [String]?
 
         @inlinable
-        public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String) {
+        public init(adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, adminUserPassword: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logDestinationType: LogDestinationType? = nil, logExports: [LogExport]? = nil, manageAdminPassword: Bool? = nil, namespaceName: String, s3TableAction: S3TableAction? = nil, s3TableGranularity: S3TableGranularity? = nil, s3TableKmsKeyId: String? = nil, s3TableNames: [String]? = nil) {
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
             self.adminUserPassword = adminUserPassword
             self.defaultIamRoleArn = defaultIamRoleArn
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
+            self.logDestinationType = logDestinationType
             self.logExports = logExports
             self.manageAdminPassword = manageAdminPassword
             self.namespaceName = namespaceName
+            self.s3TableAction = s3TableAction
+            self.s3TableGranularity = s3TableGranularity
+            self.s3TableKmsKeyId = s3TableKmsKeyId
+            self.s3TableNames = s3TableNames
         }
 
         public func validate(name: String) throws {
@@ -3704,6 +3771,12 @@ extension RedshiftServerless {
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
             try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+            try self.s3TableNames?.forEach {
+                try validate($0, name: "s3TableNames[]", parent: name, max: 128)
+                try validate($0, name: "s3TableNames[]", parent: name, min: 1)
+                try validate($0, name: "s3TableNames[]", parent: name, pattern: "^(all|sys_[a-z0-9_]+)$")
+            }
+            try self.validate(self.s3TableNames, name: "s3TableNames", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3713,9 +3786,14 @@ extension RedshiftServerless {
             case defaultIamRoleArn = "defaultIamRoleArn"
             case iamRoles = "iamRoles"
             case kmsKeyId = "kmsKeyId"
+            case logDestinationType = "logDestinationType"
             case logExports = "logExports"
             case manageAdminPassword = "manageAdminPassword"
             case namespaceName = "namespaceName"
+            case s3TableAction = "s3TableAction"
+            case s3TableGranularity = "s3TableGranularity"
+            case s3TableKmsKeyId = "s3TableKmsKeyId"
+            case s3TableNames = "s3TableNames"
         }
     }
 

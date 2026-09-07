@@ -323,6 +323,7 @@ public struct Amp: AWSService {
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - destination: The destination where the scraper sends the collected metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
+    ///   - exporters: The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the scraper is created without an exporter configuration.
     ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
     ///   - source: The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
@@ -333,6 +334,7 @@ public struct Amp: AWSService {
         alias: String? = nil,
         clientToken: String? = CreateScraperRequest.idempotencyToken(),
         destination: Destination,
+        exporters: [ExporterConfiguration]? = nil,
         roleConfiguration: RoleConfiguration? = nil,
         scrapeConfiguration: ScrapeConfiguration,
         source: Source,
@@ -343,6 +345,7 @@ public struct Amp: AWSService {
             alias: alias, 
             clientToken: clientToken, 
             destination: destination, 
+            exporters: exporters, 
             roleConfiguration: roleConfiguration, 
             scrapeConfiguration: scrapeConfiguration, 
             source: source, 
@@ -1494,6 +1497,7 @@ public struct Amp: AWSService {
     ///   - alias: The new alias of the scraper.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     ///   - destination: The new destination where the scraper sends metrics. Valid destinations are Amazon Managed Service for Prometheus workspaces and CloudWatch datasets.
+    ///   - exporters: The exporter configurations for the scraper. You can configure at most one Amazon OpenSearch Service domain. If you don't specify a value, the existing exporter configuration remains unchanged.
     ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///   - scraperId: The ID of the scraper to update.
@@ -1503,6 +1507,7 @@ public struct Amp: AWSService {
         alias: String? = nil,
         clientToken: String? = UpdateScraperRequest.idempotencyToken(),
         destination: Destination? = nil,
+        exporters: [ExporterConfiguration]? = nil,
         roleConfiguration: RoleConfiguration? = nil,
         scrapeConfiguration: ScrapeConfiguration? = nil,
         scraperId: String,
@@ -1512,6 +1517,7 @@ public struct Amp: AWSService {
             alias: alias, 
             clientToken: clientToken, 
             destination: destination, 
+            exporters: exporters, 
             roleConfiguration: roleConfiguration, 
             scrapeConfiguration: scrapeConfiguration, 
             scraperId: scraperId

@@ -409,6 +409,8 @@ extension S3 {
     }
 
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsBackupLowCostWarm = "AWS_BACKUP_LOW_COST_WARM"
+        case awsBackupWarm = "AWS_BACKUP_WARM"
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
         case fsxOntap = "FSX_ONTAP"
@@ -517,6 +519,7 @@ extension S3 {
 
     public enum ServerSideEncryption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
+        case awsBackup = "aws:backup"
         case awsFsx = "aws:fsx"
         case awsKms = "aws:kms"
         case awsKmsDsse = "aws:kms:dsse"
@@ -536,6 +539,8 @@ extension S3 {
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsBackupLowCostWarm = "AWS_BACKUP_LOW_COST_WARM"
+        case awsBackupWarm = "AWS_BACKUP_WARM"
         case deepArchive = "DEEP_ARCHIVE"
         case expressOnezone = "EXPRESS_ONEZONE"
         case fsxOntap = "FSX_ONTAP"

@@ -315,7 +315,7 @@ extension Textract {
         public let document: Document
         /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document.  All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
         public let featureTypes: [FeatureType]
-        /// Sets the configuration for the human in the loop workflow for analyzing documents.
+        /// Sets the configuration for the human in the loop workflow for analyzing documents.  Amazon Textract uses Amazon Augmented AI (A2I) to run the human review workflows that you specify in HumanLoopConfig. A2I entered maintenance mode in July 2026 and no longer accepts new customers. If your account is not an existing A2I customer, requests fail with an InvalidParameterException. For more information, see AWS service availability. If you're an existing A2I customer but receive this error, contact AWS Support and request assistance from the A2I team.
         public let humanLoopConfig: HumanLoopConfig?
         /// Contains Queries and the alias for those Queries, as determined by the input.
         public let queriesConfig: QueriesConfig?
@@ -1122,7 +1122,7 @@ extension Textract {
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
         public let polygon: [Point]?
-        /// Provides a numerical value corresponding to the rotation of the text.
+        /// Provides a numerical value corresponding to the rotation of the WORD block.  Possible values are 0, 90, 180, and 270.
         public let rotationAngle: Float?
 
         @inlinable
@@ -2974,7 +2974,7 @@ public struct TextractErrorType: AWSErrorType {
 
     /// You aren't authorized to perform the action. Use the Amazon Resource Name (ARN)  of an authorized user or IAM role to perform the operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see limits.
+    /// Amazon Textract isn't able to read the document. For more information on the document limits in Amazon Textract, see Hard limits.
     public static var badDocumentException: Self { .init(.badDocumentException) }
     /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }

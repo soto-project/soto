@@ -169,6 +169,44 @@ public struct MarketplaceCatalog: AWSService {
         return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
+    /// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action.
+    @Sendable
+    @inlinable
+    public func describeAssessment(_ input: DescribeAssessmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAssessmentResponse {
+        try await self.client.execute(
+            operation: "DescribeAssessment", 
+            path: "/DescribeAssessment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the metadata and detailed results of a single assessment, including the framework that was evaluated, the overall assessment result, and a paginated list of individual control evaluation results. To list available assessments before describing one, use the ListAssessments action.
+    ///
+    /// Parameters:
+    ///   - assessmentIdentifier: The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345).
+    ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
+    ///   - maxResults: Specifies the upper limit of ControlAssessment elements returned on a single page. If a value isn't provided, the default value is 50. Valid values range from 1 to 100.
+    ///   - nextToken: The value of the next token, if it exists. null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAssessment(
+        assessmentIdentifier: String,
+        catalog: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAssessmentResponse {
+        let input = DescribeAssessmentRequest(
+            assessmentIdentifier: assessmentIdentifier, 
+            catalog: catalog, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeAssessment(input, logger: logger)
+    }
+
     /// Provides information about a given change set.
     @Sendable
     @inlinable
@@ -260,6 +298,50 @@ public struct MarketplaceCatalog: AWSService {
             resourceArn: resourceArn
         )
         return try await self.getResourcePolicy(input, logger: logger)
+    }
+
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are sorted by assessment creation time in descending order.
+    @Sendable
+    @inlinable
+    public func listAssessments(_ input: ListAssessmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssessmentsResponse {
+        try await self.client.execute(
+            operation: "ListAssessments", 
+            path: "/ListAssessments", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of assessments associated with an entity or change set in AWS Marketplace. An assessment is the result of evaluating a product or change set against a framework, such as AMI Security or Container Security. Use the AssessmentTargetFilter to scope results to a specific entity or change set, and use FrameworkFilters to scope results to a single framework. To retrieve detailed control-level results for an individual assessment, use the DescribeAssessment action. Results are sorted by assessment creation time in descending order.
+    ///
+    /// Parameters:
+    ///   - assessmentTargetFilter: Filters the list of assessments to those performed against a specific entity or change set.
+    ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
+    ///   - frameworkFilters: Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework.
+    ///   - frameworkId: The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity.
+    ///   - maxResults: Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20. Valid values range from 1 to 100.
+    ///   - nextToken: The value of the next token, if it exists. null if there are no more results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAssessments(
+        assessmentTargetFilter: AssessmentTargetFilter? = nil,
+        catalog: String,
+        frameworkFilters: FrameworkFilters? = nil,
+        frameworkId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAssessmentsResponse {
+        let input = ListAssessmentsRequest(
+            assessmentTargetFilter: assessmentTargetFilter, 
+            catalog: catalog, 
+            frameworkFilters: frameworkFilters, 
+            frameworkId: frameworkId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAssessments(input, logger: logger)
     }
 
     /// Returns the list of change sets owned by the account being used to make the call. You can filter this list by providing any combination of entityId, ChangeSetName, and status. If you provide more than one filter, the API operation applies a logical AND between the filters. You can describe a change during the 60-day request history retention period for API calls.
@@ -539,6 +621,92 @@ extension MarketplaceCatalog {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension MarketplaceCatalog {
+    /// Return PaginatorSequence for operation ``describeAssessment(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeAssessmentPaginator(
+        _ input: DescribeAssessmentRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeAssessmentRequest, DescribeAssessmentResponse> {
+        return .init(
+            input: input,
+            command: self.describeAssessment,
+            inputKey: \DescribeAssessmentRequest.nextToken,
+            outputKey: \DescribeAssessmentResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeAssessment(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assessmentIdentifier: The unique identifier of the assessment to describe. You can provide either the assessment ID (for example, assessment-12345) or the full assessment ARN (for example, arn:aws:aws-marketplace:us-east-1::AWSMarketplace/Assessment/assessment-12345).
+    ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
+    ///   - maxResults: Specifies the upper limit of ControlAssessment elements returned on a single page. If a value isn't provided, the default value is 50. Valid values range from 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeAssessmentPaginator(
+        assessmentIdentifier: String,
+        catalog: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeAssessmentRequest, DescribeAssessmentResponse> {
+        let input = DescribeAssessmentRequest(
+            assessmentIdentifier: assessmentIdentifier, 
+            catalog: catalog, 
+            maxResults: maxResults
+        )
+        return self.describeAssessmentPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssessmentsPaginator(
+        _ input: ListAssessmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAssessmentsRequest, ListAssessmentsResponse> {
+        return .init(
+            input: input,
+            command: self.listAssessments,
+            inputKey: \ListAssessmentsRequest.nextToken,
+            outputKey: \ListAssessmentsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAssessments(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assessmentTargetFilter: Filters the list of assessments to those performed against a specific entity or change set.
+    ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
+    ///   - frameworkFilters: Framework-specific filters. Set exactly one member to filter results to assessments performed against that framework.
+    ///   - frameworkId: The unique identifier of a framework. When specified, only assessments performed against this framework are returned. For example, AMISecurity.
+    ///   - maxResults: Specifies the upper limit of the elements on a single page. If a value isn't provided, the default value is 20. Valid values range from 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAssessmentsPaginator(
+        assessmentTargetFilter: AssessmentTargetFilter? = nil,
+        catalog: String,
+        frameworkFilters: FrameworkFilters? = nil,
+        frameworkId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAssessmentsRequest, ListAssessmentsResponse> {
+        let input = ListAssessmentsRequest(
+            assessmentTargetFilter: assessmentTargetFilter, 
+            catalog: catalog, 
+            frameworkFilters: frameworkFilters, 
+            frameworkId: frameworkId, 
+            maxResults: maxResults
+        )
+        return self.listAssessmentsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listChangeSets(_:logger:)``.
     ///
     /// - Parameters:
@@ -635,6 +803,32 @@ extension MarketplaceCatalog {
             sort: sort
         )
         return self.listEntitiesPaginator(input, logger: logger)
+    }
+}
+
+extension MarketplaceCatalog.DescribeAssessmentRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.DescribeAssessmentRequest {
+        return .init(
+            assessmentIdentifier: self.assessmentIdentifier,
+            catalog: self.catalog,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MarketplaceCatalog.ListAssessmentsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MarketplaceCatalog.ListAssessmentsRequest {
+        return .init(
+            assessmentTargetFilter: self.assessmentTargetFilter,
+            catalog: self.catalog,
+            frameworkFilters: self.frameworkFilters,
+            frameworkId: self.frameworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

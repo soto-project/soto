@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Mgn service.
 ///
-/// The Application Migration Service service.
+/// Application Migration Service.
 public struct Mgn: AWSService {
     // MARK: Member variables
 
@@ -425,6 +425,7 @@ public struct Mgn: AWSService {
     /// Creates a new network migration definition that specifies the source and target network configuration for a migration.
     ///
     /// Parameters:
+    ///   - cidrMappings: A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
     ///   - description: A description of the network migration definition.
     ///   - name: The name of the network migration definition.
     ///   - scopeTags: Scope tags for the network migration definition to control access and organization.
@@ -433,9 +434,11 @@ public struct Mgn: AWSService {
     ///   - targetDeployment: The target deployment configuration for the migrated network.
     ///   - targetNetwork: The target network configuration including topology and CIDR ranges.
     ///   - targetS3Configuration: The S3 configuration for storing the target network artifacts.
+    ///   - vpcProvisioningStrategy: Specifies whether to create new target VPCs or use existing ones. Set to CREATE_NEW to provision new target VPCs as part of the migration, or USE_EXISTING to migrate into existing VPCs in the target account.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNetworkMigrationDefinition(
+        cidrMappings: [CidrMapping]? = nil,
         description: String? = nil,
         name: String,
         scopeTags: [String: String]? = nil,
@@ -444,9 +447,11 @@ public struct Mgn: AWSService {
         targetDeployment: TargetDeployment? = nil,
         targetNetwork: TargetNetwork,
         targetS3Configuration: TargetS3Configuration,
+        vpcProvisioningStrategy: VpcProvisioningStrategy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> NetworkMigrationDefinition {
         let input = CreateNetworkMigrationDefinitionRequest(
+            cidrMappings: cidrMappings, 
             description: description, 
             name: name, 
             scopeTags: scopeTags, 
@@ -454,7 +459,8 @@ public struct Mgn: AWSService {
             tags: tags, 
             targetDeployment: targetDeployment, 
             targetNetwork: targetNetwork, 
-            targetS3Configuration: targetS3Configuration
+            targetS3Configuration: targetS3Configuration, 
+            vpcProvisioningStrategy: vpcProvisioningStrategy
         )
         return try await self.createNetworkMigrationDefinition(input, logger: logger)
     }
@@ -885,7 +891,7 @@ public struct Mgn: AWSService {
         return try await self.describeJobLogItems(input, logger: logger)
     }
 
-    /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    /// Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     @Sendable
     @inlinable
     public func describeJobs(_ input: DescribeJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeJobsResponse {
@@ -898,7 +904,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    /// Returns a list of Jobs. Use the jobIDs and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDateTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
     /// Parameters:
     ///   - accountID: Request to describe job log items by Account ID.
@@ -958,7 +964,7 @@ public struct Mgn: AWSService {
         return try await self.describeLaunchConfigurationTemplates(input, logger: logger)
     }
 
-    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    /// Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.
     @Sendable
     @inlinable
     public func describeReplicationConfigurationTemplates(_ input: DescribeReplicationConfigurationTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationConfigurationTemplatesResponse {
@@ -971,7 +977,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    /// Lists all ReplicationConfigurationTemplates, filtered by replication configuration template IDs.
     ///
     /// Parameters:
     ///   - maxResults: Request to describe Replication Configuration template by max results.
@@ -1009,7 +1015,7 @@ public struct Mgn: AWSService {
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     ///
     /// Parameters:
-    ///   - accountID: Request to filter Source Servers list by Accoun ID.
+    ///   - accountID: Request to filter Source Servers list by Account ID.
     ///   - filters: Request to filter Source Servers list.
     ///   - maxResults: Request to filter Source Servers list by maximum results.
     ///   - nextToken: Request to filter Source Servers list by next token.
@@ -1133,7 +1139,7 @@ public struct Mgn: AWSService {
         return try await self.disassociateSourceServers(input, logger: logger)
     }
 
-    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     @inlinable
     public func disconnectFromService(_ input: DisconnectFromServiceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
@@ -1146,7 +1152,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// Parameters:
     ///   - accountID: Request to disconnect Source Server from service by Account ID.
@@ -1165,7 +1171,7 @@ public struct Mgn: AWSService {
         return try await self.disconnectFromService(input, logger: logger)
     }
 
-    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     @Sendable
     @inlinable
     public func finalizeCutover(_ input: FinalizeCutoverRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
@@ -1178,7 +1184,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
     /// Parameters:
     ///   - accountID: Request to finalize Cutover by Source Account ID.
@@ -2263,7 +2269,7 @@ public struct Mgn: AWSService {
         return try await self.listWaves(input, logger: logger)
     }
 
-    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
+    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.
     @Sendable
     @inlinable
     public func markAsArchived(_ input: MarkAsArchivedRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
@@ -2276,7 +2282,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
+    /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle state that equals DISCONNECTED or CUTOVER.
     ///
     /// Parameters:
     ///   - accountID: Mark as archived by Account ID.
@@ -2648,7 +2654,7 @@ public struct Mgn: AWSService {
     ///   - s3Bucket: Start export request s3 bucket.
     ///   - s3BucketOwner: Start export request s3 bucket owner.
     ///   - s3Key: Start export request s3key.
-    ///   - tags: Start import request tags.
+    ///   - tags: Start export request tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func startExport(
@@ -3247,7 +3253,7 @@ public struct Mgn: AWSService {
         return try await self.updateConnector(input, logger: logger)
     }
 
-    /// Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are LEGACY_BIOS | UEFI
+    /// Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE
     @Sendable
     @inlinable
     public func updateLaunchConfiguration(_ input: UpdateLaunchConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchConfiguration {
@@ -3260,7 +3266,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are LEGACY_BIOS | UEFI
+    /// Updates multiple LaunchConfigurations by Source Server ID.  bootMode valid values are LEGACY_BIOS | UEFI | USE_SOURCE
     ///
     /// Parameters:
     ///   - accountID: Update Launch configuration Account ID.
@@ -3399,6 +3405,7 @@ public struct Mgn: AWSService {
     /// Updates an existing network migration definition with new source or target configurations.
     ///
     /// Parameters:
+    ///   - cidrMappings: The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
     ///   - description: The updated description of the network migration definition.
     ///   - name: The updated name of the network migration definition.
     ///   - networkMigrationDefinitionID: The unique identifier of the network migration definition to update.
@@ -3407,9 +3414,11 @@ public struct Mgn: AWSService {
     ///   - targetDeployment: The updated target deployment configuration.
     ///   - targetNetwork: The updated target network configuration.
     ///   - targetS3Configuration: The updated S3 configuration for storing the target network artifacts.
+    ///   - vpcProvisioningStrategy: Updates whether the migration creates new target VPCs or uses existing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNetworkMigrationDefinition(
+        cidrMappings: [CidrMapping]? = nil,
         description: String? = nil,
         name: String? = nil,
         networkMigrationDefinitionID: String,
@@ -3418,9 +3427,11 @@ public struct Mgn: AWSService {
         targetDeployment: TargetDeployment? = nil,
         targetNetwork: TargetNetworkUpdate? = nil,
         targetS3Configuration: TargetS3ConfigurationUpdate? = nil,
+        vpcProvisioningStrategy: VpcProvisioningStrategy? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> NetworkMigrationDefinition {
         let input = UpdateNetworkMigrationDefinitionRequest(
+            cidrMappings: cidrMappings, 
             description: description, 
             name: name, 
             networkMigrationDefinitionID: networkMigrationDefinitionID, 
@@ -3428,7 +3439,8 @@ public struct Mgn: AWSService {
             sourceConfigurations: sourceConfigurations, 
             targetDeployment: targetDeployment, 
             targetNetwork: targetNetwork, 
-            targetS3Configuration: targetS3Configuration
+            targetS3Configuration: targetS3Configuration, 
+            vpcProvisioningStrategy: vpcProvisioningStrategy
         )
         return try await self.updateNetworkMigrationDefinition(input, logger: logger)
     }
@@ -3557,7 +3569,7 @@ public struct Mgn: AWSService {
         return try await self.updateReplicationConfiguration(input, logger: logger)
     }
 
-    /// Updates multiple ReplicationConfigurationTemplates by ID.
+    /// Updates a ReplicationConfigurationTemplate by ID.
     @Sendable
     @inlinable
     public func updateReplicationConfigurationTemplate(_ input: UpdateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplicationConfigurationTemplate {
@@ -3570,7 +3582,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Updates multiple ReplicationConfigurationTemplates by ID.
+    /// Updates a ReplicationConfigurationTemplate by ID.
     ///
     /// Parameters:
     ///   - arn: Update replication configuration template ARN request.
@@ -3943,7 +3955,7 @@ extension Mgn {
     /// Return PaginatorSequence for operation ``describeSourceServers(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - accountID: Request to filter Source Servers list by Accoun ID.
+    ///   - accountID: Request to filter Source Servers list by Account ID.
     ///   - filters: Request to filter Source Servers list.
     ///   - maxResults: Request to filter Source Servers list by maximum results.
     ///   - logger: Logger used for logging

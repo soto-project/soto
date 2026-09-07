@@ -59,6 +59,14 @@ extension ObservabilityAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured KmsKeyArn. This is the default behavior.
+        case encryptedSourceOnly = "ENCRYPTED_SOURCE_ONLY"
+        /// Every new destination log group created by this rule uses the configured KmsKeyArn, regardless of whether the source log group is encrypted with a customer managed key or Amazon Web Services owned encryption.
+        case newDestinationLogGroups = "NEW_DESTINATION_LOG_GROUPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwned = "AWS_OWNED"
         case customerManaged = "CUSTOMER_MANAGED"
@@ -170,6 +178,25 @@ extension ObservabilityAdmin {
         case starting = "STARTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagConflictResolutionStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addOnly = "ADD_ONLY"
+        case inSync = "IN_SYNC"
+        case updateSync = "UPDATE_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagPropagationFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case roleLacksPermissions = "RoleLacksPermissions"
+        case roleNotAssumable = "RoleNotAssumable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TagPropagationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case healthy = "Healthy"
+        case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
 
@@ -431,9 +458,13 @@ extension ObservabilityAdmin {
         public let ruleHealth: RuleHealth?
         /// The name of the organization centralization rule.
         public let ruleName: String?
+        /// The reason tag propagation is unhealthy for this rule. Only present when TagPropagationStatus is Unhealthy.
+        public let tagPropagationFailureReason: TagPropagationFailureReason?
+        /// The health status of tag propagation for this rule. This status is independent of the overall RuleHealth for log delivery. Returns Healthy when the most recent tag-propagation attempt succeeded, or Unhealthy when the most recent attempt failed.
+        public let tagPropagationStatus: TagPropagationStatus?
 
         @inlinable
-        public init(createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, destinationAccountId: String? = nil, destinationRegion: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil) {
+        public init(createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, destinationAccountId: String? = nil, destinationRegion: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil, tagPropagationFailureReason: TagPropagationFailureReason? = nil, tagPropagationStatus: TagPropagationStatus? = nil) {
             self.createdRegion = createdRegion
             self.createdTimeStamp = createdTimeStamp
             self.creatorAccountId = creatorAccountId
@@ -444,6 +475,8 @@ extension ObservabilityAdmin {
             self.ruleArn = ruleArn
             self.ruleHealth = ruleHealth
             self.ruleName = ruleName
+            self.tagPropagationFailureReason = tagPropagationFailureReason
+            self.tagPropagationStatus = tagPropagationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -457,6 +490,8 @@ extension ObservabilityAdmin {
             case ruleArn = "RuleArn"
             case ruleHealth = "RuleHealth"
             case ruleName = "RuleName"
+            case tagPropagationFailureReason = "TagPropagationFailureReason"
+            case tagPropagationStatus = "TagPropagationStatus"
         }
     }
 
@@ -928,24 +963,29 @@ extension ObservabilityAdmin {
         public let logGroupNameConfiguration: LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
         public let logsEncryptionConfiguration: LogsEncryptionConfiguration?
+        /// Specifies the tag propagation configuration for this centralization rule. When present, LogGroupNameConfiguration must use a LogGroupNamePattern that contains ${source.logGroup}, ${source.accountId}, and ${source.region}.
+        public let tagPropagationConfiguration: TagPropagationConfiguration?
 
         @inlinable
-        public init(backupConfiguration: LogsBackupConfiguration? = nil, logGroupNameConfiguration: LogGroupNameConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil) {
+        public init(backupConfiguration: LogsBackupConfiguration? = nil, logGroupNameConfiguration: LogGroupNameConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil, tagPropagationConfiguration: TagPropagationConfiguration? = nil) {
             self.backupConfiguration = backupConfiguration
             self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
+            self.tagPropagationConfiguration = tagPropagationConfiguration
         }
 
         public func validate(name: String) throws {
             try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
             try self.logGroupNameConfiguration?.validate(name: "\(name).logGroupNameConfiguration")
             try self.logsEncryptionConfiguration?.validate(name: "\(name).logsEncryptionConfiguration")
+            try self.tagPropagationConfiguration?.validate(name: "\(name).tagPropagationConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupConfiguration = "BackupConfiguration"
             case logGroupNameConfiguration = "LogGroupNameConfiguration"
             case logsEncryptionConfiguration = "LogsEncryptionConfiguration"
+            case tagPropagationConfiguration = "TagPropagationConfiguration"
         }
     }
 
@@ -1099,9 +1139,13 @@ extension ObservabilityAdmin {
         public let ruleHealth: RuleHealth?
         /// The name of the organization centralization rule.
         public let ruleName: String?
+        /// The reason tag propagation is unhealthy for this rule. Only present when TagPropagationStatus is Unhealthy.
+        public let tagPropagationFailureReason: TagPropagationFailureReason?
+        /// The health status of tag propagation for this rule. This status is independent of the overall RuleHealth for log delivery. Returns Healthy when the most recent tag-propagation attempt succeeded, or Unhealthy when the most recent attempt failed.
+        public let tagPropagationStatus: TagPropagationStatus?
 
         @inlinable
-        public init(centralizationRule: CentralizationRule? = nil, createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil) {
+        public init(centralizationRule: CentralizationRule? = nil, createdRegion: String? = nil, createdTimeStamp: Int64? = nil, creatorAccountId: String? = nil, failureReason: CentralizationFailureReason? = nil, lastUpdateTimeStamp: Int64? = nil, ruleArn: String? = nil, ruleHealth: RuleHealth? = nil, ruleName: String? = nil, tagPropagationFailureReason: TagPropagationFailureReason? = nil, tagPropagationStatus: TagPropagationStatus? = nil) {
             self.centralizationRule = centralizationRule
             self.createdRegion = createdRegion
             self.createdTimeStamp = createdTimeStamp
@@ -1111,6 +1155,8 @@ extension ObservabilityAdmin {
             self.ruleArn = ruleArn
             self.ruleHealth = ruleHealth
             self.ruleName = ruleName
+            self.tagPropagationFailureReason = tagPropagationFailureReason
+            self.tagPropagationStatus = tagPropagationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1123,6 +1169,8 @@ extension ObservabilityAdmin {
             case ruleArn = "RuleArn"
             case ruleHealth = "RuleHealth"
             case ruleName = "RuleName"
+            case tagPropagationFailureReason = "TagPropagationFailureReason"
+            case tagPropagationStatus = "TagPropagationStatus"
         }
     }
 
@@ -1890,7 +1938,7 @@ extension ObservabilityAdmin {
     }
 
     public struct LogDeliveryParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The type of log that the source is sending.
+        /// The types of logs to collect from the resource.
         public let logTypes: [LogType]?
 
         @inlinable
@@ -1976,14 +2024,17 @@ extension ObservabilityAdmin {
     public struct LogsEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Conflict resolution strategy for centralization if the encryption strategy is set to CUSTOMER_MANAGED and the destination log group is encrypted with an AWS_OWNED KMS Key. ALLOW lets centralization go through while SKIP prevents centralization into the destination log group.
         public let encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy?
+        /// Determines which newly created destination log groups are encrypted with the configured KmsKeyArn when EncryptionStrategy is CUSTOMER_MANAGED. If you set this to ENCRYPTED_SOURCE_ONLY (the default), only destination log groups whose source log group is encrypted with a customer managed KMS key use the configured KmsKeyArn. Destination log groups derived from Amazon Web Services owned encrypted source log groups remain Amazon Web Services owned encrypted. If you set this to NEW_DESTINATION_LOG_GROUPS, every new destination log group created by this rule uses the configured KmsKeyArn, regardless of the source log group's encryption posture. This field is not valid when EncryptionStrategy is AWS_OWNED.
+        public let encryptionScope: EncryptionScope?
         /// Configuration that determines the encryption strategy of the destination log groups. CUSTOMER_MANAGED uses the configured KmsKeyArn to encrypt newly created destination log groups.
         public let encryptionStrategy: EncryptionStrategy
         /// KMS Key ARN belonging to the primary destination account and region, to encrypt newly created central log groups in the primary destination.
         public let kmsKeyArn: String?
 
         @inlinable
-        public init(encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy? = nil, encryptionStrategy: EncryptionStrategy, kmsKeyArn: String? = nil) {
+        public init(encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy? = nil, encryptionScope: EncryptionScope? = nil, encryptionStrategy: EncryptionStrategy, kmsKeyArn: String? = nil) {
             self.encryptionConflictResolutionStrategy = encryptionConflictResolutionStrategy
+            self.encryptionScope = encryptionScope
             self.encryptionStrategy = encryptionStrategy
             self.kmsKeyArn = kmsKeyArn
         }
@@ -1996,6 +2047,7 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case encryptionConflictResolutionStrategy = "EncryptionConflictResolutionStrategy"
+            case encryptionScope = "EncryptionScope"
             case encryptionStrategy = "EncryptionStrategy"
             case kmsKeyArn = "KmsKeyArn"
         }
@@ -2331,6 +2383,30 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct TagPropagationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of a customer-managed IAM role in the destination account. The service assumes this role to propagate tags to destination log groups. You must have iam:PassRole permission on this role.
+        public let destinationRoleArn: String
+        /// The strategy for resolving conflicts when a tag key exists on both the source and destination log groups. If not specified, defaults to UPDATE_SYNC.    ADD_ONLY – Only adds new tags from the source without modifying existing destination tags.    UPDATE_SYNC – Adds new tags and updates existing tags from the source. Does not remove destination tags that are absent from the source.    IN_SYNC – Keeps destination tags fully synchronized with source tags, including removing destination tags that do not exist on the source.
+        public let tagConflictResolutionStrategy: TagConflictResolutionStrategy?
+
+        @inlinable
+        public init(destinationRoleArn: String, tagConflictResolutionStrategy: TagConflictResolutionStrategy? = nil) {
+            self.destinationRoleArn = destinationRoleArn
+            self.tagConflictResolutionStrategy = tagConflictResolutionStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, max: 2048)
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, min: 20)
+            try self.validate(self.destinationRoleArn, name: "destinationRoleArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:iam::\\d{12}:role/[\\w+=,.@/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationRoleArn = "DestinationRoleArn"
+            case tagConflictResolutionStrategy = "TagConflictResolutionStrategy"
+        }
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
         public let resourceARN: String
@@ -2410,7 +2486,9 @@ extension ObservabilityAdmin {
         public let destinationType: DestinationType?
         ///  Configuration parameters specific to ELB load balancer logging when ELB is the resource type.
         public let elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters?
-        /// Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.
+        ///  The Amazon Resource Name (ARN) of the customer-managed Amazon Web Services KMS key used to encrypt the log groups created during telemetry rule remediation.
+        public let kmsKeyArn: String?
+        /// The configuration parameters for log delivery when the resource type supports configurable log types, such as Amazon Bedrock Knowledge Bases or Elastic Load Balancing Application Load Balancers.
         public let logDeliveryParameters: LogDeliveryParameters?
         ///  Configuration parameters specific to MSK monitoring when MSK is the resource type.
         public let mskMonitoringParameters: MskMonitoringParameters?
@@ -2422,11 +2500,12 @@ extension ObservabilityAdmin {
         public let wafLoggingParameters: WAFLoggingParameters?
 
         @inlinable
-        public init(cloudtrailParameters: CloudtrailParameters? = nil, destinationPattern: String? = nil, destinationType: DestinationType? = nil, elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters? = nil, logDeliveryParameters: LogDeliveryParameters? = nil, mskMonitoringParameters: MskMonitoringParameters? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil, wafLoggingParameters: WAFLoggingParameters? = nil) {
+        public init(cloudtrailParameters: CloudtrailParameters? = nil, destinationPattern: String? = nil, destinationType: DestinationType? = nil, elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters? = nil, kmsKeyArn: String? = nil, logDeliveryParameters: LogDeliveryParameters? = nil, mskMonitoringParameters: MskMonitoringParameters? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil, wafLoggingParameters: WAFLoggingParameters? = nil) {
             self.cloudtrailParameters = cloudtrailParameters
             self.destinationPattern = destinationPattern
             self.destinationType = destinationType
             self.elbLoadBalancerLoggingParameters = elbLoadBalancerLoggingParameters
+            self.kmsKeyArn = kmsKeyArn
             self.logDeliveryParameters = logDeliveryParameters
             self.mskMonitoringParameters = mskMonitoringParameters
             self.retentionInDays = retentionInDays
@@ -2435,6 +2514,9 @@ extension ObservabilityAdmin {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:\\d{12}:key/(mrk-)?[a-f0-9-]+$")
             try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, max: 3653)
             try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, min: 1)
             try self.wafLoggingParameters?.validate(name: "\(name).wafLoggingParameters")
@@ -2445,6 +2527,7 @@ extension ObservabilityAdmin {
             case destinationPattern = "DestinationPattern"
             case destinationType = "DestinationType"
             case elbLoadBalancerLoggingParameters = "ELBLoadBalancerLoggingParameters"
+            case kmsKeyArn = "KmsKeyArn"
             case logDeliveryParameters = "LogDeliveryParameters"
             case mskMonitoringParameters = "MskMonitoringParameters"
             case retentionInDays = "RetentionInDays"
@@ -2575,7 +2658,7 @@ extension ObservabilityAdmin {
         public let destinationConfiguration: TelemetryDestinationConfiguration?
         ///  An optional list of Amazon Web Services Regions where this telemetry rule should be replicated. When specified, the rule is created in the home region and automatically replicated to all listed regions. Mutually exclusive with AllRegions.
         public let regions: [String]?
-        ///  The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
+        ///  The type of Amazon Web Services resource to configure telemetry for (for example, AWS::EC2::VPC, AWS::EKS::Cluster, AWS::ElasticLoadBalancingV2::LoadBalancer, or AWS::Bedrock::KnowledgeBase).
         public let resourceType: ResourceType?
         ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
         public let scope: String?

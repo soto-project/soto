@@ -67,6 +67,12 @@ extension CodeDeploy {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeploymentMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case restart = "RESTART"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case withTrafficControl = "WITH_TRAFFIC_CONTROL"
         case withoutTrafficControl = "WITHOUT_TRAFFIC_CONTROL"
@@ -477,6 +483,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -520,6 +527,7 @@ extension CodeDeploy {
             try self.applicationNames.forEach {
                 try validate($0, name: "applicationNames[]", parent: name, max: 100)
                 try validate($0, name: "applicationNames[]", parent: name, min: 1)
+                try validate($0, name: "applicationNames[]", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             }
         }
 
@@ -557,9 +565,11 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.deploymentGroupNames.forEach {
                 try validate($0, name: "deploymentGroupNames[]", parent: name, max: 100)
                 try validate($0, name: "deploymentGroupNames[]", parent: name, min: 1)
+                try validate($0, name: "deploymentGroupNames[]", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             }
         }
 
@@ -825,6 +835,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -872,6 +883,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -963,10 +975,13 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
+            try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1015,6 +1030,8 @@ extension CodeDeploy {
         public let deploymentConfigName: String?
         /// The name of the deployment group.
         public let deploymentGroupName: String?
+        /// The deployment mode to use for the deployment. When set to STANDARD (the default), the deployment runs the standard set of deployment lifecycle events. When set to RESTART, an EC2/On-premises in-place deployment runs a shortened set of lifecycle events to quickly restart the application on the target instances.
+        public let deploymentMode: DeploymentMode?
         /// A comment about the deployment.
         public let description: String?
         /// Information about how CodeDeploy handles files that already exist in a deployment target location but weren't part of the previous successful deployment. The fileExistsBehavior parameter takes any of the following values:   DISALLOW: The deployment fails. This is also the default behavior if no option is specified.   OVERWRITE: The version of the file from the application revision currently being deployed replaces the version already on the instance.   RETAIN: The version of the file already on the instance is kept and used as part of the new deployment.
@@ -1031,11 +1048,12 @@ extension CodeDeploy {
         public let updateOutdatedInstancesOnly: Bool?
 
         @inlinable
-        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
+        public init(applicationName: String, autoRollbackConfiguration: AutoRollbackConfiguration? = nil, deploymentConfigName: String? = nil, deploymentGroupName: String? = nil, deploymentMode: DeploymentMode? = nil, description: String? = nil, fileExistsBehavior: FileExistsBehavior? = nil, ignoreApplicationStopFailures: Bool? = nil, overrideAlarmConfiguration: AlarmConfiguration? = nil, revision: RevisionLocation? = nil, targetInstances: TargetInstances? = nil, updateOutdatedInstancesOnly: Bool? = nil) {
             self.applicationName = applicationName
             self.autoRollbackConfiguration = autoRollbackConfiguration
             self.deploymentConfigName = deploymentConfigName
             self.deploymentGroupName = deploymentGroupName
+            self.deploymentMode = deploymentMode
             self.description = description
             self.fileExistsBehavior = fileExistsBehavior
             self.ignoreApplicationStopFailures = ignoreApplicationStopFailures
@@ -1048,10 +1066,13 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
+            try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1059,6 +1080,7 @@ extension CodeDeploy {
             case autoRollbackConfiguration = "autoRollbackConfiguration"
             case deploymentConfigName = "deploymentConfigName"
             case deploymentGroupName = "deploymentGroupName"
+            case deploymentMode = "deploymentMode"
             case description = "description"
             case fileExistsBehavior = "fileExistsBehavior"
             case ignoreApplicationStopFailures = "ignoreApplicationStopFailures"
@@ -1095,6 +1117,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,6 +1137,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1136,8 +1160,10 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
+            try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1821,6 +1847,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1857,6 +1884,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1899,6 +1927,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1935,8 +1964,10 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
+            try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2375,6 +2406,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2485,6 +2517,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2626,8 +2659,10 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, max: 100)
             try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, min: 1)
+            try self.validate(self.deploymentGroupName, name: "deploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2915,6 +2950,7 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3411,8 +3447,10 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, max: 100)
             try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, min: 1)
+            try self.validate(self.newApplicationName, name: "newApplicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3487,12 +3525,16 @@ extension CodeDeploy {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
+            try self.validate(self.applicationName, name: "applicationName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, min: 1)
+            try self.validate(self.currentDeploymentGroupName, name: "currentDeploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, max: 100)
             try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, min: 1)
+            try self.validate(self.deploymentConfigName, name: "deploymentConfigName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, max: 100)
             try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, min: 1)
+            try self.validate(self.newDeploymentGroupName, name: "newDeploymentGroupName", parent: name, pattern: "^[A-Za-z0-9+=,.@_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

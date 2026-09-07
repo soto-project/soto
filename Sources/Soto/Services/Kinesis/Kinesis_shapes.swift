@@ -25,6 +25,26 @@ import Foundation
 extension Kinesis {
     // MARK: Enums
 
+    public enum ChannelDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case s3 = "S3"
+        case s3Tables = "S3_TABLES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kms = "KMS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChannelStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConsumerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -60,6 +80,40 @@ extension Kinesis {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         case enabledUntilEarliestAllowedEnd = "ENABLED_UNTIL_EARLIEST_ALLOWED_END"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PartitionTransform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case timeHour = "TIME_HOUR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordFormatType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case byteArray = "BYTE_ARRAY"
+        case gsrJson = "GSR_JSON"
+        case json = "JSON"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3CompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case glacierIr = "GLACIER_IR"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3TablesCompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case snappy = "SNAPPY"
+        case zstd = "ZSTD"
         public var description: String { return self.rawValue }
     }
 
@@ -219,6 +273,230 @@ extension Kinesis {
         }
     }
 
+    public struct ChannelDescription: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the channel.
+        public let channelARN: String
+        /// The time at which the channel was created.
+        public let channelCreationTimestamp: Date
+        /// The unique identifier of the channel.
+        public let channelId: String
+        /// The name of the channel.
+        public let channelName: String
+        /// The current status of the channel. Valid values:    CREATING - The channel is being created.    ACTIVE - The channel is ready to deliver records.    UPDATING - The channel configuration is being updated.    DELETING - The channel is being deleted.    FAILED - See ChannelStatusReason for the failure cause.
+        public let channelStatus: ChannelStatus
+        /// A message describing the reason for a FAILED status.
+        public let channelStatusReason: String?
+        /// The server-side encryption configuration for the channel.
+        public let encryptionConfiguration: ChannelEncryptionConfiguration?
+        /// The Amazon CloudWatch Logs configuration for the channel.
+        public let loggingConfiguration: ChannelLoggingConfiguration
+        /// The configuration for delivery to a general purpose Amazon S3 bucket. Present only when the channel destination is a general purpose Amazon S3 bucket.
+        public let s3DestinationConfiguration: S3DestinationDescription?
+        /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. Present only when the channel destination is a streaming table.
+        public let s3TablesDestinationConfiguration: S3TablesDestinationDescription?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
+        public let serviceExecutionRoleARN: String
+        /// The source stream configuration for the channel.
+        public let streamConfigurationList: [ChannelStreamDescription]
+
+        @inlinable
+        public init(channelARN: String, channelCreationTimestamp: Date, channelId: String, channelName: String, channelStatus: ChannelStatus, channelStatusReason: String? = nil, encryptionConfiguration: ChannelEncryptionConfiguration? = nil, loggingConfiguration: ChannelLoggingConfiguration, s3DestinationConfiguration: S3DestinationDescription? = nil, s3TablesDestinationConfiguration: S3TablesDestinationDescription? = nil, serviceExecutionRoleARN: String, streamConfigurationList: [ChannelStreamDescription]) {
+            self.channelARN = channelARN
+            self.channelCreationTimestamp = channelCreationTimestamp
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.channelStatusReason = channelStatusReason
+            self.encryptionConfiguration = encryptionConfiguration
+            self.loggingConfiguration = loggingConfiguration
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+            self.serviceExecutionRoleARN = serviceExecutionRoleARN
+            self.streamConfigurationList = streamConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case channelCreationTimestamp = "ChannelCreationTimestamp"
+            case channelId = "ChannelId"
+            case channelName = "ChannelName"
+            case channelStatus = "ChannelStatus"
+            case channelStatusReason = "ChannelStatusReason"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case loggingConfiguration = "LoggingConfiguration"
+            case s3DestinationConfiguration = "S3DestinationConfiguration"
+            case s3TablesDestinationConfiguration = "S3TablesDestinationConfiguration"
+            case serviceExecutionRoleARN = "ServiceExecutionRoleARN"
+            case streamConfigurationList = "StreamConfigurationList"
+        }
+    }
+
+    public struct ChannelEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption type. The only valid value is KMS.
+        public let encryptionType: ChannelEncryptionType
+        /// The identifier of the customer managed Amazon Web Services KMS key. You cannot use the Amazon Kinesis Data Streams service key (aws/kinesis).
+        public let keyId: String
+
+        @inlinable
+        public init(encryptionType: ChannelEncryptionType, keyId: String) {
+            self.encryptionType = encryptionType
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case keyId = "KeyId"
+        }
+    }
+
+    public struct ChannelLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon CloudWatch Logs settings for the channel.
+        public let cloudWatchLogs: CloudWatchLogs
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogs) {
+            self.cloudWatchLogs = cloudWatchLogs
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogs.validate(name: "\(name).cloudWatchLogs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "CloudWatchLogs"
+        }
+    }
+
+    public struct ChannelLoggingUpdateInput: AWSEncodableShape {
+        /// The updated Amazon CloudWatch Logs settings for the channel.
+        public let cloudWatchLogs: CloudWatchLogsUpdateInput
+
+        @inlinable
+        public init(cloudWatchLogs: CloudWatchLogsUpdateInput) {
+            self.cloudWatchLogs = cloudWatchLogs
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogs.validate(name: "\(name).cloudWatchLogs")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogs = "CloudWatchLogs"
+        }
+    }
+
+    public struct ChannelStreamConfiguration: AWSEncodableShape {
+        /// The record format configuration for the source stream.
+        public let recordConfiguration: RecordConfiguration
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        public let streamARN: String
+
+        @inlinable
+        public init(recordConfiguration: RecordConfiguration, streamARN: String) {
+            self.recordConfiguration = recordConfiguration
+            self.streamARN = streamARN
+        }
+
+        public func validate(name: String) throws {
+            try self.recordConfiguration.validate(name: "\(name).recordConfiguration")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordConfiguration = "RecordConfiguration"
+            case streamARN = "StreamARN"
+        }
+    }
+
+    public struct ChannelStreamDescription: AWSDecodableShape {
+        /// The record format configuration for the source stream.
+        public let recordConfiguration: RecordConfiguration
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        public let streamARN: String
+        /// The time at which the source stream was created.
+        public let streamCreationTimestamp: Date
+
+        @inlinable
+        public init(recordConfiguration: RecordConfiguration, streamARN: String, streamCreationTimestamp: Date) {
+            self.recordConfiguration = recordConfiguration
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordConfiguration = "RecordConfiguration"
+            case streamARN = "StreamARN"
+            case streamCreationTimestamp = "StreamCreationTimestamp"
+        }
+    }
+
+    public struct ChannelStreamIdentifier: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source Kinesis data stream.
+        public let streamARN: String
+        /// The time at which the source stream was created.
+        public let streamCreationTimestamp: Date
+
+        @inlinable
+        public init(streamARN: String, streamCreationTimestamp: Date) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamCreationTimestamp = "StreamCreationTimestamp"
+        }
+    }
+
+    public struct ChannelSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the channel.
+        public let channelARN: String
+        /// The time at which the channel was created.
+        public let channelCreationTimestamp: Date
+        /// The destination type of the channel. Valid values:    S3 - Delivery to a general purpose Amazon S3 bucket.    S3_TABLES - Delivery to streaming tables on Apache Iceberg.
+        public let channelDestinationType: ChannelDestinationType
+        /// The unique identifier of the channel.
+        public let channelId: String
+        /// The name of the channel.
+        public let channelName: String
+        /// The current status of the channel. Valid values:    CREATING - The channel is being created.    ACTIVE - The channel is ready to deliver records.    UPDATING - The channel configuration is being updated.    DELETING - The channel is being deleted.    FAILED - See ChannelStatusReason for the failure cause.
+        public let channelStatus: ChannelStatus
+        /// A message describing the reason for a FAILED status.
+        public let channelStatusReason: String?
+        /// The source streams associated with the channel.
+        public let streams: [ChannelStreamIdentifier]
+
+        @inlinable
+        public init(channelARN: String, channelCreationTimestamp: Date, channelDestinationType: ChannelDestinationType, channelId: String, channelName: String, channelStatus: ChannelStatus, channelStatusReason: String? = nil, streams: [ChannelStreamIdentifier]) {
+            self.channelARN = channelARN
+            self.channelCreationTimestamp = channelCreationTimestamp
+            self.channelDestinationType = channelDestinationType
+            self.channelId = channelId
+            self.channelName = channelName
+            self.channelStatus = channelStatus
+            self.channelStatusReason = channelStatusReason
+            self.streams = streams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case channelCreationTimestamp = "ChannelCreationTimestamp"
+            case channelDestinationType = "ChannelDestinationType"
+            case channelId = "ChannelId"
+            case channelName = "ChannelName"
+            case channelStatus = "ChannelStatus"
+            case channelStatusReason = "ChannelStatusReason"
+            case streams = "Streams"
+        }
+    }
+
     public struct ChildShard: AWSDecodableShape {
         public let hashKeyRange: HashKeyRange
         /// The current shard that is the parent of the existing child shard.
@@ -237,6 +515,68 @@ extension Kinesis {
             case hashKeyRange = "HashKeyRange"
             case parentShards = "ParentShards"
             case shardId = "ShardId"
+        }
+    }
+
+    public struct CloudWatchLogs: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether logging to Amazon CloudWatch Logs is enabled.
+        public let enabled: Bool
+        /// The name of the Amazon CloudWatch Logs log group. Defaults to /aws/kinesis/{channelName}/{channelId}.
+        public let logGroupName: String?
+        /// The name of the Amazon CloudWatch Logs log stream. Defaults to DestinationDelivery.
+        public let logStreamName: String?
+
+        @inlinable
+        public init(enabled: Bool, logGroupName: String? = nil, logStreamName: String? = nil) {
+            self.enabled = enabled
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "^[^:*]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case logGroupName = "LogGroupName"
+            case logStreamName = "LogStreamName"
+        }
+    }
+
+    public struct CloudWatchLogsUpdateInput: AWSEncodableShape {
+        /// Specifies whether logging to Amazon CloudWatch Logs is enabled.
+        public let enabled: Bool
+        /// The name of the Amazon CloudWatch Logs log group.
+        public let logGroupName: String?
+        /// The name of the Amazon CloudWatch Logs log stream.
+        public let logStreamName: String?
+
+        @inlinable
+        public init(enabled: Bool, logGroupName: String? = nil, logStreamName: String? = nil) {
+            self.enabled = enabled
+            self.logGroupName = logGroupName
+            self.logStreamName = logStreamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 512)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, min: 1)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\.\\-_/#A-Za-z0-9]+$")
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, max: 512)
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, min: 1)
+            try self.validate(self.logStreamName, name: "logStreamName", parent: name, pattern: "^[^:*]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case logGroupName = "LogGroupName"
+            case logStreamName = "LogStreamName"
         }
     }
 
@@ -294,6 +634,87 @@ extension Kinesis {
         }
     }
 
+    public struct CreateChannelInput: AWSEncodableShape {
+        /// The name of the channel. The name is unique within your Amazon Web Services account and Amazon Web Services Region.
+        public let channelName: String
+        /// The server-side encryption configuration that uses an Amazon Web Services KMS key to encrypt data delivered to the destination.
+        public let encryptionConfiguration: ChannelEncryptionConfiguration?
+        /// The Amazon CloudWatch Logs configuration for the channel.
+        public let loggingConfiguration: ChannelLoggingConfiguration?
+        /// The configuration for delivery to a general purpose Amazon S3 bucket. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+        public let s3DestinationConfiguration: S3DestinationConfiguration?
+        /// The configuration for delivery to streaming tables on Apache Iceberg in Amazon S3 Tables. You must specify either S3DestinationConfiguration or S3TablesDestinationConfiguration, but not both.
+        public let s3TablesDestinationConfiguration: S3TablesDestinationConfiguration?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon Kinesis Data Streams assumes to write records to the destination.
+        public let serviceExecutionRoleARN: String
+        /// The source stream configuration for the channel. Currently, one stream is supported per channel.
+        public let streamConfigurationList: [ChannelStreamConfiguration]
+        /// A set of key-value pairs to assign to the channel. A tag consists of a required key and an optional value.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(channelName: String, encryptionConfiguration: ChannelEncryptionConfiguration? = nil, loggingConfiguration: ChannelLoggingConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, s3TablesDestinationConfiguration: S3TablesDestinationConfiguration? = nil, serviceExecutionRoleARN: String, streamConfigurationList: [ChannelStreamConfiguration], tags: [String: String]? = nil) {
+            self.channelName = channelName
+            self.encryptionConfiguration = encryptionConfiguration
+            self.loggingConfiguration = loggingConfiguration
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+            self.serviceExecutionRoleARN = serviceExecutionRoleARN
+            self.streamConfigurationList = streamConfigurationList
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 128)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
+            try self.s3DestinationConfiguration?.validate(name: "\(name).s3DestinationConfiguration")
+            try self.s3TablesDestinationConfiguration?.validate(name: "\(name).s3TablesDestinationConfiguration")
+            try self.validate(self.serviceExecutionRoleARN, name: "serviceExecutionRoleARN", parent: name, max: 512)
+            try self.validate(self.serviceExecutionRoleARN, name: "serviceExecutionRoleARN", parent: name, min: 1)
+            try self.validate(self.serviceExecutionRoleARN, name: "serviceExecutionRoleARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:iam::\\d{12}:role/[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.streamConfigurationList.forEach {
+                try $0.validate(name: "\(name).streamConfigurationList[]")
+            }
+            try self.validate(self.streamConfigurationList, name: "streamConfigurationList", parent: name, max: 10000)
+            try self.validate(self.streamConfigurationList, name: "streamConfigurationList", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName = "ChannelName"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case loggingConfiguration = "LoggingConfiguration"
+            case s3DestinationConfiguration = "S3DestinationConfiguration"
+            case s3TablesDestinationConfiguration = "S3TablesDestinationConfiguration"
+            case serviceExecutionRoleARN = "ServiceExecutionRoleARN"
+            case streamConfigurationList = "StreamConfigurationList"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateChannelOutput: AWSDecodableShape {
+        /// The configuration and current status of the channel.
+        public let channelDescription: ChannelDescription
+
+        @inlinable
+        public init(channelDescription: ChannelDescription) {
+            self.channelDescription = channelDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "ChannelDescription"
+        }
+    }
+
     public struct CreateStreamInput: AWSEncodableShape {
         /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
         public let maxRecordSizeInKiB: Int?
@@ -345,6 +766,40 @@ extension Kinesis {
         }
     }
 
+    public struct DeadLetterQueueS3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the dead-letter queue Amazon S3 bucket.
+        public let bucketARN: String
+        /// The Amazon S3 key prefix for error records.
+        public let errorOutputPrefix: String?
+        /// The Amazon Web Services account ID of the expected owner of the dead-letter queue bucket.
+        public let expectedBucketOwner: String
+
+        @inlinable
+        public init(bucketARN: String, errorOutputPrefix: String? = nil, expectedBucketOwner: String) {
+            self.bucketARN = bucketARN
+            self.errorOutputPrefix = errorOutputPrefix
+            self.expectedBucketOwner = expectedBucketOwner
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3:::[a-z0-9._-]{3,63}$")
+            try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, max: 512)
+            try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, min: 1)
+            try self.validate(self.errorOutputPrefix, name: "errorOutputPrefix", parent: name, pattern: "^[0-9A-Za-z!\\-_'.*()\\/]+$")
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case errorOutputPrefix = "ErrorOutputPrefix"
+            case expectedBucketOwner = "ExpectedBucketOwner"
+        }
+    }
+
     public struct DecreaseStreamRetentionPeriodInput: AWSEncodableShape {
         /// The new retention period of the stream, in hours. Must be less than the current retention period.
         public let retentionPeriodHours: Int
@@ -383,6 +838,26 @@ extension Kinesis {
         }
     }
 
+    public struct DeleteChannelInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the channel to delete.
+        public let channelARN: String
+
+        @inlinable
+        public init(channelARN: String) {
+            self.channelARN = channelARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelARN, name: "channelARN", parent: name, max: 2048)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:channel/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+        }
+    }
+
     public struct DeleteResourcePolicyInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the data stream or consumer.
         public let resourceARN: String
@@ -398,7 +873,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -507,11 +982,49 @@ extension Kinesis {
         }
     }
 
+    public struct DescribeChannelInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the channel to describe.
+        public let channelARN: String
+
+        @inlinable
+        public init(channelARN: String) {
+            self.channelARN = channelARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelARN, name: "channelARN", parent: name, max: 2048)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:channel/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+        }
+    }
+
+    public struct DescribeChannelOutput: AWSDecodableShape {
+        /// The configuration and current status of the channel.
+        public let channelDescription: ChannelDescription
+
+        @inlinable
+        public init(channelDescription: ChannelDescription) {
+            self.channelDescription = channelDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "ChannelDescription"
+        }
+    }
+
     public struct DescribeLimitsInput: AWSEncodableShape {
         public init() {}
     }
 
     public struct DescribeLimitsOutput: AWSDecodableShape {
+        /// The number of channels in the account.
+        public let channelCount: Int?
+        /// The maximum number of channels allowed in the account.
+        public let channelCountLimit: Int?
         ///  Indicates the number of data streams with the on-demand capacity mode.
         public let onDemandStreamCount: Int
         ///  The maximum number of data streams with the on-demand capacity mode.
@@ -522,7 +1035,9 @@ extension Kinesis {
         public let shardLimit: Int
 
         @inlinable
-        public init(onDemandStreamCount: Int, onDemandStreamCountLimit: Int, openShardCount: Int, shardLimit: Int) {
+        public init(channelCount: Int? = nil, channelCountLimit: Int? = nil, onDemandStreamCount: Int, onDemandStreamCountLimit: Int, openShardCount: Int, shardLimit: Int) {
+            self.channelCount = channelCount
+            self.channelCountLimit = channelCountLimit
             self.onDemandStreamCount = onDemandStreamCount
             self.onDemandStreamCountLimit = onDemandStreamCountLimit
             self.openShardCount = openShardCount
@@ -530,6 +1045,8 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case channelCount = "ChannelCount"
+            case channelCountLimit = "ChannelCountLimit"
             case onDemandStreamCount = "OnDemandStreamCount"
             case onDemandStreamCountLimit = "OnDemandStreamCountLimit"
             case openShardCount = "OpenShardCount"
@@ -822,6 +1339,8 @@ extension Kinesis {
     }
 
     public struct GetRecordsInput: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.
+        public let dryRun: Bool?
         /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException. The default value is 10,000.
         public let limit: Int?
         /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
@@ -832,7 +1351,8 @@ extension Kinesis {
         public let streamId: String?
 
         @inlinable
-        public init(limit: Int? = nil, shardIterator: String, streamARN: String? = nil, streamId: String? = nil) {
+        public init(dryRun: Bool? = nil, limit: Int? = nil, shardIterator: String, streamARN: String? = nil, streamId: String? = nil) {
+            self.dryRun = dryRun
             self.limit = limit
             self.shardIterator = shardIterator
             self.streamARN = streamARN
@@ -853,6 +1373,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case limit = "Limit"
             case shardIterator = "ShardIterator"
             case streamARN = "StreamARN"
@@ -901,7 +1422,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -928,6 +1449,8 @@ extension Kinesis {
     }
 
     public struct GetShardIteratorInput: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.
+        public let dryRun: Bool?
         /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
         public let shardId: String
         /// Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.
@@ -944,7 +1467,8 @@ extension Kinesis {
         public let timestamp: Date?
 
         @inlinable
-        public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, timestamp: Date? = nil) {
+        public init(dryRun: Bool? = nil, shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, timestamp: Date? = nil) {
+            self.dryRun = dryRun
             self.shardId = shardId
             self.shardIteratorType = shardIteratorType
             self.startingSequenceNumber = startingSequenceNumber
@@ -958,7 +1482,7 @@ extension Kinesis {
             try self.validate(self.shardId, name: "shardId", parent: name, max: 128)
             try self.validate(self.shardId, name: "shardId", parent: name, min: 1)
             try self.validate(self.shardId, name: "shardId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
-            try self.validate(self.startingSequenceNumber, name: "startingSequenceNumber", parent: name, pattern: "^0|([1-9]\\d{0,128})$")
+            try self.validate(self.startingSequenceNumber, name: "startingSequenceNumber", parent: name, pattern: "^(0|([1-9]\\d{0,128}))$")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
@@ -971,6 +1495,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case shardId = "ShardId"
             case shardIteratorType = "ShardIteratorType"
             case startingSequenceNumber = "StartingSequenceNumber"
@@ -1145,6 +1670,58 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct ListChannelsInput: AWSEncodableShape {
+        /// The maximum number of channels to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
+        public let maxResults: Int?
+        /// The pagination token returned by a previous call. Specify this token to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Filters the results to channels associated with the specified streams.
+        public let streamFilter: [StreamFilter]?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, streamFilter: [StreamFilter]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.streamFilter = streamFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1048576)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.streamFilter?.forEach {
+                try $0.validate(name: "\(name).streamFilter[]")
+            }
+            try self.validate(self.streamFilter, name: "streamFilter", parent: name, max: 10000)
+            try self.validate(self.streamFilter, name: "streamFilter", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case streamFilter = "StreamFilter"
+        }
+    }
+
+    public struct ListChannelsOutput: AWSDecodableShape {
+        /// A list of channel summaries.
+        public let channelSummaries: [ChannelSummary]
+        /// The pagination token to use in a subsequent call to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(channelSummaries: [ChannelSummary], nextToken: String? = nil) {
+            self.channelSummaries = channelSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelSummaries = "ChannelSummaries"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1359,7 +1936,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -1537,9 +2114,57 @@ extension Kinesis {
         }
     }
 
+    public struct PartitionField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the source column used for partitioning. This column must be of the timestamptz type.
+        public let sourceName: String
+        /// The partition transform to apply. The only valid value is TIME_HOUR.
+        public let transform: PartitionTransform
+
+        @inlinable
+        public init(sourceName: String, transform: PartitionTransform) {
+            self.sourceName = sourceName
+            self.transform = transform
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 255)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^[a-zA-Z0-9\\.\\_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "SourceName"
+            case transform = "Transform"
+        }
+    }
+
+    public struct PartitionSpec: AWSEncodableShape & AWSDecodableShape {
+        /// The list of partition fields.
+        public let partitionFields: [PartitionField]
+
+        @inlinable
+        public init(partitionFields: [PartitionField]) {
+            self.partitionFields = partitionFields
+        }
+
+        public func validate(name: String) throws {
+            try self.partitionFields.forEach {
+                try $0.validate(name: "\(name).partitionFields[]")
+            }
+            try self.validate(self.partitionFields, name: "partitionFields", parent: name, max: 10)
+            try self.validate(self.partitionFields, name: "partitionFields", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionFields = "PartitionFields"
+        }
+    }
+
     public struct PutRecordInput: AWSEncodableShape {
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
         public let data: AWSBase64Data
+        /// Checks if your request will succeed. DryRun is an optional parameter.
+        public let dryRun: Bool?
         /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
         public let explicitHashKey: String?
         /// Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
@@ -1554,8 +2179,9 @@ extension Kinesis {
         public let streamName: String?
 
         @inlinable
-        public init(data: AWSBase64Data, explicitHashKey: String? = nil, partitionKey: String, sequenceNumberForOrdering: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
+        public init(data: AWSBase64Data, dryRun: Bool? = nil, explicitHashKey: String? = nil, partitionKey: String, sequenceNumberForOrdering: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.data = data
+            self.dryRun = dryRun
             self.explicitHashKey = explicitHashKey
             self.partitionKey = partitionKey
             self.sequenceNumberForOrdering = sequenceNumberForOrdering
@@ -1566,10 +2192,10 @@ extension Kinesis {
 
         public func validate(name: String) throws {
             try self.validate(self.data, name: "data", parent: name, max: 10485760)
-            try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
+            try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^(0|([1-9]\\d{0,38}))$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
-            try self.validate(self.sequenceNumberForOrdering, name: "sequenceNumberForOrdering", parent: name, pattern: "^0|([1-9]\\d{0,128})$")
+            try self.validate(self.sequenceNumberForOrdering, name: "sequenceNumberForOrdering", parent: name, pattern: "^(0|([1-9]\\d{0,128}))$")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
@@ -1583,6 +2209,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
+            case dryRun = "DryRun"
             case explicitHashKey = "ExplicitHashKey"
             case partitionKey = "PartitionKey"
             case sequenceNumberForOrdering = "SequenceNumberForOrdering"
@@ -1615,6 +2242,8 @@ extension Kinesis {
     }
 
     public struct PutRecordsInput: AWSEncodableShape {
+        /// Checks if your request will succeed. DryRun is an optional parameter.
+        public let dryRun: Bool?
         /// The records associated with the request.
         public let records: [PutRecordsRequestEntry]
         /// The ARN of the stream.
@@ -1625,7 +2254,8 @@ extension Kinesis {
         public let streamName: String?
 
         @inlinable
-        public init(records: [PutRecordsRequestEntry], streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
+        public init(dryRun: Bool? = nil, records: [PutRecordsRequestEntry], streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
+            self.dryRun = dryRun
             self.records = records
             self.streamARN = streamARN
             self.streamId = streamId
@@ -1650,6 +2280,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
             case records = "Records"
             case streamARN = "StreamARN"
             case streamId = "StreamId"
@@ -1696,7 +2327,7 @@ extension Kinesis {
 
         public func validate(name: String) throws {
             try self.validate(self.data, name: "data", parent: name, max: 10485760)
-            try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
+            try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^(0|([1-9]\\d{0,38}))$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
         }
@@ -1752,7 +2383,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -1768,7 +2399,7 @@ extension Kinesis {
     public struct Record: AWSDecodableShape {
         /// The approximate time that the record was inserted into the stream.
         public let approximateArrivalTimestamp: Date?
-        /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+        /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
         public let data: AWSBase64Data
         /// The encryption type used on the record. This parameter can be one of the following values:    NONE: Do not encrypt the records in the stream.    KMS: Use server-side encryption on the records in the stream using a customer-managed Amazon Web Services KMS key.
         public let encryptionType: EncryptionType?
@@ -1792,6 +2423,30 @@ extension Kinesis {
             case encryptionType = "EncryptionType"
             case partitionKey = "PartitionKey"
             case sequenceNumber = "SequenceNumber"
+        }
+    }
+
+    public struct RecordConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Glue Schema Registry schema used to validate records. Required when the channel destination is a streaming table (Amazon S3 Tables), for both the JSON and GSR_JSON record formats.
+        public let gsrSchemaARN: String?
+        /// The format of records on the source stream. Valid values:    GSR_JSON - Supported only for streaming table (Amazon S3 Tables) destinations.    JSON - Supported for both general purpose Amazon S3 and streaming table destinations.    STRING - Supported only for general purpose Amazon S3 destinations.    BYTE_ARRAY - Supported only for general purpose Amazon S3 destinations.
+        public let recordFormatType: RecordFormatType
+
+        @inlinable
+        public init(gsrSchemaARN: String? = nil, recordFormatType: RecordFormatType) {
+            self.gsrSchemaARN = gsrSchemaARN
+            self.recordFormatType = recordFormatType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gsrSchemaARN, name: "gsrSchemaARN", parent: name, max: 512)
+            try self.validate(self.gsrSchemaARN, name: "gsrSchemaARN", parent: name, min: 1)
+            try self.validate(self.gsrSchemaARN, name: "gsrSchemaARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:glue:[-a-z0-9]+:\\d{12}:schema/[-a-zA-Z0-9_$#.]+/[-a-zA-Z0-9_$#.]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gsrSchemaARN = "GSRSchemaARN"
+            case recordFormatType = "RecordFormatType"
         }
     }
 
@@ -1926,6 +2581,221 @@ extension Kinesis {
         }
     }
 
+    public struct S3DestinationConfiguration: AWSEncodableShape {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        public let dataFreshnessInSeconds: Int?
+        /// The dead-letter queue configuration for records that cannot be delivered. Optional for general purpose Amazon S3 destinations. If not specified, it defaults to the destination bucket with an error prefix.
+        public let deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration?
+        /// The Amazon S3 storage configuration for the channel.
+        public let storageConfiguration: S3StorageConfiguration
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int? = nil, deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration? = nil, storageConfiguration: S3StorageConfiguration) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.deadLetterQueueS3Configuration?.validate(name: "\(name).deadLetterQueueS3Configuration")
+            try self.storageConfiguration.validate(name: "\(name).storageConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+            case deadLetterQueueS3Configuration = "DeadLetterQueueS3Configuration"
+            case storageConfiguration = "StorageConfiguration"
+        }
+    }
+
+    public struct S3DestinationDescription: AWSDecodableShape {
+        /// The maximum age, in seconds, of undelivered data.
+        public let dataFreshnessInSeconds: Int
+        /// The dead-letter queue configuration for records that cannot be delivered.
+        public let deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration
+        /// The Amazon S3 storage configuration for the channel.
+        public let storageConfiguration: S3StorageConfiguration
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int, deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration, storageConfiguration: S3StorageConfiguration) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+            case deadLetterQueueS3Configuration = "DeadLetterQueueS3Configuration"
+            case storageConfiguration = "StorageConfiguration"
+        }
+    }
+
+    public struct S3DestinationUpdateInput: AWSEncodableShape {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        public let dataFreshnessInSeconds: Int
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+        }
+    }
+
+    public struct S3StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination Amazon S3 bucket.
+        public let bucketARN: String
+        /// The compression applied to delivered objects. Valid values:    NONE - No compression.    GZIP - gzip compression.    ZSTD - Zstandard compression.
+        public let compressionType: S3CompressionType
+        /// The Amazon Web Services account ID of the expected owner of the destination bucket. This value helps prevent delivery to an unintended bucket if ownership changes.
+        public let expectedBucketOwner: String
+        /// The template used to construct the Amazon S3 object key for delivered objects. If not specified, a default template is used.
+        public let outputKeyTemplate: String?
+        /// The Amazon S3 storage class for delivered objects. Valid values:    STANDARD - Default storage class for frequently accessed data. (default)    INTELLIGENT_TIERING - Automatically moves objects to the most cost-effective access tier based on usage patterns.    GLACIER_IR - Low-cost storage for rarely accessed data that requires millisecond retrieval.
+        public let storageClass: S3StorageClass?
+
+        @inlinable
+        public init(bucketARN: String, compressionType: S3CompressionType, expectedBucketOwner: String, outputKeyTemplate: String? = nil, storageClass: S3StorageClass? = nil) {
+            self.bucketARN = bucketARN
+            self.compressionType = compressionType
+            self.expectedBucketOwner = expectedBucketOwner
+            self.outputKeyTemplate = outputKeyTemplate
+            self.storageClass = storageClass
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, max: 2048)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, min: 1)
+            try self.validate(self.bucketARN, name: "bucketARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3:::[a-z0-9._-]{3,63}$")
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, min: 12)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.outputKeyTemplate, name: "outputKeyTemplate", parent: name, max: 1024)
+            try self.validate(self.outputKeyTemplate, name: "outputKeyTemplate", parent: name, min: 1)
+            try self.validate(self.outputKeyTemplate, name: "outputKeyTemplate", parent: name, pattern: "^[0-9A-Za-z!\\-_'.*()\\/=:{}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketARN = "BucketARN"
+            case compressionType = "CompressionType"
+            case expectedBucketOwner = "ExpectedBucketOwner"
+            case outputKeyTemplate = "OutputKeyTemplate"
+            case storageClass = "StorageClass"
+        }
+    }
+
+    public struct S3TablesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The compression applied to Parquet data files. Valid values:    NONE - No compression.    ZSTD - Zstandard compression.    SNAPPY - Snappy compression.
+        public let compressionType: S3TablesCompressionType
+        /// The namespace (database) of the destination table.
+        public let namespace: String
+        /// The partitioning specification for the destination table.
+        public let partitionSpec: PartitionSpec?
+        /// The Amazon Resource Name (ARN) of the Amazon S3 table bucket.
+        public let tableBucketARN: String
+        /// The name of the destination table. Amazon Kinesis Data Streams creates this table in the specified table bucket.
+        public let tableName: String
+
+        @inlinable
+        public init(compressionType: S3TablesCompressionType, namespace: String, partitionSpec: PartitionSpec? = nil, tableBucketARN: String, tableName: String) {
+            self.compressionType = compressionType
+            self.namespace = namespace
+            self.partitionSpec = partitionSpec
+            self.tableBucketARN = tableBucketARN
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]+$")
+            try self.partitionSpec?.validate(name: "\(name).partitionSpec")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, max: 2048)
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, min: 1)
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3tables:[-a-z0-9]+:\\d{12}:bucket/[a-z0-9_-]{3,63}$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[0-9a-z_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionType = "CompressionType"
+            case namespace = "Namespace"
+            case partitionSpec = "PartitionSpec"
+            case tableBucketARN = "TableBucketARN"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct S3TablesDestinationConfiguration: AWSEncodableShape {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes). The default value is 300 seconds.
+        public let dataFreshnessInSeconds: Int?
+        /// The dead-letter queue configuration for records that cannot be delivered. Required for streaming table destinations.
+        public let deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration
+        /// The list of streaming table configurations. Currently, one table is supported per channel.
+        public let s3TablesConfigurationList: [S3TablesConfiguration]
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int? = nil, deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration, s3TablesConfigurationList: [S3TablesConfiguration]) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.s3TablesConfigurationList = s3TablesConfigurationList
+        }
+
+        public func validate(name: String) throws {
+            try self.deadLetterQueueS3Configuration.validate(name: "\(name).deadLetterQueueS3Configuration")
+            try self.s3TablesConfigurationList.forEach {
+                try $0.validate(name: "\(name).s3TablesConfigurationList[]")
+            }
+            try self.validate(self.s3TablesConfigurationList, name: "s3TablesConfigurationList", parent: name, max: 10000)
+            try self.validate(self.s3TablesConfigurationList, name: "s3TablesConfigurationList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+            case deadLetterQueueS3Configuration = "DeadLetterQueueS3Configuration"
+            case s3TablesConfigurationList = "S3TablesConfigurationList"
+        }
+    }
+
+    public struct S3TablesDestinationDescription: AWSDecodableShape {
+        /// The maximum age, in seconds, of undelivered data.
+        public let dataFreshnessInSeconds: Int
+        /// The dead-letter queue configuration for records that cannot be delivered.
+        public let deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration
+        /// The list of streaming table configurations.
+        public let s3TablesConfigurationList: [S3TablesConfiguration]
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int, deadLetterQueueS3Configuration: DeadLetterQueueS3Configuration, s3TablesConfigurationList: [S3TablesConfiguration]) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+            self.deadLetterQueueS3Configuration = deadLetterQueueS3Configuration
+            self.s3TablesConfigurationList = s3TablesConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+            case deadLetterQueueS3Configuration = "DeadLetterQueueS3Configuration"
+            case s3TablesConfigurationList = "S3TablesConfigurationList"
+        }
+    }
+
+    public struct S3TablesDestinationUpdateInput: AWSEncodableShape {
+        /// The maximum age, in seconds, of undelivered data. Valid range is 300 to 900 seconds (5 to 15 minutes).
+        public let dataFreshnessInSeconds: Int
+
+        @inlinable
+        public init(dataFreshnessInSeconds: Int) {
+            self.dataFreshnessInSeconds = dataFreshnessInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFreshnessInSeconds = "DataFreshnessInSeconds"
+        }
+    }
+
     public struct SequenceNumberRange: AWSDecodableShape {
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
         public let endingSequenceNumber: String?
@@ -2024,7 +2894,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.newStartingHashKey, name: "newStartingHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
+            try self.validate(self.newStartingHashKey, name: "newStartingHashKey", parent: name, pattern: "^(0|([1-9]\\d{0,38}))$")
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, max: 128)
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, min: 1)
             try self.validate(self.shardToSplit, name: "shardToSplit", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2108,7 +2978,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sequenceNumber, name: "sequenceNumber", parent: name, pattern: "^0|([1-9]\\d{0,128})$")
+            try self.validate(self.sequenceNumber, name: "sequenceNumber", parent: name, pattern: "^(0|([1-9]\\d{0,128}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2217,6 +3087,8 @@ extension Kinesis {
     }
 
     public struct StreamDescriptionSummary: AWSDecodableShape {
+        /// The number of channels associated with the stream.
+        public let channelCount: Int?
         /// The number of enhanced fan-out consumers registered with the stream.
         public let consumerCount: Int?
         /// The encryption type used. This value is one of the following:    KMS     NONE
@@ -2247,7 +3119,8 @@ extension Kinesis {
         public let warmThroughput: WarmThroughputObject?
 
         @inlinable
-        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, maxRecordSizeInKiB: Int? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamId: String? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus, warmThroughput: WarmThroughputObject? = nil) {
+        public init(channelCount: Int? = nil, consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, maxRecordSizeInKiB: Int? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamId: String? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus, warmThroughput: WarmThroughputObject? = nil) {
+            self.channelCount = channelCount
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
@@ -2265,6 +3138,7 @@ extension Kinesis {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case channelCount = "ChannelCount"
             case consumerCount = "ConsumerCount"
             case encryptionType = "EncryptionType"
             case enhancedMonitoring = "EnhancedMonitoring"
@@ -2279,6 +3153,30 @@ extension Kinesis {
             case streamName = "StreamName"
             case streamStatus = "StreamStatus"
             case warmThroughput = "WarmThroughput"
+        }
+    }
+
+    public struct StreamFilter: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the source stream to filter by.
+        public let streamARN: String
+        /// The creation timestamp of the source stream.
+        public let streamCreationTimestamp: Date?
+
+        @inlinable
+        public init(streamARN: String, streamCreationTimestamp: Date? = nil) {
+            self.streamARN = streamARN
+            self.streamCreationTimestamp = streamCreationTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamCreationTimestamp = "StreamCreationTimestamp"
         }
     }
 
@@ -2353,6 +3251,8 @@ extension Kinesis {
     public struct SubscribeToShardInput: AWSEncodableShape {
         /// For this parameter, use the value you obtained when you called RegisterStreamConsumer.
         public let consumerARN: String
+        /// Checks if your request will succeed. DryRun is an optional parameter.
+        public let dryRun: Bool?
         /// The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use ListShards.
         public let shardId: String
         /// The starting position in the data stream from which to start streaming.
@@ -2361,8 +3261,9 @@ extension Kinesis {
         public let streamId: String?
 
         @inlinable
-        public init(consumerARN: String, shardId: String, startingPosition: StartingPosition, streamId: String? = nil) {
+        public init(consumerARN: String, dryRun: Bool? = nil, shardId: String, startingPosition: StartingPosition, streamId: String? = nil) {
             self.consumerARN = consumerARN
+            self.dryRun = dryRun
             self.shardId = shardId
             self.startingPosition = startingPosition
             self.streamId = streamId
@@ -2383,6 +3284,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case consumerARN = "ConsumerARN"
+            case dryRun = "DryRun"
             case shardId = "ShardId"
             case startingPosition = "StartingPosition"
             case streamId = "StreamId"
@@ -2442,7 +3344,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -2480,7 +3382,7 @@ extension Kinesis {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*(stream|channel)/\\S+$")
             try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
             try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
             try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
@@ -2524,6 +3426,53 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case minimumThroughputBillingCommitment = "MinimumThroughputBillingCommitment"
+        }
+    }
+
+    public struct UpdateChannelInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the channel to update.
+        public let channelARN: String
+        /// The updated Amazon CloudWatch Logs configuration for the channel.
+        public let loggingConfiguration: ChannelLoggingUpdateInput?
+        /// The updated configuration for a general purpose Amazon S3 destination. Only DataFreshnessInSeconds can be updated.
+        public let s3DestinationConfiguration: S3DestinationUpdateInput?
+        /// The updated configuration for a streaming table destination. Only DataFreshnessInSeconds can be updated.
+        public let s3TablesDestinationConfiguration: S3TablesDestinationUpdateInput?
+
+        @inlinable
+        public init(channelARN: String, loggingConfiguration: ChannelLoggingUpdateInput? = nil, s3DestinationConfiguration: S3DestinationUpdateInput? = nil, s3TablesDestinationConfiguration: S3TablesDestinationUpdateInput? = nil) {
+            self.channelARN = channelARN
+            self.loggingConfiguration = loggingConfiguration
+            self.s3DestinationConfiguration = s3DestinationConfiguration
+            self.s3TablesDestinationConfiguration = s3TablesDestinationConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelARN, name: "channelARN", parent: name, max: 2048)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:channel/\\S+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelARN = "ChannelARN"
+            case loggingConfiguration = "LoggingConfiguration"
+            case s3DestinationConfiguration = "S3DestinationConfiguration"
+            case s3TablesDestinationConfiguration = "S3TablesDestinationConfiguration"
+        }
+    }
+
+    public struct UpdateChannelOutput: AWSDecodableShape {
+        /// The configuration and current status of the updated channel.
+        public let channelDescription: ChannelDescription
+
+        @inlinable
+        public init(channelDescription: ChannelDescription) {
+            self.channelDescription = channelDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDescription = "ChannelDescription"
         }
     }
 
@@ -2751,6 +3700,7 @@ extension Kinesis {
 public struct KinesisErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case dryRunOperationException = "DryRunOperationException"
         case expiredIteratorException = "ExpiredIteratorException"
         case expiredNextTokenException = "ExpiredNextTokenException"
         case internalFailureException = "InternalFailureException"
@@ -2788,6 +3738,8 @@ public struct KinesisErrorType: AWSErrorType {
 
     /// Specifies that you do not have the permissions required to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request was rejected because the DryRun parameter was specified.
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
     /// The provided iterator exceeds the maximum age allowed.
     public static var expiredIteratorException: Self { .init(.expiredIteratorException) }
     /// The pagination token passed to the operation is expired.

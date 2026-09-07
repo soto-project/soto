@@ -25,9 +25,21 @@ import Foundation
 extension GuardDuty {
     // MARK: Enums
 
+    public enum ActivityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The observed activity is an API call.
+        case apiCall = "API_CALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdminStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disableInProgress = "DISABLE_IN_PROGRESS"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AssociationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dryRun = "DRY_RUN"
+        case live = "LIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -158,6 +170,32 @@ extension GuardDuty {
         public var description: String { return self.rawValue }
     }
 
+    public enum DetectionRuleConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectionRuleDataSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudtrailManagementEvent = "CloudTrailManagementEvent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectionRuleFilterCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case equals = "EQUALS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetectionRuleSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DetectionSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazon = "AMAZON"
         case bitdefender = "BITDEFENDER"
@@ -242,6 +280,17 @@ extension GuardDuty {
     public enum FilterAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case archive = "ARCHIVE"
         case noop = "NOOP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterFieldName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataSource = "dataSource"
+        case description = "description"
+        case name = "name"
+        case service = "service"
+        case severity = "severity"
+        case tactic = "tactic"
+        case technique = "technique"
         public var description: String { return self.rawValue }
     }
 
@@ -549,6 +598,16 @@ extension GuardDuty {
         case info = "Info"
         case low = "Low"
         case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sql = "SQL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleSchema: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudTrail = "CloudTrail"
         public var description: String { return self.rawValue }
     }
 
@@ -1039,6 +1098,24 @@ extension GuardDuty {
         }
     }
 
+    public struct Activity: AWSDecodableShape {
+        /// Contains information about the API call that was observed, when the activity type is API_CALL.
+        public let api: ApiCall?
+        /// The type of the observed activity.
+        public let type: ActivityType?
+
+        @inlinable
+        public init(api: ApiCall? = nil, type: ActivityType? = nil) {
+            self.api = api
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case api = "api"
+            case type = "type"
+        }
+    }
+
     public struct Actor: AWSDecodableShape {
         /// ID of the threat actor.
         public let id: String?
@@ -1235,6 +1312,32 @@ extension GuardDuty {
         }
     }
 
+    public struct ApiCall: AWSDecodableShape {
+        /// The error code that was returned, if the API call failed.
+        public let error: String?
+        /// The name of the API operation that was invoked.
+        public let operation: String?
+        /// The service that the API operation was invoked against.
+        public let service: String?
+        /// User agent in the request to the API operation
+        public let userAgent: String?
+
+        @inlinable
+        public init(error: String? = nil, operation: String? = nil, service: String? = nil, userAgent: String? = nil) {
+            self.error = error
+            self.operation = operation
+            self.service = service
+            self.userAgent = userAgent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case operation = "operation"
+            case service = "service"
+            case userAgent = "userAgent"
+        }
+    }
+
     public struct ArchiveFindingsRequest: AWSEncodableShape {
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
@@ -1271,6 +1374,86 @@ extension GuardDuty {
 
     public struct ArchiveFindingsResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AssociationDetail: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with this rule association.
+        public let accountId: String?
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The unique identifier for the association.
+        public let associationId: String?
+        /// The timestamp when the association was created.
+        public let createdAt: Date?
+        /// The timestamp when the association expires.
+        public let expiresAt: Date?
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+        /// The timestamp when the association was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(accountId: String? = nil, arn: String? = nil, associationId: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, mode: AssociationMode? = nil, ruleId: String? = nil, updatedAt: Date? = nil) {
+            self.accountId = accountId
+            self.arn = arn
+            self.associationId = associationId
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+            case arn = "arn"
+            case associationId = "associationId"
+            case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
+            case mode = "mode"
+            case ruleId = "ruleId"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct AssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the association.
+        public let arn: String?
+        /// The unique identifier for the association.
+        public let associationId: String?
+        /// The timestamp when the association was created.
+        public let createdAt: Date?
+        /// The timestamp when the association expires.
+        public let expiresAt: Date?
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+        /// The timestamp when the association was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, associationId: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, mode: AssociationMode? = nil, ruleId: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.associationId = associationId
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case associationId = "associationId"
+            case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
+            case mode = "mode"
+            case ruleId = "ruleId"
+            case updatedAt = "updatedAt"
+        }
     }
 
     public struct AutonomousSystem: AWSDecodableShape {
@@ -2044,6 +2227,112 @@ extension GuardDuty {
             case countByCoverageStatus = "countByCoverageStatus"
             case countByResourceType = "countByResourceType"
         }
+    }
+
+    public struct CreateCustomDetectionRuleAssociationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. Maximum 64 characters.
+        public let clientToken: String?
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+        /// The tags to be added to the new custom detection rule association resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = CreateCustomDetectionRuleAssociationRequest.idempotencyToken(), mode: AssociationMode? = nil, ruleId: String? = nil, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.mode = mode
+            self.ruleId = ruleId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case mode = "mode"
+            case ruleId = "ruleId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateCustomDetectionRuleAssociationResponse: AWSDecodableShape {
+        /// The details of the newly created custom detection rule association.
+        public let ruleAssociation: AssociationDetail?
+
+        @inlinable
+        public init(ruleAssociation: AssociationDetail? = nil) {
+            self.ruleAssociation = ruleAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleAssociation = "ruleAssociation"
+        }
+    }
+
+    public struct CreateCustomDetectionRuleOrgConfigurationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time.
+        public let clientToken: String?
+        /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+        public let excludeAccountIds: [String]?
+        /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+        public let includeAccountIds: [String]?
+        /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+
+        @inlinable
+        public init(clientToken: String? = CreateCustomDetectionRuleOrgConfigurationRequest.idempotencyToken(), excludeAccountIds: [String]? = nil, includeAccountIds: [String]? = nil, mode: AssociationMode? = nil, ruleId: String? = nil) {
+            self.clientToken = clientToken
+            self.excludeAccountIds = excludeAccountIds
+            self.includeAccountIds = includeAccountIds
+            self.mode = mode
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.excludeAccountIds?.forEach {
+                try validate($0, name: "excludeAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "excludeAccountIds[]", parent: name, min: 12)
+            }
+            try self.validate(self.excludeAccountIds, name: "excludeAccountIds", parent: name, max: 50000)
+            try self.includeAccountIds?.forEach {
+                try validate($0, name: "includeAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "includeAccountIds[]", parent: name, min: 12)
+            }
+            try self.validate(self.includeAccountIds, name: "includeAccountIds", parent: name, max: 50000)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case excludeAccountIds = "excludeAccountIds"
+            case includeAccountIds = "includeAccountIds"
+            case mode = "mode"
+            case ruleId = "ruleId"
+        }
+    }
+
+    public struct CreateCustomDetectionRuleOrgConfigurationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateDetectorRequest: AWSEncodableShape {
@@ -3063,6 +3352,73 @@ extension GuardDuty {
         }
     }
 
+    public struct DeleteCustomDetectionRuleAssociationRequest: AWSEncodableShape {
+        /// The unique identifier for the association to delete.
+        public let associationId: String
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(associationId: String, ruleId: String) {
+            self.associationId = associationId
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 64)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomDetectionRuleAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteCustomDetectionRuleOrgConfigurationRequest: AWSEncodableShape {
+        /// The execution mode of the organization configuration to delete. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(mode: AssociationMode? = nil, ruleId: String) {
+            self.mode = mode
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.mode, key: "mode")
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomDetectionRuleOrgConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteDetectorRequest: AWSEncodableShape {
         /// The unique ID of the detector that you want to delete. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the ListDetectors API.
         public let detectorId: String
@@ -3639,6 +3995,122 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case anomaly = "anomaly"
             case sequence = "sequence"
+        }
+    }
+
+    public struct DetectionRuleFilter: AWSEncodableShape {
+        /// The condition to apply to the filter. For example, EQUALS or CONTAINS.
+        public let condition: DetectionRuleFilterCondition?
+        /// The name of the field to filter by.
+        public let name: FilterFieldName?
+        /// The values to match against the specified filter name.
+        public let values: [String]?
+
+        @inlinable
+        public init(condition: DetectionRuleFilterCondition? = nil, name: FilterFieldName? = nil, values: [String]? = nil) {
+            self.condition = condition
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 255)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9 _.\\-:/]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 50)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct DetectionRuleOrgConfiguration: AWSDecodableShape {
+        /// The timestamp when the organization configuration was created.
+        public let createdAt: Date?
+        /// A list of member account IDs excluded from the organization configuration. Mutually exclusive with IncludeAccountIds.
+        public let excludeAccountIds: [String]?
+        /// The timestamp when the organization configuration expires.
+        public let expiresAt: Date?
+        /// A list of member account IDs included in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+        public let includeAccountIds: [String]?
+        /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+        /// The configuration status. Valid values: ACTIVE | PROCESSING | FAILED.
+        public let status: DetectionRuleConfigurationStatus?
+        /// The reason for the current configuration status.
+        public let statusReason: String?
+        /// The timestamp when the organization configuration was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, excludeAccountIds: [String]? = nil, expiresAt: Date? = nil, includeAccountIds: [String]? = nil, mode: AssociationMode? = nil, ruleId: String? = nil, status: DetectionRuleConfigurationStatus? = nil, statusReason: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.excludeAccountIds = excludeAccountIds
+            self.expiresAt = expiresAt
+            self.includeAccountIds = includeAccountIds
+            self.mode = mode
+            self.ruleId = ruleId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case excludeAccountIds = "excludeAccountIds"
+            case expiresAt = "expiresAt"
+            case includeAccountIds = "includeAccountIds"
+            case mode = "mode"
+            case ruleId = "ruleId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct DetectionRuleOrgConfigurationSummary: AWSDecodableShape {
+        /// The timestamp when the organization configuration was created.
+        public let createdAt: Date?
+        /// The timestamp when the organization configuration expires.
+        public let expiresAt: Date?
+        /// The rule execution mode.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String?
+        /// The configuration status.
+        public let status: DetectionRuleConfigurationStatus?
+        /// The reason for the current configuration status.
+        public let statusReason: String?
+        /// The timestamp when the organization configuration was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, expiresAt: Date? = nil, mode: AssociationMode? = nil, ruleId: String? = nil, status: DetectionRuleConfigurationStatus? = nil, statusReason: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.expiresAt = expiresAt
+            self.mode = mode
+            self.ruleId = ruleId
+            self.status = status
+            self.statusReason = statusReason
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case expiresAt = "expiresAt"
+            case mode = "mode"
+            case ruleId = "ruleId"
+            case status = "status"
+            case statusReason = "statusReason"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -4752,6 +5224,135 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case coverageStatistics = "coverageStatistics"
+        }
+    }
+
+    public struct GetCustomDetectionRuleAssociationRequest: AWSEncodableShape {
+        /// The unique identifier for the association.
+        public let associationId: String
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(associationId: String, ruleId: String) {
+            self.associationId = associationId
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 64)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCustomDetectionRuleAssociationResponse: AWSDecodableShape {
+        /// The details of the custom detection rule association.
+        public let ruleAssociation: AssociationDetail?
+        /// The tags associated with the custom detection rule association resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(ruleAssociation: AssociationDetail? = nil, tags: [String: String]? = nil) {
+            self.ruleAssociation = ruleAssociation
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleAssociation = "ruleAssociation"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetCustomDetectionRuleOrgConfigurationRequest: AWSEncodableShape {
+        /// The execution mode of the organization configuration to retrieve. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(mode: AssociationMode? = nil, ruleId: String) {
+            self.mode = mode
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.mode, key: "mode")
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCustomDetectionRuleOrgConfigurationResponse: AWSDecodableShape {
+        /// The details of the organization configuration.
+        public let configuration: DetectionRuleOrgConfiguration?
+
+        @inlinable
+        public init(configuration: DetectionRuleOrgConfiguration? = nil) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct GetCustomDetectionRuleRequest: AWSEncodableShape {
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(ruleId: String) {
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCustomDetectionRuleResponse: AWSDecodableShape {
+        /// The details of the custom detection rule.
+        public let rule: RuleDetail?
+
+        @inlinable
+        public init(rule: RuleDetail? = nil) {
+            self.rule = rule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rule = "rule"
         }
     }
 
@@ -6845,6 +7446,160 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case resources = "resources"
+        }
+    }
+
+    public struct ListCustomDetectionRuleAssociationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// The rule execution mode to filter associations by.
+        public let mode: AssociationMode?
+        /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+        public let nextToken: String?
+        /// The unique identifier for the custom detection rule to filter associations by.
+        public let ruleId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, mode: AssociationMode? = nil, nextToken: String? = nil, ruleId: String? = nil) {
+            self.maxResults = maxResults
+            self.mode = mode
+            self.nextToken = nextToken
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.mode, key: "mode")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.ruleId, key: "ruleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomDetectionRuleAssociationsResponse: AWSDecodableShape {
+        /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+        public let nextToken: String?
+        /// A list of custom detection rule association summaries.
+        public let ruleAssociations: [AssociationSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, ruleAssociations: [AssociationSummary]? = nil) {
+            self.nextToken = nextToken
+            self.ruleAssociations = ruleAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case ruleAssociations = "ruleAssociations"
+        }
+    }
+
+    public struct ListCustomDetectionRuleOrgConfigurationsRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+        public let nextToken: String?
+        /// The configuration status to filter by.
+        public let status: DetectionRuleConfigurationStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: DetectionRuleConfigurationStatus? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCustomDetectionRuleOrgConfigurationsResponse: AWSDecodableShape {
+        /// A list of organization configurations for custom detection rules.
+        public let configurations: [DetectionRuleOrgConfigurationSummary]?
+        /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(configurations: [DetectionRuleOrgConfigurationSummary]? = nil, nextToken: String? = nil) {
+            self.configurations = configurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurations = "configurations"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCustomDetectionRulesRequest: AWSEncodableShape {
+        /// A list of filter criteria to apply when listing custom detection rules.
+        public let filters: [DetectionRuleFilter]?
+        /// The maximum number of results to return in a single page. Minimum value of 1, maximum value of 100.
+        public let maxResults: Int?
+        /// A pagination token from a previous response. Use this token to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [DetectionRuleFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListCustomDetectionRulesResponse: AWSDecodableShape {
+        /// A pagination token to retrieve the next page of results. If this field is empty, there are no additional results.
+        public let nextToken: String?
+        /// A list of custom detection rule summaries.
+        public let rules: [RuleSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rules: [RuleSummary]? = nil) {
+            self.nextToken = nextToken
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case rules = "rules"
         }
     }
 
@@ -9425,6 +10180,148 @@ extension GuardDuty {
         }
     }
 
+    public struct RuleDefinition: AWSDecodableShape {
+        /// The detection logic expression for the rule.
+        public let expression: String?
+
+        @inlinable
+        public init(expression: String? = nil) {
+            self.expression = expression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "expression"
+        }
+    }
+
+    public struct RuleDetail: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let arn: String?
+        /// The timestamp when the rule was created.
+        public let createdAt: Date?
+        /// The data source that the rule analyzes.
+        public let dataSource: DetectionRuleDataSource?
+        /// The detection logic definition for the rule.
+        public let definition: RuleDefinition?
+        /// A description of what the rule detects.
+        public let description: String?
+        /// The language used for the detection logic expression.
+        public let language: RuleLanguage?
+        /// The display name of the rule.
+        public let name: String?
+        /// The unique identifier for the rule.
+        public let ruleId: String?
+        /// The schema version used by the rule definition.
+        public let schema: RuleSchema?
+        /// The Amazon Web Services service associated with the rule.
+        public let service: String?
+        /// The severity level assigned to findings generated by this rule.
+        public let severity: DetectionRuleSeverity?
+        /// The MITRE ATT&amp;CK tactic associated with the rule.
+        public let tactic: String?
+        /// The MITRE ATT&amp;CK technique associated with the rule.
+        public let technique: String?
+        /// The timestamp when the rule was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, definition: RuleDefinition? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSource = dataSource
+            self.definition = definition
+            self.description = description
+            self.language = language
+            self.name = name
+            self.ruleId = ruleId
+            self.schema = schema
+            self.service = service
+            self.severity = severity
+            self.tactic = tactic
+            self.technique = technique
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dataSource = "dataSource"
+            case definition = "definition"
+            case description = "description"
+            case language = "language"
+            case name = "name"
+            case ruleId = "ruleId"
+            case schema = "schema"
+            case service = "service"
+            case severity = "severity"
+            case tactic = "tactic"
+            case technique = "technique"
+            case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct RuleSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the rule.
+        public let arn: String?
+        /// The timestamp when the rule was created.
+        public let createdAt: Date?
+        /// The data source that the rule analyzes.
+        public let dataSource: DetectionRuleDataSource?
+        /// A description of what the rule detects.
+        public let description: String?
+        /// The language used for the detection logic expression.
+        public let language: RuleLanguage?
+        /// The display name of the rule.
+        public let name: String?
+        /// The unique identifier for the rule.
+        public let ruleId: String?
+        /// The schema version used by the rule definition.
+        public let schema: RuleSchema?
+        /// The Amazon Web Services service associated with the rule.
+        public let service: String?
+        /// The severity level assigned to findings generated by this rule.
+        public let severity: DetectionRuleSeverity?
+        /// The MITRE ATT&amp;CK tactic associated with the rule.
+        public let tactic: String?
+        /// The MITRE ATT&amp;CK technique associated with the rule.
+        public let technique: String?
+        /// The timestamp when the rule was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, dataSource: DetectionRuleDataSource? = nil, description: String? = nil, language: RuleLanguage? = nil, name: String? = nil, ruleId: String? = nil, schema: RuleSchema? = nil, service: String? = nil, severity: DetectionRuleSeverity? = nil, tactic: String? = nil, technique: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.dataSource = dataSource
+            self.description = description
+            self.language = language
+            self.name = name
+            self.ruleId = ruleId
+            self.schema = schema
+            self.service = service
+            self.severity = severity
+            self.tactic = tactic
+            self.technique = technique
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case dataSource = "dataSource"
+            case description = "description"
+            case language = "language"
+            case name = "name"
+            case ruleId = "ruleId"
+            case schema = "schema"
+            case service = "service"
+            case severity = "severity"
+            case tactic = "tactic"
+            case technique = "technique"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct RuntimeContext: AWSDecodableShape {
         /// Represents the communication protocol associated with the address. For example, the address family AF_INET is used for IP version of 4 protocol.
         public let addressFamily: String?
@@ -10424,6 +11321,8 @@ extension GuardDuty {
     }
 
     public struct Signal: AWSDecodableShape {
+        /// Contains information about the activities, such as API calls, that were observed for this signal.
+        public let activities: [Activity]?
         /// Information about the IDs of the threat actors involved in the signal.
         public let actorIds: [String]?
         /// The number of times this signal was observed.
@@ -10454,7 +11353,8 @@ extension GuardDuty {
         public let updatedAt: Date?
 
         @inlinable
-        public init(actorIds: [String]? = nil, count: Int? = nil, createdAt: Date? = nil, description: String? = nil, endpointIds: [String]? = nil, firstSeenAt: Date? = nil, lastSeenAt: Date? = nil, name: String? = nil, resourceUids: [String]? = nil, severity: Double? = nil, signalIndicators: [Indicator]? = nil, type: SignalType? = nil, uid: String? = nil, updatedAt: Date? = nil) {
+        public init(activities: [Activity]? = nil, actorIds: [String]? = nil, count: Int? = nil, createdAt: Date? = nil, description: String? = nil, endpointIds: [String]? = nil, firstSeenAt: Date? = nil, lastSeenAt: Date? = nil, name: String? = nil, resourceUids: [String]? = nil, severity: Double? = nil, signalIndicators: [Indicator]? = nil, type: SignalType? = nil, uid: String? = nil, updatedAt: Date? = nil) {
+            self.activities = activities
             self.actorIds = actorIds
             self.count = count
             self.createdAt = createdAt
@@ -10472,6 +11372,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activities = "activities"
             case actorIds = "actorIds"
             case count = "count"
             case createdAt = "createdAt"
@@ -10972,6 +11873,101 @@ extension GuardDuty {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateCustomDetectionRuleAssociationRequest: AWSEncodableShape {
+        /// The unique identifier for the association to update.
+        public let associationId: String
+        /// The rule execution mode. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(associationId: String, mode: AssociationMode? = nil, ruleId: String) {
+            self.associationId = associationId
+            self.mode = mode
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.associationId, key: "AssociationId")
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationId, name: "associationId", parent: name, max: 64)
+            try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,64}$")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+        }
+    }
+
+    public struct UpdateCustomDetectionRuleAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateCustomDetectionRuleOrgConfigurationRequest: AWSEncodableShape {
+        /// The account IDs to exclude from the organization configuration. Mutually exclusive with IncludeAccountIds.
+        public let excludeAccountIds: [String]?
+        /// The account IDs to include in the organization configuration. Mutually exclusive with ExcludeAccountIds.
+        public let includeAccountIds: [String]?
+        /// The execution mode of the organization configuration. Valid values: LIVE | DRY_RUN.
+        public let mode: AssociationMode?
+        /// The unique identifier for the custom detection rule.
+        public let ruleId: String
+
+        @inlinable
+        public init(excludeAccountIds: [String]? = nil, includeAccountIds: [String]? = nil, mode: AssociationMode? = nil, ruleId: String) {
+            self.excludeAccountIds = excludeAccountIds
+            self.includeAccountIds = includeAccountIds
+            self.mode = mode
+            self.ruleId = ruleId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.excludeAccountIds, forKey: .excludeAccountIds)
+            try container.encodeIfPresent(self.includeAccountIds, forKey: .includeAccountIds)
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+            request.encodePath(self.ruleId, key: "RuleId")
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeAccountIds?.forEach {
+                try validate($0, name: "excludeAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "excludeAccountIds[]", parent: name, min: 12)
+            }
+            try self.validate(self.excludeAccountIds, name: "excludeAccountIds", parent: name, max: 50000)
+            try self.includeAccountIds?.forEach {
+                try validate($0, name: "includeAccountIds[]", parent: name, max: 12)
+                try validate($0, name: "includeAccountIds[]", parent: name, min: 12)
+            }
+            try self.validate(self.includeAccountIds, name: "includeAccountIds", parent: name, max: 50000)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, max: 100)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, min: 1)
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "^[a-z0-9]+(-[a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeAccountIds = "excludeAccountIds"
+            case includeAccountIds = "includeAccountIds"
+            case mode = "mode"
+        }
+    }
+
+    public struct UpdateCustomDetectionRuleOrgConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

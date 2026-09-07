@@ -1005,6 +1005,38 @@ public struct Lambda: AWSService {
         return try await self.deleteProvisionedConcurrencyConfig(input, logger: logger)
     }
 
+    /// Deletes a resource-based policy from a Lambda resource.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/2026-07-09/resource-policy/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a resource-based policy from a Lambda resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Lambda resource you want to delete the policy from. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    ///   - revisionId: The revision ID that the existing policy must match for the deletion to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the GetResourcePolicy operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        resourceArn: String,
+        revisionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteResourcePolicyRequest(
+            resourceArn: resourceArn, 
+            revisionId: revisionId
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Retrieves details about your account's limits and usage in an Amazon Web Services Region.
     @Sendable
     @inlinable
@@ -1663,6 +1695,35 @@ public struct Lambda: AWSService {
             qualifier: qualifier
         )
         return try await self.getProvisionedConcurrencyConfig(input, logger: logger)
+    }
+
+    /// Retrieves the resource-based policy attached to a Lambda resource.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/2026-07-09/resource-policy/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource-based policy attached to a Lambda resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Lambda resource you want to retrieve the policy for. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
     }
 
     /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see Runtime updates.
@@ -2670,6 +2731,41 @@ public struct Lambda: AWSService {
         return try await self.putProvisionedConcurrencyConfig(input, logger: logger)
     }
 
+    /// Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts, organizations, or services. Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias).  This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/2026-07-09/resource-policy/{ResourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds a resource-based policy to a Lambda resource. Resource-based policies grant access to other Amazon Web Services accounts, organizations, or services. Resource-based policies apply to a single Lambda resource (for example, a function, function version, or function alias).  This operation replaces any existing policy on the Lambda resource. If you previously added permissions using the AddPermission operation, the new policy overwrites those permissions.
+    ///
+    /// Parameters:
+    ///   - policy: The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+    ///   - revisionId: The revision ID that the existing policy must match for the replacement to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the GetResourcePolicy operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        policy: String,
+        resourceArn: String,
+        revisionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            policy: policy, 
+            resourceArn: resourceArn, 
+            revisionId: revisionId
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
     /// Sets the runtime management configuration for a function's version. For more information, see Runtime updates.
     @Sendable
     @inlinable
@@ -3210,7 +3306,7 @@ public struct Lambda: AWSService {
     ///   - revisionId: Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
     ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3Key: The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
-    ///   - s3ObjectStorageMode: Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+    ///   - s3ObjectStorageMode: Specifies how the deployment package is stored. Valid values:    COPY (default) – Uploads a copy of your deployment package to Lambda.    REFERENCE – Lambda references the deployment package from the specified Amazon S3 bucket.
     ///   - s3ObjectVersion: For versioned objects, the version of the deployment package object to use.
     ///   - sourceKMSKeyArn: The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's .zip deployment package. If you don't provide a customer managed key, Lambda uses an Amazon Web Services managed key.
     ///   - zipFile: The base64-encoded contents of the deployment package. Amazon Web Services SDK and CLI clients handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.

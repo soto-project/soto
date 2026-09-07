@@ -3785,6 +3785,32 @@ public struct Lightsail: AWSService {
         return try await self.getOperationsForResource(input, logger: logger)
     }
 
+    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
+    @Sendable
+    @inlinable
+    public func getProfile(_ input: GetProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileResult {
+        try await self.client.execute(
+            operation: "GetProfile", 
+            path: "/ls/api/2016-11-28/GetProfile", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the profile of the Amazon Lightsail account that makes the request. The response includes the profile type and, for accounts enrolled in the Lightsail partner program, the partner membership details.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProfile(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProfileResult {
+        let input = GetProfileRequest(
+        )
+        return try await self.getProfile(input, logger: logger)
+    }
+
     /// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
     @Sendable
     @inlinable

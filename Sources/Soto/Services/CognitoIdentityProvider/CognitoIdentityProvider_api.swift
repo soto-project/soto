@@ -322,6 +322,38 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.adminCreateUser(input, logger: logger)
     }
 
+    /// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software token. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken. Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func adminDeleteSoftwareToken(_ input: AdminDeleteSoftwareTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AdminDeleteSoftwareTokenResponse {
+        try await self.client.execute(
+            operation: "AdminDeleteSoftwareToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a user's registered time-based one-time password (TOTP) multi-factor authentication (MFA) factor, also known as a software token. After this operation, the user can no longer sign in with TOTP MFA, and can register a new TOTP factor with AssociateSoftwareToken. Use this operation when a user loses access to their TOTP-generating device, for example, a lost or reset phone, and needs to register a new one.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - username: The name of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
+    ///   - userPoolId: The ID of the user pool where you want to delete the user's software token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func adminDeleteSoftwareToken(
+        username: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AdminDeleteSoftwareTokenResponse {
+        let input = AdminDeleteSoftwareTokenRequest(
+            username: username, 
+            userPoolId: userPoolId
+        )
+        return try await self.adminDeleteSoftwareToken(input, logger: logger)
+    }
+
     /// Deletes a user profile in your user pool.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
@@ -685,7 +717,7 @@ public struct CognitoIdentityProvider: AWSService {
     /// Links an existing user account in a user pool, or DestinationUser, to an identity from an external IdP, or SourceUser, based on a specified attribute name and value from the external IdP. This operation connects a local user profile with a user identity who hasn't yet signed in from their third-party IdP. When the user signs in with their IdP, they get access-control configuration from the local user profile. Linked local users can also sign in with SDK-based API operations like InitiateAuth after they sign in at least once through their IdP. For more information, see Linking federated users.  The maximum number of federated identities linked to a user is five.   Because this API allows a user with an external federated identity to sign in as a local user, it is critical that it only be used with external IdPs and linked attributes that you trust.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
-    ///   - destinationUser: The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.  All attributes in the DestinationUser profile must be mutable. If you have assigned the user any immutable custom attributes, the operation won't succeed.
+    ///   - destinationUser: The existing user in the user pool that you want to assign to the external IdP user account. This user can be a local (Username + Password) Amazon Cognito user pools user or a federated user (for example, a SAML or Facebook user). If the user doesn't exist, Amazon Cognito generates an exception. Amazon Cognito returns this user when the new user (with the linked IdP attribute) signs in. For a native username + password user, the ProviderAttributeValue for the DestinationUser should be the username in the user pool. For a federated user, it should be the provider-specific user_id. The ProviderAttributeName of the DestinationUser is ignored. The ProviderName should be set to Cognito for users in Cognito user pools.
     ///   - sourceUser: An external IdP account for a user who doesn't exist yet in the user pool. This user must be a federated user (for example, a SAML or Facebook user), not another native user. If the SourceUser is using a federated social IdP, such as Facebook, Google, or Login with Amazon, you must set the ProviderAttributeName to Cognito_Subject. For social IdPs, the ProviderName will be Facebook, Google, or LoginWithAmazon, and Amazon Cognito will automatically parse the Facebook, Google, and Login with Amazon tokens for id, sub, and user_id, respectively. The ProviderAttributeValue for the user must be the same value as the id, sub, or user_id value found in the social IdP token. For OIDC, the ProviderAttributeName can be any mapped value from a claim in the ID token, or that your app retrieves from the userInfo endpoint. For SAML, the ProviderAttributeName can be any mapped value from a claim in the SAML assertion. The following additional considerations apply to SourceUser for OIDC and SAML providers.   You must map the claim to a user pool attribute in your IdP configuration, and set the user pool attribute name as the value of ProviderAttributeName in your AdminLinkProviderForUser request. For example, email.   When you set ProviderAttributeName to Cognito_Subject, Amazon Cognito will automatically parse the default unique identifier found in the subject from the IdP token.
     ///   - userPoolId: The ID of the user pool where you want to link a federated identity.
     ///   - logger: Logger use during operation
@@ -2580,6 +2612,41 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.describeTerms(input, logger: logger)
     }
 
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:DescribeTerms, the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    @Sendable
+    @inlinable
+    public func describeTermsByClient(_ input: DescribeTermsByClientRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTermsByClientResponse {
+        try await self.client.execute(
+            operation: "DescribeTermsByClient", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns details for the terms documents that are associated with an app client, identified by the app client ID, user pool ID, and terms name. For more information, see Terms documents. To call DescribeTermsByClient, you must have the cognito-idp:DescribeTermsByClient Identity and Access Management (IAM) permission. This operation additionally validates your permission for cognito-idp:DescribeTerms, the action for . As a result, an IAM policy that denies cognito-idp:DescribeTerms also denies requests to DescribeTermsByClient.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    ///
+    /// Parameters:
+    ///   - clientId: The ID of the app client that the terms documents are associated with.
+    ///   - termsName: The name of the terms documents that you want to describe.
+    ///   - userPoolId: The ID of the user pool that contains the terms documents that you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTermsByClient(
+        clientId: String,
+        termsName: String,
+        userPoolId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTermsByClientResponse {
+        let input = DescribeTermsByClientRequest(
+            clientId: clientId, 
+            termsName: termsName, 
+            userPoolId: userPoolId
+        )
+        return try await self.describeTermsByClient(input, logger: logger)
+    }
+
     /// Describes a user import job. For more information about user CSV import, see Importing users from a CSV file.
     @Sendable
     @inlinable
@@ -2673,7 +2740,7 @@ public struct CognitoIdentityProvider: AWSService {
         return try await self.describeUserPoolClient(input, logger: logger)
     }
 
-    /// Given a user pool domain name, returns information about the domain configuration.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Given a user pool domain name, returns information about the domain configuration.  This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     @Sendable
     @inlinable
     public func describeUserPoolDomain(_ input: DescribeUserPoolDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserPoolDomainResponse {
@@ -2686,7 +2753,7 @@ public struct CognitoIdentityProvider: AWSService {
             logger: logger
         )
     }
-    /// Given a user pool domain name, returns information about the domain configuration.  Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+    /// Given a user pool domain name, returns information about the domain configuration.  This operation doesn't return results when you query a prefix domain in a secondary Region. Prefix domains are Region-specific and can only be described in the Region where they were created. To describe a prefix domain for a replica user pool, make the request to the primary Region's endpoint.   Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you must use IAM credentials to authorize requests, and you must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool endpoints
     ///
     /// Parameters:
     ///   - domain: The domain that you want to describe. For custom domains, this is the fully-qualified domain name, such as auth.example.com. For Amazon Cognito prefix domains, this is the prefix alone, such as auth.
@@ -2805,6 +2872,44 @@ public struct CognitoIdentityProvider: AWSService {
             userPoolId: userPoolId
         )
         return try await self.getCSVHeader(input, logger: logger)
+    }
+
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+    @Sendable
+    @inlinable
+    public func getClientToken(_ input: GetClientTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClientTokenResponse {
+        try await self.client.execute(
+            operation: "GetClientToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Issues an access token for machine-to-machine (M2M) authorization. Your app client provides its client ID and secret, and receives an access token that authorizes requests to your resource servers. GetClientToken provides the same functionality as the OAuth2 client-credentials grant; both authorize an application rather than a user. To use this operation, you must configure the app client with a client secret and enable the ALLOW_CLIENT_TOKEN_AUTH authentication flow. The ALLOW_CLIENT_TOKEN_AUTH flow is mutually exclusive with user authentication flows. It must be the only authentication flow that you configure for the app client. For more information, see Scopes, M2M, and resource servers.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
+    ///
+    /// Parameters:
+    ///   - clientId: The ID of the app client that requests the access token. The app client must have a client secret and the ALLOW_CLIENT_TOKEN_AUTH authentication flow.
+    ///   - clientMetadata: A map of custom key-value pairs that you can provide as input for any custom workflows that this action triggers. You create custom workflows by assigning Lambda functions to user pool triggers. When Amazon Cognito invokes any of these functions, it passes a JSON payload, which the function receives as input. This payload contains a clientMetadata attribute that provides the data that you assigned to the ClientMetadata parameter in your request. In your function code, you can process the clientMetadata value to enhance your workflow for your specific needs. To review the Lambda trigger types that Amazon Cognito invokes at runtime with API requests, see
+    ///   - scopes: The custom scopes to authorize in the access token, in the format resource-server-identifier/scope-name. Each scope must belong to a resource server in your user pool. If you don't specify any scopes, Amazon Cognito authorizes the scopes that are configured for the app client.
+    ///   - secret: An active secret for the app client.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getClientToken(
+        clientId: String,
+        clientMetadata: [String: String]? = nil,
+        scopes: [String]? = nil,
+        secret: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetClientTokenResponse {
+        let input = GetClientTokenRequest(
+            clientId: clientId, 
+            clientMetadata: clientMetadata, 
+            scopes: scopes, 
+            secret: secret
+        )
+        return try await self.getClientToken(input, logger: logger)
     }
 
     /// Given a device key, returns information about a remembered device for the current user. For more information about device authentication, see Working with user devices in your user pool. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.  Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see Using the Amazon Cognito user pools API and user pool endpoints.
