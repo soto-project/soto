@@ -162,6 +162,56 @@ public struct Kafka: AWSService {
         return try await self.batchDisassociateScramSecret(input, logger: logger)
     }
 
+    /// Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg.
+    @Sendable
+    @inlinable
+    public func createChannel(_ input: CreateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateChannelResponse {
+        try await self.client.execute(
+            operation: "CreateChannel", 
+            path: "/v1/clusters/{ClusterArn}/channels", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Channel that streams records from an Amazon MSK Express cluster topic to Amazon S3 or Apache Iceberg.
+    ///
+    /// Parameters:
+    ///   - channelName: The name of the channel. Must be unique within the cluster.
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - encryptionConfiguration: The encryption configuration applied to the channel.
+    ///   - icebergDestinationConfiguration: The Apache Iceberg destination for the channel. Mutually exclusive with s3DestinationConfiguration.
+    ///   - loggingInfo: The destinations to which the channel publishes operational logs.
+    ///   - s3DestinationConfiguration: The Amazon S3 destination for the channel. Mutually exclusive with icebergDestinationConfiguration.
+    ///   - tags: The tags attached to the channel.
+    ///   - topicConfigurationList: The list of topic configurations for the channel. Currently exactly one topic must be specified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createChannel(
+        channelName: String? = nil,
+        clusterArn: String,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil,
+        loggingInfo: ChannelLoggingInfo? = nil,
+        s3DestinationConfiguration: S3DestinationConfiguration? = nil,
+        tags: [String: String]? = nil,
+        topicConfigurationList: [TopicConfiguration]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateChannelResponse {
+        let input = CreateChannelRequest(
+            channelName: channelName, 
+            clusterArn: clusterArn, 
+            encryptionConfiguration: encryptionConfiguration, 
+            icebergDestinationConfiguration: icebergDestinationConfiguration, 
+            loggingInfo: loggingInfo, 
+            s3DestinationConfiguration: s3DestinationConfiguration, 
+            tags: tags, 
+            topicConfigurationList: topicConfigurationList
+        )
+        return try await self.createChannel(input, logger: logger)
+    }
+
     /// Creates a new MSK cluster.
     @Sendable
     @inlinable
@@ -435,6 +485,38 @@ public struct Kafka: AWSService {
         return try await self.createVpcConnection(input, logger: logger)
     }
 
+    /// Deletes the channel specified by channelArn from the cluster specified by clusterArn. The channel transitions through DELETING and is removed when the asynchronous delete completes.
+    @Sendable
+    @inlinable
+    public func deleteChannel(_ input: DeleteChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteChannelResponse {
+        try await self.client.execute(
+            operation: "DeleteChannel", 
+            path: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the channel specified by channelArn from the cluster specified by clusterArn. The channel transitions through DELETING and is removed when the asynchronous delete completes.
+    ///
+    /// Parameters:
+    ///   - channelArn: The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteChannel(
+        channelArn: String,
+        clusterArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteChannelResponse {
+        let input = DeleteChannelRequest(
+            channelArn: channelArn, 
+            clusterArn: clusterArn
+        )
+        return try await self.deleteChannel(input, logger: logger)
+    }
+
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     @Sendable
     @inlinable
@@ -616,6 +698,38 @@ public struct Kafka: AWSService {
             arn: arn
         )
         return try await self.deleteVpcConnection(input, logger: logger)
+    }
+
+    /// Returns the current configuration and state of a channel.
+    @Sendable
+    @inlinable
+    public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChannelResponse {
+        try await self.client.execute(
+            operation: "DescribeChannel", 
+            path: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current configuration and state of a channel.
+    ///
+    /// Parameters:
+    ///   - channelArn: The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeChannel(
+        channelArn: String,
+        clusterArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeChannelResponse {
+        let input = DescribeChannelRequest(
+            channelArn: channelArn, 
+            clusterArn: clusterArn
+        )
+        return try await self.describeChannel(input, logger: logger)
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
@@ -1008,6 +1122,44 @@ public struct Kafka: AWSService {
             clusterArn: clusterArn
         )
         return try await self.getCompatibleKafkaVersions(input, logger: logger)
+    }
+
+    /// Returns the list of channels in a cluster.
+    @Sendable
+    @inlinable
+    public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelsResponse {
+        try await self.client.execute(
+            operation: "ListChannels", 
+            path: "/v1/clusters/{ClusterArn}/channels", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the list of channels in a cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - maxResults: Maximum number of channels to return in a single response.
+    ///   - nextToken: If the response of ListChannels is truncated, it returns a nextToken in the response. This nextToken should be sent in the subsequent request to ListChannels.
+    ///   - topicNameFilter: Filters results to channels whose topic name matches the specified value.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChannels(
+        clusterArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        topicNameFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChannelsResponse {
+        let input = ListChannelsRequest(
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            topicNameFilter: topicNameFilter
+        )
+        return try await self.listChannels(input, logger: logger)
     }
 
     /// Returns a list of all the VPC connections in this Region.
@@ -1757,6 +1909,44 @@ public struct Kafka: AWSService {
             targetInstanceType: targetInstanceType
         )
         return try await self.updateBrokerType(input, logger: logger)
+    }
+
+    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied.
+    @Sendable
+    @inlinable
+    public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChannelResponse {
+        try await self.client.execute(
+            operation: "UpdateChannel", 
+            path: "/v1/clusters/{ClusterArn}/channels/{ChannelArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the destination configuration of an existing channel. Exactly one of icebergDestinationUpdate or s3DestinationUpdate must be supplied.
+    ///
+    /// Parameters:
+    ///   - channelArn: The Amazon Resource Name (ARN) that uniquely identifies the channel.
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - icebergDestinationUpdate: Updates fields on an Apache Iceberg destination. Use only when the channel was created with an Iceberg destination.
+    ///   - s3DestinationUpdate: Updates fields on an Amazon S3 destination. Use only when the channel was created with an Amazon S3 destination.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateChannel(
+        channelArn: String,
+        clusterArn: String,
+        icebergDestinationUpdate: IcebergDestinationUpdate? = nil,
+        s3DestinationUpdate: S3DestinationUpdate? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateChannelResponse {
+        let input = UpdateChannelRequest(
+            channelArn: channelArn, 
+            clusterArn: clusterArn, 
+            icebergDestinationUpdate: icebergDestinationUpdate, 
+            s3DestinationUpdate: s3DestinationUpdate
+        )
+        return try await self.updateChannel(input, logger: logger)
     }
 
     /// Updates the cluster with the configuration that is specified in the request body.

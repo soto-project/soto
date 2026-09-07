@@ -25,6 +25,33 @@ import Foundation
 extension DevOpsAgent {
     // MARK: Enums
 
+    public enum AgentSpacePreferenceKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case elevatedActionsEnabled = "elevatedActionsEnabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApprovalActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The agent's tool invocation is approved; finalPattern and ttlSeconds carry the finalized scope and lifetime.
+        case approved = "APPROVED"
+        /// The agent's tool invocation is rejected; reason optionally carries a free-text rationale.
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApprovalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The action was APPROVED; the approval request is live and may be redeemed via a credential mint until it is revoked or fully redeemed.
+        case approved = "APPROVED"
+        /// The approval request is awaiting a decision.
+        case pending = "PENDING"
+        /// The approval was consumed by a credential mint at least once. Non-single-use approvals stay re-redeemable until expiry; single-use approvals are terminal.
+        case redeemed = "REDEEMED"
+        /// The action was REJECTED; no further redemption is possible.
+        case rejected = "REJECTED"
+        /// The approval was administratively invalidated; no further redemption is possible.
+        case revoked = "REVOKED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthFlow: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// IAM-based authentication flow
         case iam = "iam"
@@ -60,6 +87,7 @@ extension DevOpsAgent {
         case stopped = "STOPPED"
         /// Unlike in the case of user-initiated Cancelation, a customer won't be billed
         case timedOut = "TIMED_OUT"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
@@ -124,6 +152,7 @@ extension DevOpsAgent {
     public enum NewRelicRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// EU region
         case eu = "EU"
+        case jp = "JP"
         /// US region
         case us = "US"
         public var description: String { return self.rawValue }
@@ -318,6 +347,7 @@ extension DevOpsAgent {
         case skipped = "SKIPPED"
         /// Task has exceeded its time limit
         case timedOut = "TIMED_OUT"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
@@ -330,6 +360,21 @@ extension DevOpsAgent {
         case releaseReadinessReview = "RELEASE_READINESS_REVIEW"
         /// Task for automated release testing
         case releaseTesting = "RELEASE_TESTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToolClassification: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destructive = "DESTRUCTIVE"
+        case mutative = "MUTATIVE"
+        case readOnly = "READ_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TriggerEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A change request is created or updated while in draft state.
+        case pullRequestDraft = "PULL_REQUEST_DRAFT"
+        /// A change request is created, updated, or marked ready for review while in a non-draft state.
+        case pullRequestReadyForReview = "PULL_REQUEST_READY_FOR_REVIEW"
         public var description: String { return self.rawValue }
     }
 
@@ -550,7 +595,7 @@ extension DevOpsAgent {
             case .bytes(let value):
                 try self.validate(value, name: "bytes", parent: name, max: 6291456)
             case .text(let value):
-                try self.validate(value, name: "text", parent: name, max: 1572864)
+                try self.validate(value, name: "text", parent: name, max: 6291456)
             }
         }
 
@@ -1007,8 +1052,18 @@ extension DevOpsAgent {
                 try value.validate(name: "\(name).github")
             case .gitlab(let value):
                 try value.validate(name: "\(name).gitlab")
+            case .mcpserver(let value):
+                try value.validate(name: "\(name).mcpserver")
+            case .mcpserverdatadog(let value):
+                try value.validate(name: "\(name).mcpserverdatadog")
+            case .mcpservergrafana(let value):
+                try value.validate(name: "\(name).mcpservergrafana")
+            case .mcpserversigv4(let value):
+                try value.validate(name: "\(name).mcpserversigv4")
             case .pagerduty(let value):
                 try value.validate(name: "\(name).pagerduty")
+            case .slack(let value):
+                try value.validate(name: "\(name).slack")
             case .sourceAws(let value):
                 try value.validate(name: "\(name).sourceAws")
             default:
@@ -1109,6 +1164,8 @@ extension DevOpsAgent {
                 try value.validate(name: "\(name).azureidentity")
             case .dynatrace(let value):
                 try value.validate(name: "\(name).dynatrace")
+            case .gitlab(let value):
+                try value.validate(name: "\(name).gitlab")
             case .mcpserver(let value):
                 try value.validate(name: "\(name).mcpserver")
             case .mcpserverdatadog(let value):
@@ -1190,17 +1247,26 @@ extension DevOpsAgent {
         public let accountId: String
         /// Account Type 'monitor' for AIDevOps monitoring.
         public let accountType: MonitorAccountType
+        /// Optional IAM role ARN to be assumed by AIDevOps for elevated directed actions on behalf of the customer. Used for mutating operations gated by elevatedActionsEnabled on the AgentSpace. When not provided, only non-elevated directed actions are available for this AWS account.
+        public let agentElevatedRoleArn: String?
+        /// Validation status of the agentElevatedRoleArn. Updated asynchronously after the customer registers an elevated role. Possible values: PENDING_CONFIRMATION (validation in progress), VALID (role validated), INVALID (validation failed).
+        public let agentElevatedRoleArnStatus: ValidationStatus?
         /// Role ARN to be assumed by AIDevOps to operate on behalf of customer.
         public let assumableRoleArn: String
 
         @inlinable
-        public init(accountId: String, accountType: MonitorAccountType, assumableRoleArn: String) {
+        public init(accountId: String, accountType: MonitorAccountType, agentElevatedRoleArn: String? = nil, agentElevatedRoleArnStatus: ValidationStatus? = nil, assumableRoleArn: String) {
             self.accountId = accountId
             self.accountType = accountType
+            self.agentElevatedRoleArn = agentElevatedRoleArn
+            self.agentElevatedRoleArnStatus = agentElevatedRoleArnStatus
             self.assumableRoleArn = assumableRoleArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, max: 255)
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, min: 1)
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, max: 255)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, min: 1)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
@@ -1209,6 +1275,8 @@ extension DevOpsAgent {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case accountType = "accountType"
+            case agentElevatedRoleArn = "agentElevatedRoleArn"
+            case agentElevatedRoleArnStatus = "agentElevatedRoleArnStatus"
             case assumableRoleArn = "assumableRoleArn"
         }
     }
@@ -1226,17 +1294,20 @@ extension DevOpsAgent {
         public let locale: String?
         /// The name of the AgentSpace.
         public let name: String
+        /// The preferences configured on the agent space. Preferences that are not set take their default values.
+        public let preferences: [AgentSpacePreferenceKey: Bool]?
         /// The timestamp when the resource was last updated.
         public let updatedAt: Date
 
         @inlinable
-        public init(agentSpaceId: String, createdAt: Date, description: String? = nil, kmsKeyArn: String? = nil, locale: String? = nil, name: String, updatedAt: Date) {
+        public init(agentSpaceId: String, createdAt: Date, description: String? = nil, kmsKeyArn: String? = nil, locale: String? = nil, name: String, preferences: [AgentSpacePreferenceKey: Bool]? = nil, updatedAt: Date) {
             self.agentSpaceId = agentSpaceId
             self.createdAt = createdAt
             self.description = description
             self.kmsKeyArn = kmsKeyArn
             self.locale = locale
             self.name = name
+            self.preferences = preferences
             self.updatedAt = updatedAt
         }
 
@@ -1247,7 +1318,78 @@ extension DevOpsAgent {
             case kmsKeyArn = "kmsKeyArn"
             case locale = "locale"
             case name = "name"
+            case preferences = "preferences"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct ApprovalAction: AWSEncodableShape {
+        /// The action taken on the approval request — APPROVED or REJECTED.
+        public let action: ApprovalActionType?
+        /// Identifier of the approval request being resolved.
+        public let approvalId: String?
+        /// Optional display text of the UI control the user chose (for example, "Approve Exact", "Approve Broader", or "Reject"), provided as auxiliary decision context.
+        public let buttonText: String?
+        /// An opaque resume identifier issued by the service when an agent execution pauses for approval. Provide it when resuming so the service can resume the correct paused execution.
+        public let interruptId: String?
+        /// Identifier of the specific paused tool invocation that requested approval. Correlates the approval decision back to the paused invocation.
+        public let toolUseId: String?
+
+        @inlinable
+        public init(action: ApprovalActionType? = nil, approvalId: String? = nil, buttonText: String? = nil, interruptId: String? = nil, toolUseId: String? = nil) {
+            self.action = action
+            self.approvalId = approvalId
+            self.buttonText = buttonText
+            self.interruptId = interruptId
+            self.toolUseId = toolUseId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.approvalId, name: "approvalId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+            try self.validate(self.buttonText, name: "buttonText", parent: name, max: 256)
+            try self.validate(self.buttonText, name: "buttonText", parent: name, min: 1)
+            try self.validate(self.interruptId, name: "interruptId", parent: name, max: 256)
+            try self.validate(self.interruptId, name: "interruptId", parent: name, min: 1)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 256)
+            try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case approvalId = "approvalId"
+            case buttonText = "buttonText"
+            case interruptId = "interruptId"
+            case toolUseId = "toolUseId"
+        }
+    }
+
+    public struct ApprovalPattern: AWSEncodableShape {
+        /// Argument constraints that narrow which tool invocations the pattern matches. For AWS tools, the map must include `operation` (the IAM action, e.g. `ec2:AuthorizeSecurityGroupIngress`) and `resource_arn` (the resource ARN or ARN glob); additional narrowing arguments go in further pin keys. The same `{tool, argumentPins}` shape is used uniformly for AWS and third-party tools, with tool-specific keys for third-party tools. Requests whose argument pins are collectively too large are rejected with a ValidationException.
+        public let argumentPins: [String: String]
+        /// Identifier of the tool the pattern applies to (e.g. `use_aws` for AWS actions, or a third-party tool name).
+        public let tool: String
+
+        @inlinable
+        public init(argumentPins: [String: String], tool: String) {
+            self.argumentPins = argumentPins
+            self.tool = tool
+        }
+
+        public func validate(name: String) throws {
+            try self.argumentPins.forEach {
+                try validate($0.key, name: "argumentPins.key", parent: name, max: 128)
+                try validate($0.key, name: "argumentPins.key", parent: name, min: 1)
+                try validate($0.value, name: "argumentPins[\"\($0.key)\"]", parent: name, max: 131072)
+                try validate($0.value, name: "argumentPins[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.argumentPins, name: "argumentPins", parent: name, max: 20)
+            try self.validate(self.tool, name: "tool", parent: name, max: 256)
+            try self.validate(self.tool, name: "tool", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case argumentPins = "argumentPins"
+            case tool = "tool"
         }
     }
 
@@ -1379,7 +1521,7 @@ extension DevOpsAgent {
     }
 
     public struct AssetSourceUrlContent: AWSEncodableShape {
-        /// The source URL to import asset content from
+        /// The source URL to import asset content from.
         public let url: String
 
         @inlinable
@@ -1485,6 +1627,9 @@ extension DevOpsAgent {
 
         public func validate(name: String) throws {
             try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.capabilities?.forEach {
+                try $0.value.validate(name: "\(name).capabilities[\"\($0.key)\"]")
+            }
             try self.configuration.validate(name: "\(name).configuration")
             try self.validate(self.serviceId, name: "serviceId", parent: name, max: 255)
             try self.validate(self.serviceId, name: "serviceId", parent: name, min: 1)
@@ -1596,14 +1741,26 @@ extension DevOpsAgent {
     public struct CapabilityConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Whether the capability is enabled.
         public let enabled: Bool?
+        /// Optional trigger filter groups. Evaluated only when enabled=true; retained while the capability is disabled, so re-enabling restores the prior trigger behavior.
+        public let triggerFilterGroups: [TriggerFilterGroup]?
 
         @inlinable
-        public init(enabled: Bool? = nil) {
+        public init(enabled: Bool? = nil, triggerFilterGroups: [TriggerFilterGroup]? = nil) {
             self.enabled = enabled
+            self.triggerFilterGroups = triggerFilterGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.triggerFilterGroups?.forEach {
+                try $0.validate(name: "\(name).triggerFilterGroups[]")
+            }
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, max: 5)
+            try self.validate(self.triggerFilterGroups, name: "triggerFilterGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
+            case triggerFilterGroups = "triggerFilterGroups"
         }
     }
 
@@ -1644,16 +1801,19 @@ extension DevOpsAgent {
         public let locale: String?
         /// The name of the AgentSpace.
         public let name: String
+        /// The preferences to configure on the agent space. Preferences not provided take their default values.
+        public let preferences: [AgentSpacePreferenceKey: Bool]?
         /// Tags to add to the AgentSpace at creation time.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateAgentSpaceInput.idempotencyToken(), description: String? = nil, kmsKeyArn: String? = nil, locale: String? = nil, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateAgentSpaceInput.idempotencyToken(), description: String? = nil, kmsKeyArn: String? = nil, locale: String? = nil, name: String, preferences: [AgentSpacePreferenceKey: Bool]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.kmsKeyArn = kmsKeyArn
             self.locale = locale
             self.name = name
+            self.preferences = preferences
             self.tags = tags
         }
 
@@ -1669,6 +1829,7 @@ extension DevOpsAgent {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{S}\\p{Z}]+$")
+            try self.validate(self.preferences, name: "preferences", parent: name, max: 25)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1684,6 +1845,7 @@ extension DevOpsAgent {
             case kmsKeyArn = "kmsKeyArn"
             case locale = "locale"
             case name = "name"
+            case preferences = "preferences"
             case tags = "tags"
         }
     }
@@ -1741,7 +1903,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1804,7 +1967,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetType, name: "assetType", parent: name, max: 64)
             try self.validate(self.assetType, name: "assetType", parent: name, min: 1)
             try self.content.validate(name: "\(name).content")
@@ -1872,7 +2036,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 10000)
             try self.reference?.validate(name: "\(name).reference")
             try self.validate(self.title, name: "title", parent: name, max: 400)
@@ -1904,6 +2069,7 @@ extension DevOpsAgent {
     }
 
     public struct CreateChatRequest: AWSEncodableShape {
+        /// The unique identifier for the agent space where the chat will be created.
         public let agentSpaceId: String
         /// The user identifier for the chat. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
         public let userId: String?
@@ -1934,7 +2100,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, max: 128)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2087,7 +2254,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.condition.validate(name: "\(name).condition")
             try self.validate(self.status, name: "status", parent: name, max: 64)
             try self.validate(self.status, name: "status", parent: name, min: 1)
@@ -2206,7 +2374,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2242,7 +2411,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2317,7 +2487,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.triggerId, name: "triggerId", parent: name, max: 128)
             try self.validate(self.triggerId, name: "triggerId", parent: name, min: 1)
             try self.validate(self.triggerId, name: "triggerId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2859,7 +3030,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2914,7 +3086,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2964,7 +3137,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3049,7 +3223,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3141,7 +3316,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 128)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3225,7 +3401,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.triggerId, name: "triggerId", parent: name, max: 128)
             try self.validate(self.triggerId, name: "triggerId", parent: name, min: 1)
             try self.validate(self.triggerId, name: "triggerId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3262,6 +3439,17 @@ extension DevOpsAgent {
         public let runtimeRoleArn: String?
 
         @inlinable
+        public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, repoId: String, repoName: String) {
+            self.instanceIdentifier = instanceIdentifier
+            self.owner = owner
+            self.ownerType = ownerType
+            self.repoId = repoId
+            self.repoName = repoName
+            self.runtimeRoleArn = nil
+        }
+
+        @available(*, deprecated, message: "Members runtimeRoleArn have been deprecated")
+        @inlinable
         public init(instanceIdentifier: String? = nil, owner: String, ownerType: GithubRepoOwnerType, repoId: String, repoName: String, runtimeRoleArn: String? = nil) {
             self.instanceIdentifier = instanceIdentifier
             self.owner = owner
@@ -3297,6 +3485,15 @@ extension DevOpsAgent {
         /// Optional role ARN that AIDevOps assumes at runtime for automatic verification testing and VPC connectivity on this association.
         public let runtimeRoleArn: String?
 
+        @inlinable
+        public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String) {
+            self.instanceIdentifier = instanceIdentifier
+            self.projectId = projectId
+            self.projectPath = projectPath
+            self.runtimeRoleArn = nil
+        }
+
+        @available(*, deprecated, message: "Members runtimeRoleArn have been deprecated")
         @inlinable
         public init(instanceIdentifier: String? = nil, projectId: String, projectPath: String, runtimeRoleArn: String? = nil) {
             self.instanceIdentifier = instanceIdentifier
@@ -3335,6 +3532,10 @@ extension DevOpsAgent {
             self.targetUrl = targetUrl
             self.tokenType = tokenType
             self.tokenValue = tokenValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tokenValue, name: "tokenValue", parent: name, pattern: "^[a-zA-Z0-9._-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3718,7 +3919,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3820,7 +4022,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -3885,7 +4088,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetType, name: "assetType", parent: name, max: 64)
             try self.validate(self.assetType, name: "assetType", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -4003,7 +4207,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -4037,6 +4242,7 @@ extension DevOpsAgent {
     }
 
     public struct ListChatsRequest: AWSEncodableShape {
+        /// The unique identifier for the agent space to list chats from.
         public let agentSpaceId: String
         /// Maximum number of results to return
         public let maxResults: Int?
@@ -4072,7 +4278,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, max: 128)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -4127,7 +4334,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
@@ -4192,7 +4400,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
         }
@@ -4259,7 +4468,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.executionId, name: "executionId", parent: name, max: 128)
             try self.validate(self.executionId, name: "executionId", parent: name, min: 1)
             try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -4407,7 +4617,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.goalId, name: "goalId", parent: name, max: 128)
             try self.validate(self.goalId, name: "goalId", parent: name, min: 1)
             try self.validate(self.goalId, name: "goalId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -4554,7 +4765,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.status, name: "status", parent: name, max: 64)
@@ -4688,21 +4900,43 @@ extension DevOpsAgent {
     }
 
     public struct MCPServerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// List of MCP tools with their access categorization. When provided, the tool names must match those in the tools member.
+        public let toolDetails: [MCPToolDetail]?
         /// List of MCP tools can be used with the association.
         public let tools: [String]
 
         @inlinable
-        public init(tools: [String]) {
+        public init(toolDetails: [MCPToolDetail]? = nil, tools: [String]) {
+            self.toolDetails = toolDetails
             self.tools = tools
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.toolDetails, name: "toolDetails", parent: name, max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case toolDetails = "toolDetails"
             case tools = "tools"
         }
     }
 
     public struct MCPServerDatadogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// The subset of elevated-access tools enabled for this integration.
+        public let enabledElevatedTools: [MCPToolDetail]?
+
+        @inlinable
+        public init(enabledElevatedTools: [MCPToolDetail]? = nil) {
+            self.enabledElevatedTools = enabledElevatedTools
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.enabledElevatedTools, name: "enabledElevatedTools", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledElevatedTools = "enabledElevatedTools"
+        }
     }
 
     public struct MCPServerDetails: AWSEncodableShape {
@@ -4745,6 +4979,8 @@ extension DevOpsAgent {
     }
 
     public struct MCPServerGrafanaConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The subset of elevated-access tools enabled for this integration.
+        public let enabledElevatedTools: [MCPToolDetail]?
         /// Grafana instance URL (e.g., https://your-instance.grafana.net)
         public let endpoint: String
         /// The Grafana organization ID that can be used.
@@ -4753,13 +4989,19 @@ extension DevOpsAgent {
         public let tools: [String]?
 
         @inlinable
-        public init(endpoint: String, organizationId: String? = nil, tools: [String]? = nil) {
+        public init(enabledElevatedTools: [MCPToolDetail]? = nil, endpoint: String, organizationId: String? = nil, tools: [String]? = nil) {
+            self.enabledElevatedTools = enabledElevatedTools
             self.endpoint = endpoint
             self.organizationId = organizationId
             self.tools = tools
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.enabledElevatedTools, name: "enabledElevatedTools", parent: name, max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case enabledElevatedTools = "enabledElevatedTools"
             case endpoint = "endpoint"
             case organizationId = "organizationId"
             case tools = "tools"
@@ -4953,15 +5195,23 @@ extension DevOpsAgent {
     }
 
     public struct MCPServerSigV4Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// List of MCP tools with their access categorization. When provided, the tool names must match those in the tools member.
+        public let toolDetails: [MCPToolDetail]?
         /// List of MCP tools available for the association.
         public let tools: [String]
 
         @inlinable
-        public init(tools: [String]) {
+        public init(toolDetails: [MCPToolDetail]? = nil, tools: [String]) {
+            self.toolDetails = toolDetails
             self.tools = tools
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.toolDetails, name: "toolDetails", parent: name, max: 500)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case toolDetails = "toolDetails"
             case tools = "tools"
         }
     }
@@ -5009,6 +5259,24 @@ extension DevOpsAgent {
         public init() {}
     }
 
+    public struct MCPToolDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the MCP tool.
+        public let name: String
+        /// The access categorization of the MCP tool.
+        public let toolClassification: ToolClassification?
+
+        @inlinable
+        public init(name: String, toolClassification: ToolClassification? = nil) {
+            self.name = name
+            self.toolClassification = toolClassification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case toolClassification = "toolClassification"
+        }
+    }
+
     public struct NewRelicApiKeyConfig: AWSEncodableShape {
         /// New Relic Account ID
         public let accountId: String
@@ -5034,7 +5302,7 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.apiKey, name: "apiKey", parent: name, min: 1)
+            try self.validate(self.apiKey, name: "apiKey", parent: name, pattern: "^NRAK-[A-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5155,6 +5423,30 @@ extension DevOpsAgent {
             case clientName = "clientName"
             case clientSecret = "clientSecret"
             case exchangeParameters = "exchangeParameters"
+        }
+    }
+
+    public struct PatternFilter: AWSEncodableShape & AWSDecodableShape {
+        /// Anchored full-match regex patterns. The condition passes when the value matches at least one pattern.
+        public let patterns: [String]
+
+        @inlinable
+        public init(patterns: [String]) {
+            self.patterns = patterns
+        }
+
+        public func validate(name: String) throws {
+            try self.patterns.forEach {
+                try validate($0, name: "patterns[]", parent: name, max: 256)
+                try validate($0, name: "patterns[]", parent: name, min: 1)
+                try validate($0, name: "patterns[]", parent: name, pattern: "^[^\\x00-\\x1F\\x7F-\\x9F]+$")
+            }
+            try self.validate(self.patterns, name: "patterns", parent: name, max: 20)
+            try self.validate(self.patterns, name: "patterns", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case patterns = "patterns"
         }
     }
 
@@ -5783,6 +6075,8 @@ extension DevOpsAgent {
         public let accessibleResources: [AWSDocument]?
         /// Additional details specific to the service type.
         public let additionalServiceDetails: AdditionalServiceDetails?
+        /// The timestamp when the service was registered.
+        public let createdAt: Date?
         /// The ARN of the AWS Key Management Service (AWS KMS) customer managed key that's used to encrypt resources.
         public let kmsKeyArn: String?
         /// The display name of the registered service.
@@ -5793,26 +6087,32 @@ extension DevOpsAgent {
         public let serviceId: String
         /// The service type e.g github or dynatrace
         public let serviceType: Service
+        /// The timestamp when the service was last updated.
+        public let updatedAt: Date?
 
         @inlinable
-        public init(accessibleResources: [AWSDocument]? = nil, additionalServiceDetails: AdditionalServiceDetails? = nil, kmsKeyArn: String? = nil, name: String? = nil, privateConnectionName: String? = nil, serviceId: String, serviceType: Service) {
+        public init(accessibleResources: [AWSDocument]? = nil, additionalServiceDetails: AdditionalServiceDetails? = nil, createdAt: Date? = nil, kmsKeyArn: String? = nil, name: String? = nil, privateConnectionName: String? = nil, serviceId: String, serviceType: Service, updatedAt: Date? = nil) {
             self.accessibleResources = accessibleResources
             self.additionalServiceDetails = additionalServiceDetails
+            self.createdAt = createdAt
             self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.privateConnectionName = privateConnectionName
             self.serviceId = serviceId
             self.serviceType = serviceType
+            self.updatedAt = updatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessibleResources = "accessibleResources"
             case additionalServiceDetails = "additionalServiceDetails"
+            case createdAt = "createdAt"
             case kmsKeyArn = "kmsKeyArn"
             case name = "name"
             case privateConnectionName = "privateConnectionName"
             case serviceId = "serviceId"
             case serviceType = "serviceType"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -6182,21 +6482,29 @@ extension DevOpsAgent {
     }
 
     public struct SendMessageContext: AWSEncodableShape {
+        /// An approval decision supplied when resuming a paused agent execution. When an agent execution pauses to request approval for an elevated action, SendMessage streams an approval request carrying interrupt identifiers. To resume the paused execution, call SendMessage again with `userActionResponse` set to `"APPROVAL_ACTION"` and this member populated with those identifiers and the decision (APPROVED or REJECTED). Optional; omit it for messages that are not resuming an approval.
+        public let approvalAction: ApprovalAction?
         /// The current page or view the user is on
         public let currentPage: String?
         /// The ID of the last message in the conversation
         public let lastMessage: String?
-        /// Response to a UI prompt (not a text conversation message). Operator App SDK clients set this to the control-string sentinel `"APPROVAL_ACTION"` when the request is resuming a paused tool call after an operator approval decision; in that case the structured decision context lives on the sibling `approvalAction` member and the chat agent reads from there. Preserved as a String for back-compat: pre-typed-approval clients still encode arbitrary UI-prompt responses as JSON in this field, and the chat agent parses them out during the transition.
+        /// Response to a UI prompt (not a text conversation message). Set this to the sentinel value `"APPROVAL_ACTION"` when the request is resuming a paused execution after an approval decision; in that case the structured decision is provided on the sibling `approvalAction` member. Preserved as a String for backward compatibility: clients that predate the typed approval field may still encode UI-prompt responses as JSON in this field.
         public let userActionResponse: String?
 
         @inlinable
-        public init(currentPage: String? = nil, lastMessage: String? = nil, userActionResponse: String? = nil) {
+        public init(approvalAction: ApprovalAction? = nil, currentPage: String? = nil, lastMessage: String? = nil, userActionResponse: String? = nil) {
+            self.approvalAction = approvalAction
             self.currentPage = currentPage
             self.lastMessage = lastMessage
             self.userActionResponse = userActionResponse
         }
 
+        public func validate(name: String) throws {
+            try self.approvalAction?.validate(name: "\(name).approvalAction")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case approvalAction = "approvalAction"
             case currentPage = "currentPage"
             case lastMessage = "lastMessage"
             case userActionResponse = "userActionResponse"
@@ -6232,27 +6540,31 @@ extension DevOpsAgent {
         public let context: SendMessageContext?
         /// The execution identifier for the chat session
         public let executionId: String
+        /// Optional model tier selection. Valid values: smart, balanced, fast. Absent or unrecognized values default to balanced.
+        public let modelTier: String?
         /// User identifier. This field is deprecated and will be ignored — the service resolves user identity from the authenticated session.
         public let userId: String?
 
         @inlinable
-        public init(agentSpaceId: String, assetIds: [String]? = nil, content: String, context: SendMessageContext? = nil, executionId: String) {
+        public init(agentSpaceId: String, assetIds: [String]? = nil, content: String, context: SendMessageContext? = nil, executionId: String, modelTier: String? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assetIds = assetIds
             self.content = content
             self.context = context
             self.executionId = executionId
+            self.modelTier = modelTier
             self.userId = nil
         }
 
         @available(*, deprecated, message: "Members userId have been deprecated")
         @inlinable
-        public init(agentSpaceId: String, assetIds: [String]? = nil, content: String, context: SendMessageContext? = nil, executionId: String, userId: String? = nil) {
+        public init(agentSpaceId: String, assetIds: [String]? = nil, content: String, context: SendMessageContext? = nil, executionId: String, modelTier: String? = nil, userId: String? = nil) {
             self.agentSpaceId = agentSpaceId
             self.assetIds = assetIds
             self.content = content
             self.context = context
             self.executionId = executionId
+            self.modelTier = modelTier
             self.userId = userId
         }
 
@@ -6264,14 +6576,19 @@ extension DevOpsAgent {
             try container.encode(self.content, forKey: .content)
             try container.encodeIfPresent(self.context, forKey: .context)
             try container.encode(self.executionId, forKey: .executionId)
+            try container.encodeIfPresent(self.modelTier, forKey: .modelTier)
             try container.encodeIfPresent(self.userId, forKey: .userId)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetIds, name: "assetIds", parent: name, max: 20)
             try self.validate(self.content, name: "content", parent: name, max: 32768)
-            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.context?.validate(name: "\(name).context")
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 50)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 32)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[A-Za-z0-9_-]+$")
             try self.validate(self.userId, name: "userId", parent: name, max: 128)
             try self.validate(self.userId, name: "userId", parent: name, min: 1)
             try self.validate(self.userId, name: "userId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -6282,6 +6599,7 @@ extension DevOpsAgent {
             case content = "content"
             case context = "context"
             case executionId = "executionId"
+            case modelTier = "modelTier"
             case userId = "userId"
         }
     }
@@ -6599,6 +6917,30 @@ extension DevOpsAgent {
         }
     }
 
+    public struct SlackBidirectionalConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Whether bidirectional communication is enabled for this association. When you set this value to true, you can mention the agent in a configured Slack channel and it responds in that channel. When you omit this value or set it to false, the agent ignores mentions and only sends notifications.
+        public let enabled: Bool?
+        /// IAM role ARN that AWS DevOps Agent assumes to exchange messages with your Slack workspace on behalf of this association.
+        public let roleArn: String
+
+        @inlinable
+        public init(enabled: Bool? = nil, roleArn: String) {
+            self.enabled = enabled
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 255)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
+            case roleArn = "roleArn"
+        }
+    }
+
     public struct SlackChannel: AWSEncodableShape & AWSDecodableShape {
         /// Slack channel ID
         public let channelId: String
@@ -6618,6 +6960,8 @@ extension DevOpsAgent {
     }
 
     public struct SlackConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Optional bidirectional communication configuration. Supply this configuration and set enabled to true so you can interact with the agent directly from Slack.
+        public let bidirectional: SlackBidirectionalConfiguration?
         /// Transmission targets for agent notifications
         public let transmissionTarget: SlackTransmissionTarget
         /// Associated Slack workspace ID
@@ -6626,13 +6970,19 @@ extension DevOpsAgent {
         public let workspaceName: String
 
         @inlinable
-        public init(transmissionTarget: SlackTransmissionTarget, workspaceId: String, workspaceName: String) {
+        public init(bidirectional: SlackBidirectionalConfiguration? = nil, transmissionTarget: SlackTransmissionTarget, workspaceId: String, workspaceName: String) {
+            self.bidirectional = bidirectional
             self.transmissionTarget = transmissionTarget
             self.workspaceId = workspaceId
             self.workspaceName = workspaceName
         }
 
+        public func validate(name: String) throws {
+            try self.bidirectional?.validate(name: "\(name).bidirectional")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case bidirectional = "bidirectional"
             case transmissionTarget = "transmissionTarget"
             case workspaceId = "workspaceId"
             case workspaceName = "workspaceName"
@@ -6662,20 +7012,29 @@ extension DevOpsAgent {
         public let accountId: String
         /// Account Type 'source' for AIDevOps monitoring.
         public let accountType: SourceAccountType
-        /// Role ARN to be assumed by AIDevOps to operate on behalf of customer.
+        /// Optional IAM role ARN to be assumed by AIDevOps for elevated directed actions on behalf of the customer. Used for mutating operations gated by elevatedActionsEnabled on the AgentSpace. When not provided, only non-elevated directed actions are available for this AWS account. Setting this role is subject to the same minimum iam:PassRole requirement described on assumableRoleArn.
+        public let agentElevatedRoleArn: String?
+        /// Validation status of the agentElevatedRoleArn. Updated asynchronously after the customer registers an elevated role. Possible values: PENDING_CONFIRMATION (validation in progress), VALID (role validated), INVALID (validation failed).
+        public let agentElevatedRoleArnStatus: ValidationStatus?
+        /// Role ARN to be assumed by AIDevOps to operate on behalf of customer. To set this role ARN on AssociateService or UpdateAssociation, the caller must have at least the iam:PassRole permission on arn:aws:iam::&lt;account-id&gt;:role/* in the caller's own account, with the condition iam:PassedToService set to aidevops.amazonaws.com. A broader iam:PassRole grant also satisfies this requirement.
         public let assumableRoleArn: String
         /// External ID for additional security when assuming the role. Used to prevent the confused deputy problem.
         public let externalId: String?
 
         @inlinable
-        public init(accountId: String, accountType: SourceAccountType, assumableRoleArn: String, externalId: String? = nil) {
+        public init(accountId: String, accountType: SourceAccountType, agentElevatedRoleArn: String? = nil, agentElevatedRoleArnStatus: ValidationStatus? = nil, assumableRoleArn: String, externalId: String? = nil) {
             self.accountId = accountId
             self.accountType = accountType
+            self.agentElevatedRoleArn = agentElevatedRoleArn
+            self.agentElevatedRoleArnStatus = agentElevatedRoleArnStatus
             self.assumableRoleArn = assumableRoleArn
             self.externalId = externalId
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, max: 255)
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, min: 1)
+            try self.validate(self.agentElevatedRoleArn, name: "agentElevatedRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, max: 255)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, min: 1)
             try self.validate(self.assumableRoleArn, name: "assumableRoleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/[a-zA-Z0-9+=,.@_/-]+$")
@@ -6684,6 +7043,8 @@ extension DevOpsAgent {
         private enum CodingKeys: String, CodingKey {
             case accountId = "accountId"
             case accountType = "accountType"
+            case agentElevatedRoleArn = "agentElevatedRoleArn"
+            case agentElevatedRoleArnStatus = "agentElevatedRoleArnStatus"
             case assumableRoleArn = "assumableRoleArn"
             case externalId = "externalId"
         }
@@ -6891,6 +7252,30 @@ extension DevOpsAgent {
         }
     }
 
+    public struct TriggerFilterGroup: AWSEncodableShape & AWSDecodableShape {
+        /// Passes when the webhook event is one of the listed events.
+        public let events: [TriggerEvent]?
+        /// Passes when the change request target branch matches. Applicable to RELEASE_READINESS_REVIEW only.
+        public let targetBranches: PatternFilter?
+
+        @inlinable
+        public init(events: [TriggerEvent]? = nil, targetBranches: PatternFilter? = nil) {
+            self.events = events
+            self.targetBranches = targetBranches
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.events, name: "events", parent: name, max: 10)
+            try self.validate(self.events, name: "events", parent: name, min: 1)
+            try self.targetBranches?.validate(name: "\(name).targetBranches")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "events"
+            case targetBranches = "targetBranches"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to untag.
         public let resourceArn: String
@@ -6934,13 +7319,16 @@ extension DevOpsAgent {
         public let locale: String?
         /// The updated name of the AgentSpace.
         public let name: String?
+        /// The preferences to configure on the agent space. When provided, this replaces the full set of configured preferences; preferences not included revert to their default values. When omitted, the current preferences are left unchanged.
+        public let preferences: [AgentSpacePreferenceKey: Bool]?
 
         @inlinable
-        public init(agentSpaceId: String, description: String? = nil, locale: String? = nil, name: String? = nil) {
+        public init(agentSpaceId: String, description: String? = nil, locale: String? = nil, name: String? = nil, preferences: [AgentSpacePreferenceKey: Bool]? = nil) {
             self.agentSpaceId = agentSpaceId
             self.description = description
             self.locale = locale
             self.name = name
+            self.preferences = preferences
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -6950,6 +7338,7 @@ extension DevOpsAgent {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.locale, forKey: .locale)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.preferences, forKey: .preferences)
         }
 
         public func validate(name: String) throws {
@@ -6963,12 +7352,14 @@ extension DevOpsAgent {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}\\p{S}\\p{Z}]+$")
+            try self.validate(self.preferences, name: "preferences", parent: name, max: 25)
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case locale = "locale"
             case name = "name"
+            case preferences = "preferences"
         }
     }
 
@@ -6982,6 +7373,84 @@ extension DevOpsAgent {
 
         private enum CodingKeys: String, CodingKey {
             case agentSpace = "agentSpace"
+        }
+    }
+
+    public struct UpdateApprovalActionRequest: AWSEncodableShape {
+        /// The action to take on the approval request — APPROVED or REJECTED.
+        public let action: ApprovalActionType
+        /// The agent space identifier — multi-tenant workspace scope. Bound from the request URI.
+        public let agentSpaceId: String
+        /// Identifier of the approval request being resolved. A UUID. Bound from the request URI.
+        public let approvalId: String
+        /// The finalized pattern (tool + argumentPins) that scopes the approval. Required when `action` is APPROVED; must be absent when `action` is REJECTED. The pattern narrows, and must not widen, the invocation originally requested by the agent. This cross-field invariant is enforced by service-side validation.
+        public let finalPattern: ApprovalPattern?
+        /// Optional free-text rationale for the decision. Permitted when `action` is REJECTED; ignored when `action` is APPROVED.
+        public let reason: String?
+        /// Whether the approved action backs a single executed tool call (true) or is reusable within ttlSeconds (false). Required when `action` is APPROVED; must be absent when `action` is REJECTED. When true, ttlSeconds must be absent (the redemption window collapses to the single use). When false, ttlSeconds is required and bounds the reuse window. Cross-field invariants are enforced by service-side validation.
+        public let singleUse: Bool?
+        /// Approval lifetime in seconds, starting from when the decision is submitted. Required when `action` is APPROVED AND `singleUse` is false; must be absent when `action` is REJECTED or when `singleUse` is true (a single-use approval backs one executed action and the redemption window collapses). Cross-field invariants are enforced by service-side validation; the @range bound here is the operation-boundary check that always applies (a maximum of 4 hours).
+        public let ttlSeconds: Int?
+
+        @inlinable
+        public init(action: ApprovalActionType, agentSpaceId: String, approvalId: String, finalPattern: ApprovalPattern? = nil, reason: String? = nil, singleUse: Bool? = nil, ttlSeconds: Int? = nil) {
+            self.action = action
+            self.agentSpaceId = agentSpaceId
+            self.approvalId = approvalId
+            self.finalPattern = finalPattern
+            self.reason = reason
+            self.singleUse = singleUse
+            self.ttlSeconds = ttlSeconds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.agentSpaceId, key: "agentSpaceId")
+            request.encodePath(self.approvalId, key: "approvalId")
+            try container.encodeIfPresent(self.finalPattern, forKey: .finalPattern)
+            try container.encodeIfPresent(self.reason, forKey: .reason)
+            try container.encodeIfPresent(self.singleUse, forKey: .singleUse)
+            try container.encodeIfPresent(self.ttlSeconds, forKey: .ttlSeconds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
+            try self.validate(self.approvalId, name: "approvalId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-7[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$")
+            try self.finalPattern?.validate(name: "\(name).finalPattern")
+            try self.validate(self.reason, name: "reason", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case finalPattern = "finalPattern"
+            case reason = "reason"
+            case singleUse = "singleUse"
+            case ttlSeconds = "ttlSeconds"
+        }
+    }
+
+    public struct UpdateApprovalActionResponse: AWSDecodableShape {
+        /// Identifier of the approval request that was resolved. Echoed back so the client can correlate the response with the request.
+        public let approvalId: String
+        /// Absolute timestamp at which the approval expires. Set when status is APPROVED (computed as the submission time plus ttlSeconds); absent when status is REJECTED.
+        public let expiresAt: Date?
+        /// Lifecycle status of the approval request immediately after submission. Expected post-submission states are APPROVED (when the action is APPROVED) or REJECTED (when the action is REJECTED); PENDING is not returned from this operation, and REVOKED and REDEEMED are reachable only via subsequent reads.
+        public let status: ApprovalStatus
+
+        @inlinable
+        public init(approvalId: String, expiresAt: Date? = nil, status: ApprovalStatus) {
+            self.approvalId = approvalId
+            self.expiresAt = expiresAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approvalId = "approvalId"
+            case expiresAt = "expiresAt"
+            case status = "status"
         }
     }
 
@@ -7021,7 +7490,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -7084,7 +7554,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, max: 128)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 1)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -7144,6 +7615,9 @@ extension DevOpsAgent {
             try self.validate(self.associationId, name: "associationId", parent: name, max: 255)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
             try self.validate(self.associationId, name: "associationId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.capabilities?.forEach {
+                try $0.value.validate(name: "\(name).capabilities[\"\($0.key)\"]")
+            }
             try self.configuration.validate(name: "\(name).configuration")
         }
 
@@ -7198,7 +7672,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
             try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -7252,7 +7727,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7436,7 +7912,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, max: 128)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, min: 1)
             try self.validate(self.recommendationId, name: "recommendationId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -7491,7 +7968,8 @@ extension DevOpsAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, pattern: "^[a-zA-Z0-9-]{1,64}$")
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, max: 2048)
+            try self.validate(self.agentSpaceId, name: "agentSpaceId", parent: name, min: 1)
             try self.validate(self.status, name: "status", parent: name, max: 64)
             try self.validate(self.status, name: "status", parent: name, min: 1)
             try self.validate(self.triggerId, name: "triggerId", parent: name, max: 128)

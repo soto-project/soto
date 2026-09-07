@@ -479,6 +479,7 @@ extension Lightsail {
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
+        case freeableMemory = "FreeableMemory"
         case healthyHostCount = "HealthyHostCount"
         case httpCodeInstance2XXCount = "HTTPCode_Instance_2XX_Count"
         case httpCodeInstance3XXCount = "HTTPCode_Instance_3XX_Count"
@@ -496,6 +497,7 @@ extension Lightsail {
         case statusCheckFailed = "StatusCheckFailed"
         case statusCheckFailedInstance = "StatusCheckFailed_Instance"
         case statusCheckFailedSystem = "StatusCheckFailed_System"
+        case swapUsage = "SwapUsage"
         case unhealthyHostCount = "UnhealthyHostCount"
         public var description: String { return self.rawValue }
     }
@@ -621,6 +623,7 @@ extension Lightsail {
         case enableAddOn = "EnableAddOn"
         case getAlarms = "GetAlarms"
         case getContactMethods = "GetContactMethods"
+        case getProfile = "GetProfile"
         case openInstancePublicPorts = "OpenInstancePublicPorts"
         case putAlarm = "PutAlarm"
         case putInstancePublicPorts = "PutInstancePublicPorts"
@@ -666,6 +669,12 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum PartnerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case suspended = "Suspended"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PortAccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case `public` = "Public"
@@ -692,6 +701,12 @@ extension Lightsail {
         case gbMo = "GB-Mo"
         case hrs = "Hrs"
         case queries = "Queries"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lightsailPartner = "LightsailPartner"
+        case lightsailor = "Lightsailor"
         public var description: String { return self.rawValue }
     }
 
@@ -744,8 +759,10 @@ extension Lightsail {
         case databaseConnections = "DatabaseConnections"
         case diskQueueDepth = "DiskQueueDepth"
         case freeStorageSpace = "FreeStorageSpace"
+        case freeableMemory = "FreeableMemory"
         case networkReceiveThroughput = "NetworkReceiveThroughput"
         case networkTransmitThroughput = "NetworkTransmitThroughput"
+        case swapUsage = "SwapUsage"
         public var description: String { return self.rawValue }
     }
 
@@ -818,6 +835,14 @@ extension Lightsail {
     public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TierName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accelerate = "Accelerate"
+        case essential = "Essential"
+        case growth = "Growth"
+        case premier = "Premier"
         public var description: String { return self.rawValue }
     }
 
@@ -7249,6 +7274,28 @@ extension Lightsail {
         }
     }
 
+    public struct GetProfileRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetProfileResult: AWSDecodableShape {
+        /// An object that describes the partner membership of the account, such as the tier of the membership, its status, and when the account was enrolled. This parameter is returned only for accounts that have a profileType of LightsailPartner.
+        public let partner: PartnerInfo?
+        /// The type of the profile. The following profile types are possible:    Lightsailor – The account is not enrolled in the Lightsail partner program.    LightsailPartner – The account is enrolled in the Lightsail partner program.
+        public let profileType: ProfileType
+
+        @inlinable
+        public init(partner: PartnerInfo? = nil, profileType: ProfileType) {
+            self.partner = partner
+            self.profileType = profileType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partner = "partner"
+            case profileType = "profileType"
+        }
+    }
+
     public struct GetRegionsRequest: AWSEncodableShape {
         /// A Boolean value indicating whether to also include Availability Zones in your get regions request. Availability Zones are indicated with a letter: us-east-2a.
         public let includeAvailabilityZones: Bool?
@@ -9257,6 +9304,28 @@ extension Lightsail {
             case regionName = "regionName"
             case resourceType = "resourceType"
             case responseTimeout = "responseTimeout"
+        }
+    }
+
+    public struct PartnerInfo: AWSDecodableShape {
+        /// The timestamp when the account was enrolled in the Lightsail partner program.
+        public let enrolledAt: Date
+        /// The status of the partner membership. The following statuses are possible:    Active – The membership is active, and the benefits of the current tier are available to the account.    Suspended – The membership is suspended, and the benefits of the tier are not available to the account.
+        public let status: PartnerStatus
+        /// The tier of the partner membership.
+        public let tierName: TierName?
+
+        @inlinable
+        public init(enrolledAt: Date, status: PartnerStatus, tierName: TierName? = nil) {
+            self.enrolledAt = enrolledAt
+            self.status = status
+            self.tierName = tierName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrolledAt = "enrolledAt"
+            case status = "status"
+            case tierName = "tierName"
         }
     }
 

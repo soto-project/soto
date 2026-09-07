@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Outposts service.
 ///
-/// Amazon Web Services Outposts is a fully managed service that extends Amazon Web Services infrastructure, APIs, and tools to customer premises. By providing local access to Amazon Web Services managed infrastructure, Amazon Web Services Outposts enables customers to build and run applications on premises using the same programming interfaces as in Amazon Web Services Regions, while using local compute and storage resources for lower latency and local data processing needs.
+/// Amazon Web Services Outposts is a fully managed service that extends Amazon Web Services infrastructure, APIs, and tools to customer premises. By providing local access to Amazon Web Services managed infrastructure, Amazon Web Services Outposts enables customers to build and run applications on premises using the same programming interfaces as in Amazon Web Services Regions, while using local compute and storage resources for lower latency and local data processing needs. You can use certain Amazon EC2 API actions for Amazon Web Services Outposts. For more information on these API actions, see Amazon Web Services Outposts actions in the Amazon EC2 API Reference.
 public struct Outposts: AWSService {
     // MARK: Member variables
 
@@ -241,6 +241,38 @@ public struct Outposts: AWSService {
             tags: tags
         )
         return try await self.createOutpost(input, logger: logger)
+    }
+
+    /// Creates the private connectivity configuration for the specified Outpost. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure.
+    @Sendable
+    @inlinable
+    public func createPrivateConnectivityConfig(_ input: CreatePrivateConnectivityConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePrivateConnectivityConfigOutput {
+        try await self.client.execute(
+            operation: "CreatePrivateConnectivityConfig", 
+            path: "/outposts/{OutpostId}/privateConnectivity", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates the private connectivity configuration for the specified Outpost. Private connectivity establishes a service link VPN connection between the Outpost and its home Amazon Web Services Region using a VPC and subnet that you specify, which allows the service link traffic to flow through your VPC and minimizes public internet exposure.
+    ///
+    /// Parameters:
+    ///   - outpostId: The ID or ARN of the Outpost.
+    ///   - vpcInformationList: Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPrivateConnectivityConfig(
+        outpostId: String,
+        vpcInformationList: [VpcInformation],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePrivateConnectivityConfigOutput {
+        let input = CreatePrivateConnectivityConfigInput(
+            outpostId: outpostId, 
+            vpcInformationList: vpcInformationList
+        )
+        return try await self.createPrivateConnectivityConfig(input, logger: logger)
     }
 
     /// Creates a quote for an Outpost. A quote provides pricing and configuration options based on the requested capacity. You can optionally associate the quote with an existing Outpost or create a standalone quote by specifying only the country code and requested capacities.
@@ -719,6 +751,35 @@ public struct Outposts: AWSService {
             outpostIdentifier: outpostIdentifier
         )
         return try await self.getOutpostSupportedInstanceTypes(input, logger: logger)
+    }
+
+    /// Gets the private connectivity configuration for the specified Outpost.
+    @Sendable
+    @inlinable
+    public func getPrivateConnectivityConfig(_ input: GetPrivateConnectivityConfigInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPrivateConnectivityConfigOutput {
+        try await self.client.execute(
+            operation: "GetPrivateConnectivityConfig", 
+            path: "/outposts/{OutpostId}/privateConnectivity", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the private connectivity configuration for the specified Outpost.
+    ///
+    /// Parameters:
+    ///   - outpostId: The ID or ARN of the Outpost.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPrivateConnectivityConfig(
+        outpostId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPrivateConnectivityConfigOutput {
+        let input = GetPrivateConnectivityConfigInput(
+            outpostId: outpostId
+        )
+        return try await self.getPrivateConnectivityConfig(input, logger: logger)
     }
 
     /// Gets information about the specified quote.

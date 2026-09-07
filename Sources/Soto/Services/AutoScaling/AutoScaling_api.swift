@@ -402,8 +402,9 @@ public struct AutoScaling: AWSService {
     ///   - maxInstanceLifetime: The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). For more information, see Replace Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
     ///   - maxSize: The maximum size of the group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your largest instance weight (weights that define how many units each instance contributes to the desired capacity of the group).
     ///   - minSize: The minimum size of the group.
-    ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+    ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide. To learn how to prioritize multiple capacity types, see Use Distribution Segments to target multiple capacity types in the Amazon EC2 Auto Scaling User Guide.
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+    ///   - operator: The entity that manages the Auto Scaling group. If you specify this parameter, Amazon EC2 Auto Scaling passes the operator identity to EC2 for instance launches and only allows the designated operator to make changes to the Auto Scaling group. All mutating API calls from non-operator callers are rejected with an AccessDenied exception.
     ///   - placementGroup: The name of the placement group into which to launch your instances. For more information, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.
     ///   - skipZonalShiftValidation:  If you enable zonal shift with cross-zone disabled load balancers, capacity could become imbalanced across Availability Zones. To skip the validation, specify true. For more information, see Auto Scaling group zonal shift in the Amazon EC2 Auto Scaling User Guide.
@@ -442,6 +443,7 @@ public struct AutoScaling: AWSService {
         minSize: Int? = nil,
         mixedInstancesPolicy: MixedInstancesPolicy? = nil,
         newInstancesProtectedFromScaleIn: Bool? = nil,
+        operator: Operator? = nil,
         placementGroup: String? = nil,
         serviceLinkedRoleARN: String? = nil,
         skipZonalShiftValidation: Bool? = nil,
@@ -480,6 +482,7 @@ public struct AutoScaling: AWSService {
             minSize: minSize, 
             mixedInstancesPolicy: mixedInstancesPolicy, 
             newInstancesProtectedFromScaleIn: newInstancesProtectedFromScaleIn, 
+            operator: `operator`, 
             placementGroup: placementGroup, 
             serviceLinkedRoleARN: serviceLinkedRoleARN, 
             skipZonalShiftValidation: skipZonalShiftValidation, 
@@ -2383,7 +2386,7 @@ public struct AutoScaling: AWSService {
         return try await self.suspendProcesses(input, logger: logger)
     }
 
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  To terminate multiple instances in a single call, use the InstanceIds and AutoScalingGroupName parameters instead of InstanceId. When terminating multiple instances, the response populates Activities instead of Activity. By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
     @Sendable
     @inlinable
     public func terminateInstanceInAutoScalingGroup(_ input: TerminateInstanceInAutoScalingGroupType, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivityType {
@@ -2396,20 +2399,26 @@ public struct AutoScaling: AWSService {
             logger: logger
         )
     }
-    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instance is not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
+    /// Terminates the specified instance and optionally adjusts the desired group size. This operation cannot be called on instances in a warm pool. This call simply makes a termination request. The instances are not terminated immediately. When an instance is terminated, the instance status changes to terminated. You can't connect to or start an instance after you've terminated it. If you do not specify the option to decrement the desired capacity, Amazon EC2 Auto Scaling launches instances to replace the ones that are terminated.  To terminate multiple instances in a single call, use the InstanceIds and AutoScalingGroupName parameters instead of InstanceId. When terminating multiple instances, the response populates Activities instead of Activity. By default, Amazon EC2 Auto Scaling balances instances across all Availability Zones. If you decrement the desired capacity, your Auto Scaling group can become unbalanced between Availability Zones. Amazon EC2 Auto Scaling tries to rebalance the group, and rebalancing might terminate instances in other zones. For more information, see Manual scaling in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// Parameters:
+    ///   - autoScalingGroupName: The name of the Auto Scaling group. Required when using InstanceIds.
     ///   - instanceId: The ID of the instance.
+    ///   - instanceIds: The IDs of the instances. You can specify up to 100 instances. This parameter requires that you also specify AutoScalingGroupName.
     ///   - shouldDecrementDesiredCapacity: Indicates whether terminating the instance also decrements the size of the Auto Scaling group.
     ///   - logger: Logger use during operation
     @inlinable
     public func terminateInstanceInAutoScalingGroup(
+        autoScalingGroupName: String? = nil,
         instanceId: String? = nil,
+        instanceIds: [String]? = nil,
         shouldDecrementDesiredCapacity: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ActivityType {
         let input = TerminateInstanceInAutoScalingGroupType(
+            autoScalingGroupName: autoScalingGroupName, 
             instanceId: instanceId, 
+            instanceIds: instanceIds, 
             shouldDecrementDesiredCapacity: shouldDecrementDesiredCapacity
         )
         return try await self.terminateInstanceInAutoScalingGroup(input, logger: logger)
@@ -2453,7 +2462,7 @@ public struct AutoScaling: AWSService {
     ///   - maxInstanceLifetime: The maximum amount of time, in seconds, that an instance can be in service. The default is null. If specified, the value must be either 0 or a number equal to or greater than 86,400 seconds (1 day). To clear a previously set value, specify a new value of 0. For more information, see Replacing Auto Scaling instances based on maximum instance lifetime in the Amazon EC2 Auto Scaling User Guide.
     ///   - maxSize: The maximum size of the Auto Scaling group.  With a mixed instances policy that uses instance weighting, Amazon EC2 Auto Scaling may need to go above MaxSize to meet your capacity requirements. In this event, Amazon EC2 Auto Scaling will never go above MaxSize by more than your largest instance weight (weights that define how many units each instance contributes to the desired capacity of the group).
     ///   - minSize: The minimum size of the Auto Scaling group.
-    ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
+    ///   - mixedInstancesPolicy: The mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide. You can remove the Distribution Segments configuration by specifying OnDemandBaseCapacity or OnDemandPercentageAboveBaseCapacity. You can also remove it explicitly by specifying an empty list for DistributionSegments.
     ///   - newInstancesProtectedFromScaleIn: Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Use instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
     ///   - placementGroup: The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see Placement groups in the Amazon EC2 User Guide.  A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     ///   - serviceLinkedRoleARN: The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see Service-linked roles in the Amazon EC2 Auto Scaling User Guide.

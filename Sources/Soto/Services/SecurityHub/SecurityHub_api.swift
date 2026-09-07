@@ -3133,6 +3133,44 @@ public struct SecurityHub: AWSService {
         return try await self.listFindingAggregators(input, logger: logger)
     }
 
+    /// Lists the free trial status of Security Hub features. A delegated Security Hub administrator can list the status for accounts in its organization. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled.
+    @Sendable
+    @inlinable
+    public func listFreeTrialStatusesV2(_ input: ListFreeTrialStatusesV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFreeTrialStatusesV2Response {
+        try await self.client.execute(
+            operation: "ListFreeTrialStatusesV2", 
+            path: "/freetrial/statusv2/list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the free trial status of Security Hub features. A delegated Security Hub administrator can list the status for accounts in its organization. Any other account can list the status only for itself. Free trial status remains available after a feature is disabled.
+    ///
+    /// Parameters:
+    ///   - accountIds: The Amazon Web Services account identifiers to list free trial status for. You can specify accounts other than your own only if you are a delegated Security Hub administrator.
+    ///   - maxResults: The maximum number of results to return. If you don't specify a value, Security Hub returns up to 100 results.
+    ///   - nextToken: The pagination token to request the next page of results.
+    ///   - statuses: The free trial statuses to filter the results by. Valid values:    ACTIVE returns only features with an ongoing free trial period.    INACTIVE returns only features whose free trial period has ended, or that never started.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFreeTrialStatusesV2(
+        accountIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        statuses: [FreeTrialStatusValue]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFreeTrialStatusesV2Response {
+        let input = ListFreeTrialStatusesV2Request(
+            accountIds: accountIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            statuses: statuses
+        )
+        return try await self.listFreeTrialStatusesV2(input, logger: logger)
+    }
+
     ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Lists all Security Hub CSPM membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     @Sendable
     @inlinable
@@ -4708,6 +4746,46 @@ extension SecurityHub {
         return self.listFindingAggregatorsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFreeTrialStatusesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFreeTrialStatusesV2Paginator(
+        _ input: ListFreeTrialStatusesV2Request,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFreeTrialStatusesV2Request, ListFreeTrialStatusesV2Response> {
+        return .init(
+            input: input,
+            command: self.listFreeTrialStatusesV2,
+            inputKey: \ListFreeTrialStatusesV2Request.nextToken,
+            outputKey: \ListFreeTrialStatusesV2Response.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFreeTrialStatusesV2(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountIds: The Amazon Web Services account identifiers to list free trial status for. You can specify accounts other than your own only if you are a delegated Security Hub administrator.
+    ///   - maxResults: The maximum number of results to return. If you don't specify a value, Security Hub returns up to 100 results.
+    ///   - statuses: The free trial statuses to filter the results by. Valid values:    ACTIVE returns only features with an ongoing free trial period.    INACTIVE returns only features whose free trial period has ended, or that never started.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFreeTrialStatusesV2Paginator(
+        accountIds: [String]? = nil,
+        maxResults: Int? = nil,
+        statuses: [FreeTrialStatusValue]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFreeTrialStatusesV2Request, ListFreeTrialStatusesV2Response> {
+        let input = ListFreeTrialStatusesV2Request(
+            accountIds: accountIds, 
+            maxResults: maxResults, 
+            statuses: statuses
+        )
+        return self.listFreeTrialStatusesV2Paginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listInvitations(_:logger:)``.
     ///
     /// - Parameters:
@@ -5106,6 +5184,18 @@ extension SecurityHub.ListFindingAggregatorsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension SecurityHub.ListFreeTrialStatusesV2Request: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityHub.ListFreeTrialStatusesV2Request {
+        return .init(
+            accountIds: self.accountIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            statuses: self.statuses
         )
     }
 }

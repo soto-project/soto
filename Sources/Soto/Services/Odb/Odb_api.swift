@@ -143,6 +143,38 @@ public struct Odb: AWSService {
         return try await self.associateIamRoleToResource(input, logger: logger)
     }
 
+    /// Adds virtual machines to the specified Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func associateVirtualMachinesToExadbVmCluster(_ input: AssociateVirtualMachinesToExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateVirtualMachinesToExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "AssociateVirtualMachinesToExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds virtual machines to the specified Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - desiredNodeCount: The desired number of nodes in the Exascale VM cluster after the association.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster to add virtual machines to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateVirtualMachinesToExadbVmCluster(
+        desiredNodeCount: Int,
+        exadbVmClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateVirtualMachinesToExadbVmClusterOutput {
+        let input = AssociateVirtualMachinesToExadbVmClusterInput(
+            desiredNodeCount: desiredNodeCount, 
+            exadbVmClusterId: exadbVmClusterId
+        )
+        return try await self.associateVirtualMachinesToExadbVmCluster(input, logger: logger)
+    }
+
     /// Creates a new Autonomous Database.
     @Sendable
     @inlinable
@@ -538,7 +570,7 @@ public struct Odb: AWSService {
     ///   - cpuCoreCount: The number of CPU cores to enable on the VM cluster.
     ///   - dataCollectionOptions: The set of preferences for the various diagnostic collection options for the VM cluster.
     ///   - dataStorageSizeInTBs: The size of the data disk group, in terabytes (TBs), to allocate for the VM cluster.
-    ///   - dbNodeStorageSizeInGBs: The amount of local node storage, in gigabytes (GBs), to allocate for the VM cluster.
+    ///   - dbNodeStorageSizeInGBs: The amount of local node storage, in gigabytes (GB), to allocate for the VM cluster.
     ///   - dbServers: The list of database servers for the VM cluster.
     ///   - displayName: A user-friendly name for the VM cluster.
     ///   - giVersion: A valid software version of Oracle Grid Infrastructure (GI). To get the list of valid values, use the ListGiVersions operation and specify the shape of the Exadata infrastructure. Example: 19.0.0.0
@@ -546,7 +578,7 @@ public struct Odb: AWSService {
     ///   - isLocalBackupEnabled: Specifies whether to enable database backups to local Exadata storage for the VM cluster.
     ///   - isSparseDiskgroupEnabled: Specifies whether to create a sparse disk group for the VM cluster.
     ///   - licenseModel: The Oracle license model to apply to the VM cluster. Default: LICENSE_INCLUDED
-    ///   - memorySizeInGBs: The amount of memory, in gigabytes (GBs), to allocate for the VM cluster.
+    ///   - memorySizeInGBs: The amount of memory, in gigabytes (GB), to allocate for the VM cluster.
     ///   - odbNetworkId: The unique identifier of the ODB network for the VM cluster.
     ///   - scanListenerPortTcp: The port number for TCP connections to the single client access name (SCAN) listener.  Valid values: 1024–8999 with the following exceptions: 2484, 6100, 6200, 7060, 7070, 7085, and 7879  Default: 1521
     ///   - sshPublicKeys: The public key portion of one or more key pairs used for SSH access to the VM cluster.
@@ -603,6 +635,154 @@ public struct Odb: AWSService {
             timeZone: timeZone
         )
         return try await self.createCloudVmCluster(input, logger: logger)
+    }
+
+    /// Creates an Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func createExadbVmCluster(_ input: CreateExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "CreateExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
+    ///   - clusterName: A name for the Grid Infrastructure cluster. The name isn't case sensitive.
+    ///   - dataCollectionOptions: The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+    ///   - displayName: A user-friendly name for the Exascale VM cluster.
+    ///   - enabledEcpuCount: The number of ECPUs to enable for the Exascale VM cluster.
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault for this Exascale VM cluster.
+    ///   - gridImageId: The Grid Infrastructure software image ID for the Exascale VM cluster.
+    ///   - hostname: The host name for the Exascale VM cluster.
+    ///   - licenseModel: The Oracle license model to apply to the Exascale VM cluster.
+    ///   - nodeCount: The number of nodes in the Exascale VM cluster.
+    ///   - odbNetworkId: The unique identifier of the ODB network for the Exascale VM cluster.
+    ///   - scanListenerPortTcp: The port number for TCP connections to the Single Client Access Name (SCAN) listener.
+    ///   - scanListenerPortTcpSsl: The port number for TCP connections with SSL to the Single Client Access Name (SCAN) listener.
+    ///   - shape: The shape of the Exascale VM cluster.
+    ///   - shapeAttribute: The shape attribute for the Exascale VM cluster.
+    ///   - sshPublicKeys: The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+    ///   - systemVersion: The version of the operating system of the image for the Exascale VM cluster.
+    ///   - tags: The list of resource tags to apply to the Exascale VM cluster.
+    ///   - timeZone: The time zone for the Exascale VM cluster.
+    ///   - totalEcpuCount: The total number of ECPUs for the Exascale VM cluster.
+    ///   - vmFileSystemStorageTotalSizeInGBs: The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createExadbVmCluster(
+        clientToken: String? = CreateExadbVmClusterInput.idempotencyToken(),
+        clusterName: String? = nil,
+        dataCollectionOptions: DataCollectionOptions? = nil,
+        displayName: String,
+        enabledEcpuCount: Int,
+        exascaleDbStorageVaultId: String,
+        gridImageId: String,
+        hostname: String,
+        licenseModel: LicenseModel? = nil,
+        nodeCount: Int,
+        odbNetworkId: String,
+        scanListenerPortTcp: Int? = nil,
+        scanListenerPortTcpSsl: Int? = nil,
+        shape: String,
+        shapeAttribute: ShapeAttribute? = nil,
+        sshPublicKeys: [String],
+        systemVersion: String? = nil,
+        tags: [String: String]? = nil,
+        timeZone: String? = nil,
+        totalEcpuCount: Int,
+        vmFileSystemStorageTotalSizeInGBs: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateExadbVmClusterOutput {
+        let input = CreateExadbVmClusterInput(
+            clientToken: clientToken, 
+            clusterName: clusterName, 
+            dataCollectionOptions: dataCollectionOptions, 
+            displayName: displayName, 
+            enabledEcpuCount: enabledEcpuCount, 
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId, 
+            gridImageId: gridImageId, 
+            hostname: hostname, 
+            licenseModel: licenseModel, 
+            nodeCount: nodeCount, 
+            odbNetworkId: odbNetworkId, 
+            scanListenerPortTcp: scanListenerPortTcp, 
+            scanListenerPortTcpSsl: scanListenerPortTcpSsl, 
+            shape: shape, 
+            shapeAttribute: shapeAttribute, 
+            sshPublicKeys: sshPublicKeys, 
+            systemVersion: systemVersion, 
+            tags: tags, 
+            timeZone: timeZone, 
+            totalEcpuCount: totalEcpuCount, 
+            vmFileSystemStorageTotalSizeInGBs: vmFileSystemStorageTotalSizeInGBs
+        )
+        return try await self.createExadbVmCluster(input, logger: logger)
+    }
+
+    /// Creates an Exascale storage vault.
+    @Sendable
+    @inlinable
+    public func createExascaleDbStorageVault(_ input: CreateExascaleDbStorageVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExascaleDbStorageVaultOutput {
+        try await self.client.execute(
+            operation: "CreateExascaleDbStorageVault", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Exascale storage vault.
+    ///
+    /// Parameters:
+    ///   - additionalFlashCacheInPercent: The additional flash cache percentage for the Exascale storage vault.
+    ///   - autoscaleLimitInGBs: The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+    ///   - availabilityZone: The Availability Zone for the Exascale storage vault.
+    ///   - availabilityZoneId: The Availability Zone ID for the Exascale storage vault.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you submit the same request twice with the same client token, the service ignores the second request and returns the result of the first. If you don't specify a client token, the AWS SDK automatically generates one. The client token is valid for up to 24 hours after it's first used.
+    ///   - description: A description of the Exascale storage vault.
+    ///   - displayName: A user-friendly name for the Exascale storage vault.
+    ///   - highCapacityDatabaseStorageTotalSizeInGBs: The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+    ///   - isAutoscaleEnabled: Specifies whether autoscaling is enabled for the Exascale storage vault.
+    ///   - tags: The list of resource tags to apply to the Exascale storage vault.
+    ///   - timeZone: The time zone for the Exascale storage vault.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createExascaleDbStorageVault(
+        additionalFlashCacheInPercent: Int? = nil,
+        autoscaleLimitInGBs: Int? = nil,
+        availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
+        clientToken: String? = CreateExascaleDbStorageVaultInput.idempotencyToken(),
+        description: String? = nil,
+        displayName: String,
+        highCapacityDatabaseStorageTotalSizeInGBs: Int,
+        isAutoscaleEnabled: Bool? = nil,
+        tags: [String: String]? = nil,
+        timeZone: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateExascaleDbStorageVaultOutput {
+        let input = CreateExascaleDbStorageVaultInput(
+            additionalFlashCacheInPercent: additionalFlashCacheInPercent, 
+            autoscaleLimitInGBs: autoscaleLimitInGBs, 
+            availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
+            clientToken: clientToken, 
+            description: description, 
+            displayName: displayName, 
+            highCapacityDatabaseStorageTotalSizeInGBs: highCapacityDatabaseStorageTotalSizeInGBs, 
+            isAutoscaleEnabled: isAutoscaleEnabled, 
+            tags: tags, 
+            timeZone: timeZone
+        )
+        return try await self.createExascaleDbStorageVault(input, logger: logger)
     }
 
     /// Creates an ODB network.
@@ -874,6 +1054,64 @@ public struct Odb: AWSService {
         return try await self.deleteCloudVmCluster(input, logger: logger)
     }
 
+    /// Deletes the specified Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func deleteExadbVmCluster(_ input: DeleteExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "DeleteExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteExadbVmCluster(
+        exadbVmClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteExadbVmClusterOutput {
+        let input = DeleteExadbVmClusterInput(
+            exadbVmClusterId: exadbVmClusterId
+        )
+        return try await self.deleteExadbVmCluster(input, logger: logger)
+    }
+
+    /// Deletes the specified Exascale storage vault.
+    @Sendable
+    @inlinable
+    public func deleteExascaleDbStorageVault(_ input: DeleteExascaleDbStorageVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteExascaleDbStorageVaultOutput {
+        try await self.client.execute(
+            operation: "DeleteExascaleDbStorageVault", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified Exascale storage vault.
+    ///
+    /// Parameters:
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteExascaleDbStorageVault(
+        exascaleDbStorageVaultId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteExascaleDbStorageVaultOutput {
+        let input = DeleteExascaleDbStorageVaultInput(
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId
+        )
+        return try await self.deleteExascaleDbStorageVault(input, logger: logger)
+    }
+
     /// Deletes the specified ODB network.
     @Sendable
     @inlinable
@@ -968,6 +1206,38 @@ public struct Odb: AWSService {
             resourceArn: resourceArn
         )
         return try await self.disassociateIamRoleFromResource(input, logger: logger)
+    }
+
+    /// Removes virtual machines from the specified Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func disassociateVirtualMachinesFromExadbVmCluster(_ input: DisassociateVirtualMachinesFromExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateVirtualMachinesFromExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "DisassociateVirtualMachinesFromExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes virtual machines from the specified Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - dbNodeIds: The list of DB node IDs to remove from the Exascale VM cluster.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster to remove virtual machines from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateVirtualMachinesFromExadbVmCluster(
+        dbNodeIds: [String],
+        exadbVmClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateVirtualMachinesFromExadbVmClusterOutput {
+        let input = DisassociateVirtualMachinesFromExadbVmClusterInput(
+            dbNodeIds: dbNodeIds, 
+            exadbVmClusterId: exadbVmClusterId
+        )
+        return try await self.disassociateVirtualMachinesFromExadbVmCluster(input, logger: logger)
     }
 
     /// Initiates a failover of the specified Autonomous Database to a standby peer database.
@@ -1224,18 +1494,21 @@ public struct Odb: AWSService {
     /// Returns information about the specified DB node.
     ///
     /// Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node. You must specify either this parameter or exadbVmClusterId.
     ///   - dbNodeId: The unique identifier of the DB node to retrieve information about.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster that contains the DB node. You must specify either this parameter or cloudVmClusterId.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDbNode(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
         dbNodeId: String,
+        exadbVmClusterId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetDbNodeOutput {
         let input = GetDbNodeInput(
             cloudVmClusterId: cloudVmClusterId, 
-            dbNodeId: dbNodeId
+            dbNodeId: dbNodeId, 
+            exadbVmClusterId: exadbVmClusterId
         )
         return try await self.getDbNode(input, logger: logger)
     }
@@ -1270,6 +1543,64 @@ public struct Odb: AWSService {
             dbServerId: dbServerId
         )
         return try await self.getDbServer(input, logger: logger)
+    }
+
+    /// Returns information about the specified Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func getExadbVmCluster(_ input: GetExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "GetExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the specified Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExadbVmCluster(
+        exadbVmClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExadbVmClusterOutput {
+        let input = GetExadbVmClusterInput(
+            exadbVmClusterId: exadbVmClusterId
+        )
+        return try await self.getExadbVmCluster(input, logger: logger)
+    }
+
+    /// Returns information about the specified Exascale storage vault.
+    @Sendable
+    @inlinable
+    public func getExascaleDbStorageVault(_ input: GetExascaleDbStorageVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExascaleDbStorageVaultOutput {
+        try await self.client.execute(
+            operation: "GetExascaleDbStorageVault", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the specified Exascale storage vault.
+    ///
+    /// Parameters:
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExascaleDbStorageVault(
+        exascaleDbStorageVaultId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExascaleDbStorageVaultOutput {
+        let input = GetExascaleDbStorageVaultInput(
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId
+        )
+        return try await self.getExascaleDbStorageVault(input, logger: logger)
     }
 
     /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
@@ -1754,19 +2085,22 @@ public struct Odb: AWSService {
     /// Returns information about the DB nodes for the specified VM cluster.
     ///
     /// Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster. You must specify either this parameter or exadbVmClusterId.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster. You must specify either this parameter or cloudVmClusterId.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDbNodes(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
+        exadbVmClusterId: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDbNodesOutput {
         let input = ListDbNodesInput(
             cloudVmClusterId: cloudVmClusterId, 
+            exadbVmClusterId: exadbVmClusterId, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1828,6 +2162,7 @@ public struct Odb: AWSService {
     ///   - availabilityZoneId: The physical ID of the AZ, for example, use1-az4. This ID persists across accounts.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - shapeFamily: The shape family to filter results by.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDbSystemShapes(
@@ -1835,15 +2170,163 @@ public struct Odb: AWSService {
         availabilityZoneId: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        shapeFamily: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDbSystemShapesOutput {
         let input = ListDbSystemShapesInput(
             availabilityZone: availabilityZone, 
             availabilityZoneId: availabilityZoneId, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            shapeFamily: shapeFamily
         )
         return try await self.listDbSystemShapes(input, logger: logger)
+    }
+
+    /// Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listExadbVmClusters(_ input: ListExadbVmClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExadbVmClustersOutput {
+        try await self.client.execute(
+            operation: "ListExadbVmClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the Exascale VM clusters owned by your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault to list the associated Exascale VM clusters.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExadbVmClusters(
+        exascaleDbStorageVaultId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExadbVmClustersOutput {
+        let input = ListExadbVmClustersInput(
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listExadbVmClusters(input, logger: logger)
+    }
+
+    /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listExascaleDbStorageVaults(_ input: ListExascaleDbStorageVaultsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExascaleDbStorageVaultsOutput {
+        try await self.client.execute(
+            operation: "ListExascaleDbStorageVaults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the Exascale storage vaults owned by your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExascaleDbStorageVaults(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExascaleDbStorageVaultsOutput {
+        let input = ListExascaleDbStorageVaultsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listExascaleDbStorageVaults(input, logger: logger)
+    }
+
+    /// Returns information about the flex components that are available for an Exadata infrastructure.
+    @Sendable
+    @inlinable
+    public func listFlexComponents(_ input: ListFlexComponentsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlexComponentsOutput {
+        try await self.client.execute(
+            operation: "ListFlexComponents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the flex components that are available for an Exadata infrastructure.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - shape: The shape to return flex components for. For a list of valid shapes, use the ListDbSystemShapes operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlexComponents(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        shape: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlexComponentsOutput {
+        let input = ListFlexComponentsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            shape: shape
+        )
+        return try await self.listFlexComponents(input, logger: logger)
+    }
+
+    /// Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
+    @Sendable
+    @inlinable
+    public func listGiMinorVersions(_ input: ListGiMinorVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGiMinorVersionsOutput {
+        try await self.client.execute(
+            operation: "ListGiMinorVersions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the Oracle Grid Infrastructure (GI) minor versions for the specified major version.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The Availability Zone to filter GI minor versions.
+    ///   - availabilityZoneId: The Availability Zone ID to filter GI minor versions.
+    ///   - giVersion: The Oracle Grid Infrastructure (GI) major version.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - shapeFamily: The shape family for the GI minor version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listGiMinorVersions(
+        availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
+        giVersion: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        shapeFamily: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListGiMinorVersionsOutput {
+        let input = ListGiMinorVersionsInput(
+            availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
+            giVersion: giVersion, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            shapeFamily: shapeFamily
+        )
+        return try await self.listGiMinorVersions(input, logger: logger)
     }
 
     /// Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
@@ -2063,18 +2546,21 @@ public struct Odb: AWSService {
     /// Reboots the specified DB node in a VM cluster.
     ///
     /// Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to reboot.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to reboot. You must specify either this parameter or exadbVmClusterId.
     ///   - dbNodeId: The unique identifier of the DB node to reboot.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster that contains the DB node to reboot. You must specify either this parameter or cloudVmClusterId.
     ///   - logger: Logger use during operation
     @inlinable
     public func rebootDbNode(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
         dbNodeId: String,
+        exadbVmClusterId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RebootDbNodeOutput {
         let input = RebootDbNodeInput(
             cloudVmClusterId: cloudVmClusterId, 
-            dbNodeId: dbNodeId
+            dbNodeId: dbNodeId, 
+            exadbVmClusterId: exadbVmClusterId
         )
         return try await self.rebootDbNode(input, logger: logger)
     }
@@ -2185,18 +2671,21 @@ public struct Odb: AWSService {
     /// Starts the specified DB node in a VM cluster.
     ///
     /// Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to start.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to start. You must specify either this parameter or exadbVmClusterId.
     ///   - dbNodeId: The unique identifier of the DB node to start.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster that contains the DB node to start. You must specify either this parameter or cloudVmClusterId.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDbNode(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
         dbNodeId: String,
+        exadbVmClusterId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDbNodeOutput {
         let input = StartDbNodeInput(
             cloudVmClusterId: cloudVmClusterId, 
-            dbNodeId: dbNodeId
+            dbNodeId: dbNodeId, 
+            exadbVmClusterId: exadbVmClusterId
         )
         return try await self.startDbNode(input, logger: logger)
     }
@@ -2246,18 +2735,21 @@ public struct Odb: AWSService {
     /// Stops the specified DB node in a VM cluster.
     ///
     /// Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to stop.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster that contains the DB node to stop. You must specify either this parameter or exadbVmClusterId.
     ///   - dbNodeId: The unique identifier of the DB node to stop.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster that contains the DB node to stop. You must specify either this parameter or cloudVmClusterId.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopDbNode(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
         dbNodeId: String,
+        exadbVmClusterId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StopDbNodeOutput {
         let input = StopDbNodeInput(
             cloudVmClusterId: cloudVmClusterId, 
-            dbNodeId: dbNodeId
+            dbNodeId: dbNodeId, 
+            exadbVmClusterId: exadbVmClusterId
         )
         return try await self.stopDbNode(input, logger: logger)
     }
@@ -2581,6 +3073,112 @@ public struct Odb: AWSService {
             maintenanceWindow: maintenanceWindow
         )
         return try await self.updateCloudExadataInfrastructure(input, logger: logger)
+    }
+
+    /// Updates the specified Exascale VM cluster.
+    @Sendable
+    @inlinable
+    public func updateExadbVmCluster(_ input: UpdateExadbVmClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateExadbVmClusterOutput {
+        try await self.client.execute(
+            operation: "UpdateExadbVmCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified Exascale VM cluster.
+    ///
+    /// Parameters:
+    ///   - dataCollectionOptions: The set of preferences for the various diagnostic collection options for the Exascale VM cluster.
+    ///   - displayName: A new user-friendly name for the Exascale VM cluster.
+    ///   - enabledEcpuCount: The number of ECPUs to enable for the Exascale VM cluster.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster to update.
+    ///   - gridImageId: The Grid Infrastructure software image ID for the Exascale VM cluster.
+    ///   - licenseModel: The Oracle license model to apply to the Exascale VM cluster.
+    ///   - sshPublicKeys: The public key portion of one or more key pairs used for SSH access to the Exascale VM cluster.
+    ///   - systemVersion: The version of the operating system of the image for the Exascale VM cluster.
+    ///   - totalEcpuCount: The total number of ECPUs for the Exascale VM cluster.
+    ///   - updateAction: The update action to perform on the Exascale VM cluster.
+    ///   - vmFileSystemStorageTotalSizeInGBs: The total amount of file system storage, in gigabytes (GB), for the Exascale VM cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExadbVmCluster(
+        dataCollectionOptions: DataCollectionOptions? = nil,
+        displayName: String? = nil,
+        enabledEcpuCount: Int? = nil,
+        exadbVmClusterId: String,
+        gridImageId: String? = nil,
+        licenseModel: LicenseModel? = nil,
+        sshPublicKeys: [String]? = nil,
+        systemVersion: String? = nil,
+        totalEcpuCount: Int? = nil,
+        updateAction: UpdateAction? = nil,
+        vmFileSystemStorageTotalSizeInGBs: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateExadbVmClusterOutput {
+        let input = UpdateExadbVmClusterInput(
+            dataCollectionOptions: dataCollectionOptions, 
+            displayName: displayName, 
+            enabledEcpuCount: enabledEcpuCount, 
+            exadbVmClusterId: exadbVmClusterId, 
+            gridImageId: gridImageId, 
+            licenseModel: licenseModel, 
+            sshPublicKeys: sshPublicKeys, 
+            systemVersion: systemVersion, 
+            totalEcpuCount: totalEcpuCount, 
+            updateAction: updateAction, 
+            vmFileSystemStorageTotalSizeInGBs: vmFileSystemStorageTotalSizeInGBs
+        )
+        return try await self.updateExadbVmCluster(input, logger: logger)
+    }
+
+    /// Updates the specified Exascale storage vault.
+    @Sendable
+    @inlinable
+    public func updateExascaleDbStorageVault(_ input: UpdateExascaleDbStorageVaultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateExascaleDbStorageVaultOutput {
+        try await self.client.execute(
+            operation: "UpdateExascaleDbStorageVault", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the specified Exascale storage vault.
+    ///
+    /// Parameters:
+    ///   - additionalFlashCacheInPercent: The additional flash cache percentage for the Exascale storage vault.
+    ///   - autoscaleLimitInGBs: The autoscale limit in gigabytes (GB) for the Exascale storage vault.
+    ///   - description: A new description for the Exascale storage vault.
+    ///   - displayName: A new user-friendly name for the Exascale storage vault.
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault to update.
+    ///   - highCapacityDatabaseStorageTotalSizeInGBs: The total size of the high-capacity database storage, in gigabytes (GB), for the Exascale storage vault.
+    ///   - isAutoscaleEnabled: Specifies whether autoscaling is enabled for the Exascale storage vault.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExascaleDbStorageVault(
+        additionalFlashCacheInPercent: Int? = nil,
+        autoscaleLimitInGBs: Int? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        exascaleDbStorageVaultId: String,
+        highCapacityDatabaseStorageTotalSizeInGBs: Int? = nil,
+        isAutoscaleEnabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateExascaleDbStorageVaultOutput {
+        let input = UpdateExascaleDbStorageVaultInput(
+            additionalFlashCacheInPercent: additionalFlashCacheInPercent, 
+            autoscaleLimitInGBs: autoscaleLimitInGBs, 
+            description: description, 
+            displayName: displayName, 
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId, 
+            highCapacityDatabaseStorageTotalSizeInGBs: highCapacityDatabaseStorageTotalSizeInGBs, 
+            isAutoscaleEnabled: isAutoscaleEnabled
+        )
+        return try await self.updateExascaleDbStorageVault(input, logger: logger)
     }
 
     /// Updates properties of a specified ODB network.
@@ -3091,17 +3689,20 @@ extension Odb {
     /// Return PaginatorSequence for operation ``listDbNodes(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - cloudVmClusterId: The unique identifier of the VM cluster.
+    ///   - cloudVmClusterId: The unique identifier of the VM cluster. You must specify either this parameter or exadbVmClusterId.
+    ///   - exadbVmClusterId: The unique identifier of the Exascale VM cluster. You must specify either this parameter or cloudVmClusterId.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
     ///   - logger: Logger used for logging
     @inlinable
     public func listDbNodesPaginator(
-        cloudVmClusterId: String,
+        cloudVmClusterId: String? = nil,
+        exadbVmClusterId: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDbNodesInput, ListDbNodesOutput> {
         let input = ListDbNodesInput(
             cloudVmClusterId: cloudVmClusterId, 
+            exadbVmClusterId: exadbVmClusterId, 
             maxResults: maxResults
         )
         return self.listDbNodesPaginator(input, logger: logger)
@@ -3168,20 +3769,177 @@ extension Odb {
     ///   - availabilityZone: The logical name of the AZ, for example, us-east-1a. This name varies depending on the account.
     ///   - availabilityZoneId: The physical ID of the AZ, for example, use1-az4. This ID persists across accounts.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. Default: 10
+    ///   - shapeFamily: The shape family to filter results by.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDbSystemShapesPaginator(
         availabilityZone: String? = nil,
         availabilityZoneId: String? = nil,
         maxResults: Int? = nil,
+        shapeFamily: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDbSystemShapesInput, ListDbSystemShapesOutput> {
         let input = ListDbSystemShapesInput(
             availabilityZone: availabilityZone, 
             availabilityZoneId: availabilityZoneId, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            shapeFamily: shapeFamily
         )
         return self.listDbSystemShapesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExadbVmClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExadbVmClustersPaginator(
+        _ input: ListExadbVmClustersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExadbVmClustersInput, ListExadbVmClustersOutput> {
+        return .init(
+            input: input,
+            command: self.listExadbVmClusters,
+            inputKey: \ListExadbVmClustersInput.nextToken,
+            outputKey: \ListExadbVmClustersOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExadbVmClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - exascaleDbStorageVaultId: The unique identifier of the Exascale storage vault to list the associated Exascale VM clusters.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExadbVmClustersPaginator(
+        exascaleDbStorageVaultId: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExadbVmClustersInput, ListExadbVmClustersOutput> {
+        let input = ListExadbVmClustersInput(
+            exascaleDbStorageVaultId: exascaleDbStorageVaultId, 
+            maxResults: maxResults
+        )
+        return self.listExadbVmClustersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listExascaleDbStorageVaults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExascaleDbStorageVaultsPaginator(
+        _ input: ListExascaleDbStorageVaultsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput> {
+        return .init(
+            input: input,
+            command: self.listExascaleDbStorageVaults,
+            inputKey: \ListExascaleDbStorageVaultsInput.nextToken,
+            outputKey: \ListExascaleDbStorageVaultsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExascaleDbStorageVaults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExascaleDbStorageVaultsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExascaleDbStorageVaultsInput, ListExascaleDbStorageVaultsOutput> {
+        let input = ListExascaleDbStorageVaultsInput(
+            maxResults: maxResults
+        )
+        return self.listExascaleDbStorageVaultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFlexComponents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlexComponentsPaginator(
+        _ input: ListFlexComponentsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlexComponentsInput, ListFlexComponentsOutput> {
+        return .init(
+            input: input,
+            command: self.listFlexComponents,
+            inputKey: \ListFlexComponentsInput.nextToken,
+            outputKey: \ListFlexComponentsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlexComponents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - shape: The shape to return flex components for. For a list of valid shapes, use the ListDbSystemShapes operation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlexComponentsPaginator(
+        maxResults: Int? = nil,
+        shape: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlexComponentsInput, ListFlexComponentsOutput> {
+        let input = ListFlexComponentsInput(
+            maxResults: maxResults, 
+            shape: shape
+        )
+        return self.listFlexComponentsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listGiMinorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGiMinorVersionsPaginator(
+        _ input: ListGiMinorVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListGiMinorVersionsInput, ListGiMinorVersionsOutput> {
+        return .init(
+            input: input,
+            command: self.listGiMinorVersions,
+            inputKey: \ListGiMinorVersionsInput.nextToken,
+            outputKey: \ListGiMinorVersionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listGiMinorVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - availabilityZone: The Availability Zone to filter GI minor versions.
+    ///   - availabilityZoneId: The Availability Zone ID to filter GI minor versions.
+    ///   - giVersion: The Oracle Grid Infrastructure (GI) major version.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - shapeFamily: The shape family for the GI minor version.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listGiMinorVersionsPaginator(
+        availabilityZone: String? = nil,
+        availabilityZoneId: String? = nil,
+        giVersion: String,
+        maxResults: Int? = nil,
+        shapeFamily: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListGiMinorVersionsInput, ListGiMinorVersionsOutput> {
+        let input = ListGiMinorVersionsInput(
+            availabilityZone: availabilityZone, 
+            availabilityZoneId: availabilityZoneId, 
+            giVersion: giVersion, 
+            maxResults: maxResults, 
+            shapeFamily: shapeFamily
+        )
+        return self.listGiMinorVersionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listGiVersions(_:logger:)``.
@@ -3448,6 +4206,7 @@ extension Odb.ListDbNodesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Odb.ListDbNodesInput {
         return .init(
             cloudVmClusterId: self.cloudVmClusterId,
+            exadbVmClusterId: self.exadbVmClusterId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -3472,7 +4231,54 @@ extension Odb.ListDbSystemShapesInput: AWSPaginateToken {
             availabilityZone: self.availabilityZone,
             availabilityZoneId: self.availabilityZoneId,
             maxResults: self.maxResults,
+            nextToken: token,
+            shapeFamily: self.shapeFamily
+        )
+    }
+}
+
+extension Odb.ListExadbVmClustersInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListExadbVmClustersInput {
+        return .init(
+            exascaleDbStorageVaultId: self.exascaleDbStorageVaultId,
+            maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Odb.ListExascaleDbStorageVaultsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListExascaleDbStorageVaultsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Odb.ListFlexComponentsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListFlexComponentsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            shape: self.shape
+        )
+    }
+}
+
+extension Odb.ListGiMinorVersionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Odb.ListGiMinorVersionsInput {
+        return .init(
+            availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
+            giVersion: self.giVersion,
+            maxResults: self.maxResults,
+            nextToken: token,
+            shapeFamily: self.shapeFamily
         )
     }
 }

@@ -90,11 +90,51 @@ extension SocialMessaging {
         }
     }
 
+    public struct CreateWhatsAppDatasetInput: AWSEncodableShape {
+        /// The ID of the WhatsApp Business Account to create a dataset for, formatted as waba-01234567890123456789012345678901.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct CreateWhatsAppDatasetOutput: AWSDecodableShape {
+        /// The Meta-generated dataset ID, a numeric string of 10 to 20 digits.
+        public let datasetId: String
+
+        @inlinable
+        public init(datasetId: String) {
+            self.datasetId = datasetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+        }
+    }
+
     public struct CreateWhatsAppFlowInput: AWSEncodableShape {
         /// The categories that classify the business purpose of the Flow. At least one category is required.
         public let categories: [MetaFlowCategory]
         /// The ID of an existing Flow within the same WhatsApp Business Account to clone.
         public let cloneFlowId: String?
+        /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the
+        /// Flow's endpoint_uri and called by Meta directly. When omitted, the Flow
+        /// has no endpoint (static Flow). Meta only calls the endpoint when the
+        /// Flow JSON also declares data_api_version. To verify that requests
+        /// originate from Meta, attach your own Meta app via UpdateWhatsAppFlow.
+        public let endpointUri: String?
         /// The Flow JSON definition that describes the screens, components, and logic of the Flow. Maximum size is 10 MB.
         public let flowJson: AWSBase64Data?
         /// The name of the Flow. Must be unique within the WhatsApp Business Account.
@@ -105,9 +145,10 @@ extension SocialMessaging {
         public let publish: Bool?
 
         @inlinable
-        public init(categories: [MetaFlowCategory], cloneFlowId: String? = nil, flowJson: AWSBase64Data? = nil, flowName: String, id: String, publish: Bool? = nil) {
+        public init(categories: [MetaFlowCategory], cloneFlowId: String? = nil, endpointUri: String? = nil, flowJson: AWSBase64Data? = nil, flowName: String, id: String, publish: Bool? = nil) {
             self.categories = categories
             self.cloneFlowId = cloneFlowId
+            self.endpointUri = endpointUri
             self.flowJson = flowJson
             self.flowName = flowName
             self.id = id
@@ -120,6 +161,8 @@ extension SocialMessaging {
             try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, max: 100)
             try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, min: 1)
             try self.validate(self.cloneFlowId, name: "cloneFlowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.endpointUri, name: "endpointUri", parent: name, max: 2048)
+            try self.validate(self.endpointUri, name: "endpointUri", parent: name, min: 1)
             try self.validate(self.flowJson, name: "flowJson", parent: name, max: 10485760)
             try self.validate(self.flowJson, name: "flowJson", parent: name, min: 1)
             try self.validate(self.flowName, name: "flowName", parent: name, max: 200)
@@ -132,6 +175,7 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case categories = "categories"
             case cloneFlowId = "cloneFlowId"
+            case endpointUri = "endpointUri"
             case flowJson = "flowJson"
             case flowName = "flowName"
             case id = "id"
@@ -552,6 +596,48 @@ extension SocialMessaging {
         }
     }
 
+    public struct GetWhatsAppBusinessPublicKeyInput: AWSEncodableShape {
+        /// The unique identifier of the phone number whose business public key to retrieve.
+        public let originationPhoneNumberId: String
+
+        @inlinable
+        public init(originationPhoneNumberId: String) {
+            self.originationPhoneNumberId = originationPhoneNumberId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.originationPhoneNumberId, key: "originationPhoneNumberId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWhatsAppBusinessPublicKeyOutput: AWSDecodableShape {
+        /// The stored RSA business public key (PEM), if present.
+        public let businessPublicKey: String?
+        /// Meta's signing status: "VALID" | "MISMATCH".
+        public let businessPublicKeySignatureStatus: String?
+
+        @inlinable
+        public init(businessPublicKey: String? = nil, businessPublicKeySignatureStatus: String? = nil) {
+            self.businessPublicKey = businessPublicKey
+            self.businessPublicKeySignatureStatus = businessPublicKeySignatureStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessPublicKey = "businessPublicKey"
+            case businessPublicKeySignatureStatus = "businessPublicKeySignatureStatus"
+        }
+    }
+
     public struct GetWhatsAppFlowInput: AWSEncodableShape {
         /// The unique identifier of the Flow to retrieve.
         public let flowId: String
@@ -926,6 +1012,8 @@ extension SocialMessaging {
     public struct LinkedWhatsAppBusinessAccount: AWSDecodableShape {
         /// The ARN of the linked WhatsApp Business Account.
         public let arn: String
+        /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
+        public let datasetId: String?
         /// The event destinations for the linked WhatsApp Business Account.
         public let eventDestinations: [WhatsAppBusinessAccountEventDestination]
         /// The ID of the linked WhatsApp Business Account, formatted as waba-01234567890123456789012345678901.
@@ -944,8 +1032,9 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, datasetId: String? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, phoneNumbers: [WhatsAppPhoneNumberSummary], registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
+            self.datasetId = datasetId
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -958,6 +1047,7 @@ extension SocialMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case datasetId = "datasetId"
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
@@ -998,6 +1088,8 @@ extension SocialMessaging {
     public struct LinkedWhatsAppBusinessAccountSummary: AWSDecodableShape {
         /// The ARN of the linked WhatsApp Business Account.
         public let arn: String
+        /// The Meta Conversions API dataset ID associated with this WhatsApp Business Account. This value is a numeric string of 10 to 20 digits. This field is not present when no dataset has been created for this account.
+        public let datasetId: String?
         /// The event destinations for the linked WhatsApp Business Account.
         public let eventDestinations: [WhatsAppBusinessAccountEventDestination]
         /// The ID of the linked WhatsApp Business Account, formatted as waba-01234567890123456789012345678901.
@@ -1014,8 +1106,9 @@ extension SocialMessaging {
         public let wabaName: String
 
         @inlinable
-        public init(arn: String, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
+        public init(arn: String, datasetId: String? = nil, eventDestinations: [WhatsAppBusinessAccountEventDestination], id: String, linkDate: Date, marketingMessagesOnboardingStatus: String? = nil, registrationStatus: RegistrationStatus, wabaId: String, wabaName: String) {
             self.arn = arn
+            self.datasetId = datasetId
             self.eventDestinations = eventDestinations
             self.id = id
             self.linkDate = linkDate
@@ -1027,6 +1120,7 @@ extension SocialMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case datasetId = "datasetId"
             case eventDestinations = "eventDestinations"
             case id = "id"
             case linkDate = "linkDate"
@@ -1726,6 +1820,43 @@ extension SocialMessaging {
         public init() {}
     }
 
+    public struct PutWhatsAppBusinessPublicKeyInput: AWSEncodableShape {
+        /// PEM-encoded RSA public key. Mutually exclusive with kmsKeyArn.
+        public let businessPublicKey: String?
+        /// Customer-managed KMS asymmetric RSA key ARN. Mutually exclusive with businessPublicKey.
+        public let kmsKeyArn: String?
+        /// The unique identifier of the phone number to associate with the business public key.
+        public let originationPhoneNumberId: String
+
+        @inlinable
+        public init(businessPublicKey: String? = nil, kmsKeyArn: String? = nil, originationPhoneNumberId: String) {
+            self.businessPublicKey = businessPublicKey
+            self.kmsKeyArn = kmsKeyArn
+            self.originationPhoneNumberId = originationPhoneNumberId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.businessPublicKey, name: "businessPublicKey", parent: name, max: 8192)
+            try self.validate(self.businessPublicKey, name: "businessPublicKey", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 256)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-z-]*:kms:[a-z0-9-]+:[0-9]{12}:(key/.+|alias/.+)$")
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, max: 115)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, min: 1)
+            try self.validate(self.originationPhoneNumberId, name: "originationPhoneNumberId", parent: name, pattern: "(^phone-number-id-.*$)|(^arn:.*:phone-number-id/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessPublicKey = "businessPublicKey"
+            case kmsKeyArn = "kmsKeyArn"
+            case originationPhoneNumberId = "originationPhoneNumberId"
+        }
+    }
+
+    public struct PutWhatsAppBusinessPublicKeyOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct S3File: AWSEncodableShape {
         /// The bucket name.
         public let bucketName: String
@@ -1759,6 +1890,53 @@ extension SocialMessaging {
         private enum CodingKeys: String, CodingKey {
             case headers = "headers"
             case url = "url"
+        }
+    }
+
+    public struct SendWhatsAppConversionEventInput: AWSEncodableShape {
+        /// The Meta-generated dataset ID to send the event to.
+        public let datasetId: String
+        /// The raw Meta Conversions API event payload as a JSON blob. See Meta's server event parameters for the supported format.
+        public let eventData: AWSBase64Data
+        /// The ID of the WhatsApp Business Account associated with the dataset, formatted as waba-01234567890123456789012345678901.
+        public let id: String
+
+        @inlinable
+        public init(datasetId: String, eventData: AWSBase64Data, id: String) {
+            self.datasetId = datasetId
+            self.eventData = eventData
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetId, name: "datasetId", parent: name, max: 20)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, min: 10)
+            try self.validate(self.datasetId, name: "datasetId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.eventData, name: "eventData", parent: name, max: 1024000)
+            try self.validate(self.eventData, name: "eventData", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 115)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetId = "datasetId"
+            case eventData = "eventData"
+            case id = "id"
+        }
+    }
+
+    public struct SendWhatsAppConversionEventOutput: AWSDecodableShape {
+        /// The unique identifier for the conversion event request.
+        public let requestId: String
+
+        @inlinable
+        public init(requestId: String) {
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "requestId"
         }
     }
 
@@ -1982,24 +2160,41 @@ extension SocialMessaging {
     public struct UpdateWhatsAppFlowInput: AWSEncodableShape {
         /// The updated categories for the Flow.
         public let categories: [MetaFlowCategory]?
+        /// Optional HTTPS endpoint for a dynamic Flow, registered with Meta as the
+        /// Flow's endpoint_uri and called by Meta directly. When omitted, the
+        /// Flow's endpoint is unchanged.
+        public let endpointUri: String?
         /// The unique identifier of the Flow to update.
         public let flowId: String
         /// The updated name for the Flow.
         public let flowName: String?
         /// The ID of the WhatsApp Business Account associated with this Flow.
         public let id: String
+        /// Optional Meta app ID to attach to the Flow. Meta signs data-exchange
+        /// requests with the attached app's secret, so attaching your own app is
+        /// what enables X-Hub-Signature-256 and flow_token_signature verification
+        /// at your endpoint. Meta requires the app to be owned by the same business
+        /// that owns the WABA. Attaching your own app is one-way: the service's
+        /// app cannot be re-attached afterwards. When omitted, the attached app is
+        /// unchanged. (Set via update because Meta ignores application_id at
+        /// creation time.)
+        public let metaAppId: String?
 
         @inlinable
-        public init(categories: [MetaFlowCategory]? = nil, flowId: String, flowName: String? = nil, id: String) {
+        public init(categories: [MetaFlowCategory]? = nil, endpointUri: String? = nil, flowId: String, flowName: String? = nil, id: String, metaAppId: String? = nil) {
             self.categories = categories
+            self.endpointUri = endpointUri
             self.flowId = flowId
             self.flowName = flowName
             self.id = id
+            self.metaAppId = metaAppId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.categories, name: "categories", parent: name, max: 9)
             try self.validate(self.categories, name: "categories", parent: name, min: 1)
+            try self.validate(self.endpointUri, name: "endpointUri", parent: name, max: 2048)
+            try self.validate(self.endpointUri, name: "endpointUri", parent: name, min: 1)
             try self.validate(self.flowId, name: "flowId", parent: name, max: 100)
             try self.validate(self.flowId, name: "flowId", parent: name, min: 1)
             try self.validate(self.flowId, name: "flowId", parent: name, pattern: "^[0-9]+$")
@@ -2008,13 +2203,17 @@ extension SocialMessaging {
             try self.validate(self.id, name: "id", parent: name, max: 115)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "(^waba-.*$)|(^arn:.*:waba/[0-9a-zA-Z]+$)")
+            try self.validate(self.metaAppId, name: "metaAppId", parent: name, max: 100)
+            try self.validate(self.metaAppId, name: "metaAppId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case categories = "categories"
+            case endpointUri = "endpointUri"
             case flowId = "flowId"
             case flowName = "flowName"
             case id = "id"
+            case metaAppId = "metaAppId"
         }
     }
 

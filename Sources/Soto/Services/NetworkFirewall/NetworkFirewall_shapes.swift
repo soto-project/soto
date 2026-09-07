@@ -46,6 +46,7 @@ extension NetworkFirewall {
         case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -69,6 +70,7 @@ extension NetworkFirewall {
 
     public enum FirewallStatusValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
+        case failed = "FAILED"
         case provisioning = "PROVISIONING"
         case ready = "READY"
         public var description: String { return self.rawValue }
@@ -126,6 +128,15 @@ extension NetworkFirewall {
         case alert = "ALERT"
         case flow = "FLOW"
         case tls = "TLS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case ready = "READY"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -742,6 +753,8 @@ extension NetworkFirewall {
     }
 
     public struct Attachment: AWSDecodableShape {
+        /// The DNS name that resolves to the firewall endpoint in the subnet. This is populated for proxy mode firewalls, where clients direct traffic to the firewall's proxy using this name.
+        public let dnsName: String?
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
         /// The current status of the firewall endpoint instantiation in the subnet.  When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
@@ -752,7 +765,8 @@ extension NetworkFirewall {
         public let subnetId: String?
 
         @inlinable
-        public init(endpointId: String? = nil, status: AttachmentStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
+        public init(dnsName: String? = nil, endpointId: String? = nil, status: AttachmentStatus? = nil, statusMessage: String? = nil, subnetId: String? = nil) {
+            self.dnsName = dnsName
             self.endpointId = endpointId
             self.status = status
             self.statusMessage = statusMessage
@@ -760,6 +774,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
             case endpointId = "EndpointId"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -874,9 +889,9 @@ extension NetworkFirewall {
     }
 
     public struct ContainerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the container attribute to filter on.
+        /// The attribute key to filter on.
         public let key: String
-        /// The value of the container attribute to filter on.
+        /// The attribute value to match.
         public let value: String
 
         @inlinable
@@ -901,9 +916,9 @@ extension NetworkFirewall {
     }
 
     public struct ContainerMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A list of key-value pairs that filter which containers within the cluster are monitored. Only containers that match the specified attributes are included.
+        /// Key-value pairs that filter which containers are tracked. For Amazon EKS, you can filter by namespace and Kubernetes labels. For Amazon ECS, you can filter by container instance attributes (EC2 launch type only).
         public let attributeFilters: [ContainerAttribute]?
-        /// The Amazon Resource Name (ARN) of the container cluster to monitor.
+        /// The ARN of the Amazon ECS or Amazon EKS cluster to monitor. The cluster must be in the same Region and account as the container association.
         public let clusterArn: String
 
         @inlinable
@@ -930,13 +945,13 @@ extension NetworkFirewall {
     public struct CreateContainerAssociationRequest: AWSEncodableShape {
         /// The descriptive name of the container association. You can't change the name of a container association after you create it.
         public let containerAssociationName: String
-        /// The list of container monitoring configurations that define which clusters and container attributes to monitor.
+        /// The monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters to narrow which containers are tracked.
         public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]
         /// A description of the container association.
         public let description: String?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The type of container orchestration platform for the clusters in this association. Valid values are ECS and EKS. You can't change the type after creation.
+        /// The type of containers to monitor. You can't change the container type after creation. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
         public let type: ContainerMonitoringType
 
         @inlinable
@@ -978,17 +993,17 @@ extension NetworkFirewall {
         public let containerAssociationArn: String?
         /// The descriptive name of the container association.
         public let containerAssociationName: String?
-        /// The container monitoring configurations for this container association.
+        /// The monitoring configurations for the container association.
         public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
         /// A description of the container association.
         public let description: String?
-        /// The current status of the container association.
+        /// The current status of the container association. For a new container association, the status is CREATING.
         public let status: ContainerAssociationStatus?
-        /// The key:value pairs associated with the resource.
+        /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The type of container orchestration platform. Either ECS or EKS.
+        /// The container type. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
         public let type: ContainerMonitoringType?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
         @inlinable
@@ -1101,6 +1116,12 @@ extension NetworkFirewall {
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
+        /// The NAT gateways that the firewall uses to proxy traffic when NoSourcePreservation is TRUE. Network Firewall attaches the firewall to each NAT gateway that you specify, so that egress traffic is proxied through the NAT gateway.
+        public let natGatewayMappings: [NatGatewayMapping]?
+        /// Optional. Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When set to TRUE, the firewall proxies traffic through a NAT gateway and the traffic reaching the destination uses the NAT gateway's IP address as the source.  When you set this to TRUE, you must specify NatGatewayMappings and VpcEndpoint instead of a top-level VpcId and SubnetMappings.  You can't change this setting after you create the firewall.  Default value: FALSE
+        public let noSourcePreservation: Bool?
+        /// The listener configuration for a proxy mode firewall, used when NoSourcePreservation is TRUE. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+        public let proxySettings: ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
         /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
@@ -1109,11 +1130,13 @@ extension NetworkFirewall {
         public let tags: [Tag]?
         /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager.  After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall.  For information about creating firewalls, see CreateFirewall. For specific guidance about transit gateway-attached firewalls, see Considerations for transit gateway-attached firewalls in the Network Firewall Developer Guide.
         public let transitGatewayId: String?
+        /// The VPC and subnets for the firewall endpoint, used when NoSourcePreservation is TRUE. Network Firewall creates the firewall endpoint in the subnets that you specify here.  For proxy mode firewalls, provide the firewall's VPC and endpoint subnets through this parameter instead of the top-level VpcId and SubnetMappings.
+        public let vpcEndpoint: VpcEndpoint?
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, vpcId: String? = nil) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayMappings: [NatGatewayMapping]? = nil, noSourcePreservation: Bool? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String? = nil) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
@@ -1123,10 +1146,14 @@ extension NetworkFirewall {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.natGatewayMappings = natGatewayMappings
+            self.noSourcePreservation = noSourcePreservation
+            self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
             self.transitGatewayId = transitGatewayId
+            self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
 
@@ -1143,6 +1170,9 @@ extension NetworkFirewall {
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: "^arn:aws")
+            try self.natGatewayMappings?.forEach {
+                try $0.validate(name: "\(name).natGatewayMappings[]")
+            }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1151,6 +1181,7 @@ extension NetworkFirewall {
             try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, max: 128)
             try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, min: 1)
             try self.validate(self.transitGatewayId, name: "transitGatewayId", parent: name, pattern: "^tgw-[0-9a-z]+$")
+            try self.vpcEndpoint?.validate(name: "\(name).vpcEndpoint")
             try self.validate(self.vpcId, name: "vpcId", parent: name, max: 128)
             try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[0-9a-f]+$")
@@ -1166,10 +1197,14 @@ extension NetworkFirewall {
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
+            case natGatewayMappings = "NatGatewayMappings"
+            case noSourcePreservation = "NoSourcePreservation"
+            case proxySettings = "ProxySettings"
             case subnetChangeProtection = "SubnetChangeProtection"
             case subnetMappings = "SubnetMappings"
             case tags = "Tags"
             case transitGatewayId = "TransitGatewayId"
+            case vpcEndpoint = "VpcEndpoint"
             case vpcId = "VpcId"
         }
     }
@@ -1809,7 +1844,7 @@ extension NetworkFirewall {
         public let containerAssociationArn: String?
         /// The descriptive name of the container association.
         public let containerAssociationName: String?
-        /// The current status of the container association.
+        /// The current status of the container association. After deletion is initiated, the status is DELETING.
         public let status: ContainerAssociationStatus?
 
         @inlinable
@@ -2324,21 +2359,21 @@ extension NetworkFirewall {
         public let containerAssociationArn: String?
         /// The descriptive name of the container association.
         public let containerAssociationName: String?
-        /// The container monitoring configurations for this container association.
+        /// The monitoring configurations for the container association.
         public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
         /// A description of the container association.
         public let description: String?
-        /// The last time that the container association was updated or resolved new container IP addresses.
+        /// The most recent time that Network Firewall updated the container association.
         public let lastUpdatedTime: Date?
-        /// The number of CIDR blocks that have been resolved from the monitored containers for this container association.
+        /// The number of CIDR blocks resolved from the monitored containers.
         public let resolvedCidrCount: Int?
         /// The current status of the container association.
         public let status: ContainerAssociationStatus?
-        /// The key:value pairs associated with the resource.
+        /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The type of container orchestration platform. Either ECS or EKS.
+        /// The container type. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
         public let type: ContainerMonitoringType?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
         @inlinable
@@ -3519,8 +3554,14 @@ extension NetworkFirewall {
         public let firewallPolicyArn: String
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let firewallPolicyChangeProtection: Bool?
+        /// The NAT gateways that the firewall uses to proxy traffic. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public let natGatewayMappings: [NatGatewayMapping]?
+        /// Indicates whether the firewall operates in proxy mode, in which the source IP address of the traffic is not preserved. When this value is TRUE, the firewall proxies traffic through a NAT gateway and uses the NAT gateway's IP address as the source for traffic reaching the destination.
+        public let noSourcePreservation: Bool?
         /// The number of VpcEndpointAssociation resources that use this firewall.
         public let numberOfAssociations: Int?
+        /// The listener configuration for the firewall's proxy. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public let proxySettings: ProxySettings?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
         /// The primary public subnets that Network Firewall is using for the firewall. Network Firewall creates a firewall endpoint in each subnet. Create a subnet mapping for each Availability Zone where you want to use the firewall. These subnets are all defined for a single, primary VPC, and each must belong to a different Availability Zone. Each of these subnets establishes the availability of the firewall in its Availability Zone.  In addition to these subnets, you can define other endpoints for the firewall in VpcEndpointAssociation resources. You can define these additional endpoints for any VPC, and for any of the Availability Zones where the firewall resource already has a subnet mapping. VPC endpoint associations give you the ability to protect multiple VPCs using a single firewall, and to define multiple firewall endpoints for a VPC in a single Availability Zone.
@@ -3530,11 +3571,13 @@ extension NetworkFirewall {
         public let transitGatewayId: String?
         /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
         public let transitGatewayOwnerAccountId: String?
+        /// The VPC and subnets for the firewall endpoint. This is set for proxy mode firewalls, where NoSourcePreservation is TRUE.
+        public let vpcEndpoint: VpcEndpoint?
         /// The unique identifier of the VPC where the firewall is in use.
         public let vpcId: String
 
         @inlinable
-        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, numberOfAssociations: Int? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayOwnerAccountId: String? = nil, vpcId: String) {
+        public init(availabilityZoneChangeProtection: Bool? = nil, availabilityZoneMappings: [AvailabilityZoneMapping]? = nil, deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, natGatewayMappings: [NatGatewayMapping]? = nil, noSourcePreservation: Bool? = nil, numberOfAssociations: Int? = nil, proxySettings: ProxySettings? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayOwnerAccountId: String? = nil, vpcEndpoint: VpcEndpoint? = nil, vpcId: String) {
             self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
             self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
@@ -3546,12 +3589,16 @@ extension NetworkFirewall {
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.natGatewayMappings = natGatewayMappings
+            self.noSourcePreservation = noSourcePreservation
             self.numberOfAssociations = numberOfAssociations
+            self.proxySettings = proxySettings
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
             self.transitGatewayId = transitGatewayId
             self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
+            self.vpcEndpoint = vpcEndpoint
             self.vpcId = vpcId
         }
 
@@ -3567,12 +3614,16 @@ extension NetworkFirewall {
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
+            case natGatewayMappings = "NatGatewayMappings"
+            case noSourcePreservation = "NoSourcePreservation"
             case numberOfAssociations = "NumberOfAssociations"
+            case proxySettings = "ProxySettings"
             case subnetChangeProtection = "SubnetChangeProtection"
             case subnetMappings = "SubnetMappings"
             case tags = "Tags"
             case transitGatewayId = "TransitGatewayId"
             case transitGatewayOwnerAccountId = "TransitGatewayOwnerAccountId"
+            case vpcEndpoint = "VpcEndpoint"
             case vpcId = "VpcId"
         }
     }
@@ -3604,7 +3655,7 @@ extension NetworkFirewall {
         public let enableTLSSessionHolding: Bool?
         /// Contains variables that you can use to override default Suricata settings in your firewall policy.
         public let policyVariables: PolicyVariables?
-        /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
+        /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   aws:drop_established_app_layer   aws:alert_established_app_layer   aws:drop_established_app_layer_to_server   aws:alert_established_app_layer_to_server   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulDefaultActions: [String]?
         /// Additional options governing how Network Firewall handles stateful rules. The stateful rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
         public let statefulEngineOptions: StatefulEngineOptions?
@@ -4202,7 +4253,7 @@ extension NetworkFirewall {
     }
 
     public struct ListContainerAssociationsResponse: AWSDecodableShape {
-        /// The container association metadata objects.
+        /// The container association metadata objects for the account and Region.
         public let containerAssociations: [ContainerAssociationSummary]?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
@@ -4836,7 +4887,7 @@ extension NetworkFirewall {
         }
     }
 
-    public struct ListenerProperty: AWSDecodableShape {
+    public struct ListenerProperty: AWSEncodableShape & AWSDecodableShape {
         /// Port for processing traffic.
         public let port: Int?
         /// Selection of HTTP or HTTPS traffic.
@@ -4975,6 +5026,50 @@ extension NetworkFirewall {
             case sourcePorts = "SourcePorts"
             case sources = "Sources"
             case tcpFlags = "TCPFlags"
+        }
+    }
+
+    public struct NatGatewayAttachment: AWSDecodableShape {
+        /// The DNS name that resolves to the firewall's proxy for traffic sent through this NAT gateway attachment.
+        public let dnsName: String?
+        /// A unique identifier for the NAT gateway to use with proxy resources.
+        public let natGatewayId: String
+        /// The current status of the NAT gateway attachment.  When this value is READY, the attachment is available to proxy traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
+        public let status: NatGatewayAttachmentStatus
+        /// If Network Firewall encounters an issue with the NAT gateway attachment, it populates this with an explanation of the problem.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(dnsName: String? = nil, natGatewayId: String, status: NatGatewayAttachmentStatus, statusMessage: String? = nil) {
+            self.dnsName = dnsName
+            self.natGatewayId = natGatewayId
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
+            case natGatewayId = "NatGatewayId"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct NatGatewayMapping: AWSEncodableShape & AWSDecodableShape {
+        /// A unique identifier for the NAT gateway to use with proxy resources.
+        public let natGatewayId: String
+
+        @inlinable
+        public init(natGatewayId: String) {
+            self.natGatewayId = natGatewayId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayId = "NatGatewayId"
         }
     }
 
@@ -5494,6 +5589,20 @@ extension NetworkFirewall {
             case postRESPONSE = "PostRESPONSE"
             case preDNS = "PreDNS"
             case preREQUEST = "PreREQUEST"
+        }
+    }
+
+    public struct ProxySettings: AWSEncodableShape & AWSDecodableShape {
+        /// Listener properties for HTTP and HTTPS traffic.
+        public let listenerProperties: [ListenerProperty]
+
+        @inlinable
+        public init(listenerProperties: [ListenerProperty]) {
+            self.listenerProperties = listenerProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerProperties = "ListenerProperties"
         }
     }
 
@@ -6472,16 +6581,20 @@ extension NetworkFirewall {
         public let attachment: Attachment?
         /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public let config: [String: PerObjectStatus]?
+        /// The status of the NAT gateway attachments for a proxy mode firewall in the Availability Zone. This reflects the attachment of the firewall to each NAT gateway that proxies its traffic.
+        public let natGatewayAttachments: [NatGatewayAttachment]?
 
         @inlinable
-        public init(attachment: Attachment? = nil, config: [String: PerObjectStatus]? = nil) {
+        public init(attachment: Attachment? = nil, config: [String: PerObjectStatus]? = nil, natGatewayAttachments: [NatGatewayAttachment]? = nil) {
             self.attachment = attachment
             self.config = config
+            self.natGatewayAttachments = natGatewayAttachments
         }
 
         private enum CodingKeys: String, CodingKey {
             case attachment = "Attachment"
             case config = "Config"
+            case natGatewayAttachments = "NatGatewayAttachments"
         }
     }
 
@@ -6859,15 +6972,15 @@ extension NetworkFirewall {
         public let containerAssociationArn: String?
         /// The descriptive name of the container association. You must specify the ARN or the name, and you can specify both.
         public let containerAssociationName: String?
-        /// The updated list of container monitoring configurations that define which clusters and container attributes to monitor.
+        /// The updated monitoring configurations for the container association. Each configuration specifies an Amazon ECS or Amazon EKS cluster to monitor and optional attribute filters.
         public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]
-        /// A description of the container association.
+        /// A description of the container association. When omitted, the existing description remains unchanged. To clear the description, pass an empty string.
         public let description: String?
-        /// The key:value pairs associated with the resource.
+        /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The type of container orchestration platform. This must match the type specified when the container association was created.
+        /// The container type. This value must match the existing type and can't be changed. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
         public let type: ContainerMonitoringType
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make an update to the container association, provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
         @inlinable
@@ -6919,17 +7032,17 @@ extension NetworkFirewall {
         public let containerAssociationArn: String?
         /// The descriptive name of the container association.
         public let containerAssociationName: String?
-        /// The container monitoring configurations for this container association.
+        /// The monitoring configurations for the container association.
         public let containerMonitoringConfigurations: [ContainerMonitoringConfiguration]?
         /// A description of the container association.
         public let description: String?
         /// The current status of the container association.
         public let status: ContainerAssociationStatus?
-        /// The key:value pairs associated with the resource.
+        /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
-        /// The type of container orchestration platform. Either ECS or EKS.
+        /// The container type. Valid values:    ECS - Amazon Elastic Container Service    EKS - Amazon Elastic Kubernetes Service
         public let type: ContainerMonitoringType?
-        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request.
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the container association. The token marks the state of the container association resource at the time of the request. To make changes to the container association, you provide the token in your request. Network Firewall uses the token to ensure that the container association hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the container association again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String?
 
         @inlinable
@@ -7753,6 +7866,70 @@ extension NetworkFirewall {
         }
     }
 
+    public struct UpdateProxySettingsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// The proxy listener configuration to set on the firewall. This specifies the ports and protocols on which the firewall's proxy listens for traffic.
+        public let proxySettings: ProxySettings?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(firewallArn: String? = nil, firewallName: String? = nil, proxySettings: ProxySettings? = nil, updateToken: String? = nil) {
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.proxySettings = proxySettings
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case proxySettings = "ProxySettings"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxySettingsResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// The updated proxy listener configuration on the firewall.
+        public let proxySettings: ProxySettings?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(firewallArn: String? = nil, firewallName: String? = nil, proxySettings: ProxySettings? = nil, updateToken: String? = nil) {
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.proxySettings = proxySettings
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case proxySettings = "ProxySettings"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct UpdateRuleGroupRequest: AWSEncodableShape {
         /// Indicates whether you want Network Firewall to analyze the stateless rules in the rule group for rule behavior such as asymmetric routing. If set to TRUE, Network Firewall runs the analysis and then updates the rule group for you. To run the stateless rule group analyzer without updating the rule group, set DryRun to TRUE.
         public let analyzeRuleGroup: Bool?
@@ -7980,6 +8157,30 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case tlsInspectionConfigurationResponse = "TLSInspectionConfigurationResponse"
             case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct VpcEndpoint: AWSEncodableShape & AWSDecodableShape {
+        /// The subnets in which Network Firewall creates the firewall endpoint for a proxy mode firewall. Each subnet must belong to a different Availability Zone in the VPC.
+        public let subnetMappings: [SubnetMapping]
+        /// The unique identifier of the VPC where Network Firewall creates the proxy mode firewall endpoint.
+        public let vpcId: String
+
+        @inlinable
+        public init(subnetMappings: [SubnetMapping], vpcId: String) {
+            self.subnetMappings = subnetMappings
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 128)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^vpc-[0-9a-f]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetMappings = "SubnetMappings"
+            case vpcId = "VpcId"
         }
     }
 

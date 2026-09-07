@@ -234,6 +234,7 @@ public struct ECS: AWSService {
     ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon. The daemon deploys tasks on container instances managed by these capacity providers.
     ///   - clientToken: An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster to create the daemon in.
+    ///   - critical: If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     ///   - daemonName: The name of the daemon. Up to 255 letters (uppercase and lowercase), numbers, underscores, and hyphens are allowed.
     ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the daemon.
     ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
@@ -247,6 +248,7 @@ public struct ECS: AWSService {
         capacityProviderArns: [String],
         clientToken: String? = nil,
         clusterArn: String? = nil,
+        critical: Bool? = nil,
         daemonName: String,
         daemonTaskDefinitionArn: String,
         deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
@@ -260,6 +262,7 @@ public struct ECS: AWSService {
             capacityProviderArns: capacityProviderArns, 
             clientToken: clientToken, 
             clusterArn: clusterArn, 
+            critical: critical, 
             daemonName: daemonName, 
             daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
             deploymentConfiguration: deploymentConfiguration, 
@@ -2948,6 +2951,7 @@ public struct ECS: AWSService {
     ///
     /// Parameters:
     ///   - capacityProviderArns: The Amazon Resource Names (ARNs) of the capacity providers to associate with the daemon.
+    ///   - critical: If the critical parameter of a daemon is true, and the daemon task fails, stops, or becomes unhealthy, Amazon ECS drains the container instance and stops the other tasks running on it. If the critical parameter is false, the daemon task failure doesn't affect the other tasks on the instance. The default value is true. A non-critical daemon doesn't block instance registration. The container instance becomes active and continues to run your other tasks, whether the daemon task fails during scale-out or during a deployment. Amazon ECS emits an EventBridge event when a daemon task fails to start, for both critical and non-critical daemons. Daemon task launch failures during a deployment are still counted by the deployment circuit breaker. The circuit breaker can roll back an unstable target revision.
     ///   - daemonArn: The Amazon Resource Name (ARN) of the daemon to update.
     ///   - daemonTaskDefinitionArn: The Amazon Resource Name (ARN) of the daemon task definition to use for the updated daemon.
     ///   - deploymentConfiguration: Optional deployment parameters that control how the daemon rolls out updates, including the drain percentage, alarm-based rollback, and bake time.
@@ -2958,6 +2962,7 @@ public struct ECS: AWSService {
     @inlinable
     public func updateDaemon(
         capacityProviderArns: [String],
+        critical: Bool? = nil,
         daemonArn: String,
         daemonTaskDefinitionArn: String,
         deploymentConfiguration: DaemonDeploymentConfiguration? = nil,
@@ -2968,6 +2973,7 @@ public struct ECS: AWSService {
     ) async throws -> UpdateDaemonResponse {
         let input = UpdateDaemonRequest(
             capacityProviderArns: capacityProviderArns, 
+            critical: critical, 
             daemonArn: daemonArn, 
             daemonTaskDefinitionArn: daemonTaskDefinitionArn, 
             deploymentConfiguration: deploymentConfiguration, 

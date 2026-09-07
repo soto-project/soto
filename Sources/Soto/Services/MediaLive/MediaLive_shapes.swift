@@ -73,6 +73,22 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum AbWatermarkerIdLength: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case id2048 = "ID_2048"
+        case id512 = "ID_512"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AbWatermarkingProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case camcording = "CAMCORDING"
+        case custom = "CUSTOM"
+        case hq = "HQ"
+        case mezzanine = "MEZZANINE"
+        case robust = "ROBUST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Ac3AttenuationControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attenuate3Db = "ATTENUATE_3_DB"
         case none = "NONE"
@@ -1754,6 +1770,7 @@ extension MediaLive {
     public enum M2tsScte35Control: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
+        case scte35WithoutIdr = "SCTE_35_WITHOUT_IDR"
         public var description: String { return self.rawValue }
     }
 
@@ -2221,6 +2238,7 @@ extension MediaLive {
 
     public enum Scte35Type: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
+        case scte35WithoutIdr = "SCTE_35_WITHOUT_IDR"
         case scte35WithoutSegmentation = "SCTE_35_WITHOUT_SEGMENTATION"
         public var description: String { return self.rawValue }
     }
@@ -2516,6 +2534,28 @@ extension MediaLive {
             case sampleRate = "sampleRate"
             case spec = "spec"
             case vbrQuality = "vbrQuality"
+        }
+    }
+
+    public struct AbWatermarkingCustomProfile: AWSEncodableShape & AWSDecodableShape {
+        /// The frequency with which watermarks will be embedded, in milliseconds.
+        public let embeddingFrequency: Double?
+        /// The number of frames after scene-cut to embed the watermark.
+        public let sceneCut: Double?
+        /// The target PSNR of the watermarked frame
+        public let targetPsnr: Double?
+
+        @inlinable
+        public init(embeddingFrequency: Double? = nil, sceneCut: Double? = nil, targetPsnr: Double? = nil) {
+            self.embeddingFrequency = embeddingFrequency
+            self.sceneCut = sceneCut
+            self.targetPsnr = targetPsnr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case embeddingFrequency = "embeddingFrequency"
+            case sceneCut = "sceneCut"
+            case targetPsnr = "targetPsnr"
         }
     }
 
@@ -4579,6 +4619,49 @@ extension MediaLive {
         }
     }
 
+    public struct CmafIngestAbWatermarkerIrdetoSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The "B" pipeline renditions for the additional destinations.
+        public let additionalDestinationsAlternateDestinations: [OutputLocationRef]?
+        /// The "B" pipeline renditions for the main destination.
+        public let alternateDestination: OutputLocationRef?
+        /// The vendor-provided custom profile values.
+        public let customProfile: AbWatermarkingCustomProfile?
+        /// The name of the Secrets Manager secret containing the license file.
+        public let license: String?
+        /// The vendor-provided Operator ID.
+        public let operatorId: Int?
+        /// The number of segments per watermarking bit. The total duration of the watermarking bit
+        /// should be the LCM (least common multiple) of all segments sizes emitted by the downstream packager.
+        public let polyPeriod: Int?
+        /// The vendor-provided profile choice.
+        public let profile: AbWatermarkingProfile?
+        /// The number of bits that compose the watermarking identifier to be embedded.
+        public let watermarkIdLength: AbWatermarkerIdLength?
+
+        @inlinable
+        public init(additionalDestinationsAlternateDestinations: [OutputLocationRef]? = nil, alternateDestination: OutputLocationRef? = nil, customProfile: AbWatermarkingCustomProfile? = nil, license: String? = nil, operatorId: Int? = nil, polyPeriod: Int? = nil, profile: AbWatermarkingProfile? = nil, watermarkIdLength: AbWatermarkerIdLength? = nil) {
+            self.additionalDestinationsAlternateDestinations = additionalDestinationsAlternateDestinations
+            self.alternateDestination = alternateDestination
+            self.customProfile = customProfile
+            self.license = license
+            self.operatorId = operatorId
+            self.polyPeriod = polyPeriod
+            self.profile = profile
+            self.watermarkIdLength = watermarkIdLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDestinationsAlternateDestinations = "additionalDestinationsAlternateDestinations"
+            case alternateDestination = "alternateDestination"
+            case customProfile = "customProfile"
+            case license = "license"
+            case operatorId = "operatorId"
+            case polyPeriod = "polyPeriod"
+            case profile = "profile"
+            case watermarkIdLength = "watermarkIdLength"
+        }
+    }
+
     public struct CmafIngestCaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
         /// A number for the channel for this caption, 1 to 4.
         public let captionChannel: Int?
@@ -4618,7 +4701,7 @@ extension MediaLive {
         public let nielsenId3NameModifier: String?
         /// Change the modifier that MediaLive automatically adds to the Streams() name for a SCTE 35 track. The default is "scte", which means the default name will be Streams(scte.cmfm). Any string you enter here will replace the "scte" string.\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.
         public let scte35NameModifier: String?
-        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        /// SCTE-35 insertion type. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "scte35WithoutSegmentation" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame so that a downstream re-packager might split the segment there, but MediaLive itself will not introduce a new segment boundary there.
         public let scte35Type: Scte35Type?
         /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
         public let segmentLength: Int?
@@ -4632,9 +4715,11 @@ extension MediaLive {
         public let timedMetadataId3Period: Int?
         /// Set to enabled to pass through ID3 metadata from the input sources.
         public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
+        /// Specifies the type of watermarking technology to use.
+        public let watermarkingSettings: CmafIngestWatermarkingSettings?
 
         @inlinable
-        public init(additionalDestinations: [AdditionalDestinations]? = nil, captionLanguageMappings: [CmafIngestCaptionLanguageMapping]? = nil, destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+        public init(additionalDestinations: [AdditionalDestinations]? = nil, captionLanguageMappings: [CmafIngestCaptionLanguageMapping]? = nil, destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil, watermarkingSettings: CmafIngestWatermarkingSettings? = nil) {
             self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
@@ -4652,6 +4737,7 @@ extension MediaLive {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
+            self.watermarkingSettings = watermarkingSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4672,6 +4758,7 @@ extension MediaLive {
             case timedMetadataId3Frame = "timedMetadataId3Frame"
             case timedMetadataId3Period = "timedMetadataId3Period"
             case timedMetadataPassthrough = "timedMetadataPassthrough"
+            case watermarkingSettings = "watermarkingSettings"
         }
     }
 
@@ -4686,6 +4773,19 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case nameModifier = "nameModifier"
+        }
+    }
+
+    public struct CmafIngestWatermarkingSettings: AWSEncodableShape & AWSDecodableShape {
+        public let cmafIngestAbWatermarkerIrdetoSettings: CmafIngestAbWatermarkerIrdetoSettings?
+
+        @inlinable
+        public init(cmafIngestAbWatermarkerIrdetoSettings: CmafIngestAbWatermarkerIrdetoSettings? = nil) {
+            self.cmafIngestAbWatermarkerIrdetoSettings = cmafIngestAbWatermarkerIrdetoSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cmafIngestAbWatermarkerIrdetoSettings = "cmafIngestAbWatermarkerIrdetoSettings"
         }
     }
 
@@ -12725,7 +12825,7 @@ extension MediaLive {
         public let rateMode: M2tsRateMode?
         /// Packet Identifier (PID) for input source SCTE-27 data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values.  Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
         public let scte27Pids: String?
-        /// Optionally pass SCTE-35 signals from the input source to this output.
+        /// SCTE-35 control. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "passthrough" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame, and MediaLive itself will introduce a new segment boundary there.
         public let scte35Control: M2tsScte35Control?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream. Can be entered as a decimal or hexadecimal value.  Valid values are 32 (or 0x20)..8182 (or 0x1ff6).
         public let scte35Pid: String?
@@ -13206,6 +13306,49 @@ extension MediaLive {
         }
     }
 
+    public struct MediaPackageV2AbWatermarkerIrdetoSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The "B" pipeline renditions for the additional destinations.
+        public let additionalDestinationsAlternateDestinations: [OutputLocationRef]?
+        /// The "B" pipeline renditions for the main destination.
+        public let alternateDestination: OutputLocationRef?
+        /// The vendor-provided custom profile values.
+        public let customProfile: AbWatermarkingCustomProfile?
+        /// The name of the Secrets Manager secret containing the license file.
+        public let license: String?
+        /// The vendor-provided Operator ID.
+        public let operatorId: Int?
+        /// The number of segments per watermarking bit. The total duration of the watermarking bit
+        /// should be the LCM (least common multiple) of all segments sizes emitted by the downstream packager.
+        public let polyPeriod: Int?
+        /// The vendor-provided profile choice.
+        public let profile: AbWatermarkingProfile?
+        /// The number of bits that compose the watermarking identifier to be embedded.
+        public let watermarkIdLength: AbWatermarkerIdLength?
+
+        @inlinable
+        public init(additionalDestinationsAlternateDestinations: [OutputLocationRef]? = nil, alternateDestination: OutputLocationRef? = nil, customProfile: AbWatermarkingCustomProfile? = nil, license: String? = nil, operatorId: Int? = nil, polyPeriod: Int? = nil, profile: AbWatermarkingProfile? = nil, watermarkIdLength: AbWatermarkerIdLength? = nil) {
+            self.additionalDestinationsAlternateDestinations = additionalDestinationsAlternateDestinations
+            self.alternateDestination = alternateDestination
+            self.customProfile = customProfile
+            self.license = license
+            self.operatorId = operatorId
+            self.polyPeriod = polyPeriod
+            self.profile = profile
+            self.watermarkIdLength = watermarkIdLength
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalDestinationsAlternateDestinations = "additionalDestinationsAlternateDestinations"
+            case alternateDestination = "alternateDestination"
+            case customProfile = "customProfile"
+            case license = "license"
+            case operatorId = "operatorId"
+            case polyPeriod = "polyPeriod"
+            case profile = "profile"
+            case watermarkIdLength = "watermarkIdLength"
+        }
+    }
+
     public struct MediaPackageV2DestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Applies only to an output that contains audio. If you want to put several audio encodes into one audio rendition group, decide on a name (ID) for the group. Then in every audio output that you want to belong to that group, enter that ID in this field. Note that this information is part of the HLS specification (not the CMAF specification), but if you include it then MediaPackage will include it in the manifest it creates for the video player.
         public let audioGroupId: String?
@@ -13245,7 +13388,7 @@ extension MediaLive {
         public let klvBehavior: CmafKLVBehavior?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public let nielsenId3Behavior: CmafNielsenId3Behavior?
-        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        /// SCTE-35 insertion type. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "scte35WithoutSegmentation" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame so that a downstream re-packager might split the segment there, but MediaLive itself will not introduce a new segment boundary there.
         public let scte35Type: Scte35Type?
         /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
         public let segmentLength: Int?
@@ -13257,9 +13400,11 @@ extension MediaLive {
         public let timedMetadataId3Period: Int?
         /// Set to enabled to pass through ID3 metadata from the input sources.
         public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
+        /// Specifies the type of watermarking technology to use.
+        public let watermarkingSettings: MediaPackageV2WatermarkingSettings?
 
         @inlinable
-        public init(additionalDestinations: [MediaPackageAdditionalDestinations]? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, id3Behavior: CmafId3Behavior? = nil, klvBehavior: CmafKLVBehavior? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+        public init(additionalDestinations: [MediaPackageAdditionalDestinations]? = nil, captionLanguageMappings: [CaptionLanguageMapping]? = nil, id3Behavior: CmafId3Behavior? = nil, klvBehavior: CmafKLVBehavior? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil, watermarkingSettings: MediaPackageV2WatermarkingSettings? = nil) {
             self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.id3Behavior = id3Behavior
@@ -13271,6 +13416,7 @@ extension MediaLive {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
+            self.watermarkingSettings = watermarkingSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13285,6 +13431,20 @@ extension MediaLive {
             case timedMetadataId3Frame = "timedMetadataId3Frame"
             case timedMetadataId3Period = "timedMetadataId3Period"
             case timedMetadataPassthrough = "timedMetadataPassthrough"
+            case watermarkingSettings = "watermarkingSettings"
+        }
+    }
+
+    public struct MediaPackageV2WatermarkingSettings: AWSEncodableShape & AWSDecodableShape {
+        public let mediaPackageV2AbWatermarkerIrdetoSettings: MediaPackageV2AbWatermarkerIrdetoSettings?
+
+        @inlinable
+        public init(mediaPackageV2AbWatermarkerIrdetoSettings: MediaPackageV2AbWatermarkerIrdetoSettings? = nil) {
+            self.mediaPackageV2AbWatermarkerIrdetoSettings = mediaPackageV2AbWatermarkerIrdetoSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaPackageV2AbWatermarkerIrdetoSettings = "mediaPackageV2AbWatermarkerIrdetoSettings"
         }
     }
 
@@ -13887,7 +14047,7 @@ extension MediaLive {
         public let pcrControl: M2tsPcrControl?
         /// Maximum time in milliseconds between Program Clock Reference (PCRs) inserted into the transport stream.
         public let pcrPeriod: Int?
-        /// Optionally pass SCTE-35 signals from the input source to this output.
+        /// SCTE-35 control. Option "none" indicates that a SCTE-35 marker will not be inserted, nor will an IDR be inserted at the SCTE-35 cue point, nor will the segment be segmented. Option "scte35WithoutIdr" indicates that a SCTE-35 marker will be inserted to indicate the cue point, but MediaLive will not insert an IDR on that frame nor will it introduce a new segment boundary there if it wasn't already going to be one (this option is required for use with downstream multiview bitstream stitching workflows). Option "passthrough" indicates that a SCTE-35 marker will be inserted to indicate the cue point, and an IDR will be inserted on that frame, and MediaLive itself will introduce a new segment boundary there.
         public let scte35Control: M2tsScte35Control?
         /// Defines the amount SCTE-35 preroll will be increased (in milliseconds) on the output. Preroll is the amount of time between the presence of a SCTE-35 indication in a transport stream and the PTS of the video frame it references. Zero means don't add pullup (it doesn't mean set the preroll to zero). Negative pullup is not supported, which means that you can't make the preroll shorter. Be aware that latency in the output will increase by the pullup amount.
         public let scte35PrerollPullupMilliseconds: Double?
@@ -14376,6 +14536,29 @@ extension MediaLive {
         }
     }
 
+    public struct NielsenNwOnly: AWSEncodableShape & AWSDecodableShape {
+        /// Enter the check digit string for the watermark
+        public let checkDigitString: String?
+        /// Enter the Nielsen Source ID (SID) to include in the watermark
+        public let sid: Double?
+        /// Choose the timezone for the time stamps in the watermark. If not provided,
+        /// the timestamps will be in Coordinated Universal Time (UTC)
+        public let timezone: NielsenWatermarkTimezones?
+
+        @inlinable
+        public init(checkDigitString: String? = nil, sid: Double? = nil, timezone: NielsenWatermarkTimezones? = nil) {
+            self.checkDigitString = checkDigitString
+            self.sid = sid
+            self.timezone = timezone
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case checkDigitString = "checkDigitString"
+            case sid = "sid"
+            case timezone = "timezone"
+        }
+    }
+
     public struct NielsenWatermarksSettings: AWSEncodableShape & AWSDecodableShape {
         /// Complete these fields only if you want to insert watermarks of type Nielsen CBET
         public let nielsenCbetSettings: NielsenCBET?
@@ -14385,18 +14568,23 @@ extension MediaLive {
         public let nielsenDistributionType: NielsenWatermarksDistributionTypes?
         /// Complete these fields only if you want to insert watermarks of type Nielsen NAES II (N2) and Nielsen NAES VI (NW).
         public let nielsenNaesIiNwSettings: NielsenNaesIiNw?
+        /// Complete these fields only if you want to insert watermarks of type Nielsen NAES VI (NW) only,
+        /// without inserting NAES II (N2) watermarks.
+        public let nielsenNwOnlySettings: NielsenNwOnly?
 
         @inlinable
-        public init(nielsenCbetSettings: NielsenCBET? = nil, nielsenDistributionType: NielsenWatermarksDistributionTypes? = nil, nielsenNaesIiNwSettings: NielsenNaesIiNw? = nil) {
+        public init(nielsenCbetSettings: NielsenCBET? = nil, nielsenDistributionType: NielsenWatermarksDistributionTypes? = nil, nielsenNaesIiNwSettings: NielsenNaesIiNw? = nil, nielsenNwOnlySettings: NielsenNwOnly? = nil) {
             self.nielsenCbetSettings = nielsenCbetSettings
             self.nielsenDistributionType = nielsenDistributionType
             self.nielsenNaesIiNwSettings = nielsenNaesIiNwSettings
+            self.nielsenNwOnlySettings = nielsenNwOnlySettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case nielsenCbetSettings = "nielsenCbetSettings"
             case nielsenDistributionType = "nielsenDistributionType"
             case nielsenNaesIiNwSettings = "nielsenNaesIiNwSettings"
+            case nielsenNwOnlySettings = "nielsenNwOnlySettings"
         }
     }
 
@@ -14578,13 +14766,16 @@ extension MediaLive {
         public let url: String?
         /// username for destination
         public let username: String?
+        /// Specifies the source IP address for outbound multicast packets.
+        public let virtualSourceAddress: String?
 
         @inlinable
-        public init(passwordParam: String? = nil, streamName: String? = nil, url: String? = nil, username: String? = nil) {
+        public init(passwordParam: String? = nil, streamName: String? = nil, url: String? = nil, username: String? = nil, virtualSourceAddress: String? = nil) {
             self.passwordParam = passwordParam
             self.streamName = streamName
             self.url = url
             self.username = username
+            self.virtualSourceAddress = virtualSourceAddress
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14592,6 +14783,7 @@ extension MediaLive {
             case streamName = "streamName"
             case url = "url"
             case username = "username"
+            case virtualSourceAddress = "virtualSourceAddress"
         }
     }
 
@@ -19085,10 +19277,22 @@ extension MediaLive {
     public struct VideoDescription: AWSEncodableShape & AWSDecodableShape {
         /// Video codec settings.
         public let codecSettings: VideoCodecSettings?
+        /// Region of the input video to crop before scaling. If not specified, the entire input
+        /// frame is used.
+        /// Note: Unlike {@link outputPositionRectangle}, the bounds of cropRectangle are validated
+        /// at ingest time by the encoder/scaler rather than at the API level, because the input
+        /// resolution is not known until the source is probed. Field-level constraints on (x, y,
+        /// width, height) defined on {@link VideoPositionRectangle} still apply.
+        public let cropRectangle: VideoPositionRectangle?
         /// Output video height, in pixels. Must be an even number. For most codecs, you can leave this field and width blank in order to use the height and width (resolution) from the source. Note, however, that leaving blank is not recommended. For the Frame Capture codec, height and width are required.
         public let height: Int?
         /// The name of this VideoDescription. Outputs will use this name to uniquely identify this Description.  Description names should be unique within this Live Event.
         public let name: String?
+        /// Position of the encoded video within the output frame. The area outside the rectangle
+        /// is filled with black. If not specified, the video fills the entire output frame.
+        /// When used, both {@link width} and {@link height} of the VideoDescription must be
+        /// explicitly specified so that the rectangle can be validated against the output frame.
+        public let outputPositionRectangle: VideoPositionRectangle?
         /// Indicates how MediaLive will respond to the AFD values that might be in the input video. If you do not know what AFD signaling is, or if your downstream system has not given you guidance, choose PASSTHROUGH.
         /// RESPOND: MediaLive clips the input video using a formula that uses the AFD values (configured in afdSignaling ), the input display aspect ratio, and the output display aspect ratio. MediaLive also includes the AFD values in the output, unless the codec for this encode is FRAME_CAPTURE.
         /// PASSTHROUGH: MediaLive ignores the AFD values and does not clip the video. But MediaLive does include the values in the output.
@@ -19105,10 +19309,12 @@ extension MediaLive {
         public let width: Int?
 
         @inlinable
-        public init(codecSettings: VideoCodecSettings? = nil, height: Int? = nil, name: String? = nil, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int? = nil, width: Int? = nil) {
+        public init(codecSettings: VideoCodecSettings? = nil, cropRectangle: VideoPositionRectangle? = nil, height: Int? = nil, name: String? = nil, outputPositionRectangle: VideoPositionRectangle? = nil, respondToAfd: VideoDescriptionRespondToAfd? = nil, scalingBehavior: VideoDescriptionScalingBehavior? = nil, sharpness: Int? = nil, width: Int? = nil) {
             self.codecSettings = codecSettings
+            self.cropRectangle = cropRectangle
             self.height = height
             self.name = name
+            self.outputPositionRectangle = outputPositionRectangle
             self.respondToAfd = respondToAfd
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
@@ -19117,12 +19323,40 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case codecSettings = "codecSettings"
+            case cropRectangle = "cropRectangle"
             case height = "height"
             case name = "name"
+            case outputPositionRectangle = "outputPositionRectangle"
             case respondToAfd = "respondToAfd"
             case scalingBehavior = "scalingBehavior"
             case sharpness = "sharpness"
             case width = "width"
+        }
+    }
+
+    public struct VideoPositionRectangle: AWSEncodableShape & AWSDecodableShape {
+        /// Height in pixels. Must be an even number.
+        public let height: Int?
+        /// Width in pixels. Must be an even number.
+        public let width: Int?
+        /// Left offset in pixels. Must be an even number.
+        public let x: Int?
+        /// Top offset in pixels. Must be an even number.
+        public let y: Int?
+
+        @inlinable
+        public init(height: Int? = nil, width: Int? = nil, x: Int? = nil, y: Int? = nil) {
+            self.height = height
+            self.width = width
+            self.x = x
+            self.y = y
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case height = "height"
+            case width = "width"
+            case x = "x"
+            case y = "y"
         }
     }
 

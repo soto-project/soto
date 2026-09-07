@@ -1557,7 +1557,6 @@ extension VPCLattice {
             }
             try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, max: 2048)
             try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, min: 3)
-            try self.validate(self.serviceNetworkIdentifier, name: "serviceNetworkIdentifier", parent: name, pattern: "^((sn-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:servicenetwork/sn-[0-9a-z]{17}))$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -6548,13 +6547,19 @@ extension VPCLattice {
     }
 
     public struct UpdateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
-        public let securityGroupIds: [String]
+        public let securityGroupIds: [String]?
         /// The ID or ARN of the association.
         public let serviceNetworkVpcAssociationIdentifier: String
 
         @inlinable
-        public init(securityGroupIds: [String], serviceNetworkVpcAssociationIdentifier: String) {
+        public init(dnsOptions: DnsOptions? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, serviceNetworkVpcAssociationIdentifier: String) {
+            self.dnsOptions = dnsOptions
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkVpcAssociationIdentifier = serviceNetworkVpcAssociationIdentifier
         }
@@ -6562,12 +6567,15 @@ extension VPCLattice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.securityGroupIds, forKey: .securityGroupIds)
+            try container.encodeIfPresent(self.dnsOptions, forKey: .dnsOptions)
+            try container.encodeIfPresent(self.privateDnsEnabled, forKey: .privateDnsEnabled)
+            try container.encodeIfPresent(self.securityGroupIds, forKey: .securityGroupIds)
             request.encodePath(self.serviceNetworkVpcAssociationIdentifier, key: "serviceNetworkVpcAssociationIdentifier")
         }
 
         public func validate(name: String) throws {
-            try self.securityGroupIds.forEach {
+            try self.dnsOptions?.validate(name: "\(name).dnsOptions")
+            try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 200)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
                 try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-(([0-9a-z]{8})|([0-9a-z]{17}))$")
@@ -6578,6 +6586,8 @@ extension VPCLattice {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dnsOptions = "dnsOptions"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
         }
     }
@@ -6587,18 +6597,24 @@ extension VPCLattice {
         public let arn: String?
         /// The account that created the association.
         public let createdBy: String?
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
         /// The ID of the association.
         public let id: String?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
         public let securityGroupIds: [String]?
         /// The status. You can retry the operation if the status is DELETE_FAILED. However, if you retry it while the status is DELETE_IN_PROGRESS, there is no change in the status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, dnsOptions: DnsOptions? = nil, id: String? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.id = id
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.status = status
         }
@@ -6606,7 +6622,9 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdBy = "createdBy"
+            case dnsOptions = "dnsOptions"
             case id = "id"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
         }

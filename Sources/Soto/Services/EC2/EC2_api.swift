@@ -846,6 +846,47 @@ public struct EC2: AWSService {
         return try await self.associateAddress(input, logger: logger)
     }
 
+    /// Associates an application status check with instances or tags. Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply:   You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.   You must own the application status check. The check must already exist in your account.   You must not leave tag keys blank.   You can create a maximum of 50 tag associations for each application status check.   You can use DisassociateApplicationStatusCheck to remove associations.   You can associate tags so that the application status check automatically monitors all current and future instances that have the specified tags.
+    @Sendable
+    @inlinable
+    public func associateApplicationStatusCheck(_ input: AssociateApplicationStatusCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateApplicationStatusCheckResult {
+        try await self.client.execute(
+            operation: "AssociateApplicationStatusCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an application status check with instances or tags. Once you create an association, health monitoring automatically begins for the specified instances or for instances that match the specified tags. The following rules apply:   You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.   You must own the application status check. The check must already exist in your account.   You must not leave tag keys blank.   You can create a maximum of 50 tag associations for each application status check.   You can use DisassociateApplicationStatusCheck to remove associations.   You can associate tags so that the application status check automatically monitors all current and future instances that have the specified tags.
+    ///
+    /// Parameters:
+    ///   - applicationStatusCheckId: The ID of the application status check to associate.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - instanceIds: The IDs of the instances to associate with the application status check.
+    ///   - targetTagAssociations: The tags to associate the application status check with. Each tag is a key-value pair. When you associate tags, the application status check automatically monitors all instances that have the specified tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateApplicationStatusCheck(
+        applicationStatusCheckId: String? = nil,
+        clientToken: String? = AssociateApplicationStatusCheckRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        instanceIds: [String]? = nil,
+        targetTagAssociations: [CustomTagKeyValueRequestPair]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateApplicationStatusCheckResult {
+        let input = AssociateApplicationStatusCheckRequest(
+            applicationStatusCheckId: applicationStatusCheckId, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            instanceIds: instanceIds, 
+            targetTagAssociations: targetTagAssociations
+        )
+        return try await self.associateApplicationStatusCheck(input, logger: logger)
+    }
+
     /// Initiates a request to assign billing of the unused capacity of a shared Capacity
     /// 			Reservation to a consumer account that is consolidated under the same Amazon Web Services
     /// 			organizations payer account. For more information, see Billing assignment for shared
@@ -2012,7 +2053,48 @@ public struct EC2: AWSService {
         return try await self.authorizeSecurityGroupIngress(input, logger: logger)
     }
 
-    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is no longer supported. To create an AMI, use CreateImage. For more information, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
+    /// Modifies multiple routing policy registrations in a single operation. You can create, update, or delete Route Origin Authorizations (ROAs) in batch.
+    @Sendable
+    @inlinable
+    public func batchModifyIpamRoutingPolicyRegistrations(_ input: BatchModifyIpamRoutingPolicyRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchModifyIpamRoutingPolicyRegistrationsResult {
+        try await self.client.execute(
+            operation: "BatchModifyIpamRoutingPolicyRegistrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies multiple routing policy registrations in a single operation. You can create, update, or delete Route Origin Authorizations (ROAs) in batch.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - deltaJson: The batch modifications to apply, in JSON format.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Forces the batch modification even if individual changes conflict with announced routes. Default: false.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchModifyIpamRoutingPolicyRegistrations(
+        clientToken: String? = BatchModifyIpamRoutingPolicyRegistrationsRequest.idempotencyToken(),
+        deltaJson: String? = nil,
+        dryRun: Bool? = nil,
+        force: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchModifyIpamRoutingPolicyRegistrationsResult {
+        let input = BatchModifyIpamRoutingPolicyRegistrationsRequest(
+            clientToken: clientToken, 
+            deltaJson: deltaJson, 
+            dryRun: dryRun, 
+            force: force, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId
+        )
+        return try await self.batchModifyIpamRoutingPolicyRegistrations(input, logger: logger)
+    }
+
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  BundleInstance is no longer supported. To create an AMI, use CreateImage instead. For more information about creating an Amazon EBS-backed AMI, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func bundleInstance(_ input: BundleInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BundleInstanceResult {
@@ -2025,7 +2107,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  This action is no longer supported. To create an AMI, use CreateImage. For more information, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
+    /// Bundles an Amazon instance store-backed Windows instance. During bundling, only the root device volume (C:\) is bundled. Data on other instance store volumes is not preserved.  BundleInstance is no longer supported. To create an AMI, use CreateImage instead. For more information about creating an Amazon EBS-backed AMI, see  Create an Amazon EBS-backed AMI in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
@@ -2047,7 +2129,7 @@ public struct EC2: AWSService {
         return try await self.bundleInstance(input, logger: logger)
     }
 
-    /// Cancels a bundling operation for an instance store-backed Windows instance.
+    /// Cancels a bundling operation for an instance store-backed Windows instance.  CancelBundleTask is no longer supported because BundleInstance, the operation it cancels, is no longer supported.
     @Sendable
     @inlinable
     public func cancelBundleTask(_ input: CancelBundleTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelBundleTaskResult {
@@ -2060,7 +2142,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Cancels a bundling operation for an instance store-backed Windows instance.
+    /// Cancels a bundling operation for an instance store-backed Windows instance.  CancelBundleTask is no longer supported because BundleInstance, the operation it cancels, is no longer supported.
     ///
     /// Parameters:
     ///   - bundleId: The ID of the bundle task.
@@ -2708,6 +2790,83 @@ public struct EC2: AWSService {
             volumeType: volumeType
         )
         return try await self.copyVolumes(input, logger: logger)
+    }
+
+    /// Creates an application status check for monitoring the health of applications running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply:   You can create a maximum of 50 application status checks for each account.   You must associate the check with instances or tags using AssociateApplicationStatusCheck before health checks start.   You must set the Timeout value to less than the Interval value.   You must start the Path with a forward slash (/). Default: /.   You can specify Aggregation as included or excluded. If you do not specify a value, it defaults to included, which means the check contributes to the instance-level application status.   You can use the following default values: Interval is 60 seconds, Timeout is 6 seconds, FailureThreshold is 2, SuccessThreshold is 2, StatusCodeMatcher is 200, InitializationGracePeriodSeconds is 300 seconds.   You can tag the application status check during creation. For more information, see Tag your Amazon EC2 resources.
+    @Sendable
+    @inlinable
+    public func createApplicationStatusCheck(_ input: CreateApplicationStatusCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationStatusCheckResult {
+        try await self.client.execute(
+            operation: "CreateApplicationStatusCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an application status check for monitoring the health of applications running on your instances. You can configure the protocol, port, path, and thresholds for the health check. The following rules apply:   You can create a maximum of 50 application status checks for each account.   You must associate the check with instances or tags using AssociateApplicationStatusCheck before health checks start.   You must set the Timeout value to less than the Interval value.   You must start the Path with a forward slash (/). Default: /.   You can specify Aggregation as included or excluded. If you do not specify a value, it defaults to included, which means the check contributes to the instance-level application status.   You can use the following default values: Interval is 60 seconds, Timeout is 6 seconds, FailureThreshold is 2, SuccessThreshold is 2, StatusCodeMatcher is 200, InitializationGracePeriodSeconds is 300 seconds.   You can tag the application status check during creation. For more information, see Tag your Amazon EC2 resources.
+    ///
+    /// Parameters:
+    ///   - aggregation: The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - deviceIndex: The index of the network device to use for the health check. The value must be greater than or equal to 0.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - failureThreshold: The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+    ///   - healthCheckPaths: The health check paths to use for the application status check. Health check paths define the network path from a source subnet to one or more destination subnets for cross-Availability Zone or Availability Zone to Local Zone health checking. If omitted, health checks are performed in the same subnet as the instance.
+    ///   - initializationGracePeriodSeconds: The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+    ///   - interval: The interval, in seconds, between health checks. Valid value: 60.
+    ///   - ipScope: The IP scope to use for the health check. Valid value: private.
+    ///   - ipVersion: The IP version to use for the health check. Valid values: ipv4 and ipv6.
+    ///   - path: The URL path to use for the health check HTTP request (for example, /health or /status).
+    ///   - port: The port to use for the health check. Valid values: 1 to 65535.
+    ///   - protocol: The protocol to use for the health check. Valid values: http | https.
+    ///   - statusCodeMatcher: The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters. Default: 200.
+    ///   - successThreshold: The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+    ///   - tagSpecifications: The tags to apply to the application status check.
+    ///   - timeout: The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createApplicationStatusCheck(
+        aggregation: AggregationStatusEnum? = nil,
+        clientToken: String? = CreateApplicationStatusCheckRequest.idempotencyToken(),
+        deviceIndex: Int? = nil,
+        dryRun: Bool? = nil,
+        failureThreshold: Int? = nil,
+        healthCheckPaths: [HealthCheckPathRequestObject]? = nil,
+        initializationGracePeriodSeconds: Int? = nil,
+        interval: Int? = nil,
+        ipScope: IpScopeEnum? = nil,
+        ipVersion: IpVersionEnum? = nil,
+        path: String? = nil,
+        port: Int? = nil,
+        protocol: NetworkProtocolEnum? = nil,
+        statusCodeMatcher: String? = nil,
+        successThreshold: Int? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        timeout: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateApplicationStatusCheckResult {
+        let input = CreateApplicationStatusCheckRequest(
+            aggregation: aggregation, 
+            clientToken: clientToken, 
+            deviceIndex: deviceIndex, 
+            dryRun: dryRun, 
+            failureThreshold: failureThreshold, 
+            healthCheckPaths: healthCheckPaths, 
+            initializationGracePeriodSeconds: initializationGracePeriodSeconds, 
+            interval: interval, 
+            ipScope: ipScope, 
+            ipVersion: ipVersion, 
+            path: path, 
+            port: port, 
+            protocol: `protocol`, 
+            statusCodeMatcher: statusCodeMatcher, 
+            successThreshold: successThreshold, 
+            tagSpecifications: tagSpecifications, 
+            timeout: timeout
+        )
+        return try await self.createApplicationStatusCheck(input, logger: logger)
     }
 
     /// Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis.
@@ -3620,7 +3779,7 @@ public struct EC2: AWSService {
     ///   - logFormat: The fields to include in the flow log record. List the fields in the order in which they should appear. If you omit this parameter, the flow log is created using the default format. If you specify this parameter, you must include at least one field. For more information about the available fields, see Flow log records  in the Amazon VPC User Guide or Transit Gateway Flow Log records in the Amazon Web Services Transit Gateway Guide. Specify the fields using the ${field-id} format, separated by spaces.
     ///   - logGroupName: The name of a new or existing CloudWatch Logs log group where Amazon EC2 publishes your flow logs. This parameter is valid only if the destination type is cloud-watch-logs.
     ///   - maxAggregationInterval: The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record.  The possible values are 60 seconds (1 minute) or 600 seconds (10 minutes). This parameter must be 60 seconds for transit gateway resource types. When a network interface is attached to a Nitro-based instance, the aggregation interval is always 60 seconds or less, regardless of the value that you specify. Default: 600
-    ///   - resourceIds: The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 1000 for the other resource types.
+    ///   - resourceIds: The IDs of the resources to monitor. For example, if the resource type is VPC, specify the IDs of the VPCs. Constraints: Maximum of 25 for transit gateway resource types. Maximum of 300 for the other resource types.
     ///   - resourceType: The type of resource to monitor.
     ///   - tagFieldSpecifications: The tag configuration associated with the Flow Logs Amazon EC2 Tags feature fields in your custom log format.
     ///   - tagSpecifications: The tags to apply to the flow logs.
@@ -3712,7 +3871,7 @@ public struct EC2: AWSService {
         return try await self.createFpgaImage(input, logger: logger)
     }
 
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   If the source instance is on an Outpost that supports local snapshots, you can create the snapshots on the same Outpost or in the parent Region of that Outpost. In this case, you must use the SnapshotLocation parameter to specify where to create the snapshots.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
     @Sendable
     @inlinable
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageResult {
@@ -3725,7 +3884,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance that is either running or stopped. If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI, the instance automatically launches with those additional volumes. The location of the source instance determines where you can create the snapshots of the AMI:   If the source instance is in a Region, you must create the snapshots in the same Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Region.   If the source instance is on an Outpost that supports local snapshots, you can create the snapshots on the same Outpost or in the parent Region of that Outpost. In this case, you must use the SnapshotLocation parameter to specify where to create the snapshots.   For more information, see Create an Amazon EBS-backed AMI in the Amazon Elastic Compute Cloud User Guide.
     ///
     /// Parameters:
     ///   - blockDeviceMappings: The block device mappings. When using the CreateImage action:   You can't change the volume size using the VolumeSize parameter. If you want a different volume size, you must first change the volume size of the source instance.   You can't modify the encryption status of existing volumes or snapshots. To create an AMI with volumes or snapshots that have a different encryption status (for example, where the source volume and snapshots are unencrypted, and you want to create an AMI with encrypted volumes or snapshots), copy the image instead.   The only option that can be changed for existing mappings or snapshots is DeleteOnTermination.
@@ -3734,7 +3893,7 @@ public struct EC2: AWSService {
     ///   - instanceId: The ID of the instance.
     ///   - name: A name for the new image. Constraints: 3-128 alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_)
     ///   - noReboot: Indicates whether or not the instance should be automatically rebooted before creating the image. Specify one of the following values:    true - The instance is not rebooted before creating the image. This creates crash-consistent snapshots that include only the data that has been written to the volumes at the time the snapshots are created. Buffered data and data in memory that has not yet been written to the volumes is not included in the snapshots.    false - The instance is rebooted before creating the image. This ensures that all buffered data and data in memory is written to the volumes before the snapshots are created.   Default: false
-    ///   - snapshotLocation:  Only supported for instances in Local Zones. If the source instance is not in a Local Zone, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone, specify regional or omit this parameter.   Default: regional
+    ///   - snapshotLocation:  Only supported for instances in Local Zones and for instances on Outposts that support local snapshots. If the source instance is not in one of these locations, omit this parameter.  The Amazon S3 location where the snapshots will be stored.   To create local snapshots in the same Local Zone or on the same Outpost as the source instance, specify local.   To create regional snapshots in the parent Region of the Local Zone or Outpost, specify regional.   If the source instance is in a Local Zone and you omit this parameter, regional snapshots are created in the parent Region of the Local Zone. If the source instance is on an Outpost that supports local snapshots, this parameter is required. If you omit it, the request fails with an InvalidParameterValue error. Default: regional (for instances in Local Zones only)
     ///   - tagSpecifications: The tags to apply to the AMI and snapshots on creation. You can tag the AMI, the snapshots, or both.   To tag the AMI, the value for ResourceType must be image.   To tag the snapshots that are created of the root volume and of other Amazon EBS volumes that are attached to the instance, the value for ResourceType must be snapshot. The same tag is applied to all of the snapshots that are created.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3992,6 +4151,7 @@ public struct EC2: AWSService {
     ///   - dryRun: 			Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
     ///   - instanceCount: 			The number of instances to allocate from your source reservation. You can only allocate available instances (also called unused capacity).
     ///   - tagSpecifications: 			The tags to apply to the interruptible Capacity Reservation during creation.
+    ///   - zeroSizePreference: 			Specifies the behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation. The default value is default.
     ///   - logger: Logger use during operation
     @inlinable
     public func createInterruptibleCapacityReservationAllocation(
@@ -4000,6 +4160,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         instanceCount: Int? = nil,
         tagSpecifications: [TagSpecification]? = nil,
+        zeroSizePreference: ZeroSizePreference? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateInterruptibleCapacityReservationAllocationResult {
         let input = CreateInterruptibleCapacityReservationAllocationRequest(
@@ -4007,7 +4168,8 @@ public struct EC2: AWSService {
             clientToken: clientToken, 
             dryRun: dryRun, 
             instanceCount: instanceCount, 
-            tagSpecifications: tagSpecifications
+            tagSpecifications: tagSpecifications, 
+            zeroSizePreference: zeroSizePreference
         )
         return try await self.createInterruptibleCapacityReservationAllocation(input, logger: logger)
     }
@@ -4098,6 +4260,53 @@ public struct EC2: AWSService {
             tagSpecifications: tagSpecifications
         )
         return try await self.createIpamExternalResourceVerificationToken(input, logger: logger)
+    }
+
+    /// Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature.
+    @Sendable
+    @inlinable
+    public func createIpamInternetRegistryAssociation(_ input: CreateIpamInternetRegistryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpamInternetRegistryAssociationResult {
+        try await self.client.execute(
+            operation: "CreateIpamInternetRegistryAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an association between an IPAM and a Regional Internet Registry (RIR) for Resource Public Key Infrastructure (RPKI) management. You can use this association to create Route Origin Authorizations (ROAs) for IP address prefixes registered with the internet registry. Your IPAM must be in the Advanced tier to use this feature.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - description: A description for the internet registry association.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - ipamId: The ID of the IPAM to associate with the internet registry.
+    ///   - organizationHandle: The organization handle at the internet registry (for example, a RIPE NCC organization ID or ARIN Org ID).
+    ///   - rir: The Regional Internet Registry to associate with. Possible values:    ripe - RIPE NCC (Europe, the Middle East, and Central Asia).    apnic - APNIC (Asia Pacific).    arin - ARIN (North America).    lacnic - LACNIC (Latin America and the Caribbean).
+    ///   - tagSpecifications: The tags to assign to the internet registry association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIpamInternetRegistryAssociation(
+        clientToken: String? = CreateIpamInternetRegistryAssociationRequest.idempotencyToken(),
+        description: String? = nil,
+        dryRun: Bool? = nil,
+        ipamId: String? = nil,
+        organizationHandle: String? = nil,
+        rir: Rir? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIpamInternetRegistryAssociationResult {
+        let input = CreateIpamInternetRegistryAssociationRequest(
+            clientToken: clientToken, 
+            description: description, 
+            dryRun: dryRun, 
+            ipamId: ipamId, 
+            organizationHandle: organizationHandle, 
+            rir: rir, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createIpamInternetRegistryAssociation(input, logger: logger)
     }
 
     /// Creates an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations. For more information, see Define public IPv4 allocation strategy with IPAM policies in the Amazon VPC IPAM User Guide.
@@ -4351,6 +4560,59 @@ public struct EC2: AWSService {
             tagSpecifications: tagSpecifications
         )
         return try await self.createIpamResourceDiscovery(input, logger: logger)
+    }
+
+    /// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs.
+    @Sendable
+    @inlinable
+    public func createIpamRoutingPolicyRegistration(_ input: CreateIpamRoutingPolicyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIpamRoutingPolicyRegistrationResult {
+        try await self.client.execute(
+            operation: "CreateIpamRoutingPolicyRegistration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a routing policy registration and publishes Route Origin Authorizations (ROAs) to the RPKI for the specified CIDR prefix and ASNs.
+    ///
+    /// Parameters:
+    ///   - asns: The Autonomous System Numbers (ASNs) authorized to originate the prefix.
+    ///   - cidr: The IP address prefix in CIDR notation to authorize in the ROA.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - description: A description for the routing policy registration.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Forces the creation of the routing policy registration even if it conflicts with an announced route. Default: false.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxLength: The maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR. If not specified, defaults to the prefix length of the CIDR (exact match only).
+    ///   - permitMoreSpecificAnnouncements: Specifies whether to permit more specific route announcements than the CIDR prefix. When enabled, ASNs can announce sub-prefixes of the authorized CIDR up to the specified maximum length. Default: false.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIpamRoutingPolicyRegistration(
+        asns: [String]? = nil,
+        cidr: String? = nil,
+        clientToken: String? = CreateIpamRoutingPolicyRegistrationRequest.idempotencyToken(),
+        description: String? = nil,
+        dryRun: Bool? = nil,
+        force: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxLength: Int? = nil,
+        permitMoreSpecificAnnouncements: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIpamRoutingPolicyRegistrationResult {
+        let input = CreateIpamRoutingPolicyRegistrationRequest(
+            asns: asns, 
+            cidr: cidr, 
+            clientToken: clientToken, 
+            description: description, 
+            dryRun: dryRun, 
+            force: force, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxLength: maxLength, 
+            permitMoreSpecificAnnouncements: permitMoreSpecificAnnouncements
+        )
+        return try await self.createIpamRoutingPolicyRegistration(input, logger: logger)
     }
 
     /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guide.
@@ -7828,6 +8090,41 @@ public struct EC2: AWSService {
         return try await self.createVpnGateway(input, logger: logger)
     }
 
+    /// Deletes an application status check. The following rules apply:   Deleting a check automatically removes all of its associations.   Use DescribeApplicationStatusChecks to view existing checks before deleting.
+    @Sendable
+    @inlinable
+    public func deleteApplicationStatusCheck(_ input: DeleteApplicationStatusCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationStatusCheckResult {
+        try await self.client.execute(
+            operation: "DeleteApplicationStatusCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an application status check. The following rules apply:   Deleting a check automatically removes all of its associations.   Use DescribeApplicationStatusChecks to view existing checks before deleting.
+    ///
+    /// Parameters:
+    ///   - applicationStatusCheckId: The ID of the application status check to delete.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteApplicationStatusCheck(
+        applicationStatusCheckId: String? = nil,
+        clientToken: String? = DeleteApplicationStatusCheckRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteApplicationStatusCheckResult {
+        let input = DeleteApplicationStatusCheckRequest(
+            applicationStatusCheckId: applicationStatusCheckId, 
+            clientToken: clientToken, 
+            dryRun: dryRun
+        )
+        return try await self.deleteApplicationStatusCheck(input, logger: logger)
+    }
+
     /// Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3.
     @Sendable
     @inlinable
@@ -8432,6 +8729,38 @@ public struct EC2: AWSService {
         return try await self.deleteIpamExternalResourceVerificationToken(input, logger: logger)
     }
 
+    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry.
+    @Sendable
+    @inlinable
+    public func deleteIpamInternetRegistryAssociation(_ input: DeleteIpamInternetRegistryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpamInternetRegistryAssociationResult {
+        try await self.client.execute(
+            operation: "DeleteIpamInternetRegistryAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an IPAM internet registry association. Before deleting, you must remove all routing policy registrations associated with the internet registry.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIpamInternetRegistryAssociation(
+        dryRun: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIpamInternetRegistryAssociationResult {
+        let input = DeleteIpamInternetRegistryAssociationRequest(
+            dryRun: dryRun, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId
+        )
+        return try await self.deleteIpamInternetRegistryAssociation(input, logger: logger)
+    }
+
     /// Deletes an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
     @Sendable
     @inlinable
@@ -8593,6 +8922,47 @@ public struct EC2: AWSService {
             ipamResourceDiscoveryId: ipamResourceDiscoveryId
         )
         return try await self.deleteIpamResourceDiscovery(input, logger: logger)
+    }
+
+    /// Deletes a routing policy registration for a specified CIDR prefix.
+    @Sendable
+    @inlinable
+    public func deleteIpamRoutingPolicyRegistration(_ input: DeleteIpamRoutingPolicyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIpamRoutingPolicyRegistrationResult {
+        try await self.client.execute(
+            operation: "DeleteIpamRoutingPolicyRegistration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a routing policy registration for a specified CIDR prefix.
+    ///
+    /// Parameters:
+    ///   - cidr: The IP address prefix in CIDR notation identifying the routing policy registration to delete.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Forces the deletion even if it conflicts with an announced route. Default: false.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIpamRoutingPolicyRegistration(
+        cidr: String? = nil,
+        clientToken: String? = DeleteIpamRoutingPolicyRegistrationRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        force: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIpamRoutingPolicyRegistrationResult {
+        let input = DeleteIpamRoutingPolicyRegistrationRequest(
+            cidr: cidr, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            force: force, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId
+        )
+        return try await self.deleteIpamRoutingPolicyRegistration(input, logger: logger)
     }
 
     /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see Delete a scope in the Amazon VPC IPAM User Guide.
@@ -11440,6 +11810,132 @@ public struct EC2: AWSService {
         return try await self.describeAggregateIdFormat(input, logger: logger)
     }
 
+    /// Describes the aggregated application health status for the specified instances. The following rules apply:   The instance-level status is derived from all application status checks with the aggregation setting set to included.   Use DescribeApplicationStatusChecks to view the configuration of individual checks.   Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status.
+    @Sendable
+    @inlinable
+    public func describeApplicationStatus(_ input: DescribeApplicationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationStatusResult {
+        try await self.client.execute(
+            operation: "DescribeApplicationStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the aggregated application health status for the specified instances. The following rules apply:   The instance-level status is derived from all application status checks with the aggregation setting set to included.   Use DescribeApplicationStatusChecks to view the configuration of individual checks.   Use EnableApplicationStatusCheckSuppression to temporarily suppress health check results from affecting the instance-level status.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: The filters.    availability-zone-id – The ID of the Availability Zone.    status – The instance-level application status. For valid values and their meanings, see ApplicationStatus.
+    ///   - instanceIds: The IDs of the instances for which to describe application status.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApplicationStatus(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        instanceIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeApplicationStatusResult {
+        let input = DescribeApplicationStatusRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            instanceIds: instanceIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeApplicationStatus(input, logger: logger)
+    }
+
+    /// Describes the associations for one or more application status checks. For more information, see Application status checks. To avoid timeouts and retrieve complete results, use the pagination parameters.  The order of the elements in the response, including those within nested structures, might vary.
+    @Sendable
+    @inlinable
+    public func describeApplicationStatusCheckAssociations(_ input: DescribeApplicationStatusCheckAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationStatusCheckAssociationsResult {
+        try await self.client.execute(
+            operation: "DescribeApplicationStatusCheckAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the associations for one or more application status checks. For more information, see Application status checks. To avoid timeouts and retrieve complete results, use the pagination parameters.  The order of the elements in the response, including those within nested structures, might vary.
+    ///
+    /// Parameters:
+    ///   - applicationStatusCheckIds: The IDs of the application status checks for which to describe associations.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: The filters to use to limit the results.    association-type – The type of association. Valid values: tag and instance-id.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApplicationStatusCheckAssociations(
+        applicationStatusCheckIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeApplicationStatusCheckAssociationsResult {
+        let input = DescribeApplicationStatusCheckAssociationsRequest(
+            applicationStatusCheckIds: applicationStatusCheckIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeApplicationStatusCheckAssociations(input, logger: logger)
+    }
+
+    /// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply:   If you do not specify any application status check IDs, all checks in your account are returned.   Use DescribeApplicationStatus to see the actual health status of instances.
+    @Sendable
+    @inlinable
+    public func describeApplicationStatusChecks(_ input: DescribeApplicationStatusChecksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeApplicationStatusChecksResult {
+        try await self.client.execute(
+            operation: "DescribeApplicationStatusChecks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes application status checks, including configuration details such as protocol, port, path, thresholds, and associations. Results are paginated. Use the NextToken parameter to retrieve additional results. The following rules apply:   If you do not specify any application status check IDs, all checks in your account are returned.   Use DescribeApplicationStatus to see the actual health status of instances.
+    ///
+    /// Parameters:
+    ///   - applicationStatusCheckIds: The IDs of the application status checks to describe.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: The filters.    aggregation – The aggregation setting. Valid values: included and excluded.
+    ///   - includeAll: Specifies whether to include recently deleted application status checks that remain available during the deletion grace period. If you omit this parameter or set it to false, the response includes only active checks.
+    ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+    ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeApplicationStatusChecks(
+        applicationStatusCheckIds: [String]? = nil,
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        includeAll: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeApplicationStatusChecksResult {
+        let input = DescribeApplicationStatusChecksRequest(
+            applicationStatusCheckIds: applicationStatusCheckIds, 
+            dryRun: dryRun, 
+            filters: filters, 
+            includeAll: includeAll, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeApplicationStatusChecks(input, logger: logger)
+    }
+
     /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
@@ -12011,7 +12507,7 @@ public struct EC2: AWSService {
     /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your capacity within the Amazon Web Services network before it is launched and use this information to allocate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more information, see Prerequisites for Amazon EC2 instance topology in the Amazon EC2 User Guide.  The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeCapacityReservationTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  For more information, see Amazon EC2 topology in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - capacityReservationIds: The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 100 explicitly specified Capacity Reservation IDs.
+    ///   - capacityReservationIds: The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 10 explicitly specified Capacity Reservation IDs.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - filters: The filters.    availability-zone - The name of the Availability Zone (for example, us-west-2a) or Local Zone (for example, us-west-2-lax-1b) that the Capacity Reservation is in.    instance-type - The instance type (for example, p4d.24xlarge) or instance family (for example, p4d*). You can use the * wildcard to match zero or more characters, or the ? wildcard to match zero or one character.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
@@ -13458,7 +13954,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -13891,7 +14387,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceSqlHaStates(input, logger: logger)
     }
 
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Application status checks - Amazon EC2 reports application-level health status for instances, indicating whether applications running on the instance are functioning properly.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceStatusResult {
@@ -13904,11 +14400,11 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Application status checks - Amazon EC2 reports application-level health status for instances, indicating whether applications running on the instance are functioning properly.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.   The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see Eventual consistency in the Amazon EC2 API in the Amazon EC2 Developer Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
+    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).    application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
     ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
@@ -14226,6 +14722,47 @@ public struct EC2: AWSService {
             nextToken: nextToken
         )
         return try await self.describeIpamExternalResourceVerificationTokens(input, logger: logger)
+    }
+
+    /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func describeIpamInternetRegistryAssociations(_ input: DescribeIpamInternetRegistryAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeIpamInternetRegistryAssociationsResult {
+        try await self.client.execute(
+            operation: "DescribeIpamInternetRegistryAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more IPAM internet registry associations. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the results.
+    ///   - ipamInternetRegistryAssociationIds: The IDs of the internet registry associations to describe.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeIpamInternetRegistryAssociations(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamInternetRegistryAssociationIds: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeIpamInternetRegistryAssociationsResult {
+        let input = DescribeIpamInternetRegistryAssociationsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamInternetRegistryAssociationIds: ipamInternetRegistryAssociationIds, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.describeIpamInternetRegistryAssociations(input, logger: logger)
     }
 
     /// Describes one or more IPAM policies. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
@@ -19250,6 +19787,41 @@ public struct EC2: AWSService {
         return try await self.disableAllowedImagesSettings(input, logger: logger)
     }
 
+    /// Disables suppression of application status checks for the specified instances. After suppression is disabled, health check results resume affecting the instance-level application status. You can specify a maximum of 100 instance IDs for each request.
+    @Sendable
+    @inlinable
+    public func disableApplicationStatusCheckSuppression(_ input: DisableApplicationStatusCheckSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableApplicationStatusCheckSuppressionResult {
+        try await self.client.execute(
+            operation: "DisableApplicationStatusCheckSuppression", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables suppression of application status checks for the specified instances. After suppression is disabled, health check results resume affecting the instance-level application status. You can specify a maximum of 100 instance IDs for each request.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - instanceIds: The IDs of the instances for which to disable application status check suppression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableApplicationStatusCheckSuppression(
+        clientToken: String? = DisableApplicationStatusCheckSuppressionRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        instanceIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableApplicationStatusCheckSuppressionResult {
+        let input = DisableApplicationStatusCheckSuppressionRequest(
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            instanceIds: instanceIds
+        )
+        return try await self.disableApplicationStatusCheckSuppression(input, logger: logger)
+    }
+
     /// Disables Infrastructure Performance metric subscriptions.
     @Sendable
     @inlinable
@@ -19925,6 +20497,47 @@ public struct EC2: AWSService {
         return try await self.disassociateAddress(input, logger: logger)
     }
 
+    /// Disassociates an application status check from instances or tags. After disassociation, health monitoring stops for the affected instances. The following rules apply:   You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.   The application status check must already exist and belong to your account.   Tag keys must not be blank.
+    @Sendable
+    @inlinable
+    public func disassociateApplicationStatusCheck(_ input: DisassociateApplicationStatusCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateApplicationStatusCheckResult {
+        try await self.client.execute(
+            operation: "DisassociateApplicationStatusCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates an application status check from instances or tags. After disassociation, health monitoring stops for the affected instances. The following rules apply:   You must specify either TargetTagAssociations or InstanceIds, but not both. Specifying both results in an InvalidParameterCombination error.   The application status check must already exist and belong to your account.   Tag keys must not be blank.
+    ///
+    /// Parameters:
+    ///   - applicationStatusCheckId: The ID of the application status check to disassociate.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - instanceIds: The IDs of the instances to disassociate from the application status check.
+    ///   - targetTagAssociations: The tags to disassociate from the application status check. Specify the same key-value pairs that were used during association.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateApplicationStatusCheck(
+        applicationStatusCheckId: String? = nil,
+        clientToken: String? = DisassociateApplicationStatusCheckRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        instanceIds: [String]? = nil,
+        targetTagAssociations: [CustomTagKeyValueRequestPair]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateApplicationStatusCheckResult {
+        let input = DisassociateApplicationStatusCheckRequest(
+            applicationStatusCheckId: applicationStatusCheckId, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            instanceIds: instanceIds, 
+            targetTagAssociations: targetTagAssociations
+        )
+        return try await self.disassociateApplicationStatusCheck(input, logger: logger)
+    }
+
     /// Cancels a pending request to assign billing of the unused capacity of a Capacity
     /// 			Reservation to a consumer account, or revokes a request that has already been accepted.
     /// 			For more information, see Billing assignment for shared
@@ -20593,6 +21206,44 @@ public struct EC2: AWSService {
         return try await self.enableAllowedImagesSettings(input, logger: logger)
     }
 
+    /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the instance-level application status. The following rules apply:   You can specify a maximum of 100 instance IDs for each request.   Use DisableApplicationStatusCheckSuppression to resume normal health check reporting.   If you do not specify DurationSeconds, suppression continues indefinitely until you call DisableApplicationStatusCheckSuppression.
+    @Sendable
+    @inlinable
+    public func enableApplicationStatusCheckSuppression(_ input: EnableApplicationStatusCheckSuppressionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableApplicationStatusCheckSuppressionResult {
+        try await self.client.execute(
+            operation: "EnableApplicationStatusCheckSuppression", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Suppresses application status checks for the specified instances. While suppressed, health checks continue to run but do not affect the instance-level application status. The following rules apply:   You can specify a maximum of 100 instance IDs for each request.   Use DisableApplicationStatusCheckSuppression to resume normal health check reporting.   If you do not specify DurationSeconds, suppression continues indefinitely until you call DisableApplicationStatusCheckSuppression.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - durationSeconds: The duration, in seconds, for which to suppress application status checks. If omitted, the application status check is suppressed indefinitely until you call DisableApplicationStatusCheckSuppression.
+    ///   - instanceIds: The IDs of the instances for which to suppress application status checks.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableApplicationStatusCheckSuppression(
+        clientToken: String? = EnableApplicationStatusCheckSuppressionRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        durationSeconds: Int? = nil,
+        instanceIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableApplicationStatusCheckSuppressionResult {
+        let input = EnableApplicationStatusCheckSuppressionRequest(
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            durationSeconds: durationSeconds, 
+            instanceIds: instanceIds
+        )
+        return try await self.enableApplicationStatusCheckSuppression(input, logger: logger)
+    }
+
     /// Enables Infrastructure Performance subscriptions.
     @Sendable
     @inlinable
@@ -20949,6 +21600,56 @@ public struct EC2: AWSService {
             sqlServerCredentials: sqlServerCredentials
         )
         return try await self.enableInstanceSqlHaStandbyDetections(input, logger: logger)
+    }
+
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry.
+    @Sendable
+    @inlinable
+    public func enableIpamInternetRegistryAssociation(_ input: EnableIpamInternetRegistryAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableIpamInternetRegistryAssociationResult {
+        try await self.client.execute(
+            operation: "EnableIpamInternetRegistryAssociation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables Resource Public Key Infrastructure (RPKI) on an existing IPAM internet registry association by providing BGP Public Key Infrastructure (BPKI) certificate details. After enabling, you can create Route Origin Authorizations (ROAs) for prefixes registered with the internet registry.
+    ///
+    /// Parameters:
+    ///   - childHandle: The child handle for the BPKI certificate hierarchy from the Parent Response XML.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association to enable.
+    ///   - parentBpkiTa: The parent BPKI Trust Anchor certificate in PEM format from the Parent Response XML.
+    ///   - parentHandle: The parent handle for the BPKI certificate hierarchy from the Parent Response XML.
+    ///   - rpkiVersion: The RPKI version to use from the Parent Response XML.
+    ///   - serviceUri: The RPKI service URI for the publication point from the Parent Response XML.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableIpamInternetRegistryAssociation(
+        childHandle: String? = nil,
+        clientToken: String? = EnableIpamInternetRegistryAssociationRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        parentBpkiTa: String? = nil,
+        parentHandle: String? = nil,
+        rpkiVersion: String? = nil,
+        serviceUri: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableIpamInternetRegistryAssociationResult {
+        let input = EnableIpamInternetRegistryAssociationRequest(
+            childHandle: childHandle, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            parentBpkiTa: parentBpkiTa, 
+            parentHandle: parentHandle, 
+            rpkiVersion: rpkiVersion, 
+            serviceUri: serviceUri
+        )
+        return try await self.enableIpamInternetRegistryAssociation(input, logger: logger)
     }
 
     /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide.
@@ -22675,6 +23376,132 @@ public struct EC2: AWSService {
         return try await self.getIpamDiscoveredResourceCidrs(input, logger: logger)
     }
 
+    /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM resource discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamDiscoveredRoutes(_ input: GetIpamDiscoveredRoutesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamDiscoveredRoutesResult {
+        try await self.client.execute(
+            operation: "GetIpamDiscoveredRoutes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves Border Gateway Protocol (BGP) routes discovered by IPAM resource discovery for a specified Region. Use this operation to view the Bring Your Own IP (BYOIP) address ranges that are currently advertised through BGP. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the results.
+    ///   - ipamResourceDiscoveryId: The ID of the IPAM resource discovery.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - resourceRegion: The Amazon Web Services Region to retrieve discovered routes for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamDiscoveredRoutes(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamResourceDiscoveryId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceRegion: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamDiscoveredRoutesResult {
+        let input = GetIpamDiscoveredRoutesRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamResourceDiscoveryId: ipamResourceDiscoveryId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceRegion: resourceRegion
+        )
+        return try await self.getIpamDiscoveredRoutes(input, logger: logger)
+    }
+
+    /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamInternetRegistryAssociationAsns(_ input: GetIpamInternetRegistryAssociationAsnsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamInternetRegistryAssociationAsnsResult {
+        try await self.client.execute(
+            operation: "GetIpamInternetRegistryAssociationAsns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the results.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamInternetRegistryAssociationAsns(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamInternetRegistryAssociationAsnsResult {
+        let input = GetIpamInternetRegistryAssociationAsnsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getIpamInternetRegistryAssociationAsns(input, logger: logger)
+    }
+
+    /// Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamInternetRegistryAssociationCidrs(_ input: GetIpamInternetRegistryAssociationCidrsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamInternetRegistryAssociationCidrsResult {
+        try await self.client.execute(
+            operation: "GetIpamInternetRegistryAssociationCidrs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the results.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamInternetRegistryAssociationCidrs(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamInternetRegistryAssociationCidrsResult {
+        let input = GetIpamInternetRegistryAssociationCidrsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getIpamInternetRegistryAssociationCidrs(input, logger: logger)
+    }
+
     /// Gets the allocation rules for an IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
     @Sendable
     @inlinable
@@ -23030,6 +23857,179 @@ public struct EC2: AWSService {
             resourceType: resourceType
         )
         return try await self.getIpamResourceCidrs(input, logger: logger)
+    }
+
+    /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamRouteOriginAuthorizations(_ input: GetIpamRouteOriginAuthorizationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamRouteOriginAuthorizationsResult {
+        try await self.client.execute(
+            operation: "GetIpamRouteOriginAuthorizations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current Route Origin Authorizations (ROAs) published to the RPKI for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - cidr: Filter results to a specific CIDR prefix.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamRouteOriginAuthorizations(
+        cidr: String? = nil,
+        dryRun: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamRouteOriginAuthorizationsResult {
+        let input = GetIpamRouteOriginAuthorizationsRequest(
+            cidr: cidr, 
+            dryRun: dryRun, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getIpamRouteOriginAuthorizations(input, logger: logger)
+    }
+
+    /// Retrieves route protection findings for an IPAM. Route protection findings show the Resource Public Key Infrastructure (RPKI) validation status of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamRouteProtectionFindings(_ input: GetIpamRouteProtectionFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamRouteProtectionFindingsResult {
+        try await self.client.execute(
+            operation: "GetIpamRouteProtectionFindings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves route protection findings for an IPAM. Route protection findings show the Resource Public Key Infrastructure (RPKI) validation status of your Bring Your Own IP (BYOIP) routes. Findings identify routes that have valid, invalid, or unknown validation states. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the results.
+    ///   - ipamId: The ID of the IPAM to retrieve route protection findings for.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamRouteProtectionFindings(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        ipamId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamRouteProtectionFindingsResult {
+        let input = GetIpamRouteProtectionFindingsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            ipamId: ipamId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getIpamRouteProtectionFindings(input, logger: logger)
+    }
+
+    /// Retrieves the history of routing policy registration changes for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamRoutingPolicyRegistrationDeltas(_ input: GetIpamRoutingPolicyRegistrationDeltasRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamRoutingPolicyRegistrationDeltasResult {
+        try await self.client.execute(
+            operation: "GetIpamRoutingPolicyRegistrationDeltas", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the history of routing policy registration changes for an IPAM internet registry association. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - chronologicalOrder: The chronological order to return results in. Valid values: forward | reverse.
+    ///   - deltaId: Filter results to a specific delta ID.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - endTime: The end of the time range to filter deltas by.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - startTime: The start of the time range to filter deltas by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamRoutingPolicyRegistrationDeltas(
+        chronologicalOrder: ChronologicalOrder? = nil,
+        deltaId: String? = nil,
+        dryRun: Bool? = nil,
+        endTime: Date? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamRoutingPolicyRegistrationDeltasResult {
+        let input = GetIpamRoutingPolicyRegistrationDeltasRequest(
+            chronologicalOrder: chronologicalOrder, 
+            deltaId: deltaId, 
+            dryRun: dryRun, 
+            endTime: endTime, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime
+        )
+        return try await self.getIpamRoutingPolicyRegistrationDeltas(input, logger: logger)
+    }
+
+    /// Retrieves routing policy registrations for an IPAM internet registry association. Each registration represents a Route Origin Authorization (ROA) that has been created or is pending publication to the RPKI. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func getIpamRoutingPolicyRegistrations(_ input: GetIpamRoutingPolicyRegistrationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIpamRoutingPolicyRegistrationsResult {
+        try await self.client.execute(
+            operation: "GetIpamRoutingPolicyRegistrations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves routing policy registrations for an IPAM internet registry association. Each registration represents a Route Origin Authorization (ROA) that has been created or is pending publication to the RPKI. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - cidr: Filter results to a specific CIDR prefix.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxResults: The maximum number of results to return in a single call. If not specified, all available results are returned. To retrieve the remaining results, make another call with the returned nextToken value.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIpamRoutingPolicyRegistrations(
+        cidr: String? = nil,
+        dryRun: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIpamRoutingPolicyRegistrationsResult {
+        let input = GetIpamRoutingPolicyRegistrationsRequest(
+            cidr: cidr, 
+            dryRun: dryRun, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getIpamRoutingPolicyRegistrations(input, logger: logger)
     }
 
     /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, and DescribeInstanceAttribute. Or, you can allow describe* depending on your instance requirements.
@@ -23543,6 +24543,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - includeLocalZones: Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
     ///   - instanceRequirementsWithMetadata: The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
     ///   - instanceTypes: The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
@@ -23555,6 +24556,7 @@ public struct EC2: AWSService {
     @inlinable
     public func getSpotPlacementScores(
         dryRun: Bool? = nil,
+        includeLocalZones: Bool? = nil,
         instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil,
         instanceTypes: [String]? = nil,
         maxResults: Int? = nil,
@@ -23567,6 +24569,7 @@ public struct EC2: AWSService {
     ) async throws -> GetSpotPlacementScoresResult {
         let input = GetSpotPlacementScoresRequest(
             dryRun: dryRun, 
+            includeLocalZones: includeLocalZones, 
             instanceRequirementsWithMetadata: instanceRequirementsWithMetadata, 
             instanceTypes: instanceTypes, 
             maxResults: maxResults, 
@@ -24733,6 +25736,83 @@ public struct EC2: AWSService {
         return try await self.modifyAddressAttribute(input, logger: logger)
     }
 
+    /// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply:   The application status check must exist and belong to your account.   Changes take effect on the next health check interval.
+    @Sendable
+    @inlinable
+    public func modifyApplicationStatusCheck(_ input: ModifyApplicationStatusCheckRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyApplicationStatusCheckResult {
+        try await self.client.execute(
+            operation: "ModifyApplicationStatusCheck", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an existing application status check. You can update the protocol, port, path, thresholds, and other configuration settings. The following rules apply:   The application status check must exist and belong to your account.   Changes take effect on the next health check interval.
+    ///
+    /// Parameters:
+    ///   - aggregation: The aggregation setting for the application status check. When set to included, the result of this check contributes to the instance-level application status reported by DescribeApplicationStatus. When set to excluded, the check runs independently and does not affect the instance-level status. Valid values: included | excluded.
+    ///   - applicationStatusCheckId: The ID of the application status check to modify.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure that the operation completes no more than one time. If you retry a request with the same token, the service ignores the request but does not return an error. For more information, see Ensuring idempotency.
+    ///   - deviceIndex: The index of the network device to use for the health check. The value must be greater than or equal to 0.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - failureThreshold: The number of consecutive failed health checks before the application status is considered impaired. The value must be greater than 0.
+    ///   - healthCheckPaths: The health check paths to use for the application status check.
+    ///   - initializationGracePeriodSeconds: The number of seconds to wait before starting health checks after an instance is launched. Valid values: 1 to 600.
+    ///   - interval: The interval, in seconds, between health checks. Valid value: 60.
+    ///   - ipScope: The IP scope to use for the health check. Valid value: private.
+    ///   - ipVersion: The IP version to use for the health check. Valid values: ipv4 and ipv6.
+    ///   - path: The URL path to use for the health check HTTP request (for example, /health or /status).
+    ///   - port: The port to use for the health check. Valid values: 1 to 65535.
+    ///   - protocol: The protocol to use for the health check. Valid values: http | https.
+    ///   - statusCodeMatcher: The HTTP status codes that indicate a successful health check response. Specify a comma-separated list of individual status codes or ranges, for example, 200,202,300-399. For a range, the first value must be less than the second value. Maximum length: 64 characters.
+    ///   - successThreshold: The number of consecutive successful health checks before the application status is considered healthy. The value must be greater than 0.
+    ///   - timeout: The amount of time, in seconds, to wait for a health check response before considering it failed. Valid values: 1 to 30. The value must be less than Interval.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyApplicationStatusCheck(
+        aggregation: AggregationStatusEnum? = nil,
+        applicationStatusCheckId: String? = nil,
+        clientToken: String? = ModifyApplicationStatusCheckRequest.idempotencyToken(),
+        deviceIndex: Int? = nil,
+        dryRun: Bool? = nil,
+        failureThreshold: Int? = nil,
+        healthCheckPaths: [HealthCheckPathRequestObject]? = nil,
+        initializationGracePeriodSeconds: Int? = nil,
+        interval: Int? = nil,
+        ipScope: IpScopeEnum? = nil,
+        ipVersion: IpVersionEnum? = nil,
+        path: String? = nil,
+        port: Int? = nil,
+        protocol: NetworkProtocolEnum? = nil,
+        statusCodeMatcher: String? = nil,
+        successThreshold: Int? = nil,
+        timeout: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyApplicationStatusCheckResult {
+        let input = ModifyApplicationStatusCheckRequest(
+            aggregation: aggregation, 
+            applicationStatusCheckId: applicationStatusCheckId, 
+            clientToken: clientToken, 
+            deviceIndex: deviceIndex, 
+            dryRun: dryRun, 
+            failureThreshold: failureThreshold, 
+            healthCheckPaths: healthCheckPaths, 
+            initializationGracePeriodSeconds: initializationGracePeriodSeconds, 
+            interval: interval, 
+            ipScope: ipScope, 
+            ipVersion: ipVersion, 
+            path: path, 
+            port: port, 
+            protocol: `protocol`, 
+            statusCodeMatcher: statusCodeMatcher, 
+            successThreshold: successThreshold, 
+            timeout: timeout
+        )
+        return try await self.modifyApplicationStatusCheck(input, logger: logger)
+    }
+
     /// Changes the opt-in status of the specified zone group for your account.
     @Sendable
     @inlinable
@@ -25366,7 +26446,7 @@ public struct EC2: AWSService {
         ramdisk: AttributeValue? = nil,
         sourceDestCheck: AttributeBooleanValue? = nil,
         sriovNetSupport: AttributeValue? = nil,
-        userData: BlobAttributeValue? = nil,
+        userData: SecureBlobAttributeValue? = nil,
         value: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -26207,6 +27287,59 @@ public struct EC2: AWSService {
             removeOrganizationalUnitExclusions: removeOrganizationalUnitExclusions
         )
         return try await self.modifyIpamResourceDiscovery(input, logger: logger)
+    }
+
+    /// Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA).
+    @Sendable
+    @inlinable
+    public func modifyIpamRoutingPolicyRegistration(_ input: ModifyIpamRoutingPolicyRegistrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyIpamRoutingPolicyRegistrationResult {
+        try await self.client.execute(
+            operation: "ModifyIpamRoutingPolicyRegistration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies an existing routing policy registration. You can update the authorized ASNs, maximum prefix length, and other properties of a Route Origin Authorization (ROA).
+    ///
+    /// Parameters:
+    ///   - asns: The updated list of Autonomous System Numbers (ASNs) authorized to originate the prefix.
+    ///   - cidr: The IP address prefix in CIDR notation identifying the routing policy registration to modify.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the operation ignores the request, but does not return an error.
+    ///   - description: A new description for the routing policy registration.
+    ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Forces the modification even if it conflicts with an announced route. Default: false.
+    ///   - ipamInternetRegistryAssociationId: The ID of the IPAM internet registry association.
+    ///   - maxLength: The new maximum prefix length that the ASNs are authorized to announce. Must be greater than or equal to the prefix length of the CIDR.
+    ///   - permitMoreSpecificAnnouncements: Specifies whether to permit more specific route announcements than the CIDR prefix. Default: false.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyIpamRoutingPolicyRegistration(
+        asns: [String]? = nil,
+        cidr: String? = nil,
+        clientToken: String? = ModifyIpamRoutingPolicyRegistrationRequest.idempotencyToken(),
+        description: String? = nil,
+        dryRun: Bool? = nil,
+        force: Bool? = nil,
+        ipamInternetRegistryAssociationId: String? = nil,
+        maxLength: Int? = nil,
+        permitMoreSpecificAnnouncements: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyIpamRoutingPolicyRegistrationResult {
+        let input = ModifyIpamRoutingPolicyRegistrationRequest(
+            asns: asns, 
+            cidr: cidr, 
+            clientToken: clientToken, 
+            description: description, 
+            dryRun: dryRun, 
+            force: force, 
+            ipamInternetRegistryAssociationId: ipamInternetRegistryAssociationId, 
+            maxLength: maxLength, 
+            permitMoreSpecificAnnouncements: permitMoreSpecificAnnouncements
+        )
+        return try await self.modifyIpamRoutingPolicyRegistration(input, logger: logger)
     }
 
     /// Modify an IPAM scope.
@@ -28439,7 +29572,7 @@ public struct EC2: AWSService {
         return try await self.moveCapacityReservationInstances(input, logger: logger)
     }
 
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see Onboard your address range.
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For the Amazon Web Services GovCloud (US) Regions, authorize only ASN 8987. For the Amazon Web Services European Sovereign Cloud, authorize ASNs 16509 and 214101. For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see Onboard your address range.
     @Sendable
     @inlinable
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProvisionByoipCidrResult {
@@ -28452,7 +29585,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see Onboard your address range.
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For the Amazon Web Services GovCloud (US) Regions, authorize only ASN 8987. For the Amazon Web Services European Sovereign Cloud, authorize ASNs 16509 and 214101. For more information, see Bring your own IP addresses (BYOIP) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see Onboard your address range.
     ///
     /// Parameters:
     ///   - cidr: The public IPv4 or IPv6 address range, in CIDR notation. The most specific IPv4 prefix that you can  specify is /24. The most specific IPv6 address range that you can bring is /48 for CIDRs that are publicly advertisable and /56 for CIDRs that are not publicly advertisable. The address range cannot overlap with another address range that you've  brought to this or another Region.
@@ -29453,6 +30586,41 @@ public struct EC2: AWSService {
             imageCriteria: imageCriteria
         )
         return try await self.replaceImageCriteriaInAllowedImagesSettings(input, logger: logger)
+    }
+
+    /// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances, Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic is as follows:   No specification set – all instance types are allowed.   Only UnsupportedInstanceTypes set – All instance types are allowed except those that match the unsupported list.    SupportedInstanceTypes set – The instance type must match the supported list and must not match the unsupported list.   Instance type entries support wildcard patterns using * (for example, t3.* matches all t3 sizes). To remove an existing instance type specification, omit the InstanceTypeSpecification parameter or set it to null. To set the instance type specification, you must be the AMI owner. You cannot set an instance type specification on an AMI that is listed in Amazon Web Services Marketplace, and you cannot list an AMI in Amazon Web Services Marketplace if it has an instance type specification set.
+    @Sendable
+    @inlinable
+    public func replaceImageInstanceTypeSpecification(_ input: ReplaceImageInstanceTypeSpecificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReplaceImageInstanceTypeSpecificationResult {
+        try await self.client.execute(
+            operation: "ReplaceImageInstanceTypeSpecification", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Replaces or removes the instance type specification for an AMI. The instance type specification defines which instance types are compatible with the AMI. When you launch an instance using RunInstances, Amazon EC2 validates the requested instance type against the AMI's instance type specification. If the instance type is not compatible, the request fails with an InvalidParameterCombination error. You can specify supported instance types, unsupported instance types, or both. The evaluation logic is as follows:   No specification set – all instance types are allowed.   Only UnsupportedInstanceTypes set – All instance types are allowed except those that match the unsupported list.    SupportedInstanceTypes set – The instance type must match the supported list and must not match the unsupported list.   Instance type entries support wildcard patterns using * (for example, t3.* matches all t3 sizes). To remove an existing instance type specification, omit the InstanceTypeSpecification parameter or set it to null. To set the instance type specification, you must be the AMI owner. You cannot set an instance type specification on an AMI that is listed in Amazon Web Services Marketplace, and you cannot list an AMI in Amazon Web Services Marketplace if it has an instance type specification set.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
+    ///   - imageId: The ID of the AMI.
+    ///   - instanceTypeSpecification: The instance type specification to set on the AMI. Omit this parameter to remove the existing instance type specification.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func replaceImageInstanceTypeSpecification(
+        dryRun: Bool? = nil,
+        imageId: String? = nil,
+        instanceTypeSpecification: InstanceTypeSpecificationRequest? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ReplaceImageInstanceTypeSpecificationResult {
+        let input = ReplaceImageInstanceTypeSpecificationRequest(
+            dryRun: dryRun, 
+            imageId: imageId, 
+            instanceTypeSpecification: instanceTypeSpecification
+        )
+        return try await self.replaceImageInstanceTypeSpecification(input, logger: logger)
     }
 
     /// Changes which network ACL a subnet is associated with. By default when you create a
@@ -31414,18 +32582,21 @@ public struct EC2: AWSService {
     ///   - capacityReservationId: 			The ID of the source Capacity Reservation containing the interruptible allocation to modify.
     ///   - dryRun: 			Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
     ///   - targetInstanceCount: 			The new number of instances to allocate. Enter a higher number to add more capacity to share, or a lower number to reclaim capacity to your source Capacity Reservation.
+    ///   - zeroSizePreference: 			Specifies the updated behavior for the interruptible Capacity Reservation when you reduce its allocation to zero instances. Specify retain to keep the interruptible Capacity Reservation active at zero capacity so that you can allocate instances to it again later. Specify default to cancel the interruptible Capacity Reservation and return the capacity to your source Capacity Reservation.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateInterruptibleCapacityReservationAllocation(
         capacityReservationId: String? = nil,
         dryRun: Bool? = nil,
         targetInstanceCount: Int? = nil,
+        zeroSizePreference: ZeroSizePreference? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInterruptibleCapacityReservationAllocationResult {
         let input = UpdateInterruptibleCapacityReservationAllocationRequest(
             capacityReservationId: capacityReservationId, 
             dryRun: dryRun, 
-            targetInstanceCount: targetInstanceCount
+            targetInstanceCount: targetInstanceCount, 
+            zeroSizePreference: zeroSizePreference
         )
         return try await self.updateInterruptibleCapacityReservationAllocation(input, logger: logger)
     }
@@ -31522,6 +32693,38 @@ public struct EC2: AWSService {
             securityGroupRuleDescriptions: securityGroupRuleDescriptions
         )
         return try await self.updateSecurityGroupRuleDescriptionsIngress(input, logger: logger)
+    }
+
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas for inbound or outbound rules per security group and security groups per network interface. Only authorized AWS services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func validateSecurityGroupQuotasForInterface(_ input: ValidateSecurityGroupQuotasForInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateSecurityGroupQuotasForInterfaceResult {
+        try await self.client.execute(
+            operation: "ValidateSecurityGroupQuotasForInterface", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Validates whether the specified security groups can be associated with a single network interface. The operation checks Amazon Virtual Private Cloud (Amazon VPC) quotas for inbound or outbound rules per security group and security groups per network interface. Only authorized AWS services can call this operation. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - securityGroupIds: The IDs of the security groups to validate for association with a single network interface. You must specify at least one ID, and each ID must be unique. The number of IDs cannot exceed the maximum number of security groups allowed per network interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func validateSecurityGroupQuotasForInterface(
+        dryRun: Bool? = nil,
+        securityGroupIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ValidateSecurityGroupQuotasForInterfaceResult {
+        let input = ValidateSecurityGroupQuotasForInterfaceRequest(
+            dryRun: dryRun, 
+            securityGroupIds: securityGroupIds
+        )
+        return try await self.validateSecurityGroupQuotasForInterface(input, logger: logger)
     }
 
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different  address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of BGP propagation delays.
@@ -33156,7 +34359,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -33468,7 +34671,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
+    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).    application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
     ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
@@ -38483,6 +39686,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - includeLocalZones: Specify true so that the response returns scores that include Local Zones. Otherwise, the response ignores Local Zones. When you request regional scores, Local Zone capacity counts toward its parent Region.
     ///   - instanceRequirementsWithMetadata: The attributes for the instance types. When you specify instance attributes, Amazon EC2 will identify instance types with those attributes. If you specify InstanceRequirementsWithMetadata, you can't specify InstanceTypes.
     ///   - instanceTypes: The instance types. We recommend that you specify at least three instance types. If you specify one or two instance types, or specify variations of a single instance type (for example, an m3.xlarge with and without instance storage), the returned placement score will always be low.  If you specify InstanceTypes, you can't specify InstanceRequirementsWithMetadata.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
@@ -38494,6 +39698,7 @@ extension EC2 {
     @inlinable
     public func getSpotPlacementScoresPaginator(
         dryRun: Bool? = nil,
+        includeLocalZones: Bool? = nil,
         instanceRequirementsWithMetadata: InstanceRequirementsWithMetadataRequest? = nil,
         instanceTypes: [String]? = nil,
         maxResults: Int? = nil,
@@ -38505,6 +39710,7 @@ extension EC2 {
     ) -> AWSClient.PaginatorSequence<GetSpotPlacementScoresRequest, GetSpotPlacementScoresResult> {
         let input = GetSpotPlacementScoresRequest(
             dryRun: dryRun, 
+            includeLocalZones: includeLocalZones, 
             instanceRequirementsWithMetadata: instanceRequirementsWithMetadata, 
             instanceTypes: instanceTypes, 
             maxResults: maxResults, 
@@ -41158,6 +42364,7 @@ extension EC2.GetSpotPlacementScoresRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetSpotPlacementScoresRequest {
         return .init(
             dryRun: self.dryRun,
+            includeLocalZones: self.includeLocalZones,
             instanceRequirementsWithMetadata: self.instanceRequirementsWithMetadata,
             instanceTypes: self.instanceTypes,
             maxResults: self.maxResults,
@@ -41649,7 +42856,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -41710,7 +42917,7 @@ extension EC2 {
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
     ///   - executableUsers: Scopes the images by users with explicit launch permissions. Specify an Amazon Web Services account ID, self (the sender of the request), or all (public AMIs).   If you specify an Amazon Web Services account ID that is not your own, only AMIs shared with that specific Amazon Web Services account ID are returned. However, AMIs that are shared with the account’s organization or organizational unit (OU) are not returned.   If you specify self or your own Amazon Web Services account ID, AMIs shared with your account are returned. In addition, AMIs that are shared with the organization or OU of which you are member are also returned.    If you specify all, all public AMIs are returned.
-    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
+    ///   - filters: The filters.    architecture - The image architecture (i386 | x86_64 | arm64 | x86_64_mac | arm64_mac).    block-device-mapping.delete-on-termination - A Boolean value that indicates whether the Amazon EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.snapshot-id - The ID of the snapshot used for the Amazon EBS volume.    block-device-mapping.volume-size - The volume size of the Amazon EBS volume, in GiB.    block-device-mapping.volume-type - The volume type of the Amazon EBS volume (io1 | io2 | gp2 | gp3 | sc1 | st1 | standard).    block-device-mapping.encrypted - A Boolean that indicates whether the Amazon EBS volume is encrypted.    boot-mode – The boot mode of the image (legacy-bios | uefi | uefi-preferred).    creation-date - The time when the image was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    description - The description of the image (provided during image creation).    ena-support - A Boolean that indicates whether enhanced networking with ENA is enabled.    free-tier-eligible - A Boolean that indicates whether this image can be used under the Amazon Web Services Free Tier  (true | false).    hypervisor - The hypervisor type (ovm | xen).    image-allowed - A Boolean that indicates whether the image meets the criteria specified for Allowed AMIs.    image-id - The ID of the image.    image-watermark.source-image-creation-time - The creation date of the source AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.source-image-id - The ID of the AMI to which the watermark was originally attached.    image-watermark.source-image-region - The Region where the watermark was originally attached.    image-watermark.watermark-creation-time - The date and time the watermark was attached to the AMI, in the ISO 8601 format in the UTC time zone ( YYYY-MM-DDTHH:MM:SS.ssssss+HH:MM ). You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    image-watermark.watermark-key - The watermark identifier, in accountId:watermarkName format (for example, 123456789012:approvedAmi).    image-type - The image type (machine | kernel | ramdisk).    instance-type-specification.supported-instance-type – The instance types that are compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    instance-type-specification.unsupported-instance-type – The instance types that are not compatible with the AMI, as specified by the AMI owner. Values can be individual instance types (for example, t3.micro) or wildcard patterns that match multiple instance types (for example, t3.*).    is-public - A Boolean that indicates whether the image is public.    kernel-id - The kernel ID.    manifest-location - The location of the image manifest.    name - The name of the AMI (provided during image creation).    owner-alias - The owner alias (amazon | aws-backup-vault | aws-marketplace). The valid aliases are defined in an Amazon-maintained list. This is not the Amazon Web Services account alias that can be set using the IAM console. We recommend that you use the Owner request parameter instead of this filter.    owner-id - The Amazon Web Services account ID of the owner. We recommend that you use the Owner request parameter instead of this filter.    platform - The platform. The only supported value is windows.    product-code - The product code.    product-code.type - The type of the product code (marketplace).    public-ssm-parameter-name - The name of a public Systems Manager parameter associated with the AMI. The parameter must be in a trusted Amazon Web Services namespace under aws/service/. Returns all AMIs that have ever been associated with the parameter, including previous versions.    ramdisk-id - The RAM disk ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-image-id - The ID of the source AMI from which the AMI was created.    source-image-region - The Region of the source AMI.    source-instance-id - The ID of the instance that the AMI was created from if the AMI was created using CreateImage. This filter is applicable only if the AMI was created using CreateImage.    state - The state of the image (available | pending | failed).    state-reason-code - The reason code for the state change.    state-reason-message - The message for the state change.    sriov-net-support - A value of simple indicates that enhanced networking with the Intel 82599 VF interface is enabled.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    virtualization-type - The virtualization type (paravirtual | hvm).
     ///   - imageIds: The image IDs. Default: Describes all images available to you.
     ///   - includeDeprecated: Specifies whether to include deprecated AMIs. Default: No deprecated AMIs are included in the response.  If you are the AMI owner, all deprecated AMIs appear in the response regardless of what you specify for this parameter.
     ///   - includeDisabled: Specifies whether to include disabled AMIs. Default: No disabled AMIs are included in the response.
@@ -41929,7 +43136,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
+    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).    application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
     ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.
@@ -42980,7 +44187,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).
+    ///   - filters: The filters.    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    event.code - The code for the scheduled event (instance-reboot | system-reboot | system-maintenance | instance-retirement | instance-stop).    event.description - A description of the event.    event.instance-event-id - The ID of the event whose date and time you are modifying.    event.not-after - The latest end time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before - The earliest start time for the scheduled event (for example, 2014-09-15T17:15:20.000Z).    event.not-before-deadline - The deadline for starting the event (for example, 2014-09-15T17:15:20.000Z).    instance-state-code - The code for the instance state, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-status.reachability - Filters on instance status where the name is reachability (passed | failed | initializing | insufficient-data).    instance-status.status - The status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    system-status.reachability - Filters on system status where the name is reachability (passed | failed | initializing | insufficient-data).    system-status.status - The system status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).    attached-ebs-status.status - The status of the attached EBS volume  for the instance (ok | impaired | initializing |  insufficient-data | not-applicable).    application-status.status - The application status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
     ///   - includeAllInstances: When true, includes the health status for all instances. When false, includes the health status for running instances only. Default: false
     ///   - includeManagedResources: Indicates whether to include managed resources in the output. If this parameter is set to true, the output includes resources that are managed by Amazon Web Services services, even if managed resource visibility is set to hidden.
     ///   - instanceIds: The instance IDs. Default: Describes all your instances. Constraints: Maximum 100 explicitly specified instance IDs.

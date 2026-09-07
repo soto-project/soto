@@ -66,6 +66,13 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum DirectS3Read: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndPointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case kafkaBootstrapServers = "KAFKA_BOOTSTRAP_SERVERS"
         public var description: String { return self.rawValue }
@@ -333,6 +340,7 @@ extension Lambda {
         case nodejs20x = "nodejs20.x"
         case nodejs22x = "nodejs22.x"
         case nodejs24x = "nodejs24.x"
+        case nodejs26x = "nodejs26.x"
         case nodejs43 = "nodejs4.3"
         case nodejs43edge = "nodejs4.3-edge"
         case nodejs610 = "nodejs6.10"
@@ -346,6 +354,7 @@ extension Lambda {
         case python312 = "python3.12"
         case python313 = "python3.13"
         case python314 = "python3.14"
+        case python315 = "python3.15"
         case python36 = "python3.6"
         case python37 = "python3.7"
         case python38 = "python3.8"
@@ -360,9 +369,9 @@ extension Lambda {
     }
 
     public enum S3ObjectStorageMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        ///  COPY (default) uploads a copy of your deployment package to Lambda.
+        /// The default storage mode. Uploads a copy of your deployment package to Lambda.
         case copy = "COPY"
-        /// Lambda references the deployment package from the specified Amazon S3 bucket.
+        /// The reference storage mode. Lambda references the deployment package from the specified Amazon S3 bucket without uploading a copy.
         case reference = "REFERENCE"
         public var description: String { return self.rawValue }
     }
@@ -715,7 +724,7 @@ extension Lambda {
             try self.validate(self.eventSourceToken, name: "eventSourceToken", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.principal, name: "principal", parent: name, max: 2048)
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^[^\\s]+$")
             try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, max: 34)
@@ -1267,7 +1276,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.tenantId, name: "tenantId", parent: name, max: 256)
             try self.validate(self.tenantId, name: "tenantId", parent: name, min: 1)
             try self.validate(self.tenantId, name: "tenantId", parent: name, pattern: "^[a-zA-Z0-9\\._:\\/=+\\-@ ]+$")
@@ -2016,7 +2025,7 @@ extension Lambda {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
@@ -2500,7 +2509,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2552,7 +2561,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -2583,7 +2592,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -2694,6 +2703,36 @@ extension Lambda {
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda resource you want to delete the policy from. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+        public let resourceArn: String
+        /// The revision ID that the existing policy must match for the deletion to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the GetResourcePolicy operation.
+        public let revisionId: String?
+
+        @inlinable
+        public init(resourceArn: String, revisionId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            request.encodeQuery(self.revisionId, key: "RevisionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
+            try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3016,7 +3055,7 @@ extension Lambda {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.size, name: "size", parent: name, max: 10240)
+            try self.validate(self.size, name: "size", parent: name, max: 32768)
             try self.validate(self.size, name: "size", parent: name, min: 512)
         }
 
@@ -3538,11 +3577,14 @@ extension Lambda {
         public let arn: String
         /// The path where the function can access the file system, starting with /mnt/.
         public let localMountPath: String
+        /// The configuration for how your function accesses data on an Amazon S3 file system. Valid only when the file system access point ARN is an Amazon S3 Files access point. If you specify a different access point type (for example, Amazon Elastic File System), the operation returns an InvalidParameterException.
+        public let s3FilesConfig: S3FilesConfig?
 
         @inlinable
-        public init(arn: String, localMountPath: String) {
+        public init(arn: String, localMountPath: String, s3FilesConfig: S3FilesConfig? = nil) {
             self.arn = arn
             self.localMountPath = localMountPath
+            self.s3FilesConfig = s3FilesConfig
         }
 
         public func validate(name: String) throws {
@@ -3555,6 +3597,7 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case localMountPath = "LocalMountPath"
+            case s3FilesConfig = "S3FilesConfig"
         }
     }
 
@@ -3622,7 +3665,7 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package.
         public let s3Key: String?
-        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        /// Specifies how the deployment package is stored. Valid values:    COPY (default) – Uploads a copy of your deployment package to Lambda.    REFERENCE – Lambda references the deployment package from the specified Amazon S3 bucket.
         public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
@@ -3706,9 +3749,9 @@ extension Lambda {
     }
 
     public struct FunctionCodeLocationError: AWSDecodableShape {
-        /// The error code for the failed retrieval.
+        /// The error code that identifies why Lambda failed to retrieve the deployment package.
         public let errorCode: String?
-        /// A description of the error.
+        /// The human-readable message that describes why Lambda failed to retrieve the deployment package.
         public let message: String?
 
         @inlinable
@@ -3744,7 +3787,7 @@ extension Lambda {
         public let environment: EnvironmentResponse?
         /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
         public let ephemeralStorage: EphemeralStorage?
-        /// Connection settings for an Amazon EFS file system or an Amazon S3 Files file system.
+        /// Connection settings for an Amazon EFS file system or an Amazon S3 file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
         public let functionArn: String?
@@ -4399,7 +4442,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4483,7 +4526,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4514,7 +4557,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4583,7 +4626,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -4910,7 +4953,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5002,6 +5045,47 @@ extension Lambda {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Lambda resource you want to retrieve the policy for. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The resource-based policy attached to the Lambda resource you specified.
+        public let policy: String?
+        /// The revision ID of the policy. Pass this value as the RevisionId in a PutResourcePolicy or DeleteResourcePolicy request. Doing so ensures the operation acts on the expected version of the policy.
+        public let revisionId: String?
+
+        @inlinable
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
+        }
+    }
+
     public struct GetRuntimeManagementConfigRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -5024,7 +5108,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5349,7 +5433,7 @@ extension Lambda {
             try self.validate(self.durableExecutionName, name: "durableExecutionName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5423,7 +5507,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5527,7 +5611,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -5769,6 +5853,7 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the layer archive.
         public let s3Key: String?
+        /// Specifies how the layer archive is stored. Valid values:    COPY (default) – Uploads a copy of your layer archive to Lambda.    REFERENCE – Lambda references the layer archive from the specified Amazon S3 bucket.
         public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the layer archive object to use.
         public let s3ObjectVersion: String?
@@ -5812,6 +5897,7 @@ extension Lambda {
         public let codeSize: Int64?
         /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
         public let location: String?
+        /// The resolved Amazon S3 object that contains the layer archive.
         public let resolvedS3Object: ResolvedS3Object?
         /// The Amazon Resource Name (ARN) of a signing job.
         public let signingJobArn: String?
@@ -6104,7 +6190,7 @@ extension Lambda {
             try self.validate(self.durableExecutionName, name: "durableExecutionName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 0)
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
@@ -6167,7 +6253,7 @@ extension Lambda {
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6219,7 +6305,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -6686,7 +6772,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 10000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
         }
@@ -7078,7 +7164,7 @@ extension Lambda {
     }
 
     public struct ProvisionedPollerConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of event pollers this event source can scale up to. For Amazon SQS events source mappings, default is 200, and minimum value allowed is 2. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 200, and minimum value allowed is 1.
+        /// The maximum number of event pollers this event source can scale up to. For Amazon SQS event source mappings, the accepted range is between 2 and 10,000, with a default of 200. For Amazon MSK and self-managed Apache Kafka event source mappings, the accepted range is between 1 and 2,000, with a default of 200.
         public let maximumPollers: Int?
         /// The minimum number of event pollers this event source can scale down to. For Amazon SQS events source mappings, default is 2, and minimum 2 required. For Amazon MSK and self-managed Apache Kafka event source mappings, default is 1.
         public let minimumPollers: Int?
@@ -7298,7 +7384,7 @@ extension Lambda {
             try self.validate(self.codeSigningConfigArn, name: "codeSigningConfigArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:code-signing-config:csc-[a-z0-9]{17}$")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7390,7 +7476,7 @@ extension Lambda {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
@@ -7575,6 +7661,64 @@ extension Lambda {
         }
     }
 
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The policy document you want to add to your Lambda resource. This is formatted as a JSON string. For more information, see Working with resource-based policies in Lambda in the Lambda Developer Guide.
+        public let policy: String
+        /// The Amazon Resource Name (ARN) of the Lambda resource you want to add the policy to. You can use a qualified or an unqualified ARN. The value must be a complete ARN, and the operation does not accept wildcard characters.
+        public let resourceArn: String
+        /// The revision ID that the existing policy must match for the replacement to proceed. If the revision ID doesn't match, the operation fails with a PreconditionFailedException error. To retrieve the current revision ID, use the GetResourcePolicy operation.
+        public let revisionId: String?
+
+        @inlinable
+        public init(policy: String, resourceArn: String, revisionId: String? = nil) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.policy, forKey: .policy)
+            request.encodePath(self.resourceArn, key: "ResourceArn")
+            try container.encodeIfPresent(self.revisionId, forKey: .revisionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+            try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:function:[a-zA-Z0-9-_]+(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_])+)?$")
+            try self.validate(self.revisionId, name: "revisionId", parent: name, max: 36)
+            try self.validate(self.revisionId, name: "revisionId", parent: name, min: 36)
+            try self.validate(self.revisionId, name: "revisionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The resource-based policy that Lambda adds to the resource.
+        public let policy: String?
+        /// The revision ID of the policy that Lambda adds to your Lambda resource.
+        public let revisionId: String?
+
+        @inlinable
+        public init(policy: String? = nil, revisionId: String? = nil) {
+            self.policy = policy
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "Policy"
+            case revisionId = "RevisionId"
+        }
+    }
+
     public struct PutRuntimeManagementConfigRequest: AWSEncodableShape {
         /// The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
@@ -7605,7 +7749,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -7729,7 +7873,7 @@ extension Lambda {
         public func validate(name: String) throws {
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^\\$(LATEST(\\.PUBLISHED)?)|[a-zA-Z0-9-_$]+$")
@@ -7898,6 +8042,20 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case errorCode = "ErrorCode"
             case message = "Message"
+        }
+    }
+
+    public struct S3FilesConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies if a function reads from the file system for the lowest latency, or through Amazon S3 Files feature "direct Amazon S3 bucket reads" for the highest throughput. Valid values:    AUTO (default) – Direct reads are active for functions you configure with 512 MB or more of memory.    ENABLED – Enforces all reads are directly from the Amazon S3 bucket, regardless of available memory (less than 512 MB).    DISABLED – Routes all reads through the file system, regardless of memory configuration.   To use direct reads, you must grant the execution role the s3:GetObject and s3:GetObjectVersion permissions. If a direct read fails, Lambda automatically falls back to reading through the file system.
+        public let directS3Read: DirectS3Read?
+
+        @inlinable
+        public init(directS3Read: DirectS3Read? = nil) {
+            self.directS3Read = directS3Read
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directS3Read = "DirectS3Read"
         }
     }
 
@@ -8917,7 +9075,7 @@ extension Lambda {
             try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.functionResponseTypes, name: "functionResponseTypes", parent: name, max: 1)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 10000)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:[a-z0-9-.]+:.*)|()$")
@@ -8987,7 +9145,7 @@ extension Lambda {
         public let s3Bucket: String?
         /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
         public let s3Key: String?
-        /// Specifies how the deployment package is stored. Use COPY (default) to upload a copy of your deployment package to Lambda. Use REFERENCE to have Lambda reference the deployment package from the specified Amazon S3 bucket.
+        /// Specifies how the deployment package is stored. Valid values:    COPY (default) – Uploads a copy of your deployment package to Lambda.    REFERENCE – Lambda references the deployment package from the specified Amazon S3 bucket.
         public let s3ObjectStorageMode: S3ObjectStorageMode?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
@@ -9254,7 +9412,7 @@ extension Lambda {
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 256)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:(eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:\\d{12}:|(((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?))(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?((eusc-)?[a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_\\.]+)(:(\\$LATEST(\\.PUBLISHED)?|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, max: 21600)
             try self.validate(self.maximumEventAgeInSeconds, name: "maximumEventAgeInSeconds", parent: name, min: 60)
             try self.validate(self.maximumRetryAttempts, name: "maximumRetryAttempts", parent: name, max: 2)
@@ -9650,7 +9808,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
-    /// The resource-based policy you tried to add to the Lambda function would grant public access to it, and your account's BlockPublicAccess setting prevents public access. For more information about blocking public access to Lambda functions, see Block public access to Lambda resources.
+    /// The resource-based policy you tried to add to the Lambda resource would grant public access to it, which isn't allowed.
     public static var publicPolicyException: Self { .init(.publicPolicyException) }
     /// Lambda has detected your function being invoked in a recursive loop with other Amazon Web Services resources and stopped your function's invocation.
     public static var recursiveInvocationException: Self { .init(.recursiveInvocationException) }

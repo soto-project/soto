@@ -96,6 +96,7 @@ public struct MWAAServerless: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token prevents duplicate workflow creation requests.
+    ///   - code: The location of code artifacts in Amazon S3 for the workflow. The service copies the code from this location at the time of the request.
     ///   - definitionS3Location: The Amazon S3 location where the workflow definition file is stored. This must point to a valid YAML file that defines the workflow structure using supported Amazon Web Services operators and tasks. Amazon Managed Workflows for Apache Airflow Serverless takes a snapshot of the definition at creation time, so subsequent changes to the Amazon S3 object will not affect the workflow unless you create a new version. In your YAML definition, include task dependencies, scheduling information, and operator configurations that are compatible with the Amazon Managed Workflows for Apache Airflow Serverless execution environment.
     ///   - description: An optional description of the workflow that you can use to provide additional context about the workflow's purpose and functionality.
     ///   - encryptionConfiguration: The configuration for encrypting workflow data at rest and in transit. Specifies the encryption type and optional KMS key for customer-managed encryption.
@@ -110,6 +111,7 @@ public struct MWAAServerless: AWSService {
     @inlinable
     public func createWorkflow(
         clientToken: String? = CreateWorkflowRequest.idempotencyToken(),
+        code: Code? = nil,
         definitionS3Location: DefinitionS3Location,
         description: String? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
@@ -124,6 +126,7 @@ public struct MWAAServerless: AWSService {
     ) async throws -> CreateWorkflowResponse {
         let input = CreateWorkflowRequest(
             clientToken: clientToken, 
+            code: code, 
             definitionS3Location: definitionS3Location, 
             description: description, 
             encryptionConfiguration: encryptionConfiguration, 
@@ -591,6 +594,7 @@ public struct MWAAServerless: AWSService {
     /// Updates an existing workflow with new configuration settings. This operation allows you to modify the workflow definition, role, and other settings. When you update a workflow, Amazon Managed Workflows for Apache Airflow Serverless automatically creates a new version with the updated configuration and disables scheduling on all previous versions to ensure only one version is actively scheduled at a time. The update operation maintains workflow history while providing a clean transition to the new configuration.
     ///
     /// Parameters:
+    ///   - code: The location of code artifacts in Amazon S3 for the updated workflow. The service copies the code from this location at the time of the request.
     ///   - definitionS3Location: The Amazon S3 location where the updated workflow definition file is stored.
     ///   - description: An updated description for the workflow.
     ///   - engineVersion: The version of the Amazon Managed Workflows for Apache Airflow Serverless engine that you want to use for the updated workflow.
@@ -602,6 +606,7 @@ public struct MWAAServerless: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWorkflow(
+        code: Code? = nil,
         definitionS3Location: DefinitionS3Location,
         description: String? = nil,
         engineVersion: EngineVersion? = nil,
@@ -613,6 +618,7 @@ public struct MWAAServerless: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWorkflowResponse {
         let input = UpdateWorkflowRequest(
+            code: code, 
             definitionS3Location: definitionS3Location, 
             description: description, 
             engineVersion: engineVersion, 

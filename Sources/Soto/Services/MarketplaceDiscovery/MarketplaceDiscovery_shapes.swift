@@ -97,6 +97,7 @@ extension MarketplaceDiscovery {
     }
 
     public enum PurchaseOptionBadgeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoRenew = "AUTO_RENEW"
         case futureDated = "FUTURE_DATED"
         case privatePricing = "PRIVATE_PRICING"
         case replacementOffer = "REPLACEMENT_OFFER"
@@ -202,6 +203,7 @@ extension MarketplaceDiscovery {
         case fixedUpfrontPricingTerm = "FixedUpfrontPricingTerm"
         case freeTrialPricingTerm = "FreeTrialPricingTerm"
         case legalTerm = "LegalTerm"
+        case netPaymentTerm = "NetPaymentTerm"
         case paymentScheduleTerm = "PaymentScheduleTerm"
         case recurringPaymentTerm = "RecurringPaymentTerm"
         case renewalTerm = "RenewalTerm"
@@ -309,6 +311,8 @@ extension MarketplaceDiscovery {
         case fixedUpfrontPricingTerm(FixedUpfrontPricingTerm)
         case freeTrialPricingTerm(FreeTrialPricingTerm)
         case legalTerm(LegalTerm)
+        /// A net payment term.
+        case netPaymentTerm(NetPaymentTerm)
         case paymentScheduleTerm(PaymentScheduleTerm)
         case recurringPaymentTerm(RecurringPaymentTerm)
         case renewalTerm(RenewalTerm)
@@ -342,6 +346,9 @@ extension MarketplaceDiscovery {
             case .legalTerm:
                 let value = try container.decode(LegalTerm.self, forKey: .legalTerm)
                 self = .legalTerm(value)
+            case .netPaymentTerm:
+                let value = try container.decode(NetPaymentTerm.self, forKey: .netPaymentTerm)
+                self = .netPaymentTerm(value)
             case .paymentScheduleTerm:
                 let value = try container.decode(PaymentScheduleTerm.self, forKey: .paymentScheduleTerm)
                 self = .paymentScheduleTerm(value)
@@ -372,6 +379,7 @@ extension MarketplaceDiscovery {
             case fixedUpfrontPricingTerm = "fixedUpfrontPricingTerm"
             case freeTrialPricingTerm = "freeTrialPricingTerm"
             case legalTerm = "legalTerm"
+            case netPaymentTerm = "netPaymentTerm"
             case paymentScheduleTerm = "paymentScheduleTerm"
             case recurringPaymentTerm = "recurringPaymentTerm"
             case renewalTerm = "renewalTerm"
@@ -379,6 +387,37 @@ extension MarketplaceDiscovery {
             case usageBasedPricingTerm = "usageBasedPricingTerm"
             case validityTerm = "validityTerm"
             case variablePaymentTerm = "variablePaymentTerm"
+        }
+    }
+
+    public enum PriceIncrease: AWSDecodableShape, Sendable {
+        /// A single fixed percentage applied uniformly at every renewal cycle.
+        case fixedPercentage(FixedPercentage)
+        /// A percentage band with minimum, maximum, and default values that bound the price increase at each renewal cycle.
+        case percentageRange(PercentageRange)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fixedPercentage:
+                let value = try container.decode(FixedPercentage.self, forKey: .fixedPercentage)
+                self = .fixedPercentage(value)
+            case .percentageRange:
+                let value = try container.decode(PercentageRange.self, forKey: .percentageRange)
+                self = .percentageRange(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedPercentage = "fixedPercentage"
+            case percentageRange = "percentageRange"
         }
     }
 
@@ -954,6 +993,20 @@ extension MarketplaceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case operatingSystemFamilyName = "operatingSystemFamilyName"
             case operatingSystemName = "operatingSystemName"
+        }
+    }
+
+    public struct FixedPercentage: AWSDecodableShape {
+        /// The percentage value applied at each renewal cycle.
+        public let percentageValue: String
+
+        @inlinable
+        public init(percentageValue: String) {
+            self.percentageValue = percentageValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case percentageValue = "percentageValue"
         }
     }
 
@@ -1777,6 +1830,28 @@ extension MarketplaceDiscovery {
         }
     }
 
+    public struct NetPaymentTerm: AWSDecodableShape {
+        /// The unique identifier of the term.
+        public let id: String
+        /// The duration after invoice date by which payment is due.
+        public let paymentDuePeriod: String
+        /// The category of the term.
+        public let type: TermType
+
+        @inlinable
+        public init(id: String, paymentDuePeriod: String, type: TermType) {
+            self.id = id
+            self.paymentDuePeriod = paymentDuePeriod
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case paymentDuePeriod = "paymentDuePeriod"
+            case type = "type"
+        }
+    }
+
     public struct OfferAssociatedEntity: AWSDecodableShape {
         /// Information about the offer set, if the offer is part of a bundled offer set.
         public let offerSet: OfferSetInformation?
@@ -1853,6 +1928,28 @@ extension MarketplaceDiscovery {
         }
     }
 
+    public struct PaymentScheduleEntry: AWSDecodableShape {
+        /// The relative offset from the renewal agreement start date when this installment is due, in ISO 8601 duration format. The offset uses months only or days only (for example, P1M or P30D); mixed units are not supported, and every offset in a schedule uses the same unit.
+        public let chargeDateOffset: String
+        /// The percentage of the increased TCV to charge in this installment. All entries in a schedule sum to 100.00.
+        public let chargePercentage: String
+        /// The optional calendar day of month on which the charge occurs. When absent, the charge day is derived from chargeDateOffset, and this field does not apply when chargeDateOffset is expressed in days. For months with fewer days than the specified day, the charge occurs on the last day of the month. For example, if dayOfMonth is 31, the charge in April occurs on April 30.
+        public let dayOfMonth: Int?
+
+        @inlinable
+        public init(chargeDateOffset: String, chargePercentage: String, dayOfMonth: Int? = nil) {
+            self.chargeDateOffset = chargeDateOffset
+            self.chargePercentage = chargePercentage
+            self.dayOfMonth = dayOfMonth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeDateOffset = "chargeDateOffset"
+            case chargePercentage = "chargePercentage"
+            case dayOfMonth = "dayOfMonth"
+        }
+    }
+
     public struct PaymentScheduleTerm: AWSDecodableShape {
         /// Defines the currency for the prices in this term.
         public let currencyCode: String
@@ -1876,6 +1973,42 @@ extension MarketplaceDiscovery {
             case id = "id"
             case schedule = "schedule"
             case type = "type"
+        }
+    }
+
+    public struct PaymentScheduleTermTemplate: AWSDecodableShape {
+        /// An ordered list of installment entries for the renewal payment schedule.
+        public let schedule: [PaymentScheduleEntry]
+
+        @inlinable
+        public init(schedule: [PaymentScheduleEntry]) {
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "schedule"
+        }
+    }
+
+    public struct PercentageRange: AWSDecodableShape {
+        /// The percentage increase applied by default when no other value is finalized before the adjustment deadline. Falls between minimumValue and maximumValue.
+        public let defaultValue: String
+        /// The maximum percentage by which the price can increase at each renewal cycle.
+        public let maximumValue: String
+        /// The minimum percentage by which the price can increase at each renewal cycle.
+        public let minimumValue: String
+
+        @inlinable
+        public init(defaultValue: String, maximumValue: String, minimumValue: String) {
+            self.defaultValue = defaultValue
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case maximumValue = "maximumValue"
+            case minimumValue = "minimumValue"
         }
     }
 
@@ -2190,19 +2323,39 @@ extension MarketplaceDiscovery {
     }
 
     public struct RenewalTerm: AWSDecodableShape {
+        /// The duration before the agreement end date by which the renewal price is finalized, represented in ISO 8601 format (for example, P30D). Only applicable with PercentageRange.
+        public let adjustmentDeadline: String?
         /// The unique identifier of the term.
         public let id: String
+        /// The duration before the agreement end date when the lockout window begins, in ISO 8601 format (for example, P30D). Absent means no lockout.
+        public let lockoutPeriod: String?
+        /// The maximum number of renewals allowed on this offer. Absent means unlimited renewals.
+        public let maxRenewals: Int?
+        /// The price increase applied at each renewal cycle. Absent means identical pricing on renewal.
+        public let priceIncrease: PriceIncrease?
+        /// Structural templates defining how specific terms are reshaped on each renewal cycle. Absent for upfront-only offers.
+        public let termTemplates: [TermTemplate]?
         /// The category of the term.
         public let type: TermType
 
         @inlinable
-        public init(id: String, type: TermType) {
+        public init(adjustmentDeadline: String? = nil, id: String, lockoutPeriod: String? = nil, maxRenewals: Int? = nil, priceIncrease: PriceIncrease? = nil, termTemplates: [TermTemplate]? = nil, type: TermType) {
+            self.adjustmentDeadline = adjustmentDeadline
             self.id = id
+            self.lockoutPeriod = lockoutPeriod
+            self.maxRenewals = maxRenewals
+            self.priceIncrease = priceIncrease
+            self.termTemplates = termTemplates
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adjustmentDeadline = "adjustmentDeadline"
             case id = "id"
+            case lockoutPeriod = "lockoutPeriod"
+            case maxRenewals = "maxRenewals"
+            case priceIncrease = "priceIncrease"
+            case termTemplates = "termTemplates"
             case type = "type"
         }
     }
@@ -2811,6 +2964,20 @@ extension MarketplaceDiscovery {
             case id = "id"
             case maxTotalChargeAmount = "maxTotalChargeAmount"
             case type = "type"
+        }
+    }
+
+    public struct TermTemplate: AWSDecodableShape {
+        /// The installment schedule used to structure payments on the renewal offer.
+        public let paymentScheduleTermTemplate: PaymentScheduleTermTemplate?
+
+        @inlinable
+        public init(paymentScheduleTermTemplate: PaymentScheduleTermTemplate? = nil) {
+            self.paymentScheduleTermTemplate = paymentScheduleTermTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentScheduleTermTemplate = "paymentScheduleTermTemplate"
         }
     }
 }

@@ -2314,6 +2314,7 @@ public struct SageMaker: AWSService {
     ///   - accountDefaultStatus: Indicates whether this MLflow app is the default for the entire account.
     ///   - artifactStoreUri: The S3 URI for a general purpose bucket to use as the MLflow App artifact store.
     ///   - defaultDomainIdList: List of SageMaker domain IDs for which this MLflow App is used as the default.
+    ///   - kmsKeyId: The ID of the Amazon Web Services KMS key used to encrypt the data at rest associated with the MLflow App. If you don't specify a value, the MLflow App is not encrypted with a customer-managed key.
     ///   - modelRegistrationMode: Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationDisabled.
     ///   - name: A string identifying the MLflow app name. This string is not part of the tracking server ARN.
     ///   - roleArn: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3. The role should have the AmazonS3FullAccess permission.
@@ -2325,6 +2326,7 @@ public struct SageMaker: AWSService {
         accountDefaultStatus: AccountDefaultStatus? = nil,
         artifactStoreUri: String? = nil,
         defaultDomainIdList: [String]? = nil,
+        kmsKeyId: String? = nil,
         modelRegistrationMode: ModelRegistrationMode? = nil,
         name: String? = nil,
         roleArn: String? = nil,
@@ -2336,6 +2338,7 @@ public struct SageMaker: AWSService {
             accountDefaultStatus: accountDefaultStatus, 
             artifactStoreUri: artifactStoreUri, 
             defaultDomainIdList: defaultDomainIdList, 
+            kmsKeyId: kmsKeyId, 
             modelRegistrationMode: modelRegistrationMode, 
             name: name, 
             roleArn: roleArn, 
@@ -3013,7 +3016,7 @@ public struct SageMaker: AWSService {
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model optimization, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
     ///   - stoppingCondition: 
     ///   - tags: A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
-    ///   - trainingPlanArns: The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. Currently, you can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see Reserve capacity with training plans.
+    ///   - trainingPlanArns: The Amazon Resource Name (ARN) of the training plan to use for this optimization job. When you use reserved capacity from a training plan, the optimization job runs on that reserved capacity instead of on-demand capacity. If you omit this field, the job uses on-demand capacity. You can specify at most one training plan. For more information about how to reserve GPU capacity for your optimization jobs using Amazon SageMaker Training Plans, see Reserve capacity with training plans.
     ///   - vpcConfig: A VPC in Amazon VPC that your optimized model has access to.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3066,11 +3069,12 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
-    ///   - authType: The authorization type that users use to access the SageMaker Partner AI App.
+    ///   - authType: The authorization type that users use to access the SageMaker Partner AI App. Valid values:    IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.    IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
     ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
     ///   - enableAutoMinorVersionUpgrade: When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available. Default is FALSE.
     ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     ///   - executionRoleArn: The ARN of the IAM role that the partner application uses.
+    ///   - idcConfig: Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
     ///   - kmsKeyId: SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
     ///   - name: The name to give the SageMaker Partner AI App.
@@ -3086,6 +3090,7 @@ public struct SageMaker: AWSService {
         enableAutoMinorVersionUpgrade: Bool? = nil,
         enableIamSessionBasedIdentity: Bool? = nil,
         executionRoleArn: String? = nil,
+        idcConfig: IdcConfigInput? = nil,
         kmsKeyId: String? = nil,
         maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
         name: String? = nil,
@@ -3101,6 +3106,7 @@ public struct SageMaker: AWSService {
             enableAutoMinorVersionUpgrade: enableAutoMinorVersionUpgrade, 
             enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
             executionRoleArn: executionRoleArn, 
+            idcConfig: idcConfig, 
             kmsKeyId: kmsKeyId, 
             maintenanceConfig: maintenanceConfig, 
             name: name, 
@@ -15654,9 +15660,11 @@ public struct SageMaker: AWSService {
     ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
     ///   - appVersion: The semantic version to upgrade the SageMaker Partner AI App to. Must be the same semantic version returned in the AvailableUpgrade field from DescribePartnerApp. Version skipping and downgrades are not supported.
     ///   - arn: The ARN of the SageMaker Partner AI App to update.
+    ///   - authType: The authorization type that users use to access the SageMaker Partner AI App. Use this parameter to migrate an existing SageMaker Partner AI App from IAM authorization to IDC authorization. Valid values:    IAM: Users access the SageMaker Partner AI App with their Amazon Web Services IAM identity.    IDC: Users access the SageMaker Partner AI App with their Amazon Web Services IAM Identity Center identity. Specify the Identity Center instance to use in IdcConfig.
     ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
     ///   - enableAutoMinorVersionUpgrade: When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
     ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
+    ///   - idcConfig: Specifies the Amazon Web Services IAM Identity Center configuration for the SageMaker Partner AI App. Specify this parameter when AuthType is IDC. Apps that use IAM authorization don't use this parameter.
     ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
     ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
     ///   - tier: Indicates the instance type and size of the cluster attached to the SageMaker Partner AI App.
@@ -15666,9 +15674,11 @@ public struct SageMaker: AWSService {
         applicationConfig: PartnerAppConfig? = nil,
         appVersion: String? = nil,
         arn: String? = nil,
+        authType: PartnerAppAuthType? = nil,
         clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(),
         enableAutoMinorVersionUpgrade: Bool? = nil,
         enableIamSessionBasedIdentity: Bool? = nil,
+        idcConfig: IdcConfigInput? = nil,
         maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
         tags: [Tag]? = nil,
         tier: String? = nil,
@@ -15678,9 +15688,11 @@ public struct SageMaker: AWSService {
             applicationConfig: applicationConfig, 
             appVersion: appVersion, 
             arn: arn, 
+            authType: authType, 
             clientToken: clientToken, 
             enableAutoMinorVersionUpgrade: enableAutoMinorVersionUpgrade, 
             enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
+            idcConfig: idcConfig, 
             maintenanceConfig: maintenanceConfig, 
             tags: tags, 
             tier: tier

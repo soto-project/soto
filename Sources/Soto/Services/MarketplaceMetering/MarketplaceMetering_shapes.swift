@@ -35,7 +35,7 @@ extension MarketplaceMetering {
     // MARK: Shapes
 
     public struct BatchMeterUsageRequest: AWSEncodableShape {
-        /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
+        /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.   ProductCode is required only for legacy integrations that use CustomerIdentifier. For new integrations using LicenseArn (Concurrent Agreements), do NOT include ProductCode at the request level. The LicenseArn in each UsageRecord identifies both the product and the specific agreement. Sending metering records with both ProductCode and LicenseArn for the same customer within the same hour will result in duplicate billing. If you are migrating from product-based metering to license-based metering, stop sending ProductCode before you start sending LicenseArn.
         public let productCode: String?
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
         public let usageRecords: [UsageRecord]
@@ -296,7 +296,7 @@ extension MarketplaceMetering {
     }
 
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
-        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.  For existing integrations, to access your CustomerIdentifier to CustomerAWSAccountId mapping, see Account Feeds.
+        /// The CustomerAWSAccountId parameter specifies the AWS account ID of the buyer.  If you have an existing integration and need the CustomerAWSAccountId that corresponds to a CustomerIdentifier, contact AWS Marketplace Seller Operations to obtain the mapping. Do not request the CustomerAWSAccountId directly from buyers. We cannot verify that a buyer-provided account ID is authentic, which can result in incorrect metering or billing.
         public let customerAWSAccountId: String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.   CustomerIdentifier is not supported for new SaaS product integrations. Use CustomerAWSAccountId to identify the buyer.
         public let customerIdentifier: String?

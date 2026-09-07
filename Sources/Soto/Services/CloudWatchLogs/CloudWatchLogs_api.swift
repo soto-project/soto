@@ -500,7 +500,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.createLogStream(input, logger: logger)
     }
 
-    /// Creates a lookup table by uploading CSV data. You can use lookup tables to enrich log data in CloudWatch Logs Insights queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. The CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
+    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in CloudWatch Logs queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId, but not both. If you use tableBody, the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
     @Sendable
     @inlinable
     public func createLookupTable(_ input: CreateLookupTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLookupTableResponse {
@@ -513,13 +513,14 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Creates a lookup table by uploading CSV data. You can use lookup tables to enrich log data in CloudWatch Logs Insights queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. The CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
+    /// Creates a lookup table by uploading CSV data or from CloudWatch Logs query results. You can use lookup tables to enrich log data in CloudWatch Logs queries with reference data such as user details, application names, or error descriptions. The table name must be unique within your account and Region. You must specify either tableBody or queryId, but not both. If you use tableBody, the CSV content must include a header row with column names, use UTF-8 encoding, and not exceed 10 MB.
     ///
     /// Parameters:
     ///   - description: A description of the lookup table. The description can be up to 1024 characters long.
     ///   - kmsKeyId: The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key.
     ///   - lookupTableName: The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
-    ///   - tableBody: The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+    ///   - queryId: The ID of a completed or cancelled CloudWatch Logs query whose results populate the lookup table. A cancelled query populates the table with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
+    ///   - tableBody: The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     ///   - tags: A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources.
     ///   - logger: Logger use during operation
     @inlinable
@@ -527,7 +528,8 @@ public struct CloudWatchLogs: AWSService {
         description: String? = nil,
         kmsKeyId: String? = nil,
         lookupTableName: String,
-        tableBody: String,
+        queryId: String? = nil,
+        tableBody: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLookupTableResponse {
@@ -535,6 +537,7 @@ public struct CloudWatchLogs: AWSService {
             description: description, 
             kmsKeyId: kmsKeyId, 
             lookupTableName: lookupTableName, 
+            queryId: queryId, 
             tableBody: tableBody, 
             tags: tags
         )
@@ -558,7 +561,7 @@ public struct CloudWatchLogs: AWSService {
     ///
     /// Parameters:
     ///   - description: An optional description for the scheduled query to help identify its purpose and functionality.
-    ///   - destinationConfiguration: Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
+    ///   - destinationConfiguration: Configuration for where to deliver query results. Supports Amazon S3 destinations for storing query output and lookup table destinations for automatically refreshing lookup tables with query results. You can configure one or both destination types.
     ///   - endTimeOffset: The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
     ///   - executionRoleArn: The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination.
     ///   - logGroupIdentifiers: An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN.
@@ -1496,7 +1499,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.describeExportTasks(input, logger: logger)
     }
 
-    /// Returns a list of custom and default field indexes which are discovered in log data. For more information about field index policies, see PutIndexPolicy.
+    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT, CUSTOM, and INACTIVE index categories. To return indexes from other categories, use the indexCategories parameter. For more information about field index policies, see PutIndexPolicy.
     @Sendable
     @inlinable
     public func describeFieldIndexes(_ input: DescribeFieldIndexesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFieldIndexesResponse {
@@ -1509,19 +1512,22 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of custom and default field indexes which are discovered in log data. For more information about field index policies, see PutIndexPolicy.
+    /// Returns a list of field indexes discovered in log data. By default, the response includes the DEFAULT, CUSTOM, and INACTIVE index categories. To return indexes from other categories, use the indexCategories parameter. For more information about field index policies, see PutIndexPolicy.
     ///
     /// Parameters:
+    ///   - indexCategories: The index categories to return. The following values are supported:    DEFAULT: Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format.    CUSTOM: Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group.    AUTO: Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy.    INACTIVE: Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries.   If you omit this parameter, the response includes the DEFAULT, CUSTOM, and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see Automatically indexed fields.
     ///   - logGroupIdentifiers: An array containing the names or ARNs of the log groups that you want to retrieve field indexes for.
     ///   - nextToken: 
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFieldIndexes(
+        indexCategories: [IndexCategory]? = nil,
         logGroupIdentifiers: [String],
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeFieldIndexesResponse {
         let input = DescribeFieldIndexesRequest(
+            indexCategories: indexCategories, 
             logGroupIdentifiers: logGroupIdentifiers, 
             nextToken: nextToken
         )
@@ -2056,7 +2062,7 @@ public struct CloudWatchLogs: AWSService {
     ///   - logStreamNames: Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePrefix, the action returns an InvalidParameterException error.
     ///   - nextToken: The token for the next set of events to return. (You received this token from a previous call.)
     ///   - startFromHead: If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used.  Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
-    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.  Set startTime explicitly to reduce the chances of empty pages in the response.
     ///   - unmask: Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2316,7 +2322,7 @@ public struct CloudWatchLogs: AWSService {
     ///   - logStreamName: The name of the log stream.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - startFromHead: If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead.
-    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
+    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.  Set startTime explicitly to reduce the chances of empty pages in the response.
     ///   - unmask: Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2615,7 +2621,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.getScheduledQueryHistory(input, logger: logger)
     }
 
-    /// Returns the storage tier policy for your account.
+    /// Returns the storage tier policy for the account.
     @Sendable
     @inlinable
     public func getStorageTierPolicy(_ input: GetStorageTierPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStorageTierPolicyResponse {
@@ -2628,7 +2634,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns the storage tier policy for your account.
+    /// Returns the storage tier policy for the account.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -3282,7 +3288,7 @@ public struct CloudWatchLogs: AWSService {
     ///
     /// Parameters:
     ///   - deliverySourceConfiguration: A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For example, {"samplingRate": "50"}.
-    ///   - logType: Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+    ///   - logType: Defines the type of log that the source is sending.   For Application Load Balancer, the valid values are ALB_ACCESS_LOGS, ALB_CONNECTION_LOGS, and ALB_HEALTH_CHECK_LOGS.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
     ///   - name: A name for this delivery source. This name must be unique for all delivery sources in your account.
     ///   - resourceArn: The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234  For the SECURITY_FINDING_LOGS logType, use a wildcard ARN for the hub resource. For Amazon Web Services Security Hub CSPM, use arn:aws:securityhub:us-east-1:111122223333:hub/* and for Amazon Web Services Security Hub, use arn:aws:securityhub:us-east-1:111122223333:hubv2/*
     ///   - tags: An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources
@@ -3683,7 +3689,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.putRetentionPolicy(input, logger: logger)
     }
 
-    /// Sets the storage tier policy for your account. When you set the storage tier to INTELLIGENT_TIERING, CloudWatch Logs automatically moves your log data between storage tiers based on access patterns to optimize costs.
+    /// Sets the storage tier policy for the account. When you set the storage tier to INTELLIGENT_TIERING, the service automatically moves log data to the most cost-effective storage tier based on access frequency.
     @Sendable
     @inlinable
     public func putStorageTierPolicy(_ input: PutStorageTierPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutStorageTierPolicyResponse {
@@ -3696,10 +3702,10 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Sets the storage tier policy for your account. When you set the storage tier to INTELLIGENT_TIERING, CloudWatch Logs automatically moves your log data between storage tiers based on access patterns to optimize costs.
+    /// Sets the storage tier policy for the account. When you set the storage tier to INTELLIGENT_TIERING, the service automatically moves log data to the most cost-effective storage tier based on access frequency.
     ///
     /// Parameters:
-    ///   - storageTier: The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+    ///   - storageTier: The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the appropriate tier based on access frequency.
     ///   - logger: Logger use during operation
     @inlinable
     public func putStorageTierPolicy(
@@ -3731,7 +3737,7 @@ public struct CloudWatchLogs: AWSService {
     ///   - applyOnTransformedLogs: This parameter is valid only for log groups that have an active log transformer. For more information about log transformers, see PutTransformer. If the log group uses either a log-group level or account-level transformer, and you specify true, the subscription filter will be applied on the transformed version of the log events instead of the original ingested log events.
     ///   - destinationArn: The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery. If you're setting up a cross-account subscription, the destination must have an IAM policy associated with it. The IAM policy must allow the sender to send logs to the destination. For more information, see PutDestinationPolicy.   A Kinesis Data Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   A Lambda function belonging to the same account as the subscription filter, for same-account delivery.
     ///   - distribution: The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
-    ///   - emitSystemFields: A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account and @aws.region. These fields provide source information for centralized log data in the forwarded payload.
+    ///   - emitSystemFields: A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account, @aws.region, and @source.log. These fields provide source information for centralized log data in the forwarded payload.
     ///   - fieldSelectionCriteria: A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1". Maximum length: 2000 characters.
     ///   - filterName: A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
     ///   - filterPattern: A filter pattern for subscribing to a filtered stream of log events.
@@ -4266,7 +4272,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.updateLogAnomalyDetector(input, logger: logger)
     }
 
-    /// Updates an existing lookup table by replacing all of its CSV content. After the update completes, queries that use this table will use the new data. This is a full replacement operation. All existing content is replaced with the new CSV data.
+    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update completes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId, but not both.
     @Sendable
     @inlinable
     public func updateLookupTable(_ input: UpdateLookupTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLookupTableResponse {
@@ -4279,26 +4285,29 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing lookup table by replacing all of its CSV content. After the update completes, queries that use this table will use the new data. This is a full replacement operation. All existing content is replaced with the new CSV data.
+    /// Updates an existing lookup table by replacing all of its content with new CSV data or CloudWatch Logs query results. After the update completes, queries that use this table use the new data. This is a full replacement operation. All existing content is replaced. You must specify either tableBody or queryId, but not both.
     ///
     /// Parameters:
     ///   - description: An updated description of the lookup table.
     ///   - kmsKeyId: The ARN of the KMS key to use to encrypt the lookup table data. You can use this parameter to add, update, or remove the KMS key. To remove the KMS key and use an Amazon Web Services-owned key instead, specify an empty string.
     ///   - lookupTableArn: The ARN of the lookup table to update.
-    ///   - tableBody: The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
+    ///   - queryId: The ID of a completed or cancelled CloudWatch Logs query whose results replace the lookup table content. A cancelled query replaces the content with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
+    ///   - tableBody: The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLookupTable(
         description: String? = nil,
         kmsKeyId: String? = nil,
         lookupTableArn: String,
-        tableBody: String,
+        queryId: String? = nil,
+        tableBody: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLookupTableResponse {
         let input = UpdateLookupTableRequest(
             description: description, 
             kmsKeyId: kmsKeyId, 
             lookupTableArn: lookupTableArn, 
+            queryId: queryId, 
             tableBody: tableBody
         )
         return try await self.updateLookupTable(input, logger: logger)
@@ -4787,7 +4796,7 @@ extension CloudWatchLogs {
     ///   - logStreamNamePrefix: Filters the results to include only events from log streams that have names starting with this prefix. If you specify a value for both logStreamNamePrefix and logStreamNames, the action returns an InvalidParameterException error.
     ///   - logStreamNames: Filters the results to only logs from the log streams in this list. If you specify a value for both logStreamNames and logStreamNamePrefix, the action returns an InvalidParameterException error.
     ///   - startFromHead: If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used.  Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
-    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.  Set startTime explicitly to reduce the chances of empty pages in the response.
     ///   - unmask: Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4846,7 +4855,7 @@ extension CloudWatchLogs {
     ///   - logGroupName: The name of the log group.  You must include either logGroupIdentifier or logGroupName, but not both.
     ///   - logStreamName: The name of the log stream.
     ///   - startFromHead: If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead.
-    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
+    ///   - startTime: The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.  Set startTime explicitly to reduce the chances of empty pages in the response.
     ///   - unmask: Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
     ///   - logger: Logger used for logging
     @inlinable

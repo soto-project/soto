@@ -156,18 +156,24 @@ public struct Glue: AWSService {
     ///   - assetIdentifier: The unique identifier of the asset to associate glossary terms with.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - glossaryTermIdentifiers: The list of glossary term identifiers to associate with the asset.
+    ///   - itemIdentifier: The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    ///   - iterableFormName: The name of the iterable form. When specified along with itemIdentifier, the glossary terms are associated with an item within the iterable form rather than the asset itself.
     ///   - logger: Logger use during operation
     @inlinable
     public func associateGlossaryTerms(
         assetIdentifier: String,
         clientToken: String? = AssociateGlossaryTermsRequest.idempotencyToken(),
         glossaryTermIdentifiers: [String],
+        itemIdentifier: String? = nil,
+        iterableFormName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssociateGlossaryTermsResponse {
         let input = AssociateGlossaryTermsRequest(
             assetIdentifier: assetIdentifier, 
             clientToken: clientToken, 
-            glossaryTermIdentifiers: glossaryTermIdentifiers
+            glossaryTermIdentifiers: glossaryTermIdentifiers, 
+            itemIdentifier: itemIdentifier, 
+            iterableFormName: iterableFormName
         )
         return try await self.associateGlossaryTerms(input, logger: logger)
     }
@@ -3838,18 +3844,24 @@ public struct Glue: AWSService {
     ///   - assetIdentifier: The unique identifier of the asset to disassociate glossary terms from.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - glossaryTermIdentifiers: The list of glossary term identifiers to disassociate from the asset.
+    ///   - itemIdentifier: The identifier of the item within the iterable form. Required when iterableFormName is specified.
+    ///   - iterableFormName: The name of the iterable form. When specified along with itemIdentifier, the glossary terms are disassociated from an item within the iterable form rather than the asset itself.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateGlossaryTerms(
         assetIdentifier: String,
         clientToken: String? = DisassociateGlossaryTermsRequest.idempotencyToken(),
         glossaryTermIdentifiers: [String],
+        itemIdentifier: String? = nil,
+        iterableFormName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DisassociateGlossaryTermsResponse {
         let input = DisassociateGlossaryTermsRequest(
             assetIdentifier: assetIdentifier, 
             clientToken: clientToken, 
-            glossaryTermIdentifiers: glossaryTermIdentifiers
+            glossaryTermIdentifiers: glossaryTermIdentifiers, 
+            itemIdentifier: itemIdentifier, 
+            iterableFormName: iterableFormName
         )
         return try await self.disassociateGlossaryTerms(input, logger: logger)
     }
@@ -4621,6 +4633,32 @@ public struct Glue: AWSService {
             catalogId: catalogId
         )
         return try await self.getDataCatalogEncryptionSettings(input, logger: logger)
+    }
+
+    /// Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables.
+    @Sendable
+    @inlinable
+    public func getDataCatalogExportConfiguration(_ input: GetDataCatalogExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataCatalogExportConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetDataCatalogExportConfiguration", 
+            path: "/get-data-catalog-export-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current export configuration for the Glue Data Catalog. The export configuration controls whether catalog metadata is exported to S3 Tables.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataCatalogExportConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataCatalogExportConfigurationOutput {
+        let input = GetDataCatalogExportConfigurationInput(
+        )
+        return try await self.getDataCatalogExportConfiguration(input, logger: logger)
     }
 
     /// Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
@@ -7704,7 +7742,7 @@ public struct Glue: AWSService {
     ///   - databaseName: The database where the table resides.
     ///   - maxResults: The maximum size of the response.
     ///   - nextToken: A continuation token, if this is a continuation call.
-    ///   - tableName: The name of the table for which statistics is generated.
+    ///   - tableName: The name of the materialized view.
     ///   - logger: Logger use during operation
     @inlinable
     public func listMaterializedViewRefreshTaskRuns(
@@ -8243,6 +8281,41 @@ public struct Glue: AWSService {
             dataCatalogEncryptionSettings: dataCatalogEncryptionSettings
         )
         return try await self.putDataCatalogEncryptionSettings(input, logger: logger)
+    }
+
+    /// Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables.
+    @Sendable
+    @inlinable
+    public func putDataCatalogExportConfiguration(_ input: PutDataCatalogExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataCatalogExportConfigurationOutput {
+        try await self.client.execute(
+            operation: "PutDataCatalogExportConfiguration", 
+            path: "/put-data-catalog-export-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the export configuration for the Glue Data Catalog. Use this operation to enable or disable the export of catalog metadata to S3 Tables.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - encryptionConfiguration: The encryption configuration for the exported data. If not specified, the default encryption settings are used.
+    ///   - exportSetting: The export setting for the data catalog. Specify ENABLED to start exporting catalog metadata to S3 Tables, or DISABLED to stop exporting. This field is required.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putDataCatalogExportConfiguration(
+        clientToken: String? = PutDataCatalogExportConfigurationInput.idempotencyToken(),
+        encryptionConfiguration: ExportEncryptionConfiguration? = nil,
+        exportSetting: ExportSetting,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutDataCatalogExportConfigurationOutput {
+        let input = PutDataCatalogExportConfigurationInput(
+            clientToken: clientToken, 
+            encryptionConfiguration: encryptionConfiguration, 
+            exportSetting: exportSetting
+        )
+        return try await self.putDataCatalogExportConfiguration(input, logger: logger)
     }
 
     /// Annotate all datapoints for a Profile.
@@ -9242,7 +9315,7 @@ public struct Glue: AWSService {
         return try await self.startMLLabelingSetGenerationTaskRun(input, logger: logger)
     }
 
-    /// Starts a materialized view refresh task run, for a specified table and columns.
+    /// Starts a materialized view refresh task run for a specified materialized view.
     @Sendable
     @inlinable
     public func startMaterializedViewRefreshTaskRun(_ input: StartMaterializedViewRefreshTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMaterializedViewRefreshTaskRunResponse {
@@ -9255,13 +9328,13 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// Starts a materialized view refresh task run, for a specified table and columns.
+    /// Starts a materialized view refresh task run for a specified materialized view.
     ///
     /// Parameters:
     ///   - catalogId: The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
     ///   - fullRefresh: Specifies whether this is a full refresh of the task run.
-    ///   - tableName: The name of the table to generate run the materialized view refresh task.
+    ///   - tableName: The name of the materialized view to run the refresh task for.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMaterializedViewRefreshTaskRun(
@@ -9463,7 +9536,7 @@ public struct Glue: AWSService {
         return try await self.stopCrawlerSchedule(input, logger: logger)
     }
 
-    /// Stops a materialized view refresh task run, for a specified table and columns.
+    /// Stops a materialized view refresh task run for a specified materialized view.
     @Sendable
     @inlinable
     public func stopMaterializedViewRefreshTaskRun(_ input: StopMaterializedViewRefreshTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMaterializedViewRefreshTaskRunResponse {
@@ -9476,12 +9549,12 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// Stops a materialized view refresh task run, for a specified table and columns.
+    /// Stops a materialized view refresh task run for a specified materialized view.
     ///
     /// Parameters:
     ///   - catalogId: The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
     ///   - databaseName: The name of the database where the table resides.
-    ///   - tableName: The name of the table to generate statistics.
+    ///   - tableName: The name of the materialized view.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopMaterializedViewRefreshTaskRun(
@@ -12615,7 +12688,7 @@ extension Glue {
     ///   - catalogId: The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
     ///   - databaseName: The database where the table resides.
     ///   - maxResults: The maximum size of the response.
-    ///   - tableName: The name of the table for which statistics is generated.
+    ///   - tableName: The name of the materialized view.
     ///   - logger: Logger used for logging
     @inlinable
     public func listMaterializedViewRefreshTaskRunsPaginator(

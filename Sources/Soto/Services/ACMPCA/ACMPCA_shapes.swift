@@ -157,10 +157,13 @@ extension ACMPCA {
         case mlDsa87 = "ML_DSA_87"
         case sha256withecdsa = "SHA256WITHECDSA"
         case sha256withrsa = "SHA256WITHRSA"
+        case sha256withrsaPss = "SHA256WITHRSA_PSS"
         case sha384withecdsa = "SHA384WITHECDSA"
         case sha384withrsa = "SHA384WITHRSA"
+        case sha384withrsaPss = "SHA384WITHRSA_PSS"
         case sha512withecdsa = "SHA512WITHECDSA"
         case sha512withrsa = "SHA512WITHRSA"
+        case sha512withrsaPss = "SHA512WITHRSA_PSS"
         case sm3withsm2 = "SM3WITHSM2"
         public var description: String { return self.rawValue }
     }
@@ -415,7 +418,7 @@ extension ACMPCA {
         public let csrExtensions: CsrExtensions?
         /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
         public let keyAlgorithm: KeyAlgorithm
-        /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter used to sign certificates when they are issued.
+        /// Name of the algorithm your private CA uses to sign certificate requests. This parameter should not be confused with the SigningAlgorithm parameter of the IssueCertificate API action, which is used to sign certificates when they are issued.
         public let signingAlgorithm: SigningAlgorithm
         /// Structure that contains X.500 distinguished name information for your private CA.
         public let subject: ASN1Subject
@@ -627,7 +630,7 @@ extension ACMPCA {
             try self.validate(self.customCname, name: "customCname", parent: name, max: 253)
             try self.validate(self.customCname, name: "customCname", parent: name, pattern: "^[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*$")
             try self.validate(self.customPath, name: "customPath", parent: name, max: 253)
-            try self.validate(self.customPath, name: "customPath", parent: name, pattern: "^[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+(/[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+)*$")
+            try self.validate(self.customPath, name: "customPath", parent: name, pattern: "^(/|[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+(/[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+)*)$")
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, max: 5000)
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, min: 1)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 255)
@@ -648,7 +651,7 @@ extension ACMPCA {
     }
 
     public struct CrlDistributionPointExtensionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough.  Only set this if you have another way to distribute the CRL Distribution Points ffor certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
+        /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough.  Only set this if you have another way to distribute the CRL Distribution Points for certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
         public let omitExtension: Bool
 
         @inlinable

@@ -55,6 +55,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum AacPassthroughControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noPassthrough = "NO_PASSTHROUGH"
+        case whenPossible = "WHEN_POSSIBLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AacRateControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cbr = "CBR"
         case vbr = "VBR"
@@ -785,6 +791,7 @@ extension MediaConvert {
     }
 
     public enum CmfcScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manifestCues = "MANIFEST_CUES"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
@@ -805,12 +812,15 @@ extension MediaConvert {
     public enum Codec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aac = "AAC"
         case ac3 = "AC3"
+        case amr = "AMR"
         case av1 = "AV1"
         case avc = "AVC"
         case c608 = "C608"
         case c708 = "C708"
+        case dv = "DV"
         case eac3 = "EAC3"
         case flac = "FLAC"
+        case h263 = "H263"
         case hevc = "HEVC"
         case jpeg2000 = "JPEG2000"
         case mjpeg = "MJPEG"
@@ -826,11 +836,16 @@ extension MediaConvert {
         case theora = "THEORA"
         case uncompressed = "UNCOMPRESSED"
         case unknown = "UNKNOWN"
+        case vc1 = "VC1"
+        case vc3 = "VC3"
         case vfw = "VFW"
         case vorbis = "VORBIS"
         case vp8 = "VP8"
         case vp9 = "VP9"
         case webvtt = "WEBVTT"
+        case wma = "WMA"
+        case wma2 = "WMA2"
+        case wmapro = "WMAPRO"
         public var description: String { return self.rawValue }
     }
 
@@ -961,6 +976,7 @@ extension MediaConvert {
 
     public enum DashIsoPlaybackDeviceCompatibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cencV1 = "CENC_V1"
+        case cencV1UnencryptedHeaders = "CENC_V1_UNENCRYPTED_HEADERS"
         case unencryptedSei = "UNENCRYPTED_SEI"
         public var description: String { return self.rawValue }
     }
@@ -1397,13 +1413,16 @@ extension MediaConvert {
     }
 
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asf = "asf"
         case avi = "avi"
+        case flac = "flac"
         case matroska = "matroska"
         case mp3 = "mp3"
         case mp4 = "mp4"
         case mpegps = "mpegps"
         case mpegts = "mpegts"
         case mxf = "mxf"
+        case ogg = "ogg"
         case quicktime = "quicktime"
         case wave = "wave"
         case webm = "webm"
@@ -1868,6 +1887,11 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum Hdr10PlusPresence: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case present = "PRESENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HlsAdMarkers: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case elemental = "ELEMENTAL"
         case elementalScte35 = "ELEMENTAL_SCTE35"
@@ -2137,6 +2161,7 @@ extension MediaConvert {
 
     public enum JobsQueryFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioCodec = "audioCodec"
+        case errorCode = "errorCode"
         case fileInput = "fileInput"
         case jobEngineVersionRequested = "jobEngineVersionRequested"
         case jobEngineVersionUsed = "jobEngineVersionUsed"
@@ -2429,6 +2454,7 @@ extension MediaConvert {
     }
 
     public enum M2tsScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manifestCues = "MANIFEST_CUES"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
@@ -2475,6 +2501,7 @@ extension MediaConvert {
     }
 
     public enum M3u8Scte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manifestCues = "MANIFEST_CUES"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
@@ -2623,6 +2650,7 @@ extension MediaConvert {
     }
 
     public enum MpdScte35Source: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manifestCues = "MANIFEST_CUES"
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
@@ -3054,6 +3082,7 @@ extension MediaConvert {
     public enum S3StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
+        case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case reducedRedundancy = "REDUCED_REDUNDANCY"
@@ -3217,9 +3246,46 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum TtmlBackgroundColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case black = "BLACK"
+        case none = "NONE"
+        case white = "WHITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlFontColor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case black = "BLACK"
+        case blue = "BLUE"
+        case green = "GREEN"
+        case red = "RED"
+        case white = "WHITE"
+        case yellow = "YELLOW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlFontStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case italic = "ITALIC"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlFontWeight: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bold = "BOLD"
+        case normal = "NORMAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TtmlStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TtmlTextDecoration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case underline = "UNDERLINE"
         public var description: String { return self.rawValue }
     }
 
@@ -3619,6 +3685,8 @@ extension MediaConvert {
         public let codingMode: AacCodingMode?
         /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
         public let loudnessMeasurementMode: AacLoudnessMeasurementMode?
+        /// When set to WHEN_POSSIBLE, input AAC audio will be passed through if it is present on the input. This detection is dynamic over the life of the transcode. Inputs that alternate between AAC and non-AAC content will have a consistent AAC output as the system alternates between passthrough and encoding.
+        public let passthroughControl: AacPassthroughControl?
         /// Specify the RAP (Random Access Point) interval for your xHE-AAC audio output. A RAP allows a decoder to decode audio data mid-stream, without the need to reference previous audio frames, and perform adaptive audio bitrate switching. To specify the RAP interval: Enter an integer from 2000 to 30000, in milliseconds. Smaller values allow for better seeking and more frequent stream switching, while large values improve compression efficiency. To have MediaConvert automatically determine the RAP interval: Leave blank.
         public let rapInterval: Int?
         /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
@@ -3635,12 +3703,13 @@ extension MediaConvert {
         public let vbrQuality: AacVbrQuality?
 
         @inlinable
-        public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, loudnessMeasurementMode: AacLoudnessMeasurementMode? = nil, rapInterval: Int? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int? = nil, specification: AacSpecification? = nil, targetLoudnessRange: Int? = nil, vbrQuality: AacVbrQuality? = nil) {
+        public init(audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix? = nil, bitrate: Int? = nil, codecProfile: AacCodecProfile? = nil, codingMode: AacCodingMode? = nil, loudnessMeasurementMode: AacLoudnessMeasurementMode? = nil, passthroughControl: AacPassthroughControl? = nil, rapInterval: Int? = nil, rateControlMode: AacRateControlMode? = nil, rawFormat: AacRawFormat? = nil, sampleRate: Int? = nil, specification: AacSpecification? = nil, targetLoudnessRange: Int? = nil, vbrQuality: AacVbrQuality? = nil) {
             self.audioDescriptionBroadcasterMix = audioDescriptionBroadcasterMix
             self.bitrate = bitrate
             self.codecProfile = codecProfile
             self.codingMode = codingMode
             self.loudnessMeasurementMode = loudnessMeasurementMode
+            self.passthroughControl = passthroughControl
             self.rapInterval = rapInterval
             self.rateControlMode = rateControlMode
             self.rawFormat = rawFormat
@@ -3667,6 +3736,7 @@ extension MediaConvert {
             case codecProfile = "codecProfile"
             case codingMode = "codingMode"
             case loudnessMeasurementMode = "loudnessMeasurementMode"
+            case passthroughControl = "passthroughControl"
             case rapInterval = "rapInterval"
             case rateControlMode = "rateControlMode"
             case rawFormat = "rawFormat"
@@ -3924,6 +3994,24 @@ extension MediaConvert {
         }
     }
 
+    public struct AspectRatio: AWSDecodableShape {
+        /// The denominator, or bottom number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the denominator would be 9.
+        public let denominator: Int?
+        /// The numerator, or top number, in the fractional aspect ratio. For example, for a display aspect ratio of 16 / 9, the numerator would be 16.
+        public let numerator: Int?
+
+        @inlinable
+        public init(denominator: Int? = nil, numerator: Int? = nil) {
+            self.denominator = denominator
+            self.numerator = numerator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case denominator = "denominator"
+            case numerator = "numerator"
+        }
+    }
+
     public struct AssociateCertificateRequest: AWSEncodableShape {
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
         public let arn: String?
@@ -3969,7 +4057,7 @@ extension MediaConvert {
         public let ac4Settings: Ac4Settings?
         /// Required when you set Codec to the value AIFF.
         public let aiffSettings: AiffSettings?
-        /// Choose the audio codec for this output. Note that the option Dolby Digital passthrough applies only to Dolby Digital and Dolby Digital Plus audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
+        /// Choose the audio codec for this output. Note that the option passthrough applies only to Dolby Digital, Dolby Digital Plus, AAC LC, AAC HEV1, and AAC HEV2 audio inputs. Make sure that you choose a codec that's supported with your output container: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio For audio-only outputs, make sure that both your input audio codec and your output audio codec are supported for audio-only workflows. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers-input.html#reference-codecs-containers-input-audio-only and https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#audio-only-output
         public let codec: AudioCodec?
         /// Required when you set Codec to the value EAC3_ATMOS.
         public let eac3AtmosSettings: Eac3AtmosSettings?
@@ -4168,6 +4256,8 @@ extension MediaConvert {
         public let bitDepth: Int?
         /// The bit rate of the audio track, in bits per second.
         public let bitRate: Int64?
+        /// The audio channel layout of the track, such as "mono", "stereo", "5.1", or "7.1". Object-based or immersive audio is reported as "5.1.4" or "7.1.4".
+        public let channelLayout: String?
         /// The number of audio channels in the audio track.
         public let channels: Int?
         /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
@@ -4180,9 +4270,10 @@ extension MediaConvert {
         public let sampleRate: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, channels: Int? = nil, frameRate: FrameRate? = nil, languageCode: String? = nil, objectCount: Int? = nil, sampleRate: Int? = nil) {
+        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, channelLayout: String? = nil, channels: Int? = nil, frameRate: FrameRate? = nil, languageCode: String? = nil, objectCount: Int? = nil, sampleRate: Int? = nil) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
+            self.channelLayout = channelLayout
             self.channels = channels
             self.frameRate = frameRate
             self.languageCode = languageCode
@@ -4193,6 +4284,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case bitDepth = "bitDepth"
             case bitRate = "bitRate"
+            case channelLayout = "channelLayout"
             case channels = "channels"
             case frameRate = "frameRate"
             case languageCode = "languageCode"
@@ -4904,6 +4996,7 @@ extension MediaConvert {
             try self.dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
             try self.embeddedDestinationSettings?.validate(name: "\(name).embeddedDestinationSettings")
             try self.teletextDestinationSettings?.validate(name: "\(name).teletextDestinationSettings")
+            try self.ttmlDestinationSettings?.validate(name: "\(name).ttmlDestinationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5415,7 +5508,7 @@ extension MediaConvert {
         public let manifestMetadataSignaling: CmfcManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
         public let scte35Esam: CmfcScte35Esam?
-        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.
         public let scte35Source: CmfcScte35Source?
         /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
         public let signingKmsKey: String?
@@ -5494,6 +5587,10 @@ extension MediaConvert {
         public let colorPrimaries: ColorPrimaries?
         /// Content light level information (CTA-861.3). Describes the light level characteristics of the content.
         public let contentLightLevel: ContentLightLevel?
+        /// The field order of interlaced video, which indicates whether the top or bottom field is displayed first. Use this to select the correct deinterlacing behavior. One of "TopFieldFirst" or "BottomFieldFirst". This field is present only for interlaced video; it is omitted for progressive video and when the field order is not indicated by the source.
+        public let fieldOrder: String?
+        /// Indicates that HDR10+ (SMPTE ST 2094-40) dynamic metadata was detected in the HEVC bitstream. Present only when detected.
+        public let hdr10PlusPresence: Hdr10PlusPresence?
         /// The height in pixels as coded by the codec. This represents the actual encoded video height as specified in the video stream headers.
         public let height: Int?
         /// The codec level or tier that specifies the maximum processing requirements and capabilities. Levels define constraints such as maximum bit rate, frame rate, and resolution.
@@ -5512,12 +5609,14 @@ extension MediaConvert {
         public let width: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, chromaSubsampling: String? = nil, codedFrameRate: FrameRate? = nil, colorPrimaries: ColorPrimaries? = nil, contentLightLevel: ContentLightLevel? = nil, height: Int? = nil, level: String? = nil, matrixCoefficients: MatrixCoefficients? = nil, profile: String? = nil, rotation: Int? = nil, scanType: String? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
+        public init(bitDepth: Int? = nil, chromaSubsampling: String? = nil, codedFrameRate: FrameRate? = nil, colorPrimaries: ColorPrimaries? = nil, contentLightLevel: ContentLightLevel? = nil, fieldOrder: String? = nil, hdr10PlusPresence: Hdr10PlusPresence? = nil, height: Int? = nil, level: String? = nil, matrixCoefficients: MatrixCoefficients? = nil, profile: String? = nil, rotation: Int? = nil, scanType: String? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
             self.bitDepth = bitDepth
             self.chromaSubsampling = chromaSubsampling
             self.codedFrameRate = codedFrameRate
             self.colorPrimaries = colorPrimaries
             self.contentLightLevel = contentLightLevel
+            self.fieldOrder = fieldOrder
+            self.hdr10PlusPresence = hdr10PlusPresence
             self.height = height
             self.level = level
             self.matrixCoefficients = matrixCoefficients
@@ -5534,6 +5633,8 @@ extension MediaConvert {
             case codedFrameRate = "codedFrameRate"
             case colorPrimaries = "colorPrimaries"
             case contentLightLevel = "contentLightLevel"
+            case fieldOrder = "fieldOrder"
+            case hdr10PlusPresence = "hdr10PlusPresence"
             case height = "height"
             case level = "level"
             case matrixCoefficients = "matrixCoefficients"
@@ -5656,9 +5757,11 @@ extension MediaConvert {
     }
 
     public struct Container: AWSDecodableShape {
+        /// The overall bit rate of your media file, in bits per second. This is derived from the file size and duration as (file size in bytes * 8) / duration in seconds.
+        public let bitRate: Int64?
         /// The total duration of your media file, in seconds.
         public let duration: Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, or MP3. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF, Wave, AVI, MPEG-TS, MPEG-PS, MP3, FLAC, ASF (Windows Media / WMA), OGG. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public let format: Format?
         /// The start timecode of the media file, in HH:MM:SS:FF format (or HH:MM:SS;FF for drop frame timecode). Note that this field is null when the container does not include an embedded start timecode.
         public let startTimecode: String?
@@ -5666,7 +5769,8 @@ extension MediaConvert {
         public let tracks: [Track]?
 
         @inlinable
-        public init(duration: Double? = nil, format: Format? = nil, startTimecode: String? = nil, tracks: [Track]? = nil) {
+        public init(bitRate: Int64? = nil, duration: Double? = nil, format: Format? = nil, startTimecode: String? = nil, tracks: [Track]? = nil) {
+            self.bitRate = bitRate
             self.duration = duration
             self.format = format
             self.startTimecode = startTimecode
@@ -5674,6 +5778,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bitRate = "bitRate"
             case duration = "duration"
             case format = "format"
             case startTimecode = "startTimecode"
@@ -6072,7 +6177,7 @@ extension MediaConvert {
     }
 
     public struct DashIsoEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1. If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
+        /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH outputs with DRM encryption. Choose Unencrypted SEI only to correct problems with playback on older H.264 devices. Choose CENC v1 unencrypted headers to leave NAL unit headers and slice headers unencrypted for H.265 outputs, improving compatibility with strict HEVC decoders. Otherwise, keep the default setting CENC v1.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider. If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
@@ -9640,7 +9745,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public let inputs: [Input]?
@@ -9794,7 +9899,7 @@ extension MediaConvert {
         public let esam: EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public let extendedDataServices: ExtendedDataServices?
-        /// Specify the input that MediaConvert references for your default output settings. MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
+        /// Specify the input that MediaConvert references for your default output settings.  MediaConvert uses this input's Resolution, Frame rate, and Pixel aspect ratio for all  outputs that you don't manually specify different output settings for. Enabling this setting will disable "Follow source" for all other inputs.  If MediaConvert cannot follow your source, for example if you specify an audio-only input,  MediaConvert uses the first followable input instead. In your JSON job specification, enter an integer from 1 to 150 corresponding  to the order of your inputs.
         public let followSource: Int?
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public let inputs: [InputTemplate]?
@@ -9874,7 +9979,7 @@ extension MediaConvert {
     }
 
     public struct JobsQueryFilter: AWSEncodableShape {
-        /// Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)
+        /// Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC) * errorCode - The error code that your job failed with. For example, 1010. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/mediaconvert_error_codes.html
         public let key: JobsQueryFilterKey?
         /// A list of values associated with a JobsQueryFilterKey.
         public let values: [String]?
@@ -9953,7 +10058,7 @@ extension MediaConvert {
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, pattern: "^(arn:[a-z-]+:secretsmanager:[\\w-]+:\\d{12}:secret:)?[a-zA-Z0-9_\\/_+=.@-]*$")
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2147483647)
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, min: 0)
-            try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.kantarmedia.*$")
+            try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.(kantarmedia|55-prod).*$")
             try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^s3:\\/\\/")
             try self.validate(self.metadata3, name: "metadata3", parent: name, max: 50)
             try self.validate(self.metadata3, name: "metadata3", parent: name, min: 1)
@@ -10387,7 +10492,7 @@ extension MediaConvert {
         public let scte35Esam: M2tsScte35Esam?
         /// Specify the packet identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam).
+        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest. For SCTE-35 markers from an ESAM XML document-- Choose None. Also provide the ESAM XML as a string in the setting Signal processing notification XML. Also enable ESAM SCTE-35 (include the property scte35Esam).
         public let scte35Source: M2tsScte35Source?
         /// Inserts segmentation markers at each segmentation_time period. rai_segstart sets the Random Access Indicator bit in the adaptation field. rai_adapt sets the RAI bit and adds the current timecode in the private data bytes. psi_segstart inserts PAT and PMT tables at the start of segments. ebp adds Encoder Boundary Point information to the adaptation field as per OpenCable specification OC-SP-EBP-I01-130118. ebp_legacy adds Encoder Boundary Point information to the adaptation field using a legacy proprietary format.
         public let segmentationMarkers: M2tsSegmentationMarkers?
@@ -10580,7 +10685,7 @@ extension MediaConvert {
         public let ptsOffsetMode: TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
-        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML.
+        /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML. For SCTE-35 markers from your input HLS manifest-- Choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.
         public let scte35Source: M3u8Scte35Source?
         /// Set ID3 metadata to Passthrough to include ID3 metadata in this output. This includes ID3 metadata from the following features: ID3 timestamp period, and Custom ID3 metadata inserter. To exclude this ID3 metadata in this output: set ID3 metadata to None or leave blank.
         public let timedMetadata: TimedMetadata?
@@ -10900,6 +11005,8 @@ extension MediaConvert {
     }
 
     public struct MovSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
+        public let audioDuration: CmfcAudioDuration?
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
         public let clapAtom: MovClapAtom?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -10912,7 +11019,8 @@ extension MediaConvert {
         public let reference: MovReference?
 
         @inlinable
-        public init(clapAtom: MovClapAtom? = nil, cslgAtom: MovCslgAtom? = nil, mpeg2FourCCControl: MovMpeg2FourCCControl? = nil, paddingControl: MovPaddingControl? = nil, reference: MovReference? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, clapAtom: MovClapAtom? = nil, cslgAtom: MovCslgAtom? = nil, mpeg2FourCCControl: MovMpeg2FourCCControl? = nil, paddingControl: MovPaddingControl? = nil, reference: MovReference? = nil) {
+            self.audioDuration = audioDuration
             self.clapAtom = clapAtom
             self.cslgAtom = cslgAtom
             self.mpeg2FourCCControl = mpeg2FourCCControl
@@ -10921,6 +11029,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioDuration = "audioDuration"
             case clapAtom = "clapAtom"
             case cslgAtom = "cslgAtom"
             case mpeg2FourCCControl = "mpeg2FourCCControl"
@@ -11078,7 +11187,7 @@ extension MediaConvert {
         public let manifestMetadataSignaling: MpdManifestMetadataSignaling?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
         public let scte35Esam: MpdScte35Esam?
-        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
+        /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output. When your input is an HLS manifest, choose Manifest cues to pass through CUE markers in your HLS manifest as segment boundaries and SCTE-35 markers in this output at each EXT-X-CUE-OUT splice point in the input manifest.
         public let scte35Source: MpdScte35Source?
         /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
         public let signingKmsKey: String?
@@ -13152,16 +13261,57 @@ extension MediaConvert {
     }
 
     public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the color of the rectangle behind the captions. If Style passthrough is set to enabled, leave blank or set to Auto to pass through the background color from your input captions. If Style passthrough is set to disabled, leave blank or set to Auto to use the default black.
+        public let backgroundColor: TtmlBackgroundColor?
+        /// Specify the opacity of the background rectangle. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the background style information in your input captions to your output captions. If Style passthrough is set to disabled and backgroundColor is set, leave blank to use a value of 255 (opaque).
+        public let backgroundOpacity: Int?
+        /// Specify the color of the captions text. If Style passthrough is set to enabled, leave blank or set to Auto to pass through the font color from your input captions. If Style passthrough is set to disabled, leave blank or set to Auto to use the default white.
+        public let fontColor: TtmlFontColor?
+        /// Specify the opacity of the captions. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to enabled, leave blank to pass through the font opacity information in your input captions to your output captions. If Style passthrough is set to disabled and fontColor is set, leave blank to use a value of 255 (opaque).
+        public let fontOpacity: Int?
+        /// Specify the Font size in pixels. Must be a positive integer. Set to 0, or leave blank, for automatic font size.
+        public let fontSize: Int?
+        /// Specify the font style of the caption text. If Style passthrough is set to enabled, leave blank to pass through the font style from your input captions. If Style passthrough is set to disabled, leave blank to use the default normal style.
+        public let fontStyle: TtmlFontStyle?
+        /// Specify the font weight of the caption text. If Style passthrough is set to enabled, leave blank to pass through the font weight from your input captions. If Style passthrough is set to disabled, leave blank to use the default normal weight.
+        public let fontWeight: TtmlFontWeight?
         /// Pass through style and position information from a TTML-like input source (TTML, IMSC, SMPTE-TT) to the TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
+        /// Specify the text decoration of the caption text. If Style passthrough is set to enabled, leave blank to pass through the text decoration from your input captions. If Style passthrough is set to disabled, leave blank to use the default of none.
+        public let textDecoration: TtmlTextDecoration?
 
         @inlinable
-        public init(stylePassthrough: TtmlStylePassthrough? = nil) {
+        public init(backgroundColor: TtmlBackgroundColor? = nil, backgroundOpacity: Int? = nil, fontColor: TtmlFontColor? = nil, fontOpacity: Int? = nil, fontSize: Int? = nil, fontStyle: TtmlFontStyle? = nil, fontWeight: TtmlFontWeight? = nil, stylePassthrough: TtmlStylePassthrough? = nil, textDecoration: TtmlTextDecoration? = nil) {
+            self.backgroundColor = backgroundColor
+            self.backgroundOpacity = backgroundOpacity
+            self.fontColor = fontColor
+            self.fontOpacity = fontOpacity
+            self.fontSize = fontSize
+            self.fontStyle = fontStyle
+            self.fontWeight = fontWeight
             self.stylePassthrough = stylePassthrough
+            self.textDecoration = textDecoration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
+            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
+            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
+            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
+            try self.validate(self.fontSize, name: "fontSize", parent: name, max: 96)
+            try self.validate(self.fontSize, name: "fontSize", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontSize = "fontSize"
+            case fontStyle = "fontStyle"
+            case fontWeight = "fontWeight"
             case stylePassthrough = "stylePassthrough"
+            case textDecoration = "textDecoration"
         }
     }
 
@@ -13990,6 +14140,8 @@ extension MediaConvert {
         public let codecMetadata: CodecMetadata?
         /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public let colorPrimaries: ColorPrimaries?
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.
+        public let displayAspectRatio: AspectRatio?
         /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public let frameRate: FrameRate?
         /// HDR (High Dynamic Range) metadata extracted from the container, including mastering display color volume and content light level information. This metadata is present in HDR10 and similar HDR content.
@@ -14000,22 +14152,26 @@ extension MediaConvert {
         public let matrixCoefficients: MatrixCoefficients?
         /// The clockwise rotation angle of the video track, in degrees, as derived from container-level metadata (e.g. the MP4 tkhd transformation matrix or the Matroska ProjectionPoseRoll element). Common values are 90, 180, and 270. This field is null when no rotation metadata is present or when the rotation is 0 degrees. For MP4, non-standard transformation matrices also yield null.
         public let rotation: Int?
+        /// An aspect ratio expressed as a fraction with numerator and denominator values, reduced to lowest terms. Used for the sample (pixel) aspect ratio and the display aspect ratio of a video track. For example, a 720x576 anamorphic track has a sample aspect ratio of 64 / 45 and a display aspect ratio of 16 / 9.
+        public let sampleAspectRatio: AspectRatio?
         /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
         public let transferCharacteristics: TransferCharacteristics?
         /// The width of the video track, in pixels.
         public let width: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, codecMetadata: CodecMetadata? = nil, colorPrimaries: ColorPrimaries? = nil, frameRate: FrameRate? = nil, hdrMetadata: HdrMetadata? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, rotation: Int? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
+        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, codecMetadata: CodecMetadata? = nil, colorPrimaries: ColorPrimaries? = nil, displayAspectRatio: AspectRatio? = nil, frameRate: FrameRate? = nil, hdrMetadata: HdrMetadata? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, rotation: Int? = nil, sampleAspectRatio: AspectRatio? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
             self.codecMetadata = codecMetadata
             self.colorPrimaries = colorPrimaries
+            self.displayAspectRatio = displayAspectRatio
             self.frameRate = frameRate
             self.hdrMetadata = hdrMetadata
             self.height = height
             self.matrixCoefficients = matrixCoefficients
             self.rotation = rotation
+            self.sampleAspectRatio = sampleAspectRatio
             self.transferCharacteristics = transferCharacteristics
             self.width = width
         }
@@ -14025,11 +14181,13 @@ extension MediaConvert {
             case bitRate = "bitRate"
             case codecMetadata = "codecMetadata"
             case colorPrimaries = "colorPrimaries"
+            case displayAspectRatio = "displayAspectRatio"
             case frameRate = "frameRate"
             case hdrMetadata = "hdrMetadata"
             case height = "height"
             case matrixCoefficients = "matrixCoefficients"
             case rotation = "rotation"
+            case sampleAspectRatio = "sampleAspectRatio"
             case transferCharacteristics = "transferCharacteristics"
             case width = "width"
         }
@@ -14473,15 +14631,19 @@ extension MediaConvert {
     }
 
     public struct XavcHdIntraCbgProfileSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
+        public let interlaceMode: XavcInterlaceMode?
         /// Specify the XAVC Intra HD (CBG) Class to set the bitrate of your output. Outputs of the same class have similar image quality over the operating points that are valid for that class.
         public let xavcClass: XavcHdIntraCbgProfileClass?
 
         @inlinable
-        public init(xavcClass: XavcHdIntraCbgProfileClass? = nil) {
+        public init(interlaceMode: XavcInterlaceMode? = nil, xavcClass: XavcHdIntraCbgProfileClass? = nil) {
+            self.interlaceMode = interlaceMode
             self.xavcClass = xavcClass
         }
 
         private enum CodingKeys: String, CodingKey {
+            case interlaceMode = "interlaceMode"
             case xavcClass = "xavcClass"
         }
     }

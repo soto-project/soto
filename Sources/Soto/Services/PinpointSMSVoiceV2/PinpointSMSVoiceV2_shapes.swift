@@ -1157,6 +1157,72 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct ConditionalBehavior: AWSDecodableShape {
+        /// The field behavior that applies when no conditional rule in Rules matches. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        public let defaultBehavior: String
+        /// An ordered list of conditional rules. Rules are evaluated top-to-bottom and the first rule whose conditions all evaluate to true determines the field's behavior. Rules whose conditions do not all match are skipped and evaluation continues to the next rule.
+        public let rules: [ConditionalRule]
+
+        @inlinable
+        public init(defaultBehavior: String, rules: [ConditionalRule]) {
+            self.defaultBehavior = defaultBehavior
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultBehavior = "DefaultBehavior"
+            case rules = "Rules"
+        }
+    }
+
+    public struct ConditionalRule: AWSDecodableShape {
+        /// Optional per-rule validation constraints (minimum length, maximum length, regex pattern, allowed select values) that override the field's default validation when this rule matches.
+        public let conditionalValidation: ConditionalValidation?
+        /// The conditions that must all evaluate to true for this rule to match. Conditions are combined with logical AND. Use multiple rules with the same RuleBehavior to express logical OR.
+        public let conditions: [FieldCondition]
+        /// The field behavior that applies when all conditions in this rule match. Valid values are REQUIRED, OPTIONAL, and DISALLOWED.
+        public let ruleBehavior: String
+
+        @inlinable
+        public init(conditionalValidation: ConditionalValidation? = nil, conditions: [FieldCondition], ruleBehavior: String) {
+            self.conditionalValidation = conditionalValidation
+            self.conditions = conditions
+            self.ruleBehavior = ruleBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionalValidation = "ConditionalValidation"
+            case conditions = "Conditions"
+            case ruleBehavior = "RuleBehavior"
+        }
+    }
+
+    public struct ConditionalValidation: AWSDecodableShape {
+        /// The allowed values for a select field when this rule applies. A subset of the field's full option list.
+        public let allowedValues: [String]?
+        /// The maximum length for the field value when this rule applies.
+        public let maxLength: Int?
+        /// The minimum length for the field value when this rule applies.
+        public let minLength: Int?
+        /// A regular expression that the field value must match when this rule applies.
+        public let pattern: String?
+
+        @inlinable
+        public init(allowedValues: [String]? = nil, maxLength: Int? = nil, minLength: Int? = nil, pattern: String? = nil) {
+            self.allowedValues = allowedValues
+            self.maxLength = maxLength
+            self.minLength = minLength
+            self.pattern = pattern
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case maxLength = "MaxLength"
+            case minLength = "MinLength"
+            case pattern = "Pattern"
+        }
+    }
+
     public struct ConfigurationSetFilter: AWSEncodableShape {
         /// The name of the attribute to filter on.
         public let name: ConfigurationSetFilterName
@@ -2007,7 +2073,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct CreateRegistrationAttachmentRequest: AWSEncodableShape {
-        /// The registration file to upload. The maximum file size is 500KB and valid file extensions are PDF, JPEG and PNG.
+        /// The registration file to upload. The maximum file size is 5MB and valid file extensions are PDF, JPEG and PNG.
         public let attachmentBody: AWSBase64Data?
         /// Registration files have to be stored in an Amazon S3 bucket. The URI to use when sending is in the format s3://BucketName/FileName.
         public let attachmentUrl: String?
@@ -2025,7 +2091,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, max: 1572864)
+            try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, max: 6990508)
             try self.validate(self.attachmentBody, name: "attachmentBody", parent: name, min: 1)
             try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, max: 2048)
             try self.validate(self.attachmentUrl, name: "attachmentUrl", parent: name, min: 1)
@@ -5054,6 +5120,28 @@ extension PinpointSMSVoiceV2 {
         }
     }
 
+    public struct FieldCondition: AWSDecodableShape {
+        /// The path of the field whose value determines this condition, for example companyInfo.businessType.
+        public let dependsOnFieldPath: String
+        /// The comparison operator to apply between the dependency field's value and Values. Valid values are EQUALS, NOT_EQUALS, IN, NOT_IN, HAS_VALUE, and NO_VALUE. Operators not in this list are treated as evaluating to false, which causes the containing rule to be skipped. This allows forward-compatible additions of new operators without breaking older SDK clients.
+        public let `operator`: String
+        /// The values to compare the dependency field's value against. Required for the EQUALS, NOT_EQUALS, IN, and NOT_IN operators. Omitted for HAS_VALUE and NO_VALUE, which test only presence.
+        public let values: [String]?
+
+        @inlinable
+        public init(dependsOnFieldPath: String, operator: String, values: [String]? = nil) {
+            self.dependsOnFieldPath = dependsOnFieldPath
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependsOnFieldPath = "DependsOnFieldPath"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
     public struct GetProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
         /// The capability type to return the CountryRuleSet for. Valid values are SMS, VOICE, or MMS.
         public let numberCapability: NumberCapability
@@ -7362,6 +7450,8 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct RegistrationFieldDefinition: AWSDecodableShape {
+        /// The conditional behavior rules for this field. Only present when FieldRequirement is CONDITIONAL. Rules are evaluated in order and the first matching rule determines the field's resolved requirement. If no rule matches, the DefaultBehavior applies.
+        public let conditionalBehavior: ConditionalBehavior?
         /// An array of RegistrationFieldDisplayHints objects for the field.
         public let displayHints: RegistrationFieldDisplayHints
         /// The path to the registration form field. You can use DescribeRegistrationFieldDefinitions for a list of FieldPaths.
@@ -7378,7 +7468,8 @@ extension PinpointSMSVoiceV2 {
         public let textValidation: TextValidation?
 
         @inlinable
-        public init(displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
+        public init(conditionalBehavior: ConditionalBehavior? = nil, displayHints: RegistrationFieldDisplayHints, fieldPath: String, fieldRequirement: FieldRequirement, fieldType: FieldType, sectionPath: String, selectValidation: SelectValidation? = nil, textValidation: TextValidation? = nil) {
+            self.conditionalBehavior = conditionalBehavior
             self.displayHints = displayHints
             self.fieldPath = fieldPath
             self.fieldRequirement = fieldRequirement
@@ -7389,6 +7480,7 @@ extension PinpointSMSVoiceV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conditionalBehavior = "ConditionalBehavior"
             case displayHints = "DisplayHints"
             case fieldPath = "FieldPath"
             case fieldRequirement = "FieldRequirement"

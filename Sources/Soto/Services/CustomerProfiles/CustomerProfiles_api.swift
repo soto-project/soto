@@ -125,6 +125,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.addProfileKey(input, logger: logger)
     }
 
+    /// Associates an Amazon Kinesis data stream to receive segment membership events for a given domain. This is a domain-level configuration that applies to all segment subscriptions within the domain. A domain can have only one associated stream at a time.
+    @Sendable
+    @inlinable
+    public func associateStreamForSegments(_ input: AssociateStreamForSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateStreamForSegmentsResponse {
+        try await self.client.execute(
+            operation: "AssociateStreamForSegments", 
+            path: "/domains/{DomainName}/segment-streams", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an Amazon Kinesis data stream to receive segment membership events for a given domain. This is a domain-level configuration that applies to all segment subscriptions within the domain. A domain can have only one associated stream at a time.
+    ///
+    /// Parameters:
+    ///   - destinationArn: The Amazon Resource Name (ARN) of the Amazon Kinesis data stream to deliver segment membership events to. For example, arn:aws:kinesis:region:account-id:stream/stream-name.
+    ///   - destinationRoleArn: The Amazon Resource Name (ARN) of the IAM role that allows Customer Profiles service principal to assume the role for conducting AWS Key Management Service (KMS) and Amazon Kinesis operations. The role must grant the following Amazon Kinesis permissions to deliver segment membership events to the stream:     kinesis:PutRecord     kinesis:PutRecords     kinesis:DescribeStream
+    ///   - domainName: The unique name of the domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateStreamForSegments(
+        destinationArn: String,
+        destinationRoleArn: String,
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateStreamForSegmentsResponse {
+        let input = AssociateStreamForSegmentsRequest(
+            destinationArn: destinationArn, 
+            destinationRoleArn: destinationRoleArn, 
+            domainName: domainName
+        )
+        return try await self.associateStreamForSegments(input, logger: logger)
+    }
+
     /// Fetch the possible attribute values given the attribute name.
     @Sendable
     @inlinable
@@ -1410,6 +1445,38 @@ public struct CustomerProfiles: AWSService {
         return try await self.deleteSegmentDefinition(input, logger: logger)
     }
 
+    /// Deletes a segment subscription for membership events. All active event notifications for this segment are stopped.
+    @Sendable
+    @inlinable
+    public func deleteSegmentSubscription(_ input: DeleteSegmentSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSegmentSubscriptionResponse {
+        try await self.client.execute(
+            operation: "DeleteSegmentSubscription", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}/subscriptions", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a segment subscription for membership events. All active event notifications for this segment are stopped.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSegmentSubscription(
+        domainName: String,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSegmentSubscriptionResponse {
+        let input = DeleteSegmentSubscriptionRequest(
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.deleteSegmentSubscription(input, logger: logger)
+    }
+
     /// Deletes the specified workflow and all its corresponding resources. This is an async process.
     @Sendable
     @inlinable
@@ -1472,6 +1539,35 @@ public struct CustomerProfiles: AWSService {
             objects: objects
         )
         return try await self.detectProfileObjectType(input, logger: logger)
+    }
+
+    /// Disassociates the Amazon Kinesis data stream configured for segment membership events. All active segment subscriptions delivering events to this stream are eventually stopped.
+    @Sendable
+    @inlinable
+    public func disassociateStreamForSegments(_ input: DisassociateStreamForSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateStreamForSegmentsResponse {
+        try await self.client.execute(
+            operation: "DisassociateStreamForSegments", 
+            path: "/domains/{DomainName}/segment-streams", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates the Amazon Kinesis data stream configured for segment membership events. All active segment subscriptions delivering events to this stream are eventually stopped.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateStreamForSegments(
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateStreamForSegmentsResponse {
+        let input = DisassociateStreamForSegmentsRequest(
+            domainName: domainName
+        )
+        return try await self.disassociateStreamForSegments(input, logger: logger)
     }
 
     /// Tests the auto-merging settings of your Identity Resolution Job without merging your data. It randomly selects a sample of matching groups from the existing matching results, and applies the automerging settings that you provided. You can then view the number of profiles in the sample, the number of matches, and the number of profiles identified to be merged. This enables you to evaluate the accuracy of the attributes in your matching list.  You can't view which profiles are matched and would be merged.  We strongly recommend you use this API to do a dry run of the automerging process before running the Identity Resolution Job. Include at least two matching attributes. If your matching list includes too few attributes (such as only FirstName or only LastName), there may be a large number of matches. This increases the chances of erroneous merges.
@@ -2265,6 +2361,38 @@ public struct CustomerProfiles: AWSService {
         return try await self.getSegmentSnapshot(input, logger: logger)
     }
 
+    /// Returns the current subscription configuration, execution schedule, and status for segment membership events.
+    @Sendable
+    @inlinable
+    public func getSegmentSubscription(_ input: GetSegmentSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSegmentSubscriptionResponse {
+        try await self.client.execute(
+            operation: "GetSegmentSubscription", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}/subscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the current subscription configuration, execution schedule, and status for segment membership events.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSegmentSubscription(
+        domainName: String,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSegmentSubscriptionResponse {
+        let input = GetSegmentSubscriptionRequest(
+            domainName: domainName, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.getSegmentSubscription(input, logger: logger)
+    }
+
     /// Returns a set of profiles that belong to the same matching group using the matchId or profileId. You can also specify the type of matching that you want for finding similar profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
     @Sendable
     @inlinable
@@ -2307,6 +2435,35 @@ public struct CustomerProfiles: AWSService {
             searchValue: searchValue
         )
         return try await self.getSimilarProfiles(input, logger: logger)
+    }
+
+    /// Returns information about the segment membership event stream configured for a specific domain, including the stream state and associated segments.
+    @Sendable
+    @inlinable
+    public func getStreamForSegments(_ input: GetStreamForSegmentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetStreamForSegmentsResponse {
+        try await self.client.execute(
+            operation: "GetStreamForSegments", 
+            path: "/domains/{DomainName}/segment-streams", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the segment membership event stream configured for a specific domain, including the stream state and associated segments.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getStreamForSegments(
+        domainName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetStreamForSegmentsResponse {
+        let input = GetStreamForSegmentsRequest(
+            domainName: domainName
+        )
+        return try await self.getStreamForSegments(input, logger: logger)
     }
 
     /// This API retrieves the details of a specific upload job.
@@ -3275,6 +3432,44 @@ public struct CustomerProfiles: AWSService {
         return try await self.listSegmentDefinitions(input, logger: logger)
     }
 
+    /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment.  This operation is paginated.
+    @Sendable
+    @inlinable
+    public func listSegmentSubscriptionEvents(_ input: ListSegmentSubscriptionEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSegmentSubscriptionEventsResponse {
+        try await self.client.execute(
+            operation: "ListSegmentSubscriptionEvents", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}/subscription-events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the most recent membership events for a segment. Each event represents a profile that entered or exited the segment.  This operation is paginated.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of events to return per page.
+    ///   - nextToken: The pagination token from the previous call to retrieve the next page of results.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSegmentSubscriptionEvents(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSegmentSubscriptionEventsResponse {
+        let input = ListSegmentSubscriptionEventsRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.listSegmentSubscriptionEvents(input, logger: logger)
+    }
+
     /// Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect Customer Profiles, domains, profile object types, and integrations can be tagged.
     @Sendable
     @inlinable
@@ -3619,6 +3814,41 @@ public struct CustomerProfiles: AWSService {
             templateId: templateId
         )
         return try await self.putProfileObjectType(input, logger: logger)
+    }
+
+    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes.  You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snapshots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the next scheduled run does not start until the in-progress snapshot completes, so a run might be delayed or skipped and is not guaranteed to occur at exactly the requested time.  For Classic segments, membership events are generated from these scheduled snapshots and also in near real-time as profile attribute changes occur. For SQL segments, membership events are generated only from the scheduled snapshots.
+    @Sendable
+    @inlinable
+    public func putSegmentSubscription(_ input: PutSegmentSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSegmentSubscriptionResponse {
+        try await self.client.execute(
+            operation: "PutSegmentSubscription", 
+            path: "/domains/{DomainName}/segment-definitions/{SegmentDefinitionName}/subscriptions", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a segment subscription for membership events. When a subscription is created, an initial snapshot is taken and the system begins monitoring for membership changes.  You can optionally set a schedule configuration interval to control how often membership snapshots are run. The interval can be from 1 to 24 hours. If not set, the interval defaults to 24 hours. Scheduled snapshots run on a best-effort basis. If a scheduled snapshot takes longer than the configured interval, the next scheduled run does not start until the in-progress snapshot completes, so a run might be delayed or skipped and is not guaranteed to occur at exactly the requested time.  For Classic segments, membership events are generated from these scheduled snapshots and also in near real-time as profile attribute changes occur. For SQL segments, membership events are generated only from the scheduled snapshots.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - scheduleConfiguration: The optional schedule configuration that controls how often membership snapshots are run. If not provided, the subscription defaults to a 24-hour interval.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putSegmentSubscription(
+        domainName: String,
+        scheduleConfiguration: ScheduleConfiguration? = nil,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutSegmentSubscriptionResponse {
+        let input = PutSegmentSubscriptionRequest(
+            domainName: domainName, 
+            scheduleConfiguration: scheduleConfiguration, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return try await self.putSegmentSubscription(input, logger: logger)
     }
 
     /// Searches for profiles within a specific domain using one or more predefined search keys (e.g., _fullName, _phone, _email, _account, etc.) and/or custom-defined search keys. A search key is a data type pair that consists of a KeyName and Values list. This operation supports searching for profiles with a minimum of 1 key-value(s) pair and up to 5 key-value(s) pairs using either AND or OR logic.
@@ -4660,6 +4890,46 @@ extension CustomerProfiles {
         return self.listSegmentDefinitionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSegmentSubscriptionEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSegmentSubscriptionEventsPaginator(
+        _ input: ListSegmentSubscriptionEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSegmentSubscriptionEventsRequest, ListSegmentSubscriptionEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listSegmentSubscriptionEvents,
+            inputKey: \ListSegmentSubscriptionEventsRequest.nextToken,
+            outputKey: \ListSegmentSubscriptionEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSegmentSubscriptionEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of events to return per page.
+    ///   - segmentDefinitionName: The unique name of the segment definition.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSegmentSubscriptionEventsPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        segmentDefinitionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSegmentSubscriptionEventsRequest, ListSegmentSubscriptionEventsResponse> {
+        let input = ListSegmentSubscriptionEventsRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            segmentDefinitionName: segmentDefinitionName
+        )
+        return self.listSegmentSubscriptionEventsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUploadJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -4829,6 +5099,18 @@ extension CustomerProfiles.ListSegmentDefinitionsRequest: AWSPaginateToken {
             domainName: self.domainName,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListSegmentSubscriptionEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListSegmentSubscriptionEventsRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            segmentDefinitionName: self.segmentDefinitionName
         )
     }
 }

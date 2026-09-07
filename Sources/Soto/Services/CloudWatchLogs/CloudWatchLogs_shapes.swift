@@ -148,6 +148,14 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum IndexCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case auto = "AUTO"
+        case custom = "CUSTOM"
+        case inactive = "INACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndexSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case logGroup = "LOG_GROUP"
@@ -266,6 +274,7 @@ extension CloudWatchLogs {
     }
 
     public enum ScheduledQueryDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lookupTable = "LOOKUP_TABLE"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
@@ -1325,16 +1334,19 @@ extension CloudWatchLogs {
         public let kmsKeyId: String?
         /// The name of the lookup table. The name must be unique within your account and Region. The name can contain only alphanumeric characters and underscores, and can be up to 256 characters long.
         public let lookupTableName: String
-        /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
-        public let tableBody: String
+        /// The ID of a completed or cancelled CloudWatch Logs query whose results populate the lookup table. A cancelled query populates the table with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
+        public let queryId: String?
+        /// The CSV content of the lookup table. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
+        public let tableBody: String?
         /// A list of key-value pairs to associate with the lookup table. You can associate as many as 50 tags with a lookup table. Tags can help you organize and categorize your resources.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableName: String, tableBody: String, tags: [String: String]? = nil) {
+        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableName: String, queryId: String? = nil, tableBody: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.lookupTableName = lookupTableName
+            self.queryId = queryId
             self.tableBody = tableBody
             self.tags = tags
         }
@@ -1345,6 +1357,8 @@ extension CloudWatchLogs {
             try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, max: 256)
             try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, min: 1)
             try self.validate(self.lookupTableName, name: "lookupTableName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
             try self.validate(self.tableBody, name: "tableBody", parent: name, max: 10485760)
             try self.validate(self.tableBody, name: "tableBody", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1362,6 +1376,7 @@ extension CloudWatchLogs {
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case lookupTableName = "lookupTableName"
+            case queryId = "queryId"
             case tableBody = "tableBody"
             case tags = "tags"
         }
@@ -1388,7 +1403,7 @@ extension CloudWatchLogs {
     public struct CreateScheduledQueryRequest: AWSEncodableShape {
         /// An optional description for the scheduled query to help identify its purpose and functionality.
         public let description: String?
-        /// Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
+        /// Configuration for where to deliver query results. Supports Amazon S3 destinations for storing query output and lookup table destinations for automatically refreshing lookup tables with query results. You can configure one or both destination types.
         public let destinationConfiguration: DestinationConfiguration?
         /// The time offset in seconds that defines the end of the lookback period for the query. Together with startTimeOffset, this determines the time window relative to the execution time over which the query runs.
         public let endTimeOffset: Int64?
@@ -2625,17 +2640,21 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeFieldIndexesRequest: AWSEncodableShape {
+        /// The index categories to return. The following values are supported:    DEFAULT: Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format.    CUSTOM: Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group.    AUTO: Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy.    INACTIVE: Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries.   If you omit this parameter, the response includes the DEFAULT, CUSTOM, and INACTIVE categories. For more information about automatically indexed fields and using the AUTO category, see Automatically indexed fields.
+        public let indexCategories: [IndexCategory]?
         /// An array containing the names or ARNs of the log groups that you want to retrieve field indexes for.
         public let logGroupIdentifiers: [String]
         public let nextToken: String?
 
         @inlinable
-        public init(logGroupIdentifiers: [String], nextToken: String? = nil) {
+        public init(indexCategories: [IndexCategory]? = nil, logGroupIdentifiers: [String], nextToken: String? = nil) {
+            self.indexCategories = indexCategories
             self.logGroupIdentifiers = logGroupIdentifiers
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexCategories, name: "indexCategories", parent: name, max: 4)
             try self.logGroupIdentifiers.forEach {
                 try validate($0, name: "logGroupIdentifiers[]", parent: name, max: 2048)
                 try validate($0, name: "logGroupIdentifiers[]", parent: name, min: 1)
@@ -2647,6 +2666,7 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case indexCategories = "indexCategories"
             case logGroupIdentifiers = "logGroupIdentifiers"
             case nextToken = "nextToken"
         }
@@ -3343,19 +3363,24 @@ extension CloudWatchLogs {
     }
 
     public struct DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for delivering query results to a lookup table. The query results automatically populate or refresh the specified lookup table on each scheduled execution.
+        public let lookupTableConfiguration: LookupTableConfiguration?
         /// Configuration for delivering query results to Amazon S3.
-        public let s3Configuration: S3Configuration
+        public let s3Configuration: S3Configuration?
 
         @inlinable
-        public init(s3Configuration: S3Configuration) {
+        public init(lookupTableConfiguration: LookupTableConfiguration? = nil, s3Configuration: S3Configuration? = nil) {
+            self.lookupTableConfiguration = lookupTableConfiguration
             self.s3Configuration = s3Configuration
         }
 
         public func validate(name: String) throws {
-            try self.s3Configuration.validate(name: "\(name).s3Configuration")
+            try self.lookupTableConfiguration?.validate(name: "\(name).lookupTableConfiguration")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lookupTableConfiguration = "lookupTableConfiguration"
             case s3Configuration = "s3Configuration"
         }
     }
@@ -3543,6 +3568,8 @@ extension CloudWatchLogs {
         public let fieldIndexName: String?
         /// The time and date of the earliest log event that matches this field index, after the index policy that contains it was created.
         public let firstEventTime: Int64?
+        /// The category of the field index:    DEFAULT: Fields that CloudWatch Logs indexes by default. Examples include @logStream and @data_format.    CUSTOM: Fields that you added manually to the field index policy. CloudWatch Logs always indexes these fields. These fields count toward the quota of 20 fields for each log group.    AUTO: Fields that CloudWatch Logs indexes automatically based on your query patterns and usage. These fields do not count toward the field index quota. CloudWatch Logs might update these fields based on changes in your query patterns. To keep a field indexed permanently, add it to an account-level or log-group level field index policy.    INACTIVE: Fields that CloudWatch Logs indexed before but does not index now. This happens if you remove a field from the field index policy or if CloudWatch Logs automatically selects a different field based on your queries.   For more information about automatically indexed fields, see Automatically indexed fields.
+        public let indexCategory: IndexCategory?
         /// The time and date of the most recent log event that matches this field index.
         public let lastEventTime: Int64?
         /// The most recent time that CloudWatch Logs scanned ingested log events to search for this field index to improve the speed of future CloudWatch Logs Insights queries that search for this field index.
@@ -3553,9 +3580,10 @@ extension CloudWatchLogs {
         public let type: IndexType?
 
         @inlinable
-        public init(fieldIndexName: String? = nil, firstEventTime: Int64? = nil, lastEventTime: Int64? = nil, lastScanTime: Int64? = nil, logGroupIdentifier: String? = nil, type: IndexType? = nil) {
+        public init(fieldIndexName: String? = nil, firstEventTime: Int64? = nil, indexCategory: IndexCategory? = nil, lastEventTime: Int64? = nil, lastScanTime: Int64? = nil, logGroupIdentifier: String? = nil, type: IndexType? = nil) {
             self.fieldIndexName = fieldIndexName
             self.firstEventTime = firstEventTime
+            self.indexCategory = indexCategory
             self.lastEventTime = lastEventTime
             self.lastScanTime = lastScanTime
             self.logGroupIdentifier = logGroupIdentifier
@@ -3565,6 +3593,7 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case fieldIndexName = "fieldIndexName"
             case firstEventTime = "firstEventTime"
+            case indexCategory = "indexCategory"
             case lastEventTime = "lastEventTime"
             case lastScanTime = "lastScanTime"
             case logGroupIdentifier = "logGroupIdentifier"
@@ -3607,7 +3636,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is true. The startFromHead parameter sets the sort direction on the first request. On subsequent requests, the nextToken determines the sort direction. To continue paginating in the same direction, provide the returned nextToken. If you provide both nextToken and startFromHead, the direction of the nextToken is used.  Setting startFromHead to false is supported only when startTime is on or after Jan 1, 2024 00:00:00 UTC. A request with startFromHead set to false and a startTime before this date returns an InvalidParameterException.
         public let startFromHead: Bool?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp before this time are not returned.  Set startTime explicitly to reduce the chances of empty pages in the response.
         public let startTime: Int64?
         /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
         public let unmask: Bool?
@@ -4041,7 +4070,7 @@ extension CloudWatchLogs {
         public let nextToken: String?
         /// If the value is true, the earliest log events are returned first. If the value is false, the latest log events are returned first. The default value is false. If you are using a previous nextForwardToken value as the nextToken in this operation, you must specify true for startFromHead.
         public let startFromHead: Bool?
-        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.
+        /// The start of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to this time or later than this time are included. Events with a timestamp earlier than this time are not included.  Set startTime explicitly to reduce the chances of empty pages in the response.
         public let startTime: Int64?
         /// Specify true to display the log event fields with all sensitive data unmasked and visible. The default is false. To use this operation with this parameter, you must be signed into an account with the logs:Unmask permission.
         public let unmask: Bool?
@@ -4559,7 +4588,7 @@ extension CloudWatchLogs {
     }
 
     public struct GetStorageTierPolicyResponse: AWSDecodableShape {
-        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after January 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?
         /// The current storage tier for the account.
         public let storageTier: StorageTier?
@@ -5836,6 +5865,54 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct LookupTableConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the lookup table.
+        public let description: String?
+        /// The ARN of the KMS key to use to encrypt the lookup table data. If you don't specify a key, the data is encrypted with an Amazon Web Services-owned key.
+        public let kmsKeyId: String?
+        /// The ARN of the IAM role that grants permissions to create or update the lookup table with query results.
+        public let roleArn: String
+        /// The name of the lookup table to create or update with query results. The name can contain only alphanumeric characters and underscores.
+        public let tableName: String
+        /// Key-value pairs to associate with the lookup table for resource management and cost allocation. The service applies tags only during initial table creation.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, kmsKeyId: String? = nil, roleArn: String, tableName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.kmsKeyId = kmsKeyId
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 256)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case kmsKeyId = "kmsKeyId"
+            case roleArn = "roleArn"
+            case tableName = "tableName"
+            case tags = "tags"
+        }
+    }
+
     public struct LowerCaseString: AWSEncodableShape & AWSDecodableShape {
         /// The array caontaining the keys of the fields to convert to lowercase.
         public let withKeys: [String]
@@ -6902,7 +6979,7 @@ extension CloudWatchLogs {
     public struct PutDeliverySourceRequest: AWSEncodableShape {
         /// A map of key-value pairs to configure the delivery source. Both keys and values must be between 1 and 255 characters in length. For example, {"samplingRate": "50"}.
         public let deliverySourceConfiguration: [String: String]?
-        /// Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+        /// Defines the type of log that the source is sending.   For Application Load Balancer, the valid values are ALB_ACCESS_LOGS, ALB_CONNECTION_LOGS, and ALB_HEALTH_CHECK_LOGS.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Memory, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Payments, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For DevOps Agent, the valid value is APPLICATION_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Amazon EKS Auto Mode, the valid values are AUTO_MODE_BLOCK_STORAGE_LOGS, AUTO_MODE_COMPUTE_LOGS, AUTO_MODE_IPAM_LOGS, and AUTO_MODE_LOAD_BALANCING_LOGS.   For Amazon EKS Capability Logs, the valid values are EKS_CAPABILITY_ACK_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATION_LOGS, EKS_CAPABILITY_ARGOCD_APPLICATIONSET_LOGS, EKS_CAPABILITY_ARGOCD_COMMITSERVER_LOGS, EKS_CAPABILITY_ARGOCD_REPOSERVER_LOGS, EKS_CAPABILITY_ARGOCD_SERVER_LOGS, and EKS_CAPABILITY_KRO_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS, PCS_JOBCOMP_LOGS, and PCS_SCHEDULER_AUDIT_LOGS.   For Quick, the valid values are AGENT_HOURS_LOGS, CHAT_LOGS, FEEDBACK_LOGS, and INDEX_USAGE_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon S3, the valid value is S3_SERVER_ACCESS_LOGS.   For Amazon Web Services Security Hub CSPM, the valid value is SECURITY_FINDING_LOGS.   For Amazon Web Services Security Hub, the valid value is SECURITY_FINDING_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String
@@ -7433,7 +7510,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutStorageTierPolicyRequest: AWSEncodableShape {
-        /// The storage tier to set for the account. Valid values are STANDARD and INTELLIGENT_TIERING.
+        /// The storage tier to set for the account. Use INTELLIGENT_TIERING to automatically optimize storage costs by moving log data to the appropriate tier based on access frequency.
         public let storageTier: StorageTier
 
         @inlinable
@@ -7447,9 +7524,9 @@ extension CloudWatchLogs {
     }
 
     public struct PutStorageTierPolicyResponse: AWSDecodableShape {
-        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        /// The time when the storage tier policy was last updated, expressed as the number of milliseconds after January 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?
-        /// The storage tier that was set.
+        /// The storage tier for the account.
         public let storageTier: StorageTier?
 
         @inlinable
@@ -7471,7 +7548,7 @@ extension CloudWatchLogs {
         public let destinationArn: String
         /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis data stream.
         public let distribution: Distribution?
-        /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account and @aws.region. These fields provide source information for centralized log data in the forwarded payload.
+        /// A list of system fields to include in the log events sent to the subscription destination. Valid values are @aws.account, @aws.region, and @source.log. These fields provide source information for centralized log data in the forwarded payload.
         public let emitSystemFields: [String]?
         /// A filter expression that specifies which log events should be processed by this subscription filter based on system fields such as source account and source region. Uses selection criteria syntax with operators like =, !=, AND, OR, IN, NOT IN. Example: @aws.region NOT IN ["cn-north-1"] or @aws.account = "123456789012" AND @aws.region = "us-east-1". Maximum length: 2000 characters.
         public let fieldSelectionCriteria: String?
@@ -7740,15 +7817,18 @@ extension CloudWatchLogs {
         public let recordsMatched: Double?
         /// The total number of log events scanned during the query.
         public let recordsScanned: Double?
+        /// The number of rows in the final query result set. This value represents the total number of output rows across all pages. For queries that include post-aggregation filters (such as stats count(*) by field | filter count > threshold), this value might be less than recordsMatched. It reflects only the rows that survived all operations in the query.
+        public let resultCount: Double?
 
         @inlinable
-        public init(bytesScanned: Double? = nil, estimatedBytesSkipped: Double? = nil, estimatedRecordsSkipped: Double? = nil, logGroupsScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil) {
+        public init(bytesScanned: Double? = nil, estimatedBytesSkipped: Double? = nil, estimatedRecordsSkipped: Double? = nil, logGroupsScanned: Double? = nil, recordsMatched: Double? = nil, recordsScanned: Double? = nil, resultCount: Double? = nil) {
             self.bytesScanned = bytesScanned
             self.estimatedBytesSkipped = estimatedBytesSkipped
             self.estimatedRecordsSkipped = estimatedRecordsSkipped
             self.logGroupsScanned = logGroupsScanned
             self.recordsMatched = recordsMatched
             self.recordsScanned = recordsScanned
+            self.resultCount = resultCount
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7758,6 +7838,7 @@ extension CloudWatchLogs {
             case logGroupsScanned = "logGroupsScanned"
             case recordsMatched = "recordsMatched"
             case recordsScanned = "recordsScanned"
+            case resultCount = "resultCount"
         }
     }
 
@@ -9032,20 +9113,25 @@ extension CloudWatchLogs {
         public let kmsKeyId: String?
         /// The ARN of the lookup table to update.
         public let lookupTableArn: String
-        /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB.
-        public let tableBody: String
+        /// The ID of a completed or cancelled CloudWatch Logs query whose results replace the lookup table content. A cancelled query replaces the content with the partial results that were available when the query was stopped. You must specify either tableBody or queryId, but not both.
+        public let queryId: String?
+        /// The new CSV content to replace the existing data. The first row must be a header row with column names. The content must use UTF-8 encoding and not exceed 10 MB. You must specify either tableBody or queryId, but not both.
+        public let tableBody: String?
 
         @inlinable
-        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableArn: String, tableBody: String) {
+        public init(description: String? = nil, kmsKeyId: String? = nil, lookupTableArn: String, queryId: String? = nil, tableBody: String? = nil) {
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.lookupTableArn = lookupTableArn
+            self.queryId = queryId
             self.tableBody = tableBody
         }
 
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 256)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 1)
             try self.validate(self.tableBody, name: "tableBody", parent: name, max: 10485760)
             try self.validate(self.tableBody, name: "tableBody", parent: name, min: 1)
         }
@@ -9054,6 +9140,7 @@ extension CloudWatchLogs {
             case description = "description"
             case kmsKeyId = "kmsKeyId"
             case lookupTableArn = "lookupTableArn"
+            case queryId = "queryId"
             case tableBody = "tableBody"
         }
     }

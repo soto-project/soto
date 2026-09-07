@@ -28,6 +28,7 @@ extension Outposts {
     public enum AWSServiceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aws = "AWS"
         case ec2 = "EC2"
+        case eks = "EKS"
         case elasticache = "ELASTICACHE"
         case elb = "ELB"
         case rds = "RDS"
@@ -273,6 +274,12 @@ extension Outposts {
     public enum PricingResult: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case priced = "PRICED"
         case unableToPrice = "UNABLE_TO_PRICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PrivateConnectivityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -997,6 +1004,59 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case outpost = "Outpost"
+        }
+    }
+
+    public struct CreatePrivateConnectivityConfigInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost.
+        public let outpostId: String
+        /// Information about the VPC used for private connectivity, including the VPC, its subnets, and an associated VPC endpoint. You can specify at most one entry.
+        public let vpcInformationList: [VpcInformation]
+
+        @inlinable
+        public init(outpostId: String, vpcInformationList: [VpcInformation]) {
+            self.outpostId = outpostId
+            self.vpcInformationList = vpcInformationList
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
+            try container.encode(self.vpcInformationList, forKey: .vpcInformationList)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+            try self.vpcInformationList.forEach {
+                try $0.validate(name: "\(name).vpcInformationList[]")
+            }
+            try self.validate(self.vpcInformationList, name: "vpcInformationList", parent: name, max: 1)
+            try self.validate(self.vpcInformationList, name: "vpcInformationList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcInformationList = "VpcInformationList"
+        }
+    }
+
+    public struct CreatePrivateConnectivityConfigOutput: AWSDecodableShape {
+        /// The ID of the Outpost.
+        public let outpostId: String?
+        /// The private connectivity configuration for the Outpost.
+        public let privateConnectivityConfig: PrivateConnectivityConfig?
+
+        @inlinable
+        public init(outpostId: String? = nil, privateConnectivityConfig: PrivateConnectivityConfig? = nil) {
+            self.outpostId = outpostId
+            self.privateConnectivityConfig = privateConnectivityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpostId = "OutpostId"
+            case privateConnectivityConfig = "PrivateConnectivityConfig"
         }
     }
 
@@ -1799,6 +1859,44 @@ extension Outposts {
         private enum CodingKeys: String, CodingKey {
             case instanceTypes = "InstanceTypes"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetPrivateConnectivityConfigInput: AWSEncodableShape {
+        /// The ID or ARN of the Outpost.
+        public let outpostId: String
+
+        @inlinable
+        public init(outpostId: String) {
+            self.outpostId = outpostId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.outpostId, key: "OutpostId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPrivateConnectivityConfigOutput: AWSDecodableShape {
+        /// The private connectivity configuration for the Outpost.
+        public let privateConnectivityConfig: PrivateConnectivityConfig?
+
+        @inlinable
+        public init(privateConnectivityConfig: PrivateConnectivityConfig? = nil) {
+            self.privateConnectivityConfig = privateConnectivityConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateConnectivityConfig = "PrivateConnectivityConfig"
         }
     }
 
@@ -2982,6 +3080,32 @@ extension Outposts {
         }
     }
 
+    public struct PrivateConnectivityConfig: AWSDecodableShape {
+        /// The status of private connectivity for the Outpost. Valid values are ENABLED and DISABLED.
+        public let privateConnectivityStatus: PrivateConnectivityStatus?
+        /// The Amazon Resource Name (ARN) of the provisioning role in your account that Amazon Web Services Outposts uses to establish the service link connection during Outpost installation. This field is present only when VPC endpoint-based provisioning is configured.
+        public let provisioningRoleArn: String?
+        /// The Amazon Resource Name (ARN) of the service-linked role that Amazon Web Services Outposts creates and uses to provision and attach the network interfaces for private connectivity in your VPC. The role's permissions are scoped to the specific Outpost and VPC.
+        public let roleArn: String?
+        /// Information about the VPC used for private connectivity.
+        public let vpcInformationList: [VpcInformation]?
+
+        @inlinable
+        public init(privateConnectivityStatus: PrivateConnectivityStatus? = nil, provisioningRoleArn: String? = nil, roleArn: String? = nil, vpcInformationList: [VpcInformation]? = nil) {
+            self.privateConnectivityStatus = privateConnectivityStatus
+            self.provisioningRoleArn = provisioningRoleArn
+            self.roleArn = roleArn
+            self.vpcInformationList = vpcInformationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateConnectivityStatus = "PrivateConnectivityStatus"
+            case provisioningRoleArn = "ProvisioningRoleArn"
+            case roleArn = "RoleArn"
+            case vpcInformationList = "VpcInformationList"
+        }
+    }
+
     public struct Quote: AWSDecodableShape {
         /// The ID of the account that owns the quote.
         public let accountId: String?
@@ -4161,6 +4285,44 @@ extension Outposts {
 
         private enum CodingKeys: String, CodingKey {
             case site = "Site"
+        }
+    }
+
+    public struct VpcInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the subnets associated with the VPC endpoint. Currently, only one subnet is supported.
+        public let subnetIds: [String]?
+        /// The ID of the interface VPC endpoint for the Amazon Web Services Outposts service. When specified, the endpoint must be in the available state and the specified subnets must be associated with it.
+        public let vpcEndpointId: String?
+        /// The ID of the VPC used for private connectivity.
+        public let vpcId: String?
+
+        @inlinable
+        public init(subnetIds: [String]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 25)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^[a-z0-9-]+$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 10)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 25)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 1)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-f0-9]+$")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 25)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcId = "VpcId"
         }
     }
 }

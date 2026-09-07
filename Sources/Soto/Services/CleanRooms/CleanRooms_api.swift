@@ -656,7 +656,7 @@ public struct CleanRooms: AWSService {
         return try await self.createIdNamespaceAssociation(input, logger: logger)
     }
 
-    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable.
     @Sendable
     @inlinable
     public func createIntermediateTable(_ input: CreateIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntermediateTableOutput {
@@ -669,15 +669,15 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Creates an intermediate table in a membership. An intermediate table stores a query definition that you can execute later using PopulateIntermediateTable to materialize cached results. The intermediate table is owned by the member with the CAN_QUERY ability. This operation does not execute the stored query.
+    /// Creates an intermediate table in a membership. The intermediate table is owned by the member with the CAN_QUERY ability. To populate the table with results, use PopulateIntermediateTable.
     ///
     /// Parameters:
     ///   - description: A description of the intermediate table.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the customer-managed KMS key used to encrypt the intermediate table data.
     ///   - membershipIdentifier: The unique identifier of the membership where the intermediate table is created.
     ///   - name: The display name for the intermediate table.
-    ///   - populationAnalysisConfiguration: The configuration that defines the analysis used to populate the intermediate table. This configuration contains the SQL query or analysis template reference.
-    ///   - retentionInDays: The number of days to retain populated data versions. Minimum value of 1, maximum value of 365.
+    ///   - populationAnalysisConfiguration: The configuration that defines the analysis used to populate the intermediate table.
+    ///   - retentionInDays: The number of days to retain populated data versions.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -703,7 +703,7 @@ public struct CleanRooms: AWSService {
         return try await self.createIntermediateTable(input, logger: logger)
     }
 
-    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
     @Sendable
     @inlinable
     public func createIntermediateTableAnalysisRule(_ input: CreateIntermediateTableAnalysisRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIntermediateTableAnalysisRuleOutput {
@@ -716,7 +716,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. The service automatically determines whether the rule is first-party or multi-party restricted based on the intermediate table's inherited constraints. Only the intermediate table owner can call this operation.
+    /// Creates an analysis rule for an intermediate table. Only the CUSTOM analysis rule type is supported. Only the intermediate table owner can call this operation.
     ///
     /// Parameters:
     ///   - analysisRulePolicy: The analysis rule policy to apply to the intermediate table.
@@ -1117,7 +1117,7 @@ public struct CleanRooms: AWSService {
         return try await self.deleteIdNamespaceAssociation(input, logger: logger)
     }
 
-    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    /// Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
     @Sendable
     @inlinable
     public func deleteIntermediateTable(_ input: DeleteIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntermediateTableOutput {
@@ -1130,7 +1130,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Deletes an intermediate table. When you delete the table, the service marks it as DELETED, removes its analysis rule and schema, and triggers storage cleanup. This operation is idempotent. Only the intermediate table owner can call this operation.
+    /// Deletes an intermediate table. The delete is idempotent. Only the intermediate table owner can call this operation.
     ///
     /// Parameters:
     ///   - intermediateTableIdentifier: The unique identifier of the intermediate table to delete.
@@ -1277,7 +1277,7 @@ public struct CleanRooms: AWSService {
         return try await self.deletePrivacyBudgetTemplate(input, logger: logger)
     }
 
-    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    /// Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
     @Sendable
     @inlinable
     public func disallowIntermediateTable(_ input: DisallowIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisallowIntermediateTableOutput {
@@ -1290,7 +1290,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Invalidates a specific intermediate table that references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, invalidation cascades to descendant intermediate tables.
+    /// Marks an intermediate table as invalid when it references the caller's base table. The data provider (base table owner) calls this operation, not the intermediate table owner. By default, the operation also marks all descendant intermediate tables as invalid.
     ///
     /// Parameters:
     ///   - includeDescendants: Specifies whether to cascade the disallow action to descendant intermediate tables. Default is true.
@@ -1310,6 +1310,38 @@ public struct CleanRooms: AWSService {
             membershipIdentifier: membershipIdentifier
         )
         return try await self.disallowIntermediateTable(input, logger: logger)
+    }
+
+    /// Returns information about an analysis log export, including its current status and, if the export failed, the reason for the failure. Poll this operation until the status is SUCCESS or FAILED. An export can't be canceled after it starts.
+    @Sendable
+    @inlinable
+    public func getAnalysisLogExport(_ input: GetAnalysisLogExportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnalysisLogExportOutput {
+        try await self.client.execute(
+            operation: "GetAnalysisLogExport", 
+            path: "/memberships/{membershipIdentifier}/analysislogexports/{analysisLogExportIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an analysis log export, including its current status and, if the export failed, the reason for the failure. Poll this operation until the status is SUCCESS or FAILED. An export can't be canceled after it starts.
+    ///
+    /// Parameters:
+    ///   - analysisLogExportIdentifier: The unique identifier of the analysis log export to retrieve.
+    ///   - membershipIdentifier: A unique identifier for the membership that the analysis log export belongs to. Currently accepts the membership ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAnalysisLogExport(
+        analysisLogExportIdentifier: String,
+        membershipIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAnalysisLogExportOutput {
+        let input = GetAnalysisLogExportInput(
+            analysisLogExportIdentifier: analysisLogExportIdentifier, 
+            membershipIdentifier: membershipIdentifier
+        )
+        return try await self.getAnalysisLogExport(input, logger: logger)
     }
 
     /// Retrieves an analysis template.
@@ -2014,6 +2046,47 @@ public struct CleanRooms: AWSService {
             type: type
         )
         return try await self.getSchemaAnalysisRule(input, logger: logger)
+    }
+
+    /// Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    @Sendable
+    @inlinable
+    public func listAnalysisLogExports(_ input: ListAnalysisLogExportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalysisLogExportsOutput {
+        try await self.client.execute(
+            operation: "ListAnalysisLogExports", 
+            path: "/memberships/{membershipIdentifier}/analysislogexports", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists analysis log exports, sorted by the most recent export. Results are paginated. Use the nextToken parameter to retrieve additional results.
+    ///
+    /// Parameters:
+    ///   - analysisIdentifier: A filter on the unique identifier of the protected query that the analysis logs were exported for.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: A unique identifier for the membership to list analysis log exports for. Currently accepts the membership ID.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - status: A filter on the status of the analysis log export.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAnalysisLogExports(
+        analysisIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        status: AnalysisLogExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAnalysisLogExportsOutput {
+        let input = ListAnalysisLogExportsInput(
+            analysisIdentifier: analysisIdentifier, 
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listAnalysisLogExports(input, logger: logger)
     }
 
     /// Lists analysis templates that the caller owns.
@@ -2874,7 +2947,7 @@ public struct CleanRooms: AWSService {
         return try await self.populateIdMappingTable(input, logger: logger)
     }
 
-    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
     @Sendable
     @inlinable
     public func populateIntermediateTable(_ input: PopulateIntermediateTableInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PopulateIntermediateTableOutput {
@@ -2887,7 +2960,7 @@ public struct CleanRooms: AWSService {
             logger: logger
         )
     }
-    /// Executes the stored query of an intermediate table to materialize data into managed storage. With this operation, you can perform initial population and subsequent refreshes. Each call creates a new version. The returned analysis ID can be tracked using GetProtectedQuery. Only the intermediate table owner can call this operation.
+    /// Runs the stored query of an intermediate table and makes the results available for querying. Each call creates a new version. Use GetProtectedQuery with the returned analysis ID to track progress. Only the intermediate table owner can call this operation.
     ///
     /// Parameters:
     ///   - analysisPayerAccountId: The account ID of the member that pays for the analysis compute costs.
@@ -2945,6 +3018,44 @@ public struct CleanRooms: AWSService {
             parameters: parameters
         )
         return try await self.previewPrivacyImpact(input, logger: logger)
+    }
+
+    /// Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected. Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-contents.html. The export runs asynchronously and returns with a status of IN_PROGRESS. Call GetAnalysisLogExport to poll for the final status.  To use this operation, you must have the CAN_EXPORT_QUERY_ANALYSIS_LOG ability for your membership. You must also be the query runner or the query payer. Having the ability alone is not sufficient. The query must have reached a terminal state, and it must have reached the execution stage. A query that failed validation or that was canceled before it started produces no Spark logs. Log export isn't supported for queries that use differential privacy, and isn't supported for PySpark jobs. The destination bucket must be in the same Amazon Web Services Region as the collaboration. Cross-Region export isn't supported.  For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
+    @Sendable
+    @inlinable
+    public func startAnalysisLogExport(_ input: StartAnalysisLogExportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAnalysisLogExportOutput {
+        try await self.client.execute(
+            operation: "StartAnalysisLogExport", 
+            path: "/memberships/{membershipIdentifier}/analysislogexports", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an export of the Apache Spark logs for a protected query to an Amazon S3 bucket that you own. Use the exported logs to diagnose a query that failed or that ran more slowly than you expected. Clean Rooms exports a redacted copy of the Spark logs instead of the raw logs. Analyze the exported logs with the tooling of your choice, such as Spark History Server. For details about what the exported logs contain, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs-contents.html. The export runs asynchronously and returns with a status of IN_PROGRESS. Call GetAnalysisLogExport to poll for the final status.  To use this operation, you must have the CAN_EXPORT_QUERY_ANALYSIS_LOG ability for your membership. You must also be the query runner or the query payer. Having the ability alone is not sufficient. The query must have reached a terminal state, and it must have reached the execution stage. A query that failed validation or that was canceled before it started produces no Spark logs. Log export isn't supported for queries that use differential privacy, and isn't supported for PySpark jobs. The destination bucket must be in the same Amazon Web Services Region as the collaboration. Cross-Region export isn't supported.  For more information, see https://docs.aws.amazon.com/clean-rooms/latest/userguide/export-analysis-logs.html.
+    ///
+    /// Parameters:
+    ///   - analysisId: The unique identifier of the protected query that you want to export the analysis logs for.
+    ///   - analysisType: The type of analysis that the logs are exported for. Currently, only PROTECTED_QUERY is supported.
+    ///   - membershipIdentifier: A unique identifier for the membership to export the analysis logs for. Currently accepts a membership ID.
+    ///   - resultConfiguration: The details needed to write the exported analysis logs. You don't need to create an IAM role for log export. Clean Rooms writes the exported logs using your own identity, so Clean Rooms writes the exported logs only where your existing permissions allow.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAnalysisLogExport(
+        analysisId: String,
+        analysisType: LogExportAnalysisType,
+        membershipIdentifier: String,
+        resultConfiguration: AnalysisLogExportResultConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAnalysisLogExportOutput {
+        let input = StartAnalysisLogExportInput(
+            analysisId: analysisId, 
+            analysisType: analysisType, 
+            membershipIdentifier: membershipIdentifier, 
+            resultConfiguration: resultConfiguration
+        )
+        return try await self.startAnalysisLogExport(input, logger: logger)
     }
 
     /// Creates a protected job that is started by Clean Rooms.
@@ -3727,6 +3838,49 @@ extension CleanRooms {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CleanRooms {
+    /// Return PaginatorSequence for operation ``listAnalysisLogExports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnalysisLogExportsPaginator(
+        _ input: ListAnalysisLogExportsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput> {
+        return .init(
+            input: input,
+            command: self.listAnalysisLogExports,
+            inputKey: \ListAnalysisLogExportsInput.nextToken,
+            outputKey: \ListAnalysisLogExportsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAnalysisLogExports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - analysisIdentifier: A filter on the unique identifier of the protected query that the analysis logs were exported for.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a nextToken even if the maxResults value has not been met.
+    ///   - membershipIdentifier: A unique identifier for the membership to list analysis log exports for. Currently accepts the membership ID.
+    ///   - status: A filter on the status of the analysis log export.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnalysisLogExportsPaginator(
+        analysisIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        status: AnalysisLogExportStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAnalysisLogExportsInput, ListAnalysisLogExportsOutput> {
+        let input = ListAnalysisLogExportsInput(
+            analysisIdentifier: analysisIdentifier, 
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            status: status
+        )
+        return self.listAnalysisLogExportsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listCollaborationChangeRequests(_:logger:)``.
     ///
     /// - Parameters:
@@ -4267,6 +4421,19 @@ extension CleanRooms {
             status: status
         )
         return self.listProtectedQueriesPaginator(input, logger: logger)
+    }
+}
+
+extension CleanRooms.ListAnalysisLogExportsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListAnalysisLogExportsInput {
+        return .init(
+            analysisIdentifier: self.analysisIdentifier,
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token,
+            status: self.status
+        )
     }
 }
 

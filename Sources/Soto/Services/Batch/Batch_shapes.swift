@@ -71,6 +71,7 @@ extension Batch {
 
     public enum CRType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
+        case ecsManagedInstances = "ECS_MANAGED_INSTANCES"
         case fargate = "FARGATE"
         case fargateSpot = "FARGATE_SPOT"
         case spot = "SPOT"
@@ -83,6 +84,13 @@ extension Batch {
         case spotCapacityOptimized = "SPOT_CAPACITY_OPTIMIZED"
         case spotCapacityOptimizedPrioritized = "SPOT_CAPACITY_OPTIMIZED_PRIORITIZED"
         case spotPriceCapacityOptimized = "SPOT_PRICE_CAPACITY_OPTIMIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContainerInsights: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case enhanced = "ENHANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -136,6 +144,7 @@ extension Batch {
     public enum JobQueueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ecs = "ECS"
         case ecsFargate = "ECS_FARGATE"
+        case ecsManagedInstances = "ECS_MANAGED_INSTANCES"
         case eks = "EKS"
         case sagemakerTraining = "SAGEMAKER_TRAINING"
         public var description: String { return self.rawValue }
@@ -184,6 +193,7 @@ extension Batch {
     public enum PlatformCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "EC2"
         case fargate = "FARGATE"
+        case managedInstances = "MANAGED_INSTANCES"
         public var description: String { return self.rawValue }
     }
 
@@ -512,6 +522,24 @@ extension Batch {
         }
     }
 
+    public struct CapacityReservationRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the capacity reservation group to target.
+        public let reservationGroupArn: String?
+        /// The capacity reservation preference. Valid values:    RESERVATIONS_ONLY — Use only capacity reservations.    RESERVATIONS_FIRST — Prefer capacity reservations but fall back to On-Demand if unavailable.    RESERVATIONS_EXCLUDED — Do not use capacity reservations.
+        public let reservationPreference: String?
+
+        @inlinable
+        public init(reservationGroupArn: String? = nil, reservationPreference: String? = nil) {
+            self.reservationGroupArn = reservationGroupArn
+            self.reservationPreference = reservationPreference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationGroupArn = "reservationGroupArn"
+            case reservationPreference = "reservationPreference"
+        }
+    }
+
     public struct ComputeEnvironmentDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the compute environment.
         public let computeEnvironmentArn: String?
@@ -525,6 +553,8 @@ extension Batch {
         public let context: String?
         /// The Amazon Resource Name (ARN) of the underlying Amazon ECS cluster that the compute environment uses.
         public let ecsClusterArn: String?
+        /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection.
+        public let ecsSettings: EcsSettings?
         /// The configuration for the Amazon EKS cluster that supports the Batch compute environment. Only specify this parameter if the containerOrchestrationType is EKS.
         public let eksConfiguration: EksConfiguration?
         /// The service role that's associated with the compute environment that allows Batch to make calls to Amazon Web Services API operations on your behalf. For more information, see Batch service IAM role in the Batch User Guide.
@@ -547,13 +577,14 @@ extension Batch {
         public let uuid: String?
 
         @inlinable
-        public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, containerOrchestrationType: OrchestrationType? = nil, context: String? = nil, ecsClusterArn: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil, uuid: String? = nil) {
+        public init(computeEnvironmentArn: String? = nil, computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, containerOrchestrationType: OrchestrationType? = nil, context: String? = nil, ecsClusterArn: String? = nil, ecsSettings: EcsSettings? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil, uuid: String? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
             self.containerOrchestrationType = containerOrchestrationType
             self.context = context
             self.ecsClusterArn = ecsClusterArn
+            self.ecsSettings = ecsSettings
             self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
             self.state = state
@@ -573,6 +604,7 @@ extension Batch {
             case containerOrchestrationType = "containerOrchestrationType"
             case context = "context"
             case ecsClusterArn = "ecsClusterArn"
+            case ecsSettings = "ecsSettings"
             case eksConfiguration = "eksConfiguration"
             case serviceRole = "serviceRole"
             case state = "state"
@@ -609,6 +641,8 @@ extension Batch {
         public let allocationStrategy: CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
+        /// The tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances launched by the compute environment. These tags are separate from the compute environment resource tags (the top-level tags parameter). Use capacityTags for cost allocation and organization of the underlying infrastructure resources. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public let capacityTags: [String: String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between  the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let desiredvCpus: Int?
         /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -623,6 +657,8 @@ extension Batch {
         public let instanceTypes: [String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a CreateComputeEnvironment API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
+        /// The configuration for the Amazon ECS Managed Instances capacity provider. This parameter is required when computeResources.type is ECS_MANAGED_INSTANCES and must not be specified for other compute environment types. For more information, see Amazon ECS Managed Instances compute environments in the Batch User Guide.
+        public let managedInstancesProvider: ManagedInstancesProvider?
         /// The maximum number of vCPUs that a compute environment can support.  With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let maxvCpus: Int?
         /// The minimum number of vCPUs that a compute environment should maintain (even if the compute  environment is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -639,13 +675,14 @@ extension Batch {
         public let subnets: [String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see Updating compute environments in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let tags: [String: String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.  Multi-node parallel jobs aren't supported on Spot Instances.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide. If you choose ECS_MANAGED_INSTANCES, you must also specify a managedInstancesProvider configuration. To use Spot capacity, set capacityOptionType to SPOT in the managedInstancesProvider.instanceLaunchTemplate configuration. For more information, see Amazon ECS Managed Instances compute environments in the Batch User Guide.  Multi-node parallel jobs aren't supported on Spot Instances or Amazon ECS Managed Instances.
         public let type: CRType?
 
         @inlinable
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, capacityTags: [String: String]? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, managedInstancesProvider: ManagedInstancesProvider? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -653,6 +690,7 @@ extension Batch {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -666,9 +704,10 @@ extension Batch {
 
         @available(*, deprecated, message: "Members imageId have been deprecated")
         @inlinable
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, capacityTags: [String: String]? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, managedInstancesProvider: ManagedInstancesProvider? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -676,6 +715,7 @@ extension Batch {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -688,6 +728,13 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
+            try self.capacityTags?.forEach {
+                try validate($0.key, name: "capacityTags.key", parent: name, max: 128)
+                try validate($0.key, name: "capacityTags.key", parent: name, min: 1)
+                try validate($0.value, name: "capacityTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.capacityTags, name: "capacityTags", parent: name, max: 50)
+            try self.validate(self.capacityTags, name: "capacityTags", parent: name, min: 1)
             try self.ec2Configuration?.forEach {
                 try $0.validate(name: "\(name).ec2Configuration[]")
             }
@@ -696,6 +743,7 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "allocationStrategy"
             case bidPercentage = "bidPercentage"
+            case capacityTags = "capacityTags"
             case desiredvCpus = "desiredvCpus"
             case ec2Configuration = "ec2Configuration"
             case ec2KeyPair = "ec2KeyPair"
@@ -703,6 +751,7 @@ extension Batch {
             case instanceRole = "instanceRole"
             case instanceTypes = "instanceTypes"
             case launchTemplate = "launchTemplate"
+            case managedInstancesProvider = "managedInstancesProvider"
             case maxvCpus = "maxvCpus"
             case minvCpus = "minvCpus"
             case placementGroup = "placementGroup"
@@ -720,6 +769,8 @@ extension Batch {
         public let allocationStrategy: CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let bidPercentage: Int?
+        /// The updated tags to apply to the Amazon ECS capacity provider and Amazon EC2 instances. This parameter is only valid for ECS_MANAGED_INSTANCES compute environments. You must have the batch:SetCapacityTags permission on the compute environment resource to use this parameter.
+        public let capacityTags: [String: String]?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between  the minimum and maximum values based on job queue demand.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters.   When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values.  Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see Troubleshooting Batch in the Batch User Guide.
         public let desiredvCpus: Int?
         /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2023 for EC2 (ECS) compute environments and EKS_AL2023 for EKS compute environments. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -734,6 +785,8 @@ extension Batch {
         public let instanceTypes: [String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see Launch template support in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let launchTemplate: LaunchTemplateSpecification?
+        /// The updated configuration for the Amazon ECS Managed Instances capacity provider. This parameter is only valid when the compute environment type is ECS_MANAGED_INSTANCES. You cannot change capacityOptionType or fipsEnabled on update.
+        public let managedInstancesProvider: UpdateManagedInstancesProviderConfiguration?
         /// The maximum number of Amazon EC2 vCPUs that an environment can reach.  With any allocation strategy except BEST_FIT using On-Demand (EC2) compute resources, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public let maxvCpus: Int?
         /// The minimum number of vCPUs that an environment should maintain (even if the compute environment  is DISABLED).  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -748,15 +801,16 @@ extension Batch {
         public let subnets: [String]?
         /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value (for example, { "Name": "Batch Instance - C4OnDemand" }). This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let tags: [String: String]?
-        /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.
+        /// The type of compute environment: EC2, SPOT, FARGATE, FARGATE_SPOT, or ECS_MANAGED_INSTANCES. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide. You cannot change the type to or from ECS_MANAGED_INSTANCES.
         public let type: CRType?
         /// Specifies whether the AMI ID is updated to the latest one that's supported by Batch when the compute environment has an infrastructure update. The default value is false.  An AMI ID can either be specified in the imageId or imageIdOverride parameters or be determined by the launch template that's specified in the launchTemplate parameter. If an AMI ID is specified any of these ways, this parameter is ignored. For more information about to update AMI IDs during an infrastructure update, see Updating the AMI ID in the Batch User Guide.  When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.
         public let updateToLatestImageVersion: Bool?
 
         @inlinable
-        public init(allocationStrategy: CRUpdateAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil, updateToLatestImageVersion: Bool? = nil) {
+        public init(allocationStrategy: CRUpdateAllocationStrategy? = nil, bidPercentage: Int? = nil, capacityTags: [String: String]? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, managedInstancesProvider: UpdateManagedInstancesProviderConfiguration? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil, updateToLatestImageVersion: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
+            self.capacityTags = capacityTags
             self.desiredvCpus = desiredvCpus
             self.ec2Configuration = ec2Configuration
             self.ec2KeyPair = ec2KeyPair
@@ -764,6 +818,7 @@ extension Batch {
             self.instanceRole = instanceRole
             self.instanceTypes = instanceTypes
             self.launchTemplate = launchTemplate
+            self.managedInstancesProvider = managedInstancesProvider
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
@@ -776,6 +831,13 @@ extension Batch {
         }
 
         public func validate(name: String) throws {
+            try self.capacityTags?.forEach {
+                try validate($0.key, name: "capacityTags.key", parent: name, max: 128)
+                try validate($0.key, name: "capacityTags.key", parent: name, min: 1)
+                try validate($0.value, name: "capacityTags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.capacityTags, name: "capacityTags", parent: name, max: 50)
+            try self.validate(self.capacityTags, name: "capacityTags", parent: name, min: 1)
             try self.ec2Configuration?.forEach {
                 try $0.validate(name: "\(name).ec2Configuration[]")
             }
@@ -784,6 +846,7 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case allocationStrategy = "allocationStrategy"
             case bidPercentage = "bidPercentage"
+            case capacityTags = "capacityTags"
             case desiredvCpus = "desiredvCpus"
             case ec2Configuration = "ec2Configuration"
             case ec2KeyPair = "ec2KeyPair"
@@ -791,6 +854,7 @@ extension Batch {
             case instanceRole = "instanceRole"
             case instanceTypes = "instanceTypes"
             case launchTemplate = "launchTemplate"
+            case managedInstancesProvider = "managedInstancesProvider"
             case maxvCpus = "maxvCpus"
             case minvCpus = "minvCpus"
             case placementGroup = "placementGroup"
@@ -1214,6 +1278,8 @@ extension Batch {
         public let computeResources: ComputeResource?
         /// Reserved.
         public let context: String?
+        /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+        public let ecsSettings: EcsSettings?
         /// The details for the Amazon EKS cluster that supports the compute environment.  To create a compute environment that uses EKS resources, the caller must have permissions to call eks:DescribeCluster.
         public let eksConfiguration: EksConfiguration?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If your account already created the Batch service-linked role, that role is used by default for your compute environment unless you specify a different role here. If the Batch service-linked role doesn't exist in your account, and no role is specified here, the service attempts to create the Batch service-linked role in your account. This automatic service-linked role creation only applies to MANAGED compute environments. For UNMANAGED compute environments, you must explicitly specify a serviceRole.  If your specified role has a path other than /, then you must specify either the full role ARN (recommended) or prefix the role name with the path. For example, if a role with the name bar has a path of /foo/, specify /foo/bar as the role name. For more information, see Friendly names and paths in the IAM User Guide.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
@@ -1228,10 +1294,11 @@ extension Batch {
         public let unmanagedvCpus: Int?
 
         @inlinable
-        public init(computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, context: String? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil) {
+        public init(computeEnvironmentName: String? = nil, computeResources: ComputeResource? = nil, context: String? = nil, ecsSettings: EcsSettings? = nil, eksConfiguration: EksConfiguration? = nil, serviceRole: String? = nil, state: CEState? = nil, tags: [String: String]? = nil, type: CEType? = nil, unmanagedvCpus: Int? = nil) {
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
             self.context = context
+            self.ecsSettings = ecsSettings
             self.eksConfiguration = eksConfiguration
             self.serviceRole = serviceRole
             self.state = state
@@ -1255,6 +1322,7 @@ extension Batch {
             case computeEnvironmentName = "computeEnvironmentName"
             case computeResources = "computeResources"
             case context = "context"
+            case ecsSettings = "ecsSettings"
             case eksConfiguration = "eksConfiguration"
             case serviceRole = "serviceRole"
             case state = "state"
@@ -2321,6 +2389,20 @@ extension Batch {
         }
     }
 
+    public struct EcsSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the CloudWatch Container Insights mode for the compute environment. Valid values are:  ENABLED  Turns on standard Container Insights, which collects CPU, memory, disk, and network utilization metrics for the compute environment.  ENHANCED  Turns on enhanced Container Insights, which collects the standard metrics along with additional per-task observability metrics.  DISABLED  Turns off Container Insights for the compute environment.   If you don't specify a value, the default is DISABLED. For more information, see Container Insights in the Batch User Guide.
+        public let containerInsights: ContainerInsights?
+
+        @inlinable
+        public init(containerInsights: ContainerInsights? = nil) {
+            self.containerInsights = containerInsights
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerInsights = "containerInsights"
+        }
+    }
+
     public struct EcsTaskDetails: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the container instance that hosts the task.
         public let containerInstanceArn: String?
@@ -2336,11 +2418,13 @@ extension Batch {
         public let ipcMode: String?
         /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public let networkConfiguration: NetworkConfiguration?
+        /// The network mode configured for the task. This field is populated for jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability) and always returns host.
+        public let networkMode: String?
         /// The process namespace to use for the containers in the task. The valid values are host, or task. For more information see pidMode in EcsTaskProperties.
         public let pidMode: String?
         /// The Fargate platform version where the jobs are running.
         public let platformVersion: String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Contains the operating system family and CPU architecture of the task.
         public let runtimePlatform: RuntimePlatform?
         /// The ARN of the Amazon ECS task.
         public let taskArn: String?
@@ -2350,7 +2434,7 @@ extension Batch {
         public let volumes: [Volume]?
 
         @inlinable
-        public init(containerInstanceArn: String? = nil, containers: [TaskContainerDetails]? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(containerInstanceArn: String? = nil, containers: [TaskContainerDetails]? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, networkMode: String? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskArn: String? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containerInstanceArn = containerInstanceArn
             self.containers = containers
             self.enableExecuteCommand = enableExecuteCommand
@@ -2358,6 +2442,7 @@ extension Batch {
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -2374,6 +2459,7 @@ extension Batch {
             case executionRoleArn = "executionRoleArn"
             case ipcMode = "ipcMode"
             case networkConfiguration = "networkConfiguration"
+            case networkMode = "networkMode"
             case pidMode = "pidMode"
             case platformVersion = "platformVersion"
             case runtimePlatform = "runtimePlatform"
@@ -2392,15 +2478,17 @@ extension Batch {
         public let ephemeralStorage: EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see Batch execution IAM role in the Batch User Guide.
         public let executionRoleArn: String?
-        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance.  If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference.
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance.  If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see IPC settings in the Docker run reference.  This parameter is not supported for jobs that run on Fargate resources.
         public let ipcMode: String?
-        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources or Amazon ECS Managed Instances must not specify this parameter.
         public let networkConfiguration: NetworkConfiguration?
+        /// The network mode to use for the task. Valid values: host. When not specified, the default is host. With host mode, the container shares the host instance's network stack directly. When running tasks that use the host network mode, do not run containers using the root user (UID 0). Running as root grants unrestricted access to host resources and increases the attack surface. This parameter only applies to jobs running on Amazon ECS Managed Instances (MANAGED_INSTANCES platform capability). It cannot be specified for Fargate or Amazon EC2 platform job definitions.
+        public let networkMode: String?
         /// The process namespace to use for the containers in the task. The valid values are host or task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see PID settings in the Docker run reference.
         public let pidMode: String?
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see Fargate platform versions in the Amazon Elastic Container Service Developer Guide.
         public let platformVersion: String?
-        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate or Amazon ECS Managed Instances. Use this to specify the operating system family (operatingSystemFamily) and CPU architecture (cpuArchitecture). For Amazon ECS Managed Instances, the valid value for operatingSystemFamily is LINUX (default). The valid values for cpuArchitecture are X86_64 and ARM64.
         public let runtimePlatform: RuntimePlatform?
         /// The Amazon Resource Name (ARN) that's associated with the Amazon ECS task.  This is object is comparable to ContainerProperties:jobRoleArn.
         public let taskRoleArn: String?
@@ -2408,13 +2496,14 @@ extension Batch {
         public let volumes: [Volume]?
 
         @inlinable
-        public init(containers: [TaskContainerProperties]? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
+        public init(containers: [TaskContainerProperties]? = nil, enableExecuteCommand: Bool? = nil, ephemeralStorage: EphemeralStorage? = nil, executionRoleArn: String? = nil, ipcMode: String? = nil, networkConfiguration: NetworkConfiguration? = nil, networkMode: String? = nil, pidMode: String? = nil, platformVersion: String? = nil, runtimePlatform: RuntimePlatform? = nil, taskRoleArn: String? = nil, volumes: [Volume]? = nil) {
             self.containers = containers
             self.enableExecuteCommand = enableExecuteCommand
             self.ephemeralStorage = ephemeralStorage
             self.executionRoleArn = executionRoleArn
             self.ipcMode = ipcMode
             self.networkConfiguration = networkConfiguration
+            self.networkMode = networkMode
             self.pidMode = pidMode
             self.platformVersion = platformVersion
             self.runtimePlatform = runtimePlatform
@@ -2429,6 +2518,7 @@ extension Batch {
             case executionRoleArn = "executionRoleArn"
             case ipcMode = "ipcMode"
             case networkConfiguration = "networkConfiguration"
+            case networkMode = "networkMode"
             case pidMode = "pidMode"
             case platformVersion = "platformVersion"
             case runtimePlatform = "runtimePlatform"
@@ -3382,6 +3472,126 @@ extension Batch {
         }
     }
 
+    public struct InfrastructureOptimization: AWSEncodableShape & AWSDecodableShape {
+        /// The number of seconds an instance can remain idle before it is terminated. Valid values are -1 or 0 to 3600. Use -1 as a special value to disable scale-in (instances are never terminated for being idle). If not specified, a default value applies.
+        public let scaleInAfter: Int?
+
+        @inlinable
+        public init(scaleInAfter: Int? = nil) {
+            self.scaleInAfter = scaleInAfter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleInAfter = "scaleInAfter"
+        }
+    }
+
+    public struct InstanceLaunchTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The capacity pricing model for the managed instances. Valid values:    ON_DEMAND (default) — On-Demand pricing.    SPOT — Spot Instances, which can provide significant cost savings for fault-tolerant workloads.
+        public let capacityOptionType: String?
+        /// The capacity reservation configuration for the managed instances. Use this to target On-Demand Capacity Reservations or Reserved Instances for predictable capacity and cost optimization.
+        public let capacityReservations: CapacityReservationRequest?
+        /// The Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances. The instance profile must use the AmazonECSInstanceRolePolicyForManagedInstances managed policy with a trust policy for ec2.amazonaws.com.
+        public let ec2InstanceProfileArn: String?
+        /// Specifies whether FIPS 140-2 validated cryptographic modules are enabled on the managed instances. Not available in all Regions.
+        public let fipsEnabled: Bool?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS). If not specified, instance tags are not accessible from IMDS.
+        public let instanceMetadataTagsPropagation: Bool?
+        /// The instance type requirements for the capacity provider. Use this to constrain which Amazon EC2 instance types Amazon ECS can launch. If not specified, all available instance types are eligible.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// The local storage configuration for the managed instances. If not specified, instance store volumes are not available to containers.
+        public let localStorageConfiguration: ManagedInstancesLocalStorageConfiguration?
+        /// The level of CloudWatch monitoring for the managed instances. Valid values are BASIC and DETAILED.
+        public let monitoring: String?
+        /// The network configuration for the managed instances. Specifies the VPC subnets and security groups where instances are launched.
+        public let networkConfiguration: ManagedInstancesNetworkConfiguration?
+        /// The storage configuration for the managed instances. Configures the root EBS volume size. If not specified, the service uses the default EBS volume size for the instance type.
+        public let storageConfiguration: ManagedInstancesStorageConfiguration?
+
+        @inlinable
+        public init(capacityOptionType: String? = nil, capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String? = nil, fipsEnabled: Bool? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: String? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+            self.capacityOptionType = capacityOptionType
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.fipsEnabled = fipsEnabled
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityOptionType = "capacityOptionType"
+            case capacityReservations = "capacityReservations"
+            case ec2InstanceProfileArn = "ec2InstanceProfileArn"
+            case fipsEnabled = "fipsEnabled"
+            case instanceMetadataTagsPropagation = "instanceMetadataTagsPropagation"
+            case instanceRequirements = "instanceRequirements"
+            case localStorageConfiguration = "localStorageConfiguration"
+            case monitoring = "monitoring"
+            case networkConfiguration = "networkConfiguration"
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct InstanceLaunchTemplateUpdate: AWSEncodableShape {
+        /// The updated capacity reservation configuration.
+        public let capacityReservations: CapacityReservationRequest?
+        /// The updated Amazon Resource Name (ARN) of the Amazon EC2 instance profile for the managed instances.
+        public let ec2InstanceProfileArn: String?
+        /// Specifies whether instance tags are accessible from the instance metadata service (IMDS).
+        public let instanceMetadataTagsPropagation: Bool?
+        /// The updated instance type requirements for the capacity provider.
+        public let instanceRequirements: InstanceRequirementsRequest?
+        /// The updated local storage configuration.
+        public let localStorageConfiguration: ManagedInstancesLocalStorageConfiguration?
+        /// The updated monitoring level. Valid values are BASIC and DETAILED.
+        public let monitoring: String?
+        /// The updated network configuration for the managed instances.
+        public let networkConfiguration: ManagedInstancesNetworkConfiguration?
+        /// The updated storage configuration for the managed instances.
+        public let storageConfiguration: ManagedInstancesStorageConfiguration?
+
+        @inlinable
+        public init(capacityReservations: CapacityReservationRequest? = nil, ec2InstanceProfileArn: String? = nil, instanceMetadataTagsPropagation: Bool? = nil, instanceRequirements: InstanceRequirementsRequest? = nil, localStorageConfiguration: ManagedInstancesLocalStorageConfiguration? = nil, monitoring: String? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration? = nil, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+            self.capacityReservations = capacityReservations
+            self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.instanceMetadataTagsPropagation = instanceMetadataTagsPropagation
+            self.instanceRequirements = instanceRequirements
+            self.localStorageConfiguration = localStorageConfiguration
+            self.monitoring = monitoring
+            self.networkConfiguration = networkConfiguration
+            self.storageConfiguration = storageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservations = "capacityReservations"
+            case ec2InstanceProfileArn = "ec2InstanceProfileArn"
+            case instanceMetadataTagsPropagation = "instanceMetadataTagsPropagation"
+            case instanceRequirements = "instanceRequirements"
+            case localStorageConfiguration = "localStorageConfiguration"
+            case monitoring = "monitoring"
+            case networkConfiguration = "networkConfiguration"
+            case storageConfiguration = "storageConfiguration"
+        }
+    }
+
+    public struct InstanceRequirementsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// A list of specific instance types or instance families that Amazon ECS can launch (for example, m5.large or g5). When specified, only these instance types are used.
+        public let allowedInstanceTypes: [String]?
+
+        @inlinable
+        public init(allowedInstanceTypes: [String]? = nil) {
+            self.allowedInstanceTypes = allowedInstanceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedInstanceTypes = "allowedInstanceTypes"
+        }
+    }
+
     public struct JobCapacityUsageSummary: AWSDecodableShape {
         /// The unit of measure for the capacity usage. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
         public let capacityUnit: String?
@@ -3419,7 +3629,7 @@ extension Batch {
         public let nodeProperties: NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see Job definition parameters in the Batch User Guide.
         public let parameters: [String: String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public let platformCapabilities: [PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public let propagateTags: Bool?
@@ -3539,7 +3749,7 @@ extension Batch {
         public let nodeProperties: NodeProperties?
         /// Additional parameters that are passed to the job that replace parameter substitution placeholders or override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. Jobs run on Fargate resources specify FARGATE. Jobs run on Amazon ECS Managed Instances specify MANAGED_INSTANCES.
         public let platformCapabilities: [PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags aren't propagated. Tags can only be propagated to the tasks when the tasks are created. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.
         public let propagateTags: Bool?
@@ -4319,6 +4529,78 @@ extension Batch {
         }
     }
 
+    public struct ManagedInstancesLocalStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether instance store volumes (local NVMe SSDs) are available to containers. When enabled, containers can use the instance store for high-performance temporary storage.
+        public let useLocalStorage: Bool?
+
+        @inlinable
+        public init(useLocalStorage: Bool? = nil) {
+            self.useLocalStorage = useLocalStorage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case useLocalStorage = "useLocalStorage"
+        }
+    }
+
+    public struct ManagedInstancesNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC security groups to associate with the managed instances.
+        public let securityGroups: [String]?
+        /// The VPC subnets where managed instances are launched. If your subnets don't provide public IP addresses, they must have a NAT gateway for outbound internet access.
+        public let subnets: [String]?
+
+        @inlinable
+        public init(securityGroups: [String]? = nil, subnets: [String]? = nil) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+        }
+    }
+
+    public struct ManagedInstancesProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The infrastructure optimization configuration for the capacity provider. Specifies the idle-instance scale-in behavior.
+        public let infrastructureOptimization: InfrastructureOptimization?
+        /// The Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf. This role must have a trust policy for ecs.amazonaws.com. You must have the iam:PassRole permission for this role with the condition iam:PassedToService: ecs.amazonaws.com.
+        public let infrastructureRoleArn: String?
+        /// The instance launch configuration for the Amazon ECS Managed Instances capacity provider. Contains networking, instance profile, instance requirements, capacity type, storage, and monitoring configuration.
+        public let instanceLaunchTemplate: InstanceLaunchTemplate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:    CAPACITY_PROVIDER — Propagates tags to instances.    NONE (default) — Does not propagate tags to instances.
+        public let propagateTags: String?
+
+        @inlinable
+        public init(infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String? = nil, instanceLaunchTemplate: InstanceLaunchTemplate? = nil, propagateTags: String? = nil) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureOptimization = "infrastructureOptimization"
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case instanceLaunchTemplate = "instanceLaunchTemplate"
+            case propagateTags = "propagateTags"
+        }
+    }
+
+    public struct ManagedInstancesStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the root EBS volume in GiB for the managed instances.
+        public let storageSizeGiB: Int?
+
+        @inlinable
+        public init(storageSizeGiB: Int? = nil) {
+            self.storageSizeGiB = storageSizeGiB
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageSizeGiB = "storageSizeGiB"
+        }
+    }
+
     public struct MountPoint: AWSEncodableShape & AWSDecodableShape {
         /// The path on the container where the host volume is mounted.
         public let containerPath: String?
@@ -4760,7 +5042,7 @@ extension Batch {
         public let nodeProperties: NodeProperties?
         /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
         public let parameters: [String: String]?
-        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE.  If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
+        /// The platform capabilities required by the job definition. If no value is specified, it defaults to EC2. To run the job on Fargate resources, specify FARGATE. To run the job on Amazon ECS Managed Instances, specify MANAGED_INSTANCES. Jobs with the MANAGED_INSTANCES platform capability must use ecsProperties (not containerProperties) and do not support multi-node parallel jobs.  If the job runs on Amazon EKS resources, then you must not specify platformCapabilities.
         public let platformCapabilities: [PlatformCapability]?
         /// Specifies whether to propagate the tags from the job or job definition to the corresponding Amazon ECS task. If no value is specified, the tags are not propagated. Tags can only be propagated to the tasks during task creation. For tags with the same name, job tags are given priority over job definitions tags. If the total number of combined tags from the job and job definition is over 50, the job is moved to the FAILED state.  If the job runs on Amazon EKS resources, then you must not specify propagateTags.
         public let propagateTags: Bool?
@@ -4862,9 +5144,9 @@ extension Batch {
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public let type: ResourceType?
-        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on Amazon EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, or 4  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, 53248, or 61440   VCPU = 8  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880   VCPU = 16    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440
+        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified.  type="GPU"  The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on.  GPUs aren't available for jobs that are running on Fargate resources.   type="MEMORY"  The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on Amazon EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run.  If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory management in the Batch User Guide.  For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value.  value = 512   VCPU = 0.25  value = 1024   VCPU = 0.25 or 0.5  value = 2048   VCPU = 0.25, 0.5, or 1  value = 3072   VCPU = 0.5, or 1  value = 4096   VCPU = 0.5, 1, or 2  value = 5120, 6144, or 7168   VCPU = 1 or 2  value = 8192   VCPU = 1, 2, or 4  value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360   VCPU = 2 or 4  value = 16384   VCPU = 2, 4, or 8  value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720   VCPU = 4  value = 20480, 24576, or 28672   VCPU = 4 or 8  value = 36864, 45056, or 53248   VCPU = 8  value = 61440   VCPU = 8 or 32  value = 32768, 40960, 49152, or 57344   VCPU = 8 or 16  value = 65536, 73728, 81920, 90112, 98304, 106496, or 114688   VCPU = 16  value = 122880   VCPU = 16 or 32  value = 249856   VCPU = 32    type="VCPU"  The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see Fargate quotas in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, 16, and 32.  value = 0.25   MEMORY = 512, 1024, or 2048  value = 0.5   MEMORY = 1024, 2048, 3072, or 4096  value = 1   MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192  value = 2   MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384  value = 4   MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720  value = 8   MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440
         ///   value = 16   MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
-        ///
+        ///   value = 32   MEMORY = 61440, 122880, or 249856
         public let value: String?
 
         @inlinable
@@ -5949,6 +6231,8 @@ extension Batch {
         public let computeResources: ComputeResourceUpdate?
         /// Reserved.
         public let context: String?
+        /// The Amazon ECS settings for the compute environment. These settings control CloudWatch Container Insights collection for the compute environment.
+        public let ecsSettings: EcsSettings?
         /// The full Amazon Resource Name (ARN) of the IAM role that allows Batch to make calls to other Amazon Web Services services on your behalf. For more information, see Batch service IAM role in the Batch User Guide.  If the compute environment has a service-linked role, it can't be changed to use a regular IAM role. Likewise, if the compute environment has a regular IAM role, it can't be changed to use a service-linked role. To update the parameters for the compute environment that require an infrastructure update to change, the AWSServiceRoleForBatch service-linked role must be used. For more information, see Updating compute environments in the Batch User Guide.  If your specified role has a path other than /, then you must either specify the full role ARN (recommended) or prefix the role name with the path.  Depending on how you created your Batch service role, its ARN might contain the service-role path prefix. When you only specify the name of the service role, Batch assumes that your ARN doesn't use the service-role path prefix. Because of this, we recommend that you specify the full ARN of your service role when you create compute environments.
         public let serviceRole: String?
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges, for example, if they have running instances due to jobs that are still executing or a non-zero minvCpus setting. To prevent additional charges, disable and delete the compute environment.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
@@ -5959,10 +6243,11 @@ extension Batch {
         public let updatePolicy: UpdatePolicy?
 
         @inlinable
-        public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, context: String? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
+        public init(computeEnvironment: String? = nil, computeResources: ComputeResourceUpdate? = nil, context: String? = nil, ecsSettings: EcsSettings? = nil, serviceRole: String? = nil, state: CEState? = nil, unmanagedvCpus: Int? = nil, updatePolicy: UpdatePolicy? = nil) {
             self.computeEnvironment = computeEnvironment
             self.computeResources = computeResources
             self.context = context
+            self.ecsSettings = ecsSettings
             self.serviceRole = serviceRole
             self.state = state
             self.unmanagedvCpus = unmanagedvCpus
@@ -5978,6 +6263,7 @@ extension Batch {
             case computeEnvironment = "computeEnvironment"
             case computeResources = "computeResources"
             case context = "context"
+            case ecsSettings = "ecsSettings"
             case serviceRole = "serviceRole"
             case state = "state"
             case unmanagedvCpus = "unmanagedvCpus"
@@ -6109,6 +6395,32 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case jobQueueArn = "jobQueueArn"
             case jobQueueName = "jobQueueName"
+        }
+    }
+
+    public struct UpdateManagedInstancesProviderConfiguration: AWSEncodableShape {
+        /// The updated infrastructure optimization configuration.
+        public let infrastructureOptimization: InfrastructureOptimization?
+        /// The updated Amazon Resource Name (ARN) of the IAM role that Amazon ECS assumes to manage Amazon EC2 instances on your behalf.
+        public let infrastructureRoleArn: String?
+        /// The updated instance launch configuration for the Amazon ECS Managed Instances capacity provider.
+        public let instanceLaunchTemplate: InstanceLaunchTemplateUpdate?
+        /// Specifies whether tags on the capacity provider are propagated to the Amazon EC2 instances it launches. Valid values:    CAPACITY_PROVIDER — Propagates tags to instances.    NONE — Does not propagate tags to instances.
+        public let propagateTags: String?
+
+        @inlinable
+        public init(infrastructureOptimization: InfrastructureOptimization? = nil, infrastructureRoleArn: String? = nil, instanceLaunchTemplate: InstanceLaunchTemplateUpdate? = nil, propagateTags: String? = nil) {
+            self.infrastructureOptimization = infrastructureOptimization
+            self.infrastructureRoleArn = infrastructureRoleArn
+            self.instanceLaunchTemplate = instanceLaunchTemplate
+            self.propagateTags = propagateTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case infrastructureOptimization = "infrastructureOptimization"
+            case infrastructureRoleArn = "infrastructureRoleArn"
+            case instanceLaunchTemplate = "instanceLaunchTemplate"
+            case propagateTags = "propagateTags"
         }
     }
 

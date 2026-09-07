@@ -503,6 +503,12 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpcProvisioningStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createNew = "CREATE_NEW"
+        case useExisting = "USE_EXISTING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WaveHealthStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case healthy = "HEALTHY"
@@ -875,6 +881,33 @@ extension Mgn {
         }
     }
 
+    public struct CidrMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The original CIDR range in the source network.
+        public let originalCidr: String
+        /// The updated CIDR range to use in the target network.
+        public let updatedCidr: String
+
+        @inlinable
+        public init(originalCidr: String, updatedCidr: String) {
+            self.originalCidr = originalCidr
+            self.updatedCidr = updatedCidr
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.originalCidr, name: "originalCidr", parent: name, max: 18)
+            try self.validate(self.originalCidr, name: "originalCidr", parent: name, min: 9)
+            try self.validate(self.originalCidr, name: "originalCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+            try self.validate(self.updatedCidr, name: "updatedCidr", parent: name, max: 18)
+            try self.validate(self.updatedCidr, name: "updatedCidr", parent: name, min: 9)
+            try self.validate(self.updatedCidr, name: "updatedCidr", parent: name, pattern: "^((25[0-4]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])\\/(1[6-9]|2[0-8])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originalCidr = "originalCidr"
+            case updatedCidr = "updatedCidr"
+        }
+    }
+
     public struct CodeGenerationOutputFormatStatusDetails: AWSDecodableShape {
         /// The status of the code generation for this output format.
         public let status: CodeGenerationOutputFormatStatus?
@@ -1160,6 +1193,8 @@ extension Mgn {
     }
 
     public struct CreateNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
+        public let cidrMappings: [CidrMapping]?
         /// A description of the network migration definition.
         public let description: String?
         /// The name of the network migration definition.
@@ -1176,9 +1211,12 @@ extension Mgn {
         public let targetNetwork: TargetNetwork
         /// The S3 configuration for storing the target network artifacts.
         public let targetS3Configuration: TargetS3Configuration
+        /// Specifies whether to create new target VPCs or use existing ones. Set to CREATE_NEW to provision new target VPCs as part of the migration, or USE_EXISTING to migrate into existing VPCs in the target account.
+        public let vpcProvisioningStrategy: VpcProvisioningStrategy?
 
         @inlinable
-        public init(description: String? = nil, name: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork, targetS3Configuration: TargetS3Configuration) {
+        public init(cidrMappings: [CidrMapping]? = nil, description: String? = nil, name: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork, targetS3Configuration: TargetS3Configuration, vpcProvisioningStrategy: VpcProvisioningStrategy? = nil) {
+            self.cidrMappings = cidrMappings
             self.description = description
             self.name = name
             self.scopeTags = scopeTags
@@ -1187,9 +1225,14 @@ extension Mgn {
             self.targetDeployment = targetDeployment
             self.targetNetwork = targetNetwork
             self.targetS3Configuration = targetS3Configuration
+            self.vpcProvisioningStrategy = vpcProvisioningStrategy
         }
 
         public func validate(name: String) throws {
+            try self.cidrMappings?.forEach {
+                try $0.validate(name: "\(name).cidrMappings[]")
+            }
+            try self.validate(self.cidrMappings, name: "cidrMappings", parent: name, max: 50)
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -1217,6 +1260,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrMappings = "cidrMappings"
             case description = "description"
             case name = "name"
             case scopeTags = "scopeTags"
@@ -1225,6 +1269,7 @@ extension Mgn {
             case targetDeployment = "targetDeployment"
             case targetNetwork = "targetNetwork"
             case targetS3Configuration = "targetS3Configuration"
+            case vpcProvisioningStrategy = "vpcProvisioningStrategy"
         }
     }
 
@@ -1996,7 +2041,7 @@ extension Mgn {
     }
 
     public struct DescribeSourceServersRequest: AWSEncodableShape {
-        /// Request to filter Source Servers list by Accoun ID.
+        /// Request to filter Source Servers list by Account ID.
         public let accountID: String?
         /// Request to filter Source Servers list.
         public let filters: DescribeSourceServersRequestFilters?
@@ -2079,9 +2124,9 @@ extension Mgn {
     }
 
     public struct DescribeSourceServersResponse: AWSDecodableShape {
-        /// Request to filter Source Servers list by item.
+        /// The list of returned Source Servers.
         public let items: [SourceServer]?
-        /// Request to filter Source Servers next token.
+        /// The token of the next Source Server to retrieve.
         public let nextToken: String?
 
         @inlinable
@@ -2881,9 +2926,9 @@ extension Mgn {
     }
 
     public struct ImportTaskSummaryWaves: AWSDecodableShape {
-        /// Import task summery waves created count.
+        /// Import task summary waves created count.
         public let createdCount: Int64?
-        /// Import task summery waves modified count.
+        /// Import task summary waves modified count.
         public let modifiedCount: Int64?
 
         @inlinable
@@ -3032,13 +3077,13 @@ extension Mgn {
     }
 
     public struct JobPostLaunchActionsLaunchStatus: AWSDecodableShape {
-        /// AWS Systems Manager Document's execution ID of the of the Job Post Launch Actions.
+        /// AWS Systems Manager Document's execution ID of the Job Post Launch Actions.
         public let executionID: String?
         /// AWS Systems Manager Document's execution status.
         public let executionStatus: PostLaunchActionExecutionStatus?
         /// AWS Systems Manager Document's failure reason.
         public let failureReason: String?
-        /// AWS Systems Manager's Document of the of the Job Post Launch Actions.
+        /// AWS Systems Manager's Document of the Job Post Launch Actions.
         public let ssmDocument: SsmDocument?
         /// AWS Systems Manager Document type.
         public let ssmDocumentType: SsmDocumentType?
@@ -3307,7 +3352,7 @@ extension Mgn {
     }
 
     public struct LifeCycle: AWSDecodableShape {
-        /// Lifecycle added to service data and time.
+        /// Lifecycle added to service date and time.
         public let addedToServiceDateTime: String?
         /// Lifecycle elapsed time and duration.
         public let elapsedReplicationDuration: String?
@@ -3434,7 +3479,7 @@ extension Mgn {
     }
 
     public struct LifeCycleLastTestFinalized: AWSDecodableShape {
-        /// Lifecycle Test failed API call date and time.
+        /// Lifecycle Test finalized API call date and time.
         public let apiCallDateTime: String?
 
         @inlinable
@@ -5433,7 +5478,7 @@ extension Mgn {
         public let artifactID: String?
         /// The sub-type of the artifact for further classification.
         public let artifactSubType: NetworkMigrationCodeGenerationArtifactSubType?
-        /// The type of the artifact, such as CLOUDFORMATION_TEMPLATE or TERRAFORM_MODULE.
+        /// The type of the generated artifact.
         public let artifactType: NetworkMigrationCodeGenerationArtifactType?
         /// The checksum of the artifact for integrity verification.
         public let checksum: Checksum?
@@ -5561,6 +5606,8 @@ extension Mgn {
     public struct NetworkMigrationDefinition: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the network migration definition.
         public let arn: String?
+        /// A list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings apply only when vpcProvisioningStrategy is set to USE_EXISTING.
+        public let cidrMappings: [CidrMapping]?
         /// The timestamp when the network migration definition was created.
         public let createdAt: Date?
         /// A description of the network migration definition.
@@ -5583,10 +5630,13 @@ extension Mgn {
         public let targetS3Configuration: TargetS3Configuration?
         /// The timestamp when the network migration definition was last updated.
         public let updatedAt: Date?
+        /// Indicates whether the migration creates new target VPCs or uses existing ones. CREATE_NEW provisions new target VPCs; USE_EXISTING migrates into existing VPCs in the target account.
+        public let vpcProvisioningStrategy: VpcProvisioningStrategy?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String? = nil, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork? = nil, targetS3Configuration: TargetS3Configuration? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, cidrMappings: [CidrMapping]? = nil, createdAt: Date? = nil, description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String? = nil, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, tags: [String: String]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetwork? = nil, targetS3Configuration: TargetS3Configuration? = nil, updatedAt: Date? = nil, vpcProvisioningStrategy: VpcProvisioningStrategy? = nil) {
             self.arn = arn
+            self.cidrMappings = cidrMappings
             self.createdAt = createdAt
             self.description = description
             self.name = name
@@ -5598,10 +5648,12 @@ extension Mgn {
             self.targetNetwork = targetNetwork
             self.targetS3Configuration = targetS3Configuration
             self.updatedAt = updatedAt
+            self.vpcProvisioningStrategy = vpcProvisioningStrategy
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case cidrMappings = "cidrMappings"
             case createdAt = "createdAt"
             case description = "description"
             case name = "name"
@@ -5613,6 +5665,7 @@ extension Mgn {
             case targetNetwork = "targetNetwork"
             case targetS3Configuration = "targetS3Configuration"
             case updatedAt = "updatedAt"
+            case vpcProvisioningStrategy = "vpcProvisioningStrategy"
         }
     }
 
@@ -5811,7 +5864,7 @@ extension Mgn {
         public let scopeTags: [String: String]?
         /// The unique identifier of the segment.
         public let segmentID: String?
-        /// The type of the segment, such as VPC, subnet, or security group.
+        /// The category of the network migration segment. A segment groups the network constructs (such as VPCs, subnets, and security groups) that are migrated together. Valid values: WORKLOAD, APPLIANCE.
         public let segmentType: NetworkMigrationMapperSegmentType?
         /// The target AWS account where this segment will be deployed.
         public let targetAccount: String?
@@ -7198,7 +7251,7 @@ extension Mgn {
         public let s3BucketOwner: String?
         /// Start export request s3key.
         public let s3Key: String
-        /// Start import request tags.
+        /// Start export request tags.
         public let tags: [String: String]?
 
         @inlinable
@@ -8433,6 +8486,8 @@ extension Mgn {
     }
 
     public struct UpdateNetworkMigrationDefinitionRequest: AWSEncodableShape {
+        /// The updated list of CIDR mappings that map original source CIDR ranges to updated target CIDR ranges. CIDR mappings can be provided only when vpcProvisioningStrategy is set to USE_EXISTING.
+        public let cidrMappings: [CidrMapping]?
         /// The updated description of the network migration definition.
         public let description: String?
         /// The updated name of the network migration definition.
@@ -8449,9 +8504,12 @@ extension Mgn {
         public let targetNetwork: TargetNetworkUpdate?
         /// The updated S3 configuration for storing the target network artifacts.
         public let targetS3Configuration: TargetS3ConfigurationUpdate?
+        /// Updates whether the migration creates new target VPCs or uses existing ones. Set to USE_EXISTING to migrate into existing VPCs in the target account, or to CREATE_NEW to provision new target VPCs.
+        public let vpcProvisioningStrategy: VpcProvisioningStrategy?
 
         @inlinable
-        public init(description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetworkUpdate? = nil, targetS3Configuration: TargetS3ConfigurationUpdate? = nil) {
+        public init(cidrMappings: [CidrMapping]? = nil, description: String? = nil, name: String? = nil, networkMigrationDefinitionID: String, scopeTags: [String: String]? = nil, sourceConfigurations: [SourceConfiguration]? = nil, targetDeployment: TargetDeployment? = nil, targetNetwork: TargetNetworkUpdate? = nil, targetS3Configuration: TargetS3ConfigurationUpdate? = nil, vpcProvisioningStrategy: VpcProvisioningStrategy? = nil) {
+            self.cidrMappings = cidrMappings
             self.description = description
             self.name = name
             self.networkMigrationDefinitionID = networkMigrationDefinitionID
@@ -8460,9 +8518,14 @@ extension Mgn {
             self.targetDeployment = targetDeployment
             self.targetNetwork = targetNetwork
             self.targetS3Configuration = targetS3Configuration
+            self.vpcProvisioningStrategy = vpcProvisioningStrategy
         }
 
         public func validate(name: String) throws {
+            try self.cidrMappings?.forEach {
+                try $0.validate(name: "\(name).cidrMappings[]")
+            }
+            try self.validate(self.cidrMappings, name: "cidrMappings", parent: name, max: 50)
             try self.validate(self.description, name: "description", parent: name, max: 600)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\x00]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
@@ -8488,6 +8551,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cidrMappings = "cidrMappings"
             case description = "description"
             case name = "name"
             case networkMigrationDefinitionID = "networkMigrationDefinitionID"
@@ -8496,6 +8560,7 @@ extension Mgn {
             case targetDeployment = "targetDeployment"
             case targetNetwork = "targetNetwork"
             case targetS3Configuration = "targetS3Configuration"
+            case vpcProvisioningStrategy = "vpcProvisioningStrategy"
         }
     }
 
@@ -9144,7 +9209,7 @@ public struct MgnErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Operating denied due to a file permission or access check error.
+    /// Operation denied due to a file permission or access check error.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request could not be completed due to a conflict with the current state of the target resource.
     public static var conflictException: Self { .init(.conflictException) }
@@ -9152,7 +9217,7 @@ public struct MgnErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// Resource not found exception.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request could not be completed because its exceeded the service quota.
+    /// The request could not be completed because it exceeded the service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Reached throttling quota exception.
     public static var throttlingException: Self { .init(.throttlingException) }

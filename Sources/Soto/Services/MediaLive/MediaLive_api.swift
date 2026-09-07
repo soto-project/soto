@@ -5925,6 +5925,9 @@ extension MediaLive {
                 .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "IDLE")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("state", expected: "STOPPING")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETING")),
+                .init(state: .success, matcher: try! JMESPathMatcher("state", expected: "DELETED")),
+                .init(state: .failure, matcher: AWSErrorCodeMatcher("NotFoundException")),
             ],
             minDelayTime: .seconds(5),
             command: self.describeChannel

@@ -25,6 +25,12 @@ import Foundation
 extension ElementalInference {
     // MARK: Enums
 
+    public enum DataSourceSport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case americanFootball = "american-football"
+        case basketball = "basketball"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DictionaryLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deu = "deu"
         case eng = "eng"
@@ -52,6 +58,11 @@ extension ElementalInference {
         case deleted = "DELETED"
         case deleting = "DELETING"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case competitor = "COMPETITOR"
         public var description: String { return self.rawValue }
     }
 
@@ -127,10 +138,10 @@ extension ElementalInference {
             switch self {
             case .clipping(let value):
                 try value.validate(name: "\(name).clipping")
+            case .cropping(let value):
+                try value.validate(name: "\(name).cropping")
             case .subtitling(let value):
                 try value.validate(name: "\(name).subtitling")
-            default:
-                break
             }
         }
 
@@ -226,19 +237,42 @@ extension ElementalInference {
     public struct ClippingConfig: AWSEncodableShape & AWSDecodableShape {
         /// A string that you want Elemental Inference to always include in the event clipping metadata for this output. The string might identify the sports event in the source media, for example.
         public let callbackMetadata: String?
+        /// The data source to map onto this clipping output. This parameter is optional. When you include this parameter, Elemental Inference reads the event data for the fixture that you specify, and includes that data in the event clipping metadata for this output.  If you omit this parameter, Elemental Inference doesn't map a data source onto this output.
+        public let dataSourceConfiguration: DataSourceConfiguration?
 
         @inlinable
-        public init(callbackMetadata: String? = nil) {
+        public init(callbackMetadata: String? = nil, dataSourceConfiguration: DataSourceConfiguration? = nil) {
             self.callbackMetadata = callbackMetadata
+            self.dataSourceConfiguration = dataSourceConfiguration
         }
 
         public func validate(name: String) throws {
             try self.validate(self.callbackMetadata, name: "callbackMetadata", parent: name, max: 1024)
             try self.validate(self.callbackMetadata, name: "callbackMetadata", parent: name, pattern: "^[\\w \\-\\.',@:;]*$")
+            try self.dataSourceConfiguration?.validate(name: "\(name).dataSourceConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case callbackMetadata = "callbackMetadata"
+            case dataSourceConfiguration = "dataSourceConfiguration"
+        }
+    }
+
+    public struct Competitor: AWSDecodableShape {
+        /// Specifies whether this competitor is the home side in the fixture. If true, this competitor is the home side. If false, this competitor is the away side.
+        public let isHome: Bool?
+        /// The name of the competitor, as provided by the data source.
+        public let name: String?
+
+        @inlinable
+        public init(isHome: Bool? = nil, name: String? = nil) {
+            self.isHome = isHome
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isHome = "isHome"
+            case name = "name"
         }
     }
 
@@ -317,6 +351,8 @@ extension ElementalInference {
     }
 
     public struct CreateFeedRequest: AWSEncodableShape {
+        /// The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. For example, the smart crop feature uses this role to read graphics-compositing templates from your Amazon S3 bucket. You specify one access role for each feed.
+        public let accessRoleArn: String?
         /// A user-friendly name for this feed.
         public let name: String
         /// An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed.
@@ -325,13 +361,17 @@ extension ElementalInference {
         public let tags: [String: String]?
 
         @inlinable
-        public init(name: String, outputs: [CreateOutput], tags: [String: String]? = nil) {
+        public init(accessRoleArn: String? = nil, name: String, outputs: [CreateOutput], tags: [String: String]? = nil) {
+            self.accessRoleArn = accessRoleArn
             self.name = name
             self.outputs = outputs
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, max: 255)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, min: 32)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::[0-9]{12}:role/.+$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
             try self.outputs.forEach {
                 try $0.validate(name: "\(name).outputs[]")
@@ -344,6 +384,7 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
             case name = "name"
             case outputs = "outputs"
             case tags = "tags"
@@ -351,6 +392,8 @@ extension ElementalInference {
     }
 
     public struct CreateFeedResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that you specified in the request. This property is absent if you didn't specify an IAM role.
+        public let accessRoleArn: String?
         /// A unique ARN that Elemental Inference assigns to the feed.
         public let arn: String
         /// The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed or UpdateFeed.
@@ -369,7 +412,8 @@ extension ElementalInference {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+        public init(accessRoleArn: String? = nil, arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+            self.accessRoleArn = accessRoleArn
             self.arn = arn
             self.association = association
             self.dataEndpoints = dataEndpoints
@@ -381,6 +425,7 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
             case arn = "arn"
             case association = "association"
             case dataEndpoints = "dataEndpoints"
@@ -426,7 +471,44 @@ extension ElementalInference {
     }
 
     public struct CroppingConfig: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// An array of template groups for the crop output. Each template group provides the graphics-compositing templates that Elemental Inference applies to the cropped video. You can specify from 1 to 4 template groups.
+        public let templateGroups: [TemplateGroup]?
+
+        @inlinable
+        public init(templateGroups: [TemplateGroup]? = nil) {
+            self.templateGroups = templateGroups
+        }
+
+        public func validate(name: String) throws {
+            try self.templateGroups?.forEach {
+                try $0.validate(name: "\(name).templateGroups[]")
+            }
+            try self.validate(self.templateGroups, name: "templateGroups", parent: name, max: 4)
+            try self.validate(self.templateGroups, name: "templateGroups", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateGroups = "templateGroups"
+        }
+    }
+
+    public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the fixture whose event data you want Elemental Inference to map onto this clipping output. The fixture should be the sports event in the source media that the feed is processing.  To obtain this ID, use the SearchFixtures operation to find the fixture, then use the fixtureId from the matching FixtureSummary.
+        public let fixtureId: String
+
+        @inlinable
+        public init(fixtureId: String) {
+            self.fixtureId = fixtureId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fixtureId, name: "fixtureId", parent: name, max: 128)
+            try self.validate(self.fixtureId, name: "fixtureId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixtureId = "fixtureId"
+        }
     }
 
     public struct DeleteDictionaryRequest: AWSEncodableShape {
@@ -685,6 +767,40 @@ extension ElementalInference {
         }
     }
 
+    public struct FixtureSummary: AWSDecodableShape {
+        /// An array of the competitors (the teams or individuals) in the fixture.
+        public let competitors: [Competitor]
+        /// The group that the fixture belongs to, such as the competition, league, or tournament. The data source doesn't provide this information for every fixture.
+        public let fixtureGroup: String?
+        /// The ID of the fixture. Specify this ID in the clipping output of a feed, to identify the fixture whose event data you want Elemental Inference to map onto the clipping metadata.
+        public let fixtureId: String
+        /// The name of the fixture, as provided by the data source. For example, the names of the two competing teams.
+        public let name: String
+        /// The scheduled start time of the fixture, as provided by the data source. The actual start time might differ.
+        public let scheduledStart: Date?
+        /// The status of the fixture in its lifecycle, as provided by the data source. For example, Scheduled or Completed.
+        public let status: String
+
+        @inlinable
+        public init(competitors: [Competitor], fixtureGroup: String? = nil, fixtureId: String, name: String, scheduledStart: Date? = nil, status: String) {
+            self.competitors = competitors
+            self.fixtureGroup = fixtureGroup
+            self.fixtureId = fixtureId
+            self.name = name
+            self.scheduledStart = scheduledStart
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case competitors = "competitors"
+            case fixtureGroup = "fixtureGroup"
+            case fixtureId = "fixtureId"
+            case name = "name"
+            case scheduledStart = "scheduledStart"
+            case status = "status"
+        }
+    }
+
     public struct GetDictionaryRequest: AWSEncodableShape {
         /// The ID of the dictionary to retrieve.
         public let id: String
@@ -770,6 +886,8 @@ extension ElementalInference {
     }
 
     public struct GetFeedResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that Elemental Inference assumes. Elemental Inference uses this role to access resources in your account on your behalf. This property is absent if the feed doesn't have an IAM role.
+        public let accessRoleArn: String?
         /// The ARN of the feed.
         public let arn: String
         /// Information about the resource that is associated with the feed. It's possible that there is no associated resource. This is not an error.
@@ -788,7 +906,8 @@ extension ElementalInference {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+        public init(accessRoleArn: String? = nil, arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+            self.accessRoleArn = accessRoleArn
             self.arn = arn
             self.association = association
             self.dataEndpoints = dataEndpoints
@@ -800,6 +919,7 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
             case arn = "arn"
             case association = "association"
             case dataEndpoints = "dataEndpoints"
@@ -808,6 +928,63 @@ extension ElementalInference {
             case outputs = "outputs"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetFixtureRequest: AWSEncodableShape {
+        /// The ID of the fixture to retrieve, as returned by SearchFixtures.
+        public let fixtureId: String
+
+        @inlinable
+        public init(fixtureId: String) {
+            self.fixtureId = fixtureId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.fixtureId, key: "fixtureId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fixtureId, name: "fixtureId", parent: name, max: 128)
+            try self.validate(self.fixtureId, name: "fixtureId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFixtureResponse: AWSDecodableShape {
+        /// An array of the competitors (the teams or individuals) in the fixture.
+        public let competitors: [Competitor]
+        /// The group that the fixture belongs to, such as the competition, league, or tournament. The data source doesn't provide this information for every fixture.
+        public let fixtureGroup: String?
+        /// The ID that you specified in the request.
+        public let fixtureId: String
+        /// The name of the fixture, as provided by the data source. For example, the names of the two competing teams.
+        public let name: String
+        /// The scheduled start time of the fixture, as provided by the data source. The actual start time might differ.
+        public let scheduledStart: Date?
+        /// The status of the fixture in its lifecycle, as provided by the data source. For example, Scheduled or Completed.
+        public let status: String
+
+        @inlinable
+        public init(competitors: [Competitor], fixtureGroup: String? = nil, fixtureId: String, name: String, scheduledStart: Date? = nil, status: String) {
+            self.competitors = competitors
+            self.fixtureGroup = fixtureGroup
+            self.fixtureId = fixtureId
+            self.name = name
+            self.scheduledStart = scheduledStart
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case competitors = "competitors"
+            case fixtureGroup = "fixtureGroup"
+            case fixtureId = "fixtureId"
+            case name = "name"
+            case scheduledStart = "scheduledStart"
+            case status = "status"
         }
     }
 
@@ -957,6 +1134,93 @@ extension ElementalInference {
         }
     }
 
+    public struct SearchFilter: AWSEncodableShape {
+        /// The dimension of the fixture to filter on. Valid values: COMPETITOR.
+        public let name: FilterName
+        /// An array of values to match in the dimension that you specified in name. You can specify up to 10 values. A fixture appears in the results if it matches at least one of these values.
+        public let values: [String]
+
+        @inlinable
+        public init(name: FilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case values = "values"
+        }
+    }
+
+    public struct SearchFixturesRequest: AWSEncodableShape {
+        /// The last day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD.  If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days.
+        public let endDate: String?
+        /// An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters.  A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values.
+        public let filters: [SearchFilter]?
+        /// The maximum number of fixtures to return for each API request. The service might return fewer fixtures than the maxResults value. When more fixtures match the search, the response also includes a nextToken value that you can use to fetch the next batch of results.
+        public let maxResults: Int?
+        /// The token that identifies the batch of results that you want to see. For example, you submit a SearchFixtures request with maxResults set at 5. The service returns the first batch of results (up to 5) and a nextToken value. To see the next batch of results, you submit the SearchFixtures request a second time, with the same search criteria, and specify the nextToken value.
+        public let nextToken: String?
+        /// The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for american-football fixtures).
+        public let sport: DataSourceSport
+        /// The first day of the search window, in UTC. The search includes fixtures that are scheduled on this day.  Specify the date in ISO 8601 format, as YYYY-MM-DD. For example, 2026-03-14.
+        public let startDate: String
+
+        @inlinable
+        public init(endDate: String? = nil, filters: [SearchFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sport: DataSourceSport, startDate: String) {
+            self.endDate = endDate
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sport = sport
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endDate, name: "endDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 10)
+            try self.validate(self.startDate, name: "startDate", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "endDate"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sport = "sport"
+            case startDate = "startDate"
+        }
+    }
+
+    public struct SearchFixturesResponse: AWSDecodableShape {
+        /// An array of FixtureSummary objects, one for each fixture that matches the search. The array is empty if no fixtures match.
+        public let fixtures: [FixtureSummary]
+        /// The token that identifies the next batch of results. To see the next batch, submit the SearchFixtures request again, with the same search criteria, and specify this value in nextToken.  This parameter is absent when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(fixtures: [FixtureSummary], nextToken: String? = nil) {
+            self.fixtures = fixtures
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixtures = "fixtures"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct SubtitlingConfig: AWSEncodableShape & AWSDecodableShape {
         /// The aspect ratio of the output video, specified as width and height integer values. Elemental Inference uses the aspect ratio to determine subtitle layout and line lengths.
         public let aspectRatio: AspectRatio?
@@ -1019,6 +1283,35 @@ extension ElementalInference {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct TemplateGroup: AWSEncodableShape & AWSDecodableShape {
+        /// A name for the template group.
+        public let name: String
+        /// An array of Amazon S3 URIs that point to the graphics-compositing templates for this group. You can specify 1 or 2 URIs. Each URI must be in the form s3://bucket-name/key. Elemental Inference reads these templates using the IAM role that you specify in accessRoleArn.
+        public let templateUris: [String]
+
+        @inlinable
+        public init(name: String, templateUris: [String]) {
+            self.name = name
+            self.templateUris = templateUris
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
+            try self.templateUris.forEach {
+                try validate($0, name: "templateUris[]", parent: name, max: 255)
+                try validate($0, name: "templateUris[]", parent: name, min: 10)
+                try validate($0, name: "templateUris[]", parent: name, pattern: "^s3://[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]/.+$")
+            }
+            try self.validate(self.templateUris, name: "templateUris", parent: name, max: 2)
+            try self.validate(self.templateUris, name: "templateUris", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case templateUris = "templateUris"
         }
     }
 
@@ -1133,6 +1426,8 @@ extension ElementalInference {
     }
 
     public struct UpdateFeedRequest: AWSEncodableShape {
+        /// The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. You can specify the existing role (to leave it unchanged) or a new role. You specify one access role for each feed.
+        public let accessRoleArn: String?
         /// The ID of the feed to update.
         public let id: String
         /// Required. You can specify the existing name (to leave it unchanged) or a new name.
@@ -1141,7 +1436,8 @@ extension ElementalInference {
         public let outputs: [UpdateOutput]
 
         @inlinable
-        public init(id: String, name: String, outputs: [UpdateOutput]) {
+        public init(accessRoleArn: String? = nil, id: String, name: String, outputs: [UpdateOutput]) {
+            self.accessRoleArn = accessRoleArn
             self.id = id
             self.name = name
             self.outputs = outputs
@@ -1150,12 +1446,16 @@ extension ElementalInference {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accessRoleArn, forKey: .accessRoleArn)
             request.encodePath(self.id, key: "id")
             try container.encode(self.name, forKey: .name)
             try container.encode(self.outputs, forKey: .outputs)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, max: 255)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, min: 32)
+            try self.validate(self.accessRoleArn, name: "accessRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::[0-9]{12}:role/.+$")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{19}$")
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9-_]{0,126}[a-zA-Z0-9])?$")
             try self.outputs.forEach {
@@ -1164,12 +1464,15 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
             case name = "name"
             case outputs = "outputs"
         }
     }
 
     public struct UpdateFeedResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role for the feed, after the update. This property is absent if the feed doesn't have an IAM role.
+        public let accessRoleArn: String?
         /// The ARN of the feed.
         public let arn: String
         /// Information about the resource that is associated with the feed, if any.
@@ -1188,7 +1491,8 @@ extension ElementalInference {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+        public init(accessRoleArn: String? = nil, arn: String, association: FeedAssociation? = nil, dataEndpoints: [String], id: String, name: String, outputs: [GetOutput], status: FeedStatus, tags: [String: String]? = nil) {
+            self.accessRoleArn = accessRoleArn
             self.arn = arn
             self.association = association
             self.dataEndpoints = dataEndpoints
@@ -1200,6 +1504,7 @@ extension ElementalInference {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessRoleArn = "accessRoleArn"
             case arn = "arn"
             case association = "association"
             case dataEndpoints = "dataEndpoints"
@@ -1256,9 +1561,11 @@ public struct ElementalInferenceErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case gatewayTimedOutException = "GatewayTimedOutException"
         case internalServerErrorException = "InternalServerErrorException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyRequestException = "TooManyRequestException"
         case validationException = "ValidationException"
     }
@@ -1285,12 +1592,16 @@ public struct ElementalInferenceErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request could not be completed due to a conflict.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request timed out before the service returned a response. This is a temporary condition. Retry the request. If the problem persists, contact AWS Support.
+    public static var gatewayTimedOutException: Self { .init(.gatewayTimedOutException) }
     /// An internal server error occurred. This is a temporary condition and the request can be retried. If the problem persists, contact AWS Support.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// The resource specified in the action doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was rejected because it would exceed one or more service quotas for your account. Review your service quotas and either delete unused resources or request a quota increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The service is temporarily unable to handle the request. Retry the request. If the problem persists, contact AWS Support.
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling. Too many requests have been made within a given time period. Reduce the frequency of requests and use exponential backoff when retrying.
     public static var tooManyRequestException: Self { .init(.tooManyRequestException) }
     /// The input fails to satisfy the constraints specified by the service. Check the error message for details about which parameter or field is invalid and correct the request before retrying.

@@ -170,18 +170,21 @@ public struct ElementalInference: AWSService {
     /// Creates a feed. The feed is the target for the live media stream that is being sent by the calling application. An example of a calling application is AWS Elemental MediaLive.  The key contents of the feed is an array of outputs. Each output represents an Elemental Inference feature. After you create the feed, you must associate a resource with the feed. At that point, you will have a useable feed: resource - feed - output or outputs.
     ///
     /// Parameters:
+    ///   - accessRoleArn: The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. For example, the smart crop feature uses this role to read graphics-compositing templates from your Amazon S3 bucket. You specify one access role for each feed.
     ///   - name: A user-friendly name for this feed.
     ///   - outputs: An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed.
     ///   - tags: Optional tags. You can also add tags later, using TagResource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFeed(
+        accessRoleArn: String? = nil,
         name: String,
         outputs: [CreateOutput],
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFeedResponse {
         let input = CreateFeedRequest(
+            accessRoleArn: accessRoleArn, 
             name: name, 
             outputs: outputs, 
             tags: tags
@@ -369,6 +372,35 @@ public struct ElementalInference: AWSService {
         return try await self.getFeed(input, logger: logger)
     }
 
+    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
+    @Sendable
+    @inlinable
+    public func getFixture(_ input: GetFixtureRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFixtureResponse {
+        try await self.client.execute(
+            operation: "GetFixture", 
+            path: "/v1/fixtures/{fixtureId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified fixture (a sports event, such as a specific basketball game). You obtain a fixtureId from SearchFixtures, or from the clipping output of a feed.
+    ///
+    /// Parameters:
+    ///   - fixtureId: The ID of the fixture to retrieve, as returned by SearchFixtures.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFixture(
+        fixtureId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFixtureResponse {
+        let input = GetFixtureRequest(
+            fixtureId: fixtureId
+        )
+        return try await self.getFixture(input, logger: logger)
+    }
+
     /// Lists the dictionaries in your account.
     @Sendable
     @inlinable
@@ -460,6 +492,50 @@ public struct ElementalInference: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
+    @Sendable
+    @inlinable
+    public func searchFixtures(_ input: SearchFixturesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchFixturesResponse {
+        try await self.client.execute(
+            operation: "SearchFixtures", 
+            path: "/v1/fixtures", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for the fixtures (sports events, such as a specific basketball game) that are available for a sport in a date window. Each fixture in the response includes a fixtureId that you specify in the clipping output of a feed, so that Elemental Inference maps the event data for that fixture onto the clipping metadata. This operation is paginated: if there are more fixtures than fit in one page, the response includes a nextToken that you pass in a subsequent request.
+    ///
+    /// Parameters:
+    ///   - endDate: The last day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD.  If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days.
+    ///   - filters: An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters.  A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values.
+    ///   - maxResults: The maximum number of fixtures to return for each API request. The service might return fewer fixtures than the maxResults value. When more fixtures match the search, the response also includes a nextToken value that you can use to fetch the next batch of results.
+    ///   - nextToken: The token that identifies the batch of results that you want to see. For example, you submit a SearchFixtures request with maxResults set at 5. The service returns the first batch of results (up to 5) and a nextToken value. To see the next batch of results, you submit the SearchFixtures request a second time, with the same search criteria, and specify the nextToken value.
+    ///   - sport: The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for american-football fixtures).
+    ///   - startDate: The first day of the search window, in UTC. The search includes fixtures that are scheduled on this day.  Specify the date in ISO 8601 format, as YYYY-MM-DD. For example, 2026-03-14.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchFixtures(
+        endDate: String? = nil,
+        filters: [SearchFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sport: DataSourceSport,
+        startDate: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchFixturesResponse {
+        let input = SearchFixturesRequest(
+            endDate: endDate, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sport: sport, 
+            startDate: startDate
+        )
+        return try await self.searchFixtures(input, logger: logger)
     }
 
     /// Associates the specified tags to the resource identified by the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
@@ -580,18 +656,21 @@ public struct ElementalInference: AWSService {
     /// Updates the name and/or outputs in a feed.  UpdateFeed is a PUT operation, which means that the payload that you specify completely overwrites the existing payload.  This means that if you want to touch the array of outputs, you must pass in the full new list. So you must omit outputs you want to delete, and include outputs you want to add or modify.  If you want to patch the array of outputs to make selective additions, use AssociateFeed.
     ///
     /// Parameters:
+    ///   - accessRoleArn: The ARN of an IAM role that Elemental Inference assumes to access resources in your account on your behalf. You can specify the existing role (to leave it unchanged) or a new role. You specify one access role for each feed.
     ///   - id: The ID of the feed to update.
     ///   - name: Required. You can specify the existing name (to leave it unchanged) or a new name.
     ///   - outputs: Required. You can specify the existing array of outputs (to leave outputs unchanged) or you can specify a new array.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFeed(
+        accessRoleArn: String? = nil,
         id: String,
         name: String,
         outputs: [UpdateOutput],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateFeedResponse {
         let input = UpdateFeedRequest(
+            accessRoleArn: accessRoleArn, 
             id: id, 
             name: name, 
             outputs: outputs
@@ -680,6 +759,52 @@ extension ElementalInference {
         )
         return self.listFeedsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``searchFixtures(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchFixturesPaginator(
+        _ input: SearchFixturesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchFixturesRequest, SearchFixturesResponse> {
+        return .init(
+            input: input,
+            command: self.searchFixtures,
+            inputKey: \SearchFixturesRequest.nextToken,
+            outputKey: \SearchFixturesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchFixtures(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endDate: The last day of the search window, in UTC. The search includes fixtures that are scheduled on this day. Specify the date in ISO 8601 format, as YYYY-MM-DD.  If you omit this parameter, Elemental Inference searches only the day that you specified in startDate. The window from startDate through endDate must not exceed seven days.
+    ///   - filters: An array of filters that narrow the results. Each filter applies to one dimension of a fixture, such as the competitor. You can specify up to 10 filters.  A fixture must satisfy every filter in the array in order to appear in the results. Within one filter, a fixture must match at least one of the values.
+    ///   - maxResults: The maximum number of fixtures to return for each API request. The service might return fewer fixtures than the maxResults value. When more fixtures match the search, the response also includes a nextToken value that you can use to fetch the next batch of results.
+    ///   - sport: The sport to search for fixtures. Valid values: basketball (search for basketball fixtures), american-football (search for american-football fixtures).
+    ///   - startDate: The first day of the search window, in UTC. The search includes fixtures that are scheduled on this day.  Specify the date in ISO 8601 format, as YYYY-MM-DD. For example, 2026-03-14.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchFixturesPaginator(
+        endDate: String? = nil,
+        filters: [SearchFilter]? = nil,
+        maxResults: Int? = nil,
+        sport: DataSourceSport,
+        startDate: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchFixturesRequest, SearchFixturesResponse> {
+        let input = SearchFixturesRequest(
+            endDate: endDate, 
+            filters: filters, 
+            maxResults: maxResults, 
+            sport: sport, 
+            startDate: startDate
+        )
+        return self.searchFixturesPaginator(input, logger: logger)
+    }
 }
 
 extension ElementalInference.ListDictionariesRequest: AWSPaginateToken {
@@ -698,6 +823,20 @@ extension ElementalInference.ListFeedsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension ElementalInference.SearchFixturesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ElementalInference.SearchFixturesRequest {
+        return .init(
+            endDate: self.endDate,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sport: self.sport,
+            startDate: self.startDate
         )
     }
 }

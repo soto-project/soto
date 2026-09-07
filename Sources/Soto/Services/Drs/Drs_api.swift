@@ -122,6 +122,35 @@ public struct Drs: AWSService {
         return try await self.associateSourceNetworkStack(input, logger: logger)
     }
 
+    /// Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
+    @Sendable
+    @inlinable
+    public func cancelRecoveryPlanExecution(_ input: CancelRecoveryPlanExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelRecoveryPlanExecutionResponse {
+        try await self.client.execute(
+            operation: "CancelRecoveryPlanExecution", 
+            path: "/CancelRecoveryPlanExecution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels an in-progress Recovery Plan execution. Remaining steps are skipped.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionArn: The ARN of the Recovery Plan execution to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelRecoveryPlanExecution(
+        recoveryPlanExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelRecoveryPlanExecutionResponse {
+        let input = CancelRecoveryPlanExecutionRequest(
+            recoveryPlanExecutionArn: recoveryPlanExecutionArn
+        )
+        return try await self.cancelRecoveryPlanExecution(input, logger: logger)
+    }
+
     /// Create an extended source server in the target Account based on the source server in staging account.
     @Sendable
     @inlinable
@@ -208,6 +237,85 @@ public struct Drs: AWSService {
             targetInstanceTypeRightSizingMethod: targetInstanceTypeRightSizingMethod
         )
         return try await self.createLaunchConfigurationTemplate(input, logger: logger)
+    }
+
+    /// Creates a Recovery Plan to orchestrate multi-server disaster recovery.
+    @Sendable
+    @inlinable
+    public func createRecoveryPlan(_ input: CreateRecoveryPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecoveryPlanResponse {
+        try await self.client.execute(
+            operation: "CreateRecoveryPlan", 
+            path: "/CreateRecoveryPlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a Recovery Plan to orchestrate multi-server disaster recovery.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique string provided to ensure request idempotency.
+    ///   - description: 
+    ///   - name: 
+    ///   - tags: The tags to apply to the Recovery Plan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRecoveryPlan(
+        clientToken: String? = CreateRecoveryPlanRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRecoveryPlanResponse {
+        let input = CreateRecoveryPlanRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createRecoveryPlan(input, logger: logger)
+    }
+
+    /// Creates a step in a Recovery Plan. A step is either SERVER type (servers to recover in parallel) or WAIT type (timed pause between steps).
+    @Sendable
+    @inlinable
+    public func createRecoveryPlanStep(_ input: CreateRecoveryPlanStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecoveryPlanStepResponse {
+        try await self.client.execute(
+            operation: "CreateRecoveryPlanStep", 
+            path: "/CreateRecoveryPlanStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a step in a Recovery Plan. A step is either SERVER type (servers to recover in parallel) or WAIT type (timed pause between steps).
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique string provided to ensure request idempotency.
+    ///   - configuration: 
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan to add the step to.
+    ///   - stepName: 
+    ///   - stepOrder: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRecoveryPlanStep(
+        clientToken: String? = CreateRecoveryPlanStepRequest.idempotencyToken(),
+        configuration: RecoveryPlanStepConfiguration,
+        recoveryPlanArn: String,
+        stepName: String,
+        stepOrder: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRecoveryPlanStepResponse {
+        let input = CreateRecoveryPlanStepRequest(
+            clientToken: clientToken, 
+            configuration: configuration, 
+            recoveryPlanArn: recoveryPlanArn, 
+            stepName: stepName, 
+            stepOrder: stepOrder
+        )
+        return try await self.createRecoveryPlanStep(input, logger: logger)
     }
 
     /// Creates a new ReplicationConfigurationTemplate.
@@ -439,6 +547,93 @@ public struct Drs: AWSService {
             recoveryInstanceID: recoveryInstanceID
         )
         return try await self.deleteRecoveryInstance(input, logger: logger)
+    }
+
+    /// Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (CREATED, IN_PROGRESS).
+    @Sendable
+    @inlinable
+    public func deleteRecoveryPlan(_ input: DeleteRecoveryPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecoveryPlanResponse {
+        try await self.client.execute(
+            operation: "DeleteRecoveryPlan", 
+            path: "/DeleteRecoveryPlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Recovery Plan. Cannot delete a plan that has an execution in a non-terminal status (CREATED, IN_PROGRESS).
+    ///
+    /// Parameters:
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecoveryPlan(
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecoveryPlanResponse {
+        let input = DeleteRecoveryPlanRequest(
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return try await self.deleteRecoveryPlan(input, logger: logger)
+    }
+
+    /// Deletes a Recovery Plan execution record. Must be in a terminal status.
+    @Sendable
+    @inlinable
+    public func deleteRecoveryPlanExecution(_ input: DeleteRecoveryPlanExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecoveryPlanExecutionResponse {
+        try await self.client.execute(
+            operation: "DeleteRecoveryPlanExecution", 
+            path: "/DeleteRecoveryPlanExecution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Recovery Plan execution record. Must be in a terminal status.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionArn: The ARN of the Recovery Plan execution to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecoveryPlanExecution(
+        recoveryPlanExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecoveryPlanExecutionResponse {
+        let input = DeleteRecoveryPlanExecutionRequest(
+            recoveryPlanExecutionArn: recoveryPlanExecutionArn
+        )
+        return try await self.deleteRecoveryPlanExecution(input, logger: logger)
+    }
+
+    /// Deletes a step from a Recovery Plan.
+    @Sendable
+    @inlinable
+    public func deleteRecoveryPlanStep(_ input: DeleteRecoveryPlanStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecoveryPlanStepResponse {
+        try await self.client.execute(
+            operation: "DeleteRecoveryPlanStep", 
+            path: "/DeleteRecoveryPlanStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a step from a Recovery Plan.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanStepArn: The ARN of the Recovery Plan step to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecoveryPlanStep(
+        recoveryPlanStepArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecoveryPlanStepResponse {
+        let input = DeleteRecoveryPlanStepRequest(
+            recoveryPlanStepArn: recoveryPlanStepArn
+        )
+        return try await self.deleteRecoveryPlanStep(input, logger: logger)
     }
 
     /// Deletes a single Replication Configuration Template by ID
@@ -959,6 +1154,122 @@ public struct Drs: AWSService {
         return try await self.getLaunchConfiguration(input, logger: logger)
     }
 
+    /// Gets a Recovery Plan by ARN.
+    @Sendable
+    @inlinable
+    public func getRecoveryPlan(_ input: GetRecoveryPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPlanResponse {
+        try await self.client.execute(
+            operation: "GetRecoveryPlan", 
+            path: "/GetRecoveryPlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a Recovery Plan by ARN.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecoveryPlan(
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecoveryPlanResponse {
+        let input = GetRecoveryPlanRequest(
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return try await self.getRecoveryPlan(input, logger: logger)
+    }
+
+    /// Gets the details of a Recovery Plan execution.
+    @Sendable
+    @inlinable
+    public func getRecoveryPlanExecution(_ input: GetRecoveryPlanExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPlanExecutionResponse {
+        try await self.client.execute(
+            operation: "GetRecoveryPlanExecution", 
+            path: "/GetRecoveryPlanExecution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a Recovery Plan execution.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionArn: The ARN of the Recovery Plan execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecoveryPlanExecution(
+        recoveryPlanExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecoveryPlanExecutionResponse {
+        let input = GetRecoveryPlanExecutionRequest(
+            recoveryPlanExecutionArn: recoveryPlanExecutionArn
+        )
+        return try await self.getRecoveryPlanExecution(input, logger: logger)
+    }
+
+    /// Gets the details of a step within a Recovery Plan execution.
+    @Sendable
+    @inlinable
+    public func getRecoveryPlanExecutionStep(_ input: GetRecoveryPlanExecutionStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPlanExecutionStepResponse {
+        try await self.client.execute(
+            operation: "GetRecoveryPlanExecutionStep", 
+            path: "/GetRecoveryPlanExecutionStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the details of a step within a Recovery Plan execution.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionStepArn: The ARN of the execution step.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecoveryPlanExecutionStep(
+        recoveryPlanExecutionStepArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecoveryPlanExecutionStepResponse {
+        let input = GetRecoveryPlanExecutionStepRequest(
+            recoveryPlanExecutionStepArn: recoveryPlanExecutionStepArn
+        )
+        return try await self.getRecoveryPlanExecutionStep(input, logger: logger)
+    }
+
+    /// Gets a Recovery Plan step by ARN.
+    @Sendable
+    @inlinable
+    public func getRecoveryPlanStep(_ input: GetRecoveryPlanStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecoveryPlanStepResponse {
+        try await self.client.execute(
+            operation: "GetRecoveryPlanStep", 
+            path: "/GetRecoveryPlanStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a Recovery Plan step by ARN.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanStepArn: The ARN of the Recovery Plan step to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecoveryPlanStep(
+        recoveryPlanStepArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecoveryPlanStepResponse {
+        let input = GetRecoveryPlanStepRequest(
+            recoveryPlanStepArn: recoveryPlanStepArn
+        )
+        return try await self.getRecoveryPlanStep(input, logger: logger)
+    }
+
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
     @Sendable
     @inlinable
@@ -1087,6 +1398,149 @@ public struct Drs: AWSService {
         return try await self.listLaunchActions(input, logger: logger)
     }
 
+    /// Lists all steps within a Recovery Plan execution.
+    @Sendable
+    @inlinable
+    public func listRecoveryPlanExecutionSteps(_ input: ListRecoveryPlanExecutionStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPlanExecutionStepsResponse {
+        try await self.client.execute(
+            operation: "ListRecoveryPlanExecutionSteps", 
+            path: "/ListRecoveryPlanExecutionSteps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all steps within a Recovery Plan execution.
+    ///
+    /// Parameters:
+    ///   - filter: Filters for listing execution steps.
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
+    ///   - recoveryPlanExecutionArn: The ARN of the Recovery Plan execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecoveryPlanExecutionSteps(
+        filter: ListRecoveryPlanExecutionStepsFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recoveryPlanExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecoveryPlanExecutionStepsResponse {
+        let input = ListRecoveryPlanExecutionStepsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recoveryPlanExecutionArn: recoveryPlanExecutionArn
+        )
+        return try await self.listRecoveryPlanExecutionSteps(input, logger: logger)
+    }
+
+    /// Lists executions of Recovery Plans, optionally filtered by plan or status.
+    @Sendable
+    @inlinable
+    public func listRecoveryPlanExecutions(_ input: ListRecoveryPlanExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPlanExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListRecoveryPlanExecutions", 
+            path: "/ListRecoveryPlanExecutions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists executions of Recovery Plans, optionally filtered by plan or status.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
+    ///   - recoveryPlanArn: Filter executions by Recovery Plan ARN.
+    ///   - status: Filter executions by status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecoveryPlanExecutions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recoveryPlanArn: String? = nil,
+        status: RecoveryPlanExecutionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecoveryPlanExecutionsResponse {
+        let input = ListRecoveryPlanExecutionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recoveryPlanArn: recoveryPlanArn, 
+            status: status
+        )
+        return try await self.listRecoveryPlanExecutions(input, logger: logger)
+    }
+
+    /// Lists all steps in a Recovery Plan.
+    @Sendable
+    @inlinable
+    public func listRecoveryPlanSteps(_ input: ListRecoveryPlanStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPlanStepsResponse {
+        try await self.client.execute(
+            operation: "ListRecoveryPlanSteps", 
+            path: "/ListRecoveryPlanSteps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all steps in a Recovery Plan.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecoveryPlanSteps(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecoveryPlanStepsResponse {
+        let input = ListRecoveryPlanStepsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return try await self.listRecoveryPlanSteps(input, logger: logger)
+    }
+
+    /// Lists all Recovery Plans in the account.
+    @Sendable
+    @inlinable
+    public func listRecoveryPlans(_ input: ListRecoveryPlansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecoveryPlansResponse {
+        try await self.client.execute(
+            operation: "ListRecoveryPlans", 
+            path: "/ListRecoveryPlans", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all Recovery Plans in the account.
+    ///
+    /// Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecoveryPlans(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecoveryPlansResponse {
+        let input = ListRecoveryPlansRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecoveryPlans(input, logger: logger)
+    }
+
     /// Returns an array of staging accounts for existing extended source servers.
     @Sendable
     @inlinable
@@ -1207,6 +1661,38 @@ public struct Drs: AWSService {
         return try await self.putLaunchAction(input, logger: logger)
     }
 
+    /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
+    @Sendable
+    @inlinable
+    public func reorderRecoveryPlanSteps(_ input: ReorderRecoveryPlanStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ReorderRecoveryPlanStepsResponse {
+        try await self.client.execute(
+            operation: "ReorderRecoveryPlanSteps", 
+            path: "/ReorderRecoveryPlanSteps", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reorders steps in a Recovery Plan. Accepts a complete ordered list of step ARNs.
+    ///
+    /// Parameters:
+    ///   - orderedStepArns: Ordered list of all step ARNs representing the desired sequence.
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func reorderRecoveryPlanSteps(
+        orderedStepArns: [String],
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ReorderRecoveryPlanStepsResponse {
+        let input = ReorderRecoveryPlanStepsRequest(
+            orderedStepArns: orderedStepArns, 
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return try await self.reorderRecoveryPlanSteps(input, logger: logger)
+    }
+
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     @Sendable
@@ -1236,6 +1722,35 @@ public struct Drs: AWSService {
             sourceServerID: sourceServerID
         )
         return try await self.retryDataReplication(input, logger: logger)
+    }
+
+    /// Retries a failed SERVER type execution step.
+    @Sendable
+    @inlinable
+    public func retryRecoveryPlanExecutionStep(_ input: RetryRecoveryPlanExecutionStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryRecoveryPlanExecutionStepResponse {
+        try await self.client.execute(
+            operation: "RetryRecoveryPlanExecutionStep", 
+            path: "/RetryRecoveryPlanExecutionStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retries a failed SERVER type execution step.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionStepArn: The ARN of the execution step to retry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func retryRecoveryPlanExecutionStep(
+        recoveryPlanExecutionStepArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RetryRecoveryPlanExecutionStepResponse {
+        let input = RetryRecoveryPlanExecutionStepRequest(
+            recoveryPlanExecutionStepArn: recoveryPlanExecutionStepArn
+        )
+        return try await self.retryRecoveryPlanExecutionStep(input, logger: logger)
     }
 
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
@@ -1332,6 +1847,47 @@ public struct Drs: AWSService {
             tags: tags
         )
         return try await self.startRecovery(input, logger: logger)
+    }
+
+    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan cannot have more than one execution in a non-terminal status at a time.
+    @Sendable
+    @inlinable
+    public func startRecoveryPlanExecution(_ input: StartRecoveryPlanExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecoveryPlanExecutionResponse {
+        try await self.client.execute(
+            operation: "StartRecoveryPlanExecution", 
+            path: "/StartRecoveryPlanExecution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts executing a Recovery Plan in DRILL or RECOVERY mode. A plan cannot have more than one execution in a non-terminal status at a time.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique string provided to ensure request idempotency.
+    ///   - mode: The execution mode (DRILL or RECOVERY).
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan to execute.
+    ///   - sourceServers: Optional list of source servers with specific recovery snapshots. If not provided, the latest snapshot is used for each server.
+    ///   - tags: The tags to apply to the Recovery Plan execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRecoveryPlanExecution(
+        clientToken: String? = StartRecoveryPlanExecutionRequest.idempotencyToken(),
+        mode: RecoveryPlanExecutionMode,
+        recoveryPlanArn: String,
+        sourceServers: [RecoveryPlanExecutionSourceServer]? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRecoveryPlanExecutionResponse {
+        let input = StartRecoveryPlanExecutionRequest(
+            clientToken: clientToken, 
+            mode: mode, 
+            recoveryPlanArn: recoveryPlanArn, 
+            sourceServers: sourceServers, 
+            tags: tags
+        )
+        return try await self.startRecoveryPlanExecution(input, logger: logger)
     }
 
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
@@ -1758,6 +2314,114 @@ public struct Drs: AWSService {
             targetInstanceTypeRightSizingMethod: targetInstanceTypeRightSizingMethod
         )
         return try await self.updateLaunchConfigurationTemplate(input, logger: logger)
+    }
+
+    /// Updates a Recovery Plan's name or description.
+    @Sendable
+    @inlinable
+    public func updateRecoveryPlan(_ input: UpdateRecoveryPlanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPlanResponse {
+        try await self.client.execute(
+            operation: "UpdateRecoveryPlan", 
+            path: "/UpdateRecoveryPlan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a Recovery Plan's name or description.
+    ///
+    /// Parameters:
+    ///   - description: 
+    ///   - name: 
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRecoveryPlan(
+        description: String? = nil,
+        name: String? = nil,
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRecoveryPlanResponse {
+        let input = UpdateRecoveryPlanRequest(
+            description: description, 
+            name: name, 
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return try await self.updateRecoveryPlan(input, logger: logger)
+    }
+
+    /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status.
+    @Sendable
+    @inlinable
+    public func updateRecoveryPlanExecutionStep(_ input: UpdateRecoveryPlanExecutionStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPlanExecutionStepResponse {
+        try await self.client.execute(
+            operation: "UpdateRecoveryPlanExecutionStep", 
+            path: "/UpdateRecoveryPlanExecutionStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an execution step. Supports two actions: (1) skip a step that is in NOT_STARTED or FAILED status; (2) update the wait duration of a WAIT type step that is in NOT_STARTED status.
+    ///
+    /// Parameters:
+    ///   - recoveryPlanExecutionStepArn: The ARN of the execution step to update.
+    ///   - servers: Full replacement of the server list. Only allowed when the step is in NOT_STARTED status (Server type steps only).
+    ///   - status: Only SKIPPED is accepted. Step must be in NOT_STARTED or FAILED status.
+    ///   - waitDurationMinutes: Updated wait duration. Only allowed when the step is in NOT_STARTED status (Wait type steps only).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRecoveryPlanExecutionStep(
+        recoveryPlanExecutionStepArn: String,
+        servers: [RecoveryPlanServer]? = nil,
+        status: RecoveryPlanExecutionStepStatus? = nil,
+        waitDurationMinutes: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRecoveryPlanExecutionStepResponse {
+        let input = UpdateRecoveryPlanExecutionStepRequest(
+            recoveryPlanExecutionStepArn: recoveryPlanExecutionStepArn, 
+            servers: servers, 
+            status: status, 
+            waitDurationMinutes: waitDurationMinutes
+        )
+        return try await self.updateRecoveryPlanExecutionStep(input, logger: logger)
+    }
+
+    /// Updates a Recovery Plan step's name or configuration. Step type is immutable.
+    @Sendable
+    @inlinable
+    public func updateRecoveryPlanStep(_ input: UpdateRecoveryPlanStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecoveryPlanStepResponse {
+        try await self.client.execute(
+            operation: "UpdateRecoveryPlanStep", 
+            path: "/UpdateRecoveryPlanStep", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a Recovery Plan step's name or configuration. Step type is immutable.
+    ///
+    /// Parameters:
+    ///   - configuration: 
+    ///   - recoveryPlanStepArn: The ARN of the Recovery Plan step to update.
+    ///   - stepName: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRecoveryPlanStep(
+        configuration: RecoveryPlanStepConfiguration? = nil,
+        recoveryPlanStepArn: String,
+        stepName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRecoveryPlanStepResponse {
+        let input = UpdateRecoveryPlanStepRequest(
+            configuration: configuration, 
+            recoveryPlanStepArn: recoveryPlanStepArn, 
+            stepName: stepName
+        )
+        return try await self.updateRecoveryPlanStep(input, logger: logger)
     }
 
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
@@ -2310,6 +2974,157 @@ extension Drs {
         return self.listLaunchActionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRecoveryPlanExecutionSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanExecutionStepsPaginator(
+        _ input: ListRecoveryPlanExecutionStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanExecutionStepsRequest, ListRecoveryPlanExecutionStepsResponse> {
+        return .init(
+            input: input,
+            command: self.listRecoveryPlanExecutionSteps,
+            inputKey: \ListRecoveryPlanExecutionStepsRequest.nextToken,
+            outputKey: \ListRecoveryPlanExecutionStepsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecoveryPlanExecutionSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Filters for listing execution steps.
+    ///   - maxResults: Maximum number of results to return.
+    ///   - recoveryPlanExecutionArn: The ARN of the Recovery Plan execution.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanExecutionStepsPaginator(
+        filter: ListRecoveryPlanExecutionStepsFilter? = nil,
+        maxResults: Int? = nil,
+        recoveryPlanExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanExecutionStepsRequest, ListRecoveryPlanExecutionStepsResponse> {
+        let input = ListRecoveryPlanExecutionStepsRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            recoveryPlanExecutionArn: recoveryPlanExecutionArn
+        )
+        return self.listRecoveryPlanExecutionStepsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecoveryPlanExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanExecutionsPaginator(
+        _ input: ListRecoveryPlanExecutionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanExecutionsRequest, ListRecoveryPlanExecutionsResponse> {
+        return .init(
+            input: input,
+            command: self.listRecoveryPlanExecutions,
+            inputKey: \ListRecoveryPlanExecutionsRequest.nextToken,
+            outputKey: \ListRecoveryPlanExecutionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecoveryPlanExecutions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - recoveryPlanArn: Filter executions by Recovery Plan ARN.
+    ///   - status: Filter executions by status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanExecutionsPaginator(
+        maxResults: Int? = nil,
+        recoveryPlanArn: String? = nil,
+        status: RecoveryPlanExecutionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanExecutionsRequest, ListRecoveryPlanExecutionsResponse> {
+        let input = ListRecoveryPlanExecutionsRequest(
+            maxResults: maxResults, 
+            recoveryPlanArn: recoveryPlanArn, 
+            status: status
+        )
+        return self.listRecoveryPlanExecutionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecoveryPlanSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanStepsPaginator(
+        _ input: ListRecoveryPlanStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanStepsRequest, ListRecoveryPlanStepsResponse> {
+        return .init(
+            input: input,
+            command: self.listRecoveryPlanSteps,
+            inputKey: \ListRecoveryPlanStepsRequest.nextToken,
+            outputKey: \ListRecoveryPlanStepsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecoveryPlanSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - recoveryPlanArn: The ARN of the Recovery Plan.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlanStepsPaginator(
+        maxResults: Int? = nil,
+        recoveryPlanArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlanStepsRequest, ListRecoveryPlanStepsResponse> {
+        let input = ListRecoveryPlanStepsRequest(
+            maxResults: maxResults, 
+            recoveryPlanArn: recoveryPlanArn
+        )
+        return self.listRecoveryPlanStepsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecoveryPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlansPaginator(
+        _ input: ListRecoveryPlansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlansRequest, ListRecoveryPlansResponse> {
+        return .init(
+            input: input,
+            command: self.listRecoveryPlans,
+            inputKey: \ListRecoveryPlansRequest.nextToken,
+            outputKey: \ListRecoveryPlansResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecoveryPlans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: Maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecoveryPlansPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecoveryPlansRequest, ListRecoveryPlansResponse> {
+        let input = ListRecoveryPlansRequest(
+            maxResults: maxResults
+        )
+        return self.listRecoveryPlansPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listStagingAccounts(_:logger:)``.
     ///
     /// - Parameters:
@@ -2454,6 +3269,51 @@ extension Drs.ListLaunchActionsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceId: self.resourceId
+        )
+    }
+}
+
+extension Drs.ListRecoveryPlanExecutionStepsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Drs.ListRecoveryPlanExecutionStepsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanExecutionArn: self.recoveryPlanExecutionArn
+        )
+    }
+}
+
+extension Drs.ListRecoveryPlanExecutionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Drs.ListRecoveryPlanExecutionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanArn: self.recoveryPlanArn,
+            status: self.status
+        )
+    }
+}
+
+extension Drs.ListRecoveryPlanStepsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Drs.ListRecoveryPlanStepsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            recoveryPlanArn: self.recoveryPlanArn
+        )
+    }
+}
+
+extension Drs.ListRecoveryPlansRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Drs.ListRecoveryPlansRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

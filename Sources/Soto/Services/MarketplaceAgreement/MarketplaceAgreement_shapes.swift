@@ -116,6 +116,21 @@ extension MarketplaceAgreement {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndTimeBehaviorReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acceptorRenewOptedOut = "ACCEPTOR_RENEW_OPTED_OUT"
+        case noRenewalTerm = "NO_RENEWAL_TERM"
+        case proposerRenewOptedOut = "PROPOSER_RENEW_OPTED_OUT"
+        case renewalLimitExhausted = "RENEWAL_LIMIT_EXHAUSTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndTimeBehaviorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expire = "EXPIRE"
+        case renew = "RENEW"
+        case replace = "REPLACE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Intent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amend = "AMEND"
         case new = "NEW"
@@ -278,11 +293,13 @@ extension MarketplaceAgreement {
         case freeTrialPricingTerm(FreeTrialPricingTerm)
         /// Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).
         case legalTerm(LegalTerm)
+        /// Defines the net payment due period for the agreement, specifying when payment is due after an invoice is issued.
+        case netPaymentTerm(NetPaymentTerm)
         /// Defines an installment-based pricing model where customers are charged a fixed price on different dates during the agreement validity period. This is used most commonly for flexible payment schedule pricing.
         case paymentScheduleTerm(PaymentScheduleTerm)
         /// Defines a pricing model where customers are charged a fixed recurring price at the end of each billing period.
         case recurringPaymentTerm(RecurringPaymentTerm)
-        /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. Buyers will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. Buyers can also change this flag from True to False or False to True at anytime during the agreement's lifecycle.
+        /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. Presence of RenewalTerm in the offer document means that auto-renewal is allowed. The acceptor will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. The acceptor can also change this flag from True to False or False to True, within the limits set by LockoutPeriod and MaxRenewals. Setting the flag to True doesn't by itself guarantee that the agreement renews, because the proposer can also opt out.
         case renewalTerm(RenewalTerm)
         /// Defines the customer support available for the acceptors when they purchase the software.
         case supportTerm(SupportTerm)
@@ -318,6 +335,9 @@ extension MarketplaceAgreement {
             case .legalTerm:
                 let value = try container.decode(LegalTerm.self, forKey: .legalTerm)
                 self = .legalTerm(value)
+            case .netPaymentTerm:
+                let value = try container.decode(NetPaymentTerm.self, forKey: .netPaymentTerm)
+                self = .netPaymentTerm(value)
             case .paymentScheduleTerm:
                 let value = try container.decode(PaymentScheduleTerm.self, forKey: .paymentScheduleTerm)
                 self = .paymentScheduleTerm(value)
@@ -348,6 +368,7 @@ extension MarketplaceAgreement {
             case fixedUpfrontPricingTerm = "fixedUpfrontPricingTerm"
             case freeTrialPricingTerm = "freeTrialPricingTerm"
             case legalTerm = "legalTerm"
+            case netPaymentTerm = "netPaymentTerm"
             case paymentScheduleTerm = "paymentScheduleTerm"
             case recurringPaymentTerm = "recurringPaymentTerm"
             case renewalTerm = "renewalTerm"
@@ -355,6 +376,37 @@ extension MarketplaceAgreement {
             case usageBasedPricingTerm = "usageBasedPricingTerm"
             case validityTerm = "validityTerm"
             case variablePaymentTerm = "variablePaymentTerm"
+        }
+    }
+
+    public enum PriceIncrease: AWSDecodableShape, Sendable {
+        /// A fixed price increase percentage that is applied at each renewal.
+        case fixedPercentage(FixedPercentage)
+        /// A range of price increase percentages that the proposer can choose from before the adjustment deadline of the agreement.
+        case percentageRange(PercentageRange)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .fixedPercentage:
+                let value = try container.decode(FixedPercentage.self, forKey: .fixedPercentage)
+                self = .fixedPercentage(value)
+            case .percentageRange:
+                let value = try container.decode(PercentageRange.self, forKey: .percentageRange)
+                self = .percentageRange(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedPercentage = "fixedPercentage"
+            case percentageRange = "percentageRange"
         }
     }
 
@@ -742,8 +794,16 @@ extension MarketplaceAgreement {
         public let agreementType: String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public let endTime: Date?
+        /// The reason why the agreement doesn't renew at its end date. The field is null when the agreement renews. More than one reason can apply to the same agreement. When that happens, the operation returns only one reason code, and PROPOSER_RENEW_OPTED_OUT takes precedence over all others. The EnableAutoRenew field reflects only the acceptor's preference, and doesn't reflect the other reasons an agreement might not renew. Reason codes include:    PROPOSER_RENEW_OPTED_OUT – The proposer opted out of renewing the agreement.    ACCEPTOR_RENEW_OPTED_OUT – The acceptor opted out of renewing the agreement.    NO_RENEWAL_TERM – The accepted terms of the agreement don't include a renewal term, which is required for an agreement to renew.    RENEWAL_LIMIT_EXHAUSTED – The agreement reached the maximum number of renewals allowed by its renewal term.
+        public let endTimeBehaviorReasonCode: EndTimeBehaviorReasonCode?
+        /// The behavior of the agreement when it reaches its end date. The field is null for agreements that have no end date, because those agreements never reach an end time. Types include:    RENEW – A new agreement is created from the accepted terms of this agreement.    REPLACE – A new agreement is created from a different offer than the one this agreement was created from. This happens, for example, when a private offer reaches its end date and the acceptor transitions to the public offer for the product.    EXPIRE – The agreement ends and isn't renewed or replaced.
+        public let endTimeBehaviorType: EndTimeBehaviorType?
         /// A list of entitlements associated with the agreement.
         public let entitlements: [Entitlement]?
+        /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. You can also use it as the InitialAgreementId filter value to return every agreement in the same chain.
+        public let initialAgreementId: String?
+        /// The date and time when the agreement was last updated. An agreement is updated when any of its attributes or accepted terms change. Amendments, renewals, and a party changing whether the agreement renews are all examples. Use the BeforeLastUpdateTime and AfterLastUpdateTime filters to search on this value, and LastUpdateTime as the SortBy value to sort by it. Sorting by LastUpdateTime is supported only when PartyType is Proposer.
+        public let lastUpdateTime: Date?
         /// A summary of the proposal
         public let proposalSummary: ProposalSummary?
         /// Details of the party proposing the agreement terms, most commonly the seller for PurchaseAgreement.
@@ -754,13 +814,17 @@ extension MarketplaceAgreement {
         public let status: AgreementStatus?
 
         @inlinable
-        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, entitlements: [Entitlement]? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
+        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, endTimeBehaviorReasonCode: EndTimeBehaviorReasonCode? = nil, endTimeBehaviorType: EndTimeBehaviorType? = nil, entitlements: [Entitlement]? = nil, initialAgreementId: String? = nil, lastUpdateTime: Date? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
             self.agreementId = agreementId
             self.agreementType = agreementType
             self.endTime = endTime
+            self.endTimeBehaviorReasonCode = endTimeBehaviorReasonCode
+            self.endTimeBehaviorType = endTimeBehaviorType
             self.entitlements = entitlements
+            self.initialAgreementId = initialAgreementId
+            self.lastUpdateTime = lastUpdateTime
             self.proposalSummary = proposalSummary
             self.proposer = proposer
             self.startTime = startTime
@@ -773,7 +837,11 @@ extension MarketplaceAgreement {
             case agreementId = "agreementId"
             case agreementType = "agreementType"
             case endTime = "endTime"
+            case endTimeBehaviorReasonCode = "endTimeBehaviorReasonCode"
+            case endTimeBehaviorType = "endTimeBehaviorType"
             case entitlements = "entitlements"
+            case initialAgreementId = "initialAgreementId"
+            case lastUpdateTime = "lastUpdateTime"
             case proposalSummary = "proposalSummary"
             case proposer = "proposer"
             case startTime = "startTime"
@@ -1458,25 +1526,31 @@ extension MarketplaceAgreement {
         public let agreementType: String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public let endTime: Date?
+        /// The behavior of the agreement when it reaches its end date. For example, whether the agreement renews, and if it doesn't, the reason why. This field is present for every active agreement that has an end date. It is not present for an agreement that has no end date, because such an agreement never reaches an end time. Pay-as-you-go agreements are the most common example. It is also not present for an agreement that is no longer active.
+        public let endTimeBehavior: EndTimeBehavior?
         /// The estimated cost of the agreement.
         public let estimatedCharges: EstimatedCharges?
+        /// The unique identifier of the very first agreement in a chain of related agreements, such as renewals or replacements. It stays the same across all agreements in that chain, which lets you trace an agreement back to the original. When an agreement isn't derived from another agreement, its InitialAgreementId is its own AgreementId.
+        public let initialAgreementId: String?
         /// A summary of the proposal received from the proposer.
         public let proposalSummary: ProposalSummary?
         /// The details of the party proposing the agreement terms. This is commonly the seller for PurchaseAgreement.
         public let proposer: Proposer?
         /// The date and time when the agreement starts.
         public let startTime: Date?
-        /// The current status of the agreement. Statuses include:    ACTIVE – The terms of the agreement are active.    ARCHIVED – The agreement ended without a specified reason.    CANCELLED – The acceptor ended the agreement before the defined end date.    EXPIRED – The agreement ended on the defined end date.    RENEWED – The agreement was renewed into a new agreement (for example, an auto-renewal).    REPLACED – The agreement was replaced using an agreement replacement offer.    TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
+        /// The current status of the agreement. Statuses include:    ACTIVE – The terms of the agreement are active.    CANCELLED – The acceptor ended the agreement before the defined end date.    EXPIRED – The agreement ended on the defined end date.    RENEWED – The agreement was renewed into a new agreement (for example, an auto-renewal).    REPLACED – The agreement was replaced using an agreement replacement offer.    TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
         public let status: AgreementStatus?
 
         @inlinable
-        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, estimatedCharges: EstimatedCharges? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
+        public init(acceptanceTime: Date? = nil, acceptor: Acceptor? = nil, agreementId: String? = nil, agreementType: String? = nil, endTime: Date? = nil, endTimeBehavior: EndTimeBehavior? = nil, estimatedCharges: EstimatedCharges? = nil, initialAgreementId: String? = nil, proposalSummary: ProposalSummary? = nil, proposer: Proposer? = nil, startTime: Date? = nil, status: AgreementStatus? = nil) {
             self.acceptanceTime = acceptanceTime
             self.acceptor = acceptor
             self.agreementId = agreementId
             self.agreementType = agreementType
             self.endTime = endTime
+            self.endTimeBehavior = endTimeBehavior
             self.estimatedCharges = estimatedCharges
+            self.initialAgreementId = initialAgreementId
             self.proposalSummary = proposalSummary
             self.proposer = proposer
             self.startTime = startTime
@@ -1489,7 +1563,9 @@ extension MarketplaceAgreement {
             case agreementId = "agreementId"
             case agreementType = "agreementType"
             case endTime = "endTime"
+            case endTimeBehavior = "endTimeBehavior"
             case estimatedCharges = "estimatedCharges"
+            case initialAgreementId = "initialAgreementId"
             case proposalSummary = "proposalSummary"
             case proposer = "proposer"
             case startTime = "startTime"
@@ -1541,6 +1617,28 @@ extension MarketplaceAgreement {
             case type = "type"
             case url = "url"
             case version = "version"
+        }
+    }
+
+    public struct EndTimeBehavior: AWSDecodableShape {
+        /// The reason why the agreement doesn't renew at its end date. The field is null when the agreement renews. More than one reason can apply to the same agreement. When that happens, the operation returns only one reason code, and PROPOSER_RENEW_OPTED_OUT takes precedence over all others. The EnableAutoRenew field reflects only the acceptor's preference, and doesn't reflect the other reasons an agreement might not renew. Reason codes include:    PROPOSER_RENEW_OPTED_OUT – The proposer opted out of renewing the agreement.    ACCEPTOR_RENEW_OPTED_OUT – The acceptor opted out of renewing the agreement.    NO_RENEWAL_TERM – The accepted terms of the agreement don't include a renewal term, which is required for an agreement to renew.    RENEWAL_LIMIT_EXHAUSTED – The agreement reached the maximum number of renewals allowed by its renewal term.
+        public let reasonCode: EndTimeBehaviorReasonCode?
+        /// The details of the renewal that applies at the end date of the agreement. This field is present when Type is RENEW. It is also present when ReasonCode is PROPOSER_RENEW_OPTED_OUT or ACCEPTOR_RENEW_OPTED_OUT. In those cases, it identifies the offer that the agreement would otherwise have renewed from. The field is null in all other cases.
+        public let renewalSummary: RenewalSummary?
+        /// The behavior of the agreement when it reaches its end date. Types include:    RENEW – A new agreement is created from the accepted terms of this agreement.    REPLACE – A new agreement is created from a different offer than the one this agreement was created from. This happens, for example, when a private offer reaches its end date and the acceptor transitions to the public offer for the product.    EXPIRE – The agreement ends and isn't renewed or replaced.
+        public let type: EndTimeBehaviorType
+
+        @inlinable
+        public init(reasonCode: EndTimeBehaviorReasonCode? = nil, renewalSummary: RenewalSummary? = nil, type: EndTimeBehaviorType) {
+            self.reasonCode = reasonCode
+            self.renewalSummary = renewalSummary
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reasonCode = "reasonCode"
+            case renewalSummary = "renewalSummary"
+            case type = "type"
         }
     }
 
@@ -1645,9 +1743,9 @@ extension MarketplaceAgreement {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z_]+$")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, max: 64)
+                try validate($0, name: "values[]", parent: name, max: 256)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9+:_-]+$")
+                try validate($0, name: "values[]", parent: name, pattern: "^[A-Za-z0-9.,+:/_-]+$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -1656,6 +1754,20 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case values = "values"
+        }
+    }
+
+    public struct FixedPercentage: AWSDecodableShape {
+        /// The percentage by which the price increases at each renewal, from 0.00 to 100.00 with up to two decimal places. A value of 0.00 means that the agreement renews at the same price.
+        public let value: String?
+
+        @inlinable
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
         }
     }
 
@@ -2541,6 +2653,28 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct NetPaymentTerm: AWSDecodableShape {
+        /// The unique identifier for the term.
+        public let id: String?
+        /// The duration after an invoice is issued within which the payment is due. The duration is represented in the ISO 8601 format (for example, P30D for 30 days or P60D for 60 days).
+        public let paymentDuePeriod: String?
+        /// Type of the term being updated.
+        public let type: String?
+
+        @inlinable
+        public init(id: String? = nil, paymentDuePeriod: String? = nil, type: String? = nil) {
+            self.id = id
+            self.paymentDuePeriod = paymentDuePeriod
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case paymentDuePeriod = "paymentDuePeriod"
+            case type = "type"
+        }
+    }
+
     public struct PaymentRequestSummary: AWSDecodableShape {
         /// The unique identifier of the agreement associated with this payment request.
         public let agreementId: String?
@@ -2587,6 +2721,28 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct PaymentScheduleEntry: AWSDecodableShape {
+        /// The time between the start date of the renewed agreement and the date this installment is charged. The duration is represented in the ISO 8601 format in either whole months or whole days (for example, P1M for 1 month or P30D for 30 days). All installments in a schedule use the same unit.
+        public let chargeDateOffset: String?
+        /// The percentage of the total contract value of the renewed agreement that is charged in this installment. Valid values range from 0.01 to 100.00, with up to two decimal places.
+        public let chargePercentage: String?
+        /// The day of the month on which this installment is charged, from 1 to 31. Use this field to anchor the charge to a specific calendar day within the month identified by ChargeDateOffset. This field is supported only when ChargeDateOffset is expressed in months.
+        public let dayOfMonth: Int?
+
+        @inlinable
+        public init(chargeDateOffset: String? = nil, chargePercentage: String? = nil, dayOfMonth: Int? = nil) {
+            self.chargeDateOffset = chargeDateOffset
+            self.chargePercentage = chargePercentage
+            self.dayOfMonth = dayOfMonth
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chargeDateOffset = "chargeDateOffset"
+            case chargePercentage = "chargePercentage"
+            case dayOfMonth = "dayOfMonth"
+        }
+    }
+
     public struct PaymentScheduleTerm: AWSDecodableShape {
         /// Defines the currency for the prices mentioned in the term.
         public let currencyCode: String?
@@ -2610,6 +2766,42 @@ extension MarketplaceAgreement {
             case id = "id"
             case schedule = "schedule"
             case type = "type"
+        }
+    }
+
+    public struct PaymentScheduleTermTemplate: AWSDecodableShape {
+        /// The installments that make up the payment schedule of the renewed agreement. The ChargePercentage values of all installments add up to 100.
+        public let schedule: [PaymentScheduleEntry]?
+
+        @inlinable
+        public init(schedule: [PaymentScheduleEntry]? = nil) {
+            self.schedule = schedule
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schedule = "schedule"
+        }
+    }
+
+    public struct PercentageRange: AWSDecodableShape {
+        /// The percentage that is applied if the proposer doesn't choose a value before the adjustment deadline. Valid values range from 0.00 to 100.00, with up to two decimal places.
+        public let defaultValue: String?
+        /// The highest percentage that the proposer can choose, from 0.00 to 100.00 with up to two decimal places.
+        public let maxValue: String?
+        /// The lowest percentage that the proposer can choose, from 0.00 to 100.00 with up to two decimal places.
+        public let minValue: String?
+
+        @inlinable
+        public init(defaultValue: String? = nil, maxValue: String? = nil, minValue: String? = nil) {
+            self.defaultValue = defaultValue
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "defaultValue"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
         }
     }
 
@@ -2914,30 +3106,64 @@ extension MarketplaceAgreement {
         }
     }
 
+    public struct RenewalSummary: AWSDecodableShape {
+        /// The unique identifier of the offer that provides the terms for the next renewal cycle. For most renewals, this is the same offer that the agreement was created from.
+        public let offerId: String?
+
+        @inlinable
+        public init(offerId: String? = nil) {
+            self.offerId = offerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offerId = "offerId"
+        }
+    }
+
     public struct RenewalTerm: AWSDecodableShape {
+        /// The date by which the proposer must finalize the price increase for the next renewal, measured back from the end date of the agreement. The duration is represented in the ISO 8601 format in whole days (for example, P30D for 30 days or P60D for 60 days). This field applies only when PriceIncrease is a PercentageRange. The field is null when PriceIncrease is a FixedPercentage, because the price increase is already fixed and there is nothing for the proposer to finalize. If the proposer doesn't finalize a value by the adjustment deadline, the DefaultValue of the range applies.  AdjustmentDeadline must be greater than LockoutPeriod.
+        public let adjustmentDeadline: String?
         /// Additional parameters specified by the acceptor while accepting the term.
         public let configuration: RenewalTermConfiguration?
         /// The unique identifier for the term.
         public let id: String?
+        /// The renewal decision deadline, measured back from the end date of the agreement. This is the last day either party can opt in to or opt out of the renewal. The duration is represented in the ISO 8601 format in whole days (for example, P30D for 30 days or P60D for 60 days). The field is null when no renewal decision deadline is set. In that case, either party can change the auto-renewal decision up to the end date of the agreement.
+        public let lockoutPeriod: String?
+        /// The maximum number of times the agreement can be renewed. The field is null when the number of renewals is unlimited. After the agreement reaches this limit, it expires on its end date instead of renewing.
+        public let maxRenewals: Int?
+        /// The price increase that is applied each time the agreement renews. The field is null when the price doesn't change at renewal.
+        public let priceIncrease: PriceIncrease?
+        /// Defines how specific terms change each time the agreement renews. The field is null when no terms change at renewal.
+        public let termTemplates: [TermTemplate]?
         /// Category of the term being updated.
         public let type: String?
 
         @inlinable
-        public init(configuration: RenewalTermConfiguration? = nil, id: String? = nil, type: String? = nil) {
+        public init(adjustmentDeadline: String? = nil, configuration: RenewalTermConfiguration? = nil, id: String? = nil, lockoutPeriod: String? = nil, maxRenewals: Int? = nil, priceIncrease: PriceIncrease? = nil, termTemplates: [TermTemplate]? = nil, type: String? = nil) {
+            self.adjustmentDeadline = adjustmentDeadline
             self.configuration = configuration
             self.id = id
+            self.lockoutPeriod = lockoutPeriod
+            self.maxRenewals = maxRenewals
+            self.priceIncrease = priceIncrease
+            self.termTemplates = termTemplates
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adjustmentDeadline = "adjustmentDeadline"
             case configuration = "configuration"
             case id = "id"
+            case lockoutPeriod = "lockoutPeriod"
+            case maxRenewals = "maxRenewals"
+            case priceIncrease = "priceIncrease"
+            case termTemplates = "termTemplates"
             case type = "type"
         }
     }
 
     public struct RenewalTermConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines whether the acceptor has chosen to auto-renew the agreement at the end of its lifecycle. Can be set to True or False.
+        /// Defines whether the acceptor has chosen to auto-renew the agreement when it reaches its end date. Can be set to True or False. The acceptor can change this value within the limits set by LockoutPeriod and MaxRenewals.
         public let enableAutoRenew: Bool
 
         @inlinable
@@ -3040,13 +3266,13 @@ extension MarketplaceAgreement {
     public struct SearchAgreementsInput: AWSEncodableShape {
         /// The catalog in which the agreement was created.
         public let catalog: String?
-        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. Use Proposer or Acceptor.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. Use Proposer or Acceptor.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    BeforeStartTime – A date used to filter agreements with a date before the startTime of an agreement.    AfterStartTime – A date used to filter agreements with a date after the startTime of an agreement.    BeforeLastUpdateTime – A date used to filter agreements with a date before the lastUpdateTime of an agreement.    AfterLastUpdateTime – A date used to filter agreements with a date after the lastUpdateTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.    EndTimeBehaviorType – What happens to the agreement when it reaches its end date. Values include RENEW, REPLACE, and EXPIRE.    EndTimeBehaviorReasonCode – The reason why the agreement doesn't renew at its end date. Values include PROPOSER_RENEW_OPTED_OUT, ACCEPTOR_RENEW_OPTED_OUT, NO_RENEWAL_TERM, and RENEWAL_LIMIT_EXHAUSTED.    InitialAgreementId – The unique identifier of the very first agreement in a chain of related agreements. Use this filter to return every agreement in the same chain.    LicenseArn – The Amazon Resource Name (ARN) of the AWS License Manager license associated with an entitlement granted by the agreement.   A proposer can use any combination of the preceding filters along with AgreementType, which is required. The following filter combinations are supported when the PartyType is Acceptor:    AgreementType     AgreementType + Status     AgreementType + EndTime     AgreementType + Status + EndTime     AgreementType + ResourceIdentifier     AgreementType + ResourceIdentifier + EndTime     AgreementType + ResourceIdentifier + Status     AgreementType + ResourceIdentifier + Status + EndTime     AgreementType + ResourceType     AgreementType + ResourceType + EndTime     AgreementType + OfferId     AgreementType + OfferId + EndTime     AgreementType + OfferId + Status     AgreementType + OfferId + Status + EndTime     AgreementType + OfferSetId     AgreementType + OfferSetId + EndTime     AgreementType + OfferSetId + Status     AgreementType + OfferSetId + Status + EndTime     To filter by EndTime, you can use BeforeEndTime, AfterEndTime, or both.
         public let filters: [Filter]?
         /// The maximum number of agreements to return in the response.
         public let maxResults: Int?
         /// A token to specify where to start pagination.
         public let nextToken: String?
-        /// An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
+        /// An object that contains the SortBy and SortOrder attributes. For SearchAgreements, SortBy supports EndTime for both party types, and StartTime and LastUpdateTime only when PartyType is Proposer. The default SortBy value is EndTime.
         public let sort: Sort?
 
         @inlinable
@@ -3323,9 +3549,9 @@ extension MarketplaceAgreement {
     }
 
     public struct Sort: AWSEncodableShape {
-        /// The attribute on which the data is grouped, which can be by StartTime and EndTime. The default value is EndTime.
+        /// The attribute on which the data is grouped, which can be EndTime, StartTime, or LastUpdateTime. StartTime and LastUpdateTime are supported only when PartyType is Proposer. The default value is EndTime.
         public let sortBy: String?
-        /// The sorting order, which can be ASCENDING or DESCENDING. The default value is DESCENDING.
+        /// The sorting order, which can be ASCENDING or DESCENDING. The default value is ASCENDING.
         public let sortOrder: SortOrder?
 
         @inlinable
@@ -3611,6 +3837,20 @@ extension MarketplaceAgreement {
         private enum CodingKeys: String, CodingKey {
             case expirationDuration = "expirationDuration"
             case paymentRequestApprovalStrategy = "paymentRequestApprovalStrategy"
+        }
+    }
+
+    public struct TermTemplate: AWSDecodableShape {
+        /// Defines the payment schedule that is applied to the renewed agreement.
+        public let paymentScheduleTermTemplate: PaymentScheduleTermTemplate?
+
+        @inlinable
+        public init(paymentScheduleTermTemplate: PaymentScheduleTermTemplate? = nil) {
+            self.paymentScheduleTermTemplate = paymentScheduleTermTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paymentScheduleTermTemplate = "paymentScheduleTermTemplate"
         }
     }
 }

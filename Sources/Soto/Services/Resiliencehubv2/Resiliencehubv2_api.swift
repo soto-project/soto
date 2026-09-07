@@ -296,7 +296,7 @@ public struct Resiliencehubv2: AWSService {
     ///   - name: 
     ///   - permissionModel: The permission model for the service.
     ///   - policyArn: 
-    ///   - regions: The AWS Regions where the service operates.
+    ///   - regions: The Regions where the service operates.
     ///   - reportConfiguration: 
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -449,6 +449,50 @@ public struct Resiliencehubv2: AWSService {
             tags: tags
         )
         return try await self.createSystem(input, logger: logger)
+    }
+
+    /// Creates a test for a service by configuring a test template. Each service has one test per template.
+    @Sendable
+    @inlinable
+    public func createTest(_ input: CreateTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTestResponse {
+        try await self.client.execute(
+            operation: "CreateTest", 
+            path: "/v2/create-test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a test for a service by configuring a test template. Each service has one test per template.
+    ///
+    /// Parameters:
+    ///   - loggingConfiguration: The logging configuration for the test.
+    ///   - parameters: The parameter values for the test.
+    ///   - roleName: The name of the IAM execution role to use when running the test.
+    ///   - serviceArn: The ARN of the service to create the test for.
+    ///   - stopConditions: The stop conditions for the test.
+    ///   - testTemplateArn: The ARN of the test template to configure.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTest(
+        loggingConfiguration: LoggingConfiguration? = nil,
+        parameters: [String: [String]]? = nil,
+        roleName: String? = nil,
+        serviceArn: String,
+        stopConditions: [StopCondition]? = nil,
+        testTemplateArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTestResponse {
+        let input = CreateTestRequest(
+            loggingConfiguration: loggingConfiguration, 
+            parameters: parameters, 
+            roleName: roleName, 
+            serviceArn: serviceArn, 
+            stopConditions: stopConditions, 
+            testTemplateArn: testTemplateArn
+        )
+        return try await self.createTest(input, logger: logger)
     }
 
     /// Creates a user journey within a system.
@@ -710,6 +754,73 @@ public struct Resiliencehubv2: AWSService {
         return try await self.deleteSystem(input, logger: logger)
     }
 
+    /// Deletes a test.
+    @Sendable
+    @inlinable
+    public func deleteTest(_ input: DeleteTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTestResponse {
+        try await self.client.execute(
+            operation: "DeleteTest", 
+            path: "/v2/delete-test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a test.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTest(
+        serviceArn: String,
+        testId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTestResponse {
+        let input = DeleteTestRequest(
+            serviceArn: serviceArn, 
+            testId: testId
+        )
+        return try await self.deleteTest(input, logger: logger)
+    }
+
+    /// Removes monitoring sources from a test. The operation is transactional and idempotent — removing a source that is not attached is a no-op.
+    @Sendable
+    @inlinable
+    public func deleteTestSources(_ input: DeleteTestSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTestSourcesResponse {
+        try await self.client.execute(
+            operation: "DeleteTestSources", 
+            path: "/v2/delete-test-sources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes monitoring sources from a test. The operation is transactional and idempotent — removing a source that is not attached is a no-op.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to remove sources from.
+    ///   - testSources: The monitoring sources to remove.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTestSources(
+        serviceArn: String,
+        testId: String,
+        testSources: [TestSourceInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTestSourcesResponse {
+        let input = DeleteTestSourcesRequest(
+            serviceArn: serviceArn, 
+            testId: testId, 
+            testSources: testSources
+        )
+        return try await self.deleteTestSources(input, logger: logger)
+    }
+
     /// Deletes a user journey.
     @Sendable
     @inlinable
@@ -859,6 +970,99 @@ public struct Resiliencehubv2: AWSService {
             systemArn: systemArn
         )
         return try await self.getSystem(input, logger: logger)
+    }
+
+    /// Retrieves a test by ID.
+    @Sendable
+    @inlinable
+    public func getTest(_ input: GetTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestResponse {
+        try await self.client.execute(
+            operation: "GetTest", 
+            path: "/v2/get-test", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a test by ID.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTest(
+        serviceArn: String,
+        testId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTestResponse {
+        let input = GetTestRequest(
+            serviceArn: serviceArn, 
+            testId: testId
+        )
+        return try await self.getTest(input, logger: logger)
+    }
+
+    /// Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started.
+    @Sendable
+    @inlinable
+    public func getTestRun(_ input: GetTestRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestRunResponse {
+        try await self.client.execute(
+            operation: "GetTestRun", 
+            path: "/v2/get-test-run", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a test run by ID, including its status, results, and the configuration snapshotted when the run started.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTestRun(
+        serviceArn: String,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTestRunResponse {
+        let input = GetTestRunRequest(
+            serviceArn: serviceArn, 
+            testRunId: testRunId
+        )
+        return try await self.getTestRun(input, logger: logger)
+    }
+
+    /// Retrieves a resilience test template by ARN, including the parameters it accepts and the fault actions it runs.
+    @Sendable
+    @inlinable
+    public func getTestTemplate(_ input: GetTestTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestTemplateResponse {
+        try await self.client.execute(
+            operation: "GetTestTemplate", 
+            path: "/v2/get-test-template", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a resilience test template by ARN, including the parameters it accepts and the fault actions it runs.
+    ///
+    /// Parameters:
+    ///   - testTemplateArn: The ARN of the test template to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTestTemplate(
+        testTemplateArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTestTemplateResponse {
+        let input = GetTestTemplateRequest(
+            testTemplateArn: testTemplateArn
+        )
+        return try await self.getTestTemplate(input, logger: logger)
     }
 
     /// Retrieves a user journey.
@@ -1253,6 +1457,7 @@ public struct Resiliencehubv2: AWSService {
     ///   - nextToken: 
     ///   - reportType: Filter reports by type.
     ///   - serviceArn: Optional. If not provided, lists all reports owned by the account.
+    ///   - testRunId: 
     ///   - logger: Logger use during operation
     @inlinable
     public func listReports(
@@ -1260,15 +1465,55 @@ public struct Resiliencehubv2: AWSService {
         nextToken: String? = nil,
         reportType: ReportType? = nil,
         serviceArn: String? = nil,
+        testRunId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListReportsResponse {
         let input = ListReportsRequest(
             maxResults: maxResults, 
             nextToken: nextToken, 
             reportType: reportType, 
-            serviceArn: serviceArn
+            serviceArn: serviceArn, 
+            testRunId: testRunId
         )
         return try await self.listReports(input, logger: logger)
+    }
+
+    /// Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run.
+    @Sendable
+    @inlinable
+    public func listResolvedTestRunTargetResources(_ input: ListResolvedTestRunTargetResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListResolvedTestRunTargetResourcesResponse {
+        try await self.client.execute(
+            operation: "ListResolvedTestRunTargetResources", 
+            path: "/v2/test-runs/{testRunId}/resolved-target-resources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the AWS resources that AWS Fault Injection Service (AWS FIS) resolved as targets for a test run.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to list resolved target resources for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listResolvedTestRunTargetResources(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListResolvedTestRunTargetResourcesResponse {
+        let input = ListResolvedTestRunTargetResourcesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn, 
+            testRunId: testRunId
+        )
+        return try await self.listResolvedTestRunTargetResources(input, logger: logger)
     }
 
     /// List resources.
@@ -1590,6 +1835,231 @@ public struct Resiliencehubv2: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Lists the events in a test run's timeline.
+    @Sendable
+    @inlinable
+    public func listTestRunEvents(_ input: ListTestRunEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestRunEventsResponse {
+        try await self.client.execute(
+            operation: "ListTestRunEvents", 
+            path: "/v2/test-runs/{testRunId}/events", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the events in a test run's timeline.
+    ///
+    /// Parameters:
+    ///   - endedAt: Return events at or before this timestamp.
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - startedAt: Return events at or after this timestamp.
+    ///   - testRunId: The identifier of the test run to list events for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestRunEvents(
+        endedAt: Date? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        startedAt: Date? = nil,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestRunEventsResponse {
+        let input = ListTestRunEventsRequest(
+            endedAt: endedAt, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn, 
+            startedAt: startedAt, 
+            testRunId: testRunId
+        )
+        return try await self.listTestRunEvents(input, logger: logger)
+    }
+
+    /// Lists the monitoring source snapshots captured for a test run, optionally filtered by type.
+    @Sendable
+    @inlinable
+    public func listTestRunSources(_ input: ListTestRunSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestRunSourcesResponse {
+        try await self.client.execute(
+            operation: "ListTestRunSources", 
+            path: "/v2/test-runs/{testRunId}/sources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the monitoring source snapshots captured for a test run, optionally filtered by type.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to list sources for.
+    ///   - type: Filter sources by type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestRunSources(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        testRunId: String,
+        type: TestRunSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestRunSourcesResponse {
+        let input = ListTestRunSourcesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn, 
+            testRunId: testRunId, 
+            type: type
+        )
+        return try await self.listTestRunSources(input, logger: logger)
+    }
+
+    /// Lists the runs of a test, or all test runs for a service.
+    @Sendable
+    @inlinable
+    public func listTestRuns(_ input: ListTestRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestRunsResponse {
+        try await self.client.execute(
+            operation: "ListTestRuns", 
+            path: "/v2/list-test-runs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the runs of a test, or all test runs for a service.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service to list test runs for.
+    ///   - testId: Filter test runs by test identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestRuns(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        testId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestRunsResponse {
+        let input = ListTestRunsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn, 
+            testId: testId
+        )
+        return try await self.listTestRuns(input, logger: logger)
+    }
+
+    /// Lists the monitoring sources attached to a test, optionally filtered by type.
+    @Sendable
+    @inlinable
+    public func listTestSources(_ input: ListTestSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestSourcesResponse {
+        try await self.client.execute(
+            operation: "ListTestSources", 
+            path: "/v2/tests/{testId}/sources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the monitoring sources attached to a test, optionally filtered by type.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to list sources for.
+    ///   - type: Filter sources by type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestSources(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        testId: String,
+        type: TestSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestSourcesResponse {
+        let input = ListTestSourcesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn, 
+            testId: testId, 
+            type: type
+        )
+        return try await self.listTestSources(input, logger: logger)
+    }
+
+    /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
+    @Sendable
+    @inlinable
+    public func listTestTemplates(_ input: ListTestTemplatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestTemplatesResponse {
+        try await self.client.execute(
+            operation: "ListTestTemplates", 
+            path: "/v2/list-test-templates", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the available resilience test templates. A test template is a pre-configured, AWS recommended test that defines which resilience capability to validate.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestTemplates(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestTemplatesResponse {
+        let input = ListTestTemplatesRequest(
+        )
+        return try await self.listTestTemplates(input, logger: logger)
+    }
+
+    /// Lists the tests configured for a service.
+    @Sendable
+    @inlinable
+    public func listTests(_ input: ListTestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestsResponse {
+        try await self.client.execute(
+            operation: "ListTests", 
+            path: "/v2/list-tests", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the tests configured for a service.
+    ///
+    /// Parameters:
+    ///   - maxResults: 
+    ///   - nextToken: 
+    ///   - serviceArn: The ARN of the service to list tests for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTests(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        serviceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestsResponse {
+        let input = ListTestsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            serviceArn: serviceArn
+        )
+        return try await self.listTests(input, logger: logger)
+    }
+
     /// Lists user journeys for a system.
     @Sendable
     @inlinable
@@ -1625,6 +2095,41 @@ public struct Resiliencehubv2: AWSService {
         return try await self.listUserJourneys(input, logger: logger)
     }
 
+    /// Adds or updates the monitoring sources on a test. The operation is transactional — either every source is written or the call fails and nothing is written.
+    @Sendable
+    @inlinable
+    public func putTestSources(_ input: PutTestSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTestSourcesResponse {
+        try await self.client.execute(
+            operation: "PutTestSources", 
+            path: "/v2/put-test-sources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds or updates the monitoring sources on a test. The operation is transactional — either every source is written or the call fails and nothing is written.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to add sources to.
+    ///   - testSources: The monitoring sources to add or update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTestSources(
+        serviceArn: String,
+        testId: String,
+        testSources: [TestSourceInput],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTestSourcesResponse {
+        let input = PutTestSourcesRequest(
+            serviceArn: serviceArn, 
+            testId: testId, 
+            testSources: testSources
+        )
+        return try await self.putTestSources(input, logger: logger)
+    }
+
     /// Starts a failure mode assessment.
     @Sendable
     @inlinable
@@ -1655,6 +2160,70 @@ public struct Resiliencehubv2: AWSService {
             serviceArn: serviceArn
         )
         return try await self.startFailureModeAssessment(input, logger: logger)
+    }
+
+    /// Starts a run of a test. Each run scopes to the current resources in the service and produces a pass or fail outcome.
+    @Sendable
+    @inlinable
+    public func startTestRun(_ input: StartTestRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTestRunResponse {
+        try await self.client.execute(
+            operation: "StartTestRun", 
+            path: "/v2/start-test-run", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a run of a test. Each run scopes to the current resources in the service and produces a pass or fail outcome.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTestRun(
+        serviceArn: String,
+        testId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartTestRunResponse {
+        let input = StartTestRunRequest(
+            serviceArn: serviceArn, 
+            testId: testId
+        )
+        return try await self.startTestRun(input, logger: logger)
+    }
+
+    /// Stops an in-progress test run.
+    @Sendable
+    @inlinable
+    public func stopTestRun(_ input: StopTestRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTestRunResponse {
+        try await self.client.execute(
+            operation: "StopTestRun", 
+            path: "/v2/stop-test-run", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an in-progress test run.
+    ///
+    /// Parameters:
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopTestRun(
+        serviceArn: String,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopTestRunResponse {
+        let input = StopTestRunRequest(
+            serviceArn: serviceArn, 
+            testRunId: testRunId
+        )
+        return try await self.stopTestRun(input, logger: logger)
     }
 
     /// Adds tags to a resource.
@@ -2002,6 +2571,50 @@ public struct Resiliencehubv2: AWSService {
         return try await self.updateSystem(input, logger: logger)
     }
 
+    /// Updates the configuration of an existing test.
+    @Sendable
+    @inlinable
+    public func updateTest(_ input: UpdateTestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTestResponse {
+        try await self.client.execute(
+            operation: "UpdateTest", 
+            path: "/v2/update-test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing test.
+    ///
+    /// Parameters:
+    ///   - loggingConfiguration: The updated logging configuration for the test.
+    ///   - parameters: The updated parameter values for the test.
+    ///   - roleName: The updated IAM execution role name.
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - stopConditions: The updated stop conditions for the test.
+    ///   - testId: The identifier of the test to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTest(
+        loggingConfiguration: LoggingConfiguration? = nil,
+        parameters: [String: [String]]? = nil,
+        roleName: String? = nil,
+        serviceArn: String,
+        stopConditions: [StopCondition]? = nil,
+        testId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTestResponse {
+        let input = UpdateTestRequest(
+            loggingConfiguration: loggingConfiguration, 
+            parameters: parameters, 
+            roleName: roleName, 
+            serviceArn: serviceArn, 
+            stopConditions: stopConditions, 
+            testId: testId
+        )
+        return try await self.updateTest(input, logger: logger)
+    }
+
     /// Updates an existing user journey.
     @Sendable
     @inlinable
@@ -2339,20 +2952,63 @@ extension Resiliencehubv2 {
     ///   - maxResults: 
     ///   - reportType: Filter reports by type.
     ///   - serviceArn: Optional. If not provided, lists all reports owned by the account.
+    ///   - testRunId: 
     ///   - logger: Logger used for logging
     @inlinable
     public func listReportsPaginator(
         maxResults: Int? = nil,
         reportType: ReportType? = nil,
         serviceArn: String? = nil,
+        testRunId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListReportsRequest, ListReportsResponse> {
         let input = ListReportsRequest(
             maxResults: maxResults, 
             reportType: reportType, 
-            serviceArn: serviceArn
+            serviceArn: serviceArn, 
+            testRunId: testRunId
         )
         return self.listReportsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listResolvedTestRunTargetResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResolvedTestRunTargetResourcesPaginator(
+        _ input: ListResolvedTestRunTargetResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListResolvedTestRunTargetResourcesRequest, ListResolvedTestRunTargetResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listResolvedTestRunTargetResources,
+            inputKey: \ListResolvedTestRunTargetResourcesRequest.nextToken,
+            outputKey: \ListResolvedTestRunTargetResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listResolvedTestRunTargetResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to list resolved target resources for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listResolvedTestRunTargetResourcesPaginator(
+        maxResults: Int? = nil,
+        serviceArn: String,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListResolvedTestRunTargetResourcesRequest, ListResolvedTestRunTargetResourcesResponse> {
+        let input = ListResolvedTestRunTargetResourcesRequest(
+            maxResults: maxResults, 
+            serviceArn: serviceArn, 
+            testRunId: testRunId
+        )
+        return self.listResolvedTestRunTargetResourcesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listResources(_:logger:)``.
@@ -2659,6 +3315,215 @@ extension Resiliencehubv2 {
         return self.listSystemsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTestRunEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunEventsPaginator(
+        _ input: ListTestRunEventsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestRunEventsRequest, ListTestRunEventsResponse> {
+        return .init(
+            input: input,
+            command: self.listTestRunEvents,
+            inputKey: \ListTestRunEventsRequest.nextToken,
+            outputKey: \ListTestRunEventsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTestRunEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endedAt: Return events at or before this timestamp.
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - startedAt: Return events at or after this timestamp.
+    ///   - testRunId: The identifier of the test run to list events for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunEventsPaginator(
+        endedAt: Date? = nil,
+        maxResults: Int? = nil,
+        serviceArn: String,
+        startedAt: Date? = nil,
+        testRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestRunEventsRequest, ListTestRunEventsResponse> {
+        let input = ListTestRunEventsRequest(
+            endedAt: endedAt, 
+            maxResults: maxResults, 
+            serviceArn: serviceArn, 
+            startedAt: startedAt, 
+            testRunId: testRunId
+        )
+        return self.listTestRunEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTestRunSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunSourcesPaginator(
+        _ input: ListTestRunSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestRunSourcesRequest, ListTestRunSourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listTestRunSources,
+            inputKey: \ListTestRunSourcesRequest.nextToken,
+            outputKey: \ListTestRunSourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTestRunSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service the test run belongs to.
+    ///   - testRunId: The identifier of the test run to list sources for.
+    ///   - type: Filter sources by type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunSourcesPaginator(
+        maxResults: Int? = nil,
+        serviceArn: String,
+        testRunId: String,
+        type: TestRunSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestRunSourcesRequest, ListTestRunSourcesResponse> {
+        let input = ListTestRunSourcesRequest(
+            maxResults: maxResults, 
+            serviceArn: serviceArn, 
+            testRunId: testRunId, 
+            type: type
+        )
+        return self.listTestRunSourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTestRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunsPaginator(
+        _ input: ListTestRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestRunsRequest, ListTestRunsResponse> {
+        return .init(
+            input: input,
+            command: self.listTestRuns,
+            inputKey: \ListTestRunsRequest.nextToken,
+            outputKey: \ListTestRunsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTestRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service to list test runs for.
+    ///   - testId: Filter test runs by test identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestRunsPaginator(
+        maxResults: Int? = nil,
+        serviceArn: String,
+        testId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestRunsRequest, ListTestRunsResponse> {
+        let input = ListTestRunsRequest(
+            maxResults: maxResults, 
+            serviceArn: serviceArn, 
+            testId: testId
+        )
+        return self.listTestRunsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTestSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestSourcesPaginator(
+        _ input: ListTestSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestSourcesRequest, ListTestSourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listTestSources,
+            inputKey: \ListTestSourcesRequest.nextToken,
+            outputKey: \ListTestSourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTestSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service the test belongs to.
+    ///   - testId: The identifier of the test to list sources for.
+    ///   - type: Filter sources by type.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestSourcesPaginator(
+        maxResults: Int? = nil,
+        serviceArn: String,
+        testId: String,
+        type: TestSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestSourcesRequest, ListTestSourcesResponse> {
+        let input = ListTestSourcesRequest(
+            maxResults: maxResults, 
+            serviceArn: serviceArn, 
+            testId: testId, 
+            type: type
+        )
+        return self.listTestSourcesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestsPaginator(
+        _ input: ListTestsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestsRequest, ListTestsResponse> {
+        return .init(
+            input: input,
+            command: self.listTests,
+            inputKey: \ListTestsRequest.nextToken,
+            outputKey: \ListTestsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTests(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: 
+    ///   - serviceArn: The ARN of the service to list tests for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestsPaginator(
+        maxResults: Int? = nil,
+        serviceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestsRequest, ListTestsResponse> {
+        let input = ListTestsRequest(
+            maxResults: maxResults, 
+            serviceArn: serviceArn
+        )
+        return self.listTestsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUserJourneys(_:logger:)``.
     ///
     /// - Parameters:
@@ -2782,7 +3647,20 @@ extension Resiliencehubv2.ListReportsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             reportType: self.reportType,
-            serviceArn: self.serviceArn
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId
+        )
+    }
+}
+
+extension Resiliencehubv2.ListResolvedTestRunTargetResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListResolvedTestRunTargetResourcesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId
         )
     }
 }
@@ -2875,6 +3753,69 @@ extension Resiliencehubv2.ListSystemsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             ouId: self.ouId
+        )
+    }
+}
+
+extension Resiliencehubv2.ListTestRunEventsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListTestRunEventsRequest {
+        return .init(
+            endedAt: self.endedAt,
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            startedAt: self.startedAt,
+            testRunId: self.testRunId
+        )
+    }
+}
+
+extension Resiliencehubv2.ListTestRunSourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListTestRunSourcesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testRunId: self.testRunId,
+            type: self.type
+        )
+    }
+}
+
+extension Resiliencehubv2.ListTestRunsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListTestRunsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testId: self.testId
+        )
+    }
+}
+
+extension Resiliencehubv2.ListTestSourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListTestSourcesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn,
+            testId: self.testId,
+            type: self.type
+        )
+    }
+}
+
+extension Resiliencehubv2.ListTestsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Resiliencehubv2.ListTestsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            serviceArn: self.serviceArn
         )
     }
 }
@@ -2982,6 +3923,7 @@ extension Resiliencehubv2 {
     ///   - nextToken: 
     ///   - reportType: Filter reports by type.
     ///   - serviceArn: Optional. If not provided, lists all reports owned by the account.
+    ///   - testRunId: 
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilReportSucceeded(
@@ -2989,13 +3931,15 @@ extension Resiliencehubv2 {
         nextToken: String? = nil,
         reportType: ReportType? = nil,
         serviceArn: String? = nil,
+        testRunId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = ListReportsRequest(
             maxResults: maxResults, 
             nextToken: nextToken, 
             reportType: reportType, 
-            serviceArn: serviceArn
+            serviceArn: serviceArn, 
+            testRunId: testRunId
         )
         try await self.waitUntilReportSucceeded(input, logger: logger)
     }

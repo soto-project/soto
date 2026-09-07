@@ -120,6 +120,41 @@ public struct EKS: AWSService {
 
     // MARK: API Calls
 
+    /// Activates a successor certificate authority (CA) as the signing certificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE) and the outgoing CA is retired (NOT_USED). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you activate must already be present on the cluster and fully distributed (its distributionStatus must be COMPLETE). This is an asynchronous operation that returns an update object you can track with  DescribeUpdate . Before you activate the successor CA, make sure the worker nodes you manage and your external clients have been updated to trust it, so they maintain connectivity to the API server after activation. For a limited period after activation, CA rollback is available to revert to the outgoing CA if needed. If you don't activate the successor CA yourself, Amazon EKS activates it automatically as the expiration deadline approaches. For more information, see Rotate the Amazon EKS cluster certificate authority in the Amazon EKS User Guide.
+    @Sendable
+    @inlinable
+    public func activateCertificateAuthority(_ input: ActivateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ActivateCertificateAuthorityResponse {
+        try await self.client.execute(
+            operation: "ActivateCertificateAuthority", 
+            path: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}/activate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Activates a successor certificate authority (CA) as the signing certificate authority for your cluster, completing a CA rotation. When you activate a successor CA, Amazon EKS promotes it to be the cluster's signer (its signingStatus becomes IN_USE) and the outgoing CA is retired (NOT_USED). The outgoing CA remains in the cluster's trust bundle but no longer signs certificates. The successor CA you activate must already be present on the cluster and fully distributed (its distributionStatus must be COMPLETE). This is an asynchronous operation that returns an update object you can track with  DescribeUpdate . Before you activate the successor CA, make sure the worker nodes you manage and your external clients have been updated to trust it, so they maintain connectivity to the API server after activation. For a limited period after activation, CA rollback is available to revert to the outgoing CA if needed. If you don't activate the successor CA yourself, Amazon EKS activates it automatically as the expiration deadline approaches. For more information, see Rotate the Amazon EKS cluster certificate authority in the Amazon EKS User Guide.
+    ///
+    /// Parameters:
+    ///   - certificateAuthorityId: The ID of the certificate authority to activate as the cluster's signing certificate authority. This certificate authority must already exist on the cluster and have a distributionStatus of COMPLETE.
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - clusterName: The name of your cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func activateCertificateAuthority(
+        certificateAuthorityId: String,
+        clientRequestToken: String? = ActivateCertificateAuthorityRequest.idempotencyToken(),
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ActivateCertificateAuthorityResponse {
+        let input = ActivateCertificateAuthorityRequest(
+            certificateAuthorityId: certificateAuthorityId, 
+            clientRequestToken: clientRequestToken, 
+            clusterName: clusterName
+        )
+        return try await self.activateCertificateAuthority(input, logger: logger)
+    }
+
     /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see Associating and disassociating access policies to and from access entries in the Amazon EKS User Guide.
     @Sendable
     @inlinable
@@ -419,6 +454,38 @@ public struct EKS: AWSService {
         return try await self.createCapability(input, logger: logger)
     }
 
+    /// Appends a successor certificate authority (CA) to your cluster, beginning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication between the Kubernetes API server and its clients, and its public certificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at a time: the outgoing CA that's currently signing (its signingStatus is IN_USE) and one successor CA (signingStatus of NOT_USED) that you can later activate to complete the rotation. Appending a successor CA adds its public certificate to the cluster's trust bundle so that the cluster trusts both CAs simultaneously (the dual trust period), but it doesn't begin signing certificates. Amazon EKS then distributes the successor CA to the Amazon Web Services managed components in your cluster; you can track this through the CA's distributionStatus. The successor CA can't be activated until its distributionStatus is COMPLETE. To activate it as the cluster's signer, use  ActivateCertificateAuthority . This is an asynchronous operation that returns an update object. If you don't append a successor CA yourself, Amazon EKS appends one automatically before the outgoing CA approaches expiration. For more information, see Rotate the Amazon EKS cluster certificate authority in the Amazon EKS User Guide.
+    @Sendable
+    @inlinable
+    public func createCertificateAuthority(_ input: CreateCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCertificateAuthorityResponse {
+        try await self.client.execute(
+            operation: "CreateCertificateAuthority", 
+            path: "/clusters/{clusterName}/certificate-authorities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Appends a successor certificate authority (CA) to your cluster, beginning the CA rotation process. A cluster certificate authority is the root of trust for your cluster's control plane. It signs the certificates that secure communication between the Kubernetes API server and its clients, and its public certificate is distributed to your cluster's trust bundle so that worker nodes and clients can verify the API server's identity. Each cluster can have at most two certificate authorities at a time: the outgoing CA that's currently signing (its signingStatus is IN_USE) and one successor CA (signingStatus of NOT_USED) that you can later activate to complete the rotation. Appending a successor CA adds its public certificate to the cluster's trust bundle so that the cluster trusts both CAs simultaneously (the dual trust period), but it doesn't begin signing certificates. Amazon EKS then distributes the successor CA to the Amazon Web Services managed components in your cluster; you can track this through the CA's distributionStatus. The successor CA can't be activated until its distributionStatus is COMPLETE. To activate it as the cluster's signer, use  ActivateCertificateAuthority . This is an asynchronous operation that returns an update object. If you don't append a successor CA yourself, Amazon EKS appends one automatically before the outgoing CA approaches expiration. For more information, see Rotate the Amazon EKS cluster certificate authority in the Amazon EKS User Guide.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - clusterName: The name of your cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCertificateAuthority(
+        clientRequestToken: String? = CreateCertificateAuthorityRequest.idempotencyToken(),
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCertificateAuthorityResponse {
+        let input = CreateCertificateAuthorityRequest(
+            clientRequestToken: clientRequestToken, 
+            clusterName: clusterName
+        )
+        return try await self.createCertificateAuthority(input, logger: logger)
+    }
+
     /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Allowing users to access your cluster and Launching Amazon EKS nodes in the Amazon EKS User Guide.
     @Sendable
     @inlinable
@@ -442,7 +509,10 @@ public struct EKS: AWSService {
     ///   - controlPlaneScalingConfig: The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
     ///   - deletionProtection: Indicates whether to enable deletion protection for the cluster. When enabled, the cluster  cannot be deleted unless deletion protection is first disabled. This helps prevent  accidental cluster deletion. Default value is false.
     ///   - encryptionConfig: The encryption configuration for the cluster.
+    ///   - kubeApiServerConfig: The Kubernetes API server configuration for the new cluster.
+    ///   - kubeControllerManagerConfig: The Kubernetes controller manager configuration for the new cluster.
     ///   - kubernetesNetworkConfig: The Kubernetes network configuration for the cluster.
+    ///   - kubeSchedulerConfig: The Kubernetes scheduler configuration for the new cluster.
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
     ///   - outpostConfig: An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
@@ -464,7 +534,10 @@ public struct EKS: AWSService {
         controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil,
         deletionProtection: Bool? = nil,
         encryptionConfig: [EncryptionConfig]? = nil,
+        kubeApiServerConfig: KubeApiServerConfigRequest? = nil,
+        kubeControllerManagerConfig: KubeControllerManagerConfigRequest? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
+        kubeSchedulerConfig: KubeSchedulerConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
         outpostConfig: OutpostConfigRequest? = nil,
@@ -486,7 +559,10 @@ public struct EKS: AWSService {
             controlPlaneScalingConfig: controlPlaneScalingConfig, 
             deletionProtection: deletionProtection, 
             encryptionConfig: encryptionConfig, 
+            kubeApiServerConfig: kubeApiServerConfig, 
+            kubeControllerManagerConfig: kubeControllerManagerConfig, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
+            kubeSchedulerConfig: kubeSchedulerConfig, 
             logging: logging, 
             name: name, 
             outpostConfig: outpostConfig, 
@@ -832,6 +908,41 @@ public struct EKS: AWSService {
             clusterName: clusterName
         )
         return try await self.deleteCapability(input, logger: logger)
+    }
+
+    /// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingStatus is IN_USE) — to remove the outgoing CA, first activate the successor CA with  ActivateCertificateAuthority . Amazon EKS also protects a successor CA from deletion in certain cases to keep a valid rotation path — for example, a successor that Amazon EKS appended can't be deleted while it's the only successor on the cluster. This is an asynchronous operation that returns an update object.
+    @Sendable
+    @inlinable
+    public func deleteCertificateAuthority(_ input: DeleteCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCertificateAuthorityResponse {
+        try await self.client.execute(
+            operation: "DeleteCertificateAuthority", 
+            path: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a certificate authority (CA) from your cluster. Deleting a certificate authority removes its public certificate from the cluster's trust bundle. You can't delete the certificate authority that's currently signing certificates for the cluster (its signingStatus is IN_USE) — to remove the outgoing CA, first activate the successor CA with  ActivateCertificateAuthority . Amazon EKS also protects a successor CA from deletion in certain cases to keep a valid rotation path — for example, a successor that Amazon EKS appended can't be deleted while it's the only successor on the cluster. This is an asynchronous operation that returns an update object.
+    ///
+    /// Parameters:
+    ///   - certificateAuthorityId: The ID of the certificate authority to delete. You can't delete the certificate authority that's currently signing certificates for the cluster.
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - clusterName: The name of your cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCertificateAuthority(
+        certificateAuthorityId: String,
+        clientRequestToken: String? = DeleteCertificateAuthorityRequest.idempotencyToken(),
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCertificateAuthorityResponse {
+        let input = DeleteCertificateAuthorityRequest(
+            certificateAuthorityId: certificateAuthorityId, 
+            clientRequestToken: clientRequestToken, 
+            clusterName: clusterName
+        )
+        return try await self.deleteCertificateAuthority(input, logger: logger)
     }
 
     /// Deletes an Amazon EKS cluster control plane. If you have active services and ingress resources in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
@@ -1190,6 +1301,38 @@ public struct EKS: AWSService {
             clusterName: clusterName
         )
         return try await self.describeCapability(input, logger: logger)
+    }
+
+    /// Returns detailed information about a certificate authority (CA) in your cluster, including its validity period, signing and distribution status, provenance, scheduled auto-activation events, and public certificate data.
+    @Sendable
+    @inlinable
+    public func describeCertificateAuthority(_ input: DescribeCertificateAuthorityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCertificateAuthorityResponse {
+        try await self.client.execute(
+            operation: "DescribeCertificateAuthority", 
+            path: "/clusters/{clusterName}/certificate-authorities/{certificateAuthorityId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information about a certificate authority (CA) in your cluster, including its validity period, signing and distribution status, provenance, scheduled auto-activation events, and public certificate data.
+    ///
+    /// Parameters:
+    ///   - certificateAuthorityId: The ID of the certificate authority to describe.
+    ///   - clusterName: The name of your cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCertificateAuthority(
+        certificateAuthorityId: String,
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCertificateAuthorityResponse {
+        let input = DescribeCertificateAuthorityRequest(
+            certificateAuthorityId: certificateAuthorityId, 
+            clusterName: clusterName
+        )
+        return try await self.describeCertificateAuthority(input, logger: logger)
     }
 
     /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a kubeconfig file for an Amazon EKS cluster.  The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
@@ -1773,6 +1916,41 @@ public struct EKS: AWSService {
             nextToken: nextToken
         )
         return try await self.listCapabilities(input, logger: logger)
+    }
+
+    /// Lists the certificate authorities (CAs) for your cluster. A cluster has at most two certificate authorities: the outgoing CA that's currently signing and, during a rotation, one successor CA.
+    @Sendable
+    @inlinable
+    public func listCertificateAuthorities(_ input: ListCertificateAuthoritiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCertificateAuthoritiesResponse {
+        try await self.client.execute(
+            operation: "ListCertificateAuthorities", 
+            path: "/clusters/{clusterName}/certificate-authorities", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the certificate authorities (CAs) for your cluster. A cluster has at most two certificate authorities: the outgoing CA that's currently signing and, during a rotation, one successor CA.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name of your cluster.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    ///   - nextToken: The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCertificateAuthorities(
+        clusterName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCertificateAuthoritiesResponse {
+        let input = ListCertificateAuthoritiesRequest(
+            clusterName: clusterName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCertificateAuthorities(input, logger: logger)
     }
 
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
@@ -2389,7 +2567,10 @@ public struct EKS: AWSService {
     ///   - computeConfig: Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
     ///   - controlPlaneScalingConfig: The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
     ///   - deletionProtection: Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
+    ///   - kubeApiServerConfig: The Kubernetes API server configuration for the updated cluster.
+    ///   - kubeControllerManagerConfig: The Kubernetes controller manager configuration for the updated cluster.
     ///   - kubernetesNetworkConfig: 
+    ///   - kubeSchedulerConfig: The Kubernetes scheduler configuration for the updated cluster.
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
     ///   - remoteNetworkConfig: 
@@ -2405,7 +2586,10 @@ public struct EKS: AWSService {
         computeConfig: ComputeConfigRequest? = nil,
         controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil,
         deletionProtection: Bool? = nil,
+        kubeApiServerConfig: KubeApiServerConfigRequest? = nil,
+        kubeControllerManagerConfig: KubeControllerManagerConfigRequest? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
+        kubeSchedulerConfig: KubeSchedulerConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
         remoteNetworkConfig: RemoteNetworkConfigRequest? = nil,
@@ -2421,7 +2605,10 @@ public struct EKS: AWSService {
             computeConfig: computeConfig, 
             controlPlaneScalingConfig: controlPlaneScalingConfig, 
             deletionProtection: deletionProtection, 
+            kubeApiServerConfig: kubeApiServerConfig, 
+            kubeControllerManagerConfig: kubeControllerManagerConfig, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
+            kubeSchedulerConfig: kubeSchedulerConfig, 
             logging: logging, 
             name: name, 
             remoteNetworkConfig: remoteNetworkConfig, 
@@ -2956,6 +3143,43 @@ extension EKS {
         return self.listCapabilitiesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCertificateAuthorities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateAuthoritiesPaginator(
+        _ input: ListCertificateAuthoritiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCertificateAuthoritiesRequest, ListCertificateAuthoritiesResponse> {
+        return .init(
+            input: input,
+            command: self.listCertificateAuthorities,
+            inputKey: \ListCertificateAuthoritiesRequest.nextToken,
+            outputKey: \ListCertificateAuthoritiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCertificateAuthorities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterName: The name of your cluster.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCertificateAuthoritiesPaginator(
+        clusterName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCertificateAuthoritiesRequest, ListCertificateAuthoritiesResponse> {
+        let input = ListCertificateAuthoritiesRequest(
+            clusterName: clusterName, 
+            maxResults: maxResults
+        )
+        return self.listCertificateAuthoritiesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
     ///
     /// - Parameters:
@@ -3357,6 +3581,17 @@ extension EKS.ListCapabilitiesRequest: AWSPaginateToken {
     }
 }
 
+extension EKS.ListCertificateAuthoritiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EKS.ListCertificateAuthoritiesRequest {
+        return .init(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EKS.ListClustersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> EKS.ListClustersRequest {
@@ -3534,6 +3769,56 @@ extension EKS {
             clusterName: clusterName
         )
         try await self.waitUntilAddonDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeUpdate(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateAuthorityUpdateComplete(
+        _ input: DescribeUpdateRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeUpdateRequest, _>(
+            acceptors: [
+                .init(state: .failure, matcher: try! JMESPathMatcher("update.status", expected: "Failed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("update.status", expected: "Cancelled")),
+                .init(state: .success, matcher: try! JMESPathMatcher("update.status", expected: "Successful")),
+            ],
+            minDelayTime: .seconds(30),
+            command: self.describeUpdate
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeUpdate(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - addonName: The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
+    ///   - capabilityName: The name of the capability for which you want to describe updates.
+    ///   - name: The name of the Amazon EKS cluster associated with the update.
+    ///   - nodegroupName: The name of the Amazon EKS node group associated with the update. This parameter is required if the update is a node group update.
+    ///   - updateId: The ID of the update to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCertificateAuthorityUpdateComplete(
+        addonName: String? = nil,
+        capabilityName: String? = nil,
+        name: String,
+        nodegroupName: String? = nil,
+        updateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeUpdateRequest(
+            addonName: addonName, 
+            capabilityName: capabilityName, 
+            name: name, 
+            nodegroupName: nodegroupName, 
+            updateId: updateId
+        )
+        try await self.waitUntilCertificateAuthorityUpdateComplete(input, logger: logger)
     }
 
     /// Waiter for operation ``describeCluster(_:logger:)``.

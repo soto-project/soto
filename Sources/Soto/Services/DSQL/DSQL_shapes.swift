@@ -784,7 +784,7 @@ extension DSQL {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role(/[a-zA-Z0-9+=,.@_-]+)+$")
             try self.validate(self.streamArn, name: "streamArn", parent: name, max: 2048)
             try self.validate(self.streamArn, name: "streamArn", parent: name, min: 1)
-            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:kinesis:[a-z0-9-]*:[0-9]{12}:stream/[a-zA-Z0-9+=,.@_/\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1223,7 +1223,7 @@ extension DSQL {
         public let deletionProtectionEnabled: Bool?
         /// The ID of the cluster you want to update.
         public let identifier: String
-        /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
+        /// The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you. To switch to the key owned by Amazon Web Services, specify the reserved value AWS_OWNED_KMS_KEY.
         public let kmsEncryptionKey: String?
         /// The new multi-Region cluster configuration settings to be applied during an update operation.
         public let multiRegionProperties: MultiRegionProperties?

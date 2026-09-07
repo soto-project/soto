@@ -179,17 +179,26 @@ public struct EKSAuth: AWSService {
     ///
     /// Parameters:
     ///   - clusterName: The name of the cluster for the request.
+    ///   - eksNodeName: The Kubernetes node name of the worker node where the pod is running.
+    ///   - instanceId: The Amazon EC2 instance ID of the worker node where the pod is running.
     ///   - token: The token of the Kubernetes service account for the pod.
+    ///   - zone: The Availability Zone ID of the worker node where the pod is running.
     ///   - logger: Logger use during operation
     @inlinable
     public func assumeRoleForPodIdentity(
         clusterName: String,
+        eksNodeName: String? = nil,
+        instanceId: String? = nil,
         token: String,
+        zone: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AssumeRoleForPodIdentityResponse {
         let input = AssumeRoleForPodIdentityRequest(
             clusterName: clusterName, 
-            token: token
+            eksNodeName: eksNodeName, 
+            instanceId: instanceId, 
+            token: token, 
+            zone: zone
         )
         return try await self.assumeRoleForPodIdentity(input, logger: logger)
     }

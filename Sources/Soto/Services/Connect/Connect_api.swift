@@ -1035,7 +1035,7 @@ public struct Connect: AWSService {
     /// Allows you to retrieve metadata about multiple attached files on an associated resource. Each attached file provided in the input list must be associated with the input AssociatedResourceArn.
     ///
     /// Parameters:
-    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
+    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases, Email, and Task.  This value must be a valid ARN.
     ///   - fileIds: The unique identifiers of the attached file resource.
     ///   - instanceId: The unique identifier of the Connect instance.
     ///   - logger: Logger use during operation
@@ -1219,7 +1219,7 @@ public struct Connect: AWSService {
     /// Allows you to confirm that the attached file has been uploaded using the pre-signed URL provided in the StartAttachedFileUpload API.
     ///
     /// Parameters:
-    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
+    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases, Email, and Task.  This value must be a valid ARN.
     ///   - fileId: The unique identifier of the attached file resource.
     ///   - instanceId: The unique identifier of the Connect Customer instance.
     ///   - logger: Logger use during operation
@@ -1855,6 +1855,50 @@ public struct Connect: AWSService {
         return try await self.createEvaluationForm(input, logger: logger)
     }
 
+    /// Creates an extraction definition in the specified Connect Customer instance. An extraction definition specifies how structured data is extracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found.
+    @Sendable
+    @inlinable
+    public func createExtractionDefinition(_ input: CreateExtractionDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExtractionDefinitionResponse {
+        try await self.client.execute(
+            operation: "CreateExtractionDefinition", 
+            path: "/extraction-definitions/{InstanceId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an extraction definition in the specified Connect Customer instance. An extraction definition specifies how structured data is extracted from customer interactions using generative AI, including the prompt hint that guides extraction and the behavior when a value cannot be found.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field.
+    ///   - display: The display settings for the extraction definition, including the label shown in the agent workspace.
+    ///   - extractionConfiguration: The configuration that defines how data is extracted, including the prompt hint and not-found behavior.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - name: A unique name of the extraction definition.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createExtractionDefinition(
+        clientToken: String? = CreateExtractionDefinitionRequest.idempotencyToken(),
+        display: ExtractionDefinitionDisplay? = nil,
+        extractionConfiguration: ExtractionConfiguration,
+        instanceId: String,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateExtractionDefinitionResponse {
+        let input = CreateExtractionDefinitionRequest(
+            clientToken: clientToken, 
+            display: display, 
+            extractionConfiguration: extractionConfiguration, 
+            instanceId: instanceId, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createExtractionDefinition(input, logger: logger)
+    }
+
     /// Creates hours of operation.
     @Sendable
     @inlinable
@@ -2051,6 +2095,59 @@ public struct Connect: AWSService {
             tags: tags
         )
         return try await self.createIntegrationAssociation(input, logger: logger)
+    }
+
+    /// Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied.
+    @Sendable
+    @inlinable
+    public func createMetric(_ input: CreateMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMetricResponse {
+        try await self.client.execute(
+            operation: "CreateMetric", 
+            path: "/metrics/definitions/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new metric definition for the specified Connect Customer instance. You can create custom metrics that use formulas referencing existing Amazon Web Services-managed metrics, optionally with filters applied.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - description: The description of the metric.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - metricCalculation: The calculation definition for the metric, including the formula expression and the component metrics it references.
+    ///   - name: The name of the metric.
+    ///   - positiveTrendIndicator: How an increase in the metric value should be interpreted. Valid values: POSITIVE, NEUTRAL, NEGATIVE.
+    ///   - status: The publish status of the metric. Set to PUBLISHED to make the metric available for use in dashboards and reports, or SAVED to keep it in draft state.
+    ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    ///   - unit: The display unit for the metric's data.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMetric(
+        clientToken: String? = CreateMetricRequest.idempotencyToken(),
+        description: String? = nil,
+        instanceId: String,
+        metricCalculation: MetricCalculation,
+        name: String,
+        positiveTrendIndicator: TrendIndicator? = nil,
+        status: MetricStatus? = nil,
+        tags: [String: String]? = nil,
+        unit: MetricUnit,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMetricResponse {
+        let input = CreateMetricRequest(
+            clientToken: clientToken, 
+            description: description, 
+            instanceId: instanceId, 
+            metricCalculation: metricCalculation, 
+            name: name, 
+            positiveTrendIndicator: positiveTrendIndicator, 
+            status: status, 
+            tags: tags, 
+            unit: unit
+        )
+        return try await self.createMetric(input, logger: logger)
     }
 
     /// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
@@ -2476,7 +2573,9 @@ public struct Connect: AWSService {
     ///   - function: The conditions of the rule.
     ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: A unique name for the rule.
+    ///   - preEvaluationFilters: The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
     ///   - publishStatus: The publish status of the rule.
+    ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - triggerEventSource: The event source to trigger the rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2486,7 +2585,9 @@ public struct Connect: AWSService {
         function: String,
         instanceId: String,
         name: String,
+        preEvaluationFilters: PreEvaluationFilters? = nil,
         publishStatus: RulePublishStatus,
+        tags: [String: String]? = nil,
         triggerEventSource: RuleTriggerEventSource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRuleResponse {
@@ -2496,7 +2597,9 @@ public struct Connect: AWSService {
             function: function, 
             instanceId: instanceId, 
             name: name, 
+            preEvaluationFilters: preEvaluationFilters, 
             publishStatus: publishStatus, 
+            tags: tags, 
             triggerEventSource: triggerEventSource
         )
         return try await self.createRule(input, logger: logger)
@@ -3139,7 +3242,7 @@ public struct Connect: AWSService {
     /// Deletes an attached file along with the underlying S3 Object.  The attached file is permanently deleted if S3 bucket versioning is not enabled.
     ///
     /// Parameters:
-    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. Cases are the only current supported resource.  This value must be a valid ARN.
+    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases, Email, and Task.  This value must be a valid ARN.
     ///   - fileId: The unique identifier of the attached file resource.
     ///   - instanceId: The unique identifier of the Connect instance.
     ///   - logger: Logger use during operation
@@ -3158,7 +3261,7 @@ public struct Connect: AWSService {
         return try await self.deleteAttachedFile(input, logger: logger)
     }
 
-    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. This operation redacts PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.  This operation performs a hard deletion of the specified PII and cannot be undone. There is no retention period; after the data is deleted, it cannot be recovered. Only fields that Connect Customer identifies and stores as PII are removed. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.   This deletion is permanent and cannot be undone. Performing this operation permanently deletes the specified PII. There is no retention period; you cannot recover the data after deletion. We remove only the fields that Connect Customer identifies and stores as PII. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
     @Sendable
     @inlinable
     public func deleteContactData(_ input: DeleteContactDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteContactDataResponse {
@@ -3171,11 +3274,11 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. This operation redacts PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.  This operation performs a hard deletion of the specified PII and cannot be undone. There is no retention period; after the data is deleted, it cannot be recovered. Only fields that Connect Customer identifies and stores as PII are removed. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
+    /// Deletes the specified fields containing personally identifiable information (PII) from a contact in the specified Connect Customer instance. We redact PII (such as customer endpoints, additional email recipients, and the email subject) from the contact and its associated contact trace record (CTR). The contact must be in a terminated state.   This deletion is permanent and cannot be undone. Performing this operation permanently deletes the specified PII. There is no retention period; you cannot recover the data after deletion. We remove only the fields that Connect Customer identifies and stores as PII. Any PII that you place in fields outside the scope of this operation remains your responsibility to remove.
     ///
     /// Parameters:
-    ///   - contactFields: The categories of PII to redact from the contact. Valid values are CUSTOMER_ENDPOINT, ADDITIONAL_EMAIL_RECIPIENTS, and EMAIL_SUBJECT. ADDITIONAL_EMAIL_RECIPIENTS and EMAIL_SUBJECT are supported only for contacts in the email channel.
-    ///   - contactId: The identifier of the contact. PII can be deleted only from a contact that has been disconnected (is in a terminated state).
+    ///   - contactFields: The categories of PII to redact from the contact. Specify one or more of the following values:    CUSTOMER_ENDPOINT – The customer's contact endpoint.    ADDITIONAL_EMAIL_RECIPIENTS – Additional recipients on an email contact (email channel only).    EMAIL_SUBJECT – The subject line of an email contact (email channel only).
+    ///   - contactId: The identifier of the contact. You can delete PII only from a contact that has been disconnected (is in a terminated state).
     ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3528,6 +3631,38 @@ public struct Connect: AWSService {
         return try await self.deleteEvaluationForm(input, logger: logger)
     }
 
+    /// Deletes an extraction definition from the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func deleteExtractionDefinition(_ input: DeleteExtractionDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteExtractionDefinitionResponse {
+        try await self.client.execute(
+            operation: "DeleteExtractionDefinition", 
+            path: "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an extraction definition from the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - extractionDefinitionId: The identifier of the extraction definition to delete.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteExtractionDefinition(
+        extractionDefinitionId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteExtractionDefinitionResponse {
+        let input = DeleteExtractionDefinitionRequest(
+            extractionDefinitionId: extractionDefinitionId, 
+            instanceId: instanceId
+        )
+        return try await self.deleteExtractionDefinition(input, logger: logger)
+    }
+
     /// Deletes an hours of operation.
     @Sendable
     @inlinable
@@ -3661,6 +3796,38 @@ public struct Connect: AWSService {
             integrationAssociationId: integrationAssociationId
         )
         return try await self.deleteIntegrationAssociation(input, logger: logger)
+    }
+
+    /// Deletes an existing metric from the specified Connect Customer instance. This operation fails with ResourceConflictException if the metric is currently in use in a dashboard.
+    @Sendable
+    @inlinable
+    public func deleteMetric(_ input: DeleteMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMetricResponse {
+        try await self.client.execute(
+            operation: "DeleteMetric", 
+            path: "/metrics/definitions/{InstanceId}/{MetricId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing metric from the specified Connect Customer instance. This operation fails with ResourceConflictException if the metric is currently in use in a dashboard.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - metricId: The identifier of the metric to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMetric(
+        instanceId: String,
+        metricId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMetricResponse {
+        let input = DeleteMetricRequest(
+            instanceId: instanceId, 
+            metricId: metricId
+        )
+        return try await self.deleteMetric(input, logger: logger)
     }
 
     /// Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
@@ -4774,6 +4941,38 @@ public struct Connect: AWSService {
         return try await self.describeEvaluationForm(input, logger: logger)
     }
 
+    /// Describes an extraction definition in the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func describeExtractionDefinition(_ input: DescribeExtractionDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExtractionDefinitionResponse {
+        try await self.client.execute(
+            operation: "DescribeExtractionDefinition", 
+            path: "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes an extraction definition in the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - extractionDefinitionId: The identifier of the extraction definition to describe.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeExtractionDefinition(
+        extractionDefinitionId: String,
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeExtractionDefinitionResponse {
+        let input = DescribeExtractionDefinitionRequest(
+            extractionDefinitionId: extractionDefinitionId, 
+            instanceId: instanceId
+        )
+        return try await self.describeExtractionDefinition(input, logger: logger)
+    }
+
     /// Describes the hours of operation.
     @Sendable
     @inlinable
@@ -4935,6 +5134,38 @@ public struct Connect: AWSService {
             resourceType: resourceType
         )
         return try await self.describeInstanceStorageConfig(input, logger: logger)
+    }
+
+    /// Retrieves the full definition of an existing metric from the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func describeMetric(_ input: DescribeMetricRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetricResponse {
+        try await self.client.execute(
+            operation: "DescribeMetric", 
+            path: "/metrics/definitions/{InstanceId}/{MetricId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the full definition of an existing metric from the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - metricId: The identifier of the metric to describe. Adding the $SAVED qualifier will describe the saved version of the metric. Adding $LATEST or omitting a qualifier will describe the published version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMetric(
+        instanceId: String,
+        metricId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMetricResponse {
+        let input = DescribeMetricRequest(
+            instanceId: instanceId, 
+            metricId: metricId
+        )
+        return try await self.describeMetric(input, logger: logger)
     }
 
     /// Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
@@ -6218,7 +6449,7 @@ public struct Connect: AWSService {
     /// Provides a pre-signed URL for download of an approved attached file. This API also returns metadata about the attached file. It will only return a downloadURL if the status of the attached file is APPROVED.
     ///
     /// Parameters:
-    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
+    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases, Email, and Task.  This value must be a valid ARN.
     ///   - fileId: The unique identifier of the attached file resource.
     ///   - instanceId: The unique identifier of the Connect Customer instance.
     ///   - urlExpiryInSeconds: Optional override for the expiry of the pre-signed S3 URL in seconds. The default value is 300.
@@ -6305,6 +6536,35 @@ public struct Connect: AWSService {
             metrics: metrics
         )
         return try await self.getContactMetrics(input, logger: logger)
+    }
+
+    /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This operation returns whether cross-region routing is currently enabled or disabled (isolated) for the instance.  This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing.
+    @Sendable
+    @inlinable
+    public func getCrossRegionRouting(_ input: GetCrossRegionRoutingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCrossRegionRoutingResponse {
+        try await self.client.execute(
+            operation: "GetCrossRegionRouting", 
+            path: "/cross-region-routing/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. This operation returns whether cross-region routing is currently enabled or disabled (isolated) for the instance.  This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCrossRegionRouting(
+        instanceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCrossRegionRoutingResponse {
+        let input = GetCrossRegionRoutingRequest(
+            instanceId: instanceId
+        )
+        return try await self.getCrossRegionRouting(input, logger: logger)
     }
 
     /// Gets the real-time metric data from the specified Connect Customer instance. For a description of each metric, see Metrics definitions in the Connect Customer Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
@@ -7753,6 +8013,41 @@ public struct Connect: AWSService {
         return try await self.listEvaluationForms(input, logger: logger)
     }
 
+    /// Lists extraction definitions in the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func listExtractionDefinitions(_ input: ListExtractionDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExtractionDefinitionsResponse {
+        try await self.client.execute(
+            operation: "ListExtractionDefinitions", 
+            path: "/extraction-definitions/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists extraction definitions in the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExtractionDefinitions(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExtractionDefinitionsResponse {
+        let input = ListExtractionDefinitionsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listExtractionDefinitions(input, logger: logger)
+    }
+
     /// List the flow association based on the filters.
     @Sendable
     @inlinable
@@ -8078,6 +8373,44 @@ public struct Connect: AWSService {
             nextToken: nextToken
         )
         return try await self.listLexBots(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listMetrics(_ input: ListMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMetricsResponse {
+        try await self.client.execute(
+            operation: "ListMetrics", 
+            path: "/metrics/definitions/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of metric summaries for the specified Connect Customer instance. Use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - type: The type of metrics to list. Valid values: AWS_MANAGED | CUSTOMER_MANAGED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMetrics(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        type: MetricType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMetricsResponse {
+        let input = ListMetricsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            type: type
+        )
+        return try await self.listMetrics(input, logger: logger)
     }
 
     /// Retrieves a paginated list of all notifications in the Amazon Connect instance.
@@ -10153,6 +10486,47 @@ public struct Connect: AWSService {
         return try await self.searchHoursOfOperations(input, logger: logger)
     }
 
+    /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func searchMetrics(_ input: SearchMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchMetricsResponse {
+        try await self.client.execute(
+            operation: "SearchMetrics", 
+            path: "/search-metrics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for metrics in the specified Connect Customer instance using search criteria and optional tag-based filters. Use pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - searchCriteria: The search criteria to filter the metrics.
+    ///   - searchFilter: Filters to be applied to search results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchMetrics(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchCriteria: MetricSearchCriteria? = nil,
+        searchFilter: MetricSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchMetricsResponse {
+        let input = SearchMetricsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return try await self.searchMetrics(input, logger: logger)
+    }
+
     /// Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
     @Sendable
     @inlinable
@@ -10374,7 +10748,7 @@ public struct Connect: AWSService {
     ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
-    ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)
+    ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)   metric
     ///   - searchCriteria: The search criteria to be used to return tags.
     ///   - logger: Logger use during operation
     @inlinable
@@ -10950,7 +11324,57 @@ public struct Connect: AWSService {
         return try await self.sendOutboundWebNotification(input, logger: logger)
     }
 
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Connect Customer Case or Connect Customer Email.
+    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
+    @Sendable
+    @inlinable
+    public func startAssistantContact(_ input: StartAssistantContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAssistantContactResponse {
+        try await self.client.execute(
+            operation: "StartAssistantContact", 
+            path: "/contact/assistant", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a chat contact with an AI agent. Use the returned ParticipantToken with the CreateParticipantConnection operation. For more information about chat, see the following topics in the Connect Customer Administrator Guide:     Concepts: Web and mobile messaging capabilities in Connect Customer     Connect Customer Chat security best practices
+    ///
+    /// Parameters:
+    ///   - aiAgent: The AI agent configuration for this contact.
+    ///   - attributes: A map of key-value pairs to associate with the contact. We make these attributes available to flows as standard contact attributes. You can provide up to 32,768 UTF-8 bytes across all key-value pairs for each contact.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - initialMessage: The initial message to send to the newly created chat.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - participantDetails: The display name and other details that identify the chat participant.
+    ///   - persistentChat: The configuration that enables persistent chat. For more information about persistent chat and its use cases, see Enable persistent chat.
+    ///   - relatedContactId: The identifier of an Connect Customer contact related to the new assistant contact.  You cannot provide both RelatedContactId and PersistentChat.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAssistantContact(
+        aiAgent: AiAgentInput,
+        attributes: [String: String]? = nil,
+        clientToken: String? = StartAssistantContactRequest.idempotencyToken(),
+        initialMessage: ChatMessage? = nil,
+        instanceId: String,
+        participantDetails: ParticipantDetails,
+        persistentChat: PersistentChat? = nil,
+        relatedContactId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAssistantContactResponse {
+        let input = StartAssistantContactRequest(
+            aiAgent: aiAgent, 
+            attributes: attributes, 
+            clientToken: clientToken, 
+            initialMessage: initialMessage, 
+            instanceId: instanceId, 
+            participantDetails: participantDetails, 
+            persistentChat: persistentChat, 
+            relatedContactId: relatedContactId
+        )
+        return try await self.startAssistantContact(input, logger: logger)
+    }
+
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to a Connect Customer Case, Connect Customer Email, or Connect Customer Task.
     @Sendable
     @inlinable
     public func startAttachedFileUpload(_ input: StartAttachedFileUploadRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAttachedFileUploadResponse {
@@ -10963,10 +11387,10 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to an Connect Customer Case or Connect Customer Email.
+    /// Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only use this API to upload attachments to a Connect Customer Case, Connect Customer Email, or Connect Customer Task.
     ///
     /// Parameters:
-    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases and Email.  This value must be a valid ARN.
+    ///   - associatedResourceArn: The resource to which the attached file is (being) uploaded to. The supported resources are Cases, Email, and Task.  This value must be a valid ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - createdBy: Represents the identity that created the file.
     ///   - fileName: A case-sensitive name of the attached file being uploaded.
@@ -11722,6 +12146,7 @@ public struct Connect: AWSService {
     ///   - participantDetails: 
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during task creation.
     ///   - relatedContactId: The unique identifier for an Connect Customer contact. This identifier is related to the contact starting.
+    ///   - segmentAttributes: A map of system-defined attributes for the WebRTC contact segment. Use the connect:Subtype attribute to specify the channel subtype, such as connect:WebRTC.
     ///   - logger: Logger use during operation
     @inlinable
     public func startWebRTCContact(
@@ -11734,6 +12159,7 @@ public struct Connect: AWSService {
         participantDetails: ParticipantDetails,
         references: [String: Reference]? = nil,
         relatedContactId: String? = nil,
+        segmentAttributes: [String: SegmentAttributeValue]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartWebRTCContactResponse {
         let input = StartWebRTCContactRequest(
@@ -11745,7 +12171,8 @@ public struct Connect: AWSService {
             instanceId: instanceId, 
             participantDetails: participantDetails, 
             references: references, 
-            relatedContactId: relatedContactId
+            relatedContactId: relatedContactId, 
+            segmentAttributes: segmentAttributes
         )
         return try await self.startWebRTCContact(input, logger: logger)
     }
@@ -12042,7 +12469,7 @@ public struct Connect: AWSService {
         return try await self.tagContact(input, logger: logger)
     }
 
-    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
+    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, task templates, and custom metrics. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12055,7 +12482,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, and task templates. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
+    /// Adds the specified tags to the specified resource. Some of the supported resource types are agents, routing profiles, queues, quick connects, flows, agent statuses, hours of operation, phone numbers, security profiles, task templates, and custom metrics. For a complete list, see Tagging resources in Connect Customer. For sample policies that use tags, see Connect Customer Identity-Based Policy Examples in the Connect Customer Administrator Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -12767,6 +13194,73 @@ public struct Connect: AWSService {
         return try await self.updateContactSchedule(input, logger: logger)
     }
 
+    /// Updates the task template association on an existing task contact. You can update the task template on a contact before assignment to support tasks that are created without a template (for example Rules or disconnect flows) or change the agent interaction form to represent the latest task data (for example an initial request that was submitted as a refund gets updated to an account cancellation and requires a new template). This operation can only be used with task contacts that are in progress and not connected to an agent. A task template can be updated a maximum of 5 times per contact. The task's references must be compatible with the fields of the target task template. If the target template has a required field, the task must have a corresponding reference with a matching name and compatible type. The following task template field types map to reference types:    TEXT, TEXT_AREA, BOOLEAN, and SINGLE_SELECT map to references of type STRING.    NUMBER maps to references of type NUMBER.    DATE_TIME maps to references of type DATE.    URL maps to references of type URL.    EMAIL maps to references of type EMAIL.   References corresponding to TEXT fields must be fewer than 512 characters. TEXT_AREA fields must be fewer than 4,096 characters. BOOLEAN fields must have a value of true or false. An InvalidRequestException occurs when UpdateContactTaskTemplate is called on a connected or terminated task, when it is called on non-task contacts, and when the task contact already uses the provided task template. A PropertyValidationException occurs when the task's references conflict with the task template's fields, for example if the task is missing a reference that matches a required field, or if the task has a reference that matches a required field's name but not its datatype.
+    @Sendable
+    @inlinable
+    public func updateContactTaskTemplate(_ input: UpdateContactTaskTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateContactTaskTemplateResponse {
+        try await self.client.execute(
+            operation: "UpdateContactTaskTemplate", 
+            path: "/contact/task-template", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the task template association on an existing task contact. You can update the task template on a contact before assignment to support tasks that are created without a template (for example Rules or disconnect flows) or change the agent interaction form to represent the latest task data (for example an initial request that was submitted as a refund gets updated to an account cancellation and requires a new template). This operation can only be used with task contacts that are in progress and not connected to an agent. A task template can be updated a maximum of 5 times per contact. The task's references must be compatible with the fields of the target task template. If the target template has a required field, the task must have a corresponding reference with a matching name and compatible type. The following task template field types map to reference types:    TEXT, TEXT_AREA, BOOLEAN, and SINGLE_SELECT map to references of type STRING.    NUMBER maps to references of type NUMBER.    DATE_TIME maps to references of type DATE.    URL maps to references of type URL.    EMAIL maps to references of type EMAIL.   References corresponding to TEXT fields must be fewer than 512 characters. TEXT_AREA fields must be fewer than 4,096 characters. BOOLEAN fields must have a value of true or false. An InvalidRequestException occurs when UpdateContactTaskTemplate is called on a connected or terminated task, when it is called on non-task contacts, and when the task contact already uses the provided task template. A PropertyValidationException occurs when the task's references conflict with the task template's fields, for example if the task is missing a reference that matches a required field, or if the task has a reference that matches a required field's name but not its datatype.
+    ///
+    /// Parameters:
+    ///   - contactId: The identifier of the contact in this instance of Connect Customer.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - taskTemplateId: A unique identifier for the task template. For more information about task templates, see Task templates in the Connect Customer Administrator Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateContactTaskTemplate(
+        contactId: String,
+        instanceId: String,
+        taskTemplateId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateContactTaskTemplateResponse {
+        let input = UpdateContactTaskTemplateRequest(
+            contactId: contactId, 
+            instanceId: instanceId, 
+            taskTemplateId: taskTemplateId
+        )
+        return try await self.updateContactTaskTemplate(input, logger: logger)
+    }
+
+    /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true, this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region.  This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use this operation.
+    @Sendable
+    @inlinable
+    public func updateCrossRegionRouting(_ input: UpdateCrossRegionRoutingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCrossRegionRoutingResponse {
+        try await self.client.execute(
+            operation: "UpdateCrossRegionRouting", 
+            path: "/cross-region-routing/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the cross-region routing configuration for an Amazon Connect Global Resiliency instance enabled for global routing. When invoked with IsolatedAll set to true, this operation disables cross-region routing, meaning contacts originating in one Region will no longer be routed to agents in another Region.  This operation is available only for Amazon Connect Global Resiliency instances enabled for global routing. Reporting and contact search continue to operate globally after you use this operation.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - isolatedAll: Set to true to disable cross-region routing for all Regions associated with this instance. Set to false to re-enable cross-region routing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCrossRegionRouting(
+        instanceId: String,
+        isolatedAll: Bool = false,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCrossRegionRoutingResponse {
+        let input = UpdateCrossRegionRoutingRequest(
+            instanceId: instanceId, 
+            isolatedAll: isolatedAll
+        )
+        return try await self.updateCrossRegionRouting(input, logger: logger)
+    }
+
     /// Updates all properties for an attribute using all properties from CreateDataTableAttribute. There are no other granular update endpoints. It does not act as a patch operation - all properties must be provided. System managed attributes are not mutable by customers. Changing an attribute's validation does not invalidate existing values since validation only runs when values are created or updated.
     @Sendable
     @inlinable
@@ -13011,6 +13505,50 @@ public struct Connect: AWSService {
         return try await self.updateEvaluationForm(input, logger: logger)
     }
 
+    /// Updates an extraction definition in the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func updateExtractionDefinition(_ input: UpdateExtractionDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateExtractionDefinitionResponse {
+        try await self.client.execute(
+            operation: "UpdateExtractionDefinition", 
+            path: "/extraction-definitions/{InstanceId}/{ExtractionDefinitionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an extraction definition in the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field.
+    ///   - display: The display settings for the extraction definition.
+    ///   - extractionConfiguration: The configuration that defines how data is extracted, including the prompt hint and not-found behavior.
+    ///   - extractionDefinitionId: The identifier of the extraction definition to update.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - name: The name of the extraction definition.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateExtractionDefinition(
+        clientToken: String? = UpdateExtractionDefinitionRequest.idempotencyToken(),
+        display: ExtractionDefinitionDisplay? = nil,
+        extractionConfiguration: ExtractionConfiguration,
+        extractionDefinitionId: String,
+        instanceId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateExtractionDefinitionResponse {
+        let input = UpdateExtractionDefinitionRequest(
+            clientToken: clientToken, 
+            display: display, 
+            extractionConfiguration: extractionConfiguration, 
+            extractionDefinitionId: extractionDefinitionId, 
+            instanceId: instanceId, 
+            name: name
+        )
+        return try await self.updateExtractionDefinition(input, logger: logger)
+    }
+
     /// Updates the hours of operation.
     @Sendable
     @inlinable
@@ -13188,6 +13726,85 @@ public struct Connect: AWSService {
             storageConfig: storageConfig
         )
         return try await self.updateInstanceStorageConfig(input, logger: logger)
+    }
+
+    /// Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func updateMetricContent(_ input: UpdateMetricContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMetricContentResponse {
+        try await self.client.execute(
+            operation: "UpdateMetricContent", 
+            path: "/metrics/definitions/{InstanceId}/{MetricId}/content", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the calculation, unit, and/or trend indicator of an existing metric in the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - metricCalculation: The updated calculation definition for the metric.
+    ///   - metricId: The identifier of the metric to update. Adding the $SAVED qualifier will update the saved version of the metric. Adding $LATEST or omitting a qualifier will update the published version.
+    ///   - positiveTrendIndicator: How an increase in the metric value should be interpreted. Valid values: POSITIVE, NEUTRAL, NEGATIVE.
+    ///   - unit: The updated display unit for the metric.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMetricContent(
+        instanceId: String,
+        metricCalculation: MetricCalculation? = nil,
+        metricId: String,
+        positiveTrendIndicator: TrendIndicator? = nil,
+        unit: MetricUnit? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMetricContentResponse {
+        let input = UpdateMetricContentRequest(
+            instanceId: instanceId, 
+            metricCalculation: metricCalculation, 
+            metricId: metricId, 
+            positiveTrendIndicator: positiveTrendIndicator, 
+            unit: unit
+        )
+        return try await self.updateMetricContent(input, logger: logger)
+    }
+
+    /// Updates the name and/or description of an existing metric in the specified Connect Customer instance.
+    @Sendable
+    @inlinable
+    public func updateMetricMetadata(_ input: UpdateMetricMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMetricMetadataResponse {
+        try await self.client.execute(
+            operation: "UpdateMetricMetadata", 
+            path: "/metrics/definitions/{InstanceId}/{MetricId}/metadata", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the name and/or description of an existing metric in the specified Connect Customer instance.
+    ///
+    /// Parameters:
+    ///   - description: The updated description of the metric.
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - metricId: The identifier of the metric to update. Adding the $SAVED qualifier will update the saved version of the metric. Adding $LATEST or omitting a qualifier will update the published version.
+    ///   - name: The updated name of the metric.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMetricMetadata(
+        description: String? = nil,
+        instanceId: String,
+        metricId: String,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMetricMetadataResponse {
+        let input = UpdateMetricMetadataRequest(
+            description: description, 
+            instanceId: instanceId, 
+            metricId: metricId, 
+            name: name
+        )
+        return try await self.updateMetricMetadata(input, logger: logger)
     }
 
     /// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
@@ -13940,6 +14557,7 @@ public struct Connect: AWSService {
     ///   - function: The conditions of the rule.
     ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the rule. You can change the name only if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
+    ///   - preEvaluationFilters: The pre-evaluation filters for the rule, that restrict the rule to be applied to only certain resources based on the resource's attributes, such as tags assigned to a contact. The pre-evaluation filters are applied even before rule conditions are evaluated and are used to enforce tag-based-access-control while applying rules.
     ///   - publishStatus: The publish status of the rule.
     ///   - ruleId: A unique identifier for the rule.
     ///   - logger: Logger use during operation
@@ -13949,6 +14567,7 @@ public struct Connect: AWSService {
         function: String,
         instanceId: String,
         name: String,
+        preEvaluationFilters: PreEvaluationFilters? = nil,
         publishStatus: RulePublishStatus,
         ruleId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -13958,6 +14577,7 @@ public struct Connect: AWSService {
             function: function, 
             instanceId: instanceId, 
             name: name, 
+            preEvaluationFilters: preEvaluationFilters, 
             publishStatus: publishStatus, 
             ruleId: ruleId
         )
@@ -15875,6 +16495,43 @@ extension Connect {
         return self.listEvaluationFormsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listExtractionDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExtractionDefinitionsPaginator(
+        _ input: ListExtractionDefinitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListExtractionDefinitionsRequest, ListExtractionDefinitionsResponse> {
+        return .init(
+            input: input,
+            command: self.listExtractionDefinitions,
+            inputKey: \ListExtractionDefinitionsRequest.nextToken,
+            outputKey: \ListExtractionDefinitionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listExtractionDefinitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listExtractionDefinitionsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListExtractionDefinitionsRequest, ListExtractionDefinitionsResponse> {
+        let input = ListExtractionDefinitionsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listExtractionDefinitionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFlowAssociations(_:logger:)``.
     ///
     /// - Parameters:
@@ -16218,6 +16875,46 @@ extension Connect {
             maxResults: maxResults
         )
         return self.listLexBotsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricsPaginator(
+        _ input: ListMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMetricsRequest, ListMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listMetrics,
+            inputKey: \ListMetricsRequest.nextToken,
+            outputKey: \ListMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - type: The type of metrics to list. Valid values: AWS_MANAGED | CUSTOMER_MANAGED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMetricsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        type: MetricType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMetricsRequest, ListMetricsResponse> {
+        let input = ListMetricsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            type: type
+        )
+        return self.listMetricsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listPhoneNumbers(_:logger:)``.
@@ -17724,6 +18421,49 @@ extension Connect {
         return self.searchHoursOfOperationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchMetricsPaginator(
+        _ input: SearchMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchMetricsRequest, SearchMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.searchMetrics,
+            inputKey: \SearchMetricsRequest.nextToken,
+            outputKey: \SearchMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Connect Customer instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - searchCriteria: The search criteria to filter the metrics.
+    ///   - searchFilter: Filters to be applied to search results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchMetricsPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        searchCriteria: MetricSearchCriteria? = nil,
+        searchFilter: MetricSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchMetricsRequest, SearchMetricsResponse> {
+        let input = SearchMetricsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return self.searchMetricsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchPredefinedAttributes(_:logger:)``.
     ///
     /// - Parameters:
@@ -17916,7 +18656,7 @@ extension Connect {
     /// - Parameters:
     ///   - instanceId: The identifier of the Connect Customer instance. You can find the instanceId in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
-    ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)
+    ///   - resourceTypes: The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)   metric
     ///   - searchCriteria: The search criteria to be used to return tags.
     ///   - logger: Logger used for logging
     @inlinable
@@ -18696,6 +19436,17 @@ extension Connect.ListEvaluationFormsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListExtractionDefinitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListExtractionDefinitionsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListFlowAssociationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.ListFlowAssociationsRequest {
@@ -18795,6 +19546,18 @@ extension Connect.ListLexBotsRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.ListMetricsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListMetricsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
         )
     }
 }
@@ -19241,6 +20004,19 @@ extension Connect.SearchHoursOfOperationOverridesRequest: AWSPaginateToken {
 extension Connect.SearchHoursOfOperationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.SearchHoursOfOperationsRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchMetricsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.SearchMetricsRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,
